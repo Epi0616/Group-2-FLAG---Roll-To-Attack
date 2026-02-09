@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerOnePipState : PlayerBaseState
 {
-    private Vector3 desiredPosition, jumpHeight = new Vector3 (0f, 10f, 0f);
-    private bool comingDown = false, roll = false;
+    private Vector3 desiredPosition;
+    private bool comingDown = false, roll = false, impacted = false;
     private float x, y, z;
 
     public override void EnterState(PlayerStateController player)
@@ -14,7 +14,9 @@ public class PlayerOnePipState : PlayerBaseState
         y = Random.Range(-15, 15);
         z = Random.Range(-15, 15);
 
-        desiredPosition = player.transform.position + jumpHeight;
+        impacted = false;
+        desiredPosition = player.transform.position;
+        desiredPosition.y = 10;
     }
     public override void UpdateState()
     {
@@ -48,7 +50,7 @@ public class PlayerOnePipState : PlayerBaseState
 
             comingDown = true;
             player.transform.rotation = Quaternion.identity;
-            desiredPosition = player.transform.position - jumpHeight;
+            desiredPosition.y = 0;
         }
     }
     private void CheckForPlayerLanded()
@@ -76,6 +78,10 @@ public class PlayerOnePipState : PlayerBaseState
 
     private void Impact()
     {
-        player.impactFieldScript.ShowOnPlayer(player.transform.position);
+        if (!impacted)
+        {
+            player.impactFieldScript.ShowOnPlayer(player.transform.position);
+            impacted = true;
+        }
     }
 }
