@@ -1,16 +1,15 @@
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 using UnityEngine;
+
 
 public class ImpactField : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
-    [SerializeField] private CapsuleCollider capsuleCollider;
     [SerializeField] private Material material;
     [SerializeField] private Color color = new Color(0,1,0,1);
 
     private void Awake()
     {
-        capsuleCollider.enabled = false;
         color.a = 0;
     }
     void Update()
@@ -29,22 +28,31 @@ public class ImpactField : MonoBehaviour
         material.color = color;
     }
 
-    private void OnBecameInvisible()
-    {
-        capsuleCollider.enabled = false;
-    }
-
-    private void OnBecameVisible()
-    {
-        capsuleCollider.enabled = true;
-    }
-
     public void ShowOnPlayer(Vector3 position)
     {
         position.y = -0.5f;
         transform.position = position;
 
         color.a = 1;
+
+        DealDamage(50);
     }
 
+    private void DealDamage(int damage)
+    {
+        Collider[] touching = Physics.OverlapSphere(transform.position, 2.5f);
+
+        Debug.Log(touching.Length);
+
+        for (int i = 0; i < touching.Length; i++)
+        { 
+            Collider currentCollider = touching[i];
+            if (currentCollider.gameObject.CompareTag("Enemy"))
+            {
+                currentCollider.gameObject.GetComponent<EnemyBaseClass>().OnTakeDamage(damage);
+            }
+        }
+
+
+    }
 }
