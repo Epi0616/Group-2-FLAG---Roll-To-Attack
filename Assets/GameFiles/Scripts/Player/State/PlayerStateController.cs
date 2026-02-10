@@ -1,13 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEditor;
 public class PlayerStateController : MonoBehaviour
 {
+    [Header("Dont modify the variables listed below:")]
     public GameObject impactField;
     public ImpactField impactFieldScript;
     public Rigidbody rb;
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
+    [Header("For modification:")]
+    public float jumpHeight;
+    public float jumpSpeed;
+    public float xRotation, yRotation, zRotation;
 
     private void OnEnable()
     {
@@ -46,5 +51,10 @@ public class PlayerStateController : MonoBehaviour
     { 
         currentState = newState;
         currentState.EnterState(this);
+    }
+
+    public void ToggleGravity(bool useGravity)
+    {
+        rb.useGravity = useGravity;
     }
 }
