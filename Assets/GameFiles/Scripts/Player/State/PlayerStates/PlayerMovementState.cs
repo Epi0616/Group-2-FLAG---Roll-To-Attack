@@ -33,7 +33,7 @@ public class PlayerMovementState : PlayerBaseState
     {
         if (player.attack.action.WasPressedThisFrame())
         {
-            player.SwitchState(new PlayerOnePipState());
+            player.SwitchState(new PlayerJumpState());
         }
     }
 }
