@@ -35,7 +35,7 @@ public class PlayerJumpState : PlayerBaseState
     {
         base.EnterState(player);
 
-        player.ToggleGravity(false);
+        player.rb.useGravity = false;
         player.rb.isKinematic = true;
 
         jumpHeight = player.jumpHeight;
@@ -104,7 +104,7 @@ public class PlayerJumpState : PlayerBaseState
         // this is purely to allow movement while jumping for designers in the editor
         if (player.moveWhileJumping)
         {
-            tempPosition += moveDirection * Time.deltaTime * 5f;
+            tempPosition += moveDirection * Time.deltaTime * player.moveSpeedWhileJumping;
         }
 
         player.rb.MovePosition(tempPosition);
@@ -157,9 +157,12 @@ public class PlayerJumpState : PlayerBaseState
 
     private void CompleteJump()
     {
-        player.ToggleGravity(true);
+        player.rb.useGravity = true;
         player.rb.isKinematic = false;
+
         player.rb.rotation = targetRotation;
+        player.rb.linearVelocity = Vector3.zero;
+        player.rb.angularVelocity = Vector3.zero;
 
         player.SwitchState(selectedPip.createState());
     }
