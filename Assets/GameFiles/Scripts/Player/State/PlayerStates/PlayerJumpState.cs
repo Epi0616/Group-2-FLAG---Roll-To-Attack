@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using System;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
@@ -62,17 +63,40 @@ public class PlayerJumpState : PlayerBaseState
 
         DicePip[] dicePips = 
         {
-            new DicePip(1, player.onePipWeight,() => new PlayerMovementState()),
-            new DicePip(2, player.twoPipWeight, () => new PlayerMovementState()),
-            new DicePip(3, player.threePipWeight, () => new PlayerMovementState()),
-            new DicePip(4, player.fourPipWeight, () => new PlayerMovementState()),
-            new DicePip(5, player.fivePipWeight, () => new PlayerMovementState()),
-            new DicePip(6, player.sixPipWeight, () => new PlayerMovementState())
+            new (1, player.onePipWeight,() => new PlayerOnePipState()),
+            new (2, player.twoPipWeight, () => new PlayerTwoPipState()),
+            new (3, player.threePipWeight, () => new PlayerMovementState()),
+            new (4, player.fourPipWeight, () => new PlayerMovementState()),
+            new (5, player.fivePipWeight, () => new PlayerMovementState()),
+            new (6, player.sixPipWeight, () => new PlayerMovementState())
         };
         selectedPip = SelectDiceFace(dicePips);
 
         //Debug.Log(selectedPip.pipNumber);
         targetRotation = rotationMap[selectedPip.pipNumber - 1];
+
+        switch (selectedPip.pipNumber)
+        {
+            case 1:
+                player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                break;
+            case 2:
+                player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+                break;
+            case 3:
+                player.rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                break;
+            case 4:
+                player.rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                break;
+            case 5:
+                player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+                break;
+            case 6:
+                player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                break;
+        }
+       
     }
 
     public override void UpdateState()

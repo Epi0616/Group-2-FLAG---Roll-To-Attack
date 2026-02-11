@@ -3,13 +3,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerOnePipState : PlayerMovementState
+public class PlayerTwoPipState : PlayerMovementState
 {
     private float myRadius;
     public override void EnterState(PlayerStateController player)
     {
         base.EnterState(player);
-        myRadius = player.baseRadiusSize;
+        myRadius = player.baseRadiusSize * 1.5f;
     }
     public override void UpdateState()
     {
@@ -26,6 +26,7 @@ public class PlayerOnePipState : PlayerMovementState
     }
     private void ImpactGround()
     {
+        Debug.Log(myRadius);
         Collider[] colliders = Physics.OverlapSphere(player.rb.position, myRadius);
         Attack(colliders);
         player.SwitchState(new PlayerMovementState());
@@ -46,7 +47,7 @@ public class PlayerOnePipState : PlayerMovementState
 
         foreach (var Enemy in Enemies)
         {
-            Enemy.GetComponent<EnemyBaseClass>().OnTakeDamage(50);
+            Enemy.GetComponent<EnemyBaseClass>().OnTakeDamage(30);
         }
         player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius);
     }
@@ -56,3 +57,4 @@ public class PlayerOnePipState : PlayerMovementState
         //do nothing
     }
 }
+

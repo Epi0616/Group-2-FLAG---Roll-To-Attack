@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5321790428745265218}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,11 +109,17 @@ MonoBehaviour:
   rb: {fileID: 5321790428745265218}
   move: {fileID: -1868467007967312457, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   attack: {fileID: -6595154157516738094, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  jumpHeight: 0
-  jumpSpeed: 0
-  xRotation: 0
-  yRotation: 0
-  zRotation: 0
+  moveWhileJumping: 1
+  moveSpeed: 5
+  moveSpeedWhileJumping: 5
+  jumpHeight: 2
+  jumpSpeed: 5
+  onePipWeight: 17
+  twoPipWeight: 17
+  threePipWeight: 17
+  fourPipWeight: 17
+  fivePipWeight: 16
+  sixPipWeight: 16
 --- !u!65 &2663442673991085227
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -145,7 +151,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 10
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -160,5 +166,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
