@@ -10,6 +10,9 @@ public class PlayerStateController : MonoBehaviour
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
 
+    public bool isGrounded;
+    [SerializeField] private LayerMask groundLayer;
+
     [Header("For modification")]
 
     [Header("Movement feel")]
@@ -18,6 +21,7 @@ public class PlayerStateController : MonoBehaviour
     public float moveSpeedWhileJumping;
     public float jumpHeight;
     public float jumpSpeed;
+    public float impactSpeed;
 
     [Header("Side weighting")]
     public int onePipWeight;
@@ -26,6 +30,9 @@ public class PlayerStateController : MonoBehaviour
     public int fourPipWeight;
     public int fivePipWeight;
     public int sixPipWeight;
+
+    [Header("Attack feel")]
+    public float baseRadiusSize;
 
 
     private void OnEnable()
@@ -58,6 +65,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        CheckForGrounded();
         currentState.FixedUpdateState();
     }
 
@@ -65,5 +73,10 @@ public class PlayerStateController : MonoBehaviour
     { 
         currentState = newState;
         currentState.EnterState(this);
+    }
+
+    private void CheckForGrounded()
+    {
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1f, groundLayer);
     }
 }

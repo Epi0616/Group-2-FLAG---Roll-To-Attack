@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerMovementState : PlayerBaseState
 {
-    private Vector3 moveDirection;
+    protected Vector3 moveDirection;
     public override void EnterState(PlayerStateController player)
     {
         base.EnterState(player);
@@ -15,7 +15,13 @@ public class PlayerMovementState : PlayerBaseState
     }
     public override void FixedUpdateState()
     {
-        player.rb.MovePosition(player.transform.position + moveDirection * Time.deltaTime * player.moveSpeed);
+        //Vector3 targetPosition = player.rb.position + moveDirection * Time.fixedDeltaTime * player.moveSpeed;
+        //targetPosition.y = player.rb.position.y;
+        //player.rb.MovePosition(targetPosition);
+
+        Vector3 targetVelocity = moveDirection * player.moveSpeed;
+        targetVelocity.y = player.rb.linearVelocity.y;
+        player.rb.linearVelocity = targetVelocity;
     }
 
     private void CheckForMoveActionPressed()
@@ -29,7 +35,7 @@ public class PlayerMovementState : PlayerBaseState
         moveDirection = new(0, 0, 0);
     }
 
-    private void CheckForAttackActionPressed()
+    protected virtual void CheckForAttackActionPressed()
     {
         if (player.attack.action.WasPressedThisFrame())
         {

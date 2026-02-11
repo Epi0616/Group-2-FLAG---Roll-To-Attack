@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ImpactField : MonoBehaviour
 {
-    [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private CapsuleCollider capsuleCollider;
     [SerializeField] private Material material;
     [SerializeField] private Color color = new Color(0,1,0,1);
@@ -29,19 +28,14 @@ public class ImpactField : MonoBehaviour
         material.color = color;
     }
 
-    private void OnBecameInvisible()
+    public void ShowOnPlayer(Vector3 position, float scale)
     {
-        capsuleCollider.enabled = false;
-    }
-
-    private void OnBecameVisible()
-    {
-        capsuleCollider.enabled = true;
-    }
-
-    public void ShowOnPlayer(Vector3 position)
-    {
-        position.y = -0.5f;
+        Vector3 tempScale = transform.localScale;
+        tempScale.x = scale;
+        tempScale.z = scale;
+        transform.localScale = tempScale;
+    
+        position.y -= 0.5f;
         transform.position = position;
 
         color.a = 1;
