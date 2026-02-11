@@ -3,56 +3,20 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerOnePipState : PlayerMovementState
+public class PlayerOnePipState : PlayerBasePipState
 {
-    private float myRadius;
     public override void EnterState(PlayerStateController player)
     {
+        myRadiusMultiplier = 1f;
         base.EnterState(player);
-        myRadius = player.baseRadiusSize;
     }
-    public override void UpdateState()
+    protected override void CustomAttack(GameObject Enemy)
     {
-        base.UpdateState();
-    }
-    public override void FixedUpdateState()
-    {
-        Vector3 targetVelocity = moveDirection * player.moveSpeed;
-        targetVelocity.y = player.rb.linearVelocity.y - player.impactSpeed;
-        player.rb.linearVelocity = targetVelocity;
-
-        if (!player.isGrounded) { return; }
-        ImpactGround();
-    }
-    private void ImpactGround()
-    {
-        Collider[] colliders = Physics.OverlapSphere(player.rb.position, myRadius);
-        Attack(colliders);
-        player.SwitchState(new PlayerMovementState());
+        Enemy.GetComponent<EnemyBaseClass>().OnTakeDamage(50);
     }
 
-    private void Attack(Collider[] colliders)
+    protected override void CustomDisplayAttack()
     {
-        List<GameObject> Enemies = new List<GameObject>();
-        foreach (var collider in colliders)
-        {
-            if (!collider.gameObject) { continue; }
-
-            if (collider.gameObject.CompareTag("Enemy"))
-            {
-                Enemies.Add(collider.gameObject);
-            }
-        }
-
-        foreach (var Enemy in Enemies)
-        {
-            Enemy.GetComponent<EnemyBaseClass>().OnTakeDamage(50);
-        }
         player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius);
-    }
-
-    protected override void CheckForAttackActionPressed()
-    {
-        //do nothing
     }
 }

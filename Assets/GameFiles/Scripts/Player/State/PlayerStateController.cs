@@ -5,7 +5,7 @@ public class PlayerStateController : MonoBehaviour
 {
     [Header("Dont modify the variables listed below")]
     public GameObject impactField;
-    public ImpactField impactFieldScript;
+    public GameObject poisonImpactField;
     public Rigidbody rb;
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
@@ -47,11 +47,6 @@ public class PlayerStateController : MonoBehaviour
         attack.action.Disable();
     }
 
-    private void Awake()
-    {
-        impactFieldScript = impactField.GetComponent<ImpactField>();
-    }
-
     private void Start()
     {
         currentState = new PlayerMovementState();
@@ -73,6 +68,13 @@ public class PlayerStateController : MonoBehaviour
     { 
         currentState = newState;
         currentState.EnterState(this);
+    }
+
+    public GameObject InstantiateObejct(GameObject prefab, Vector3 position)
+    { 
+        GameObject newObject = Instantiate(prefab, position, Quaternion.identity);
+
+        return newObject;
     }
 
     private void CheckForGrounded()

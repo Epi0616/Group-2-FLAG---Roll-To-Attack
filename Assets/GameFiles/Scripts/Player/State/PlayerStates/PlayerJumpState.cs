@@ -65,7 +65,7 @@ public class PlayerJumpState : PlayerBaseState
         {
             new (1, player.onePipWeight,() => new PlayerOnePipState()),
             new (2, player.twoPipWeight, () => new PlayerTwoPipState()),
-            new (3, player.threePipWeight, () => new PlayerMovementState()),
+            new (3, player.threePipWeight, () => new PlayerThreePipState()),
             new (4, player.fourPipWeight, () => new PlayerMovementState()),
             new (5, player.fivePipWeight, () => new PlayerMovementState()),
             new (6, player.sixPipWeight, () => new PlayerMovementState())

@@ -1,7 +1,11 @@
+using TMPro;
 using UnityEngine;
 
 public class EnemyBaseClass : MonoBehaviour, IEnemy
 {
+    // code added by matt to show damage text
+    [SerializeField] protected GameObject damageText;
+
     protected int maxHealth, currentHealth;
     protected float moveSpeed;
     protected float attackRange;
@@ -63,6 +67,9 @@ public class EnemyBaseClass : MonoBehaviour, IEnemy
     public virtual void OnTakeDamage(int amount)
     {
         currentHealth -= amount;
+
+        ShowDamage(amount);
+
         if (currentHealth <= 0)
         {
             OnDeath();
@@ -82,5 +89,13 @@ public class EnemyBaseClass : MonoBehaviour, IEnemy
     {
         // ADD EVENT INVOKE FOR DEATH SO SPAWNER MANAGER KNOWS AN ENEMY DIED TO KEEP TRACK OF HOW MANY ENEMIES ARE LEFT IN CURRENT WAVE
         Destroy(this.gameObject);
+    }
+
+    // code added by matt to show damage text
+    protected void ShowDamage(int damage)
+    {
+        Vector3 randomOffset = new(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        damageNumber.GetComponent<TextMeshPro>().text = damage.ToString();
     }
 }

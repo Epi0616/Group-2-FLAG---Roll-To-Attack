@@ -5,7 +5,7 @@ public class ImpactField : MonoBehaviour
 {
     [SerializeField] private CapsuleCollider capsuleCollider;
     [SerializeField] private Material material;
-    [SerializeField] private Color color = new Color(0,1,0,1);
+    [SerializeField] private Color color = new(1,0,0,1);
 
     private void Awake()
     {
@@ -16,7 +16,7 @@ public class ImpactField : MonoBehaviour
     {
         if (color.a > 0)
         {
-            color.a += Time.deltaTime * -1f;
+            color.a += Time.deltaTime * -2f;
             return;
         }
 
@@ -40,5 +40,4 @@ public class ImpactField : MonoBehaviour
 
         color.a = 1;
     }
-
 }
