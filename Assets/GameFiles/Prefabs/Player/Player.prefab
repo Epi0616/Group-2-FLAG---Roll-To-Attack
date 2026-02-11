@@ -105,21 +105,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStateController
   impactField: {fileID: 0}
-  impactFieldScript: {fileID: 0}
+  poisonImpactField: {fileID: 1093305817044869981, guid: 6ea6ae83b324c4446afeb649e2176c72, type: 3}
   rb: {fileID: 5321790428745265218}
   move: {fileID: -1868467007967312457, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   attack: {fileID: -6595154157516738094, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  isGrounded: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
   moveWhileJumping: 1
   moveSpeed: 5
   moveSpeedWhileJumping: 5
   jumpHeight: 2
   jumpSpeed: 5
+  impactSpeed: 0
   onePipWeight: 17
   twoPipWeight: 17
   threePipWeight: 17
   fourPipWeight: 17
   fivePipWeight: 16
   sixPipWeight: 16
+  baseRadiusSize: 5
 --- !u!65 &2663442673991085227
 BoxCollider:
   m_ObjectHideFlags: 0
