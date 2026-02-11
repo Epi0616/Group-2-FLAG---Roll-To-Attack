@@ -12,8 +12,10 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("For modification")]
 
-    [Header("Jump feel")]
+    [Header("Movement feel")]
     public bool moveWhileJumping;
+    public float moveSpeed;
+    public float moveSpeedWhileJumping;
     public float jumpHeight;
     public float jumpSpeed;
 
@@ -63,10 +65,5 @@ public class PlayerStateController : MonoBehaviour
     { 
         currentState = newState;
         currentState.EnterState(this);
-    }
-
-    public void ToggleGravity(bool useGravity)
-    {
-        rb.useGravity = useGravity;
     }
 }

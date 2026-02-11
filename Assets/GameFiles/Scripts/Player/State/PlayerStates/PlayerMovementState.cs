@@ -15,7 +15,7 @@ public class PlayerMovementState : PlayerBaseState
     }
     public override void FixedUpdateState()
     {
-        player.rb.MovePosition(player.transform.position + moveDirection * Time.deltaTime * 5f);
+        player.rb.MovePosition(player.transform.position + moveDirection * Time.deltaTime * player.moveSpeed);
     }
 
     private void CheckForMoveActionPressed()
