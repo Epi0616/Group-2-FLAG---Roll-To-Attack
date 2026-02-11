@@ -3,16 +3,28 @@ using UnityEngine.InputSystem;
 using UnityEditor;
 public class PlayerStateController : MonoBehaviour
 {
-    [Header("Dont modify the variables listed below:")]
+    [Header("Dont modify the variables listed below")]
     public GameObject impactField;
     public ImpactField impactFieldScript;
     public Rigidbody rb;
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
-    [Header("For modification:")]
+
+    [Header("For modification")]
+
+    [Header("Jump feel")]
+    public bool moveWhileJumping;
     public float jumpHeight;
     public float jumpSpeed;
-    public float xRotation, yRotation, zRotation;
+
+    [Header("Side weighting")]
+    public int onePipWeight;
+    public int twoPipWeight;
+    public int threePipWeight;
+    public int fourPipWeight;
+    public int fivePipWeight;
+    public int sixPipWeight;
+
 
     private void OnEnable()
     {
