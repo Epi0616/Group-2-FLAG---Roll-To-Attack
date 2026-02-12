@@ -5,10 +5,13 @@ using Random = UnityEngine.Random;
 public class EnemySpawnManager : MonoBehaviour
 {
     private Vector2 spawnAreaCentrePoint = Vector2.zero;
-    [SerializeField] private float spawnAreaRadius;
+    private float spawnAreaRadius = 50;
     private Vector2 playerPos;
     private float spawnTolerance = 30f;
     private IEnemyFactory[] enemyFactories;
+    [Header("This List holds all the Spawn Points placed in the scene, to use press the +")]
+    [Header("then drag in a SpawnPoint Prefab.   DOES NOTHING IF EMPTY")]
+    [SerializeField] private List<EnemySpawnPoint> spawnPointList;
 
     private void Start()
     {
@@ -37,13 +40,14 @@ public class EnemySpawnManager : MonoBehaviour
             {
                 // Spawn and place the new enemy
                 GameObject spawnedEnemy = factory.CreateEnemy();
-                Vector3 spawnPos = PickSpawnArea();
+                Vector3 spawnPos = PickSpawnAreaPoint(spawnPointList);
                 spawnedEnemy.transform.position = spawnPos;
             }
         }
     }
 
-    private Vector3 PickSpawnArea()
+    // This Function uses the previous random area spawning that I may use for the golem later in development
+    private Vector3 PickSpawnAreaCircular()
     {
         while (true)
         {
@@ -59,6 +63,13 @@ public class EnemySpawnManager : MonoBehaviour
 
         }
 
+    }
+
+    // This Function picks one of the spawn points in the List to act as the position for enemy spawns
+    private Vector3 PickSpawnAreaPoint(List<EnemySpawnPoint> spawnPoints)
+    {
+        int choice = Random.Range(0, spawnPoints.Count);
+        return new Vector3(spawnPoints[choice].transform.position.x, 1f, spawnPoints[choice].transform.position.z);
     }
 
     private IEnemyFactory CheckEnemyFactory(EnemyTypes enemy)
