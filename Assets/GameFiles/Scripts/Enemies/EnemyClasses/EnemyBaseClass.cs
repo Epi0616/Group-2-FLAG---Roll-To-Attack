@@ -10,10 +10,11 @@ public class EnemyBaseClass : MonoBehaviour, IEnemy
     protected float moveSpeed;
     protected float attackRange;
     protected float knockbackWeightModifier;
-    [SerializeField] protected bool canMove;
-    private Rigidbody rb;
-    private Transform playerTransform;
-    private bool hasBeenKnockedBack;
+    public bool canMove;
+    public Rigidbody rb;
+    public Transform playerTransform;
+
+    private IEnemyState currentState;
 
     protected EnemyBaseClass()
     {
@@ -30,24 +31,18 @@ public class EnemyBaseClass : MonoBehaviour, IEnemy
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
+    protected void Start()
+    {
+        ChangeState(new EnemyMoveState(this));
+    }
+
     protected virtual void Update()
     {
-        if (hasBeenKnockedBack)
-        {
-            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, 1.1f * Time.deltaTime);
-            if (rb.linearVelocity.magnitude <= 2f)
-            {
-                hasBeenKnockedBack = false;
-                canMove = true;
-            }
-        }
+        currentState?.UpdateState();
     }
     protected virtual void FixedUpdate()
     {
-        if (canMove)
-        {
-            MoveTowardsPlayer();
-        }
+        currentState?.FixedUpdateState();
     }
 
     public virtual void MoveTowardsPlayer()
@@ -58,7 +53,6 @@ public class EnemyBaseClass : MonoBehaviour, IEnemy
         if (targetVector.magnitude < attackRange)
         {
             rb.linearVelocity = Vector3.zero;
-            //OnTakeKnockback(10f);
             return;
         }
         rb.linearVelocity = targetDirection * moveSpeed;
@@ -78,8 +72,6 @@ public class EnemyBaseClass : MonoBehaviour, IEnemy
 
     public virtual void OnTakeKnockback(float knockbackForce)
     {
-        canMove = false;
-        hasBeenKnockedBack = true;
         Vector3 targetVector = (transform.position - playerTransform.position);
         Vector3 targetDirection = targetVector.normalized;
         rb.AddForce(targetDirection * (knockbackForce * knockbackWeightModifier), ForceMode.Impulse);
@@ -89,6 +81,22 @@ public class EnemyBaseClass : MonoBehaviour, IEnemy
     {
         // ADD EVENT INVOKE FOR DEATH SO SPAWNER MANAGER KNOWS AN ENEMY DIED TO KEEP TRACK OF HOW MANY ENEMIES ARE LEFT IN CURRENT WAVE
         Destroy(this.gameObject);
+    }
+
+    public void RequestStateChange(EnemyBaseState newState)
+    {
+        ChangeState(newState);
+    }
+
+    protected virtual void ChangeState(EnemyBaseState newState)
+    {
+        if (currentState == newState)
+        {
+            return;
+        }
+        currentState?.ExitState();
+        currentState = newState;
+        currentState?.EnterState();
     }
 
     // code added by matt to show damage text
