@@ -1,17 +1,22 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 using UnityEditor;
+using NUnit.Framework;
 public class PlayerStateController : MonoBehaviour
 {
     [Header("Dont modify the variables listed below")]
     public GameObject impactField;
-    public GameObject poisonImpactField;
+    public GameObject poisonImpactField, playerSpike;
     public Rigidbody rb;
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
-
     public bool isGrounded;
+
     [SerializeField] private LayerMask groundLayer;
+
+    private List<GameObject> objectsInOrbit = new List<GameObject>();
+    
 
     [Header("For modification")]
 
@@ -75,6 +80,27 @@ public class PlayerStateController : MonoBehaviour
         GameObject newObject = Instantiate(prefab, position, Quaternion.identity);
 
         return newObject;
+    }
+
+    public void CreateFourPipSpikesInOrbit()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject spike = Instantiate(playerSpike);
+            objectsInOrbit.Add(spike);
+        }
+
+        for (int i = 0; i < objectsInOrbit.Count; i++)
+        {
+            float angle = i * (360f / objectsInOrbit.Count);
+            PlayerSpike tempScript = objectsInOrbit[i].gameObject.GetComponent<PlayerSpike>();
+            tempScript.Initialize(angle, gameObject);
+        }
+    }
+
+    public void RemoveObjectFromOrbit(GameObject obj)
+    { 
+        objectsInOrbit.Remove(obj);   
     }
 
     private void CheckForGrounded()

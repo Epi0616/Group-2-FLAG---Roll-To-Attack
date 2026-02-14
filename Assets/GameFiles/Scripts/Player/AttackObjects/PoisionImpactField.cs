@@ -68,17 +68,17 @@ public class PoisionImpactField : MonoBehaviour
 
             if (collider.gameObject.CompareTag("Enemy"))
             {
-                collider.gameObject.GetComponent<EnemyBaseClass>().OnTakeDamage(3);
+                collider.gameObject.GetComponent<EnemyStateController>().OnTakeDamage(3);
                 Debug.Log("dealing damage");
             }
         }
     }
 
-    public void adjustObjectSizeAndRotation(float scale)
+    public void adjustObjectSizeAndRotation(float radius)
     {
         Vector3 tempScale = transform.localScale;
-        tempScale.x = scale;
-        tempScale.z = scale;
+        tempScale.x = radius * 2;
+        tempScale.z = radius * 2;
         transform.localScale = tempScale;
 
         Vector3 position = transform.position;

@@ -28,11 +28,11 @@ public class ImpactField : MonoBehaviour
         material.color = color;
     }
 
-    public void ShowOnPlayer(Vector3 position, float scale)
+    public void ShowOnPlayer(Vector3 position, float radius)
     {
         Vector3 tempScale = transform.localScale;
-        tempScale.x = scale;
-        tempScale.z = scale;
+        tempScale.x = radius * 2;
+        tempScale.z = radius * 2;
         transform.localScale = tempScale;
     
         position.y -= 0.5f;

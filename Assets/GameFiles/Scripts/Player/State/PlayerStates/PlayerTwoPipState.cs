@@ -12,7 +12,9 @@ public class PlayerTwoPipState : PlayerBasePipState
     }
     protected override void CustomAttack(GameObject Enemy)
     {
-        Enemy.GetComponent<EnemyBaseClass>().OnTakeDamage(30);
+        EnemyStateController enemyTempScriptAccess = Enemy.GetComponent<EnemyStateController>();
+        enemyTempScriptAccess.OnTakeDamage(30);
+        enemyTempScriptAccess.OnStunned();
     }
 
     protected override void CustomDisplayAttack()

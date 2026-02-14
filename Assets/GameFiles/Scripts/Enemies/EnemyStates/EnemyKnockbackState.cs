@@ -4,15 +4,23 @@ public class EnemyKnockbackState : EnemyBaseState
 {
     private float force;
 
-    public EnemyKnockbackState(EnemyBaseClass enemy, float force) : base(enemy)
+    public EnemyKnockbackState(float force)
     {
         this.force = force;
     }
 
-    public override void EnterState()
+    public override void EnterState(EnemyStateController enemy)
     {
-        enemy.canMove = false;
-        enemy.OnTakeKnockback(force);
+        base.EnterState(enemy);
+
+        ApplyKnockback();
+    }
+
+    private void ApplyKnockback()
+    {
+        Vector3 targetVector = (enemy.transform.position - enemy.playerReference.transform.position);
+        Vector3 targetDirection = targetVector.normalized;
+        enemy.rb.AddForce(targetDirection * (force * enemy.knockbackWeightModifier), ForceMode.Impulse);
     }
 
     public override void UpdateState()
@@ -20,13 +28,7 @@ public class EnemyKnockbackState : EnemyBaseState
         enemy.rb.linearVelocity = Vector3.Lerp(enemy.rb.linearVelocity, Vector3.zero, 1.1f * Time.deltaTime);
         if (enemy.rb.linearVelocity.magnitude <= 2f)
         {
-            enemy.canMove = true;
-            enemy.RequestStateChange(new EnemyMoveState(enemy));
+            enemy.ChangeState(new EnemyMoveState());
         }
-    }
-
-    public override void ExitState()
-    {
-        enemy.canMove = true;
     }
 }

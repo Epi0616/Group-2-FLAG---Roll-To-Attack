@@ -36,6 +36,8 @@ public class PlayerJumpState : PlayerBaseState
     {
         base.EnterState(player);
 
+        //massive amount of setup that could probably do with its own function
+
         player.rb.useGravity = false;
         player.rb.isKinematic = true;
 
@@ -66,8 +68,8 @@ public class PlayerJumpState : PlayerBaseState
             new (1, player.onePipWeight,() => new PlayerOnePipState()),
             new (2, player.twoPipWeight, () => new PlayerTwoPipState()),
             new (3, player.threePipWeight, () => new PlayerThreePipState()),
-            new (4, player.fourPipWeight, () => new PlayerMovementState()),
-            new (5, player.fivePipWeight, () => new PlayerMovementState()),
+            new (4, player.fourPipWeight, () => new PlayerFourPipState()),
+            new (5, player.fivePipWeight, () => new PlayerFivePipState()),
             new (6, player.sixPipWeight, () => new PlayerMovementState())
         };
         selectedPip = SelectDiceFace(dicePips);
@@ -164,7 +166,7 @@ public class PlayerJumpState : PlayerBaseState
             totalWeight += pip.weight;
         }
 
-        int randomNumber = Random.Range(1, totalWeight);
+        int randomNumber = Random.Range(1, totalWeight+1);
         int pipWeightTally = 0;
 
         foreach (var pip in dicePips)
@@ -176,7 +178,7 @@ public class PlayerJumpState : PlayerBaseState
             }
         }
 
-        return new DicePip();
+        return new DicePip(1,0,() => new PlayerOnePipState());
     }
 
     private void CompleteJump()

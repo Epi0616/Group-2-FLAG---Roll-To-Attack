@@ -12,7 +12,7 @@ public class PlayerOnePipState : PlayerBasePipState
     }
     protected override void CustomAttack(GameObject Enemy)
     {
-        Enemy.GetComponent<EnemyBaseClass>().OnTakeDamage(50);
+        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(50);
     }
 
     protected override void CustomDisplayAttack()
