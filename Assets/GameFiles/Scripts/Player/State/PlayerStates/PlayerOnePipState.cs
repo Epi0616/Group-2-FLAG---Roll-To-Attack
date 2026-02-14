@@ -17,6 +17,6 @@ public class PlayerOnePipState : PlayerBasePipState
 
     protected override void CustomDisplayAttack()
     {
-        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius);
+        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius * 2);
     }
 }

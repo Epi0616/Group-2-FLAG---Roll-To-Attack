@@ -60,7 +60,7 @@ public class PoisionImpactField : MonoBehaviour
         if (!(currentTickCount < 10)) { return; }
         currentTickCount++;
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, transform.localScale.x);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, transform.localScale.x / 2); // scale x/2 as scale is diamater not radius
 
         foreach (var collider in colliders)
         {
