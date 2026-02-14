@@ -70,7 +70,7 @@ public class PlayerJumpState : PlayerBaseState
             new (3, player.threePipWeight, () => new PlayerThreePipState()),
             new (4, player.fourPipWeight, () => new PlayerFourPipState()),
             new (5, player.fivePipWeight, () => new PlayerFivePipState()),
-            new (6, player.sixPipWeight, () => new PlayerMovementState())
+            new (6, player.sixPipWeight, () => new PlayerSixPipState())
         };
         selectedPip = SelectDiceFace(dicePips);
 
