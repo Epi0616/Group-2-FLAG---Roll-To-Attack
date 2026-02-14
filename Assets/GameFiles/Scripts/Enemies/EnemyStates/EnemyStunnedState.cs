@@ -4,28 +4,31 @@ public class EnemyStunnedState : EnemyBaseState
 {
     private float duration;
 
-    public EnemyStunnedState(EnemyBaseClass enemy, float duration) : base(enemy)
+    public EnemyStunnedState(float duration)
     {
         this.duration = duration;
     }
 
-    public override void EnterState()
+    public override void EnterState(EnemyStateController enemy)
     {
-        enemy.canMove = false;
+        base.EnterState(enemy);
+        enemy.rb.linearVelocity = Vector3.zero;
     }
 
     public override void UpdateState()
     {
-        enemy.rb.linearVelocity = Vector3.zero;
+        Vibrate();
+
         duration -= Time.deltaTime;
         if (duration < 0)
         {
-            enemy.RequestStateChange(new EnemyMoveState(enemy));
+            enemy.ChangeState(new EnemyMoveState());
         }
     }
 
-    public override void ExitState()
-    {
-        enemy.canMove = true;
+    private void Vibrate()
+    { 
+        //make vibrate
     }
+
 }

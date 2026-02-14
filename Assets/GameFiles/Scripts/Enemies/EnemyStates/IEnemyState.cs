@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IEnemyState
 {
-    public void EnterState();
+    public void EnterState(EnemyStateController enemy);
 
     public void UpdateState();
 
