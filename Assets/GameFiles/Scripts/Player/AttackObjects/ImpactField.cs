@@ -28,7 +28,7 @@ public class ImpactField : MonoBehaviour
         material.color = color;
     }
 
-    public void ShowOnPlayer(Vector3 position, float radius)
+    public void ShowOnPlayer(Vector3 position, float radius, Color color)
     {
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;
@@ -38,6 +38,7 @@ public class ImpactField : MonoBehaviour
         position.y -= 0.5f;
         transform.position = position;
 
+        this.color = color;
         color.a = 1;
     }
 }

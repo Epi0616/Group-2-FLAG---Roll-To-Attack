@@ -10,6 +10,7 @@ public class PlayerSixPipState : PlayerBasePipState
         base.EnterState(player);
 
         gameFrozen = false;
+        myColor = Color.white;
     }
     protected override void CustomAttack(GameObject Enemy)
     {
@@ -39,12 +40,13 @@ public class PlayerSixPipState : PlayerBasePipState
 
     protected override void CustomDisplayAttack()
     {
-        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius);
+        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
     }
 
     protected void ApproachGameFreeze()
     {
         Debug.Log("freezing");
-        Time.timeScale = Mathf.MoveTowards(Time.timeScale, 0.2f, 2f * Time.unscaledDeltaTime);
+        //Time.timeScale = 0;
+        //Time.timeScale = Mathf.MoveTowards(Time.timeScale, 0.2f, 2f * Time.unscaledDeltaTime);
     }
 }

@@ -153,7 +153,7 @@ public class PlayerJumpState : PlayerBaseState
         Quaternion rotation = Quaternion.Slerp(startRotation, targetRotation, t);
         player.rb.MoveRotation(rotation);
 
-        Quaternion visualSpin = Quaternion.Euler(360 * t, 360*t, 360*t);
+        Quaternion visualSpin = Quaternion.Euler(360*t, 360*t, 360*t);
         player.rb.MoveRotation(rotation * visualSpin);
     }
 
