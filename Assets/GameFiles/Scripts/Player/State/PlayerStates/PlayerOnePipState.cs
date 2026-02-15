@@ -9,6 +9,8 @@ public class PlayerOnePipState : PlayerBasePipState
     {
         myRadiusMultiplier = 1f;
         base.EnterState(player);
+
+        myColor = Color.red;
     }
     protected override void CustomAttack(GameObject Enemy)
     {
@@ -17,6 +19,6 @@ public class PlayerOnePipState : PlayerBasePipState
 
     protected override void CustomDisplayAttack()
     {
-        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius);
+        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
     }
 }

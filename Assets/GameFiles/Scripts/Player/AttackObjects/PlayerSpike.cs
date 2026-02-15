@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class PlayerSpike : MonoBehaviour
 {
+    public float lifeSpan = 15f;
     public float radius = 3f;
     public float speed = 180f;
     public Vector3 desiredWorldUp;
 
+    private float age = 0;
     private GameObject player;
     private float angle;
     private Quaternion rotation;
@@ -19,6 +21,7 @@ public class PlayerSpike : MonoBehaviour
 
     void Update()
     {
+        CheckForExpiration();
         OrbitPlayer();
     }
 
@@ -45,8 +48,20 @@ public class PlayerSpike : MonoBehaviour
     private void DamageEnemy(GameObject Enemy)
     {
         Enemy.GetComponent<EnemyStateController>().OnTakeDamage(4);
+        DestroyMe();
+    }
+
+    private void CheckForExpiration()
+    {
+        age += Time.deltaTime;
+        if (!(age >= lifeSpan)) { return; }
+
+        DestroyMe();
+    }
+
+    private void DestroyMe()
+    {
         player.GetComponent<PlayerStateController>().RemoveObjectFromOrbit(gameObject);
         Destroy(gameObject);
-
     }
 }

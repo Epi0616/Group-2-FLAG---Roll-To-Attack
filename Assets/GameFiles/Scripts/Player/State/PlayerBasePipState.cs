@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class PlayerBasePipState : PlayerMovementState
 {
+    protected Color myColor = Color.red;
     protected float myRadius;
     protected float myRadiusMultiplier;
     protected bool attacked;
