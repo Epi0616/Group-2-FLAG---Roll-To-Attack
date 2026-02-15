@@ -1,11 +1,9 @@
 using UnityEngine;
 
-public class SimpleRaiderEnemy : EnemyBaseClass
+public class SimpleRaiderEnemy : EnemyStateController
 {
-    //private SimpleRaiderEnemy()
-    //{
-    //    moveSpeed = 10f;
-    //    maxHealth = 1000;
-    //    currentHealth = maxHealth;
-    //}
+    public override void Attack()
+    {
+
+    }
 }

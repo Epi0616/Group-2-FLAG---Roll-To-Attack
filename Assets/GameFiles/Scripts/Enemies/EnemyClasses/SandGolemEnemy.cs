@@ -1,12 +1,9 @@
 using UnityEngine;
 
-public class SandGolemEnemy : EnemyBaseClass
+public class SandGolemEnemy : EnemyStateController
 {
-    //private SandGolemEnemy()
-    //{
-    //    moveSpeed = 5;
-    //    maxHealth = 150;
-    //    currentHealth = maxHealth;
-    //    knockbackWeightModifier = 0.6f;
-    //}
+    public override void Attack()
+    {
+
+    }
 }

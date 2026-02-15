@@ -12,6 +12,7 @@ public class EnemyStunnedState : EnemyBaseState
     public override void EnterState(EnemyStateController enemy)
     {
         base.EnterState(enemy);
+        enemy.isStunned = true;
         enemy.rb.linearVelocity = Vector3.zero;
     }
 
@@ -22,6 +23,7 @@ public class EnemyStunnedState : EnemyBaseState
         duration -= Time.deltaTime;
         if (duration < 0)
         {
+            enemy.isStunned = false;
             enemy.ChangeState(new EnemyMoveState());
         }
     }

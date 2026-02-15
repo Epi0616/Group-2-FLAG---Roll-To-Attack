@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8847381966952746867}
   - component: {fileID: 1922180308644929401}
   - component: {fileID: 4630658199308249525}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SimpleRaider
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -154,4 +154,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed77a693ec846e469f6ceed969d7af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleRaiderEnemy
-  canMove: 1
+  playerReference: {fileID: 0}
+  damageText: {fileID: 0}
+  maxHealth: 40
+  moveSpeed: 4
+  attackRange: 2
+  stunTime: 0
+  knockbackWeightModifier: 0
+  rb: {fileID: 1922180308644929401}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 131072
