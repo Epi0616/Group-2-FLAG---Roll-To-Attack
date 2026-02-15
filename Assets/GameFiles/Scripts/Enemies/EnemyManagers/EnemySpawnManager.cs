@@ -1,14 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using Random = UnityEngine.Random;
 
 public class EnemySpawnManager : MonoBehaviour
 {
     private Vector2 spawnAreaCentrePoint = Vector2.zero;
     private float spawnAreaRadius = 50;
+    private float spawnPointAreaRadius = 4f;
     private Vector2 playerPos;
+    private GameObject playerRef;
     private float spawnTolerance = 30f;
     private IEnemyFactory[] enemyFactories;
+    [SerializeField] private float enemySpawnInterval;
     [Header("This List holds all the Spawn Points placed in the scene, to use press the +")]
     [Header("then drag in a SpawnPoint Prefab.   DOES NOTHING IF EMPTY")]
     [SerializeField] private List<EnemySpawnPoint> spawnPointList;
@@ -17,20 +21,26 @@ public class EnemySpawnManager : MonoBehaviour
     {
         enemyFactories = gameObject.GetComponentsInChildren<IEnemyFactory>();
         // This will be adjusted once the Director is complete to avoid using .FindObject
-        playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+        playerRef = GameObject.FindGameObjectWithTag("Player");
+        playerPos = playerRef.transform.position;
     }
 
     private void OnEnable()
     {
-        EnemyDirector.SpawnWave += SpawnWave;
+        EnemyDirector.SpawnWave += StartWaveSpawn;
     }
 
     private void OnDisable()
     {
-        EnemyDirector.SpawnWave -= SpawnWave;
+        EnemyDirector.SpawnWave -= StartWaveSpawn;
     }
 
-    public void SpawnWave(List<EnemyTypes> wave)  
+    private void StartWaveSpawn(List<EnemyTypes> wave)
+    {
+        StartCoroutine(SpawnWave(wave));
+    }
+
+    public IEnumerator SpawnWave(List<EnemyTypes> wave)  
     {
         foreach (EnemyTypes enemy in wave)
         {
@@ -42,8 +52,11 @@ public class EnemySpawnManager : MonoBehaviour
                 GameObject spawnedEnemy = factory.CreateEnemy();
                 Vector3 spawnPos = PickSpawnAreaPoint(spawnPointList);
                 spawnedEnemy.transform.position = spawnPos;
+                EnemyStateController spawnedEnemyCont = spawnedEnemy.GetComponent<EnemyStateController>();
+                spawnedEnemyCont.playerReference = playerRef;
+                yield return new WaitForSeconds(enemySpawnInterval);
             }
-        }
+        } 
     }
 
     // This Function uses the previous random area spawning that I may use for the golem later in development
@@ -69,7 +82,10 @@ public class EnemySpawnManager : MonoBehaviour
     private Vector3 PickSpawnAreaPoint(List<EnemySpawnPoint> spawnPoints)
     {
         int choice = Random.Range(0, spawnPoints.Count);
-        return new Vector3(spawnPoints[choice].transform.position.x, 1f, spawnPoints[choice].transform.position.z);
+        Vector3 chosenPoint = new Vector3(spawnPoints[choice].transform.position.x, 1f, spawnPoints[choice].transform.position.z);
+        Vector2 spawnCentreArea = new Vector2(chosenPoint.x, chosenPoint.z);
+        Vector2 randomArea = spawnCentreArea + Random.insideUnitCircle * spawnPointAreaRadius;
+        return new Vector3(randomArea.x, chosenPoint.y, randomArea.y);
     }
 
     private IEnemyFactory CheckEnemyFactory(EnemyTypes enemy)
