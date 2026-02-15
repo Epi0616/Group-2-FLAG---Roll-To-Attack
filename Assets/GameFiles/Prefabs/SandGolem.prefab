@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3395651633181633024}
   m_Layer: 14
   m_Name: SandGolem
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,13 +155,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SandGolemEnemy
   playerReference: {fileID: 0}
-  damageText: {fileID: 0}
+  damageText: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
   maxHealth: 50
   moveSpeed: 2
   attackRange: 3
   stunTime: 0
   knockbackWeightModifier: 0
   rb: {fileID: 1073275819704008764}
+  isStunned: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 131072
