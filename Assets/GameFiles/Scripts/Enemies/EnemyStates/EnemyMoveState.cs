@@ -27,6 +27,7 @@ public class EnemyMoveState : EnemyBaseState
         if (targetVector.magnitude < enemy.attackRange)
         {
             enemy.rb.linearVelocity = Vector3.zero;
+            enemy.ChangeState(new EnemyAttackState());
             return;
         }
         enemy.rb.linearVelocity = targetDirection * enemy.moveSpeed;

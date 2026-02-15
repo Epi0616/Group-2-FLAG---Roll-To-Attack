@@ -1,18 +1,25 @@
 using TMPro;
 using UnityEngine;
 
-public class EnemyStateController : MonoBehaviour
+public abstract class EnemyStateController : MonoBehaviour
 {
     // code added by matt to show damage text
     public GameObject playerReference,damageText;
 
-    public int maxHealth, currentHealth;
+    [Header("Variables that can be changed")]
+    [SerializeField] protected int maxHealth;
+    protected int currentHealth;
+    protected int attackDamage;
     public float moveSpeed;
     public float attackRange;
     public float stunTime;
     public float knockbackWeightModifier;
+
+    [Header("Variables not to be Adjusted")]
     public Rigidbody rb;
     private EnemyBaseState currentState;
+    public bool isStunned;
+    public LayerMask playerLayer;
 
     protected void Start()
     {
@@ -33,6 +40,8 @@ public class EnemyStateController : MonoBehaviour
 
     public void ChangeState(EnemyBaseState newState)
     {
+        if (currentState == newState) return;
+        currentState?.ExitState();
         currentState = newState;
         currentState.EnterState(this);
     }
@@ -48,6 +57,7 @@ public class EnemyStateController : MonoBehaviour
             OnDeath();
         }
     }
+    public abstract void Attack();
 
     public virtual void OnTakeKnockback(float knockbackForce)
     {
