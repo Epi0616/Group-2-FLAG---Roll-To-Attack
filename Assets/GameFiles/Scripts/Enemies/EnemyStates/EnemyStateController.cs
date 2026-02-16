@@ -1,5 +1,8 @@
 using TMPro;
 using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public abstract class EnemyStateController : MonoBehaviour
 {
@@ -20,6 +23,8 @@ public abstract class EnemyStateController : MonoBehaviour
     private EnemyBaseState currentState;
     public bool isStunned;
     public LayerMask playerLayer;
+
+    public static event Action EnemyHasDied;
 
     protected void Start()
     {
@@ -71,13 +76,14 @@ public abstract class EnemyStateController : MonoBehaviour
 
     protected void ShowDamage(int damage)
     {
-        Vector3 randomOffset = new(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f));
         GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
         damageNumber.GetComponent<TextMeshPro>().text = damage.ToString();
     }
     public virtual void OnDeath()
     {
         // ADD EVENT INVOKE FOR DEATH SO SPAWNER MANAGER KNOWS AN ENEMY DIED TO KEEP TRACK OF HOW MANY ENEMIES ARE LEFT IN CURRENT WAVE
+        EnemyHasDied?.Invoke();
         Destroy(this.gameObject);
     }
 }

@@ -6,21 +6,50 @@ using System.Collections.Generic;
 public class EnemyDirector : MonoBehaviour
 {
     public static event Action<List<EnemyTypes>> SpawnWave;
-    private int budget = 100;
-    private int remainingBudget;
+
+    [Header("Director Balance Variables")]
+    [SerializeField] private float delayBetweenWaves;
+    [SerializeField] private int startingBudget;
+    [SerializeField] private int budgetIncreasePerWave;
+    [SerializeField] private int simpleRaiderCost;
+    [SerializeField] private int beholderCost;
+    [SerializeField] private int sandGolemCost;
+
     private List<EnemyTypes> affordableEnemies = new();
     private List<EnemyTypes> generatedEnemies = new();
     private Dictionary<EnemyTypes, int> enemyCosts;
+
+    [Header("Observation Variables not to be Edited")]
+    public int enemiesLeftInCurrentWave;
+    [SerializeField] private int currentBudget;
+    [SerializeField] private int remainingBudget;
+
+    private void OnEnable()
+    {
+        EnemyStateController.EnemyHasDied += ProcessEnemyDeath;
+    }
+
+    private void OnDisable()
+    {
+        EnemyStateController.EnemyHasDied -= ProcessEnemyDeath;
+    }
+
     void Start()
     {
         enemyCosts = new Dictionary<EnemyTypes, int>()
         {
-            { EnemyTypes.SimpleRaider, 10 },
-            { EnemyTypes.RangedRaider, 20 },
-            { EnemyTypes.SandGolem, 50 },
+            { EnemyTypes.SimpleRaider, simpleRaiderCost },
+            { EnemyTypes.RangedRaider, beholderCost },
+            { EnemyTypes.SandGolem, sandGolemCost },
         };
+        currentBudget = startingBudget;
+        SelectWave();
+       
+    }
 
-        remainingBudget = budget;
+    private void SelectWave()
+    {
+        remainingBudget = currentBudget;
         while (remainingBudget > 0)
         {
             affordableEnemies.Clear();
@@ -43,14 +72,25 @@ public class EnemyDirector : MonoBehaviour
             generatedEnemies.Add(chosenEnemyType);
             remainingBudget -= enemyCosts[chosenEnemyType];
         }
-
-
+        enemiesLeftInCurrentWave = generatedEnemies.Count;
         StartCoroutine(SpawnWaveDelay());
     }
 
     IEnumerator SpawnWaveDelay()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(delayBetweenWaves);
         SpawnWave?.Invoke(generatedEnemies);
+        
+    }
+
+    private void ProcessEnemyDeath()
+    {
+        enemiesLeftInCurrentWave--;
+        if (enemiesLeftInCurrentWave == 0)
+        {
+            currentBudget += budgetIncreasePerWave;
+            generatedEnemies.Clear();
+            SelectWave();
+        }
     }
 }
