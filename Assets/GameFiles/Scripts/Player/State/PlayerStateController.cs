@@ -17,6 +17,7 @@ public class PlayerStateController : MonoBehaviour
 
     private List<GameObject> objectsInOrbit = new List<GameObject>();
     
+    
 
     [Header("For modification")]
 
@@ -39,6 +40,10 @@ public class PlayerStateController : MonoBehaviour
     [Header("Attack feel")]
     public float baseRadiusSize;
 
+    [Header("General Stats")]
+    public int maxHealth;
+    public int currentHealth;
+
 
     private void OnEnable()
     {
@@ -54,6 +59,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void Start()
     {
+        currentHealth = maxHealth;
         currentState = new PlayerMovementState();
         currentState.EnterState(this);
     }
@@ -73,6 +79,21 @@ public class PlayerStateController : MonoBehaviour
     { 
         currentState = newState;
         currentState.EnterState(this);
+    }
+
+    public void OnTakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            OnDeath();
+        }
+    }
+
+    public void OnDeath()
+    {
+        Debug.Log("Game Over");
     }
 
     public GameObject InstantiateObejct(GameObject prefab, Vector3 position)

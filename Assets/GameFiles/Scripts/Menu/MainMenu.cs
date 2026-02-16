@@ -6,7 +6,12 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("Test");
+        SceneManager.LoadScene("DO_NOT_MODIFY-MATT-TEST");
+    }
+
+    public void Options()
+    { 
+        //add options???
     }
 
     public void Quit()
