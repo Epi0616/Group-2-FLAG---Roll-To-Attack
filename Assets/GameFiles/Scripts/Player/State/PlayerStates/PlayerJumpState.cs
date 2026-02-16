@@ -77,6 +77,9 @@ public class PlayerJumpState : PlayerBaseState
         //Debug.Log(selectedPip.pipNumber);
         targetRotation = rotationMap[selectedPip.pipNumber - 1];
 
+
+        // unlocking rotation for now as allows player to roll around, embraces dice feel??
+
         switch (selectedPip.pipNumber)
         {
             case 1:
@@ -98,7 +101,7 @@ public class PlayerJumpState : PlayerBaseState
                 player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
                 break;
         }
-       
+
     }
 
     public override void UpdateState()
