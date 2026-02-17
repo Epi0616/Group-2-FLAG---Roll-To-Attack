@@ -6,12 +6,13 @@ using Random = UnityEngine.Random;
 public class EnemySpawnManager : MonoBehaviour
 {
     private Vector2 spawnAreaCentrePoint = Vector2.zero;
-    private float spawnAreaRadius = 50;
-    private float spawnPointAreaRadius = 4f;
+    private float spawnAreaRadius = 50f;
+    
     private Vector2 playerPos;
     private GameObject playerRef;
     private float spawnTolerance = 30f;
     private IEnemyFactory[] enemyFactories;
+    [SerializeField] private float spawnPointAreaRadius = 4f;
     [SerializeField] private float enemySpawnInterval;
     [Header("This List holds all the Spawn Points placed in the scene, to use press the +")]
     [Header("then drag in a SpawnPoint Prefab.   DOES NOTHING IF EMPTY")]
