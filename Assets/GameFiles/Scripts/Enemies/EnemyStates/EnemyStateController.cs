@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ public abstract class EnemyStateController : MonoBehaviour
     [Header("Variables that can be changed")]
     [SerializeField] protected int maxHealth;
     protected int currentHealth;
-    protected int attackDamage;
     public float moveSpeed;
     public float attackRange;
     public float stunTime;
@@ -20,10 +20,12 @@ public abstract class EnemyStateController : MonoBehaviour
 
     [Header("Variables not to be Adjusted")]
     protected PlayerStateController playerController;
+    public NavMeshAgent enemyAgent;
     public Rigidbody rb;
     private EnemyBaseState currentState;
     public bool isStunned;
     public LayerMask playerLayer;
+    public LayerMask environmentLayer;
 
     private bool isDead;
     public static event Action EnemyHasDied;
@@ -32,6 +34,10 @@ public abstract class EnemyStateController : MonoBehaviour
     protected void Start()
     {
         currentHealth = maxHealth;
+
+        enemyAgent.speed = moveSpeed * 2;
+        enemyAgent.stoppingDistance = attackRange;
+        enemyAgent.acceleration = moveSpeed * 5;
 
         currentState = new EnemyMoveState();
         currentState.EnterState(this);
