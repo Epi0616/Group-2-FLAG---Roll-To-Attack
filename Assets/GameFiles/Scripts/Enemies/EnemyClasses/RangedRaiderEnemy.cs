@@ -7,7 +7,7 @@ public class RangedRaiderEnemy : EnemyStateController
     [SerializeField] private float chargeTime;
     [SerializeField] private float laserDuration;
     [SerializeField] private float laserRange;
-    [SerializeField] private float laserDamage;
+    [SerializeField] private int laserDamage;
     private float activeTimer;
     [SerializeField] private Transform firingOrigin;
     [SerializeField] private LineRenderer lr;
@@ -20,7 +20,7 @@ public class RangedRaiderEnemy : EnemyStateController
     private IEnumerator FireLaser()
     {
         Vector3 laserTarget = playerReference.transform.position;
-        laserTarget.y = laserTarget.y + 1f;
+        //laserTarget.y = laserTarget.y + 1f;
         Vector3 endPoint = firingOrigin.position + (laserTarget - firingOrigin.position).normalized * laserRange;
 
         lr.startWidth = 0.2f;
@@ -52,7 +52,9 @@ public class RangedRaiderEnemy : EnemyStateController
         if (Physics.Raycast(ray, out hit, laserRange, playerLayer)){
             
             endPoint = hit.point;
-            // Damage Player
+            playerController = playerReference.GetComponent<PlayerStateController>();
+            playerController.OnTakeDamage(laserDamage);
+            activeTimer = laserDuration;
         }
         lr.startWidth = 0.5f;
         lr.endWidth = 1f;

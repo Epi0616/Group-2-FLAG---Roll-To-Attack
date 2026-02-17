@@ -19,12 +19,15 @@ public abstract class EnemyStateController : MonoBehaviour
     public float knockbackWeightModifier;
 
     [Header("Variables not to be Adjusted")]
+    protected PlayerStateController playerController;
     public Rigidbody rb;
     private EnemyBaseState currentState;
     public bool isStunned;
     public LayerMask playerLayer;
 
+    private bool isDead;
     public static event Action EnemyHasDied;
+    
 
     protected void Start()
     {
@@ -82,7 +85,8 @@ public abstract class EnemyStateController : MonoBehaviour
     }
     public virtual void OnDeath()
     {
-        // ADD EVENT INVOKE FOR DEATH SO SPAWNER MANAGER KNOWS AN ENEMY DIED TO KEEP TRACK OF HOW MANY ENEMIES ARE LEFT IN CURRENT WAVE
+        if (isDead) return;
+        isDead = true;
         EnemyHasDied?.Invoke();
         Destroy(this.gameObject);
     }
