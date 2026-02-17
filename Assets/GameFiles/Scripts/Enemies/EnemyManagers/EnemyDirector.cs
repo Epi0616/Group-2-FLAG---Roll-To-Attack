@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class EnemyDirector : MonoBehaviour
 {
     public static event Action<List<EnemyTypes>> SpawnWave;
+    public static event Action<float> WaveOver;
 
     [Header("Director Balance Variables")]
     [SerializeField] private float delayBetweenWaves;
@@ -73,6 +74,8 @@ public class EnemyDirector : MonoBehaviour
             remainingBudget -= enemyCosts[chosenEnemyType];
         }
         enemiesLeftInCurrentWave = generatedEnemies.Count;
+
+        WaveOver?.Invoke(delayBetweenWaves);
         StartCoroutine(SpawnWaveDelay());
     }
 
