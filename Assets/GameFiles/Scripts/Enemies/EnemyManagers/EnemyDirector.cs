@@ -88,11 +88,11 @@ public class EnemyDirector : MonoBehaviour
 
     private void ProcessEnemyDeath()
     {
-        Debug.Log("Enemy Died");
+        //Debug.Log("Enemy Died");
         enemiesLeftInCurrentWave--;
         if (enemiesLeftInCurrentWave <= 0)
         {
-            Debug.Log("New Wave Spawning");
+            //Debug.Log("New Wave Spawning");
             currentBudget += budgetIncreasePerWave;
             generatedEnemies.Clear();
             SelectWave();
