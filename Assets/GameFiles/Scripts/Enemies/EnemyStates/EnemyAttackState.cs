@@ -8,4 +8,9 @@ public class EnemyAttackState : EnemyBaseState
         enemy.Attack();
     }
 
+    public override void ExitState()
+    {
+        enemy.CompleteAttack();
+    }
+
 }

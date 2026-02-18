@@ -81,8 +81,7 @@ public class RangedRaiderEnemy : EnemyStateController
             
             if (hit.collider.CompareTag("Player") && damageTickTimer >= damageTickRateInSeconds)
             {
-                damageTickTimer = 0f;
-                Debug.Log("Player Hit");
+                damageTickTimer = 0f;      
                 playerController = playerReference.GetComponent<PlayerStateController>();
                 playerController.OnTakeDamage(laserDamage/2);           
             }                     
@@ -94,6 +93,12 @@ public class RangedRaiderEnemy : EnemyStateController
 
         MoveLaserCylinder(laserDir, distanceToEndofLaser, firingWidth);
 
+    }
+
+    public override void CompleteAttack()
+    {
+        laserObject.SetActive(false);
+        activeTimer = laserDuration;
     }
 
 }

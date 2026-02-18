@@ -72,6 +72,7 @@ public abstract class EnemyStateController : MonoBehaviour
         }
     }
     public abstract void Attack();
+    public abstract void CompleteAttack();
 
     public virtual void OnTakeKnockback(float knockbackForce)
     {
@@ -81,6 +82,18 @@ public abstract class EnemyStateController : MonoBehaviour
     public virtual void OnStunned()
     {
         ChangeState(new EnemyStunnedState(stunTime));
+    }
+
+    protected RaycastHit? SpawnMeleeAttack(Vector3 boxHalfExtents, float maxDistance)
+    {
+        RaycastHit hit;
+        if (Physics.BoxCast(transform.position, boxHalfExtents, transform.forward, out hit, transform.rotation , maxDistance))
+        {
+            
+            return hit;
+        }
+      
+        return null;
     }
 
     protected void ShowDamage(int damage)
@@ -96,4 +109,6 @@ public abstract class EnemyStateController : MonoBehaviour
         EnemyHasDied?.Invoke();
         Destroy(this.gameObject);
     }
+
+    
 }
