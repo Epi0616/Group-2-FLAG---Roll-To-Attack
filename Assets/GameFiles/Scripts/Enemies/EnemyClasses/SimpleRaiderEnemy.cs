@@ -26,7 +26,8 @@ public class SimpleRaiderEnemy : EnemyStateController
             }
         
         }
-        StartCoroutine(attackCooldown());
+        ChangeState(new EnemyMoveState());
+        //StartCoroutine(attackCooldown());
     }
 
     public override void CompleteAttack()
@@ -34,11 +35,11 @@ public class SimpleRaiderEnemy : EnemyStateController
 
     }
 
-    private IEnumerator attackCooldown()
+    /*private IEnumerator attackCooldown()
     {
         yield return new WaitForSeconds(2f);
         ChangeState(new EnemyMoveState());
-    }
+    }*/
 
     /*void OnDrawGizmos()
     {
