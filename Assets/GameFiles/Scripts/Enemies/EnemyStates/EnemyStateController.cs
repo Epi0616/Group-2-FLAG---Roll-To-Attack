@@ -17,6 +17,8 @@ public abstract class EnemyStateController : MonoBehaviour
     public float attackRange;
     public float stunTime;
     public float knockbackWeightModifier;
+    public float attackCooldown;
+    
 
     [Header("Variables not to be Adjusted")]
     protected PlayerStateController playerController;
@@ -26,6 +28,7 @@ public abstract class EnemyStateController : MonoBehaviour
     public bool isStunned;
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
+    public float attackCooldownTimer;
 
     private bool isDead;
     public static event Action EnemyHasDied;
@@ -46,6 +49,7 @@ public abstract class EnemyStateController : MonoBehaviour
     protected virtual void Update()
     {
         currentState?.UpdateState();
+        attackCooldownTimer -= Time.deltaTime;
     }
     protected virtual void FixedUpdate()
     {

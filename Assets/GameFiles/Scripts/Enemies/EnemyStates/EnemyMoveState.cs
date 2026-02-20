@@ -9,7 +9,7 @@ public class EnemyMoveState : EnemyBaseState
     public override void EnterState(EnemyStateController enemy)
     {
         base.EnterState(enemy);
-        enemy.enemyAgent.isStopped = false;
+        enemy.enemyAgent.enabled = true;
         MoveTowardsPlayerNavMesh();
     }
 
@@ -22,9 +22,10 @@ public class EnemyMoveState : EnemyBaseState
 
         MoveTowardsPlayerNavMesh();
 
-        if (CheckIfAIHasStopped(enemy.enemyAgent))
+        if (CheckIfAIHasStopped(enemy.enemyAgent) && enemy.attackCooldownTimer < 0)
         {
-            Debug.Log("Enemy has Reach Destination");
+            
+            //Debug.Log("Enemy has Reach Destination");
             enemy.ChangeState(new EnemyAttackState());
         }
 
@@ -65,5 +66,11 @@ public class EnemyMoveState : EnemyBaseState
         Vector3 targetDirection = targetVector.normalized;
         targetDirection.y = 0;
         enemy.rb.linearVelocity = targetDirection * enemy.moveSpeed;
+    }
+
+    public override void ExitState()
+    {       
+        enemy.enemyAgent.enabled = false;
+        //enemy.enemyAgent.ResetPath();
     }
 }

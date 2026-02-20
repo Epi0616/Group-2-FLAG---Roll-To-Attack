@@ -27,7 +27,7 @@ public class SandGolemEnemy : EnemyStateController
 
         }
         //Need to Add the knockback effect for the slam
-        StartCoroutine(attackCooldown());
+        ChangeState(new EnemyMoveState());
     }
 
     public override void CompleteAttack()
@@ -35,9 +35,4 @@ public class SandGolemEnemy : EnemyStateController
 
     }
 
-    private IEnumerator attackCooldown()
-    {
-        yield return new WaitForSeconds(2f);
-        ChangeState(new EnemyMoveState());
-    }
 }
