@@ -19,8 +19,13 @@ public class SandGolemEnemy : EnemyStateController
 
     public override void Attack()
     {
-        
-        Collider[] colliders = Physics.OverlapSphere(attackOriginTransform.position, meleeAttackRange, canBeKnockedBackByGolem);
+        StartCoroutine(ChargeTime());
+    }
+
+    private void GolemSlam()
+    {
+        Collider []
+        colliders = Physics.OverlapSphere(attackOriginTransform.position, meleeAttackRange, canBeKnockedBackByGolem);
         foreach (var collider in colliders)
         {
             if (collider.gameObject == gameObject) { continue; }
@@ -42,8 +47,17 @@ public class SandGolemEnemy : EnemyStateController
                 enemyRef.OnTakeKnockback(attackOriginTransform.position, golemKnockBackForce);
             }
         }
+
         StartCoroutine(TimeBeforeMovingAfterAttack());
     }
+
+    private IEnumerator ChargeTime()
+    {
+        yield return new WaitForSeconds(0.5f);
+        GolemSlam();
+
+    }
+
     private IEnumerator TimeBeforeMovingAfterAttack()
     {
         yield return new WaitForSeconds(1.5f);

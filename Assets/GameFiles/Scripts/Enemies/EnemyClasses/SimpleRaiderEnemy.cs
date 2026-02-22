@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class SimpleRaiderEnemy : EnemyStateController
 {
@@ -12,6 +13,11 @@ public class SimpleRaiderEnemy : EnemyStateController
     RaycastHit hit;
 
     public override void Attack()
+    {
+        StartCoroutine(ChargeTime());
+    }
+
+    private void MeleeAttack()
     {
         attackInterupted = false;
         //Debug.Log("Melee Enemy Attack Started");
@@ -26,14 +32,27 @@ public class SimpleRaiderEnemy : EnemyStateController
                 playerController = playerReference.GetComponent<PlayerStateController>();
                 playerController.OnTakeDamage(meleeAttackDamage);
             }
-        
+
         }
         if (attackInterupted)
         {
             return;
         }
+        StartCoroutine(TimeBeforeMovingAfterAttack());
+    }
+
+
+    private IEnumerator ChargeTime()
+    {
+        yield return new WaitForSeconds(0.5f);
+        MeleeAttack();
+
+    }
+
+    private IEnumerator TimeBeforeMovingAfterAttack()
+    {
+        yield return new WaitForSeconds(1.5f);
         ChangeState(new EnemyMoveState());
-        //StartCoroutine(attackCooldown());
     }
 
     public override void CompleteAttack()
@@ -41,11 +60,6 @@ public class SimpleRaiderEnemy : EnemyStateController
         attackInterupted = true;
     }
 
-    /*private IEnumerator attackCooldown()
-    {
-        yield return new WaitForSeconds(2f);
-        ChangeState(new EnemyMoveState());
-    }*/
 
     /*void OnDrawGizmos()
     {

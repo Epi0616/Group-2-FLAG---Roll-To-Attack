@@ -1118,7 +1118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: startingBudget
-      value: 100
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5258239062157637252, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: m_Name
@@ -1126,11 +1126,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5258239062157637252, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9194013166296953379, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: enemySpawnInterval
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 9194013166296953379, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: spawnPointList.Array.size
@@ -3718,6 +3718,67 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: bee012e4f4646be4f8adc76e476bc12e, type: 3}
+--- !u!1001 &1508317660
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1730824549147261262, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.6893332
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730824549147261262, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730824549147261262, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.1854057
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730824549147261262, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730824549147261262, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730824549147261262, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730824549147261262, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730824549147261262, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730824549147261262, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730824549147261262, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891606596303367603, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: m_Name
+      value: SandGolem
+      objectReference: {fileID: 0}
+    - target: {fileID: 3395651633181633024, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
+      propertyPath: playerReference
+      value: 
+      objectReference: {fileID: 173051290}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c0dfe777a623d5e4eac9e574b0723640, type: 3}
 --- !u!4 &1515382197 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 529135926761517962, guid: 2a5b4b6268dc59e4caa91348573e1d3d, type: 3}
@@ -5656,3 +5717,4 @@ SceneRoots:
   - {fileID: 352235534}
   - {fileID: 1278671133}
   - {fileID: 2071218994}
+  - {fileID: 1508317660}
