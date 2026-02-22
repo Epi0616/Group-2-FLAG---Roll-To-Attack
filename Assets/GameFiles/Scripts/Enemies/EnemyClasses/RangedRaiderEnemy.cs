@@ -61,8 +61,10 @@ public class RangedRaiderEnemy : EnemyStateController
         }
 
         laserObject.SetActive(false);
-
-        ChangeState(new EnemyMoveState());
+        if (!attackInterupted) 
+        { 
+            ChangeState(new EnemyMoveState()); 
+        }
     }
 
     private void MoveLaserCylinder(Vector3 laserDir, float distance, float width)

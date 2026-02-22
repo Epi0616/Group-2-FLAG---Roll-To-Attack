@@ -19,7 +19,7 @@ public class EnemyMoveState : EnemyBaseState
     {
         base.UpdateState();
 
-        if (enemy.isKnockedBack)
+        if (enemy.isKnockedBack || enemy.isStunned )
         {
             return;
         }
