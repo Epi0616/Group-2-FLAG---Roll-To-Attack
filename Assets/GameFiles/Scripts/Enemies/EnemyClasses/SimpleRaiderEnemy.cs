@@ -7,11 +7,13 @@ public class SimpleRaiderEnemy : EnemyStateController
     [SerializeField] private float meleeAttackRange;
     [SerializeField] private int meleeAttackDamage;
 
+    private bool attackInterupted;
     private bool didhitDetected;
     RaycastHit hit;
 
     public override void Attack()
     {
+        attackInterupted = false;
         //Debug.Log("Melee Enemy Attack Started");
         RaycastHit? hitCheck = SpawnMeleeAttack(meleeAttackHalfExtents, meleeAttackRange);
         if (hitCheck != null)
@@ -26,13 +28,17 @@ public class SimpleRaiderEnemy : EnemyStateController
             }
         
         }
+        if (attackInterupted)
+        {
+            return;
+        }
         ChangeState(new EnemyMoveState());
         //StartCoroutine(attackCooldown());
     }
 
     public override void CompleteAttack()
     {
-
+        attackInterupted = true;
     }
 
     /*private IEnumerator attackCooldown()

@@ -18,11 +18,15 @@ public class EnemySpawnManager : MonoBehaviour
     [Header("then drag in a SpawnPoint Prefab.   DOES NOTHING IF EMPTY")]
     [SerializeField] private List<EnemySpawnPoint> spawnPointList;
 
+    private void Awake()
+    {
+        playerRef = GameObject.FindGameObjectWithTag("Player");
+    }
+
     private void Start()
     {
         enemyFactories = gameObject.GetComponentsInChildren<IEnemyFactory>();
         // This will be adjusted once the Director is complete to avoid using .FindObject
-        playerRef = GameObject.FindGameObjectWithTag("Player");
         playerPos = playerRef.transform.position;
     }
 

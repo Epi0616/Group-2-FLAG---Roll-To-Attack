@@ -23,9 +23,14 @@ public class EnemyStunnedState : EnemyBaseState
         duration -= Time.deltaTime;
         if (duration < 0)
         {
-            enemy.isStunned = false;
+            //enemy.isStunned = false;
             enemy.ChangeState(new EnemyMoveState());
         }
+    }
+
+    public override void ExitState()
+    {
+        enemy.isStunned = false;
     }
 
     private void Vibrate()

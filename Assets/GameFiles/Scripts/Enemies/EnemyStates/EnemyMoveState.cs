@@ -10,6 +10,8 @@ public class EnemyMoveState : EnemyBaseState
     {
         base.EnterState(enemy);
         enemy.enemyAgent.enabled = true;
+        enemy.enemyAgent.updatePosition = true;
+        enemy.enemyAgent.updateRotation = true;
         MoveTowardsPlayerNavMesh();
     }
 
@@ -17,15 +19,20 @@ public class EnemyMoveState : EnemyBaseState
     {
         base.UpdateState();
 
+        if (enemy.isKnockedBack)
+        {
+            return;
+        }
+
         playerPosition = enemy.playerReference.transform.position;
         targetVector = (playerPosition - enemy.transform.position);
+
+        //enemy.transform.rotation = Quaternion.LookRotation(targetVector);
 
         MoveTowardsPlayerNavMesh();
 
         if (CheckIfAIHasStopped(enemy.enemyAgent) && enemy.attackCooldownTimer < 0)
         {
-            
-            //Debug.Log("Enemy has Reach Destination");
             enemy.ChangeState(new EnemyAttackState());
         }
 
@@ -69,7 +76,9 @@ public class EnemyMoveState : EnemyBaseState
     }
 
     public override void ExitState()
-    {       
+    {
+        enemy.enemyAgent.updatePosition = false;
+        enemy.enemyAgent.updateRotation = false;
         enemy.enemyAgent.enabled = false;
         //enemy.enemyAgent.ResetPath();
     }
