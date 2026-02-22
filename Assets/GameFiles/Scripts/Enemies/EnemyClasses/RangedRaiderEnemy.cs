@@ -84,7 +84,7 @@ public class RangedRaiderEnemy : EnemyStateController
             if (hit.collider.CompareTag("Player") && damageTickTimer >= damageTickRateInSeconds)
             {
                 damageTickTimer = 0f;      
-                playerController = playerReference.GetComponent<PlayerStateController>();
+                //playerController = playerReference.GetComponent<PlayerStateController>();
                 playerController.OnTakeDamage(laserDamage/2);           
             }                     
         }
