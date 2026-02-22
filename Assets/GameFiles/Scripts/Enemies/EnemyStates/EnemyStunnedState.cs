@@ -3,8 +3,10 @@ using UnityEngine;
 public class EnemyStunnedState : EnemyBaseState
 {
     private float duration;
-    private float speed = 5f;
+    private float stunTimer;
+    private float speed = 50f;
     private float intensity = 0.1f;
+    private Vector3 initialPosition;
 
     public EnemyStunnedState(float duration)
     {
@@ -14,33 +16,43 @@ public class EnemyStunnedState : EnemyBaseState
     public override void EnterState(EnemyStateController enemy)
     {
         base.EnterState(enemy);
+
         enemy.enemyAgent.enabled = false;
         enemy.isStunned = true;
-        enemy.rb.linearVelocity = Vector3.zero;
+
+        stunTimer = duration;      
+        initialPosition = enemy.transform.position;
     }
 
     public override void UpdateState()
     {
-        Vibrate();
-
-        duration -= Time.deltaTime;
-        if (duration < 0)
+        stunTimer -= Time.deltaTime;
+        if (stunTimer < 0)
         {
-            //enemy.isStunned = false;
             enemy.ChangeState(new EnemyMoveState());
         }
+    }
+
+    public override void FixedUpdateState()
+    {
+        Vibrate();
     }
 
     public override void ExitState()
     {
         enemy.enemyAgent.enabled = true;
         enemy.enemyAgent.Warp(enemy.transform.position);
+
         enemy.isStunned = false;
     }
 
     private void Vibrate()
     {
         //make vibrate
+        float x = Mathf.Sin(Time.time * speed) * intensity;
+        float z = Mathf.Sin(Time.time * speed) * intensity;
+
+        enemy.transform.position = initialPosition + new Vector3(x, 0, z);
         
     }
 
