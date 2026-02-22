@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 public class PlayerSpike : MonoBehaviour
 {
     public float lifeSpan = 15f;
-    public float radius = 3f;
-    public float speed = 180f;
+    public float radius = 5f;
+    public float speed = 360f;
     public Vector3 desiredWorldUp;
 
     private float age = 0;
@@ -36,9 +37,9 @@ public class PlayerSpike : MonoBehaviour
         transform.LookAt(player.transform, desiredWorldUp);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        GameObject Enemy = collision.gameObject;
+        GameObject Enemy = other.gameObject;
         if (Enemy.CompareTag("Enemy"))
         {
             DamageEnemy(Enemy);

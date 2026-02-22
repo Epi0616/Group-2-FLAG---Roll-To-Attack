@@ -7,7 +7,17 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private InputActionReference pauseGame;
     [SerializeField] private GameObject pauseMenuUI;
     public static bool isGamePaused = false;
+    private bool isGameOver = false;
 
+    private void OnEnable()
+    {
+        PlayerStateController.GameOver += GameOver;
+    }
+
+    private void OnDisable()
+    {
+        PlayerStateController.GameOver -= GameOver;
+    }
 
     private void Update()
     {
@@ -17,7 +27,10 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    
+    public void GameOver()
+    { 
+        isGameOver = true;
+    }
 
     public void Resume()
     {
@@ -37,6 +50,8 @@ public class PauseMenu : MonoBehaviour
 
     public void TogglePaused()
     {
+        if (isGameOver) { return; }
+
         if (!isGamePaused)
         {
             pauseMenuUI.SetActive(true);
