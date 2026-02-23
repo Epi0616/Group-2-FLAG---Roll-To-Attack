@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private InputActionReference move, attack;
-    private Vector3 moveDirection, desiredPosition;
+    private Vector3 moveDirection, desiredPosition, cameraPosition;
     bool attacking = false;
 
     private void OnEnable()
@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
         }
 
         moveDirection = new(0, 0, 0);
+        cameraPosition = Camera.main.transform.position;
     }
 
     private void Attack()
