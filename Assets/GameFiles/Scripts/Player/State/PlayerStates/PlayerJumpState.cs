@@ -11,23 +11,8 @@ public class PlayerJumpState : PlayerBaseState
     private DicePip selectedPip;
     private Quaternion[] rotationMap;
 
-
     // this is purely to allow movement while jumping for designers in the editor
     private Vector3 moveDirection;
-
-    private struct DicePip
-    {
-        public int pipNumber;
-        public int weight;
-        public Func<PlayerBaseState> createState;
-
-        public DicePip(int pipNumber, int weight, Func<PlayerBaseState> createState)
-        { 
-            this.pipNumber = pipNumber;
-            this.weight = weight;
-            this.createState = createState;
-        } 
-    }
 
     public override void EnterState(PlayerStateController player)
     {
@@ -60,16 +45,7 @@ public class PlayerJumpState : PlayerBaseState
         eulerStartRotation.z = Mathf.Round(eulerStartRotation.z);
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
 
-        DicePip[] dicePips = 
-        {
-            new (1, player.onePipWeight,() => new PlayerOnePipState()),
-            new (2, player.twoPipWeight, () => new PlayerTwoPipState()),
-            new (3, player.threePipWeight, () => new PlayerThreePipState()),
-            new (4, player.fourPipWeight, () => new PlayerFourPipState()),
-            new (5, player.fivePipWeight, () => new PlayerFivePipState()),
-            new (6, player.sixPipWeight, () => new PlayerSixPipState())
-        };
-        selectedPip = SelectDiceFace(dicePips);
+        selectedPip = SelectDiceFace();
 
         //Debug.Log(selectedPip.pipNumber);
         targetRotation = rotationMap[selectedPip.pipNumber - 1];
@@ -157,11 +133,11 @@ public class PlayerJumpState : PlayerBaseState
         player.rb.MoveRotation(rotation * visualSpin);
     }
 
-    private DicePip SelectDiceFace(DicePip[] dicePips)
+    private DicePip SelectDiceFace()
     {
         int totalWeight = 0;
 
-        foreach (var pip in dicePips)
+        foreach (var pip in player.dicePips)
         {
             totalWeight += pip.weight;
         }
@@ -169,7 +145,7 @@ public class PlayerJumpState : PlayerBaseState
         int randomNumber = Random.Range(1, totalWeight+1);
         int pipWeightTally = 0;
 
-        foreach (var pip in dicePips)
+        foreach (var pip in player.dicePips)
         { 
             pipWeightTally += pip.weight;
             if (randomNumber <= (pipWeightTally))
@@ -178,7 +154,7 @@ public class PlayerJumpState : PlayerBaseState
             }
         }
 
-        return new DicePip(1,0,() => new PlayerOnePipState());
+        return new DicePip(1,() => new A_PlayerBasicState());
     }
 
     private void CompleteJump()

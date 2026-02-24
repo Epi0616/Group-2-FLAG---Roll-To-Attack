@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerFourPipState : PlayerBasePipState
+public class A_PlayerSpikeState : PlayerBasePipState
 {
     public override void EnterState(PlayerStateController player)
     {

@@ -13,10 +13,10 @@ public class PlayerStateController : MonoBehaviour
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
     public bool isGrounded;
-
     [SerializeField] private LayerMask groundLayer;
-
     private List<GameObject> objectsInOrbit = new List<GameObject>();
+
+    public DicePip[] dicePips;
 
     public static event Action<int> UpdateHealthBar;
     public static event Action GameOver;
@@ -38,6 +38,7 @@ public class PlayerStateController : MonoBehaviour
     public int fourPipWeight;
     public int fivePipWeight;
     public int sixPipWeight;
+ 
 
     [Header("Attack feel")]
     public float baseRadiusSize;
@@ -67,6 +68,7 @@ public class PlayerStateController : MonoBehaviour
         UpdateHealthBar?.Invoke(currentHealth);
         currentState = new PlayerMovementState();
         currentState.EnterState(this);
+        setDicePips();
     }
 
     private void Update()
@@ -125,7 +127,7 @@ public class PlayerStateController : MonoBehaviour
         for (int i = 0; i < objectsInOrbit.Count; i++)
         {
             float angle = i * (360f / objectsInOrbit.Count);
-            PlayerSpike tempScript = objectsInOrbit[i].gameObject.GetComponent<PlayerSpike>();
+            PlayerSpikeFixedYMod tempScript = objectsInOrbit[i].gameObject.GetComponent<PlayerSpikeFixedYMod>(); //will need to change between PlayerSpikeFixedYMod and PlayerSpike depending on desired functionality/script attatched to the spike prefab
             tempScript.Initialize(angle, gameObject);
         }
     }
@@ -138,5 +140,18 @@ public class PlayerStateController : MonoBehaviour
     private void CheckForGrounded()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1f, groundLayer);
+    }
+
+    private void setDicePips() //DicePip[] newDicePips
+    {
+        dicePips = new DicePip[]
+        {
+            new (1, () => new A_PlayerBasicState()),
+            new (2, () => new A_PlayerStunState()),
+            new (3, () => new A_PlayerPoisonState()),
+            new (4, () => new A_PlayerSpikeState()),
+            new (5, () => new A_PlayerKockbackState()),
+            new (6, () => new PlayerSixPipState())
+        };
     }
 }

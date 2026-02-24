@@ -1,20 +1,19 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class PlayerOnePipState : PlayerBasePipState
+public class A_PlayerKockbackState : PlayerBasePipState
 {
     public override void EnterState(PlayerStateController player)
     {
-        myRadiusMultiplier = 1f;
+        myRadiusMultiplier = 3f;
         base.EnterState(player);
 
-        myColor = Color.red;
+        myColor = Color.darkGoldenRod;
     }
     protected override void CustomAttack(GameObject Enemy)
     {
-        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(50);
+        EnemyStateController tempScriptAccess = Enemy.GetComponent<EnemyStateController>();
+        tempScriptAccess.OnTakeDamage(35);
+        tempScriptAccess.OnTakeKnockback(player.transform.position, 5);
     }
 
     protected override void CustomDisplayAttack()

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerSpike : MonoBehaviour
+public class PlayerSpikeFixedYMod : MonoBehaviour
 {
     public float lifeSpan = 15f;
     public float radius = 5f;
@@ -13,11 +13,14 @@ public class PlayerSpike : MonoBehaviour
     private float angle;
     private Quaternion rotation;
     private Vector3 offset;
+    private float tempY;
 
     public void Initialize(float startAngle, GameObject player)
     {
         this.player = player;
-        this.angle = startAngle;             
+        this.angle = startAngle;
+
+        tempY = player.transform.position.y;
     }
 
     void Update()
@@ -32,9 +35,11 @@ public class PlayerSpike : MonoBehaviour
 
         rotation = Quaternion.Euler(0, angle, 0);
         offset = rotation * Vector3.forward * radius;
-        transform.position = player.transform.position + offset;
+        transform.position = new Vector3(player.transform.position.x, tempY, player.transform.position.z) + offset;
 
-        transform.LookAt(player.transform, desiredWorldUp);
+        Vector3 targetVector = new Vector3(player.transform.position.x, tempY, player.transform.position.z);
+
+        transform.LookAt(targetVector, desiredWorldUp);
     }
 
     private void OnTriggerEnter(Collider other)
