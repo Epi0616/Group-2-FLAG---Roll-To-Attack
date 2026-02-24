@@ -9,16 +9,19 @@ public class SandGolemEnemy : EnemyStateController
     [SerializeField] private float meleeAttackRange;
     [SerializeField] private int meleeAttackDamage;
     [SerializeField] private float golemKnockBackForce;
+    [SerializeField] private Color impactFieldColor;
 
     [Header("Variables not to be Adjusted")]
     [SerializeField] private Transform attackOriginTransform;
     [SerializeField] private LayerMask canBeKnockedBackByGolem;
+    [SerializeField] private GameObject impactFieldPrefab;
 
     private bool didhitDetected;
     RaycastHit hit;
 
     public override void Attack()
     {
+        SpawnImpactField();
         StartCoroutine(ChargeTime());
     }
 
@@ -72,6 +75,14 @@ public class SandGolemEnemy : EnemyStateController
     public override void CompleteAttack()
     {
 
+    }
+
+    private void SpawnImpactField()
+    {
+        Vector3 impactFieldPosition = new Vector3(attackOriginTransform.position.x, attackOriginTransform.position.y - 1f, attackOriginTransform.position.z);
+        GameObject impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        EnemyAttackImpactField impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
+        impactField.PassInValuesColorRadiusLifeTimeChargeTime(impactFieldColor, meleeAttackRange * 0.9f, 2.5f, 0.5f);
     }
 
 }
