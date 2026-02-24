@@ -36,7 +36,9 @@ public class PlayerSpike : MonoBehaviour
         offset = rotation * Vector3.forward * radius;
         transform.position = new Vector3(player.transform.position.x, tempY, player.transform.position.z) + offset;
 
-        transform.LookAt(player.transform, desiredWorldUp);
+        Vector3 targetVector = new Vector3(player.transform.position.x, tempY, player.transform.position.z);
+
+        transform.LookAt(targetVector, desiredWorldUp);
     }
 
     private void OnTriggerEnter(Collider other)
