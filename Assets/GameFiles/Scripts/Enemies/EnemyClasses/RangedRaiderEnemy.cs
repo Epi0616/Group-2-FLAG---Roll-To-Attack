@@ -14,7 +14,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     private float activeTimer;
     private float damageTickTimer;
-    private bool attackInterupted;
+    private bool attackInterrupted;
 
     [Header("Not to be Modified")]
     [SerializeField] private Transform firingOrigin;
@@ -25,7 +25,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     public override void Attack()
     {
-        attackInterupted = false;
+        attackInterrupted = false;
         StartCoroutine(FireLaser());
     }
 
@@ -51,7 +51,7 @@ public class RangedRaiderEnemy : EnemyStateController
         yield return new WaitForSeconds(chargeTime);
 
         activeTimer = 0;
-        while (activeTimer < laserDuration && !isStunned && !attackInterupted)
+        while (activeTimer < laserDuration && !isStunned && !attackInterrupted)
         {
             activeTimer += Time.deltaTime;
             damageTickTimer += Time.deltaTime;
@@ -61,7 +61,7 @@ public class RangedRaiderEnemy : EnemyStateController
         }
 
         laserObject.SetActive(false);
-        if (!attackInterupted) 
+        if (!attackInterrupted) 
         { 
             ChangeState(new EnemyMoveState()); 
         }
@@ -101,7 +101,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     public override void CompleteAttack()
     {
-        attackInterupted = true;
+        attackInterrupted = true;
         laserObject.SetActive(false);
     }
 

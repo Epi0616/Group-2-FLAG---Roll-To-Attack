@@ -4,37 +4,42 @@ using System;
 
 public class SimpleRaiderEnemy : EnemyStateController
 {
-    [SerializeField] private Vector3 meleeAttackHalfExtents;
-    [SerializeField] private float meleeAttackRange;
+    
+    [SerializeField] private float meleeAttackRadius;
     [SerializeField] private int meleeAttackDamage;
+    [SerializeField] private float meleeAttackChargeTime;
+    [SerializeField] private Color impactFieldColor;
 
-    private bool attackInterupted;
-    private bool didhitDetected;
-    RaycastHit hit;
+    [SerializeField] private Transform attackOriginTransform;
+    [SerializeField] private GameObject impactFieldPrefab;
+
+    private bool attackInterrupted;
 
     public override void Attack()
     {
+        attackInterrupted = false;
+        SpawnImpactField();
         StartCoroutine(ChargeTime());
     }
 
     private void MeleeAttack()
     {
-        attackInterupted = false;
-        //Debug.Log("Melee Enemy Attack Started");
-        RaycastHit? hitCheck = SpawnMeleeAttack(meleeAttackHalfExtents, meleeAttackRange);
-        if (hitCheck != null)
+        Collider[] colliders = Physics.OverlapSphere(attackOriginTransform.position, meleeAttackRadius, playerLayer);
+        foreach (var collider in colliders)
         {
-            //Debug.Log("Melee Hit Something");
-            hit = (RaycastHit)hitCheck;
-            if (hit.collider.CompareTag("Player"))
+            if (collider.gameObject == gameObject) { continue; }
+            if (attackInterrupted) { break; }
+
+            if (collider.gameObject.CompareTag("Player"))
             {
-                Debug.Log("Melee Attack Hit Player");
-                playerController = playerReference.GetComponent<PlayerStateController>();
+                
                 playerController.OnTakeDamage(meleeAttackDamage);
+                
             }
 
         }
-        if (attackInterupted)
+        
+        if (attackInterrupted)
         {
             return;
         }
@@ -44,7 +49,7 @@ public class SimpleRaiderEnemy : EnemyStateController
 
     private IEnumerator ChargeTime()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(meleeAttackChargeTime);
         MeleeAttack();
 
     }
@@ -57,28 +62,20 @@ public class SimpleRaiderEnemy : EnemyStateController
 
     public override void CompleteAttack()
     {
-        attackInterupted = true;
+        attackInterrupted = true;
     }
 
-
-    /*void OnDrawGizmos()
+    private void SpawnImpactField()
     {
-        Gizmos.color = Color.red;
-
-        if (didhitDetected)
-        {
-            //Draw a Ray forward from GameObject toward the hit
-            Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
-            //Draw a cube that extends to where the hit exists
-            Gizmos.DrawWireCube(transform.position + transform.forward * hit.distance, meleeAttackHalfExtents);
-        }
-        else
-        {
-            //Draw a Ray forward from GameObject toward the maximum distance
-            Gizmos.DrawRay(transform.position, transform.forward * meleeAttackRange);
-            //Draw a cube at the maximum distance
-            Gizmos.DrawWireCube(transform.position + transform.forward * meleeAttackRange, meleeAttackHalfExtents);
-        }
+        Vector3 impactFieldPosition = new Vector3(attackOriginTransform.position.x, attackOriginTransform.position.y - 1f, attackOriginTransform.position.z);
+        GameObject impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        EnemyAttackImpactField impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
+        impactField.PassInValuesColorRadiusLifeTimeChargeTime(impactFieldColor, meleeAttackRadius * 0.9f, 2.5f, meleeAttackChargeTime);
     }
-    */
+
+
+    /*private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(attackOriginTransform.position, meleeAttackRadius);
+    }*/
 }

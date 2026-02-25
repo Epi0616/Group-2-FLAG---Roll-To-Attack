@@ -91,17 +91,6 @@ public abstract class EnemyStateController : MonoBehaviour
         ChangeState(new EnemyStunnedState(stunTime));
     }
 
-    protected RaycastHit? SpawnMeleeAttack(Vector3 boxHalfExtents, float maxDistance)
-    {
-        RaycastHit hit;
-        if (Physics.BoxCast(transform.position, boxHalfExtents, transform.forward, out hit, transform.rotation , maxDistance))
-        {          
-            return hit;
-        }
-      
-        return null;
-    }
-
     protected void ShowDamage(int damage)
     {
         Vector3 randomOffset = new(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f));
@@ -110,6 +99,7 @@ public abstract class EnemyStateController : MonoBehaviour
     }
     public virtual void OnDeath()
     {
+        currentState?.ExitState();
         if (isDead) return;
         isDead = true;
         EnemyHasDied?.Invoke();

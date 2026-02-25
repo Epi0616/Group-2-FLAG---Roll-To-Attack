@@ -54,9 +54,11 @@ public class EnemySpawnManager : MonoBehaviour
             if (factory != null)
             {
                 // Spawn and place the new enemy
-                GameObject spawnedEnemy = factory.CreateEnemy();
                 Vector3 spawnPos = PickSpawnAreaPoint(spawnPointList);
-                spawnedEnemy.transform.position = spawnPos;
+                GameObject spawnedEnemy = factory.CreateEnemy(spawnPos);
+                
+                //Debug.Log(spawnPos.x + " " + spawnPos.y + " " + spawnPos.z);
+                //spawnedEnemy.transform.position = spawnPos;
                 EnemyStateController spawnedEnemyCont = spawnedEnemy.GetComponent<EnemyStateController>();
                 spawnedEnemyCont.playerReference = playerRef;
                 yield return new WaitForSeconds(enemySpawnInterval);
