@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class GolemEnemyFactory : EnemyFactory
 {
-    public override GameObject CreateEnemy()
+    public override GameObject CreateEnemy(Vector3 spawnPos)
     {
-        GameObject enemyObj = base.CreateEnemy();
+        GameObject enemyObj = base.CreateEnemy(spawnPos);
         return enemyObj;
     }
 

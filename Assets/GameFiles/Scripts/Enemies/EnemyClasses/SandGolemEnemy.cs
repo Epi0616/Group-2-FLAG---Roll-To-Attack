@@ -6,29 +6,34 @@ public class SandGolemEnemy : EnemyStateController
 {
     //[SerializeField] private Vector3 meleeAttackHalfExtents;
     [Header("Golem Attack Variables")]
-    [SerializeField] private float meleeAttackRange;
+    [SerializeField] private float meleeAttackRadius;
     [SerializeField] private int meleeAttackDamage;
+    [SerializeField] private float meleeAttackChargeTime;
     [SerializeField] private float golemKnockBackForce;
+    [SerializeField] private Color impactFieldColor;
 
     [Header("Variables not to be Adjusted")]
     [SerializeField] private Transform attackOriginTransform;
     [SerializeField] private LayerMask canBeKnockedBackByGolem;
+    [SerializeField] private GameObject impactFieldPrefab;
 
-    private bool didhitDetected;
-    RaycastHit hit;
+    private bool attackInterrupted;
+    private GameObject impactFieldObj;
 
     public override void Attack()
     {
+        attackInterrupted = false;
+        SpawnImpactField();
         StartCoroutine(ChargeTime());
     }
 
     private void GolemSlam()
     {
-        Collider []
-        colliders = Physics.OverlapSphere(attackOriginTransform.position, meleeAttackRange, canBeKnockedBackByGolem);
+        Collider [] colliders = Physics.OverlapSphere(attackOriginTransform.position, meleeAttackRadius, canBeKnockedBackByGolem);
         foreach (var collider in colliders)
         {
             if (collider.gameObject == gameObject) { continue; }
+            if (attackInterrupted) { break; }
 
             if (collider.gameObject.CompareTag("Player"))
             {
@@ -48,12 +53,17 @@ public class SandGolemEnemy : EnemyStateController
             }
         }
 
+        if (attackInterrupted)
+        {
+            return;
+        }
+
         StartCoroutine(TimeBeforeMovingAfterAttack());
     }
 
     private IEnumerator ChargeTime()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(meleeAttackChargeTime);
         GolemSlam();
 
     }
@@ -66,12 +76,21 @@ public class SandGolemEnemy : EnemyStateController
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(attackOriginTransform.position, meleeAttackRange);
+        Gizmos.DrawWireSphere(attackOriginTransform.position, meleeAttackRadius);
     }
 
     public override void CompleteAttack()
     {
+        attackInterrupted = true; 
+        Destroy(impactFieldObj);
+    }
 
+    private void SpawnImpactField()
+    {
+        Vector3 impactFieldPosition = new Vector3(attackOriginTransform.position.x, attackOriginTransform.position.y - 1f, attackOriginTransform.position.z);
+        impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        EnemyAttackImpactField impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
+        impactField.PassInValuesColorRadiusLifeTimeChargeTime(impactFieldColor, meleeAttackRadius * 0.9f, 2.5f, meleeAttackChargeTime);
     }
 
 }
