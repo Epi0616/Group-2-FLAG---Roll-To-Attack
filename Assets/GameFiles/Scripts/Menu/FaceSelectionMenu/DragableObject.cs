@@ -4,18 +4,18 @@ using UnityEngine.EventSystems;
 public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public Canvas canvas;
-    private AbilityBayDropZone[] dropZones;
+    public CanvasGroup canvasGroup;
     [SerializeField] private RectTransform rectTransform;
-    private Transform currentParent;
+    private AbilityDropZoneParent[] dropZones;
+    private AbilityDropZoneParent currentParent;
 
     private void Awake()
     {
-        dropZones = FindObjectsByType<AbilityBayDropZone>(FindObjectsSortMode.None);
+        dropZones = FindObjectsByType<AbilityDropZoneParent>(FindObjectsSortMode.None);
     }
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
-        currentParent = transform.parent;
         transform.SetParent(canvas.transform); //so the object will be rendered infront of the drop zone while moving around.
     }
     void IDragHandler.OnDrag(PointerEventData eventData)
@@ -31,17 +31,15 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         {
             if (IsOverlapping(rectTransform, zone.GetComponent<RectTransform>()))
             {
-                Debug.Log("dropped in valid zone");
-                transform.SetParent(zone.transform);
-                transform.SetAsLastSibling(); //makes the object appear on top of all other objects within a drop zone.
-                //rectTransform.anchoredPosition = Vector2.zero;
+                zone.GetComponent<AbilityDropZoneParent>().AddChild(this);
+                currentParent = zone;
                 return;
             }
         }
 
-        transform.SetParent(currentParent);
-        transform.SetAsLastSibling(); //makes the object appear on top of all other objects within a drop zone.
-        rectTransform.anchoredPosition = Vector2.zero;
+        if (!currentParent) { return; }
+        currentParent.RemoveChild(this);
+        currentParent = null;
     }
 
     private bool IsOverlapping(RectTransform a, RectTransform b)
@@ -52,7 +50,7 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         return rectA.Overlaps(rectB);
     }
 
-    private Rect GetWorldRect(RectTransform rectTransform) //more accurate collision checking as opposted to just getting the rect of a/b in "IsOverlapping"
+    private Rect GetWorldRect(RectTransform rectTransform)
     {
         Vector3[] fourCorners = new Vector3[4];
         rectTransform.GetWorldCorners(fourCorners);

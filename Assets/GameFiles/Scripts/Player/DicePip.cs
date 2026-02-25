@@ -15,12 +15,12 @@ public struct DicePip
     }
 }
 
+//public PlayerStateFactory stateFactory;
 
-
-
-//public DicePip(int pipNumber, int weight, Func<PlayerBaseState> createState)
+//public PlayerBaseState CreateState()
 //{
-//    this.pipNumber = pipNumber;
-//    this.weight = weight;
-//    this.createState = createState;
+//    return stateFactory.Create();
 //}
+
+//public 
+
