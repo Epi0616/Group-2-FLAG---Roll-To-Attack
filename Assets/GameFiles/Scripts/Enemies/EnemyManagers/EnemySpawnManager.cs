@@ -18,11 +18,15 @@ public class EnemySpawnManager : MonoBehaviour
     [Header("then drag in a SpawnPoint Prefab.   DOES NOTHING IF EMPTY")]
     [SerializeField] private List<EnemySpawnPoint> spawnPointList;
 
+    private void Awake()
+    {
+        playerRef = GameObject.FindGameObjectWithTag("Player");
+    }
+
     private void Start()
     {
         enemyFactories = gameObject.GetComponentsInChildren<IEnemyFactory>();
         // This will be adjusted once the Director is complete to avoid using .FindObject
-        playerRef = GameObject.FindGameObjectWithTag("Player");
         playerPos = playerRef.transform.position;
     }
 
@@ -50,9 +54,11 @@ public class EnemySpawnManager : MonoBehaviour
             if (factory != null)
             {
                 // Spawn and place the new enemy
-                GameObject spawnedEnemy = factory.CreateEnemy();
                 Vector3 spawnPos = PickSpawnAreaPoint(spawnPointList);
-                spawnedEnemy.transform.position = spawnPos;
+                GameObject spawnedEnemy = factory.CreateEnemy(spawnPos);
+                
+                //Debug.Log(spawnPos.x + " " + spawnPos.y + " " + spawnPos.z);
+                //spawnedEnemy.transform.position = spawnPos;
                 EnemyStateController spawnedEnemyCont = spawnedEnemy.GetComponent<EnemyStateController>();
                 spawnedEnemyCont.playerReference = playerRef;
                 yield return new WaitForSeconds(enemySpawnInterval);

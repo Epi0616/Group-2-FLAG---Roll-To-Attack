@@ -14,6 +14,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     private float activeTimer;
     private float damageTickTimer;
+    private bool attackInterrupted;
 
     [Header("Not to be Modified")]
     [SerializeField] private Transform firingOrigin;
@@ -24,6 +25,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     public override void Attack()
     {
+        attackInterrupted = false;
         StartCoroutine(FireLaser());
     }
 
@@ -49,7 +51,7 @@ public class RangedRaiderEnemy : EnemyStateController
         yield return new WaitForSeconds(chargeTime);
 
         activeTimer = 0;
-        while (activeTimer < laserDuration && !isStunned)
+        while (activeTimer < laserDuration && !isStunned && !attackInterrupted)
         {
             activeTimer += Time.deltaTime;
             damageTickTimer += Time.deltaTime;
@@ -59,8 +61,10 @@ public class RangedRaiderEnemy : EnemyStateController
         }
 
         laserObject.SetActive(false);
-
-        ChangeState(new EnemyMoveState());
+        if (!attackInterrupted) 
+        { 
+            ChangeState(new EnemyMoveState()); 
+        }
     }
 
     private void MoveLaserCylinder(Vector3 laserDir, float distance, float width)
@@ -81,9 +85,8 @@ public class RangedRaiderEnemy : EnemyStateController
             
             if (hit.collider.CompareTag("Player") && damageTickTimer >= damageTickRateInSeconds)
             {
-                damageTickTimer = 0f;
-                Debug.Log("Player Hit");
-                playerController = playerReference.GetComponent<PlayerStateController>();
+                damageTickTimer = 0f;      
+                //playerController = playerReference.GetComponent<PlayerStateController>();
                 playerController.OnTakeDamage(laserDamage/2);           
             }                     
         }
@@ -94,6 +97,12 @@ public class RangedRaiderEnemy : EnemyStateController
 
         MoveLaserCylinder(laserDir, distanceToEndofLaser, firingWidth);
 
+    }
+
+    public override void CompleteAttack()
+    {
+        attackInterrupted = true;
+        laserObject.SetActive(false);
     }
 
 }

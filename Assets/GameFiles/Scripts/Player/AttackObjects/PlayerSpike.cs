@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 public class PlayerSpike : MonoBehaviour
 {
     public float lifeSpan = 15f;
-    public float radius = 3f;
-    public float speed = 180f;
+    public float radius = 5f;
+    public float speed = 360f;
     public Vector3 desiredWorldUp;
 
     private float age = 0;
@@ -12,6 +13,7 @@ public class PlayerSpike : MonoBehaviour
     private float angle;
     private Quaternion rotation;
     private Vector3 offset;
+    private float tempY;
 
     public void Initialize(float startAngle, GameObject player)
     {
@@ -27,18 +29,21 @@ public class PlayerSpike : MonoBehaviour
 
     private void OrbitPlayer()
     {
+        tempY = transform.position.y * 0;
         angle += speed * Time.deltaTime;
 
         rotation = Quaternion.Euler(0, angle, 0);
         offset = rotation * Vector3.forward * radius;
-        transform.position = player.transform.position + offset;
+        transform.position = new Vector3(player.transform.position.x, tempY, player.transform.position.z) + offset;
 
-        transform.LookAt(player.transform, desiredWorldUp);
+        Vector3 targetVector = new Vector3(player.transform.position.x, tempY, player.transform.position.z);
+
+        transform.LookAt(targetVector, desiredWorldUp);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        GameObject Enemy = collision.gameObject;
+        GameObject Enemy = other.gameObject;
         if (Enemy.CompareTag("Enemy"))
         {
             DamageEnemy(Enemy);

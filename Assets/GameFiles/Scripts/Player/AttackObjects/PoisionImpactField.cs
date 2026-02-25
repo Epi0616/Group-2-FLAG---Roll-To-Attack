@@ -9,12 +9,13 @@ public class PoisionImpactField : MonoBehaviour
     private Color color = new(0, 1, 0, 1);
     private float lifeSpan = 10, lifeTimer = 0;
     private float damageTickTimer = 0, currentTickCount = 0;
+    private float radius = 0;
 
 
     private void Awake()
     {
         material = GetComponent<MeshRenderer>().material;
-        color.a = 0.5f;
+        color.a = 0.1f;
         material.color = color;
     }
 
@@ -60,7 +61,7 @@ public class PoisionImpactField : MonoBehaviour
         if (!(currentTickCount < 10)) { return; }
         currentTickCount++;
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, transform.localScale.x);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
 
         foreach (var collider in colliders)
         {
@@ -76,6 +77,8 @@ public class PoisionImpactField : MonoBehaviour
 
     public void adjustObjectSizeAndRotation(float radius)
     {
+        this.radius = radius;
+
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;
         tempScale.z = radius * 2;

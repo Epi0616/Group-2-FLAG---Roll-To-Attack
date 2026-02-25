@@ -17,19 +17,24 @@ public abstract class EnemyStateController : MonoBehaviour
     public float attackRange;
     public float stunTime;
     public float knockbackWeightModifier;
+    public float attackCooldown;
+    
+
+    
+    protected PlayerStateController playerController;
 
     [Header("Variables not to be Adjusted")]
-    protected PlayerStateController playerController;
     public NavMeshAgent enemyAgent;
     public Rigidbody rb;
     private EnemyBaseState currentState;
     public bool isStunned;
+    public bool isKnockedBack;
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
+    public float attackCooldownTimer;
 
     private bool isDead;
-    public static event Action EnemyHasDied;
-    
+    public static event Action EnemyHasDied;   
 
     protected void Start()
     {
@@ -41,11 +46,13 @@ public abstract class EnemyStateController : MonoBehaviour
 
         currentState = new EnemyMoveState();
         currentState.EnterState(this);
+        playerController = playerReference.GetComponent<PlayerStateController>();
     }
 
     protected virtual void Update()
     {
         currentState?.UpdateState();
+        attackCooldownTimer -= Time.deltaTime;
     }
     protected virtual void FixedUpdate()
     {
@@ -54,7 +61,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
     public void ChangeState(EnemyBaseState newState)
     {
-        if (currentState == newState) return;
+        //if (currentState == newState) return;
         currentState?.ExitState();
         currentState = newState;
         currentState.EnterState(this);
@@ -72,10 +79,11 @@ public abstract class EnemyStateController : MonoBehaviour
         }
     }
     public abstract void Attack();
+    public abstract void CompleteAttack();
 
-    public virtual void OnTakeKnockback(float knockbackForce)
+    public virtual void OnTakeKnockback(Vector3 origin, float knockbackForce)
     {
-        ChangeState(new EnemyKnockbackState(knockbackForce));
+        ChangeState(new EnemyKnockbackState(origin, knockbackForce));
     }
 
     public virtual void OnStunned()
@@ -91,9 +99,12 @@ public abstract class EnemyStateController : MonoBehaviour
     }
     public virtual void OnDeath()
     {
+        currentState?.ExitState();
         if (isDead) return;
         isDead = true;
         EnemyHasDied?.Invoke();
         Destroy(this.gameObject);
     }
+
+    
 }

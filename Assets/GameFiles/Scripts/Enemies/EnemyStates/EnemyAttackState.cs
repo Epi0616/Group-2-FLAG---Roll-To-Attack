@@ -8,4 +8,10 @@ public class EnemyAttackState : EnemyBaseState
         enemy.Attack();
     }
 
+    public override void ExitState()
+    {
+        enemy.attackCooldownTimer = enemy.attackCooldown;
+        enemy.CompleteAttack();
+    }
+
 }

@@ -13,7 +13,7 @@ public class PlayerFivePipState : PlayerBasePipState
     {
         EnemyStateController tempScriptAccess = Enemy.GetComponent<EnemyStateController>();
         tempScriptAccess.OnTakeDamage(35);
-        tempScriptAccess.OnTakeKnockback(5);
+        tempScriptAccess.OnTakeKnockback(player.transform.position, 5);
     }
 
     protected override void CustomDisplayAttack()
