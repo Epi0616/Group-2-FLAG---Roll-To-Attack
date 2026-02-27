@@ -15,7 +15,7 @@ public class PlayerJumpState : PlayerBaseState
     // this is purely to allow movement while jumping for designers in the editor
     private Vector3 moveDirection;
 
-    private struct DicePip
+    public struct DicePip
     {
         public int pipNumber;
         public int weight;
