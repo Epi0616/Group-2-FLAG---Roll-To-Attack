@@ -12,11 +12,10 @@ public class PlayerStateController : MonoBehaviour
     public Rigidbody rb;
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
+    public AbilitySystem abilitySystem;
     public bool isGrounded;
     [SerializeField] private LayerMask groundLayer;
     private List<GameObject> objectsInOrbit = new List<GameObject>();
-
-    public DicePip[] dicePips;
 
     public static event Action<int> UpdateHealthBar;
     public static event Action GameOver;
@@ -68,7 +67,6 @@ public class PlayerStateController : MonoBehaviour
         UpdateHealthBar?.Invoke(currentHealth);
         currentState = new PlayerMovementState();
         currentState.EnterState(this);
-        setDicePips();
     }
 
     private void Update()
@@ -140,18 +138,5 @@ public class PlayerStateController : MonoBehaviour
     private void CheckForGrounded()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1f, groundLayer);
-    }
-
-    private void setDicePips() //DicePip[] newDicePips
-    {
-        dicePips = new DicePip[]
-        {
-            new (1, () => new A_PlayerBasicState()),
-            new (2, () => new A_PlayerStunState()),
-            new (3, () => new A_PlayerPoisonState()),
-            new (4, () => new A_PlayerSpikeState()),
-            new (5, () => new A_PlayerKockbackState()),
-            new (6, () => new PlayerSixPipState())
-        };
     }
 }

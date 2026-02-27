@@ -51,11 +51,15 @@ public abstract class EnemyStateController : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (isDead) return;
+
         currentState?.UpdateState();
         attackCooldownTimer -= Time.deltaTime;
     }
     protected virtual void FixedUpdate()
     {
+        if (isDead) return;
+
         currentState?.FixedUpdateState();
     }
 
@@ -99,12 +103,10 @@ public abstract class EnemyStateController : MonoBehaviour
     }
     public virtual void OnDeath()
     {
-        currentState?.ExitState();
         if (isDead) return;
         isDead = true;
+        currentState?.ExitState();
         EnemyHasDied?.Invoke();
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
-
-    
 }

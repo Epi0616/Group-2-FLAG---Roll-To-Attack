@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    public Canvas canvas;
+    private Canvas canvas;
     public CanvasGroup canvasGroup;
     [SerializeField] private RectTransform rectTransform;
     private AbilityDropZoneParent[] dropZones;
@@ -11,6 +11,7 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     private void Awake()
     {
+        canvas = GetComponentInParent<Canvas>();
         dropZones = FindObjectsByType<AbilityDropZoneParent>(FindObjectsSortMode.None);
     }
 
@@ -26,20 +27,14 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
         //Debug.Log("end drag");
-
+        ResetCurrentParent();
         foreach (var zone in dropZones)
         {
             if (IsOverlapping(rectTransform, zone.GetComponent<RectTransform>()))
             {
                 zone.GetComponent<AbilityDropZoneParent>().AddChild(this);
-                currentParent = zone;
-                return;
             }
         }
-
-        if (!currentParent) { return; }
-        currentParent.RemoveChild(this);
-        currentParent = null;
     }
 
     private bool IsOverlapping(RectTransform a, RectTransform b)
@@ -61,5 +56,17 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         float height = fourCorners[2].y - fourCorners[0].y;
 
         return new Rect(x, y, width, height);
+    }
+
+    public void SetCurrentParent(AbilityDropZoneParent newParent)
+    { 
+        currentParent = newParent;
+    }
+
+    private void ResetCurrentParent()
+    {
+        if (!currentParent) { return; }
+        currentParent.RemoveChild(this);
+        currentParent = null;
     }
 }

@@ -14,7 +14,7 @@ public class A_PlayerBasicState : PlayerBasePipState
     }
     protected override void CustomAttack(GameObject Enemy)
     {
-        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(50);
+        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(500);
     }
 
     protected override void CustomDisplayAttack()

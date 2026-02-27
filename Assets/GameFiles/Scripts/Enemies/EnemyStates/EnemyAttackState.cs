@@ -13,5 +13,4 @@ public class EnemyAttackState : EnemyBaseState
         enemy.attackCooldownTimer = enemy.attackCooldown;
         enemy.CompleteAttack();
     }
-
 }

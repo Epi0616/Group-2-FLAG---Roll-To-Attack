@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Random = UnityEngine.Random;
 
 public class PlayerJumpState : PlayerBaseState
 {
     private float jumpHeight, jumpSpeed;
     private float startHeight, targetHeight;
     private Quaternion startRotation, targetRotation;
-    private DicePip selectedPip;
+    private AbilityDescriptor selectedAbility;
     private Quaternion[] rotationMap;
 
     // this is purely to allow movement while jumping for designers in the editor
@@ -45,15 +44,15 @@ public class PlayerJumpState : PlayerBaseState
         eulerStartRotation.z = Mathf.Round(eulerStartRotation.z);
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
 
-        selectedPip = SelectDiceFace();
+        selectedAbility = player.abilitySystem.GetRandomAbility();
 
         //Debug.Log(selectedPip.pipNumber);
-        targetRotation = rotationMap[selectedPip.pipNumber - 1];
+        targetRotation = rotationMap[selectedAbility.pipNumber - 1];
 
 
         // unlocking rotation for now as allows player to roll around, embraces dice feel??
 
-        switch (selectedPip.pipNumber)
+        switch (selectedAbility.pipNumber)
         {
             case 1:
                 player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -133,30 +132,6 @@ public class PlayerJumpState : PlayerBaseState
         player.rb.MoveRotation(rotation * visualSpin);
     }
 
-    private DicePip SelectDiceFace()
-    {
-        int totalWeight = 0;
-
-        foreach (var pip in player.dicePips)
-        {
-            totalWeight += pip.weight;
-        }
-
-        int randomNumber = Random.Range(1, totalWeight+1);
-        int pipWeightTally = 0;
-
-        foreach (var pip in player.dicePips)
-        { 
-            pipWeightTally += pip.weight;
-            if (randomNumber <= (pipWeightTally))
-            { 
-                return pip;
-            }
-        }
-
-        return new DicePip(1,() => new A_PlayerBasicState());
-    }
-
     private void CompleteJump()
     {
         player.rb.useGravity = true;
@@ -166,7 +141,7 @@ public class PlayerJumpState : PlayerBaseState
         player.rb.linearVelocity = Vector3.zero;
         player.rb.angularVelocity = Vector3.zero;
 
-        player.SwitchState(selectedPip.createState());
+        player.SwitchState(selectedAbility.Create());
     }
 
 

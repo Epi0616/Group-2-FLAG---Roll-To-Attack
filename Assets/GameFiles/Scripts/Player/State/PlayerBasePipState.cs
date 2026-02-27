@@ -36,7 +36,6 @@ public class PlayerBasePipState : PlayerMovementState
         if (attacked) { return; }
         attacked = true;
 
-        Debug.Log(myRadius);
         Collider[] colliders = Physics.OverlapSphere(player.rb.position, myRadius);
         Attack(colliders);
         player.SwitchState(new PlayerMovementState());
@@ -57,6 +56,7 @@ public class PlayerBasePipState : PlayerMovementState
 
         foreach (var Enemy in Enemies)
         {
+            if (Enemy == null) continue;
             CustomAttack(Enemy);
         }
         CustomDisplayAttack();

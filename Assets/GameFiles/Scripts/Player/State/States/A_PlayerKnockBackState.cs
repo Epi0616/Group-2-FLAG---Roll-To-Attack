@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class A_PlayerKockbackState : PlayerBasePipState
+public class A_PlayerKnockbackState : PlayerBasePipState
 {
     public override void EnterState(PlayerStateController player)
     {
