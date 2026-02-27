@@ -19,7 +19,7 @@ public class PlayerCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        offset = Quaternion.Euler(0, Input.GetAxisRaw("Mouse X") * sens * Time.deltaTime, 0) * offset;
+        //offset = Quaternion.Euler(0, Input.GetAxisRaw("Mouse X") * sens * Time.deltaTime, 0) * offset;
         //offset = Quaternion.Euler(Input.GetAxisRaw("Mouse Y") * sens * Time.deltaTime, 0) * offset;
 
         desiredPosition = target.position + offset;
