@@ -1,33 +1,17 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Random = UnityEngine.Random;
 
 public class PlayerJumpState : PlayerBaseState
 {
     private float jumpHeight, jumpSpeed;
     private float startHeight, targetHeight;
     private Quaternion startRotation, targetRotation;
-    private DicePip selectedPip;
+    private AbilityDescriptor selectedAbility;
     private Quaternion[] rotationMap;
-
 
     // this is purely to allow movement while jumping for designers in the editor
     private Vector3 moveDirection;
-
-    public struct DicePip
-    {
-        public int pipNumber;
-        public int weight;
-        public Func<PlayerBaseState> createState;
-
-        public DicePip(int pipNumber, int weight, Func<PlayerBaseState> createState)
-        { 
-            this.pipNumber = pipNumber;
-            this.weight = weight;
-            this.createState = createState;
-        } 
-    }
 
     public override void EnterState(PlayerStateController player)
     {
@@ -60,24 +44,15 @@ public class PlayerJumpState : PlayerBaseState
         eulerStartRotation.z = Mathf.Round(eulerStartRotation.z);
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
 
-        DicePip[] dicePips = 
-        {
-            new (1, player.onePipWeight,() => new PlayerOnePipState()),
-            new (2, player.twoPipWeight, () => new PlayerTwoPipState()),
-            new (3, player.threePipWeight, () => new PlayerThreePipState()),
-            new (4, player.fourPipWeight, () => new PlayerFourPipState()),
-            new (5, player.fivePipWeight, () => new PlayerFivePipState()),
-            new (6, player.sixPipWeight, () => new PlayerSixPipState())
-        };
-        selectedPip = SelectDiceFace(dicePips);
+        selectedAbility = player.abilitySystem.GetRandomAbility();
 
         //Debug.Log(selectedPip.pipNumber);
-        targetRotation = rotationMap[selectedPip.pipNumber - 1];
+        targetRotation = rotationMap[selectedAbility.pipNumber - 1];
 
 
         // unlocking rotation for now as allows player to roll around, embraces dice feel??
 
-        switch (selectedPip.pipNumber)
+        switch (selectedAbility.pipNumber)
         {
             case 1:
                 player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -157,30 +132,6 @@ public class PlayerJumpState : PlayerBaseState
         player.rb.MoveRotation(rotation * visualSpin);
     }
 
-    private DicePip SelectDiceFace(DicePip[] dicePips)
-    {
-        int totalWeight = 0;
-
-        foreach (var pip in dicePips)
-        {
-            totalWeight += pip.weight;
-        }
-
-        int randomNumber = Random.Range(1, totalWeight+1);
-        int pipWeightTally = 0;
-
-        foreach (var pip in dicePips)
-        { 
-            pipWeightTally += pip.weight;
-            if (randomNumber <= (pipWeightTally))
-            { 
-                return pip;
-            }
-        }
-
-        return new DicePip(1,0,() => new PlayerOnePipState());
-    }
-
     private void CompleteJump()
     {
         player.rb.useGravity = true;
@@ -190,7 +141,7 @@ public class PlayerJumpState : PlayerBaseState
         player.rb.linearVelocity = Vector3.zero;
         player.rb.angularVelocity = Vector3.zero;
 
-        player.SwitchState(selectedPip.createState());
+        player.SwitchState(selectedAbility.Create());
     }
 
 

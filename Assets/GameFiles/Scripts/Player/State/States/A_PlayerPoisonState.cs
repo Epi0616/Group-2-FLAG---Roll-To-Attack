@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerThreePipState : PlayerBasePipState
+public class A_PlayerPoisonState : PlayerBasePipState
 {
     public override void EnterState(PlayerStateController player)
     {

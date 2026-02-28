@@ -1,24 +1,23 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class PlayerOnePipState : PlayerBasePipState
+public class A_PlayerSpikeState : PlayerBasePipState
 {
     public override void EnterState(PlayerStateController player)
     {
-        myRadiusMultiplier = 1f;
+        myRadiusMultiplier = 2.5f;
         base.EnterState(player);
 
-        myColor = Color.red;
+        myColor = Color.silver;
     }
     protected override void CustomAttack(GameObject Enemy)
     {
-        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(50);
+        EnemyStateController enemyTempScriptAccess = Enemy.GetComponent<EnemyStateController>();
+        enemyTempScriptAccess.OnTakeDamage(25);
     }
 
     protected override void CustomDisplayAttack()
     {
         player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
+        player.CreateFourPipSpikesInOrbit();
     }
 }

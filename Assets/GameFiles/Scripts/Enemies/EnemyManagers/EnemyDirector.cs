@@ -7,6 +7,7 @@ public class EnemyDirector : MonoBehaviour
 {
     public static event Action<List<EnemyTypes>> SpawnWave;
     public static event Action<float> WaveOver;
+    public static event Action<float> WaveCountStart;
 
     [Header("Director Balance Variables")]
     [SerializeField] private float delayBetweenWaves;
@@ -28,11 +29,13 @@ public class EnemyDirector : MonoBehaviour
     private void OnEnable()
     {
         EnemyStateController.EnemyHasDied += ProcessEnemyDeath;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver += StartNextWave;
     }
 
     private void OnDisable()
     {
         EnemyStateController.EnemyHasDied -= ProcessEnemyDeath;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver -= StartNextWave;
     }
 
     void Start()
@@ -44,12 +47,24 @@ public class EnemyDirector : MonoBehaviour
             { EnemyTypes.SandGolem, sandGolemCost },
         };
         currentBudget = startingBudget;
-        SelectWave();
-       
+        StartNextWave(delayBetweenWaves);
+    }
+    private void StartNextWave(float delayBetweenWaves)
+    {
+        BuildWave();
+        WaveCountStart?.Invoke(delayBetweenWaves);
+        StartCoroutine(SpawnWaveDelay());
     }
 
-    private void SelectWave()
+    IEnumerator SpawnWaveDelay()
     {
+        yield return new WaitForSeconds(delayBetweenWaves);
+        SpawnWave?.Invoke(generatedEnemies);
+    }
+
+    private void BuildWave()
+    {
+        generatedEnemies.Clear();
         remainingBudget = currentBudget;
         while (remainingBudget > 0)
         {
@@ -74,28 +89,47 @@ public class EnemyDirector : MonoBehaviour
             remainingBudget -= enemyCosts[chosenEnemyType];
         }
         enemiesLeftInCurrentWave = generatedEnemies.Count;
-
-        WaveOver?.Invoke(delayBetweenWaves);
-        StartCoroutine(SpawnWaveDelay());
-    }
-
-    IEnumerator SpawnWaveDelay()
-    {
-        yield return new WaitForSeconds(delayBetweenWaves);
-        SpawnWave?.Invoke(generatedEnemies);
-        
     }
 
     private void ProcessEnemyDeath()
     {
-        //Debug.Log("Enemy Died");
+        if (enemiesLeftInCurrentWave <= 0) return;
+
         enemiesLeftInCurrentWave--;
-        if (enemiesLeftInCurrentWave <= 0)
+        if (enemiesLeftInCurrentWave == 0)
         {
-            //Debug.Log("New Wave Spawning");
+            Debug.Log("wave over");
             currentBudget += budgetIncreasePerWave;
-            generatedEnemies.Clear();
-            SelectWave();
+            WaveOver?.Invoke(delayBetweenWaves);
         }
     }
 }
+
+//private void SelectWave()
+//{
+//    remainingBudget = currentBudget;
+//    while (remainingBudget > 0)
+//    {
+//        affordableEnemies.Clear();
+//        foreach (var kvp in enemyCosts)
+//        {
+//            // Check if there are any affordable enemies
+//            if (kvp.Value <= remainingBudget)
+//            {
+//                affordableEnemies.Add(kvp.Key);
+//            }
+//        }
+
+//        if (affordableEnemies.Count == 0)
+//        {
+//            break;
+//        }
+//        // Select from affordable enemies
+//        int choice = UnityEngine.Random.Range(0, affordableEnemies.Count);
+//        EnemyTypes chosenEnemyType = affordableEnemies[choice];
+//        generatedEnemies.Add(chosenEnemyType);
+//        remainingBudget -= enemyCosts[chosenEnemyType];
+//    }
+//    enemiesLeftInCurrentWave = generatedEnemies.Count;
+//    WaveOver?.Invoke(delayBetweenWaves);
+//}

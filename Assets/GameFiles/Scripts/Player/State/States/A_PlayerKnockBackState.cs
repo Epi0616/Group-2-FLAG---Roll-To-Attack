@@ -1,23 +1,23 @@
 using UnityEngine;
 
-public class PlayerFourPipState : PlayerBasePipState
+public class A_PlayerKnockbackState : PlayerBasePipState
 {
     public override void EnterState(PlayerStateController player)
     {
-        myRadiusMultiplier = 2.5f;
+        myRadiusMultiplier = 3f;
         base.EnterState(player);
 
-        myColor = Color.silver;
+        myColor = Color.darkGoldenRod;
     }
     protected override void CustomAttack(GameObject Enemy)
     {
-        EnemyStateController enemyTempScriptAccess = Enemy.GetComponent<EnemyStateController>();
-        enemyTempScriptAccess.OnTakeDamage(25);
+        EnemyStateController tempScriptAccess = Enemy.GetComponent<EnemyStateController>();
+        tempScriptAccess.OnTakeDamage(35);
+        tempScriptAccess.OnTakeKnockback(player.transform.position, 5);
     }
 
     protected override void CustomDisplayAttack()
     {
         player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
-        player.CreateFourPipSpikesInOrbit();
     }
 }

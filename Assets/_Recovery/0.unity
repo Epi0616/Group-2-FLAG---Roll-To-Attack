@@ -2483,7 +2483,7 @@ GameObject:
   - component: {fileID: 949168160}
   - component: {fileID: 949168159}
   m_Layer: 5
-  m_Name: CustomizeYourDiceText
+  m_Name: GameOverText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2865,13 +2865,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128400384}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1645748951}
-  m_Father: {fileID: 2022212000}
+  m_Father: {fileID: 2012276577}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5686,7 +5686,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
   - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
   - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
-  playerAbilityStorage: []
+  playerAbilityStorage:
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
 --- !u!1 &1834382083
 GameObject:
   m_ObjectHideFlags: 0
@@ -6169,7 +6171,6 @@ GameObject:
   - component: {fileID: 1875505154}
   - component: {fileID: 1875505153}
   - component: {fileID: 1875505152}
-  - component: {fileID: 1875505156}
   m_Layer: 5
   m_Name: DiceFaceSelectionUI
   m_TagString: Untagged
@@ -6260,20 +6261,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1875505156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1875505151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed3a68f5f2139ad4992e24632d447de0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DiceFaceSelectionUIManager
-  DiceFaceSelectionUI: {fileID: 2012276576}
-  abilitySlotManager: {fileID: 2022212001}
 --- !u!1 &1922549449
 GameObject:
   m_ObjectHideFlags: 0
@@ -6815,9 +6802,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1875505156}
-        m_TargetAssemblyTypeName: DiceFaceSelectionUIManager, Assembly-CSharp
-        m_MethodName: ContinueButton
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameOverMenu, Assembly-CSharp
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7015,7 +7002,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2012276577
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7031,6 +7018,7 @@ RectTransform:
   - {fileID: 1451421294}
   - {fileID: 1981043016}
   - {fileID: 949168158}
+  - {fileID: 1128400385}
   - {fileID: 2022212000}
   m_Father: {fileID: 1875505155}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7113,7 +7101,6 @@ Transform:
   - {fileID: 784904908}
   - {fileID: 747614104}
   - {fileID: 308224446}
-  - {fileID: 1128400385}
   m_Father: {fileID: 2012276577}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2022212001
@@ -7130,10 +7117,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySlotManager
   abilityPool:
   - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
-  - {fileID: 11400000, guid: 8daf04e4b5bf3b144b16712b4b710a30, type: 2}
-  - {fileID: 11400000, guid: 8aadc7987d946b6428f6e12ea92a4ede, type: 2}
-  - {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
-  - {fileID: 11400000, guid: 19079ac50d787e94daaeea96798b83aa, type: 2}
   abilitySlots:
   - {fileID: 491739699}
   - {fileID: 1849785837}

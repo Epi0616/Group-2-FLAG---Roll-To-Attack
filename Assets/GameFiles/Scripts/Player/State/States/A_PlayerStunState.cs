@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerTwoPipState : PlayerBasePipState
+public class A_PlayerStunState : PlayerBasePipState
 {
     public override void EnterState(PlayerStateController player)
     {
