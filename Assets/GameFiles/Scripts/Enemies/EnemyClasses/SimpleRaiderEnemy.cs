@@ -63,6 +63,7 @@ public class SimpleRaiderEnemy : EnemyStateController
     public override void CompleteAttack()
     {
         attackInterrupted = true;
+        Destroy(impactFieldObj);
     }
 
     private void SpawnImpactField()
