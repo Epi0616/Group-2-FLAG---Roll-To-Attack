@@ -4,12 +4,13 @@ using UnityEngine;
 public class PlayerSixPipState : PlayerBasePipState
 {
     private bool gameFrozen;
+    public float timer;
     public override void EnterState(PlayerStateController player)
     {
         myRadiusMultiplier = 3.5f;
         base.EnterState(player);
 
-        gameFrozen = false;
+        gameFrozen = true;
         myColor = Color.white;
     }
     protected override void CustomAttack(GameObject Enemy)
@@ -17,7 +18,15 @@ public class PlayerSixPipState : PlayerBasePipState
         EnemyStateController enemyTempScriptAccess = Enemy.GetComponent<EnemyStateController>();
         enemyTempScriptAccess.OnTakeDamage(30);
 
-        gameFrozen = true;
+        timer = 3f;
+        Enemy.transform.position += new Vector3(player.transform.position.x - Enemy.transform.position.x, 0, player.transform.position.z - Enemy.transform.position.z).normalized * 10f;
+        player.transform.position = new Vector3(0, 0, 0);
+        timer -= Time.deltaTime;
+        if(timer <= 0)
+        {
+            gameFrozen = false;
+            timer = 0;
+        }
     }
 
     public override void UpdateState()
