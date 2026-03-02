@@ -58,7 +58,7 @@ public class SandGolemEnemy : EnemyStateController
             return;
         }
 
-        StartCoroutine(TimeBeforeMovingAfterAttack());
+        StartCoroutine(ContinueLookAtPlayer());
     }
 
     private IEnumerator ChargeTime()
@@ -68,9 +68,21 @@ public class SandGolemEnemy : EnemyStateController
 
     }
 
-    private IEnumerator TimeBeforeMovingAfterAttack()
+    private IEnumerator ContinueLookAtPlayer()
     {
-        yield return new WaitForSeconds(1.5f);
+        Vector3 playerDir = playerReference.transform.position - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(playerDir);
+        float movementTimer = 0f;
+        while (movementTimer < attackCooldown && playerDir.magnitude < attackRange || movementTimer < 0.5f)
+        {
+            playerDir = playerReference.transform.position - transform.position;
+            playerDir.y = transform.position.y;
+            lookRotation = Quaternion.LookRotation(playerDir);         
+            movementTimer += Time.deltaTime;
+            float t = movementTimer / attackCooldown;
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);
+            yield return null;
+        }
         ChangeState(new EnemyMoveState());
     }
 

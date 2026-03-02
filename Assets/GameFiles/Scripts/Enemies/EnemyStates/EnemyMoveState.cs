@@ -31,7 +31,7 @@ public class EnemyMoveState : EnemyBaseState
 
         MoveTowardsPlayerNavMesh();
 
-        if (CheckIfAIHasStopped(enemy.enemyAgent) && enemy.attackCooldownTimer < 0)
+        if (CheckIfAIHasStopped(enemy.enemyAgent))
         {
             enemy.ChangeState(new EnemyAttackState());
         }
