@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class AbilitySlot : AbilityDropZoneParent
@@ -10,7 +11,7 @@ public class AbilitySlot : AbilityDropZoneParent
 
     public DraggableObject GetChild()
     {
-        if (!draggableObjects[0]) { return null; }
+        if (draggableObjects.Count == 0) { return null; }
         return draggableObjects[0];
     }
 }
