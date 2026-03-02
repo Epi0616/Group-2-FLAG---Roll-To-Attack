@@ -46,7 +46,6 @@ public class PlayerJumpState : PlayerBaseState
 
         selectedAbility = player.abilitySystem.GetRandomAbility();
 
-        //Debug.Log(selectedPip.pipNumber);
         targetRotation = rotationMap[selectedAbility.pipNumber - 1];
 
 

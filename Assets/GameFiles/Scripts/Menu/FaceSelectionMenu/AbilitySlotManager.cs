@@ -65,6 +65,8 @@ public class AbilitySlotManager : MonoBehaviour
         for (int i = 0; i < abilitySlots.Count; i++)
         {
             var draggableObject = abilitySlots[i].GetChild();
+            if (draggableObject == null) { continue; }
+
             if (draggableObject is DraggableAbility ability)
             {
                 ability.GetAbilityDescriptor().pipNumber = i+1;
