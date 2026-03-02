@@ -72,7 +72,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     private void MoveLaserCylinder(Vector3 laserDir, float distance, float width)
     {
-        Vector3 laserDirection = new Vector3(laserDir.x, laserHolder.position.y, laserDir.z);
+        Vector3 laserDirection = new Vector3(laserDir.x, firingOrigin.position.y, laserDir.z);
         laserHolder.rotation = Quaternion.LookRotation(laserDir);
         Vector3 scale = laserHolder.localScale;
         scale.x = width;
