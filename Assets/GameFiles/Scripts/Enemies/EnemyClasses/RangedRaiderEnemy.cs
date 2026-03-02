@@ -34,14 +34,17 @@ public class RangedRaiderEnemy : EnemyStateController
         laserHolder.transform.position = firingOrigin.position;
 
         Vector3 laserTarget = playerReference.transform.position;
-        Vector3 laserDirection = (playerReference.transform.position - firingOrigin.position).normalized;
+        
+        Vector3 laserDirection = playerReference.transform.position - firingOrigin.position;
+        laserDirection.y = firingOrigin.position.y;
+        
 
-        Ray ray = new Ray(firingOrigin.position, playerReference.transform.position - firingOrigin.position);
+        Ray ray = new Ray(firingOrigin.position, laserDirection);
         RaycastHit hit;
 
         float distanceToEndofLaser = laserRange;
-
-        if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
+        //if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
+        if (Physics.SphereCast(ray, firingWidth, out hit, laserRange, environmentLayer))
         {
             distanceToEndofLaser = hit.distance;
         }
@@ -81,7 +84,8 @@ public class RangedRaiderEnemy : EnemyStateController
     private void LaserCheck(Vector3 laserTarget, Vector3 laserDir, Ray ray, RaycastHit hit)
     {
         float distanceToEndofLaser = laserRange;
-        if (Physics.Raycast(ray, out hit, laserRange, playerLayer)){
+        if (Physics.SphereCast(ray, firingWidth, out hit, laserRange, playerLayer))
+        {
             
             if (hit.collider.CompareTag("Player") && damageTickTimer >= damageTickRateInSeconds)
             {
@@ -90,7 +94,7 @@ public class RangedRaiderEnemy : EnemyStateController
                 playerController.OnTakeDamage(laserDamage/2);           
             }                     
         }
-        if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
+        if (Physics.SphereCast(ray, firingWidth, out hit, laserRange, environmentLayer))
         {
             distanceToEndofLaser = hit.distance;
         }

@@ -19,6 +19,7 @@ public abstract class EnemyStateController : MonoBehaviour
     public float knockbackWeightModifier;
     public float attackCooldown;
     
+    
 
     
     protected PlayerStateController playerController;
@@ -31,7 +32,7 @@ public abstract class EnemyStateController : MonoBehaviour
     public bool isKnockedBack;
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
-    public float attackCooldownTimer;
+    
 
     private bool isDead;
     public static event Action EnemyHasDied;   
@@ -54,7 +55,7 @@ public abstract class EnemyStateController : MonoBehaviour
         if (isDead) return;
 
         currentState?.UpdateState();
-        attackCooldownTimer -= Time.deltaTime;
+        
     }
     protected virtual void FixedUpdate()
     {
