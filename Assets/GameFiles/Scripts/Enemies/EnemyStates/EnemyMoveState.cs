@@ -12,6 +12,12 @@ public class EnemyMoveState : EnemyBaseState
         enemy.enemyAgent.enabled = true;
         enemy.enemyAgent.updatePosition = true;
         enemy.enemyAgent.updateRotation = true;
+
+        if (enemy.animator != null)
+        {
+            enemy.animator.speed = 1f;
+        }
+
         MoveTowardsPlayerNavMesh();
     }
 
@@ -49,13 +55,13 @@ public class EnemyMoveState : EnemyBaseState
 
     private bool CheckIfAIHasStopped(NavMeshAgent enemyAgent)
     {
-        if (enemyAgent.pathPending) { return false; }
+        //if (enemyAgent.pathPending) { return false; }
 
-        if (!enemyAgent.hasPath) { return false; }
+        //if (!enemyAgent.hasPath) { return false; }
 
-        if (enemyAgent.remainingDistance > enemyAgent.stoppingDistance) { return false; }
+        if (enemyAgent.remainingDistance - 2f > enemyAgent.stoppingDistance) { return false; }
 
-        if (enemyAgent.velocity.magnitude > 0.01f) { return false; }
+        if (enemyAgent.velocity.magnitude > 0.1f) { return false; }
 
         return true;
 
@@ -80,6 +86,10 @@ public class EnemyMoveState : EnemyBaseState
         enemy.enemyAgent.updatePosition = false;
         enemy.enemyAgent.updateRotation = false;
         enemy.enemyAgent.enabled = false;
+        if (enemy.animator != null)
+        {
+            enemy.animator.speed = 0f;
+        }
         //enemy.enemyAgent.ResetPath();
     }
 }

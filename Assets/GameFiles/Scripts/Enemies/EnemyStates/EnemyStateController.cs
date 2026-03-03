@@ -18,24 +18,31 @@ public abstract class EnemyStateController : MonoBehaviour
     public float stunTime;
     public float knockbackWeightModifier;
     public float attackCooldown;
-    
-    
-
-    
+   
     protected PlayerStateController playerController;
 
     [Header("Variables not to be Adjusted")]
+    public bool hasSpawnVibration;
     public NavMeshAgent enemyAgent;
     public Rigidbody rb;
+    public Animator animator;
     private EnemyBaseState currentState;
     public bool isStunned;
     public bool isKnockedBack;
+    public bool isVibrating;
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
-    
 
+    
+    public bool isSpawning;
     private bool isDead;
-    public static event Action EnemyHasDied;   
+    public static event Action EnemyHasDied;
+
+    protected float vibrateSpeed = 50f;
+    protected float vibrateIntensity = 0.1f;
+    private float vibrationTimer = 0f;
+    protected float vibrationDuration;
+    protected Vector3 initialPosition;
 
     protected void Start()
     {
@@ -44,10 +51,17 @@ public abstract class EnemyStateController : MonoBehaviour
         enemyAgent.speed = moveSpeed * 2;
         enemyAgent.stoppingDistance = attackRange;
         enemyAgent.acceleration = moveSpeed * 5;
+        
+        playerController = playerReference.GetComponent<PlayerStateController>();
 
+
+        ChangeState(new EnemySpawnState());
+    }
+
+    protected virtual void Spawning()
+    {
         currentState = new EnemyMoveState();
         currentState.EnterState(this);
-        playerController = playerReference.GetComponent<PlayerStateController>();
     }
 
     protected virtual void Update()
@@ -60,13 +74,16 @@ public abstract class EnemyStateController : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         if (isDead) return;
-
+        Vibrate();
         currentState?.FixedUpdateState();
     }
 
     public void ChangeState(EnemyBaseState newState)
     {
-        //if (currentState == newState) return;
+        if (isSpawning)
+        {
+            return;
+        }
         currentState?.ExitState();
         currentState = newState;
         currentState.EnterState(this);
@@ -92,8 +109,83 @@ public abstract class EnemyStateController : MonoBehaviour
     }
 
     public virtual void OnStunned()
+    {       
+        ChangeState(new EnemyStunnedState(stunTime));        
+    }
+
+    public void StartVibrating(float duration)
     {
-        ChangeState(new EnemyStunnedState(stunTime));
+        vibrationDuration = duration;
+        vibrationTimer = 0f;
+        
+        initialPosition = transform.position;
+        isVibrating = true;    
+
+        if (animator != null)
+        {
+            animator.speed = 0f;
+        }
+    }
+
+    public void StopVibrating()
+    {
+        isVibrating = false;
+        transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
+
+        if (animator != null)
+        {
+            //Debug.Log("Animation Restarted");
+            animator.speed = 1f;
+        }
+    }
+
+    private void Vibrate()
+    {
+        if (!isVibrating) { return; }
+
+        vibrationTimer += Time.deltaTime;      
+        if (vibrationTimer >= vibrationDuration)
+        {
+            isVibrating = false;
+            transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
+            return;
+        }
+
+        float x = Mathf.Sin(Time.time * vibrateSpeed) * vibrateIntensity;
+        float z = Mathf.Sin(Time.time * vibrateSpeed) * vibrateIntensity;    
+        transform.position = new Vector3(initialPosition.x + x, transform.position.y, initialPosition.z + z);
+    }
+
+    public void StartSpawnVibration()
+    {
+        StartCoroutine(SpawnAnimation());
+    }
+
+    private IEnumerator SpawnAnimation()
+    {
+        float timeElapsed = 0f;
+        Vector3 startPos = transform.position;
+        Vector3 endPos = new Vector3(transform.position.x, transform.position.y + 5f, transform.position.z);
+        while (timeElapsed < 5f)
+        {
+            Vector3 lerpOffset = Vector3.Lerp(startPos, endPos, timeElapsed / 5f);
+            transform.position = lerpOffset + SpawningAnimationVibrateOffset();
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+        StopVibrating();
+        transform.position = endPos;
+        isSpawning = false;
+        ChangeState(new EnemyMoveState());
+    }
+
+    private Vector3 SpawningAnimationVibrateOffset()
+    {
+        //if (!isVibrating) { return Vector3.zero; }
+        float x = Mathf.Sin(Time.time * vibrateSpeed) * vibrateIntensity;
+        float z = Mathf.Sin(Time.time * vibrateSpeed) * vibrateIntensity;
+        return new Vector3(x, 0, z);
     }
 
     protected void ShowDamage(int damage)
