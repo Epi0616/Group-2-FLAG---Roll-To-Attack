@@ -192,20 +192,26 @@ MonoBehaviour:
   damageText: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
   maxHealth: 350
   moveSpeed: 8
+  moveSpeedStat:
+    baseValue: 12
   attackRange: 10
   stunTime: 1
   knockbackWeightModifier: 0.8
   attackCooldown: 3
+  hasSpawnVibration: 0
   enemyAgent: {fileID: 4780891553000752724}
   rb: {fileID: 1073275819704008764}
+  animator: {fileID: 0}
   isStunned: 0
   isKnockedBack: 0
+  isVibrating: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 131072
   environmentLayer:
     serializedVersion: 2
     m_Bits: 0
+  isSpawning: 0
   meleeAttackRadius: 6
   meleeAttackDamage: 20
   meleeAttackChargeTime: 1.5

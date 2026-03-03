@@ -12,9 +12,10 @@ public class A_PlayerBasicState : PlayerBasePipState
 
         myColor = Color.red;
     }
-    protected override void CustomAttack(GameObject Enemy)
+    protected override void CustomAttack(GameObject enemy)
     {
-        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(500);
+        EnemyStateController tempControllerReference = enemy.GetComponent<EnemyStateController>();
+        tempControllerReference.OnTakeDamage(500);
     }
 
     protected override void CustomDisplayAttack()
