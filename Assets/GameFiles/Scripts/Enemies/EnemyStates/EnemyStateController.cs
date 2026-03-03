@@ -14,6 +14,7 @@ public abstract class EnemyStateController : MonoBehaviour
     [SerializeField] protected int maxHealth;
     protected int currentHealth;
     public float moveSpeed;
+    public Stat moveSpeedStat;
     public float attackRange;
     public float stunTime;
     public float knockbackWeightModifier;
@@ -32,7 +33,6 @@ public abstract class EnemyStateController : MonoBehaviour
     public bool isVibrating;
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
-
     
     public bool isSpawning;
     private bool isDead;
@@ -44,13 +44,24 @@ public abstract class EnemyStateController : MonoBehaviour
     protected float vibrationDuration;
     protected Vector3 initialPosition;
 
+    private Stat[] stats;
+    private List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
+
+    private void Awake()
+    {
+        stats = new Stat[]
+        {
+            moveSpeedStat
+        };
+    }
+
     protected void Start()
     {
         currentHealth = maxHealth;
 
-        enemyAgent.speed = moveSpeed * 2;
+        enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
         enemyAgent.stoppingDistance = attackRange;
-        enemyAgent.acceleration = moveSpeed * 5;
+        enemyAgent.acceleration = moveSpeedStat.GetFinalValue() * 5;
         
         playerController = playerReference.GetComponent<PlayerStateController>();
 
@@ -69,7 +80,7 @@ public abstract class EnemyStateController : MonoBehaviour
         if (isDead) return;
 
         currentState?.UpdateState();
-        
+        UpdateEffects();
     }
     protected virtual void FixedUpdate()
     {
@@ -100,8 +111,47 @@ public abstract class EnemyStateController : MonoBehaviour
             OnDeath();
         }
     }
+
     public abstract void Attack();
     public abstract void CompleteAttack();
+
+    public void OnRecieveEffect(StatusEffect newEffect)
+    { 
+        currentStatusEffects.Add(newEffect);
+        RecalculateStats();
+    }
+
+    private void UpdateEffects()
+    {
+        for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
+        {
+            currentStatusEffects[i].Update();
+
+            if (currentStatusEffects[i].IsExpired())
+            {
+                currentStatusEffects.RemoveAt(i);
+                RecalculateStats();
+            }
+        }
+    }
+
+    private void RecalculateStats()
+    {
+        foreach (var stat in stats)
+        {
+            stat.ResetModifiers();
+        }
+
+        foreach (var effect in currentStatusEffects)
+        {
+            effect.ApplyStatModifier(this);
+        }
+
+        Debug.Log("current speed = " + moveSpeedStat.GetFinalValue());
+
+        enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
+        enemyAgent.acceleration = moveSpeedStat.GetFinalValue() * 5;
+    }
 
     public virtual void OnTakeKnockback(Vector3 origin, float knockbackForce)
     {
