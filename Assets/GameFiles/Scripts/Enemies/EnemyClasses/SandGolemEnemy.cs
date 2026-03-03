@@ -71,13 +71,16 @@ public class SandGolemEnemy : EnemyStateController
     private IEnumerator ContinueLookAtPlayer()
     {
         Vector3 playerDir = playerReference.transform.position - transform.position;
+        playerDir.y = transform.position.y;
         Quaternion lookRotation = Quaternion.LookRotation(playerDir);
         float movementTimer = 0f;
-        while (movementTimer < attackCooldown && playerDir.magnitude < attackRange || movementTimer < 0.5f)
+        while (movementTimer < attackCooldown && playerDir.magnitude < attackRange * 1.5f || movementTimer < 0.5f)
         {
             playerDir = playerReference.transform.position - transform.position;
             playerDir.y = transform.position.y;
-            lookRotation = Quaternion.LookRotation(playerDir);         
+            lookRotation = Quaternion.LookRotation(playerDir);
+            lookRotation.z = 0f;
+            lookRotation.x = 0f;
             movementTimer += Time.deltaTime;
             float t = movementTimer / attackCooldown;
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);

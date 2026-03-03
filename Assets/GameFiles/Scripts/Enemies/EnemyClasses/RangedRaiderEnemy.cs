@@ -94,7 +94,7 @@ public class RangedRaiderEnemy : EnemyStateController
                 playerController.OnTakeDamage(laserDamage/2);           
             }                     
         }
-        if (Physics.SphereCast(ray, firingWidth, out hit, laserRange, environmentLayer))
+        if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
         {
             distanceToEndofLaser = hit.distance;
         }
