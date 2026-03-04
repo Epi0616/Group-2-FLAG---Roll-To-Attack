@@ -7,7 +7,8 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     public CanvasGroup canvasGroup;
     [SerializeField] private RectTransform rectTransform;
     private AbilityDropZoneParent[] dropZones;
-    private AbilityDropZoneParent currentParent;
+    private AbilityDropZoneParent currentParent, parentAtStartOfDrag;
+    private Vector2 anchoredPositionAtStartOfDrag;
 
     private void Awake()
     {
@@ -17,6 +18,8 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
+        parentAtStartOfDrag = currentParent;
+        anchoredPositionAtStartOfDrag = rectTransform.anchoredPosition;
         transform.SetParent(canvas.transform); //so the object will be rendered infront of the drop zone while moving around.
     }
     void IDragHandler.OnDrag(PointerEventData eventData)
@@ -58,12 +61,24 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         return new Rect(x, y, width, height);
     }
 
+    public Vector2 GetAnchoredPositionAtStartOfDrag()
+    {
+    return anchoredPositionAtStartOfDrag;
+    }
+    public AbilityDropZoneParent GetParentAtStartOfDrag()
+    {
+        return parentAtStartOfDrag;
+    }
     public void SetCurrentParent(AbilityDropZoneParent newParent)
     { 
         currentParent = newParent;
     }
+    public AbilityDropZoneParent GetCurrentParent()
+    { 
+        return currentParent;
+    }
 
-    private void ResetCurrentParent()
+    public void ResetCurrentParent()
     {
         if (!currentParent) { return; }
         currentParent.RemoveChild(this);

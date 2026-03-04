@@ -18,7 +18,7 @@ public class AbilityDropZoneParent : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
     }
 
-    public void AddChild(DraggableObject newObject)
+    public virtual void AddChild(DraggableObject newObject)
     {
         if (draggableObjects.Count >= objectLimit) { return; }
         if (draggableObjects.Contains(newObject)) { FormatChildren(); return; }
@@ -27,7 +27,7 @@ public class AbilityDropZoneParent : MonoBehaviour
         FormatChildren();
     }
 
-    public void RemoveChild(DraggableObject objectToBeRemoved)
+    public virtual void RemoveChild(DraggableObject objectToBeRemoved)
     {
         if (!objectToBeRemoved) { return; }
         if (!draggableObjects.Contains(objectToBeRemoved)) { return; }
