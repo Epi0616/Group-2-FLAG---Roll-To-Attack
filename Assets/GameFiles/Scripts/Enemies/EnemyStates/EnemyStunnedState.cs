@@ -39,6 +39,11 @@ public class EnemyStunnedState : EnemyBaseState
 
     public override void ExitState()
     {
+        // can be uncommented if we want diminishing returns on stuns
+        //enemy.OnRecieveEffect(new StunResistanceEffect(2f, 0.1f));
+       
+        enemy.OnRecieveEffect(new FragileEffect(2f, 1.5f));                
+
         enemy.isStunned = false;
         enemy.StopVibrating();
         enemy.enemyAgent.enabled = true;
