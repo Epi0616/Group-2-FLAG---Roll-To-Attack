@@ -78,7 +78,7 @@ public class EnemyMoveState : EnemyBaseState
         Vector3 targetVector = (playerPosition - enemy.transform.position);
         Vector3 targetDirection = targetVector.normalized;
         targetDirection.y = 0;
-        enemy.rb.linearVelocity = targetDirection * enemy.moveSpeed;
+        enemy.rb.linearVelocity = targetDirection * enemy.moveSpeedStat.GetFinalValue();
     }
 
     public override void ExitState()

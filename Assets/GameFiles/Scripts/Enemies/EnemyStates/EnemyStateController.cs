@@ -12,17 +12,17 @@ public abstract class EnemyStateController : MonoBehaviour
 
     [Header("Variables that can be changed")]
     [SerializeField] protected int maxHealth;
-    protected int currentHealth;
-    public float moveSpeed;
+    protected int currentHealth;  
     public Stat moveSpeedStat;
-    public float attackRange;
-    public float stunTime;
-    public float knockbackWeightModifier;
-    public float attackCooldown;
+    public Stat stunTimeStat;
+    public Stat knockbackWeightModifierStat;
+    public Stat wallSlamDamageModifierStat;
+    public Stat attackCooldownStat;
    
     protected PlayerStateController playerController;
 
     [Header("Variables not to be Adjusted")]
+    public float attackRange;
     public bool hasSpawnVibration;
     public NavMeshAgent enemyAgent;
     public Rigidbody rb;
@@ -31,6 +31,7 @@ public abstract class EnemyStateController : MonoBehaviour
     public bool isStunned;
     public bool isKnockedBack;
     public bool isVibrating;
+    public bool isFragile;
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
     
@@ -51,8 +52,12 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         stats = new Stat[]
         {
-            moveSpeedStat
+            moveSpeedStat,
+            attackCooldownStat,
+            knockbackWeightModifierStat,
+            stunTimeStat
         };
+        
     }
 
     protected void Start()
@@ -147,11 +152,12 @@ public abstract class EnemyStateController : MonoBehaviour
             effect.ApplyStatModifier(this);
         }
 
-        Debug.Log("current speed = " + moveSpeedStat.GetFinalValue());
+        //Debug.Log("current speed = " + moveSpeedStat.GetFinalValue());
 
         enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
         enemyAgent.acceleration = moveSpeedStat.GetFinalValue() * 5;
     }
+
 
     public virtual void OnTakeKnockback(Vector3 origin, float knockbackForce)
     {
@@ -160,7 +166,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
     public virtual void OnStunned()
     {       
-        ChangeState(new EnemyStunnedState(stunTime));        
+        ChangeState(new EnemyStunnedState(stunTimeStat.GetFinalValue()));        
     }
 
     public void StartVibrating(float duration)
@@ -251,5 +257,21 @@ public abstract class EnemyStateController : MonoBehaviour
         currentState?.ExitState();
         EnemyHasDied?.Invoke();
         Destroy(gameObject);
+    }
+
+    protected void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("Environment")) {  return; }
+        if (!isKnockedBack) { return; }
+
+        //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
+        float dmgMod = Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f);
+        int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);
+        isKnockedBack = false;
+
+        // Eventual VFX/SFX can go here for wall slams
+        // add a check for the value of dmgMod to increase volume/size of effects
+
+        OnTakeDamage(appliedDamage);
     }
 }

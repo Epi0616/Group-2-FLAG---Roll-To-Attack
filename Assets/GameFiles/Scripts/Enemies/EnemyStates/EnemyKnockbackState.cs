@@ -35,7 +35,7 @@ public class EnemyKnockbackState : EnemyBaseState
         
         Vector3 targetDirection = targetVector.normalized;
         targetDirection.y = 0.3f;
-        enemy.rb.AddForce(targetDirection * ((force * enemy.knockbackWeightModifier) * 10f), ForceMode.VelocityChange);
+        enemy.rb.AddForce(targetDirection * ((force * enemy.knockbackWeightModifierStat.GetFinalValue()) * 10f), ForceMode.VelocityChange);
     }
 
     public override void UpdateState()
@@ -90,4 +90,6 @@ public class EnemyKnockbackState : EnemyBaseState
         // Account for moving without NavMesh so AI doesn't get lost
         enemy.enemyAgent.Warp(enemy.transform.position);
     }
+
+    
 }
