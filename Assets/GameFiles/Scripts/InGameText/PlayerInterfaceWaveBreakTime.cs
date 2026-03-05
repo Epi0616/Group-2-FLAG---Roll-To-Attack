@@ -12,12 +12,12 @@ public class PlayerInterfaceWaveBreakTime : MonoBehaviour
 
     private void OnEnable()
     {
-        EnemyDirector.WaveOver += WaveOver;
+        EnemyDirector.WaveCountStart += WaitForNextWave;
     }
 
     private void OnDisable()
     {
-        EnemyDirector.WaveOver -= WaveOver;
+        EnemyDirector.WaveCountStart -= WaitForNextWave;
     }
 
     private void Awake()
@@ -25,7 +25,7 @@ public class PlayerInterfaceWaveBreakTime : MonoBehaviour
         Text.alpha = 0f;
     }
 
-    private void WaveOver(float timeToNextWave)
+    private void WaitForNextWave(float timeToNextWave)
     {
         this.timeToNextWave = timeToNextWave;
         timer = 0;
@@ -48,7 +48,6 @@ public class PlayerInterfaceWaveBreakTime : MonoBehaviour
             DisplayTimer();
             FadeOut();
         }
-
     }
 
     private void FadeIn()
@@ -60,7 +59,6 @@ public class PlayerInterfaceWaveBreakTime : MonoBehaviour
     private void FadeOut()
     {
         if (!(timer >= timeToNextWave)) { return; }
-
         Text.alpha -= 2f * Time.deltaTime;
 
         if (Text.alpha <= 0)

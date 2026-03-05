@@ -10,6 +10,7 @@ using TMPro;
 public class EnemyBaseState : IEnemyState
 {
     protected EnemyStateController enemy;
+    
 
     public virtual void EnterState(EnemyStateController enemy) 
     {

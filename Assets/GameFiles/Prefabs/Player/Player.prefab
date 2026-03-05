@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 785307733086667065}
   - component: {fileID: 5225304645403626936}
   - component: {fileID: 5040166482731725688}
+  - component: {fileID: 5475185179310996633}
   - component: {fileID: 2663442673991085227}
-  - component: {fileID: 5321790428745265218}
-  m_Layer: 0
+  - component: {fileID: 712423231959406454}
+  m_Layer: 17
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -107,26 +108,50 @@ MonoBehaviour:
   impactField: {fileID: 0}
   poisonImpactField: {fileID: 1093305817044869981, guid: 6ea6ae83b324c4446afeb649e2176c72, type: 3}
   playerSpike: {fileID: 874215115619219576, guid: fe8f83340f622804396758caca54f6da, type: 3}
-  rb: {fileID: 5321790428745265218}
+  rb: {fileID: 712423231959406454}
   move: {fileID: -1868467007967312457, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   attack: {fileID: -6595154157516738094, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  abilitySystem: {fileID: 5475185179310996633}
   isGrounded: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
   moveWhileJumping: 1
-  moveSpeed: 5
-  moveSpeedWhileJumping: 5
-  jumpHeight: 2
-  jumpSpeed: 5
-  impactSpeed: 5
+  moveSpeed: 15
+  moveSpeedWhileJumping: 15
+  jumpHeight: 3
+  jumpSpeed: 8
+  impactSpeed: 10
   onePipWeight: 1
   twoPipWeight: 1
   threePipWeight: 1
   fourPipWeight: 1
   fivePipWeight: 1
   sixPipWeight: 0
-  baseRadiusSize: 5
+  baseRadiusSize: 10
+  maxHealth: 100
+  currentHealth: 0
+--- !u!114 &5475185179310996633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6130292915329008721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a32842fe22ceba43add7f8940ff9b13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilitySystem
+  defaultAbility: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  playerAbilities:
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  playerAbilityStorage: []
 --- !u!65 &2663442673991085227
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -148,7 +173,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.8, y: 1.8, z: 1.8}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &5321790428745265218
+--- !u!54 &712423231959406454
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,6 +197,6 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0

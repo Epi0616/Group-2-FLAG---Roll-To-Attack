@@ -12,10 +12,9 @@ public class PlayerStateController : MonoBehaviour
     public Rigidbody rb;
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
+    public AbilitySystem abilitySystem;
     public bool isGrounded;
-
     [SerializeField] private LayerMask groundLayer;
-
     private List<GameObject> objectsInOrbit = new List<GameObject>();
 
     public static event Action<int> UpdateHealthBar;
@@ -38,6 +37,7 @@ public class PlayerStateController : MonoBehaviour
     public int fourPipWeight;
     public int fivePipWeight;
     public int sixPipWeight;
+ 
 
     [Header("Attack feel")]
     public float baseRadiusSize;
@@ -125,7 +125,7 @@ public class PlayerStateController : MonoBehaviour
         for (int i = 0; i < objectsInOrbit.Count; i++)
         {
             float angle = i * (360f / objectsInOrbit.Count);
-            PlayerSpike tempScript = objectsInOrbit[i].gameObject.GetComponent<PlayerSpike>();
+            PlayerSpikeFixedYMod tempScript = objectsInOrbit[i].gameObject.GetComponent<PlayerSpikeFixedYMod>(); //will need to change between PlayerSpikeFixedYMod and PlayerSpike depending on desired functionality/script attatched to the spike prefab
             tempScript.Initialize(angle, gameObject);
         }
     }

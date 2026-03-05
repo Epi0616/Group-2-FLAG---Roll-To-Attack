@@ -10,7 +10,7 @@ public class EnemySpawnManager : MonoBehaviour
     
     private Vector2 playerPos;
     private GameObject playerRef;
-    private float spawnTolerance = 30f;
+    private float spawnTolerance = 50f;
     private IEnemyFactory[] enemyFactories;
     [SerializeField] private float spawnPointAreaRadius = 4f;
     [SerializeField] private float enemySpawnInterval;
@@ -53,14 +53,24 @@ public class EnemySpawnManager : MonoBehaviour
             IEnemyFactory factory = CheckEnemyFactory(enemy);
             if (factory != null)
             {
-                // Spawn and place the new enemy
-                Vector3 spawnPos = PickSpawnAreaPoint(spawnPointList);
+                Vector3 spawnPos;
+                if (enemy == EnemyTypes.SandGolem)
+                {
+                    spawnPos = PickSpawnAreaCircular();
+                    spawnPos.y = spawnPos.y - 6f;
+                }
+                else
+                {
+                    // Spawn and place the new enemy
+                    spawnPos = PickSpawnAreaPoint(spawnPointList);
+                }
+                   
                 GameObject spawnedEnemy = factory.CreateEnemy(spawnPos);
                 
                 //Debug.Log(spawnPos.x + " " + spawnPos.y + " " + spawnPos.z);
                 //spawnedEnemy.transform.position = spawnPos;
                 EnemyStateController spawnedEnemyCont = spawnedEnemy.GetComponent<EnemyStateController>();
-                spawnedEnemyCont.playerReference = playerRef;
+                spawnedEnemyCont.playerReference = playerRef;             
                 yield return new WaitForSeconds(enemySpawnInterval);
             }
         } 
@@ -72,8 +82,8 @@ public class EnemySpawnManager : MonoBehaviour
         while (true)
         {
             // Pick area within a circle, if too close to the player reroll that position
-            Vector2 randomArea = spawnAreaCentrePoint + Random.insideUnitCircle * spawnAreaRadius;
-            Vector3 spawnPos = new Vector3(randomArea.x, 1f, randomArea.y);
+            Vector2 randomArea = playerPos + Random.insideUnitCircle * spawnAreaRadius;
+            Vector3 spawnPos = new Vector3(randomArea.x, 0f, randomArea.y);
             float distanceFromPlayer = Vector3.Distance(spawnPos, playerPos);
             // Tolerance can be adjusted as needed 
             if (distanceFromPlayer > spawnTolerance)

@@ -34,14 +34,17 @@ public class RangedRaiderEnemy : EnemyStateController
         laserHolder.transform.position = firingOrigin.position;
 
         Vector3 laserTarget = playerReference.transform.position;
-        Vector3 laserDirection = (playerReference.transform.position - firingOrigin.position).normalized;
+        
+        Vector3 laserDirection = playerReference.transform.position - firingOrigin.position;
+        laserDirection.y = firingOrigin.position.y;
+        
 
-        Ray ray = new Ray(firingOrigin.position, playerReference.transform.position - firingOrigin.position);
+        Ray ray = new Ray(firingOrigin.position, laserDirection);
         RaycastHit hit;
 
         float distanceToEndofLaser = laserRange;
-
-        if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
+        //if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
+        if (Physics.SphereCast(ray, firingWidth, out hit, laserRange, environmentLayer))
         {
             distanceToEndofLaser = hit.distance;
         }
@@ -69,7 +72,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     private void MoveLaserCylinder(Vector3 laserDir, float distance, float width)
     {
-        Vector3 laserDirection = new Vector3(laserDir.x, laserHolder.position.y, laserDir.z);
+        Vector3 laserDirection = new Vector3(laserDir.x, firingOrigin.position.y, laserDir.z);
         laserHolder.rotation = Quaternion.LookRotation(laserDir);
         Vector3 scale = laserHolder.localScale;
         scale.x = width;
@@ -81,7 +84,8 @@ public class RangedRaiderEnemy : EnemyStateController
     private void LaserCheck(Vector3 laserTarget, Vector3 laserDir, Ray ray, RaycastHit hit)
     {
         float distanceToEndofLaser = laserRange;
-        if (Physics.Raycast(ray, out hit, laserRange, playerLayer)){
+        if (Physics.SphereCast(ray, firingWidth, out hit, laserRange, playerLayer))
+        {
             
             if (hit.collider.CompareTag("Player") && damageTickTimer >= damageTickRateInSeconds)
             {

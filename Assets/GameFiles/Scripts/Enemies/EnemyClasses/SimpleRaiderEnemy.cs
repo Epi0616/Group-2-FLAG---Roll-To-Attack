@@ -13,6 +13,7 @@ public class SimpleRaiderEnemy : EnemyStateController
     [SerializeField] private Transform attackOriginTransform;
     [SerializeField] private GameObject impactFieldPrefab;
 
+    private GameObject impactFieldObj;
     private bool attackInterrupted;
 
     public override void Attack()
@@ -43,7 +44,7 @@ public class SimpleRaiderEnemy : EnemyStateController
         {
             return;
         }
-        StartCoroutine(TimeBeforeMovingAfterAttack());
+        StartCoroutine(ContinueLookAtPlayer());
     }
 
 
@@ -54,21 +55,36 @@ public class SimpleRaiderEnemy : EnemyStateController
 
     }
 
-    private IEnumerator TimeBeforeMovingAfterAttack()
+    private IEnumerator ContinueLookAtPlayer()
     {
-        yield return new WaitForSeconds(1.5f);
+        Vector3 playerDir = playerReference.transform.position - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(playerDir);
+        float movementTimer = 0f;
+        while (movementTimer < attackCooldownStat.GetFinalValue() && playerDir.magnitude < attackRange || movementTimer < 0.5f)
+        {
+            playerDir = playerReference.transform.position - transform.position;
+            playerDir.y = transform.position.y;
+            lookRotation = Quaternion.LookRotation(playerDir);
+            lookRotation.z = 0f;
+            lookRotation.x = 0f;
+            movementTimer += Time.deltaTime;
+            float t = movementTimer / attackCooldownStat.GetFinalValue();
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);
+            yield return null;
+        }
         ChangeState(new EnemyMoveState());
     }
 
     public override void CompleteAttack()
     {
         attackInterrupted = true;
+        Destroy(impactFieldObj);
     }
 
     private void SpawnImpactField()
     {
         Vector3 impactFieldPosition = new Vector3(attackOriginTransform.position.x, attackOriginTransform.position.y - 1f, attackOriginTransform.position.z);
-        GameObject impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
         EnemyAttackImpactField impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
         impactField.PassInValuesColorRadiusLifeTimeChargeTime(impactFieldColor, meleeAttackRadius * 0.9f, 2.5f, meleeAttackChargeTime);
     }

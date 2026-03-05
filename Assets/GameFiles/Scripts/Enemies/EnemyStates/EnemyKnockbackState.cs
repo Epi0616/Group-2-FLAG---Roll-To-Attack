@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyKnockbackState : EnemyBaseState
 {
@@ -31,21 +32,45 @@ public class EnemyKnockbackState : EnemyBaseState
     {
         enemy.rb.linearVelocity = Vector3.zero;
         Vector3 targetVector = (enemy.transform.position - origin);
-        targetVector.y = 0f;
+        
         Vector3 targetDirection = targetVector.normalized;
-        enemy.rb.AddForce(targetDirection * ((force * enemy.knockbackWeightModifier) * 5), ForceMode.VelocityChange);
+        targetDirection.y = 0.3f;
+        enemy.rb.AddForce(targetDirection * ((force * enemy.knockbackWeightModifierStat.GetFinalValue()) * 10f), ForceMode.VelocityChange);
     }
 
     public override void UpdateState()
     {
+        
         knockbackTimer += Time.deltaTime;
         //enemy.rb.linearVelocity = Vector3.Lerp(enemy.rb.linearVelocity, Vector3.zero, 1.1f * Time.deltaTime);
         //Debug.Log(enemy.rb.linearVelocity.magnitude);
 
         // Check for Enemy slowing enough after knockback to return to moving
         if (enemy.rb.linearVelocity.magnitude <= 2f && knockbackTimer >= minKnockback)
-        {          
-            enemy.ChangeState(new EnemyMoveState());
+        {
+            NavMeshHit hit;
+            bool validNavMeshNode = NavMesh.SamplePosition(enemy.transform.position, out hit, 3f, NavMesh.AllAreas);
+            if (validNavMeshNode)
+            {
+                Vector3 destinationPos = new Vector3(hit.position.x, enemy.transform.position.y, hit.position.z);
+                Vector3 returntoNavMeshDirection = (destinationPos - enemy.transform.position).normalized;
+                returntoNavMeshDirection.y = enemy.transform.position.y;
+                enemy.rb.MovePosition(enemy.transform.position + returntoNavMeshDirection * 10f * Time.deltaTime);
+                
+                float distance = Vector3.Distance(enemy.transform.position, destinationPos);
+                if (distance < 0.05f)
+                {
+                    enemy.ChangeState(new EnemyMoveState());
+                }
+            }
+        }
+    }
+
+    public override void FixedUpdateState()
+    {
+        if (enemy.rb.linearVelocity.y < 0)
+        {
+            enemy.rb.AddForce(new Vector3(0, -1.5f, 0), ForceMode.Impulse);
         }
     }
 
@@ -65,4 +90,6 @@ public class EnemyKnockbackState : EnemyBaseState
         // Account for moving without NavMesh so AI doesn't get lost
         enemy.enemyAgent.Warp(enemy.transform.position);
     }
+
+    
 }
