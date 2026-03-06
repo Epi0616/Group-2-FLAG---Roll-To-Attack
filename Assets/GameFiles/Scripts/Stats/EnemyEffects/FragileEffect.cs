@@ -3,6 +3,7 @@ using UnityEngine;
 public class FragileEffect : StatusEffect
 {
     private float fragileMultiplier;
+    protected new string EffectText = "Fragile";
 
     public FragileEffect(float duration, float fragileMultiplier)
     {
