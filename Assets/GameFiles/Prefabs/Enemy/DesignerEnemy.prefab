@@ -302,19 +302,31 @@ MonoBehaviour:
   playerReference: {fileID: 0}
   damageText: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
   maxHealth: 100
-  moveSpeed: 10
+  moveSpeedStat:
+    baseValue: 0
+  stunTimeStat:
+    baseValue: 0
+  damageTakenModifierStat:
+    baseValue: 1
+  knockbackWeightModifierStat:
+    baseValue: 0
+  wallSlamDamageModifierStat:
+    baseValue: 0
+  attackCooldownStat:
+    baseValue: 0
   attackRange: 5
-  stunTime: 1
-  knockbackWeightModifier: 1
-  attackCooldown: 2
+  hasSpawnVibration: 0
   enemyAgent: {fileID: 1190171093458993723}
   rb: {fileID: 5499256494611471901}
+  animator: {fileID: 0}
   isStunned: 0
   isKnockedBack: 0
+  isVibrating: 0
+  isFragile: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 131072
   environmentLayer:
     serializedVersion: 2
     m_Bits: 2147483648
-  attackCooldownTimer: 0
+  isSpawning: 0

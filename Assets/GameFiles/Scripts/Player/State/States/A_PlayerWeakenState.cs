@@ -1,0 +1,26 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class A_PlayerWeakenState : PlayerBasePipState
+{
+    public override void EnterState(PlayerStateController player)
+    {
+        myRadiusMultiplier = 2f;
+        base.EnterState(player);
+
+        myColor = Color.darkMagenta;
+    }
+    protected override void CustomAttack(GameObject enemy)
+    {
+        EnemyStateController tempControllerReference = enemy.GetComponent<EnemyStateController>();
+        tempControllerReference.OnTakeDamage(5);
+        tempControllerReference.OnRecieveEffect(new WeakenEffect(5, 1, "Weakened"));
+    }
+
+    protected override void CustomDisplayAttack()
+    {
+        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
+    }
+}

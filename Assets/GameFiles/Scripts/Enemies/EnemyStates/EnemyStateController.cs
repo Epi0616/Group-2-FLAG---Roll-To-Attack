@@ -15,6 +15,7 @@ public abstract class EnemyStateController : MonoBehaviour
     protected int currentHealth;  
     public Stat moveSpeedStat;
     public Stat stunTimeStat;
+    public Stat damageTakenModifierStat;
     public Stat knockbackWeightModifierStat;
     public Stat wallSlamDamageModifierStat;
     public Stat attackCooldownStat;
@@ -53,11 +54,12 @@ public abstract class EnemyStateController : MonoBehaviour
         stats = new Stat[]
         {
             moveSpeedStat,
-            attackCooldownStat,
+            stunTimeStat,
+            damageTakenModifierStat,
             knockbackWeightModifierStat,
-            stunTimeStat
+            wallSlamDamageModifierStat,
+            attackCooldownStat,
         };
-        
     }
 
     protected void Start()
@@ -107,9 +109,10 @@ public abstract class EnemyStateController : MonoBehaviour
 
     public void OnTakeDamage(int amount)
     {
-        currentHealth -= amount;
+        int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
+        currentHealth -= finalDamage;
 
-        ShowDamage(amount);
+        ShowDamage(finalDamage);
 
         if (currentHealth <= 0)
         {
@@ -123,6 +126,7 @@ public abstract class EnemyStateController : MonoBehaviour
     public void OnRecieveEffect(StatusEffect newEffect)
     { 
         currentStatusEffects.Add(newEffect);
+        ShowEffect(newEffect.GetEffectText());
         RecalculateStats();
     }
 
@@ -250,6 +254,17 @@ public abstract class EnemyStateController : MonoBehaviour
         GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
         damageNumber.GetComponent<TextMeshPro>().text = damage.ToString();
     }
+
+    protected void ShowEffect(string effectText)
+    {
+        Debug.Log("effect applied");
+        Debug.Log(effectText);
+
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f));
+        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        damageNumber.GetComponent<TextMeshPro>().text = effectText;
+    }
+
     public virtual void OnDeath()
     {
         if (isDead) return;

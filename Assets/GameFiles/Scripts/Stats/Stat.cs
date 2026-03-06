@@ -27,4 +27,9 @@ public class Stat
     { 
         totalMultiplier *= multiplier;
     }
+
+    public void AddMultiplierFlat(float multiplier)
+    {
+        totalMultiplier += multiplier;
+    }
 }

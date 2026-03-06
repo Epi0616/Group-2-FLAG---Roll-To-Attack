@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class StatusEffect
 {
     protected float timer;
+    protected string effectText;
 
     public virtual void Update()
     {
@@ -13,6 +14,11 @@ public abstract class StatusEffect
     {
         if (timer > 0) return false;
         return true;
+    }
+
+    public string GetEffectText()
+    {
+        return effectText;
     }
 
     public abstract void ApplyStatModifier(EnemyStateController enemy);
