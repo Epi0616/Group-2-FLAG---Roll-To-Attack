@@ -8,7 +8,7 @@ public class PlayerStateController : MonoBehaviour
 {
     [Header("Dont modify the variables listed below")]
     public GameObject impactField;
-    public GameObject poisonImpactField, playerSpike;
+    public GameObject poisonImpactField, playerSpike, playerRocket;
     public Rigidbody rb;
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
@@ -112,6 +112,13 @@ public class PlayerStateController : MonoBehaviour
         GameObject newObject = Instantiate(prefab, position, Quaternion.identity);
 
         return newObject;
+    }
+
+    public void CreateRockets(EnemyStateController target)
+    {
+        GameObject rocket = Instantiate(playerRocket, transform.position, Quaternion.identity);
+        rocket.GetComponent<PlayerRocket>().SetTarget(target, transform.position.y);
+
     }
 
     public void CreateFourPipSpikesInOrbit()

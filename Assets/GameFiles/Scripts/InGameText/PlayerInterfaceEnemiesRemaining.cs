@@ -7,7 +7,7 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
 {
     public TextMeshProUGUI Text;
 
-    private float timer = 0, timeToNextWave = 0;
+    private float timer = 0;
     private int enemyCount = 0;
     private bool waveInProgress = false;
 
