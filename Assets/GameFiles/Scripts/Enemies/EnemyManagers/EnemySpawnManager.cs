@@ -74,6 +74,11 @@ public class EnemySpawnManager : MonoBehaviour
                 EnemyStateController spawnedEnemyCont = spawnedEnemy.GetComponent<EnemyStateController>();
                 spawnedEnemyCont.playerReference = playerRef;             
                 yield return new WaitForSeconds(enemySpawnInterval);
+                if (enemySpawnInterval > 0.2)
+                {
+                    enemySpawnInterval -= 0.1f;
+                }
+                
             }
         } 
     }
