@@ -6,16 +6,14 @@ using UnityEngine;
 public class TemporaryImpactField : MonoBehaviour
 {
     private Material material;
-    private Color color = new(1, 0, 0, 1);
+    private Color color = new(1, 0, 0, 0);
     private float lifeSpan = 1, lifeTimer = 0;
-    private float damageTickTimer = 0, currentTickCount = 0;
     private float radius = 0;
-
+    private float alphaDecay;
 
     private void Awake()
     {
         material = GetComponent<MeshRenderer>().material;
-        color.a = 1f;
         material.color = color;
     }
 
@@ -27,13 +25,12 @@ public class TemporaryImpactField : MonoBehaviour
     private void BecomeTransparent()
     {
         lifeTimer += Time.fixedDeltaTime;
-
-        if (!(lifeTimer >= lifeSpan - 1)) { return; }
         material.color = color;
+        if (!(lifeTimer >= lifeSpan - 1)) { return; }
 
         if (color.a > 0)
         {
-            color.a += Time.fixedDeltaTime * -0.5f;
+            color.a += Time.fixedDeltaTime * -alphaDecay;
             return;
         }
         color.a = 0;
@@ -42,9 +39,12 @@ public class TemporaryImpactField : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void adjustObjectSizeAndRotation(float radius)
+    public void adjustObject(float radius, float alpha, float alphaDecay, float lifeSpan)
     {
         this.radius = radius;
+        color.a = alpha;
+        this.lifeSpan = lifeSpan;
+        this.alphaDecay = alphaDecay;
 
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;

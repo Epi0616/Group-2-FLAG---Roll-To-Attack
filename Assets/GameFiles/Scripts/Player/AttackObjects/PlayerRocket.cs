@@ -1,4 +1,3 @@
-using UnityEditor.Search;
 using UnityEngine;
 
 public class PlayerRocket : MonoBehaviour
@@ -99,7 +98,7 @@ public class PlayerRocket : MonoBehaviour
     private void DamageEnemy(GameObject Enemy)
     {
         Vector3 groundedPosition = new(transform.position.x, 1.5f, transform.position.z); // needs adjusting if enemies can ever reach an elevated position.
-        Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObjectSizeAndRotation(1f);
+        Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
         Enemy.GetComponent<EnemyStateController>().OnTakeDamage(40);
         DestroyMe();
     }

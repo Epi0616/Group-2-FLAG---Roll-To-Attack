@@ -7,15 +7,13 @@ using System;
 public class PlayerStateController : MonoBehaviour
 {
     [Header("Dont modify the variables listed below")]
-    public GameObject impactField;
-    public GameObject poisonImpactField, playerSpike, playerRocket;
     public Rigidbody rb;
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
     public AbilitySystem abilitySystem;
+    public AttackSystem attackSystem;
     public bool isGrounded;
     [SerializeField] private LayerMask groundLayer;
-    private List<GameObject> objectsInOrbit = new List<GameObject>();
 
     public static event Action<int> UpdateHealthBar;
     public static event Action GameOver;
@@ -105,41 +103,6 @@ public class PlayerStateController : MonoBehaviour
     {
         Debug.Log("Game Over");
         GameOver?.Invoke();
-    }
-
-    public GameObject InstantiateObejct(GameObject prefab, Vector3 position)
-    { 
-        GameObject newObject = Instantiate(prefab, position, Quaternion.identity);
-
-        return newObject;
-    }
-
-    public void CreateRockets(EnemyStateController target)
-    {
-        GameObject rocket = Instantiate(playerRocket, transform.position, Quaternion.identity);
-        rocket.GetComponent<PlayerRocket>().SetTarget(target, transform.position.y);
-
-    }
-
-    public void CreateFourPipSpikesInOrbit()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            GameObject spike = Instantiate(playerSpike);
-            objectsInOrbit.Add(spike);
-        }
-
-        for (int i = 0; i < objectsInOrbit.Count; i++)
-        {
-            float angle = i * (360f / objectsInOrbit.Count);
-            PlayerSpikeFixedYMod tempScript = objectsInOrbit[i].gameObject.GetComponent<PlayerSpikeFixedYMod>(); //will need to change between PlayerSpikeFixedYMod and PlayerSpike depending on desired functionality/script attatched to the spike prefab
-            tempScript.Initialize(angle, gameObject);
-        }
-    }
-
-    public void RemoveObjectFromOrbit(GameObject obj)
-    { 
-        objectsInOrbit.Remove(obj);   
     }
 
     private void CheckForGrounded()

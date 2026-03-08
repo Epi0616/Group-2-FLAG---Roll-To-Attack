@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-public class PlayerBasePipState : PlayerMovementState
+public class PlayerBaseAttackState : PlayerMovementState
 {
     protected Color myColor = Color.red;
     protected float myRadius;
@@ -41,7 +41,7 @@ public class PlayerBasePipState : PlayerMovementState
         player.SwitchState(new PlayerMovementState());
     }
 
-    protected void Attack(Collider[] colliders)
+    protected virtual void Attack(Collider[] colliders)
     {
         List<GameObject> Enemies = new();
         foreach (var collider in colliders)

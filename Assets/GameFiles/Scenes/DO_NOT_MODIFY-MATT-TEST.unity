@@ -1241,6 +1241,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: attackSystem
+      value: 
+      objectReference: {fileID: 1808019934}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerRocket
       value: 
       objectReference: {fileID: 7037020166965150851, guid: e859534f586b03941ae8edbddcfb8c4b, type: 3}
@@ -1258,16 +1262,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerAbilities.Array.size
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 7d7f6c8786cbc684bab13c5b0aac0f3d, type: 2}
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 1c36576b939eeac45851bace5fba50e3, type: 2}
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerAbilities.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerAbilities.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerAbilities.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerAbilities.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
     - target: {fileID: 6130292915329008721, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1279,8 +1299,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6130292915329008721, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 1808019934}
   m_SourcePrefab: {fileID: 100100000, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+--- !u!1 &1230661032 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6130292915329008721, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+  m_PrefabInstance: {fileID: 1230661031}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1232134460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1872,12 +1900,29 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
   m_PrefabInstance: {fileID: 1230661031}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1230661032}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a32842fe22ceba43add7f8940ff9b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySystem
+--- !u!114 &1808019934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230661032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b95aa0d7cf7a8924eafb529c6e43c553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSystem
+  impactField: {fileID: 886820606}
+  poisonImpactField: {fileID: 1093305817044869981, guid: 6ea6ae83b324c4446afeb649e2176c72, type: 3}
+  playerSpike: {fileID: 874215115619219576, guid: fe8f83340f622804396758caca54f6da, type: 3}
+  playerRocket: {fileID: 7037020166965150851, guid: e859534f586b03941ae8edbddcfb8c4b, type: 3}
+  playerVacuum: {fileID: 2923029641425998541, guid: 461638ed5949e024e842b5bb1b8096a5, type: 3}
 --- !u!1 &1834382083
 GameObject:
   m_ObjectHideFlags: 0
@@ -2344,7 +2389,7 @@ PrefabInstance:
       objectReference: {fileID: 1808019933}
     - target: {fileID: 5201521076982426873, guid: 7c2a2021438ae5d4ab86ca162b232bb7, type: 3}
       propertyPath: abilityPool.Array.size
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5201521076982426873, guid: 7c2a2021438ae5d4ab86ca162b232bb7, type: 3}
       propertyPath: 'abilityPool.Array.data[5]'
@@ -2354,6 +2399,14 @@ PrefabInstance:
       propertyPath: 'abilityPool.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: 1c36576b939eeac45851bace5fba50e3, type: 2}
+    - target: {fileID: 5201521076982426873, guid: 7c2a2021438ae5d4ab86ca162b232bb7, type: 3}
+      propertyPath: 'abilityPool.Array.data[7]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d7f6c8786cbc684bab13c5b0aac0f3d, type: 2}
+    - target: {fileID: 5201521076982426873, guid: 7c2a2021438ae5d4ab86ca162b232bb7, type: 3}
+      propertyPath: 'abilityPool.Array.data[8]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ba41c54662b56f449b44ac1aaacfee6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

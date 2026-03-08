@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class A_PlayerSlowState : PlayerBasePipState
+public class A_PlayerSlowState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
@@ -21,6 +21,6 @@ public class A_PlayerSlowState : PlayerBasePipState
 
     protected override void CustomDisplayAttack()
     {
-        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
+        player.attackSystem.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
     }
 }

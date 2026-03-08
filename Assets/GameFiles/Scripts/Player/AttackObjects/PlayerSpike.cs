@@ -62,7 +62,7 @@ public class PlayerSpike : MonoBehaviour
 
     private void DestroyMe()
     {
-        player.GetComponent<PlayerStateController>().RemoveObjectFromOrbit(gameObject);
+        player.GetComponent<PlayerStateController>().attackSystem.RemoveObjectFromOrbit(gameObject);
         Destroy(gameObject);
     }
 }

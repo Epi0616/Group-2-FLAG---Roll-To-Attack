@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class A_PlayerStunState : PlayerBasePipState
+public class A_PlayerStunState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
@@ -22,6 +22,6 @@ public class A_PlayerStunState : PlayerBasePipState
 
     protected override void CustomDisplayAttack()
     {
-        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
+        player.attackSystem.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
     }
 }

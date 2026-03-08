@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class A_PlayerKnockbackState : PlayerBasePipState
+public class A_PlayerKnockbackState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
@@ -18,6 +18,6 @@ public class A_PlayerKnockbackState : PlayerBasePipState
 
     protected override void CustomDisplayAttack()
     {
-        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
+        player.attackSystem.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
     }
 }
