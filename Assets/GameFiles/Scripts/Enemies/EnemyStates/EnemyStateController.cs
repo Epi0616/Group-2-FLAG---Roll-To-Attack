@@ -31,6 +31,7 @@ public abstract class EnemyStateController : MonoBehaviour
     private EnemyBaseState currentState;
     public bool isStunned;
     public bool isKnockedBack;
+    public bool isKnockedBackByGolem;
     public bool isVibrating;
     public bool isFragile;
     public LayerMask playerLayer;
@@ -130,6 +131,13 @@ public abstract class EnemyStateController : MonoBehaviour
         RecalculateStats();
     }
 
+    public void OnRecieveEffect(StatusEffect newEffect, Color effectColor)
+    {
+        currentStatusEffects.Add(newEffect);
+        ShowEffect(newEffect.GetEffectText(), effectColor);
+        RecalculateStats();
+    }
+
     private void UpdateEffects()
     {
         for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
@@ -166,6 +174,11 @@ public abstract class EnemyStateController : MonoBehaviour
     public virtual void OnTakeKnockback(Vector3 origin, float knockbackForce)
     {
         ChangeState(new EnemyKnockbackState(origin, knockbackForce));
+    }
+
+    public virtual void OnTakeGolemKnockback(Vector3 origin, float knockbackForce)
+    {
+        ChangeState(new EnemyGolemKnockbackState(origin, knockbackForce));
     }
 
     public virtual void OnStunned()
@@ -250,19 +263,36 @@ public abstract class EnemyStateController : MonoBehaviour
 
     protected void ShowDamage(int damage)
     {
-        Vector3 randomOffset = new(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f));
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f));
         GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
-        damageNumber.GetComponent<TextMeshPro>().text = damage.ToString();
+        TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
+        tempTMPAccess.text = damage.ToString();
+        tempTMPAccess.fontSize = 24 + damage;
+        
     }
 
     protected void ShowEffect(string effectText)
     {
-        Debug.Log("effect applied");
-        Debug.Log(effectText);
+        //Debug.Log("effect applied");
+        //Debug.Log(effectText);
 
         Vector3 randomOffset = new(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f));
         GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
-        damageNumber.GetComponent<TextMeshPro>().text = effectText;
+        TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
+        tempTMPAccess.text = effectText;
+    }
+
+    protected void ShowEffect(string effectText, Color color)
+    {
+        //Debug.Log("effect applied");
+        //Debug.Log(effectText);
+
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(2f, 4f), UnityEngine.Random.Range(-3f, 3f));
+        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
+        tempTMPAccess.text = effectText;
+        tempTMPAccess.color = color;
+        tempTMPAccess.fontSize = 52f;
     }
 
     public virtual void OnDeath()
@@ -274,19 +304,65 @@ public abstract class EnemyStateController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected void OnCollisionEnter(Collision collision)
+    // Check for Knockback wall damage
+    protected void OnCollisionEnter(Collision collision) 
     {
         if (!collision.gameObject.CompareTag("Environment")) {  return; }
         if (!isKnockedBack) { return; }
+        if (isKnockedBackByGolem) { return; }      
 
         //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
+
         float dmgMod = Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f);
-        int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);
+        if (wallSlamDamageModifierStat.GetFinalValue() > 1.1f)
+        {
+            ShowEffect("Shattered", Color.deepSkyBlue);
+        }
+        else
+        {
+            ShowEffect("Slammed", Color.darkGoldenRod);
+        }
+
+        int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);    
         isKnockedBack = false;
+        if (appliedDamage < 10) { return; }
 
         // Eventual VFX/SFX can go here for wall slams
         // add a check for the value of dmgMod to increase volume/size of effects
 
         OnTakeDamage(appliedDamage);
+    }
+
+    // During Attack Cooldown maintain a look rotation and if the player moves out of range bypass cooldown to continue moving - Used by all Enemies
+    protected IEnumerator ContinueLookAtPlayer(float duration)
+    {
+        Vector3 playerDir = playerReference.transform.position - transform.position;
+        playerDir.y = transform.position.y;
+        Quaternion lookRotation = Quaternion.LookRotation(playerDir);
+        float movementTimer = 0f;
+        while (movementTimer < duration && playerDir.magnitude < attackRange * 1.25f || movementTimer < 0.5f)
+        {
+            playerDir = playerReference.transform.position - transform.position;
+            playerDir.y = transform.position.y;
+            lookRotation = Quaternion.LookRotation(playerDir);
+            lookRotation.z = 0f;
+            lookRotation.x = 0f;
+            movementTimer += Time.deltaTime;
+            float t = movementTimer / duration;
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);
+            yield return null;
+        }
+        ChangeState(new EnemyMoveState());
+    }
+
+    // Single Instant Look At Player - Used By Ranged Enemy when attack starts
+    protected void LookAtPlayer()
+    {
+        Vector3 playerDir = playerReference.transform.position - transform.position;
+        playerDir.y = transform.position.y;
+        Quaternion lookRotation = Quaternion.LookRotation(playerDir);
+        lookRotation.z = 0f;
+        lookRotation.x = 0f;
+        transform.rotation = lookRotation;       
     }
 }

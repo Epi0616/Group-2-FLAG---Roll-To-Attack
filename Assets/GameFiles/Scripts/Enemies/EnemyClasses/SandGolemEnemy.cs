@@ -43,13 +43,13 @@ public class SandGolemEnemy : EnemyStateController
             }
             else if (collider.gameObject.CompareTag("Enemy"))
             {
-                Debug.Log("Golem KnockBack");
+                //Debug.Log("Golem KnockBack");
                 EnemyStateController enemyRef = collider.gameObject.GetComponent<EnemyStateController>();
                 if (enemyRef == null)
                 {
                     Debug.LogError("EnemyRef is NULL");
                 }
-                enemyRef.OnTakeKnockback(attackOriginTransform.position, golemKnockBackForce);
+                enemyRef.OnTakeGolemKnockback(attackOriginTransform.position, golemKnockBackForce);
             }
         }
 
@@ -58,7 +58,8 @@ public class SandGolemEnemy : EnemyStateController
             return;
         }
 
-        StartCoroutine(ContinueLookAtPlayer());
+        
+        StartCoroutine(ContinueLookAtPlayer(attackCooldownStat.GetFinalValue()));
     }
 
     private IEnumerator ChargeTime()
@@ -66,27 +67,6 @@ public class SandGolemEnemy : EnemyStateController
         yield return new WaitForSeconds(meleeAttackChargeTime);
         GolemSlam();
 
-    }
-
-    private IEnumerator ContinueLookAtPlayer()
-    {
-        Vector3 playerDir = playerReference.transform.position - transform.position;
-        playerDir.y = transform.position.y;
-        Quaternion lookRotation = Quaternion.LookRotation(playerDir);
-        float movementTimer = 0f;
-        while (movementTimer < attackCooldownStat.GetFinalValue() && playerDir.magnitude < attackRange * 1.5f || movementTimer < 0.5f)
-        {
-            playerDir = playerReference.transform.position - transform.position;
-            playerDir.y = transform.position.y;
-            lookRotation = Quaternion.LookRotation(playerDir);
-            lookRotation.z = 0f;
-            lookRotation.x = 0f;
-            movementTimer += Time.deltaTime;
-            float t = movementTimer / attackCooldownStat.GetFinalValue();
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);
-            yield return null;
-        }
-        ChangeState(new EnemyMoveState());
     }
 
     private void OnDrawGizmos()

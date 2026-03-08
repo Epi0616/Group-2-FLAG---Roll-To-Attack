@@ -44,7 +44,7 @@ public class SimpleRaiderEnemy : EnemyStateController
         {
             return;
         }
-        StartCoroutine(ContinueLookAtPlayer());
+        StartCoroutine(ContinueLookAtPlayer(attackCooldownStat.GetFinalValue()));
     }
 
 
@@ -53,27 +53,7 @@ public class SimpleRaiderEnemy : EnemyStateController
         yield return new WaitForSeconds(meleeAttackChargeTime);
         MeleeAttack();
 
-    }
-
-    private IEnumerator ContinueLookAtPlayer()
-    {
-        Vector3 playerDir = playerReference.transform.position - transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(playerDir);
-        float movementTimer = 0f;
-        while (movementTimer < attackCooldownStat.GetFinalValue() && playerDir.magnitude < attackRange || movementTimer < 0.5f)
-        {
-            playerDir = playerReference.transform.position - transform.position;
-            playerDir.y = transform.position.y;
-            lookRotation = Quaternion.LookRotation(playerDir);
-            lookRotation.z = 0f;
-            lookRotation.x = 0f;
-            movementTimer += Time.deltaTime;
-            float t = movementTimer / attackCooldownStat.GetFinalValue();
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);
-            yield return null;
-        }
-        ChangeState(new EnemyMoveState());
-    }
+    }  
 
     public override void CompleteAttack()
     {

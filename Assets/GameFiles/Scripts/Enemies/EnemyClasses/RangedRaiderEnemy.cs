@@ -25,6 +25,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     public override void Attack()
     {
+        LookAtPlayer();
         attackInterrupted = false;
         StartCoroutine(FireLaser());
     }
@@ -36,7 +37,7 @@ public class RangedRaiderEnemy : EnemyStateController
         Vector3 laserTarget = playerReference.transform.position;
         
         Vector3 laserDirection = playerReference.transform.position - firingOrigin.position;
-        laserDirection.y = firingOrigin.position.y;
+        laserDirection.y = 0f;
         
 
         Ray ray = new Ray(firingOrigin.position, laserDirection);
@@ -65,8 +66,8 @@ public class RangedRaiderEnemy : EnemyStateController
 
         laserObject.SetActive(false);
         if (!attackInterrupted) 
-        { 
-            ChangeState(new EnemyMoveState()); 
+        {
+            StartCoroutine(ContinueLookAtPlayer(attackCooldownStat.GetFinalValue()));
         }
     }
 
