@@ -30,7 +30,7 @@ public class GameOverMenu : MonoBehaviour
     public void PlayAgain()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("DO_NOT_MODIFY-MATT-TEST");
+        SceneManager.LoadScene("MainBuild");
     }
 
     public void Menu()
