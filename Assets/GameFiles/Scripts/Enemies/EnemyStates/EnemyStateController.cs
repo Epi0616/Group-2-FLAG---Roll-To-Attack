@@ -267,7 +267,7 @@ public abstract class EnemyStateController : MonoBehaviour
         GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
-        tempTMPAccess.fontSize = 24 + damage;
+        tempTMPAccess.fontSize = 10 + (damage * 1.1f) ;
         
     }
 
