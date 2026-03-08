@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerSixPipState : PlayerBasePipState
+public class PlayerSixPipState : PlayerBaseAttackState
 {
     private bool gameFrozen;
     public override void EnterState(PlayerStateController player)
@@ -43,7 +43,7 @@ public class PlayerSixPipState : PlayerBasePipState
 
     protected override void CustomDisplayAttack()
     {
-        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
+        player.attackSystem.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
     }
 
     protected void ApproachGameFreeze()

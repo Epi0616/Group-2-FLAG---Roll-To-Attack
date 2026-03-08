@@ -41,11 +41,6 @@ public class EnemyMoveState : EnemyBaseState
         {
             enemy.ChangeState(new EnemyAttackState());
         }
-
-
-
-
-
     }
 
     public override void FixedUpdateState()

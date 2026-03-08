@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class A_PlayerPoisonState : PlayerBasePipState
+public class A_PlayerPoisonState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
@@ -16,9 +16,9 @@ public class A_PlayerPoisonState : PlayerBasePipState
 
     protected override void CustomDisplayAttack()
     {
-        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
+        player.attackSystem.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
 
-        GameObject poisionField = player.InstantiateObejct(player.poisonImpactField, player.rb.position);
+        GameObject poisionField = player.attackSystem.InstantiateObejct(player.attackSystem.poisonImpactField, player.rb.position);
         poisionField.GetComponent<PoisionImpactField>().adjustObjectSizeAndRotation(myRadius);
     }
 }

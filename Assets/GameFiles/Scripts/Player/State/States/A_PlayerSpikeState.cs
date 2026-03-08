@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class A_PlayerSpikeState : PlayerBasePipState
+public class A_PlayerSpikeState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
@@ -17,7 +17,7 @@ public class A_PlayerSpikeState : PlayerBasePipState
 
     protected override void CustomDisplayAttack()
     {
-        player.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
-        player.CreateFourPipSpikesInOrbit();
+        player.attackSystem.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
+        player.attackSystem.CreateFourPipSpikesInOrbit();
     }
 }
