@@ -50,9 +50,9 @@ public class EnemyMoveState : EnemyBaseState
 
     private bool CheckIfAIHasStopped(NavMeshAgent enemyAgent)
     {
-        //if (enemyAgent.pathPending) { return false; }
+        if (enemyAgent.pathPending) { return false; }
 
-        //if (!enemyAgent.hasPath) { return false; }
+        if (!enemyAgent.hasPath) { return false; }
 
         if (enemyAgent.remainingDistance - 2f > enemyAgent.stoppingDistance) { return false; }
 

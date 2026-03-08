@@ -16,7 +16,7 @@ public class A_PlayerStunState : PlayerBaseAttackState
     {
         EnemyStateController enemyTempScriptAccess = Enemy.GetComponent<EnemyStateController>();
         enemyTempScriptAccess.OnTakeDamage(30);
-        enemyTempScriptAccess.OnRecieveEffect(new FragileEffect(2f, 1.5f, "Fragile"));
+        enemyTempScriptAccess.OnRecieveEffect(new FragileEffect(2f, 1.5f, "Fragile"), myColor);
         enemyTempScriptAccess.OnStunned();
     }
 

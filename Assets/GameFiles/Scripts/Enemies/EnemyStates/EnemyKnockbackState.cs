@@ -3,10 +3,10 @@ using UnityEngine.AI;
 
 public class EnemyKnockbackState : EnemyBaseState
 {
-    private float force;
-    private Vector3 origin;
-    private float minKnockback = 0.5f;
-    private float knockbackTimer;
+    protected float force;
+    protected Vector3 origin;
+    protected float minKnockback = 0.5f;
+    protected float knockbackTimer;
 
     public EnemyKnockbackState(Vector3 origin, float force)
     {
@@ -42,9 +42,7 @@ public class EnemyKnockbackState : EnemyBaseState
     {
         
         knockbackTimer += Time.deltaTime;
-        //enemy.rb.linearVelocity = Vector3.Lerp(enemy.rb.linearVelocity, Vector3.zero, 1.1f * Time.deltaTime);
-        //Debug.Log(enemy.rb.linearVelocity.magnitude);
-
+       
         // Check for Enemy slowing enough after knockback to return to moving
         if (enemy.rb.linearVelocity.magnitude <= 2f && knockbackTimer >= minKnockback)
         {
@@ -92,4 +90,28 @@ public class EnemyKnockbackState : EnemyBaseState
     }
 
     
+    
+}
+
+public class EnemyGolemKnockbackState : EnemyKnockbackState
+{
+   
+    public EnemyGolemKnockbackState(Vector3 origin, float force) : base(origin, force)
+    {
+        this.force = force;
+        this.origin = origin;
+    }
+
+    public override void EnterState(EnemyStateController enemy)
+    {
+        enemy.isKnockedBackByGolem = true;
+        base.EnterState(enemy);
+        
+    }
+
+    public override void ExitState()
+    {
+        base.ExitState();
+        enemy.isKnockedBackByGolem = false;
+    }
 }

@@ -16,7 +16,7 @@ public class A_PlayerSlowState : PlayerBaseAttackState
     {
         EnemyStateController tempControllerReference = enemy.GetComponent<EnemyStateController>();
         tempControllerReference.OnTakeDamage(30);
-        tempControllerReference.OnRecieveEffect(new SlowEffect(5, 0.75f, "Slowed"));
+        tempControllerReference.OnRecieveEffect(new SlowEffect(5, 0.75f, "Slowed"), myColor);
     }
 
     protected override void CustomDisplayAttack()

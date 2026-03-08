@@ -40,7 +40,7 @@ public class EnemyStunnedState : EnemyBaseState
     public override void ExitState()
     {
         // can be uncommented if we want diminishing returns on stuns
-        enemy.OnRecieveEffect(new StunResistanceEffect(5f, 0.75f, "Resist"));
+        enemy.OnRecieveEffect(new StunResistanceEffect(5f, 0.75f, "Resist"), Color.gray);
        
         //enemy.OnRecieveEffect(new FragileEffect(2f, 1.5f, "Fragile")); -- moved into player stun state               
 
