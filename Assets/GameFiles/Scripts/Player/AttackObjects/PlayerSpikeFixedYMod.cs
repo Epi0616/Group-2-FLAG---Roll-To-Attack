@@ -53,7 +53,7 @@ public class PlayerSpikeFixedYMod : MonoBehaviour
 
     private void DamageEnemy(GameObject Enemy)
     {
-        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(4);
+        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(12, Color.silver);
         DestroyMe();
     }
 

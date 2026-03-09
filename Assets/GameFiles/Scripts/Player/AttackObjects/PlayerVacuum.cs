@@ -48,7 +48,7 @@ public class PlayerVacuum : MonoBehaviour
             if (enemy != null)
             {
                 enemy.OnTakeKnockback(transform.position, -10);
-                enemy.OnTakeDamage(20);
+                enemy.OnTakeDamage(20, Color.blue);
             }
         }
         DestroyMe();

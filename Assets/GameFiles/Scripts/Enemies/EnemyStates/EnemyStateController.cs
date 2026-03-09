@@ -121,6 +121,19 @@ public abstract class EnemyStateController : MonoBehaviour
         }
     }
 
+    public void OnTakeDamage(int amount, Color color)
+    {
+        int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
+        currentHealth -= finalDamage;
+
+        ShowDamage(finalDamage, color);
+
+        if (currentHealth <= 0)
+        {
+            OnDeath();
+        }
+    }
+
     public abstract void Attack();
     public abstract void CompleteAttack();
 
@@ -267,8 +280,21 @@ public abstract class EnemyStateController : MonoBehaviour
         GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
-        tempTMPAccess.fontSize = 10 + (damage * 1.1f) ;
-        
+        float size = Mathf.Clamp(10 + (damage * 1.1f), 36f, 240f);
+        tempTMPAccess.fontSize = size;
+
+    }
+
+    protected void ShowDamage(int damage, Color color)
+    {
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f));
+        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
+        tempTMPAccess.text = damage.ToString();
+        tempTMPAccess.color = color;
+        float size = Mathf.Clamp(10 + (damage * 1.1f), 36f, 240f);
+        tempTMPAccess.fontSize = size;
+
     }
 
     protected void ShowEffect(string effectText)
@@ -311,26 +337,29 @@ public abstract class EnemyStateController : MonoBehaviour
         if (!isKnockedBack) { return; }
         if (isKnockedBackByGolem) { return; }      
 
-        //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
+        Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
 
         float dmgMod = Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f);
+        int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);
+        isKnockedBack = false;
+        if (appliedDamage < 10) { return; }
         if (wallSlamDamageModifierStat.GetFinalValue() > 1.1f)
         {
             ShowEffect("Shattered", Color.deepSkyBlue);
+            OnTakeDamage(appliedDamage, Color.deepSkyBlue);
         }
         else
         {
             ShowEffect("Slammed", Color.darkGoldenRod);
+            OnTakeDamage(appliedDamage, Color.darkGoldenRod);
         }
 
-        int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);    
-        isKnockedBack = false;
-        if (appliedDamage < 10) { return; }
+        
 
         // Eventual VFX/SFX can go here for wall slams
         // add a check for the value of dmgMod to increase volume/size of effects
 
-        OnTakeDamage(appliedDamage);
+        
     }
 
     // During Attack Cooldown maintain a look rotation and if the player moves out of range bypass cooldown to continue moving - Used by all Enemies
