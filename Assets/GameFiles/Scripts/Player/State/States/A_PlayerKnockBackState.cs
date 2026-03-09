@@ -12,7 +12,7 @@ public class A_PlayerKnockbackState : PlayerBaseAttackState
     protected override void CustomAttack(GameObject Enemy)
     {
         EnemyStateController tempScriptAccess = Enemy.GetComponent<EnemyStateController>();
-        tempScriptAccess.OnTakeDamage(35);
+        tempScriptAccess.OnTakeDamage(35, myColor);
         tempScriptAccess.OnTakeKnockback(player.transform.position, 5);
     }
 

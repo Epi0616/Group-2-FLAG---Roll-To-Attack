@@ -4,7 +4,7 @@ public class A_PlayerSpikeState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
-        myRadiusMultiplier = 2.5f;
+        myRadiusMultiplier = 0.75f;
         base.EnterState(player);
 
         myColor = Color.silver;
@@ -12,7 +12,7 @@ public class A_PlayerSpikeState : PlayerBaseAttackState
     protected override void CustomAttack(GameObject Enemy)
     {
         EnemyStateController enemyTempScriptAccess = Enemy.GetComponent<EnemyStateController>();
-        enemyTempScriptAccess.OnTakeDamage(25);
+        //enemyTempScriptAccess.OnTakeDamage(25, myColor);
     }
 
     protected override void CustomDisplayAttack()

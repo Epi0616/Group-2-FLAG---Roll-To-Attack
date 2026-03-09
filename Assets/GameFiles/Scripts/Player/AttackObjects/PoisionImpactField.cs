@@ -15,7 +15,7 @@ public class PoisionImpactField : MonoBehaviour
     private void Awake()
     {
         material = GetComponent<MeshRenderer>().material;
-        color.a = 0.1f;
+        color.a = 0.175f;
         material.color = color;
     }
 
@@ -69,7 +69,7 @@ public class PoisionImpactField : MonoBehaviour
 
             if (collider.gameObject.CompareTag("Enemy"))
             {
-                collider.gameObject.GetComponent<EnemyStateController>().OnTakeDamage(3);
+                collider.gameObject.GetComponent<EnemyStateController>().OnTakeDamage(8, Color.green);
                 Debug.Log("dealing damage");
             }
         }
