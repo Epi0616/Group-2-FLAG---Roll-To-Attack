@@ -37,7 +37,7 @@ public class PlayerMovementState : PlayerBaseState
 
     protected virtual void CheckForAttackActionPressed()
     {
-        if (player.attack.action.WasPressedThisFrame())
+        if (player.attack.action.WasPressedThisFrame()) //swap for IsPressed() for automatic attacking when space is held
         {
             player.SwitchState(new PlayerJumpState());
         }
