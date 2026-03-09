@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class AbilitySlotManager : MonoBehaviour
 {
-    public List<AbilityDescriptor> abilityPool;
+    //public List<AbilityDescriptor> abilityPool;
     public List<AbilitySlot> abilitySlots = new List<AbilitySlot>();
     public AbilityBay abilityStorage;
     [SerializeField] private GameObject abilityObjectPrefab;
@@ -17,21 +17,11 @@ public class AbilitySlotManager : MonoBehaviour
     {
         SetUpCurrentDiceFaces();
         SetUpCurrentStorage();
-
-        SpawnRandomNewAbility();
     }
     public void PackAway()
     {
         SendOffCurrentAbilities();
         DestroyDraggableObjects();
-    }
-
-    private void SpawnRandomNewAbility()
-    {
-        int random = Random.Range(0, abilityPool.Count);
-        var tempObj = Instantiate(abilityObjectPrefab, transform);
-        tempObj.GetComponent<DraggableAbility>().SetAbilityDescriptor(abilityPool[random]);
-        draggableObjects.Add(tempObj);
     }
 
     private void SetUpCurrentDiceFaces()
@@ -109,5 +99,13 @@ public class AbilitySlotManager : MonoBehaviour
             Destroy(draggableObjects[i]);
         }
         draggableObjects.Clear();
+    }
+
+    public void AddNewObjectsToList(List<GameObject> newObjects)
+    {
+        for (int i = 0; i < newObjects.Count; i++)
+        {
+            draggableObjects.Add(newObjects[i]);
+        }
     }
 }
