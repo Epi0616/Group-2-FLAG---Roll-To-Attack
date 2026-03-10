@@ -17,10 +17,19 @@ public class Stat
     { 
         return (baseValue + totalAdditive) * totalMultiplier;
     }
+    public float GetBaseValue()
+    { 
+        return baseValue;
+    }
 
     public void AddAdditive(float additive)
     { 
         totalAdditive += additive;
+    }
+
+    public void SetAdditive(float additive)
+    { 
+        totalAdditive = additive;
     }
 
     public void AddMultiplier(float multiplier)
@@ -31,5 +40,10 @@ public class Stat
     public void AddMultiplierFlat(float multiplier)
     {
         totalMultiplier += multiplier;
+    }
+
+    public void SetMultiplier(float multiplier)
+    { 
+        totalMultiplier = multiplier;
     }
 }

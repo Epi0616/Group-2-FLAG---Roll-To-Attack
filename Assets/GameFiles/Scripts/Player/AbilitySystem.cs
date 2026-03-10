@@ -7,6 +7,7 @@ public class AbilitySystem : MonoBehaviour
     [SerializeField] private AbilityDescriptor defaultAbility;
     [SerializeField] private List<AbilityDescriptor> playerAbilities;
     [SerializeField] private List<AbilityDescriptor> playerAbilityStorage = new List<AbilityDescriptor>();
+    private int lastReturnedPipNumber = 1;
 
     private void Start()
     {
@@ -27,6 +28,11 @@ public class AbilitySystem : MonoBehaviour
         return playerAbilityStorage;
     }
 
+    public int GetLastReturnedPipNumber()
+    {
+        return lastReturnedPipNumber;
+    }
+
     public void SetPlayerAbilities(List<AbilityDescriptor> newAbilityList)
     { 
         playerAbilities = newAbilityList;
@@ -41,25 +47,27 @@ public class AbilitySystem : MonoBehaviour
     private AbilityDescriptor SelectDiceFace()
     {
         int totalWeight = 0;
+        lastReturnedPipNumber = 0;
 
         foreach (var ability in playerAbilities)
         {
             totalWeight += ability.weight;
         }
-        Debug.Log("total weight = " + totalWeight);
         int randomNumber = Random.Range(1, totalWeight + 1);
         int pipWeightTally = 0;
-        Debug.Log("random number = " + randomNumber);
 
         foreach (var ability in playerAbilities)
         {
+            lastReturnedPipNumber++;
             pipWeightTally += ability.weight;
             if (randomNumber <= (pipWeightTally))
             {
-                Debug.Log("chosen ability = " + ability + " pip number = " + ability.pipNumber);
+                Debug.Log(lastReturnedPipNumber);
                 return ability;
             }
         }
+
+        lastReturnedPipNumber = 1;
         return defaultAbility;
     }
 

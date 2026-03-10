@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 public class PlayerMovementState : PlayerBaseState
 {
     protected Vector3 moveDirection;
+    protected float holdTime = 0;
+
     public override void EnterState(PlayerStateController player)
     {
         base.EnterState(player);
@@ -11,7 +13,6 @@ public class PlayerMovementState : PlayerBaseState
     public override void UpdateState()
     {
         CheckForMoveActionPressed();
-        CheckForAttackActionPressed();
     }
     public override void FixedUpdateState()
     {
@@ -19,7 +20,7 @@ public class PlayerMovementState : PlayerBaseState
         //targetPosition.y = player.rb.position.y;
         //player.rb.MovePosition(targetPosition);
 
-        Vector3 targetVelocity = moveDirection * player.moveSpeed;
+        Vector3 targetVelocity = moveDirection * player.moveSpeed.GetFinalValue();
         targetVelocity.y = player.rb.linearVelocity.y;
         player.rb.linearVelocity = targetVelocity;
     }
@@ -33,13 +34,5 @@ public class PlayerMovementState : PlayerBaseState
         }
 
         moveDirection = new(0, 0, 0);
-    }
-
-    protected virtual void CheckForAttackActionPressed()
-    {
-        if (player.attack.action.WasPressedThisFrame()) //swap for IsPressed() for automatic attacking when space is held
-        {
-            player.SwitchState(new PlayerJumpState());
-        }
     }
 }

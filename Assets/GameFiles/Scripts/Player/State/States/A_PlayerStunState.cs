@@ -7,7 +7,6 @@ public class A_PlayerStunState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
-        myRadiusMultiplier = 1.5f;
         base.EnterState(player);
 
         myColor = Color.lightBlue;

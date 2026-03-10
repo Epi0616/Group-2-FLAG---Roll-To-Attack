@@ -4,7 +4,6 @@ public class A_PlayerSpikeState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
-        myRadiusMultiplier = 0.75f;
         base.EnterState(player);
 
         myColor = Color.silver;

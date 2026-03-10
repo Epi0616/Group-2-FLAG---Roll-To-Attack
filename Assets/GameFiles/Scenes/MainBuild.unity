@@ -16645,6 +16645,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 712423231959406454, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 712423231959406454, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: m_CollisionDetection
       value: 3
       objectReference: {fileID: 0}
@@ -16688,129 +16692,82 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: rb
+    - target: {fileID: 5004288492463444806, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: impactField
       value: 
-      objectReference: {fileID: 1837163543}
+      objectReference: {fileID: 1533056583}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: body
       value: 
       objectReference: {fileID: 1737702206}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: jumpSpeed
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: maxHealth
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: moveSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: jumpHeight
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: boxCollider
       value: 
       objectReference: {fileID: 1837163546}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: impactField
-      value: 
-      objectReference: {fileID: 1533056583}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: impactSpeed
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: attackSystem
       value: 
       objectReference: {fileID: 1837163545}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: playerRocket
-      value: 
-      objectReference: {fileID: 7037020166965150851, guid: e859534f586b03941ae8edbddcfb8c4b, type: 3}
+      propertyPath: jumpSpeed.baseValue
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: abilitySystem
-      value: 
-      objectReference: {fileID: 1837163542}
+      propertyPath: moveSpeed.baseValue
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: baseRadiusSize
+      propertyPath: jumpHeight.baseValue
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: impactSpeed.baseValue
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: playerCollider
-      value: 
-      objectReference: {fileID: 1837163546}
+      propertyPath: baseRadiusSize.baseValue
+      value: 7.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: moveSpeedWhileJumping
+      propertyPath: moveSpeedWhileJumping.baseValue
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerAbilities.Array.size
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+      objectReference: {fileID: 11400000, guid: 8daf04e4b5bf3b144b16712b4b710a30, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
+      objectReference: {fileID: 11400000, guid: 8aadc7987d946b6428f6e12ea92a4ede, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: d54947d1c1a96b24c95df295a0d7fcdb, type: 2}
+      objectReference: {fileID: 11400000, guid: 7d7f6c8786cbc684bab13c5b0aac0f3d, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 1c36576b939eeac45851bace5fba50e3, type: 2}
+      objectReference: {fileID: 11400000, guid: d54947d1c1a96b24c95df295a0d7fcdb, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[4]'
       value: 
-      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[5]'
       value: 
-      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
-    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: playerAbilityStorage.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: 'playerAbilityStorage.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 19079ac50d787e94daaeea96798b83aa, type: 2}
-    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: 'playerAbilityStorage.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 8daf04e4b5bf3b144b16712b4b710a30, type: 2}
-    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: 'playerAbilityStorage.Array.data[2]'
-      value: 
-      objectReference: {fileID: 11400000, guid: d54947d1c1a96b24c95df295a0d7fcdb, type: 2}
-    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: 'playerAbilityStorage.Array.data[3]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 1c36576b939eeac45851bace5fba50e3, type: 2}
+      objectReference: {fileID: 11400000, guid: 4ba41c54662b56f449b44ac1aaacfee6, type: 2}
     - target: {fileID: 6130292915329008721, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6130292915329008721, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: m_Layer
-      value: 17
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6130292915329008721, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1837163545}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
 --- !u!4 &1837163541 stripped
 Transform:
@@ -16822,39 +16779,23 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
   m_PrefabInstance: {fileID: 1837163540}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837163544}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a32842fe22ceba43add7f8940ff9b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySystem
---- !u!54 &1837163543 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 712423231959406454, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-  m_PrefabInstance: {fileID: 1837163540}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1837163544 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6130292915329008721, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-  m_PrefabInstance: {fileID: 1837163540}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1837163545
+--- !u!114 &1837163545 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 5004288492463444806, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+  m_PrefabInstance: {fileID: 1837163540}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837163544}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b95aa0d7cf7a8924eafb529c6e43c553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackSystem
-  impactField: {fileID: 1533056583}
-  poisonImpactField: {fileID: 1093305817044869981, guid: 6ea6ae83b324c4446afeb649e2176c72, type: 3}
-  playerSpike: {fileID: 874215115619219576, guid: fe8f83340f622804396758caca54f6da, type: 3}
-  playerRocket: {fileID: 7037020166965150851, guid: e859534f586b03941ae8edbddcfb8c4b, type: 3}
-  playerVacuum: {fileID: 2923029641425998541, guid: 461638ed5949e024e842b5bb1b8096a5, type: 3}
 --- !u!65 &1837163546 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 2663442673991085227, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}

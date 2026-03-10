@@ -7,7 +7,6 @@ public class PlayerSixPipState : PlayerBaseAttackState
     private bool gameFrozen;
     public override void EnterState(PlayerStateController player)
     {
-        myRadiusMultiplier = 3.5f;
         base.EnterState(player);
 
         gameFrozen = true;

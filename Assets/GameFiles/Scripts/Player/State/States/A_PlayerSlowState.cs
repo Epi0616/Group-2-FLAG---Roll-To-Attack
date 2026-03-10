@@ -7,7 +7,6 @@ public class A_PlayerSlowState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
-        myRadiusMultiplier = 2f;
         base.EnterState(player);
 
         myColor = Color.white;
