@@ -546,7 +546,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -23.85, y: 8.00775, z: 35.33141}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2425869847712268307}
@@ -567,6 +567,7 @@ MonoBehaviour:
   playerReference: {fileID: 0}
   damageText: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
   maxHealth: 350
+  currentHealth: 0
   moveSpeedStat:
     baseValue: 8
   stunTimeStat:
@@ -586,6 +587,7 @@ MonoBehaviour:
   animator: {fileID: 6003734646529214526}
   isStunned: 0
   isKnockedBack: 0
+  isKnockedBackByGolem: 0
   isVibrating: 0
   isFragile: 0
   playerLayer:
@@ -649,7 +651,7 @@ CapsuleCollider:
   m_Radius: 3
   m_Height: 8
   m_Direction: 1
-  m_Center: {x: 0, y: 4, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &800335953903496024
 Rigidbody:
   m_ObjectHideFlags: 0

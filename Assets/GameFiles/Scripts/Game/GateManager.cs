@@ -4,19 +4,19 @@ using System.Collections.Generic;
 public class GateManager : MonoBehaviour
 {
     public List<GameObject> gates;
-    float gatesDownY = -13;
-    float gatesUpY = 0.8f;
+    float gatesDownY = -18;
+    float gatesUpY = 1.8f;
     bool waveOver = false, gateUp = false, gateDown = false;
     float timeToNextWave = 0;
 
     private void OnEnable()
     {
-        EnemyDirector.WaveCountStart += WaitForNextWave;
+        EnemyDirector.WaveOver += WaitForNextWave;
     }
 
     private void OnDisable()
     {
-        EnemyDirector.WaveCountStart -= WaitForNextWave;
+        EnemyDirector.WaveOver -= WaitForNextWave;
     }
 
     private void Update()
