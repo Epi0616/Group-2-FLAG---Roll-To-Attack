@@ -4,7 +4,6 @@ public class A_PlayerKnockbackState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
-        myRadiusMultiplier = 3f;
         base.EnterState(player);
 
         myColor = Color.darkGoldenRod;

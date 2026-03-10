@@ -7,7 +7,6 @@ public class A_PlayerBasicState : PlayerBaseAttackState
 {
     public override void EnterState(PlayerStateController player)
     {
-        myRadiusMultiplier = 1f;
         base.EnterState(player);
 
         myColor = Color.red;

@@ -13,17 +13,18 @@ public class PlayerJumpState : PlayerBaseState
     // this is purely to allow movement while jumping for designers in the editor
     private Vector3 moveDirection;
 
+
     public override void EnterState(PlayerStateController player)
     {
         base.EnterState(player);
 
         //massive amount of setup that could probably do with its own function
 
+        jumpHeight = player.jumpHeight.GetFinalValue();
+        jumpSpeed = player.jumpSpeed.GetFinalValue();
+
         player.rb.useGravity = false;
         //player.rb.isKinematic = true;
-
-        jumpHeight = player.jumpHeight;
-        jumpSpeed = player.jumpSpeed;
 
         rotationMap = new Quaternion[]
         {
@@ -45,8 +46,9 @@ public class PlayerJumpState : PlayerBaseState
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
 
         selectedAbility = player.abilitySystem.GetRandomAbility();
+        int pipNumber = player.abilitySystem.GetLastReturnedPipNumber();
 
-        targetRotation = rotationMap[selectedAbility.pipNumber - 1];
+        targetRotation = rotationMap[pipNumber - 1];
     }
 
     public override void UpdateState()
@@ -75,7 +77,7 @@ public class PlayerJumpState : PlayerBaseState
 
         if (player.moveWhileJumping)
         {
-            velocity += moveDirection * player.moveSpeedWhileJumping;
+            velocity += moveDirection * player.moveSpeedWhileJumping.GetFinalValue();
         }
 
         player.rb.linearVelocity = velocity;
@@ -102,7 +104,8 @@ public class PlayerJumpState : PlayerBaseState
         player.rb.useGravity = true;
         player.rb.isKinematic = false;
 
-        player.rb.rotation = targetRotation;
+        player.body.transform.rotation = targetRotation;
+        player.originalRotation = targetRotation;
         player.rb.linearVelocity = Vector3.zero;
         player.rb.angularVelocity = Vector3.zero;
 
