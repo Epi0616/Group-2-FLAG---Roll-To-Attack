@@ -20,7 +20,7 @@ public class PlayerJumpState : PlayerBaseState
         //massive amount of setup that could probably do with its own function
 
         player.rb.useGravity = false;
-        player.rb.isKinematic = true;
+        //player.rb.isKinematic = true;
 
         jumpHeight = player.jumpHeight;
         jumpSpeed = player.jumpSpeed;
@@ -47,32 +47,6 @@ public class PlayerJumpState : PlayerBaseState
         selectedAbility = player.abilitySystem.GetRandomAbility();
 
         targetRotation = rotationMap[selectedAbility.pipNumber - 1];
-
-
-        // unlocking rotation for now as allows player to roll around, embraces dice feel??
-
-        switch (selectedAbility.pipNumber)
-        {
-            case 1:
-                player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-                break;
-            case 2:
-                player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
-                break;
-            case 3:
-                player.rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-                break;
-            case 4:
-                player.rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-                break;
-            case 5:
-                player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
-                break;
-            case 6:
-                player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-                break;
-        }
-
     }
 
     public override void UpdateState()
@@ -93,31 +67,23 @@ public class PlayerJumpState : PlayerBaseState
 
     private bool ApplyJump()
     {
-        bool finishedJump = false;
-
-        Vector3 tempPosition = player.transform.position;
         float currentHeight = player.transform.position.y;
-        //lerp (a, b, t) = a + (b-a) * t
-        tempPosition.y += (targetHeight - currentHeight) * Time.deltaTime * jumpSpeed;
+        float remainingHeight = targetHeight - currentHeight;
 
+        float verticalVelocity = remainingHeight * jumpSpeed;
+        Vector3 velocity = new Vector3(0, verticalVelocity, 0);
 
-        // this is purely to allow movement while jumping for designers in the editor
         if (player.moveWhileJumping)
         {
-            tempPosition += moveDirection * Time.deltaTime * player.moveSpeedWhileJumping;
+            velocity += moveDirection * player.moveSpeedWhileJumping;
         }
 
-        player.rb.MovePosition(tempPosition);
+        player.rb.linearVelocity = velocity;
 
-        float progress = Mathf.InverseLerp(startHeight, targetHeight, tempPosition.y);
+        float progress = Mathf.InverseLerp(startHeight, targetHeight, currentHeight);
         ApplyRotation(progress);
 
-        if (tempPosition.y >= targetHeight - 0.01f)
-        { 
-            finishedJump = true;
-        }
-
-        return finishedJump;
+        return remainingHeight <= 0.01f;
     }
 
     private void ApplyRotation(float jumpProgress)
@@ -125,10 +91,10 @@ public class PlayerJumpState : PlayerBaseState
         float t = Mathf.SmoothStep(0f, 1f, jumpProgress);
 
         Quaternion rotation = Quaternion.Slerp(startRotation, targetRotation, t);
-        player.rb.MoveRotation(rotation);
+        player.body.transform.rotation = rotation;
 
         Quaternion visualSpin = Quaternion.Euler(360*t, 360*t, 360*t);
-        player.rb.MoveRotation(rotation * visualSpin);
+        player.body.transform.rotation *= visualSpin;
     }
 
     private void CompleteJump()
@@ -156,3 +122,80 @@ public class PlayerJumpState : PlayerBaseState
         moveDirection = new(0, 0, 0);
     }
 }
+
+
+// unlocking rotation for now as allows player to roll around, embraces dice feel??
+
+//switch (selectedAbility.pipNumber)
+//{
+//    case 1:
+//        player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+//        break;
+//    case 2:
+//        player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+//        break;
+//    case 3:
+//        player.rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+//        break;
+//    case 4:
+//        player.rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+//        break;
+//    case 5:
+//        player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+//        break;
+//    case 6:
+//        player.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+//        break;
+//}
+
+//bool finishedJump = false;
+
+//Vector3 tempPosition = player.transform.position;
+//float currentHeight = player.transform.position.y;
+////lerp (a, b, t) = a + (b-a) * t
+//tempPosition.y += (targetHeight - currentHeight) * Time.deltaTime * jumpSpeed;
+
+
+//// this is purely to allow movement while jumping for designers in the editor
+//if (player.moveWhileJumping)
+//{
+//    tempPosition += moveDirection * Time.deltaTime * player.moveSpeedWhileJumping;
+//}
+
+//Vector3 movement = tempPosition - player.transform.position;
+//float distance = movement.magnitude;
+
+//if (distance > 0f)
+//{
+//    RaycastHit hit;
+
+//    BoxCollider box = player.boxCollider;
+
+//    Vector3 center = player.transform.TransformPoint(box.center);
+//    Vector3 halfExtents = box.size * 0.5f;
+
+//    if (Physics.BoxCast(
+//        center,
+//        halfExtents,
+//        movement.normalized,
+//        out hit,
+//        player.transform.rotation,
+//        distance))
+//    {
+//        tempPosition = player.transform.position + movement.normalized * (hit.distance - 0.01f);
+//    }
+//}
+
+//player.rb.MovePosition(tempPosition);
+
+
+
+//float progress = Mathf.InverseLerp(startHeight, targetHeight, tempPosition.y);
+//ApplyRotation(progress);
+
+//if (tempPosition.y >= targetHeight - 0.01f)
+//{ 
+//    finishedJump = true;
+//}
+
+//return finishedJump;
