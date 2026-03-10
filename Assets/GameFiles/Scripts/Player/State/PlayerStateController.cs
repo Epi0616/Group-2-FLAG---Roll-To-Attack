@@ -1,35 +1,36 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Collections.Generic;
-using UnityEditor;
 using NUnit.Framework;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.InputSystem;
 public class PlayerStateController : MonoBehaviour
 {
     [Header("Dont modify the variables listed below")]
-    public GameObject impactField;
-    public GameObject poisonImpactField, playerSpike;
     public Rigidbody rb;
     public InputActionReference move, attack;
     public PlayerBaseState currentState;
+    public AbilitySystem abilitySystem;
+    public AttackSystem attackSystem;
+    public BoxCollider boxCollider;
+    public GameObject body;
     public bool isGrounded;
-
     [SerializeField] private LayerMask groundLayer;
-
-    private List<GameObject> objectsInOrbit = new List<GameObject>();
 
     public static event Action<int> UpdateHealthBar;
     public static event Action GameOver;
+    public static event Action<float> ShakeScreen;
 
     [Header("For modification")]
 
     [Header("Movement feel")]
     public bool moveWhileJumping;
-    public float moveSpeed;
-    public float moveSpeedWhileJumping;
-    public float jumpHeight;
-    public float jumpSpeed;
-    public float impactSpeed;
+    public Stat moveSpeed;
+    public Stat moveSpeedWhileJumping;
+    public Stat jumpHeight;
+    public Stat jumpSpeed;
+    public Stat impactSpeed;
 
     [Header("Side weighting")]
     public int onePipWeight;
@@ -38,9 +39,13 @@ public class PlayerStateController : MonoBehaviour
     public int fourPipWeight;
     public int fivePipWeight;
     public int sixPipWeight;
+ 
 
     [Header("Attack feel")]
-    public float baseRadiusSize;
+    public Stat baseRadiusSize;
+    private float holdTime = 0;
+    private bool charging = false;
+    public Quaternion originalRotation;
 
     [Header("General Stats")]
     public int maxHealth;
@@ -65,12 +70,14 @@ public class PlayerStateController : MonoBehaviour
     {
         currentHealth = maxHealth;
         UpdateHealthBar?.Invoke(currentHealth);
+        originalRotation = body.transform.rotation;
         currentState = new PlayerMovementState();
         currentState.EnterState(this);
     }
 
     private void Update()
     {
+        CheckForAttackAction();
         currentState.UpdateState();
     }
 
@@ -107,36 +114,61 @@ public class PlayerStateController : MonoBehaviour
         GameOver?.Invoke();
     }
 
-    public GameObject InstantiateObejct(GameObject prefab, Vector3 position)
+    public void AddScreenShake(float magnitude)
     { 
-        GameObject newObject = Instantiate(prefab, position, Quaternion.identity);
-
-        return newObject;
-    }
-
-    public void CreateFourPipSpikesInOrbit()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            GameObject spike = Instantiate(playerSpike);
-            objectsInOrbit.Add(spike);
-        }
-
-        for (int i = 0; i < objectsInOrbit.Count; i++)
-        {
-            float angle = i * (360f / objectsInOrbit.Count);
-            PlayerSpike tempScript = objectsInOrbit[i].gameObject.GetComponent<PlayerSpike>();
-            tempScript.Initialize(angle, gameObject);
-        }
-    }
-
-    public void RemoveObjectFromOrbit(GameObject obj)
-    { 
-        objectsInOrbit.Remove(obj);   
+        ShakeScreen?.Invoke(magnitude);
     }
 
     private void CheckForGrounded()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1f, groundLayer);
+    }
+
+    private void CheckForAttackAction()
+    {
+        if (!isGrounded) return;
+
+        if (attack.action.WasPressedThisFrame())
+        {
+            SwitchState(new PlayerJumpState());
+            holdTime = 0;
+            return;
+        }
+
+        if (attack.action.IsPressed())
+        {
+            holdTime += Time.deltaTime;
+            holdTime = Math.Clamp(holdTime, 0, 1);
+            ChargingEffect();
+        }
+
+        else if (attack.action.WasReleasedThisFrame() && holdTime > 0.2)
+        {
+            jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
+            impactSpeed.AddMultiplierFlat(holdTime * 2);
+            baseRadiusSize.AddMultiplierFlat(holdTime);
+
+            SwitchState(new PlayerJumpState());
+            moveSpeed.ResetModifiers();
+            holdTime = 0;
+            return;
+        }
+    }
+
+    private void ChargingEffect()
+    {
+        float moveSpeedMultiplier = ((2 - holdTime) / 2);
+        moveSpeedMultiplier = Mathf.Clamp(moveSpeedMultiplier, 0.35f, 1);
+
+        moveSpeed.SetMultiplier(moveSpeedMultiplier);
+        ShakeDiceBody(2 / moveSpeedMultiplier);
+    }
+
+    private void ShakeDiceBody(float magnitude)
+    {
+        float x = Mathf.Sin(Time.time * 50f) * magnitude;
+        float y = Mathf.Sin(Time.time * 50f) * magnitude;
+        float z = Mathf.Sin(Time.time * 50f) * magnitude;
+        body.transform.rotation = originalRotation * Quaternion.Euler(x, y, z);
     }
 }

@@ -13,7 +13,6 @@ public class PlayerSpike : MonoBehaviour
     private float angle;
     private Quaternion rotation;
     private Vector3 offset;
-    private float tempY;
 
     public void Initialize(float startAngle, GameObject player)
     {
@@ -29,16 +28,13 @@ public class PlayerSpike : MonoBehaviour
 
     private void OrbitPlayer()
     {
-        tempY = transform.position.y * 0;
         angle += speed * Time.deltaTime;
 
         rotation = Quaternion.Euler(0, angle, 0);
         offset = rotation * Vector3.forward * radius;
-        transform.position = new Vector3(player.transform.position.x, tempY, player.transform.position.z) + offset;
+        transform.position = player.transform.position + offset;
 
-        Vector3 targetVector = new Vector3(player.transform.position.x, tempY, player.transform.position.z);
-
-        transform.LookAt(targetVector, desiredWorldUp);
+        transform.LookAt(player.transform, desiredWorldUp);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -66,7 +62,7 @@ public class PlayerSpike : MonoBehaviour
 
     private void DestroyMe()
     {
-        player.GetComponent<PlayerStateController>().RemoveObjectFromOrbit(gameObject);
+        player.GetComponent<PlayerStateController>().attackSystem.RemoveObjectFromOrbit(gameObject);
         Destroy(gameObject);
     }
 }

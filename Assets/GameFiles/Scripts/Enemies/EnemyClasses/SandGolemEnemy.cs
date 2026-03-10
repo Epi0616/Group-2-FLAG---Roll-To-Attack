@@ -43,13 +43,13 @@ public class SandGolemEnemy : EnemyStateController
             }
             else if (collider.gameObject.CompareTag("Enemy"))
             {
-                Debug.Log("Golem KnockBack");
+                //Debug.Log("Golem KnockBack");
                 EnemyStateController enemyRef = collider.gameObject.GetComponent<EnemyStateController>();
                 if (enemyRef == null)
                 {
                     Debug.LogError("EnemyRef is NULL");
                 }
-                enemyRef.OnTakeKnockback(attackOriginTransform.position, golemKnockBackForce);
+                enemyRef.OnTakeGolemKnockback(attackOriginTransform.position, golemKnockBackForce);
             }
         }
 
@@ -58,7 +58,8 @@ public class SandGolemEnemy : EnemyStateController
             return;
         }
 
-        StartCoroutine(TimeBeforeMovingAfterAttack());
+        
+        StartCoroutine(ContinueLookAtPlayer(attackCooldownStat.GetFinalValue()));
     }
 
     private IEnumerator ChargeTime()
@@ -66,12 +67,6 @@ public class SandGolemEnemy : EnemyStateController
         yield return new WaitForSeconds(meleeAttackChargeTime);
         GolemSlam();
 
-    }
-
-    private IEnumerator TimeBeforeMovingAfterAttack()
-    {
-        yield return new WaitForSeconds(1.5f);
-        ChangeState(new EnemyMoveState());
     }
 
     private void OnDrawGizmos()

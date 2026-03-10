@@ -12,6 +12,12 @@ public class EnemyMoveState : EnemyBaseState
         enemy.enemyAgent.enabled = true;
         enemy.enemyAgent.updatePosition = true;
         enemy.enemyAgent.updateRotation = true;
+
+        if (enemy.animator != null)
+        {
+            enemy.animator.speed = 1f;
+        }
+
         MoveTowardsPlayerNavMesh();
     }
 
@@ -31,15 +37,10 @@ public class EnemyMoveState : EnemyBaseState
 
         MoveTowardsPlayerNavMesh();
 
-        if (CheckIfAIHasStopped(enemy.enemyAgent) && enemy.attackCooldownTimer < 0)
+        if (CheckIfAIHasStopped(enemy.enemyAgent))
         {
             enemy.ChangeState(new EnemyAttackState());
         }
-
-
-
-
-
     }
 
     public override void FixedUpdateState()
@@ -53,9 +54,9 @@ public class EnemyMoveState : EnemyBaseState
 
         if (!enemyAgent.hasPath) { return false; }
 
-        if (enemyAgent.remainingDistance > enemyAgent.stoppingDistance) { return false; }
+        if (enemyAgent.remainingDistance - 2f > enemyAgent.stoppingDistance) { return false; }
 
-        if (enemyAgent.velocity.magnitude > 0.01f) { return false; }
+        if (enemyAgent.velocity.magnitude > 0.1f) { return false; }
 
         return true;
 
@@ -72,7 +73,7 @@ public class EnemyMoveState : EnemyBaseState
         Vector3 targetVector = (playerPosition - enemy.transform.position);
         Vector3 targetDirection = targetVector.normalized;
         targetDirection.y = 0;
-        enemy.rb.linearVelocity = targetDirection * enemy.moveSpeed;
+        enemy.rb.linearVelocity = targetDirection * enemy.moveSpeedStat.GetFinalValue();
     }
 
     public override void ExitState()
@@ -80,6 +81,10 @@ public class EnemyMoveState : EnemyBaseState
         enemy.enemyAgent.updatePosition = false;
         enemy.enemyAgent.updateRotation = false;
         enemy.enemyAgent.enabled = false;
+        if (enemy.animator != null)
+        {
+            enemy.animator.speed = 0f;
+        }
         //enemy.enemyAgent.ResetPath();
     }
 }
