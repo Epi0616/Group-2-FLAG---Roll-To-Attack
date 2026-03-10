@@ -16,6 +16,8 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] private LayerMask propsLayer;
     [SerializeField] private float spawnPointAreaRadius = 4f;
     [SerializeField] private float enemySpawnInterval;
+    [SerializeField] private float enemyScalingHealthMultiplier;
+    [SerializeField] private float healthScalingIncreasePerWave;
     [Header("This List holds all the Spawn Points placed in the scene, to use press the +")]
     [Header("then drag in a SpawnPoint Prefab.   DOES NOTHING IF EMPTY")]
     [SerializeField] private List<EnemySpawnPoint> spawnPointList;
@@ -72,15 +74,18 @@ public class EnemySpawnManager : MonoBehaviour
                 //Debug.Log(spawnPos.x + " " + spawnPos.y + " " + spawnPos.z);
                 //spawnedEnemy.transform.position = spawnPos;
                 EnemyStateController spawnedEnemyCont = spawnedEnemy.GetComponent<EnemyStateController>();
+                spawnedEnemyCont.AdjustScaledHealth(enemyScalingHealthMultiplier);
                 spawnedEnemyCont.playerReference = playerRef;             
                 yield return new WaitForSeconds(enemySpawnInterval);
-                if (enemySpawnInterval > 0.2)
-                {
-                    enemySpawnInterval -= 0.1f;
-                }
+                
                 
             }
-        } 
+        }
+        if (enemySpawnInterval > 0.2)
+        {
+            enemySpawnInterval -= 0.1f;
+        }
+        enemyScalingHealthMultiplier += healthScalingIncreasePerWave;
     }
 
     // This Function uses random area spawning that the Golem uses to spawn

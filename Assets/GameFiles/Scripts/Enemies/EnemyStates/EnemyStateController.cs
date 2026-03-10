@@ -12,7 +12,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
     [Header("Variables that can be changed")]
     [SerializeField] protected int maxHealth;
-    protected int currentHealth;  
+    [SerializeField] protected int currentHealth;  
     public Stat moveSpeedStat;
     public Stat stunTimeStat;
     public Stat damageTakenModifierStat;
@@ -132,6 +132,12 @@ public abstract class EnemyStateController : MonoBehaviour
         {
             OnDeath();
         }
+    }
+
+    public void AdjustScaledHealth(float multiplier)
+    {
+        maxHealth = (int)((float)maxHealth * multiplier);
+        currentHealth = maxHealth;
     }
 
     public abstract void Attack();
