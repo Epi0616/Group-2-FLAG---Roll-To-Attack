@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6130292915329008721
+--- !u!1 &4389461699070581269
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4656628823681253722}
-  - component: {fileID: 785307733086667065}
-  - component: {fileID: 5225304645403626936}
-  - component: {fileID: 5040166482731725688}
-  - component: {fileID: 5475185179310996633}
-  - component: {fileID: 2663442673991085227}
-  - component: {fileID: 712423231959406454}
-  m_Layer: 17
-  m_Name: Player
-  m_TagString: Player
+  - component: {fileID: 8583885807532820742}
+  - component: {fileID: 3869296809350180050}
+  - component: {fileID: 5191079235338531969}
+  m_Layer: 0
+  m_Name: PlayerBody
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4656628823681253722
+--- !u!4 &8583885807532820742
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6130292915329008721}
+  m_GameObject: {fileID: 4389461699070581269}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 4656628823681253722}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &785307733086667065
+--- !u!33 &3869296809350180050
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6130292915329008721}
+  m_GameObject: {fileID: 4389461699070581269}
   m_Mesh: {fileID: -2432090755550338912, guid: ebd6b9363e515e944a9cc8194a4e8862, type: 3}
---- !u!23 &5225304645403626936
+--- !u!23 &5191079235338531969
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6130292915329008721}
+  m_GameObject: {fileID: 4389461699070581269}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -93,6 +89,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6130292915329008721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4656628823681253722}
+  - component: {fileID: 5040166482731725688}
+  - component: {fileID: 5475185179310996633}
+  - component: {fileID: 2663442673991085227}
+  - component: {fileID: 712423231959406454}
+  - component: {fileID: 5004288492463444806}
+  m_Layer: 17
+  m_Name: Player
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4656628823681253722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6130292915329008721}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8583885807532820742}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5040166482731725688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,13 +138,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a7b1a938588134bba9574fdc50be9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStateController
-  impactField: {fileID: 0}
-  poisonImpactField: {fileID: 1093305817044869981, guid: 6ea6ae83b324c4446afeb649e2176c72, type: 3}
-  playerSpike: {fileID: 874215115619219576, guid: fe8f83340f622804396758caca54f6da, type: 3}
   rb: {fileID: 712423231959406454}
   move: {fileID: -1868467007967312457, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   attack: {fileID: -6595154157516738094, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   abilitySystem: {fileID: 5475185179310996633}
+  attackSystem: {fileID: 5004288492463444806}
+  boxCollider: {fileID: 2663442673991085227}
+  body: {fileID: 4389461699070581269}
   isGrounded: 0
   groundLayer:
     serializedVersion: 2
@@ -145,11 +178,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySystem
   defaultAbility: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
   playerAbilities:
-  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
-  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
-  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
-  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
-  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
   - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
   playerAbilityStorage: []
 --- !u!65 &2663442673991085227
@@ -198,5 +226,22 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
-  m_CollisionDetection: 0
+  m_Constraints: 112
+  m_CollisionDetection: 3
+--- !u!114 &5004288492463444806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6130292915329008721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b95aa0d7cf7a8924eafb529c6e43c553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSystem
+  impactField: {fileID: 0}
+  poisonImpactField: {fileID: 1093305817044869981, guid: 6ea6ae83b324c4446afeb649e2176c72, type: 3}
+  playerSpike: {fileID: 874215115619219576, guid: fe8f83340f622804396758caca54f6da, type: 3}
+  playerRocket: {fileID: 7037020166965150851, guid: e859534f586b03941ae8edbddcfb8c4b, type: 3}
+  playerVacuum: {fileID: 2923029641425998541, guid: 461638ed5949e024e842b5bb1b8096a5, type: 3}

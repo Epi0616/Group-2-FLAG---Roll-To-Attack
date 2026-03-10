@@ -12,6 +12,8 @@ public class PlayerStateController : MonoBehaviour
     public PlayerBaseState currentState;
     public AbilitySystem abilitySystem;
     public AttackSystem attackSystem;
+    public BoxCollider boxCollider;
+    public GameObject body;
     public bool isGrounded;
     [SerializeField] private LayerMask groundLayer;
 
