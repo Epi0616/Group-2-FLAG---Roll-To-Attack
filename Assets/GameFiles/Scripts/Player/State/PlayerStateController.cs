@@ -76,7 +76,13 @@ public class PlayerStateController : MonoBehaviour
     }
 
     public void SwitchState(PlayerBaseState newState)
-    { 
+    {
+        if (newState == null)
+        { 
+            Debug.LogError("Trying to switch to a state that doesn't exist.");
+            return;
+        }
+
         currentState = newState;
         currentState.EnterState(this);
     }
