@@ -1,6 +1,8 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class AbilityDropZoneParent : MonoBehaviour
 {
@@ -60,5 +62,33 @@ public class AbilityDropZoneParent : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void DisplayEmptyAnimation(float timer)
+    {
+        StartCoroutine(ShakeRoutine(timer));
+    }
+
+    private IEnumerator ShakeRoutine(float timer)
+    {
+        float shakeTimer = timer;
+        Quaternion originalRotation = rectTransform.rotation;
+        Image image = GetComponent<Image>();
+        image.color = Color.red; //in the future set to whatever material the slot uses
+
+        while (shakeTimer > 0)
+        {
+            shakeTimer -= Time.deltaTime;
+
+            float z = (Mathf.PerlinNoise(Time.time * 25f, 0f) - 0.5f) * 12f;
+            Quaternion RotationalNoise = Quaternion.Euler(0, 0, z);
+
+            rectTransform.rotation = originalRotation * RotationalNoise;
+
+            yield return null;
+        }
+        image.color = Color.black; //in the future set to whatever material the slot uses
+
+        rectTransform.rotation = originalRotation;
     }
 }

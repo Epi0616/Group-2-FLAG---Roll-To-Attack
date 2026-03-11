@@ -49,7 +49,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
     public void ContinueButton()
     {
         Debug.Log("continue pressed");
-        //if (!CheckForFullDiceSlots) return;
+        if (!CheckForFullDiceSlots()) return;
 
         abilitySlotManager.AddNewObjectsToList(abilitySelectionManager.GetDraggableObjects());
         abilitySlotManager.PackAway();
@@ -84,15 +84,18 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
     private bool CheckForFullDiceSlots()
     {
+        bool slotsAllFull = true;
         List<AbilitySlot> abilitySlots = abilitySlotManager.abilitySlots;
         for (int i = 0; i < abilitySlots.Count; i++)
         {
-            if (abilitySlots[i].IsFull())
-            { 
-            
+            if (!abilitySlots[i].IsFull())
+            {
+                slotsAllFull = false;
+                abilitySlots[i].DisplayEmptyAnimation(0.5f);
             }
         }
 
+        if (!slotsAllFull) return false;
         return true;
     }
 }
