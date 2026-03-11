@@ -19,6 +19,12 @@ public class PlayerBaseAttackGatherState : PlayerBaseAttackState
             }
         }
 
+        foreach (var enemy in enemies)
+        {
+            if (enemy == null) continue;
+            ApplyKnockback(enemy);
+        }
+
         CustomAttack(enemies);
         CustomDisplayAttack();
     }

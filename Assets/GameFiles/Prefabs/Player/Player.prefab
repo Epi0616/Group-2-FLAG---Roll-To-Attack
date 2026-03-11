@@ -99,10 +99,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4656628823681253722}
   - component: {fileID: 5040166482731725688}
+  - component: {fileID: 1323944957761061384}
   - component: {fileID: 5475185179310996633}
+  - component: {fileID: 5004288492463444806}
   - component: {fileID: 2663442673991085227}
   - component: {fileID: 712423231959406454}
-  - component: {fileID: 5004288492463444806}
   m_Layer: 17
   m_Name: Player
   m_TagString: Player
@@ -143,6 +144,7 @@ MonoBehaviour:
   attack: {fileID: -6595154157516738094, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   abilitySystem: {fileID: 5475185179310996633}
   attackSystem: {fileID: 5004288492463444806}
+  healthSystem: {fileID: 0}
   boxCollider: {fileID: 2663442673991085227}
   body: {fileID: 4389461699070581269}
   isGrounded: 0
@@ -150,18 +152,39 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2147483648
   moveWhileJumping: 1
-  moveSpeed: 15
-  moveSpeedWhileJumping: 15
-  jumpHeight: 3
-  jumpSpeed: 8
-  impactSpeed: 10
+  moveSpeed:
+    baseValue: 0
+  moveSpeedWhileJumping:
+    baseValue: 0
+  jumpHeight:
+    baseValue: 0
+  jumpSpeed:
+    baseValue: 0
+  impactSpeed:
+    baseValue: 0
   onePipWeight: 1
   twoPipWeight: 1
   threePipWeight: 1
   fourPipWeight: 1
   fivePipWeight: 1
   sixPipWeight: 0
-  baseRadiusSize: 10
+  baseRadiusSize:
+    baseValue: 0
+  originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  maxHealth: 100
+  currentHealth: 0
+--- !u!114 &1323944957761061384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6130292915329008721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712b8f54d52968e4db70b248a1d32947, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
 --- !u!114 &5475185179310996633
@@ -180,6 +203,23 @@ MonoBehaviour:
   playerAbilities:
   - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
   playerAbilityStorage: []
+--- !u!114 &5004288492463444806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6130292915329008721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b95aa0d7cf7a8924eafb529c6e43c553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSystem
+  impactField: {fileID: 0}
+  poisonImpactField: {fileID: 1093305817044869981, guid: 6ea6ae83b324c4446afeb649e2176c72, type: 3}
+  playerSpike: {fileID: 874215115619219576, guid: fe8f83340f622804396758caca54f6da, type: 3}
+  playerRocket: {fileID: 7037020166965150851, guid: e859534f586b03941ae8edbddcfb8c4b, type: 3}
+  playerVacuum: {fileID: 2923029641425998541, guid: 461638ed5949e024e842b5bb1b8096a5, type: 3}
 --- !u!65 &2663442673991085227
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -228,20 +268,3 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 3
---- !u!114 &5004288492463444806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6130292915329008721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b95aa0d7cf7a8924eafb529c6e43c553, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AttackSystem
-  impactField: {fileID: 0}
-  poisonImpactField: {fileID: 1093305817044869981, guid: 6ea6ae83b324c4446afeb649e2176c72, type: 3}
-  playerSpike: {fileID: 874215115619219576, guid: fe8f83340f622804396758caca54f6da, type: 3}
-  playerRocket: {fileID: 7037020166965150851, guid: e859534f586b03941ae8edbddcfb8c4b, type: 3}
-  playerVacuum: {fileID: 2923029641425998541, guid: 461638ed5949e024e842b5bb1b8096a5, type: 3}

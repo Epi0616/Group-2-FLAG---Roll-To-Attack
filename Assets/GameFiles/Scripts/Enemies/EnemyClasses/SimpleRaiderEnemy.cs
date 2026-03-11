@@ -34,7 +34,7 @@ public class SimpleRaiderEnemy : EnemyStateController
             if (collider.gameObject.CompareTag("Player"))
             {
                 
-                playerController.OnTakeDamage(meleeAttackDamage);
+                playerController.healthSystem.OnTakeDamage(meleeAttackDamage);
                 
             }
 
