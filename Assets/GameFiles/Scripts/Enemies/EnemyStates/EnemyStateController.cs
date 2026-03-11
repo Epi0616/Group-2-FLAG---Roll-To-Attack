@@ -250,6 +250,9 @@ public abstract class EnemyStateController : MonoBehaviour
 
     public void StartSpawnVibration()
     {
+        enemyAgent.updatePosition = false;
+        enemyAgent.updateRotation = false;
+        enemyAgent.enabled = false;
         StartCoroutine(SpawnAnimation());
     }
 
@@ -257,7 +260,7 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         float timeElapsed = 0f;
         Vector3 startPos = transform.position;
-        Vector3 endPos = new Vector3(transform.position.x, transform.position.y + 5f, transform.position.z);
+        Vector3 endPos = new Vector3(transform.position.x, transform.position.y + 9.5f, transform.position.z);
         while (timeElapsed < 5f)
         {
             Vector3 lerpOffset = Vector3.Lerp(startPos, endPos, timeElapsed / 5f);
@@ -269,6 +272,7 @@ public abstract class EnemyStateController : MonoBehaviour
         StopVibrating();
         transform.position = endPos;
         isSpawning = false;
+
         ChangeState(new EnemyMoveState());
     }
 
