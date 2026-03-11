@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawnManager : MonoBehaviour
 {
-    private Vector2 spawnAreaCentrePoint = Vector2.zero;
+    private Vector2 spawnAreaCentrePoint = new Vector2(0f, 15f);
     private float spawnAreaRadius = 50f;
     Vector3 spawnPositionForDraw;
 
@@ -95,7 +95,7 @@ public class EnemySpawnManager : MonoBehaviour
         while (true && iterations < 100)
         {
             // Pick area within a circle, if too close to the player reroll that position
-            Vector2 randomArea = playerPos + Random.insideUnitCircle * spawnAreaRadius;
+            Vector2 randomArea = spawnAreaCentrePoint + Random.insideUnitCircle * spawnAreaRadius;
             Vector3 spawnPos = new Vector3(randomArea.x, 0f, randomArea.y);
 
             float distanceFromPlayer = Vector3.Distance(spawnPos, playerPos);
