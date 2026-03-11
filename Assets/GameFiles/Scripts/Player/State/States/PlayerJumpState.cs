@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -109,7 +110,15 @@ public class PlayerJumpState : PlayerBaseState
         player.rb.linearVelocity = Vector3.zero;
         player.rb.angularVelocity = Vector3.zero;
 
-        player.SwitchState(selectedAbility.Create());
+        PlayerBaseState nextState = selectedAbility.Create();
+        if (nextState == null)
+        {
+            Debug.LogError("Ability returned null state!");
+            player.SwitchState(new PlayerMovementState());
+            return;
+        }
+
+        player.SwitchState(nextState);
     }
 
 
