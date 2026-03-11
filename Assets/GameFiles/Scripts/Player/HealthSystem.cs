@@ -11,11 +11,11 @@ public class HealthSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        EnemyDirector.WaveOver += HealToFull;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver += HealToFull;
     }
     private void OnDisable()
     {
-        EnemyDirector.WaveOver -= HealToFull;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver -= HealToFull;
     }
 
     private void Start()
