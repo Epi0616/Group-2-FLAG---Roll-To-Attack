@@ -6,15 +6,18 @@ public class PlayerBodySystem : MonoBehaviour
 {
     public GameObject body;
     public Quaternion originalRotation;
+    public ParticleSystem healEffect;
     private float iFrameTimer;
 
     private void OnEnable()
     {
         HealthSystem.IFrames += DisplayIFrames;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver += DisplayHeal;
     }
     private void OnDisable()
     {
         HealthSystem.IFrames -= DisplayIFrames;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver -= DisplayHeal;
     }
 
     void Start()
@@ -38,10 +41,10 @@ public class PlayerBodySystem : MonoBehaviour
     private void DisplayIFrames(float timer)
     {
         iFrameTimer = timer;
-        StartCoroutine(FlashRoutine());
+        StartCoroutine(IFrameFlashRoutine());
     }
 
-    private IEnumerator FlashRoutine()
+    private IEnumerator IFrameFlashRoutine()
     {
         Debug.Log("starting corotuine");
         bool toggle = false;
@@ -56,5 +59,10 @@ public class PlayerBodySystem : MonoBehaviour
             yield return new WaitForSeconds(interval);
         }
         body.SetActive(true);
+    }
+
+    private void DisplayHeal(float healAmount)
+    { 
+        healEffect.Play();
     }
 }

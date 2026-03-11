@@ -47,9 +47,18 @@ public class AbilityDropZoneParent : MonoBehaviour
             //Debug.Log(i+ " " + x + " " + y + " " + distancePerStep);
         }
     }
-
     protected virtual void displayCapacity(int count)
     {
         displayText.GetComponent<TextMeshProUGUI>().text = count + "/" + objectLimit;
+    }
+
+    public bool IsFull()
+    {
+        if (draggableObjects.Count >= objectLimit)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

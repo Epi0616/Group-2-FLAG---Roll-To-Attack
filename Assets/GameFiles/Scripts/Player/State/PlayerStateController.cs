@@ -88,7 +88,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void CheckForGrounded()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1f, groundLayer);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 2f, groundLayer);
     }
 
     private void CheckForAttackAction()

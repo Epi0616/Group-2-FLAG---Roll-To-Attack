@@ -98,7 +98,6 @@ public class EnemyDirector : MonoBehaviour
         enemiesLeftInCurrentWave--;
         if (enemiesLeftInCurrentWave == 0)
         {
-            Debug.Log("wave over");
             currentBudget += budgetIncreasePerWave;
             WaveOver?.Invoke(delayBetweenWaves);
         }

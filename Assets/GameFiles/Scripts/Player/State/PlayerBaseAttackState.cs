@@ -22,7 +22,6 @@ public class PlayerBaseAttackState : PlayerMovementState
 
         if (!player.isGrounded)
         {
-            Debug.Log(player.impactSpeed.GetFinalValue());
             targetVelocity.y = player.rb.linearVelocity.y - player.impactSpeed.GetFinalValue();
         }
         
