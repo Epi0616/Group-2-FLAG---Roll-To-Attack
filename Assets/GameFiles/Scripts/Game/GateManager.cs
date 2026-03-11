@@ -6,50 +6,61 @@ public class GateManager : MonoBehaviour
     public List<GameObject> gates;
     float gatesDownY = -18;
     float gatesUpY = 1.8f;
-    bool waveOver = false, gateUp = false, gateDown = false;
-    float timeToNextWave = 0;
+    bool gateUp = true, gateDown = true;
+    float gateUpTimer, gateDownTimer;
+    float timer = 0;
 
     private void OnEnable()
     {
-        EnemyDirector.WaveOver += WaitForNextWave;
+        EnemyDirector.WaveOver += GatesUp;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver += GatesDown;
     }
 
     private void OnDisable()
     {
-        EnemyDirector.WaveOver -= WaitForNextWave;
+        EnemyDirector.WaveOver -= GatesUp;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver -= GatesDown;
+    }
+
+    private void Start()
+    {
+        timer = 5;
+        gateDown = false;
     }
 
     private void Update()
     {
-        timeToNextWave -= Time.deltaTime;
-        if (timeToNextWave <= 0)
-        {
-            waveOver = false;
-        }
+        timer -= Time.deltaTime;
+        if (timer > 0) return;
 
-
-        if (waveOver)
+        if (!gateUp)
         {
             for (int i = 0; i < gates.Count; i++)
             {
                 RaiseGate(gates[i]);
             }
-            return;
         }
 
-        for (int i = 0; i < gates.Count; i++)
+        if (!gateDown)
         {
-            LowerGate(gates[i]);
+            for (int i = 0; i < gates.Count; i++)
+            {
+                LowerGate(gates[i]);
+            }
         }
     }
 
-    private void WaitForNextWave(float timeToNextWave)
+    private void GatesUp(float timer)
     {
-        this.timeToNextWave = timeToNextWave;
-        waveOver = true;
-        gateDown = false;
         gateUp = false;
     }
+
+    private void GatesDown(float timer)
+    {
+        this.timer = timer;
+        gateDown = false;
+    }
+
     private void RaiseGate(GameObject gate)
     {
         if (gateUp) { return; }

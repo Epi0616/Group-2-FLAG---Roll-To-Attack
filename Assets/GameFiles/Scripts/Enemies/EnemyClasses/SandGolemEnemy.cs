@@ -38,7 +38,7 @@ public class SandGolemEnemy : EnemyStateController
             if (collider.gameObject.CompareTag("Player"))
             {
                 //Debug.Log("Golem Attack Hit Player");
-                playerController.OnTakeDamage(meleeAttackDamage);
+                playerController.healthSystem.OnTakeDamage(meleeAttackDamage);
                 continue;
             }
             else if (collider.gameObject.CompareTag("Enemy"))

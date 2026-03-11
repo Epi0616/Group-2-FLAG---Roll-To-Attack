@@ -93,10 +93,10 @@ public class PlayerJumpState : PlayerBaseState
         float t = Mathf.SmoothStep(0f, 1f, jumpProgress);
 
         Quaternion rotation = Quaternion.Slerp(startRotation, targetRotation, t);
-        player.body.transform.rotation = rotation;
+        player.bodySystem.body.transform.rotation = rotation;
 
         Quaternion visualSpin = Quaternion.Euler(360*t, 360*t, 360*t);
-        player.body.transform.rotation *= visualSpin;
+        player.bodySystem.body.transform.rotation *= visualSpin;
     }
 
     private void CompleteJump()
@@ -104,8 +104,8 @@ public class PlayerJumpState : PlayerBaseState
         player.rb.useGravity = true;
         player.rb.isKinematic = false;
 
-        player.body.transform.rotation = targetRotation;
-        player.originalRotation = targetRotation;
+        player.bodySystem.body.transform.rotation = targetRotation;
+        player.bodySystem.originalRotation = targetRotation;
         player.rb.linearVelocity = Vector3.zero;
         player.rb.angularVelocity = Vector3.zero;
 

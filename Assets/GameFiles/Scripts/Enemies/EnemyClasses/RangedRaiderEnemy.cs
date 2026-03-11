@@ -92,7 +92,7 @@ public class RangedRaiderEnemy : EnemyStateController
             {
                 damageTickTimer = 0f;      
                 //playerController = playerReference.GetComponent<PlayerStateController>();
-                playerController.OnTakeDamage(laserDamage/2);           
+                playerController.healthSystem.OnTakeDamage(laserDamage/2);           
             }                     
         }
         if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))

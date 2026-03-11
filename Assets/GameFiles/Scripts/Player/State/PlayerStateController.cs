@@ -13,13 +13,13 @@ public class PlayerStateController : MonoBehaviour
     public PlayerBaseState currentState;
     public AbilitySystem abilitySystem;
     public AttackSystem attackSystem;
+    public HealthSystem healthSystem;
+    public PlayerBodySystem bodySystem;
     public BoxCollider boxCollider;
-    public GameObject body;
+    //public GameObject body;
     public bool isGrounded;
     [SerializeField] private LayerMask groundLayer;
 
-    public static event Action<int> UpdateHealthBar;
-    public static event Action GameOver;
     public static event Action<float> ShakeScreen;
 
     [Header("For modification")]
@@ -39,38 +39,26 @@ public class PlayerStateController : MonoBehaviour
     public int fourPipWeight;
     public int fivePipWeight;
     public int sixPipWeight;
- 
 
     [Header("Attack feel")]
     public Stat baseRadiusSize;
     private float holdTime = 0;
-    private bool charging = false;
-    public Quaternion originalRotation;
-
-    [Header("General Stats")]
-    public int maxHealth;
-    public int currentHealth;
 
 
     private void OnEnable()
     {
         move.action.Enable();
         attack.action.Enable();
-        EnemyDirector.WaveOver += HealToFull;
     }
 
     private void OnDisable()
     {
         move.action.Disable();
         attack.action.Disable();
-        EnemyDirector.WaveOver -= HealToFull;
     }
 
     private void Start()
     {
-        currentHealth = maxHealth;
-        UpdateHealthBar?.Invoke(currentHealth);
-        originalRotation = body.transform.rotation;
         currentState = new PlayerMovementState();
         currentState.EnterState(this);
     }
@@ -91,27 +79,6 @@ public class PlayerStateController : MonoBehaviour
     { 
         currentState = newState;
         currentState.EnterState(this);
-    }
-
-    public void OnTakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        UpdateHealthBar?.Invoke(currentHealth);
-
-        if (currentHealth <= 0)
-        {
-            OnDeath();
-        }
-    }
-    public void HealToFull(float waveNumber)
-    {
-        currentHealth = maxHealth;
-        UpdateHealthBar?.Invoke(currentHealth);
-    }
-    public void OnDeath()
-    {
-        Debug.Log("Game Over");
-        GameOver?.Invoke();
     }
 
     public void AddScreenShake(float magnitude)
@@ -154,21 +121,12 @@ public class PlayerStateController : MonoBehaviour
             return;
         }
     }
-
     private void ChargingEffect()
     {
         float moveSpeedMultiplier = ((2 - holdTime) / 2);
         moveSpeedMultiplier = Mathf.Clamp(moveSpeedMultiplier, 0.35f, 1);
 
         moveSpeed.SetMultiplier(moveSpeedMultiplier);
-        ShakeDiceBody(2 / moveSpeedMultiplier);
-    }
-
-    private void ShakeDiceBody(float magnitude)
-    {
-        float x = Mathf.Sin(Time.time * 50f) * magnitude;
-        float y = Mathf.Sin(Time.time * 50f) * magnitude;
-        float z = Mathf.Sin(Time.time * 50f) * magnitude;
-        body.transform.rotation = originalRotation * Quaternion.Euler(x, y, z);
+        bodySystem.ShakeDiceBody(2 / moveSpeedMultiplier);
     }
 }
