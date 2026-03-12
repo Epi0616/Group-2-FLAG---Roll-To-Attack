@@ -18,6 +18,7 @@ public class PlayerStateController : MonoBehaviour
     public BoxCollider boxCollider;
     //public GameObject body;
     public bool isGrounded;
+    public LayerMask enemyLayer;
     [SerializeField] private LayerMask groundLayer;
 
     public static event Action<float> ShakeScreen;

@@ -9,6 +9,7 @@ public abstract class EnemyStateController : MonoBehaviour
 {
     // code added by matt to show damage text
     public GameObject playerReference,damageText;
+    public Camera cameraReference;
 
     [Header("Variables that can be changed")]
     [SerializeField] protected int maxHealth;
@@ -292,6 +293,7 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         Vector3 randomOffset = new(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f));
         GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
         float size = Mathf.Clamp(10 + (damage * 1.1f), 36f, 240f);
@@ -303,6 +305,7 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         Vector3 randomOffset = new(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f));
         GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
         tempTMPAccess.color = color;
@@ -318,6 +321,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
         Vector3 randomOffset = new(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f));
         GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = effectText;
     }
@@ -329,6 +333,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
         Vector3 randomOffset = new(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(2f, 4f), UnityEngine.Random.Range(-3f, 3f));
         GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = effectText;
         tempTMPAccess.color = color;
