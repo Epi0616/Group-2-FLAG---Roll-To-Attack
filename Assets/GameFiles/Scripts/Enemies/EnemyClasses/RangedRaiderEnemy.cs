@@ -53,6 +53,7 @@ public class RangedRaiderEnemy : EnemyStateController
         Ray ray = new Ray(firingOrigin.position, laserDirection);
 
         float distanceToEndofLaser = laserRange;
+
         if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
         {
             distanceToEndofLaser = hit.distance;
