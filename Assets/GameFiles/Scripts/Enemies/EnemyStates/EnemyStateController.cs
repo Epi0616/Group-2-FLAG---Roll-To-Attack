@@ -87,6 +87,8 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         if (isDead) return;
 
+        //Debug.Log(currentState);
+
         currentState?.UpdateState();
         UpdateEffects();
     }
@@ -105,6 +107,8 @@ public abstract class EnemyStateController : MonoBehaviour
         }
         currentState?.ExitState();
         currentState = newState;
+        StopCoroutine("ContinueLookAtPlayer");
+        Debug.Log("Entered State: " + currentState);
         currentState.EnterState(this);
     }
 
@@ -379,7 +383,7 @@ public abstract class EnemyStateController : MonoBehaviour
         playerDir.y = transform.position.y;
         Quaternion lookRotation = Quaternion.LookRotation(playerDir);
         float movementTimer = 0f;
-        while (movementTimer < duration && playerDir.magnitude < attackRange * 1.25f || movementTimer < 0.5f)
+        while ((movementTimer < duration && playerDir.magnitude < attackRange * 1.25f || movementTimer < 0.5f) && !isStunned)
         {
             playerDir = playerReference.transform.position - transform.position;
             playerDir.y = transform.position.y;
@@ -390,6 +394,10 @@ public abstract class EnemyStateController : MonoBehaviour
             float t = movementTimer / duration;
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);
             yield return null;
+        }
+        if (isStunned || isKnockedBack || isKnockedBackByGolem)
+        {
+            yield break;
         }
         ChangeState(new EnemyMoveState());
     }

@@ -65,6 +65,10 @@ public class SandGolemEnemy : EnemyStateController
     private IEnumerator ChargeTime()
     {
         yield return new WaitForSeconds(meleeAttackChargeTime);
+        if (attackInterrupted)
+        {
+            yield break;
+        }
         GolemSlam();
 
     }

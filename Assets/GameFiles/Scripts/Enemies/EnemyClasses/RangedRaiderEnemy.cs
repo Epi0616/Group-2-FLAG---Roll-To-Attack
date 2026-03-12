@@ -62,14 +62,30 @@ public class RangedRaiderEnemy : EnemyStateController
         MoveLaserCylinder(laserDirection, distanceToEndofLaser, chargingWidth);
 
         laserObject.SetActive(true);
+        activeTimer = 0;
 
-        yield return new WaitForSeconds(chargeTime);
+        while (activeTimer < chargeTime)
+        {
+            if (attackInterrupted)
+            {
+                yield break;
+            }
+            activeTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        //yield return new WaitForSeconds(chargeTime);
 
         activeTimer = 0;
         while (activeTimer < laserDuration && !isStunned && !attackInterrupted)
         {
             activeTimer += Time.deltaTime;
             damageTickTimer += Time.deltaTime;
+
+            if (attackInterrupted)
+            {
+                yield break;
+            }
 
             LaserCheck(laserTarget, laserDirection, ray, hit);
             yield return null;
@@ -178,6 +194,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     public override void CompleteAttack()
     {
+        StopCoroutine("FireLaser");
         attackInterrupted = true;
         laserObject.SetActive(false);
     }
