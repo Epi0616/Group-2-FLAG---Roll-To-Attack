@@ -8,12 +8,14 @@ public class EnemySpawnManager : MonoBehaviour
     private Vector2 spawnAreaCentrePoint = new Vector2(0f, 15f);
     private float spawnAreaRadius = 50f;
     Vector3 spawnPositionForDraw;
-
+    
+    
     private Vector2 playerPos;
     private GameObject playerRef;
     private float spawnTolerance = 50f;
     private IEnemyFactory[] enemyFactories;
     [SerializeField] private LayerMask propsLayer;
+    [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float spawnPointAreaRadius = 4f;
     [SerializeField] private float enemySpawnInterval;
     [SerializeField] private float enemyScalingHealthMultiplier;
@@ -51,28 +53,30 @@ public class EnemySpawnManager : MonoBehaviour
 
     public IEnumerator SpawnWave(List<EnemyTypes> wave)  
     {
+        Vector3 spawnPosFinal;
         foreach (EnemyTypes enemy in wave)
         {
             // Find the corrisponding Factory
             IEnemyFactory factory = CheckEnemyFactory(enemy);
             if (factory != null)
             {
-                Vector3 spawnPos;
+                
                 if (enemy == EnemyTypes.SandGolem)
                 {
-                    spawnPos = PickSpawnAreaCircular();                 
-                    spawnPos.y = spawnPos.y - 4f;
+                    //Debug.Log("Golem Spawning");
+                    spawnPosFinal = PickSpawnAreaCircular();                 
+                    spawnPosFinal.y = spawnPosFinal.y - 10f;
                 }
                 else
                 {
                     // Spawn and place the new enemy
-                    spawnPos = PickSpawnAreaPoint(spawnPointList);
+                    spawnPosFinal = PickSpawnAreaPoint(spawnPointList);
                 }
-                   
-                GameObject spawnedEnemy = factory.CreateEnemy(spawnPos);
+                //Debug.Log("Spawner Has Selected: " + spawnPosFinal.x + " " + spawnPosFinal.y + " " + spawnPosFinal.z);
+                GameObject spawnedEnemy = factory.CreateEnemy(spawnPosFinal);
                 
                 //Debug.Log(spawnPos.x + " " + spawnPos.y + " " + spawnPos.z);
-                //spawnedEnemy.transform.position = spawnPos;
+                //spawnedEnemy.transform.position = spawnPosFinal;
                 EnemyStateController spawnedEnemyCont = spawnedEnemy.GetComponent<EnemyStateController>();
                 spawnedEnemyCont.AdjustScaledHealth(enemyScalingHealthMultiplier);
                 spawnedEnemyCont.playerReference = playerRef;             
@@ -91,13 +95,15 @@ public class EnemySpawnManager : MonoBehaviour
     // This Function uses random area spawning that the Golem uses to spawn
     private Vector3 PickSpawnAreaCircular()
     {
+        RaycastHit hit;
         int iterations = 0;
         while (true && iterations < 100)
         {
             // Pick area within a circle, if too close to the player reroll that position
             Vector2 randomArea = spawnAreaCentrePoint + Random.insideUnitCircle * spawnAreaRadius;
             Vector3 spawnPos = new Vector3(randomArea.x, 0f, randomArea.y);
-
+            //Debug.Log(randomArea.x + " , " + randomArea.y);
+            
             float distanceFromPlayer = Vector3.Distance(spawnPos, playerPos);
 
             // Check if the chosen area is occupied by a prop
@@ -107,8 +113,18 @@ public class EnemySpawnManager : MonoBehaviour
             // Tolerance can be adjusted as needed 
             if (distanceFromPlayer > spawnTolerance && !isAreaOccupied)
             {
-                return spawnPos;
+                
+                Ray ray = new Ray(new Vector3(spawnPos.x, 10f, spawnPos.z), new Vector3(0, -1, 0));
+                if(Physics.Raycast(ray, out hit, 100f, groundLayer))
+                {
+                    //Debug.DrawLine(spawnPos, new Vector3(spawnPos.x, 100f, spawnPos.z), Color.green, 100f);
+                    //Debug.DrawLine(hit.point, new Vector3(hit.point.x, 100f, hit.point.z), Color.blue, 100f);
+                    //Debug.Log("Function Has Selected: " + spawnPos.x + " " + spawnPos.y + " " + spawnPos.z);
+                    //Debug.Log("Hit Has Selected: " + hit.point.x + " " + hit.point.y + " " + hit.point.z);
+                    return hit.point;
+                }
             }
+            Debug.DrawLine(spawnPos, new Vector3(spawnPos.x, 100f, spawnPos.z), Color.red, 100f);
             iterations++;
         }
         Debug.LogError("No Valid Spawn Point Found");

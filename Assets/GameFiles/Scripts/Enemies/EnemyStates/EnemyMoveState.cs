@@ -9,7 +9,7 @@ public class EnemyMoveState : EnemyBaseState
     public override void EnterState(EnemyStateController enemy)
     {
         base.EnterState(enemy);
-        enemy.animator.SetBool("isMoving", true);
+        //enemy.animator.SetBool("isMoving", true);
         enemy.enemyAgent.enabled = true;
         enemy.enemyAgent.updatePosition = true;
         enemy.enemyAgent.updateRotation = true;
@@ -83,7 +83,7 @@ public class EnemyMoveState : EnemyBaseState
         enemy.enemyAgent.updatePosition = false;
         enemy.enemyAgent.updateRotation = false;
         enemy.enemyAgent.enabled = false;
-        enemy.animator.SetBool("isMoving", false);
+       // enemy.animator.SetBool("isMoving", false);
         
         if (enemy.animator != null)
         {

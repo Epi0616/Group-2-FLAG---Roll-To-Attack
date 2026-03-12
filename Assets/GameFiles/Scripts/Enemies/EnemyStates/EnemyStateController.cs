@@ -87,6 +87,8 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         if (isDead) return;
 
+        //Debug.Log(currentState);
+
         currentState?.UpdateState();
         UpdateEffects();
     }
@@ -105,6 +107,8 @@ public abstract class EnemyStateController : MonoBehaviour
         }
         currentState?.ExitState();
         currentState = newState;
+        StopCoroutine("ContinueLookAtPlayer");
+        Debug.Log("Entered State: " + currentState);
         currentState.EnterState(this);
     }
 
@@ -250,6 +254,9 @@ public abstract class EnemyStateController : MonoBehaviour
 
     public void StartSpawnVibration()
     {
+        enemyAgent.updatePosition = false;
+        enemyAgent.updateRotation = false;
+        enemyAgent.enabled = false;
         StartCoroutine(SpawnAnimation());
     }
 
@@ -257,7 +264,7 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         float timeElapsed = 0f;
         Vector3 startPos = transform.position;
-        Vector3 endPos = new Vector3(transform.position.x, transform.position.y + 5f, transform.position.z);
+        Vector3 endPos = new Vector3(transform.position.x, transform.position.y + 9.5f, transform.position.z);
         while (timeElapsed < 5f)
         {
             Vector3 lerpOffset = Vector3.Lerp(startPos, endPos, timeElapsed / 5f);
@@ -269,6 +276,7 @@ public abstract class EnemyStateController : MonoBehaviour
         StopVibrating();
         transform.position = endPos;
         isSpawning = false;
+
         ChangeState(new EnemyMoveState());
     }
 
@@ -375,7 +383,7 @@ public abstract class EnemyStateController : MonoBehaviour
         playerDir.y = transform.position.y;
         Quaternion lookRotation = Quaternion.LookRotation(playerDir);
         float movementTimer = 0f;
-        while (movementTimer < duration && playerDir.magnitude < attackRange * 1.25f || movementTimer < 0.5f)
+        while ((movementTimer < duration && playerDir.magnitude < attackRange * 1.25f || movementTimer < 0.5f) && !isStunned)
         {
             playerDir = playerReference.transform.position - transform.position;
             playerDir.y = transform.position.y;
@@ -386,6 +394,10 @@ public abstract class EnemyStateController : MonoBehaviour
             float t = movementTimer / duration;
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);
             yield return null;
+        }
+        if (isStunned || isKnockedBack || isKnockedBackByGolem)
+        {
+            yield break;
         }
         ChangeState(new EnemyMoveState());
     }
