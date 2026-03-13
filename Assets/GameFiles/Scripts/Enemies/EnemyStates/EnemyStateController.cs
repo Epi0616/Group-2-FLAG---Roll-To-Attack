@@ -42,11 +42,11 @@ public abstract class EnemyStateController : MonoBehaviour
     private bool isDead;
     public static event Action EnemyHasDied;
 
-    protected float vibrateSpeed = 50f;
-    protected float vibrateIntensity = 0.1f;
-    private float vibrationTimer = 0f;
     protected float vibrationDuration;
     protected Vector3 initialPosition;
+    public float vibrateSpeed = 50f;
+    public float vibrateIntensity = 0.1f;
+    private float vibrationTimer = 0f;
 
     private Stat[] stats;
     private List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
@@ -74,21 +74,20 @@ public abstract class EnemyStateController : MonoBehaviour
         
         playerController = playerReference.GetComponent<PlayerStateController>();
 
-
-        ChangeState(new EnemySpawnState());
-    }
-
-    protected virtual void Spawning()
-    {
-        currentState = new EnemyMoveState();
-        currentState.EnterState(this);
+        if (hasSpawnVibration)
+        {
+            ChangeState(new VibratingSpawnState());
+        }
+        else
+        {
+            ChangeState(new EnemyMoveState());
+        }
+            
     }
 
     protected virtual void Update()
     {
         if (isDead) return;
-
-        //Debug.Log(currentState);
 
         currentState?.UpdateState();
         UpdateEffects();
@@ -107,8 +106,7 @@ public abstract class EnemyStateController : MonoBehaviour
             return;
         }
         currentState?.ExitState();
-        currentState = newState;
-        StopCoroutine("ContinueLookAtPlayer");
+        currentState = newState;     
         Debug.Log("Entered State: " + currentState);
         currentState.EnterState(this);
     }
@@ -214,25 +212,13 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         vibrationDuration = duration;
         vibrationTimer = 0f;
-        
+
         initialPosition = transform.position;
-        isVibrating = true;    
+        isVibrating = true;
 
         if (animator != null)
         {
             animator.speed = 0f;
-        }
-    }
-
-    public void StopVibrating()
-    {
-        isVibrating = false;
-        transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
-
-        if (animator != null)
-        {
-            //Debug.Log("Animation Restarted");
-            animator.speed = 1f;
         }
     }
 
@@ -253,40 +239,15 @@ public abstract class EnemyStateController : MonoBehaviour
         transform.position = new Vector3(initialPosition.x + x, transform.position.y, initialPosition.z + z);
     }
 
-    public void StartSpawnVibration()
+    public void StopVibrating()
     {
-        enemyAgent.updatePosition = false;
-        enemyAgent.updateRotation = false;
-        enemyAgent.enabled = false;
-        StartCoroutine(SpawnAnimation());
-    }
+        isVibrating = false;
+        transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
 
-    private IEnumerator SpawnAnimation()
-    {
-        float timeElapsed = 0f;
-        Vector3 startPos = transform.position;
-        Vector3 endPos = new Vector3(transform.position.x, transform.position.y + 9.5f, transform.position.z);
-        while (timeElapsed < 5f)
+        if (animator != null)
         {
-            Vector3 lerpOffset = Vector3.Lerp(startPos, endPos, timeElapsed / 5f);
-            transform.position = lerpOffset + SpawningAnimationVibrateOffset();
-            timeElapsed += Time.deltaTime;
-
-            yield return null;
+            animator.speed = 1f;
         }
-        StopVibrating();
-        transform.position = endPos;
-        isSpawning = false;
-
-        ChangeState(new EnemyMoveState());
-    }
-
-    private Vector3 SpawningAnimationVibrateOffset()
-    {
-        //if (!isVibrating) { return Vector3.zero; }
-        float x = Mathf.Sin(Time.time * vibrateSpeed) * vibrateIntensity;
-        float z = Mathf.Sin(Time.time * vibrateSpeed) * vibrateIntensity;
-        return new Vector3(x, 0, z);
     }
 
     protected void ShowDamage(int damage)
@@ -386,32 +347,6 @@ public abstract class EnemyStateController : MonoBehaviour
         // add a check for the value of dmgMod to increase volume/size of effects
 
         
-    }
-
-    // During Attack Cooldown maintain a look rotation and if the player moves out of range bypass cooldown to continue moving - Used by all Enemies
-    protected IEnumerator ContinueLookAtPlayer(float duration)
-    {
-        Vector3 playerDir = playerReference.transform.position - transform.position;
-        playerDir.y = transform.position.y;
-        Quaternion lookRotation = Quaternion.LookRotation(playerDir);
-        float movementTimer = 0f;
-        while ((movementTimer < duration && playerDir.magnitude < attackRange * 1.25f || movementTimer < 0.5f) && !isStunned)
-        {
-            playerDir = playerReference.transform.position - transform.position;
-            playerDir.y = transform.position.y;
-            lookRotation = Quaternion.LookRotation(playerDir);
-            lookRotation.z = 0f;
-            lookRotation.x = 0f;
-            movementTimer += Time.deltaTime;
-            float t = movementTimer / duration;
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);
-            yield return null;
-        }
-        if (isStunned || isKnockedBack || isKnockedBackByGolem)
-        {
-            yield break;
-        }
-        ChangeState(new EnemyMoveState());
     }
 
     // Single Instant Look At Player - Used By Ranged Enemy when attack starts
