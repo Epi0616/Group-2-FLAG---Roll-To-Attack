@@ -94,7 +94,7 @@ public class RangedRaiderEnemy : EnemyStateController
         laserObject.SetActive(false);
         if (!attackInterrupted)
         {
-            StartCoroutine(ContinueLookAtPlayer(attackCooldownStat.GetFinalValue()));
+            ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));          
         }
     }
 
@@ -156,7 +156,7 @@ public class RangedRaiderEnemy : EnemyStateController
         laserObject.SetActive(false);
         if (!attackInterrupted) 
         {
-            StartCoroutine(ContinueLookAtPlayer(attackCooldownStat.GetFinalValue()));
+            ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));          
         }
     }
 

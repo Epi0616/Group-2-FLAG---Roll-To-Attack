@@ -58,8 +58,7 @@ public class SandGolemEnemy : EnemyStateController
             return;
         }
 
-        
-        StartCoroutine(ContinueLookAtPlayer(attackCooldownStat.GetFinalValue()));
+        ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));      
     }
 
     private IEnumerator ChargeTime()
