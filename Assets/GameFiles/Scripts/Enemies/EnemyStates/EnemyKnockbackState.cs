@@ -28,7 +28,7 @@ public class EnemyKnockbackState : EnemyBaseState
         ApplyKnockback();
     }
 
-    private void ApplyKnockback()
+    public virtual void ApplyKnockback()
     {
         enemy.rb.linearVelocity = Vector3.zero;
         Vector3 targetVector = (enemy.transform.position - origin);
@@ -68,7 +68,7 @@ public class EnemyKnockbackState : EnemyBaseState
     {
         if (enemy.rb.linearVelocity.y < 0)
         {
-            enemy.rb.AddForce(new Vector3(0, -1.5f, 0), ForceMode.Impulse);
+            enemy.rb.AddForce(new Vector3(0, -2.5f, 0), ForceMode.Impulse);
         }
     }
 
@@ -107,6 +107,24 @@ public class EnemyGolemKnockbackState : EnemyKnockbackState
         enemy.isKnockedBackByGolem = true;
         base.EnterState(enemy);
         
+    }
+
+    public override void ApplyKnockback()
+    {
+        enemy.rb.linearVelocity = Vector3.zero;
+        Vector3 targetVector = (enemy.transform.position - origin);
+
+        Vector3 targetDirection = targetVector.normalized;
+        targetDirection.y = 1.2f;
+        enemy.rb.AddForce(targetDirection * ((force * enemy.knockbackWeightModifierStat.GetFinalValue()) * 10f), ForceMode.VelocityChange);
+    }
+
+    public override void FixedUpdateState()
+    {
+        if (enemy.rb.linearVelocity.y < 0)
+        {
+            enemy.rb.AddForce(new Vector3(0, -5.5f, 0), ForceMode.Impulse);
+        }
     }
 
     public override void ExitState()

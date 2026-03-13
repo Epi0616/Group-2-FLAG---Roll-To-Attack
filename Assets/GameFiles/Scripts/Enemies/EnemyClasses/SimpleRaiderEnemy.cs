@@ -44,8 +44,7 @@ public class SimpleRaiderEnemy : EnemyStateController
         {
             return;
         }
-        ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));
-        //currentLookCoroutine = StartCoroutine(ContinueLookAtPlayer(attackCooldownStat.GetFinalValue()));
+        ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));        
     }
 
 
