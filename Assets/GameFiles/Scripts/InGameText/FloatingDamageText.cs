@@ -14,7 +14,7 @@ public class FloatingDamageText : MonoBehaviour
     public void Initialize(Camera camera)
     {
         targetCamera = camera;
-        Destroy(gameObject, lifeTime);
+        StartCoroutine(DestroyRoutine());
     }
 
     private void Update()
@@ -24,6 +24,13 @@ public class FloatingDamageText : MonoBehaviour
         transform.rotation = targetCamera.transform.rotation;
         transform.position += Vector3.up * Time.deltaTime * 2f;
         transform.localScale *= 0.999f;
+    }
+
+    private IEnumerator DestroyRoutine()
+    { 
+        yield return new WaitForSeconds(lifeTime);
+
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     //private void LookToCamera()

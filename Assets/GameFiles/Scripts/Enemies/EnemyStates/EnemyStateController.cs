@@ -292,7 +292,10 @@ public abstract class EnemyStateController : MonoBehaviour
     protected void ShowDamage(int damage)
     {
         Vector3 randomOffset = new(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f));
-        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
         damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
@@ -304,7 +307,11 @@ public abstract class EnemyStateController : MonoBehaviour
     protected void ShowDamage(int damage, Color color)
     {
         Vector3 randomOffset = new(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f));
-        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
+
         damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
