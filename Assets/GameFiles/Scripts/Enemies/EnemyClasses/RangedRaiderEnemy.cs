@@ -37,7 +37,6 @@ public class RangedRaiderEnemy : EnemyStateController
         {
             StartCoroutine(FireLaser());
         }
-        
     }
 
     private IEnumerator FireLaser()
