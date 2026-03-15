@@ -18,6 +18,6 @@ public class A_PlayerPoisonState : PlayerBaseAttackState
         //player.attackSystem.impactField.GetComponent<ImpactField>().ShowOnPlayer(player.rb.position, myRadius, myColor);
 
         GameObject poisionField = player.attackSystem.InstantiateObejct(player.attackSystem.poisonImpactField, player.rb.position);
-        poisionField.GetComponent<PoisionImpactField>().adjustObjectSizeAndRotation(myRadius);
+        poisionField.GetComponent<PoisionImpactField>().Initialize(myRadius);
     }
 }

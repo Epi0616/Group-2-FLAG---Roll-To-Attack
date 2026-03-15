@@ -6,7 +6,8 @@ public class EnemyFactory : MonoBehaviour, IEnemyFactory
 
     public virtual GameObject CreateEnemy(Vector3 spawnPos)
     {
-        return Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        //return Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        return ObjectPoolManager.SpawnObject(enemyPrefab, spawnPos, Quaternion.identity);
     }
 
     public virtual bool DesiredEnemyType(EnemyTypes enemyType)

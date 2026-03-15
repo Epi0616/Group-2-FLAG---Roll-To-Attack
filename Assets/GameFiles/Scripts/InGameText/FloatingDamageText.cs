@@ -1,50 +1,66 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class FloatingDamageText : MonoBehaviour
 {
-    public Camera targetCamera;
+    [SerializeField] private Renderer myRenderer;
+    private Camera targetCamera;
     private float lifeTime = 3f;
-    private Vector3 targetWorldUp;
-    private Vector3 targetWorldPosition;
-    private Quaternion targetCameraRotation;
+    private Vector3 originalScale;
+    //private Vector3 targetWorldUp;
+    //private Vector3 targetWorldPosition;
+    //private Quaternion targetCameraRotation;
 
     //set up initialize once enemy spawner is working properly
     public void Initialize(Camera camera)
     {
-        //targetCamera = camera;
-        targetCamera = FindFirstObjectByType<Camera>();
+        targetCamera = camera;
+        transform.localScale = originalScale;
+        StartCoroutine(DestroyRoutine());
     }
 
-    private void Start()
+    private void Awake()
     {
-        Initialize(targetCamera);
-        Destroy(gameObject, lifeTime);
+        originalScale = transform.localScale;
+        myRenderer.material.renderQueue = 100;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        LookToCamera();
-        FadeOut();
+        if (targetCamera == null) return;
+
+        transform.rotation = targetCamera.transform.rotation;
+        transform.position += Vector3.up * Time.deltaTime * 3f;
+        transform.localScale *= 0.995f;
     }
 
-    private void LookToCamera()
-    {
-        targetCameraRotation = targetCamera.transform.rotation;
-        targetWorldPosition = transform.position + targetCameraRotation * Vector3.forward;
-        targetWorldUp = targetCameraRotation * Vector3.up;
+    private IEnumerator DestroyRoutine()
+    { 
+        yield return new WaitForSeconds(lifeTime);
 
-        transform.LookAt(targetWorldPosition, targetWorldUp);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
-    private void FadeOut()
-    {
-        Vector3 tempPosition = transform.position;
-        tempPosition.y += Time.fixedDeltaTime * 2f;
-        transform.position = tempPosition;
+    //private void LookToCamera()
+    //{
+    //    if (targetCamera == null) return;
 
-        Vector3 tempScale = transform.localScale;
-        tempScale.x = tempScale.y = tempScale.x * 0.99f;
-        transform.localScale = tempScale;
-    }
+    //    targetCameraRotation = targetCamera.transform.rotation;
+    //    targetWorldPosition = transform.position + targetCameraRotation * Vector3.forward;
+    //    targetWorldUp = targetCameraRotation * Vector3.up;
+
+    //    transform.LookAt(targetWorldPosition, targetWorldUp);
+    //}
+
+    //private void FadeOut()
+    //{
+    //    Vector3 tempPosition = transform.position;
+    //    tempPosition.y += Time.deltaTime * 2f;
+    //    transform.position = tempPosition;
+
+    //    Vector3 tempScale = transform.localScale;
+    //    tempScale.x = tempScale.y = tempScale.x * 0.999f;
+    //    transform.localScale = tempScale;
+    //}
 }

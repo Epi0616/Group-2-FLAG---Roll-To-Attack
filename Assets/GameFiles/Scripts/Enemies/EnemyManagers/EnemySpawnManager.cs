@@ -14,6 +14,7 @@ public class EnemySpawnManager : MonoBehaviour
     private GameObject playerRef;
     private float spawnTolerance = 50f;
     private IEnemyFactory[] enemyFactories;
+    [SerializeField] private Camera cameraReference;
     [SerializeField] private LayerMask propsLayer;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float spawnPointAreaRadius = 4f;
@@ -79,7 +80,9 @@ public class EnemySpawnManager : MonoBehaviour
                 //spawnedEnemy.transform.position = spawnPosFinal;
                 EnemyStateController spawnedEnemyCont = spawnedEnemy.GetComponent<EnemyStateController>();
                 spawnedEnemyCont.AdjustScaledHealth(enemyScalingHealthMultiplier);
-                spawnedEnemyCont.playerReference = playerRef;             
+                spawnedEnemyCont.playerReference = playerRef;
+                spawnedEnemyCont.cameraReference = cameraReference;
+                spawnedEnemyCont.GetComponent<EnemyStateController>().Initialize();
                 yield return new WaitForSeconds(enemySpawnInterval);
                 
                 

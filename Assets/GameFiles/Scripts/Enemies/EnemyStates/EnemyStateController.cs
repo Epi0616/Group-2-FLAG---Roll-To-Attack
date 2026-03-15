@@ -9,6 +9,7 @@ public abstract class EnemyStateController : MonoBehaviour
 {
     // code added by matt to show damage text
     public GameObject playerReference,damageText;
+    public Camera cameraReference;
 
     [Header("Variables that can be changed")]
     [SerializeField] protected int maxHealth;
@@ -63,15 +64,17 @@ public abstract class EnemyStateController : MonoBehaviour
         };
     }
 
-    protected void Start()
+    public void Initialize()
     {
         currentHealth = maxHealth;
 
         enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
         enemyAgent.stoppingDistance = attackRange;
         enemyAgent.acceleration = moveSpeedStat.GetFinalValue() * 5;
-        
+
         playerController = playerReference.GetComponent<PlayerStateController>();
+        isDead = false;
+        currentStatusEffects.Clear();
 
         if (hasSpawnVibration)
         {
@@ -81,7 +84,6 @@ public abstract class EnemyStateController : MonoBehaviour
         {
             ChangeState(new EnemyMoveState());
         }
-            
     }
 
     protected virtual void Update()
@@ -106,7 +108,7 @@ public abstract class EnemyStateController : MonoBehaviour
         }
         currentState?.ExitState();
         currentState = newState;     
-        Debug.Log("Entered State: " + currentState);
+        //Debug.Log("Entered State: " + currentState);
         currentState.EnterState(this);
     }
 
@@ -252,7 +254,11 @@ public abstract class EnemyStateController : MonoBehaviour
     protected void ShowDamage(int damage)
     {
         Vector3 randomOffset = new(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f));
-        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
         float size = Mathf.Clamp(10 + (damage * 1.1f), 36f, 240f);
@@ -263,7 +269,12 @@ public abstract class EnemyStateController : MonoBehaviour
     protected void ShowDamage(int damage, Color color)
     {
         Vector3 randomOffset = new(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f));
-        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
+
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
         tempTMPAccess.color = color;
@@ -278,7 +289,11 @@ public abstract class EnemyStateController : MonoBehaviour
         //Debug.Log(effectText);
 
         Vector3 randomOffset = new(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f));
-        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = effectText;
     }
@@ -289,7 +304,11 @@ public abstract class EnemyStateController : MonoBehaviour
         //Debug.Log(effectText);
 
         Vector3 randomOffset = new(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(2f, 4f), UnityEngine.Random.Range(-3f, 3f));
-        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = effectText;
         tempTMPAccess.color = color;
@@ -302,7 +321,9 @@ public abstract class EnemyStateController : MonoBehaviour
         isDead = true;
         currentState?.ExitState();
         EnemyHasDied?.Invoke();
-        Destroy(gameObject);
+
+        //Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     // Check for Knockback wall damage

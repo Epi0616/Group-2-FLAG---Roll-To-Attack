@@ -6,16 +6,17 @@ using UnityEngine.UIElements;
 
 public class PlayerBaseAttackGatherState : PlayerBaseAttackState
 {
-    protected override void Attack(Collider[] colliders)
+    protected override void Attack(Collider[] colliders, int collisions)
     {
         List<GameObject> enemies = new();
-        foreach (var collider in colliders)
-        {
-            if (!collider.gameObject) { continue; }
 
-            if (collider.gameObject.CompareTag("Enemy"))
+        for (int i = 0; i < collisions; i++)
+        {
+            if (!colliders[i].gameObject) { continue; }
+
+            if (colliders[i].gameObject.CompareTag("Enemy"))
             {
-                enemies.Add(collider.gameObject);
+                enemies.Add(colliders[i].gameObject);
             }
         }
 

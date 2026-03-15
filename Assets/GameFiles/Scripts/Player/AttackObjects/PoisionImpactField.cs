@@ -45,7 +45,7 @@ public class PoisionImpactField : MonoBehaviour
         color.a = 0;
 
         if (!(lifeTimer >= lifeSpan)) { return; }
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     private void TickDamage()
@@ -75,9 +75,15 @@ public class PoisionImpactField : MonoBehaviour
         }
     }
 
-    public void adjustObjectSizeAndRotation(float radius)
+    public void Initialize(float radius)
     {
         this.radius = radius;
+        damageTickTimer = 0;
+        currentTickCount = 0;
+
+        lifeTimer = 0;
+        color.a = 0.175f;
+        material.color = color;
 
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;

@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
+
 
 public class PlayerBaseAttackState : PlayerMovementState
 {
@@ -37,22 +35,25 @@ public class PlayerBaseAttackState : PlayerMovementState
 
         float magnitude = player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue() * 2;
         player.AddScreenShake(magnitude);
-        Collider[] colliders = Physics.OverlapSphere(player.rb.position, myRadius);
-        Attack(colliders);
+
+        Collider[] colliders = new Collider[100];
+        int collisions = Physics.OverlapSphereNonAlloc(player.rb.position, myRadius, colliders, player.enemyLayer);
+        Attack(colliders, collisions);
+
         ResetAttackModifiers();
         player.SwitchState(new PlayerMovementState());
     }
 
-    protected virtual void Attack(Collider[] colliders)
+    protected virtual void Attack(Collider[] colliders, int collisions)
     {
         List<GameObject> Enemies = new();
-        foreach (var collider in colliders)
+        for (int i = 0; i < collisions; i++)
         {
-            if (!collider.gameObject) { continue; }
+            if (!colliders[i].gameObject) { continue; }
 
-            if (collider.gameObject.CompareTag("Enemy"))
+            if (colliders[i].gameObject.CompareTag("Enemy"))
             {
-                Enemies.Add(collider.gameObject);
+                Enemies.Add(colliders[i].gameObject);
             }
         }
 
@@ -71,7 +72,7 @@ public class PlayerBaseAttackState : PlayerMovementState
         { 
             EnemyStateController enemy = Enemy.GetComponent<EnemyStateController>();
             float knockbackForce = player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue();
-            enemy.OnTakeKnockback(player.transform.position, knockbackForce * 3);
+            enemy.OnTakeKnockback(player.transform.position, knockbackForce * 2);
         }
     }
 

@@ -36,7 +36,7 @@ public class PlayerSixPipState : PlayerBaseAttackState
 
         Debug.Log(myRadius);
         Collider[] colliders = Physics.OverlapSphere(player.rb.position, myRadius);
-        Attack(colliders);
+        //Attack(colliders);
         player.SwitchState(new PlayerMovementState());
     }
 
