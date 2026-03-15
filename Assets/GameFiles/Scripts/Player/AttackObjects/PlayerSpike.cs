@@ -13,10 +13,12 @@ public class PlayerSpike : MonoBehaviour
     private float angle;
     private Quaternion rotation;
     private Vector3 offset;
+    private bool isDestroyed = false;
 
     public void Initialize(float startAngle, GameObject player)
     {
         age = 0;
+        isDestroyed = false;
         this.player = player;
         this.angle = startAngle;             
     }
@@ -63,6 +65,8 @@ public class PlayerSpike : MonoBehaviour
 
     private void DestroyMe()
     {
+        if (isDestroyed) { return; }
+        isDestroyed = true;
         player.GetComponent<PlayerStateController>().attackSystem.RemoveObjectFromOrbit(gameObject);
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }

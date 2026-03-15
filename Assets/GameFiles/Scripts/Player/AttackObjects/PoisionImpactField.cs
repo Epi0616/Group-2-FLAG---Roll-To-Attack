@@ -78,6 +78,8 @@ public class PoisionImpactField : MonoBehaviour
     public void Initialize(float radius)
     {
         this.radius = radius;
+        damageTickTimer = 0;
+        currentTickCount = 0;
 
         lifeTimer = 0;
         color.a = 0.175f;

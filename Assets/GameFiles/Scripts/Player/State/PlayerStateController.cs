@@ -2,9 +2,12 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.EventSystems.EventTrigger;
+using static UnityEngine.UI.Image;
 public class PlayerStateController : MonoBehaviour
 {
     [Header("Dont modify the variables listed below")]

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerSpikeFixedYMod : MonoBehaviour
@@ -14,14 +15,15 @@ public class PlayerSpikeFixedYMod : MonoBehaviour
     private Quaternion rotation;
     private Vector3 offset;
     private float tempY;
+    private bool isDestroyed = false;
 
     public void Initialize(float startAngle, GameObject player)
     {
+        isDestroyed = false;
         age = 0;
         this.player = player;
         this.angle = startAngle;
-
-        tempY = player.transform.position.y;
+        this.tempY = player.transform.position.y;
     }
 
     void Update()
@@ -33,13 +35,13 @@ public class PlayerSpikeFixedYMod : MonoBehaviour
     private void OrbitPlayer()
     {
         angle += speed * Time.deltaTime;
-
         rotation = Quaternion.Euler(0, angle, 0);
         offset = rotation * Vector3.forward * radius;
+
+        if (player.transform.position.y < tempY) { tempY = player.transform.position.y; }
         transform.position = new Vector3(player.transform.position.x, tempY, player.transform.position.z) + offset;
 
         Vector3 targetVector = new Vector3(player.transform.position.x, tempY, player.transform.position.z);
-
         transform.LookAt(targetVector, desiredWorldUp);
     }
 
@@ -68,6 +70,8 @@ public class PlayerSpikeFixedYMod : MonoBehaviour
 
     private void DestroyMe()
     {
+        if (isDestroyed) return;
+        isDestroyed = true;
         player.GetComponent<PlayerStateController>().attackSystem.RemoveObjectFromOrbit(gameObject);
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }

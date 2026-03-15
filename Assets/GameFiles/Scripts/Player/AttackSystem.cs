@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Android;
 using static UnityEngine.GraphicsBuffer;
 
 public class AttackSystem : MonoBehaviour
@@ -18,10 +20,21 @@ public class AttackSystem : MonoBehaviour
     public void CreateRockets(EnemyStateController target)
     {
         //GameObject rocket = Instantiate(playerRocket, transform.position, Quaternion.identity);
-        GameObject rocket = ObjectPoolManager.SpawnObject(playerRocket, transform.position, Quaternion.identity);
+        StartCoroutine(SpawnRocketRoutine(target));
+    }
 
-        rocket.GetComponent<PlayerRocket>().SetTarget(target, transform.position.y);
+    private IEnumerator SpawnRocketRoutine(EnemyStateController target)
+    {
+        int count = 3;
+        while (count > 0)
+        {
+            count--;
 
+            GameObject rocket = ObjectPoolManager.SpawnObject(playerRocket, transform.position, Quaternion.identity);
+            rocket.GetComponent<PlayerRocket>().SetTarget(target, transform.position.y);
+
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     public void CreateVaccum(float range, float timer)

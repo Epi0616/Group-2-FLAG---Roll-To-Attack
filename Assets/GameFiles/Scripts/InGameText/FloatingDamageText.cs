@@ -4,8 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class FloatingDamageText : MonoBehaviour
 {
+    [SerializeField] private Renderer myRenderer;
     private Camera targetCamera;
     private float lifeTime = 3f;
+    private Vector3 originalScale;
     //private Vector3 targetWorldUp;
     //private Vector3 targetWorldPosition;
     //private Quaternion targetCameraRotation;
@@ -14,7 +16,14 @@ public class FloatingDamageText : MonoBehaviour
     public void Initialize(Camera camera)
     {
         targetCamera = camera;
+        transform.localScale = originalScale;
         StartCoroutine(DestroyRoutine());
+    }
+
+    private void Awake()
+    {
+        originalScale = transform.localScale;
+        myRenderer.material.renderQueue = 100;
     }
 
     private void Update()
@@ -22,8 +31,8 @@ public class FloatingDamageText : MonoBehaviour
         if (targetCamera == null) return;
 
         transform.rotation = targetCamera.transform.rotation;
-        transform.position += Vector3.up * Time.deltaTime * 2f;
-        transform.localScale *= 0.999f;
+        transform.position += Vector3.up * Time.deltaTime * 3f;
+        transform.localScale *= 0.995f;
     }
 
     private IEnumerator DestroyRoutine()

@@ -72,7 +72,7 @@ public class PlayerBaseAttackState : PlayerMovementState
         { 
             EnemyStateController enemy = Enemy.GetComponent<EnemyStateController>();
             float knockbackForce = player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue();
-            enemy.OnTakeKnockback(player.transform.position, knockbackForce * 3);
+            enemy.OnTakeKnockback(player.transform.position, knockbackForce * 2);
         }
     }
 
