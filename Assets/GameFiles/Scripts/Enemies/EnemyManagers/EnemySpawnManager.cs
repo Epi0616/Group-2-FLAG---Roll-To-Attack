@@ -82,6 +82,7 @@ public class EnemySpawnManager : MonoBehaviour
                 spawnedEnemyCont.AdjustScaledHealth(enemyScalingHealthMultiplier);
                 spawnedEnemyCont.playerReference = playerRef;
                 spawnedEnemyCont.cameraReference = cameraReference;
+                spawnedEnemyCont.GetComponent<EnemyStateController>().Initialize();
                 yield return new WaitForSeconds(enemySpawnInterval);
                 
                 

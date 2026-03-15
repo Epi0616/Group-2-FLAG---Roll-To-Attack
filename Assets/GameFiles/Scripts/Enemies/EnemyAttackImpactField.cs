@@ -94,7 +94,9 @@ public class EnemyAttackImpactField : MonoBehaviour
 
             yield return null;
         }
-        Destroy(gameObject);
+
+        //Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     private float easeOutBack(float x)

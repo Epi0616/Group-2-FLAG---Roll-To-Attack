@@ -16,6 +16,7 @@ public class PlayerSpike : MonoBehaviour
 
     public void Initialize(float startAngle, GameObject player)
     {
+        age = 0;
         this.player = player;
         this.angle = startAngle;             
     }
@@ -63,6 +64,6 @@ public class PlayerSpike : MonoBehaviour
     private void DestroyMe()
     {
         player.GetComponent<PlayerStateController>().attackSystem.RemoveObjectFromOrbit(gameObject);
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

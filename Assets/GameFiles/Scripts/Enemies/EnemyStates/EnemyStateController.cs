@@ -64,15 +64,17 @@ public abstract class EnemyStateController : MonoBehaviour
         };
     }
 
-    protected void Start()
+    public void Initialize()
     {
         currentHealth = maxHealth;
 
         enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
         enemyAgent.stoppingDistance = attackRange;
         enemyAgent.acceleration = moveSpeedStat.GetFinalValue() * 5;
-        
+
         playerController = playerReference.GetComponent<PlayerStateController>();
+        isDead = false;
+        currentStatusEffects.Clear();
 
         if (hasSpawnVibration)
         {
@@ -82,7 +84,6 @@ public abstract class EnemyStateController : MonoBehaviour
         {
             ChangeState(new EnemyMoveState());
         }
-            
     }
 
     protected virtual void Update()
@@ -320,7 +321,9 @@ public abstract class EnemyStateController : MonoBehaviour
         isDead = true;
         currentState?.ExitState();
         EnemyHasDied?.Invoke();
-        Destroy(gameObject);
+
+        //Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     // Check for Knockback wall damage

@@ -33,6 +33,7 @@ public class PlayerVacuum : MonoBehaviour
 
     public void SetUp(float range, float timer)
     {
+        detonated = false;
         this.range = range;
         this.timer = timer;
         activated = true;
@@ -76,12 +77,14 @@ public class PlayerVacuum : MonoBehaviour
 
     private void DestroyMe()
     { 
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     private void ShowRange()
     {
-        GameObject rangeDisplay = Instantiate(temporaryImpactField, transform.position, Quaternion.identity);
+        //GameObject rangeDisplay = Instantiate(temporaryImpactField, transform.position, Quaternion.identity);
+        GameObject rangeDisplay = ObjectPoolManager.SpawnObject(temporaryImpactField, transform.position, Quaternion.identity);
+
         rangeDisplay.GetComponent<TemporaryImpactField>().adjustObject(range, 0.25f, 0.15f, timer);
     }
 
