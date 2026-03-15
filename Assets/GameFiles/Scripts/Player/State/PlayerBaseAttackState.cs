@@ -35,9 +35,11 @@ public class PlayerBaseAttackState : PlayerMovementState
 
         float magnitude = player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue() * 2;
         player.AddScreenShake(magnitude);
+
         Collider[] colliders = new Collider[100];
         int collisions = Physics.OverlapSphereNonAlloc(player.rb.position, myRadius, colliders, player.enemyLayer);
         Attack(colliders, collisions);
+
         ResetAttackModifiers();
         player.SwitchState(new PlayerMovementState());
     }

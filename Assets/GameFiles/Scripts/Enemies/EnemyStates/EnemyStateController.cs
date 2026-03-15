@@ -107,7 +107,7 @@ public abstract class EnemyStateController : MonoBehaviour
         }
         currentState?.ExitState();
         currentState = newState;     
-        Debug.Log("Entered State: " + currentState);
+        //Debug.Log("Entered State: " + currentState);
         currentState.EnterState(this);
     }
 
