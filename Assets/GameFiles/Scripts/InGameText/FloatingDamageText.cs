@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class FloatingDamageText : MonoBehaviour
 {
     [SerializeField] private Renderer myRenderer;
+    [SerializeField] private TextMeshPro tmp;
     private Camera targetCamera;
     private float lifeTime = 3f;
     private Vector3 originalScale;
@@ -24,15 +26,18 @@ public class FloatingDamageText : MonoBehaviour
     {
         originalScale = transform.localScale;
         myRenderer.material.renderQueue = 100;
+        myRenderer.enabled = false;
+        myRenderer.enabled = true;
     }
 
     private void Update()
-    {
+    {      
         if (targetCamera == null) return;
-
+        //tmp.ForceMeshUpdate(true, true);
+        //Debug.Log(tmp.mesh.bounds);
         transform.rotation = targetCamera.transform.rotation;
         transform.position += Vector3.up * Time.deltaTime * 3f;
-        transform.localScale *= 0.995f;
+        transform.localScale *= 0.999f;
     }
 
     private IEnumerator DestroyRoutine()

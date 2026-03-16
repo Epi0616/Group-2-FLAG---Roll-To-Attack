@@ -5,7 +5,7 @@ public class EnemyKnockbackState : EnemyBaseState
 {
     protected float force;
     protected Vector3 origin;
-    protected float minKnockback = 0.5f;
+    protected float minKnockback = 0.75f;
     protected float knockbackTimer;
 
     public EnemyKnockbackState(Vector3 origin, float force)
