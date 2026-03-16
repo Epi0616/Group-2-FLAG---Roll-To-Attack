@@ -37,6 +37,7 @@ public abstract class EnemyStateController : MonoBehaviour
     public bool isFragile;
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
+    public Vector3 newSpawnPos;
     
     public bool isSpawning;
     private bool isDead;
@@ -75,6 +76,8 @@ public abstract class EnemyStateController : MonoBehaviour
         playerController = playerReference.GetComponent<PlayerStateController>();
         isDead = false;
         currentStatusEffects.Clear();
+
+        transform.position = newSpawnPos;
 
         if (hasSpawnVibration)
         {
@@ -264,7 +267,7 @@ public abstract class EnemyStateController : MonoBehaviour
         float size = Mathf.Clamp(10 + (damage * 1.1f), 36f, 240f);
         tempTMPAccess.fontSize = size;
 
-        tempTMPAccess.ForceMeshUpdate();
+       
     }
 
     protected void ShowDamage(int damage, Color color)
@@ -284,7 +287,7 @@ public abstract class EnemyStateController : MonoBehaviour
         float size = Mathf.Clamp(10 + (damage * 1.1f), 48f, 240f);
         tempTMPAccess.fontSize = size;
 
-        tempTMPAccess.ForceMeshUpdate();
+        
     }
 
     protected void ShowEffect(string effectText)
@@ -325,6 +328,7 @@ public abstract class EnemyStateController : MonoBehaviour
         isDead = true;
         currentState?.ExitState();
         EnemyHasDied?.Invoke();
+        StopVibrating();
 
         //Destroy(gameObject);
         ObjectPoolManager.ReturnObjectToPool(gameObject);
@@ -337,7 +341,7 @@ public abstract class EnemyStateController : MonoBehaviour
         if (!isKnockedBack) { return; }
         if (isKnockedBackByGolem) { return; }      
 
-        Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
+        //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
 
         float dmgMod = Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f);
         int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);

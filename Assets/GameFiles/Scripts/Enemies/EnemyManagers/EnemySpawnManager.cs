@@ -82,16 +82,19 @@ public class EnemySpawnManager : MonoBehaviour
                 spawnedEnemyCont.AdjustScaledHealth(enemyScalingHealthMultiplier);
                 spawnedEnemyCont.playerReference = playerRef;
                 spawnedEnemyCont.cameraReference = cameraReference;
-                spawnedEnemyCont.GetComponent<EnemyStateController>().Initialize();
+                spawnedEnemyCont.newSpawnPos = spawnPosFinal;
+                spawnedEnemyCont.Initialize();
                 yield return new WaitForSeconds(enemySpawnInterval);
                 
                 
             }
         }
+        
         if (enemySpawnInterval > 0.2)
         {
             enemySpawnInterval -= 0.1f;
         }
+        
         enemyScalingHealthMultiplier += healthScalingIncreasePerWave;
     }
 

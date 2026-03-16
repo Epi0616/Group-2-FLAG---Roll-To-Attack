@@ -14,6 +14,7 @@ public class SimpleRaiderEnemy : EnemyStateController
     [SerializeField] private GameObject impactFieldPrefab;
 
     private GameObject impactFieldObj;
+    private EnemyAttackImpactField impactField;
     private bool attackInterrupted;
     private bool attackHasCompleted;
 
@@ -63,19 +64,21 @@ public class SimpleRaiderEnemy : EnemyStateController
         attackInterrupted = true;
         if (!attackHasCompleted)
         {
-            ObjectPoolManager.ReturnObjectToPool(impactFieldObj);
+            impactField.hasBeenDeletedAlready = true;
+            //ObjectPoolManager.ReturnObjectToPool(impactFieldObj);
+            Destroy(impactFieldObj);
         }
-        //Destroy(impactFieldObj);
     }
+        
 
     private void SpawnImpactField()
     {
         Vector3 impactFieldPosition = new Vector3(attackOriginTransform.position.x, attackOriginTransform.position.y - 1f, attackOriginTransform.position.z);
 
-        //impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
-        impactFieldObj = ObjectPoolManager.SpawnObject(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        //impactFieldObj = ObjectPoolManager.SpawnObject(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
 
-        EnemyAttackImpactField impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
+        impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
         impactField.PassInValuesColorRadiusLifeTimeChargeTime(impactFieldColor, meleeAttackRadius * 0.9f, 2.5f, meleeAttackChargeTime);
     }
 

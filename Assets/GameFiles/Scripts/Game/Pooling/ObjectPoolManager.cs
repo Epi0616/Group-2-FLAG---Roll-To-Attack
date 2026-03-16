@@ -67,7 +67,11 @@ public class ObjectPoolManager : MonoBehaviour
 
     private static void OnReleaseObject(GameObject obj)
     { 
-        obj.SetActive(false);
+        if (obj != null)
+        {
+            obj.SetActive(false);
+        }
+        
     }
 
     private static void OnDestroyObject(GameObject obj)
@@ -153,7 +157,16 @@ public class ObjectPoolManager : MonoBehaviour
 
             if (objectPools.TryGetValue(prefab, out ObjectPool<GameObject> pool))
             {
-                pool.Release(obj);
+                if (obj != null && prefab != null && pool != null)
+                {
+                    pool.Release(obj);
+                    Debug.Log(obj.ToString());
+                }
+                else
+                {
+                    Debug.LogWarning("null object attempted to release");
+                }
+                
             }
         }
 

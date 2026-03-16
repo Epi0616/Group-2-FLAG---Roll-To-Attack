@@ -11,6 +11,7 @@ public class EnemyAttackImpactField : MonoBehaviour
     private float chargeTime;
     private float radius;
 
+    public bool hasBeenDeletedAlready;
 
     public void PassInValuesColorRadiusLifeTimeChargeTime(Color color, float radius, float lifeTime, float chargeTime)
     {
@@ -22,6 +23,8 @@ public class EnemyAttackImpactField : MonoBehaviour
         material = GetComponent<MeshRenderer>().material;
         this.color.a = 0f;
         material.color = color;
+
+        hasBeenDeletedAlready = false;
 
         AdjustRadiusSize();
         StartCoroutine(ImpactFadeIn());
@@ -64,7 +67,7 @@ public class EnemyAttackImpactField : MonoBehaviour
         Color hitColor = new Color(0.5849056f, 0f, 0f, 1f);
         material.color = hitColor;
 
-        Debug.Log("Fade in ended");
+        //Debug.Log("Fade in ended");
 
         yield return new WaitForSeconds(0.4f);
         material.color = color;
@@ -84,11 +87,12 @@ public class EnemyAttackImpactField : MonoBehaviour
             yield return null;
         }
 
-        //Destroy(gameObject);
-        ObjectPoolManager.ReturnObjectToPool(gameObject);
+        if (!hasBeenDeletedAlready)
+        {
+            //ObjectPoolManager.ReturnObjectToPool(gameObject);
+            Destroy(gameObject);
+        }    
 
-
-        
     }
 
     
