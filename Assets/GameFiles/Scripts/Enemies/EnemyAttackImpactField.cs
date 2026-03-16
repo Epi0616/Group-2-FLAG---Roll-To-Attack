@@ -24,7 +24,7 @@ public class EnemyAttackImpactField : MonoBehaviour
         material.color = color;
 
         AdjustRadiusSize();
-        StartCoroutine(ManageVisual());
+        StartCoroutine(ImpactFadeIn());
     }
 
     private void AdjustRadiusSize()
@@ -33,15 +33,6 @@ public class EnemyAttackImpactField : MonoBehaviour
         tempScale.x = radius * 2;
         tempScale.z = radius * 2;
         transform.localScale = tempScale;
-    }
-
-    private IEnumerator ManageVisual()
-    {
-        StartCoroutine(ImpactFadeIn());
-        yield return new WaitForSeconds(chargeTime);
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(ImpactFadeOut());
-
     }
 
     private IEnumerator ImpactFadeIn()
@@ -69,24 +60,22 @@ public class EnemyAttackImpactField : MonoBehaviour
         color.a = 1f;
         material.color = color;
         initialColor = material.color;
-        //Color hitColor = new Color(0.5849056f, 0.5468524f, 0.4662691f, 1f);
+        
         Color hitColor = new Color(0.5849056f, 0f, 0f, 1f);
         material.color = hitColor;
-        yield return new WaitForSeconds(0.5f);
+
+        Debug.Log("Fade in ended");
+
+        yield return new WaitForSeconds(0.4f);
         material.color = color;
-        //Debug.Log("Fade in ended");
-    }
 
-    private IEnumerator ImpactFadeOut()
-    {
-       // Debug.Log("Fade out started");
-        float timeElapsed = 0f;
-        float a = 1f;
+         timeElapsed = 0f;
+         a = 1f;
 
-        while (a > 0.25f)
+        while (timeElapsed < 0.4f)
         {
-            a = Mathf.Lerp(1f, 0f, timeElapsed / chargeTime);
-          
+            a = Mathf.Lerp(1f, 0f, timeElapsed / 0.4f);
+
             timeElapsed += Time.deltaTime;
 
             color.a = a;
@@ -97,7 +86,12 @@ public class EnemyAttackImpactField : MonoBehaviour
 
         //Destroy(gameObject);
         ObjectPoolManager.ReturnObjectToPool(gameObject);
+
+
+        
     }
+
+    
 
     private float easeOutBack(float x)
     {

@@ -15,10 +15,12 @@ public class SimpleRaiderEnemy : EnemyStateController
 
     private GameObject impactFieldObj;
     private bool attackInterrupted;
+    private bool attackHasCompleted;
 
     public override void Attack()
     {
         attackInterrupted = false;
+        attackHasCompleted = false;
         SpawnImpactField();
         StartCoroutine(ChargeTime());
     }
@@ -41,9 +43,10 @@ public class SimpleRaiderEnemy : EnemyStateController
         }
         
         if (attackInterrupted)
-        {
-            return;
+        {         
+            return;          
         }
+        attackHasCompleted = true;
         ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));        
     }
 
@@ -58,7 +61,11 @@ public class SimpleRaiderEnemy : EnemyStateController
     public override void CompleteAttack()
     {
         attackInterrupted = true;
-        Destroy(impactFieldObj);
+        if (!attackHasCompleted)
+        {
+            ObjectPoolManager.ReturnObjectToPool(impactFieldObj);
+        }
+        //Destroy(impactFieldObj);
     }
 
     private void SpawnImpactField()

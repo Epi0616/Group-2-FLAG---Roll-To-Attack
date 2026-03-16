@@ -18,11 +18,13 @@ public class SandGolemEnemy : EnemyStateController
     [SerializeField] private GameObject impactFieldPrefab;
 
     private bool attackInterrupted;
+    private bool attackHasCompleted;
     private GameObject impactFieldObj;
 
     public override void Attack()
     {
         attackInterrupted = false;
+        attackHasCompleted = false;
         SpawnImpactField();
         StartCoroutine(ChargeTime());
     }
@@ -57,7 +59,7 @@ public class SandGolemEnemy : EnemyStateController
         {
             return;
         }
-
+        attackHasCompleted = true;
         ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));      
     }
 
@@ -66,6 +68,8 @@ public class SandGolemEnemy : EnemyStateController
         yield return new WaitForSeconds(meleeAttackChargeTime);
         if (attackInterrupted)
         {
+            //ObjectPoolManager.ReturnObjectToPool(impactFieldObj);
+
             yield break;
         }
         GolemSlam();
@@ -79,8 +83,12 @@ public class SandGolemEnemy : EnemyStateController
 
     public override void CompleteAttack()
     {
-        attackInterrupted = true; 
-        Destroy(impactFieldObj);
+        attackInterrupted = true;
+        if (!attackHasCompleted)
+        {
+            ObjectPoolManager.ReturnObjectToPool(impactFieldObj);
+        }
+        //Destroy(impactFieldObj);
     }
 
     private void SpawnImpactField()
