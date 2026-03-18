@@ -69,12 +69,9 @@ public class SandGolemEnemy : EnemyStateController
         yield return new WaitForSeconds(meleeAttackChargeTime);
         if (attackInterrupted)
         {
-            //ObjectPoolManager.ReturnObjectToPool(impactFieldObj);
-
             yield break;
         }
         GolemSlam();
-
     }
 
     private void OnDrawGizmos()
@@ -85,21 +82,20 @@ public class SandGolemEnemy : EnemyStateController
     public override void CompleteAttack()
     {
         attackInterrupted = true;
-        if (!attackHasCompleted)
-        {
-            impactField.hasBeenDeletedAlready = true;
-            //ObjectPoolManager.ReturnObjectToPool(impactFieldObj);
-            Destroy(impactFieldObj);
-        }
-        //Destroy(impactFieldObj);
+        //if (impactField != null)
+        //{
+        //    impactField.DestroyMe();
+        //    impactField = null;
+        //    impactFieldObj = null;
+        //}
     }
 
     private void SpawnImpactField()
     {
         Vector3 impactFieldPosition = new Vector3(attackOriginTransform.position.x, attackOriginTransform.position.y - 1f, attackOriginTransform.position.z);
 
-        impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
-        //impactFieldObj = ObjectPoolManager.SpawnObject(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        //impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        impactFieldObj = ObjectPoolManager.SpawnObject(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
 
         impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
         impactField.PassInValuesColorRadiusLifeTimeChargeTime(impactFieldColor, meleeAttackRadius * 0.9f, 2.5f, meleeAttackChargeTime);

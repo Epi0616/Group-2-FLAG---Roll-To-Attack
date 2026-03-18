@@ -65,29 +65,53 @@ public abstract class EnemyStateController : MonoBehaviour
         };
     }
 
+    //public void Initialize()
+    //{
+    //    currentHealth = maxHealth;
+
+    //    enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
+    //    enemyAgent.stoppingDistance = attackRange;
+    //    enemyAgent.acceleration = moveSpeedStat.GetFinalValue() * 5;
+
+    //    playerController = playerReference.GetComponent<PlayerStateController>();
+    //    isDead = false;
+    //    currentStatusEffects.Clear();
+
+    //    transform.position = newSpawnPos;
+
+    //    if (hasSpawnVibration)
+    //    {
+    //        ChangeState(new VibratingSpawnState());
+    //    }
+    //    else
+    //    {
+    //        ChangeState(new EnemyMoveState());
+    //    }
+    //}
+
     public void Initialize()
     {
         currentHealth = maxHealth;
+        isDead = false;
+        currentStatusEffects.Clear();
+
+        enemyAgent.enabled = true;
+        enemyAgent.ResetPath();
+        enemyAgent.Warp(newSpawnPos);
 
         enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
         enemyAgent.stoppingDistance = attackRange;
         enemyAgent.acceleration = moveSpeedStat.GetFinalValue() * 5;
+        enemyAgent.autoRepath = false;
 
         playerController = playerReference.GetComponent<PlayerStateController>();
-        isDead = false;
-        currentStatusEffects.Clear();
-
-        transform.position = newSpawnPos;
 
         if (hasSpawnVibration)
-        {
             ChangeState(new VibratingSpawnState());
-        }
         else
-        {
             ChangeState(new EnemyMoveState());
-        }
     }
+
 
     protected virtual void Update()
     {
@@ -322,17 +346,38 @@ public abstract class EnemyStateController : MonoBehaviour
         tempTMPAccess.fontSize = 52f;
     }
 
+    //public virtual void OnDeath()
+    //{
+    //    if (isDead) return;
+    //    isDead = true;
+    //    currentState?.ExitState();
+    //    EnemyHasDied?.Invoke();
+    //    StopVibrating();
+
+    //    //Destroy(gameObject);
+    //    ObjectPoolManager.ReturnObjectToPool(gameObject);
+    //}
+
     public virtual void OnDeath()
     {
         if (isDead) return;
         isDead = true;
+
         currentState?.ExitState();
-        EnemyHasDied?.Invoke();
         StopVibrating();
 
-        //Destroy(gameObject);
+        if (enemyAgent.enabled)
+        {
+            enemyAgent.isStopped = true;
+            enemyAgent.ResetPath();
+        }
+
+        EnemyHasDied?.Invoke();
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
+
+
+
 
     // Check for Knockback wall damage
     protected void OnCollisionEnter(Collision collision) 
