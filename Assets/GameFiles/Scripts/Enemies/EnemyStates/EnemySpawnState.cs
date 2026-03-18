@@ -8,6 +8,7 @@ public class EnemySpawnState : EnemyBaseState
     {
         base.EnterState(enemy);
 
+        enemy.enemyAgent.isStopped = true;
         enemy.isSpawning = true;
 
         if (enemy.hasSpawnVibration)
@@ -27,6 +28,7 @@ public class EnemySpawnState : EnemyBaseState
 
     public override void ExitState()
     {
+        enemy.enemyAgent.isStopped = false;
         enemy.isSpawning = false;
         if (enemy.animator != null)
         {
@@ -48,7 +50,6 @@ public class VibratingSpawnState : EnemySpawnState
 
         enemy.enemyAgent.updatePosition = false;
         enemy.enemyAgent.updateRotation = false;
-        enemy.enemyAgent.enabled = false;
 
         timeElapsed = 0f;
 

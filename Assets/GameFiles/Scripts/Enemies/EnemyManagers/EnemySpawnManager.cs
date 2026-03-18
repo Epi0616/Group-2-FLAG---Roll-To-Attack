@@ -75,15 +75,17 @@ public class EnemySpawnManager : MonoBehaviour
                 }
                 //Debug.Log("Spawner Has Selected: " + spawnPosFinal.x + " " + spawnPosFinal.y + " " + spawnPosFinal.z);
                 GameObject spawnedEnemy = factory.CreateEnemy(spawnPosFinal);
-                
+
                 //Debug.Log(spawnPos.x + " " + spawnPos.y + " " + spawnPos.z);
                 //spawnedEnemy.transform.position = spawnPosFinal;
+
                 EnemyStateController spawnedEnemyCont = spawnedEnemy.GetComponent<EnemyStateController>();
                 spawnedEnemyCont.AdjustScaledHealth(enemyScalingHealthMultiplier);
                 spawnedEnemyCont.playerReference = playerRef;
                 spawnedEnemyCont.cameraReference = cameraReference;
                 spawnedEnemyCont.newSpawnPos = spawnPosFinal;
                 spawnedEnemyCont.Initialize();
+
                 yield return new WaitForSeconds(enemySpawnInterval);
                 
                 

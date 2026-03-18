@@ -44,7 +44,7 @@ public class SimpleRaiderEnemy : EnemyStateController
         }
         
         if (attackInterrupted)
-        {         
+        {
             return;          
         }
         attackHasCompleted = true;
@@ -55,19 +55,23 @@ public class SimpleRaiderEnemy : EnemyStateController
     private IEnumerator ChargeTime()
     {
         yield return new WaitForSeconds(meleeAttackChargeTime);
-        MeleeAttack();
 
+        if (attackInterrupted)
+            yield break;
+
+        MeleeAttack();
     }  
 
     public override void CompleteAttack()
     {
         attackInterrupted = true;
-        if (!attackHasCompleted)
-        {
-            impactField.hasBeenDeletedAlready = true;
-            //ObjectPoolManager.ReturnObjectToPool(impactFieldObj);
-            Destroy(impactFieldObj);
-        }
+
+        //if (impactField != null)
+        //{
+        //    impactField.DestroyMe();
+        //    impactField = null;
+        //    impactFieldObj = null;
+        //}
     }
         
 
@@ -75,8 +79,8 @@ public class SimpleRaiderEnemy : EnemyStateController
     {
         Vector3 impactFieldPosition = new Vector3(attackOriginTransform.position.x, attackOriginTransform.position.y - 1f, attackOriginTransform.position.z);
 
-        impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
-        //impactFieldObj = ObjectPoolManager.SpawnObject(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        //impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        impactFieldObj = ObjectPoolManager.SpawnObject(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
 
         impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
         impactField.PassInValuesColorRadiusLifeTimeChargeTime(impactFieldColor, meleeAttackRadius * 0.9f, 2.5f, meleeAttackChargeTime);

@@ -857,6 +857,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 31
       objectReference: {fileID: 0}
+    - target: {fileID: 8494518645390090825, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e352fde05a9200640b03004f0a81f54a, type: 2}
     - target: {fileID: 8508848943557087856, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
       propertyPath: m_Layer
       value: 31
@@ -3388,11 +3392,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: sandGolemCost
-      value: 75
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: startingBudget
-      value: 100
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: simpleRaiderCost
@@ -3403,9 +3407,17 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4189374790445322270, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
+      propertyPath: simpleCube
+      value: 
+      objectReference: {fileID: 2694172476075749001, guid: 99cf6c8fc0576084aa44d7cdcfa766b5, type: 3}
+    - target: {fileID: 4189374790445322270, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: enemyPrefab
       value: 
       objectReference: {fileID: 922248948404803261, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
+    - target: {fileID: 4908862021032207345, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
+      propertyPath: simpleCube
+      value: 
+      objectReference: {fileID: 2694172476075749001, guid: 99cf6c8fc0576084aa44d7cdcfa766b5, type: 3}
     - target: {fileID: 4908862021032207345, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: enemyPrefab
       value: 
@@ -3418,6 +3430,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5778727433742019395, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
+      propertyPath: simpleCube
+      value: 
+      objectReference: {fileID: 2694172476075749001, guid: 99cf6c8fc0576084aa44d7cdcfa766b5, type: 3}
     - target: {fileID: 5778727433742019395, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: enemyPrefab
       value: 
@@ -3433,6 +3449,10 @@ PrefabInstance:
     - target: {fileID: 9194013166296953379, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: propsLayer.m_Bits
       value: 1342177280
+      objectReference: {fileID: 0}
+    - target: {fileID: 9194013166296953379, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
+      propertyPath: enemySpawnInterval
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9194013166296953379, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: groundLayer.m_Bits
@@ -5270,6 +5290,8 @@ MonoBehaviour:
   - {fileID: 755827432}
   - {fileID: 1132937414}
   playerReference: {fileID: 171471193}
+  transparentMaterial: {fileID: 2100000, guid: f80d5c697ada9e44788631b20ccd4a68, type: 2}
+  backWallMaterial: {fileID: 0}
 --- !u!1 &2083410216 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6013930250694767362, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}

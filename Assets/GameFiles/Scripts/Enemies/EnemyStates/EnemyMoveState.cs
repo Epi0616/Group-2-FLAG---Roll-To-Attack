@@ -5,10 +5,12 @@ public class EnemyMoveState : EnemyBaseState
 {
     Vector3 playerPosition;
     Vector3 targetVector;
+    float lastSetTime;
 
     public override void EnterState(EnemyStateController enemy)
     {
         base.EnterState(enemy);
+
         //enemy.animator.SetBool("isMoving", true);
         enemy.enemyAgent.enabled = true;
         enemy.enemyAgent.updatePosition = true;
@@ -19,7 +21,7 @@ public class EnemyMoveState : EnemyBaseState
             enemy.animator.speed = 1f;
         }
         
-
+        playerPosition = enemy.playerReference.transform.position;
         MoveTowardsPlayerNavMesh();
     }
 
@@ -39,10 +41,15 @@ public class EnemyMoveState : EnemyBaseState
 
         MoveTowardsPlayerNavMesh();
 
-        if (CheckIfAIHasStopped(enemy.enemyAgent))
+        if (targetVector.magnitude <= enemy.attackRange)
         {
             enemy.ChangeState(new EnemyAttackState());
         }
+
+        //if (CheckIfAIHasStopped(enemy.enemyAgent))
+        //{
+        //    enemy.ChangeState(new EnemyAttackState());
+        //}
     }
 
     public override void FixedUpdateState()
@@ -52,22 +59,24 @@ public class EnemyMoveState : EnemyBaseState
 
     private bool CheckIfAIHasStopped(NavMeshAgent enemyAgent)
     {
-        if (enemyAgent.pathPending) { return false; }
-
-        if (!enemyAgent.hasPath) { return false; }
-
-        if (enemyAgent.remainingDistance - 2f > enemyAgent.stoppingDistance) { return false; }
-
-        if (enemyAgent.velocity.magnitude > 0.1f) { return false; }
+        if (enemyAgent == null || !enemyAgent.isOnNavMesh) return false;
+        if (enemyAgent.pathPending) return false;
+        if (!enemyAgent.hasPath) return false;
+        if (enemyAgent.remainingDistance > enemyAgent.stoppingDistance) return false;
+        if (enemyAgent.velocity.magnitude > 0.1f) return false;
 
         return true;
-
-
     }
 
     private void MoveTowardsPlayerNavMesh()
     {
-        enemy.enemyAgent.destination = playerPosition;
+        if (enemy.enemyAgent == null || !enemy.enemyAgent.isOnNavMesh) return;
+
+        if (Time.time - lastSetTime > 0.25f)
+        {
+            enemy.enemyAgent.SetDestination(playerPosition);
+            lastSetTime = Time.time;
+        }
     }
 
     private void MoveTowardsPlayerVector()
@@ -80,16 +89,11 @@ public class EnemyMoveState : EnemyBaseState
 
     public override void ExitState()
     {
-        enemy.enemyAgent.updatePosition = false;
-        enemy.enemyAgent.updateRotation = false;
         enemy.enemyAgent.enabled = false;
-       // enemy.animator.SetBool("isMoving", false);
-        
+
         if (enemy.animator != null)
         {
             enemy.animator.speed = 0f;
         }
-        
-        //enemy.enemyAgent.ResetPath();
     }
 }

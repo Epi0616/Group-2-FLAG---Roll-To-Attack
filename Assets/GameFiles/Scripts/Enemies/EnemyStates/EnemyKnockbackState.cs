@@ -74,6 +74,7 @@ public class EnemyKnockbackState : EnemyBaseState
 
     public override void ExitState()
     {
+        enemy.rb.isKinematic = false;
         // Reset all RigidBody controlled Movement to allow NavMesh to take over again
         enemy.rb.linearDamping = 0f;
         enemy.rb.linearVelocity = Vector3.zero;    
@@ -87,10 +88,7 @@ public class EnemyKnockbackState : EnemyBaseState
 
         // Account for moving without NavMesh so AI doesn't get lost
         enemy.enemyAgent.Warp(enemy.transform.position);
-    }
-
-    
-    
+    }    
 }
 
 public class EnemyGolemKnockbackState : EnemyKnockbackState
