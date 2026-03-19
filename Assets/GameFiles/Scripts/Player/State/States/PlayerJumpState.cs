@@ -121,7 +121,6 @@ public class PlayerJumpState : PlayerBaseState
         player.SwitchState(nextState);
     }
 
-
     // this is purely to allow movement while jumping for designers in the editor
     private void CheckForMoveActionPressed()
     {
