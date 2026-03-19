@@ -28,6 +28,7 @@ public class RangedRaiderEnemy : EnemyStateController
     public override void Attack()
     {
         LookAtPlayer();
+        
         attackInterrupted = false;
         if (hasTracking)
         {
@@ -63,6 +64,8 @@ public class RangedRaiderEnemy : EnemyStateController
         laserObject.SetActive(true);
         activeTimer = 0;
 
+        AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
+
         while (activeTimer < chargeTime)
         {
             if (attackInterrupted)
@@ -76,6 +79,9 @@ public class RangedRaiderEnemy : EnemyStateController
         //yield return new WaitForSeconds(chargeTime);
 
         activeTimer = 0;
+
+        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds);
+
         while (activeTimer < laserDuration && !isStunned && !attackInterrupted)
         {
             activeTimer += Time.deltaTime;

@@ -49,6 +49,19 @@ public abstract class EnemyStateController : MonoBehaviour
     public float vibrateIntensity = 0.1f;
     private float vibrationTimer = 0f;
 
+    [Header("Enemy General Sound Effects")]
+    public AudioClip[] EnemyHurtSounds;
+    public AudioClip[] EnemyWalkSounds;
+    public AudioClip[] EnemyWallSlamSounds;
+    public AudioClip[] EnemyShatteredSounds;
+    public AudioClip[] EnemySpawnSounds;
+    public AudioClip[] EnemyDeathSounds;
+
+    [Header("Enemy Attack Sound Effects")]
+    public AudioClip[] EnemyAttackChargeUpSounds;
+    public AudioClip[] EnemyActiveAttackSounds;
+
+
     private Stat[] stats;
     private List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
 
@@ -106,8 +119,10 @@ public abstract class EnemyStateController : MonoBehaviour
 
         playerController = playerReference.GetComponent<PlayerStateController>();
 
-        if (hasSpawnVibration)
-            ChangeState(new VibratingSpawnState());
+        AudioManager.instance.PlayRandomSoundClip(EnemySpawnSounds);
+
+        if (hasSpawnVibration)            
+            ChangeState(new VibratingSpawnState());     
         else
             ChangeState(new EnemyMoveState());
     }
@@ -144,6 +159,8 @@ public abstract class EnemyStateController : MonoBehaviour
         int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
         currentHealth -= finalDamage;
 
+        AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
+
         ShowDamage(finalDamage);
 
         if (currentHealth <= 0)
@@ -156,6 +173,8 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
         currentHealth -= finalDamage;
+
+        AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
 
         ShowDamage(finalDamage, color);
 
@@ -171,6 +190,7 @@ public abstract class EnemyStateController : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+   
     public abstract void Attack();
     public abstract void CompleteAttack();
 
@@ -363,6 +383,8 @@ public abstract class EnemyStateController : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
+        AudioManager.instance.PlayRandomSoundClip(EnemyDeathSounds);
+
         currentState?.ExitState();
         StopVibrating();
 
@@ -394,11 +416,13 @@ public abstract class EnemyStateController : MonoBehaviour
         if (appliedDamage < 10) { return; }
         if (wallSlamDamageModifierStat.GetFinalValue() > 1.1f)
         {
+            AudioManager.instance.PlayRandomSoundClip(EnemyShatteredSounds);
             ShowEffect("Shattered", Color.deepSkyBlue);
             OnTakeDamage(appliedDamage, Color.deepSkyBlue);
         }
         else
         {
+            AudioManager.instance.PlayRandomSoundClip(EnemyWallSlamSounds);
             ShowEffect("Slammed", Color.darkGoldenRod);
             OnTakeDamage(appliedDamage, Color.darkGoldenRod);
         }

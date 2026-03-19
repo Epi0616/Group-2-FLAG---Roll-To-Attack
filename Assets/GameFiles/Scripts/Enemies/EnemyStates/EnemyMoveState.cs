@@ -6,6 +6,7 @@ public class EnemyMoveState : EnemyBaseState
     Vector3 playerPosition;
     Vector3 targetVector;
     float lastSetTime;
+    float footStepTimer;
 
     public override void EnterState(EnemyStateController enemy)
     {
@@ -28,6 +29,14 @@ public class EnemyMoveState : EnemyBaseState
     public override void UpdateState()
     {
         base.UpdateState();
+
+        footStepTimer += Time.deltaTime;
+
+        if (footStepTimer > 1f)
+        {
+            AudioManager.instance.PlayRandomSoundClip(enemy.EnemyWalkSounds);
+            footStepTimer = 0f;
+        }
 
         if (enemy.isKnockedBack || enemy.isStunned )
         {

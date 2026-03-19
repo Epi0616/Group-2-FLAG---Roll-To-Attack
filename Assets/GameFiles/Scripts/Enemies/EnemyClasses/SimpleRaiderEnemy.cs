@@ -4,24 +4,23 @@ using System;
 
 public class SimpleRaiderEnemy : EnemyStateController
 {
-    
+    [Header("Raider Attack Variables")]
     [SerializeField] private float meleeAttackRadius;
     [SerializeField] private int meleeAttackDamage;
     [SerializeField] private float meleeAttackChargeTime;
     [SerializeField] private Color impactFieldColor;
 
+    [Header("Variables not to be Adjusted")]
     [SerializeField] private Transform attackOriginTransform;
     [SerializeField] private GameObject impactFieldPrefab;
 
     private GameObject impactFieldObj;
     private EnemyAttackImpactField impactField;
     private bool attackInterrupted;
-    private bool attackHasCompleted;
 
     public override void Attack()
     {
-        attackInterrupted = false;
-        attackHasCompleted = false;
+        attackInterrupted = false;       
         SpawnImpactField();
         StartCoroutine(ChargeTime());
     }
@@ -29,6 +28,7 @@ public class SimpleRaiderEnemy : EnemyStateController
     private void MeleeAttack()
     {
         Collider[] colliders = Physics.OverlapSphere(attackOriginTransform.position, meleeAttackRadius, playerLayer);
+        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds);
         foreach (var collider in colliders)
         {
             if (collider.gameObject == gameObject) { continue; }
@@ -46,14 +46,14 @@ public class SimpleRaiderEnemy : EnemyStateController
         if (attackInterrupted)
         {
             return;          
-        }
-        attackHasCompleted = true;
+        }       
         ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));        
     }
 
 
     private IEnumerator ChargeTime()
     {
+        AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
         yield return new WaitForSeconds(meleeAttackChargeTime);
 
         if (attackInterrupted)
@@ -64,14 +64,7 @@ public class SimpleRaiderEnemy : EnemyStateController
 
     public override void CompleteAttack()
     {
-        attackInterrupted = true;
-
-        //if (impactField != null)
-        //{
-        //    impactField.DestroyMe();
-        //    impactField = null;
-        //    impactFieldObj = null;
-        //}
+        attackInterrupted = true;     
     }
         
 

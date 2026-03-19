@@ -24,8 +24,7 @@ public class SandGolemEnemy : EnemyStateController
 
     public override void Attack()
     {
-        attackInterrupted = false;
-        attackHasCompleted = false;
+        attackInterrupted = false;   
         SpawnImpactField();
         StartCoroutine(ChargeTime());
     }
@@ -33,6 +32,7 @@ public class SandGolemEnemy : EnemyStateController
     private void GolemSlam()
     {
         Collider [] colliders = Physics.OverlapSphere(attackOriginTransform.position, meleeAttackRadius, canBeKnockedBackByGolem);
+        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds);
         foreach (var collider in colliders)
         {
             if (collider.gameObject == gameObject) { continue; }
@@ -60,12 +60,13 @@ public class SandGolemEnemy : EnemyStateController
         {
             return;
         }
-        attackHasCompleted = true;
+        
         ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));      
     }
 
     private IEnumerator ChargeTime()
     {
+        AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
         yield return new WaitForSeconds(meleeAttackChargeTime);
         if (attackInterrupted)
         {
@@ -82,12 +83,6 @@ public class SandGolemEnemy : EnemyStateController
     public override void CompleteAttack()
     {
         attackInterrupted = true;
-        //if (impactField != null)
-        //{
-        //    impactField.DestroyMe();
-        //    impactField = null;
-        //    impactFieldObj = null;
-        //}
     }
 
     private void SpawnImpactField()
@@ -99,6 +94,6 @@ public class SandGolemEnemy : EnemyStateController
 
         impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
         impactField.PassInValuesColorRadiusLifeTimeChargeTime(impactFieldColor, meleeAttackRadius * 0.9f, 2.5f, meleeAttackChargeTime);
-    }
+    }   
 
 }

@@ -263,6 +263,67 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5077453687975048119, guid: b41d1f78ef232d94d9b1a9e02089d755, type: 3}
+--- !u!1001 &292394272
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1702548354350595709, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: soundObject
+      value: 
+      objectReference: {fileID: 1021572076919979892, guid: eb26a85e17412a74e84349e1d977574d, type: 3}
+    - target: {fileID: 7128926907068743378, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683729016412378959, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.81614
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683729016412378959, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.30585
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683729016412378959, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 21.40906
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683729016412378959, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683729016412378959, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683729016412378959, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683729016412378959, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683729016412378959, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683729016412378959, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683729016412378959, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d6cdfd07ac9488e48867609ee1967618, type: 3}
 --- !u!1 &302995159 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6625540506271825402, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
@@ -1001,7 +1062,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8494518645390090825, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
     m_RemovedGameObjects:
     - {fileID: 499656046306962893, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
     - {fileID: 2203488314480948491, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
@@ -4896,6 +4958,18 @@ PrefabInstance:
       propertyPath: moveSpeedWhileJumping.baseValue
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerLightJumpSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerHeavyAttackSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerLightAttackSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerAbilities.Array.size
       value: 6
@@ -5426,6 +5500,8 @@ MonoBehaviour:
   - {fileID: 755827432}
   - {fileID: 1132937414}
   playerReference: {fileID: 171471193}
+  transparentMaterial: {fileID: 2100000, guid: f80d5c697ada9e44788631b20ccd4a68, type: 2}
+  backWallMaterial: {fileID: 0}
 --- !u!1 &2083410216 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6013930250694767362, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
@@ -5600,3 +5676,4 @@ SceneRoots:
   - {fileID: 918741883}
   - {fileID: 1502047340}
   - {fileID: 967171607}
+  - {fileID: 292394272}
