@@ -1,9 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class ObjectPoolManager : MonoBehaviour
 {
+    public static ObjectPoolManager instance;
+
     public GameObject emptyHolder;
 
     public static GameObject gameObjectsEmpty;
@@ -20,6 +23,11 @@ public class ObjectPoolManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
         objectPools = new Dictionary<GameObject, ObjectPool<GameObject>>();
         cloneToPrefabMap = new Dictionary<GameObject, GameObject>();
 
@@ -90,7 +98,6 @@ public class ObjectPoolManager : MonoBehaviour
         {
             obj.SetActive(false);
         }
-        
     }
 
     private static void OnDestroyObject(GameObject obj)
@@ -197,4 +204,17 @@ public class ObjectPoolManager : MonoBehaviour
             Debug.LogWarning("trying to return an object that is not pooled" + obj.name);
         }
     }
+
+    public static void ReturnObjectToPool(GameObject obj, float spawnDelay, PoolType poolType = PoolType.GameObjects)
+    {
+        instance.StartCoroutine(ReturnAfterDelay(obj, spawnDelay, poolType));
+    }
+    private static IEnumerator ReturnAfterDelay(GameObject obj, float spawnDelay, PoolType poolType)
+    {
+        yield return new WaitForSeconds(spawnDelay);
+
+        ReturnObjectToPool(obj, poolType);
+    }
 }
+
+

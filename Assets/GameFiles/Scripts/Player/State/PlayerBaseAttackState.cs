@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 
@@ -33,6 +34,8 @@ public class PlayerBaseAttackState : PlayerMovementState
         if (attacked) { return; }
         attacked = true;
 
+        PlayImpactSound();
+
         float magnitude = player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue() * 2;
         player.AddScreenShake(magnitude);
 
@@ -42,6 +45,19 @@ public class PlayerBaseAttackState : PlayerMovementState
 
         ResetAttackModifiers();
         player.SwitchState(new PlayerMovementState());
+    }
+
+
+    protected void PlayImpactSound()
+    {
+        if (player.impactSpeed.GetFinalValue() > player.impactSpeed.GetBaseValue())
+        {
+            //float volumePercent = Mathf.Clamp01(player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue() - 1);
+            AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 1f);
+            return;
+        }
+
+        AudioManager.instance.PlayRandomSoundClip(player.playerLightAttackSounds, new Vector3(0, 0, 0), 1f);
     }
 
     protected virtual void Attack(Collider[] colliders, int collisions)

@@ -48,6 +48,11 @@ public class PlayerStateController : MonoBehaviour
     public Stat baseRadiusSize;
     private float holdTime = 0;
 
+    [Header("Player SoundFX")]
+    public AudioClip[] playerLightAttackSounds;
+    public AudioClip[] playerHeavyAttackSounds;
+    public AudioClip[] playerLightJumpSounds;
+    public AudioClip playerChargeSound;
 
     private void OnEnable()
     {
@@ -107,6 +112,7 @@ public class PlayerStateController : MonoBehaviour
 
         if (attack.action.WasPressedThisFrame())
         {
+            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds);
             SwitchState(new PlayerJumpState());
             holdTime = 0;
             return;
@@ -117,10 +123,20 @@ public class PlayerStateController : MonoBehaviour
             holdTime += Time.deltaTime;
             holdTime = Math.Clamp(holdTime, 0, 1);
             ChargingEffect();
+
+            if (holdTime > 0.2)
+            {
+                if (isGrounded)
+                {
+                    AudioManager.instance.PlaySingleLoopingClip(playerChargeSound);
+                }
+            }
         }
 
         else if (attack.action.WasReleasedThisFrame() && holdTime > 0.2)
         {
+            AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds);
             jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             impactSpeed.AddMultiplierFlat(holdTime * 2);
             baseRadiusSize.AddMultiplierFlat(holdTime);
@@ -131,6 +147,7 @@ public class PlayerStateController : MonoBehaviour
             return;
         }
     }
+
     private void ChargingEffect()
     {
         float moveSpeedMultiplier = ((2 - holdTime) / 2);
@@ -138,5 +155,6 @@ public class PlayerStateController : MonoBehaviour
 
         moveSpeed.SetMultiplier(moveSpeedMultiplier);
         bodySystem.ShakeDiceBody(2 / moveSpeedMultiplier);
+
     }
 }
