@@ -38,6 +38,8 @@ public class AudioManager : MonoBehaviour
 
     public void PlayRandomSoundClip(AudioClip[] audioClips, Vector3 position = default, float volume = 1f)
     {
+        if (audioClips == null) return;
+
         if (audioClips.Length <= 0) return;
         int randomIndex = Random.Range(0, audioClips.Length);
 

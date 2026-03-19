@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7072523793003558088}
+  - component: {fileID: 4630658199308249525}
   - component: {fileID: 8847381966952746867}
   - component: {fileID: 1922180308644929401}
-  - component: {fileID: 4630658199308249525}
   - component: {fileID: 5956643665020514467}
   m_Layer: 14
   m_Name: SimpleRaider1
@@ -37,6 +37,69 @@ Transform:
   - {fileID: 6137249126453400482}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4630658199308249525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922248948404803261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ed77a693ec846e469f6ceed969d7af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleRaiderEnemy
+  playerReference: {fileID: 0}
+  damageText: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
+  cameraReference: {fileID: 0}
+  maxHealth: 150
+  currentHealth: 0
+  moveSpeedStat:
+    baseValue: 12
+  stunTimeStat:
+    baseValue: 2
+  damageTakenModifierStat:
+    baseValue: 1
+  knockbackWeightModifierStat:
+    baseValue: 1.2
+  wallSlamDamageModifierStat:
+    baseValue: 1
+  attackCooldownStat:
+    baseValue: 0.5
+  attackRange: 4
+  hasSpawnVibration: 0
+  enemyAgent: {fileID: 5956643665020514467}
+  rb: {fileID: 1922180308644929401}
+  animator: {fileID: 3046610202331531495}
+  isStunned: 0
+  isKnockedBack: 0
+  isKnockedBackByGolem: 0
+  isVibrating: 0
+  isFragile: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 131072
+  environmentLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  newSpawnPos: {x: 0, y: 0, z: 0}
+  isSpawning: 0
+  vibrateSpeed: 50
+  vibrateIntensity: 0.1
+  EnemyHurtSounds: []
+  EnemyWalkSounds: []
+  EnemyWallSlamSounds: []
+  EnemyShatteredSounds: []
+  EnemySpawnSounds: []
+  EnemyDeathSounds: []
+  EnemyAttackChargeUpSounds: []
+  EnemyActiveAttackSounds: []
+  meleeAttackRadius: 2
+  meleeAttackDamage: 15
+  meleeAttackChargeTime: 0.4
+  impactFieldColor: {r: 0.9333334, g: 0.74509805, b: 0.12941177, a: 1}
+  attackOriginTransform: {fileID: 6137249126453400482}
+  impactFieldPrefab: {fileID: 8447836088640571727, guid: 4bad311920e3a2a4f8b5b4378aa2b21f, type: 3}
 --- !u!136 &8847381966952746867
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -87,61 +150,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &4630658199308249525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 922248948404803261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ed77a693ec846e469f6ceed969d7af9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SimpleRaiderEnemy
-  playerReference: {fileID: 0}
-  damageText: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
-  cameraReference: {fileID: 0}
-  maxHealth: 150
-  currentHealth: 0
-  moveSpeedStat:
-    baseValue: 12
-  stunTimeStat:
-    baseValue: 2
-  damageTakenModifierStat:
-    baseValue: 1
-  knockbackWeightModifierStat:
-    baseValue: 1.2
-  wallSlamDamageModifierStat:
-    baseValue: 1
-  attackCooldownStat:
-    baseValue: 0.5
-  attackRange: 4
-  hasSpawnVibration: 0
-  enemyAgent: {fileID: 5956643665020514467}
-  rb: {fileID: 1922180308644929401}
-  animator: {fileID: 3046610202331531495}
-  isStunned: 0
-  isKnockedBack: 0
-  isKnockedBackByGolem: 0
-  isVibrating: 0
-  isFragile: 0
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 131072
-  environmentLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  newSpawnPos: {x: 0, y: 0, z: 0}
-  isSpawning: 0
-  vibrateSpeed: 50
-  vibrateIntensity: 0.1
-  meleeAttackRadius: 2
-  meleeAttackDamage: 15
-  meleeAttackChargeTime: 0.4
-  impactFieldColor: {r: 0.9333334, g: 0.74509805, b: 0.12941177, a: 1}
-  attackOriginTransform: {fileID: 6137249126453400482}
-  impactFieldPrefab: {fileID: 8447836088640571727, guid: 4bad311920e3a2a4f8b5b4378aa2b21f, type: 3}
 --- !u!195 &5956643665020514467
 NavMeshAgent:
   m_ObjectHideFlags: 0
