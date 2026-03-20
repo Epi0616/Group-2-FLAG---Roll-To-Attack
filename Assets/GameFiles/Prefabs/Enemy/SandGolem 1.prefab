@@ -608,8 +608,7 @@ MonoBehaviour:
   EnemySpawnSounds: []
   EnemyDeathSounds: []
   EnemyAttackChargeUpSounds: []
-  EnemyActiveAttackSounds:
-  - {fileID: 8300000, guid: ab7051e8f43311844992495de3366102, type: 3}
+  EnemyActiveAttackSounds: []
   meleeAttackRadius: 6
   meleeAttackDamage: 20
   meleeAttackChargeTime: 1.5
@@ -1544,14 +1543,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5865649198022534977}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4380514967450190005}
+  - {fileID: 8057854028172812279}
   m_Father: {fileID: 1587996428059369284}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6149123617639296756
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,12 +1770,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7877339949353878026}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.0259, y: -0, z: 0.059}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 2.538652, z: 6.1340985}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4380514967450190005}
+  m_Father: {fileID: 2425869847712268307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8035195815402321155
 GameObject:
@@ -1930,7 +1930,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2840892726113492124}
-  - {fileID: 8057854028172812279}
   m_Father: {fileID: 2425869847712268307}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &8000960612498725954

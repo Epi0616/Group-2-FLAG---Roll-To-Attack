@@ -19,7 +19,8 @@ public class EnemyMoveState : EnemyBaseState
         
         if (enemy.animator != null)
         {
-            enemy.animator.speed = 1f;
+            //enemy.animator.speed = 1f;
+            enemy.animator.SetBool("isMoving", true);
         }
         
         playerPosition = enemy.playerReference.transform.position;
@@ -102,7 +103,8 @@ public class EnemyMoveState : EnemyBaseState
 
         if (enemy.animator != null)
         {
-            enemy.animator.speed = 0f;
+            //enemy.animator.speed = 0f;
+            enemy.animator.SetBool("isMoving", false);
         }
     }
 }
