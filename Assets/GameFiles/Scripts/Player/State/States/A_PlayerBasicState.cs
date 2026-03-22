@@ -14,7 +14,7 @@ public class A_PlayerBasicState : PlayerBaseAttackState
     protected override void CustomAttack(GameObject enemy)
     {
         EnemyStateController tempControllerReference = enemy.GetComponent<EnemyStateController>();
-        tempControllerReference.OnTakeDamage(50, myColor);
+        tempControllerReference.OnTakeDamage(32, myColor);
     }
 
     protected override void CustomDisplayAttack()
