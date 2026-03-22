@@ -4,8 +4,9 @@ using UnityEngine.InputSystem;
 public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset = new Vector3(0, 15, -15);
+    [SerializeField] private Vector3 offset = new Vector3(0, 30, -30);
     [SerializeField] private float speed = 5f;
+    private Quaternion rotation;
 
     private float shakeDuration = 0f;
     private float shakeMagnitude = 0f;
@@ -24,7 +25,6 @@ public class PlayerCamera : MonoBehaviour
     void LateUpdate()
     {
         desiredPosition = target.position + offset;
-
 
         if (shakeDuration > 0)
         {

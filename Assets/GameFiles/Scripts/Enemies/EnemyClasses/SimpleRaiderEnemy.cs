@@ -4,21 +4,23 @@ using System;
 
 public class SimpleRaiderEnemy : EnemyStateController
 {
-    
+    [Header("Raider Attack Variables")]
     [SerializeField] private float meleeAttackRadius;
     [SerializeField] private int meleeAttackDamage;
     [SerializeField] private float meleeAttackChargeTime;
     [SerializeField] private Color impactFieldColor;
 
+    [Header("Variables not to be Adjusted")]
     [SerializeField] private Transform attackOriginTransform;
     [SerializeField] private GameObject impactFieldPrefab;
 
     private GameObject impactFieldObj;
+    private EnemyAttackImpactField impactField;
     private bool attackInterrupted;
 
     public override void Attack()
     {
-        attackInterrupted = false;
+        attackInterrupted = false;       
         SpawnImpactField();
         StartCoroutine(ChargeTime());
     }
@@ -26,6 +28,7 @@ public class SimpleRaiderEnemy : EnemyStateController
     private void MeleeAttack()
     {
         Collider[] colliders = Physics.OverlapSphere(attackOriginTransform.position, meleeAttackRadius, playerLayer);
+        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds);
         foreach (var collider in colliders)
         {
             if (collider.gameObject == gameObject) { continue; }
@@ -34,7 +37,7 @@ public class SimpleRaiderEnemy : EnemyStateController
             if (collider.gameObject.CompareTag("Player"))
             {
                 
-                playerController.OnTakeDamage(meleeAttackDamage);
+                playerController.healthSystem.OnTakeDamage(meleeAttackDamage);
                 
             }
 
@@ -42,30 +45,37 @@ public class SimpleRaiderEnemy : EnemyStateController
         
         if (attackInterrupted)
         {
-            return;
-        }
-        StartCoroutine(ContinueLookAtPlayer(attackCooldownStat.GetFinalValue()));
+            return;          
+        }       
+        ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));        
     }
 
 
     private IEnumerator ChargeTime()
     {
+        AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
         yield return new WaitForSeconds(meleeAttackChargeTime);
-        MeleeAttack();
 
+        if (attackInterrupted)
+            yield break;
+
+        MeleeAttack();
     }  
 
     public override void CompleteAttack()
     {
-        attackInterrupted = true;
-        Destroy(impactFieldObj);
+        attackInterrupted = true;     
     }
+        
 
     private void SpawnImpactField()
     {
         Vector3 impactFieldPosition = new Vector3(attackOriginTransform.position.x, attackOriginTransform.position.y - 1f, attackOriginTransform.position.z);
-        impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
-        EnemyAttackImpactField impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
+
+        //impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        impactFieldObj = ObjectPoolManager.SpawnObject(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+
+        impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
         impactField.PassInValuesColorRadiusLifeTimeChargeTime(impactFieldColor, meleeAttackRadius * 0.9f, 2.5f, meleeAttackChargeTime);
     }
 

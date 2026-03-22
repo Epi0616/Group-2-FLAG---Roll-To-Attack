@@ -11,12 +11,12 @@ public class PauseMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerStateController.GameOver += GameOver;
+        HealthSystem.GameOver += GameOver;
     }
 
     private void OnDisable()
     {
-        PlayerStateController.GameOver -= GameOver;
+        HealthSystem.GameOver -= GameOver;
     }
 
     private void Update()

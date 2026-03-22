@@ -1,16 +1,27 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class EnemyAttackImpactField : MonoBehaviour
 {
-    private Material material;
+    private MeshRenderer meshRenderer;
+    private MaterialPropertyBlock block;
+    private Coroutine fadeRoutine;
+
     private Color color;
     private Color initialColor;
     private float lifeTime;
     private float chargeTime;
     private float radius;
 
+    public bool hasBeenDestroyed;
+
+    private void Awake()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+        block = new MaterialPropertyBlock();
+    }
 
     public void PassInValuesColorRadiusLifeTimeChargeTime(Color color, float radius, float lifeTime, float chargeTime)
     {
@@ -19,12 +30,20 @@ public class EnemyAttackImpactField : MonoBehaviour
         this.lifeTime = lifeTime;
         this.chargeTime = chargeTime;
 
-        material = GetComponent<MeshRenderer>().material;
-        this.color.a = 0f;
-        material.color = color;
+        if (fadeRoutine != null)
+        {
+            StopCoroutine(fadeRoutine);
+            fadeRoutine = null;
+        }
+
+        hasBeenDestroyed = false;
+
+        Color startColor = color;
+        startColor.a = 0f;
+        SetColor(startColor);
 
         AdjustRadiusSize();
-        StartCoroutine(ManageVisual());
+        fadeRoutine = StartCoroutine(ImpactFadeIn());
     }
 
     private void AdjustRadiusSize()
@@ -33,15 +52,6 @@ public class EnemyAttackImpactField : MonoBehaviour
         tempScale.x = radius * 2;
         tempScale.z = radius * 2;
         transform.localScale = tempScale;
-    }
-
-    private IEnumerator ManageVisual()
-    {
-        StartCoroutine(ImpactFadeIn());
-        yield return new WaitForSeconds(chargeTime);
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(ImpactFadeOut());
-
     }
 
     private IEnumerator ImpactFadeIn()
@@ -56,8 +66,9 @@ public class EnemyAttackImpactField : MonoBehaviour
         {
             a = Mathf.Lerp( 0f, 0.75f, easeOutBack(timeElapsed / chargeTime) );
 
+            Color color = this.color;
             color.a = a;
-            material.color = color;
+            SetColor(color);
 
             transform.localScale = Vector3.LerpUnclamped(startScale, endScale, easeOutBack(timeElapsed / chargeTime));
             
@@ -65,37 +76,54 @@ public class EnemyAttackImpactField : MonoBehaviour
           
             yield return null;
         }
+
         transform.localScale = endScale;
-        color.a = 1f;
-        material.color = color;
-        initialColor = material.color;
-        //Color hitColor = new Color(0.5849056f, 0.5468524f, 0.4662691f, 1f);
-        Color hitColor = new Color(0.5849056f, 0f, 0f, 1f);
-        material.color = hitColor;
-        yield return new WaitForSeconds(0.5f);
-        material.color = color;
+
+        Color fullColor = color;
+        fullColor.a = 1f;
+        SetColor(fullColor);
+
+        Color hitColor = Color.red;
+        SetColor(hitColor);
+
         //Debug.Log("Fade in ended");
-    }
 
-    private IEnumerator ImpactFadeOut()
-    {
-       // Debug.Log("Fade out started");
-        float timeElapsed = 0f;
-        float a = 1f;
+        yield return new WaitForSeconds(0.4f);
 
-        while (a > 0.25f)
+        SetColor(fullColor);
+
+        timeElapsed = 0f;
+
+        while (timeElapsed < 0.4f)
         {
-            a = Mathf.Lerp(1f, 0f, timeElapsed / chargeTime);
-          
+            float fadeA = Mathf.Lerp(1f, 0f, timeElapsed / 0.4f);
+
+            Color color = this.color;
+            color.a = fadeA;
+            SetColor(color);
+
             timeElapsed += Time.deltaTime;
-
-            color.a = a;
-            material.color = color;
-
             yield return null;
         }
-        Destroy(gameObject);
+
+        fadeRoutine = null;
+        DestroyMe();
     }
+
+    private void SetColor(Color color)
+    {
+        meshRenderer.GetPropertyBlock(block);
+        block.SetColor("_BaseColor", color);
+        meshRenderer.SetPropertyBlock(block);
+    }
+
+    public void DestroyMe()
+    {
+        if (hasBeenDestroyed) return;
+        hasBeenDestroyed = true;
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
+    }
+    
 
     private float easeOutBack(float x)
     {

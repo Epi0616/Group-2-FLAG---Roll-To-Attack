@@ -5,7 +5,7 @@ public class EnemyKnockbackState : EnemyBaseState
 {
     protected float force;
     protected Vector3 origin;
-    protected float minKnockback = 0.5f;
+    protected float minKnockback = 0.75f;
     protected float knockbackTimer;
 
     public EnemyKnockbackState(Vector3 origin, float force)
@@ -28,7 +28,7 @@ public class EnemyKnockbackState : EnemyBaseState
         ApplyKnockback();
     }
 
-    private void ApplyKnockback()
+    public virtual void ApplyKnockback()
     {
         enemy.rb.linearVelocity = Vector3.zero;
         Vector3 targetVector = (enemy.transform.position - origin);
@@ -68,12 +68,13 @@ public class EnemyKnockbackState : EnemyBaseState
     {
         if (enemy.rb.linearVelocity.y < 0)
         {
-            enemy.rb.AddForce(new Vector3(0, -1.5f, 0), ForceMode.Impulse);
+            enemy.rb.AddForce(new Vector3(0, -2.5f, 0), ForceMode.Impulse);
         }
     }
 
     public override void ExitState()
     {
+        enemy.rb.isKinematic = false;
         // Reset all RigidBody controlled Movement to allow NavMesh to take over again
         enemy.rb.linearDamping = 0f;
         enemy.rb.linearVelocity = Vector3.zero;    
@@ -87,10 +88,7 @@ public class EnemyKnockbackState : EnemyBaseState
 
         // Account for moving without NavMesh so AI doesn't get lost
         enemy.enemyAgent.Warp(enemy.transform.position);
-    }
-
-    
-    
+    }    
 }
 
 public class EnemyGolemKnockbackState : EnemyKnockbackState
@@ -107,6 +105,24 @@ public class EnemyGolemKnockbackState : EnemyKnockbackState
         enemy.isKnockedBackByGolem = true;
         base.EnterState(enemy);
         
+    }
+
+    public override void ApplyKnockback()
+    {
+        enemy.rb.linearVelocity = Vector3.zero;
+        Vector3 targetVector = (enemy.transform.position - origin);
+
+        Vector3 targetDirection = targetVector.normalized;
+        targetDirection.y = 1.2f;
+        enemy.rb.AddForce(targetDirection * ((force * enemy.knockbackWeightModifierStat.GetFinalValue()) * 10f), ForceMode.VelocityChange);
+    }
+
+    public override void FixedUpdateState()
+    {
+        if (enemy.rb.linearVelocity.y < 0)
+        {
+            enemy.rb.AddForce(new Vector3(0, -5.5f, 0), ForceMode.Impulse);
+        }
     }
 
     public override void ExitState()

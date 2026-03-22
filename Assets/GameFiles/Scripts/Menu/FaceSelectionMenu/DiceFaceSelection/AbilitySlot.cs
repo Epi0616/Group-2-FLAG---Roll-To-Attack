@@ -25,7 +25,6 @@ public class AbilitySlot : AbilityDropZoneParent
             AbilityDropZoneParent newObjectsParentAtStartOfDrag = newObject.GetParentAtStartOfDrag();
             if (newObjectsParentAtStartOfDrag != null)
             {
-                Debug.Log("swapping parents");
                 DraggableObject myCurrentObject = draggableObjects[0];
                 myCurrentObject.ResetCurrentParent();
 
@@ -37,7 +36,6 @@ public class AbilitySlot : AbilityDropZoneParent
             }
             else 
             {
-                Debug.Log("swapping transforms");
                 DraggableObject myCurrentObject = draggableObjects[0];
                 myCurrentObject.ResetCurrentParent();
 

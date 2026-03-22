@@ -62,7 +62,6 @@ public class AbilitySystem : MonoBehaviour
             pipWeightTally += ability.weight;
             if (randomNumber <= (pipWeightTally))
             {
-                Debug.Log(lastReturnedPipNumber);
                 return ability;
             }
         }

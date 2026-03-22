@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerVacuum : MonoBehaviour
 {
     [SerializeField] GameObject temporaryImpactField;
+    [SerializeField] private LayerMask enemyLayer;
     private Color red = Color.red, blue = Color.blue;
     private Material material;
     private float timer = 2f, range;
@@ -32,6 +33,7 @@ public class PlayerVacuum : MonoBehaviour
 
     public void SetUp(float range, float timer)
     {
+        detonated = false;
         this.range = range;
         this.timer = timer;
         activated = true;
@@ -57,15 +59,16 @@ public class PlayerVacuum : MonoBehaviour
     private List<EnemyStateController> GetEnemiesInRange()
     {
         List<EnemyStateController> enemies = new();
-        Collider[] colliders = Physics.OverlapSphere(transform.position, range);
+        Collider[] colliders = new Collider[100];
+        int collisions = Physics.OverlapSphereNonAlloc(transform.position, range, colliders, enemyLayer);
 
-        foreach (var collider in colliders)
+        for (int i = 0; i < collisions; i++)
         {
-            if (!collider.gameObject) { continue; }
+            if (!colliders[i].gameObject) { continue; }
 
-            if (collider.gameObject.CompareTag("Enemy"))
+            if (colliders[i].gameObject.CompareTag("Enemy"))
             {
-                enemies.Add(collider.gameObject.GetComponent<EnemyStateController>());
+                enemies.Add(colliders[i].GetComponent<EnemyStateController>());
             }
         }
 
@@ -74,12 +77,14 @@ public class PlayerVacuum : MonoBehaviour
 
     private void DestroyMe()
     { 
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     private void ShowRange()
     {
-        GameObject rangeDisplay = Instantiate(temporaryImpactField, transform.position, Quaternion.identity);
+        //GameObject rangeDisplay = Instantiate(temporaryImpactField, transform.position, Quaternion.identity);
+        GameObject rangeDisplay = ObjectPoolManager.SpawnObject(temporaryImpactField, transform.position, Quaternion.identity);
+
         rangeDisplay.GetComponent<TemporaryImpactField>().adjustObject(range, 0.25f, 0.15f, timer);
     }
 

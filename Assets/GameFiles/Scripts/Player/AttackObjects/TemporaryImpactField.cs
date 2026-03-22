@@ -36,7 +36,7 @@ public class TemporaryImpactField : MonoBehaviour
         color.a = 0;
 
         if (!(lifeTimer >= lifeSpan)) { return; }
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     public void adjustObject(float radius, float alpha, float alphaDecay, float lifeSpan)
@@ -45,6 +45,7 @@ public class TemporaryImpactField : MonoBehaviour
         color.a = alpha;
         this.lifeSpan = lifeSpan;
         this.alphaDecay = alphaDecay;
+        lifeTimer = 0;
 
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;

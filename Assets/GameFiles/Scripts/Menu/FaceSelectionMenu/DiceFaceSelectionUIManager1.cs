@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DiceFaceSelectionUIManager : MonoBehaviour
@@ -48,8 +49,12 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
     public void ContinueButton()
     {
         Debug.Log("continue pressed");
+        if (!CheckForFullDiceSlots()) return;
+
+        abilitySlotManager.AddNewObjectsToList(abilitySelectionManager.GetDraggableObjects());
         abilitySlotManager.PackAway();
         DiceFaceSelectionUI.SetActive(false);
+        AbilitySelectionUI.SetActive(false);
         DiceFaceSelectionOver?.Invoke(delayBetweenWaves);
     }
 
@@ -75,7 +80,22 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
         ability.transform.SetParent(canvas.transform);
         ability.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         AbilitySelectionUI.SetActive(false);
+    }
 
-        abilitySlotManager.AddNewObjectsToList(abilitySelectionManager.GetDraggableObjects());
+    private bool CheckForFullDiceSlots()
+    {
+        bool slotsAllFull = true;
+        List<AbilitySlot> abilitySlots = abilitySlotManager.abilitySlots;
+        for (int i = 0; i < abilitySlots.Count; i++)
+        {
+            if (!abilitySlots[i].IsFull())
+            {
+                slotsAllFull = false;
+                abilitySlots[i].DisplayEmptyAnimation(0.5f);
+            }
+        }
+
+        if (!slotsAllFull) return false;
+        return true;
     }
 }

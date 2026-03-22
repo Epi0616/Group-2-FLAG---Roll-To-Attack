@@ -7,6 +7,7 @@ public class PlayerRocket : MonoBehaviour
     private bool searchingForTarget = false;
     private bool flyingTowardsTarget = false;
     private bool targetAssigned = false;
+    private bool isDestroyed = false;
     private float startHeight;
 
     private void Start()
@@ -16,7 +17,7 @@ public class PlayerRocket : MonoBehaviour
 
     void Update()
     {
-        if (target == null)
+        if (!target.gameObject.activeInHierarchy)
         {
             if (targetAssigned)
             {
@@ -24,8 +25,6 @@ public class PlayerRocket : MonoBehaviour
             }
             return;
         }
-            
-
 
         if (!searchingForTarget)
         {
@@ -44,11 +43,14 @@ public class PlayerRocket : MonoBehaviour
     }
 
     public void SetTarget(EnemyStateController target, float startHeight)
-    { 
+    {
+        isDestroyed = false;
         this.target = target;
         this.startHeight = startHeight;
         transform.rotation = Quaternion.LookRotation(Vector3.up);
         targetAssigned = true;
+        searchingForTarget = false;
+        flyingTowardsTarget = false;
     }
 
     private void SearchForTarget()
@@ -98,13 +100,19 @@ public class PlayerRocket : MonoBehaviour
     private void DamageEnemy(GameObject Enemy)
     {
         Vector3 groundedPosition = new(transform.position.x, 1.5f, transform.position.z); // needs adjusting if enemies can ever reach an elevated position.
-        Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
-        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(40, Color.orange);
+
+        //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
+        ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
+
+        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(15, Color.orange);
         DestroyMe();
     }
 
     private void DestroyMe()
     {
-        Destroy(gameObject);
+        if (isDestroyed) return;
+        isDestroyed = true;
+        targetAssigned = false;
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

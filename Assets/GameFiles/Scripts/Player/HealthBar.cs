@@ -4,27 +4,29 @@ using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
-    public TextMeshProUGUI Text;
+    public TextMeshProUGUI text;
+    public GameObject healthBar;
     float timer;
 
     private void OnEnable()
     {
-        PlayerStateController.UpdateHealthBar += UpdatePlayerHealth;
+        HealthSystem.UpdateHealthBar += UpdatePlayerHealth;
     }
 
     private void OnDisable()
     {
-        PlayerStateController.UpdateHealthBar -= UpdatePlayerHealth;
+        HealthSystem.UpdateHealthBar -= UpdatePlayerHealth;
     }
 
     private void Awake()
     {
-        Text.alpha = 0f;
+        text.alpha = 0f;
     }
 
-    private void UpdatePlayerHealth(int currentHealth)
+    private void UpdatePlayerHealth(int currentHealth, int maxHealth)
     {
-        Text.text = "HP: " + currentHealth;
+        text.text = currentHealth.ToString();
+        healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(1000 * ((float)currentHealth / maxHealth), healthBar.GetComponent<RectTransform>().sizeDelta.y);
     }
 
     private void Update()
@@ -32,7 +34,7 @@ public class HealthBar : MonoBehaviour
         timer += Time.deltaTime;
         if (timer < 1)
         {
-            Text.alpha += timer * 1f;
+            text.alpha += timer * 1f;
         }
     }
 }

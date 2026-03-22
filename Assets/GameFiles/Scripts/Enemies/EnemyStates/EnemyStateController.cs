@@ -9,10 +9,11 @@ public abstract class EnemyStateController : MonoBehaviour
 {
     // code added by matt to show damage text
     public GameObject playerReference,damageText;
+    public Camera cameraReference;
 
     [Header("Variables that can be changed")]
     [SerializeField] protected int maxHealth;
-    protected int currentHealth;  
+    [SerializeField] protected int currentHealth;  
     public Stat moveSpeedStat;
     public Stat stunTimeStat;
     public Stat damageTakenModifierStat;
@@ -36,16 +37,30 @@ public abstract class EnemyStateController : MonoBehaviour
     public bool isFragile;
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
+    public Vector3 newSpawnPos;
     
     public bool isSpawning;
     private bool isDead;
     public static event Action EnemyHasDied;
 
-    protected float vibrateSpeed = 50f;
-    protected float vibrateIntensity = 0.1f;
-    private float vibrationTimer = 0f;
     protected float vibrationDuration;
     protected Vector3 initialPosition;
+    public float vibrateSpeed = 50f;
+    public float vibrateIntensity = 0.1f;
+    private float vibrationTimer = 0f;
+
+    [Header("Enemy General Sound Effects")]
+    public AudioClip[] EnemyHurtSounds;
+    public AudioClip[] EnemyWalkSounds;
+    public AudioClip[] EnemyWallSlamSounds;
+    public AudioClip[] EnemyShatteredSounds;
+    public AudioClip[] EnemySpawnSounds;
+    public AudioClip[] EnemyDeathSounds;
+
+    [Header("Enemy Attack Sound Effects")]
+    public AudioClip[] EnemyAttackChargeUpSounds;
+    public AudioClip[] EnemyActiveAttackSounds;
+
 
     private Stat[] stats;
     private List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
@@ -63,25 +78,55 @@ public abstract class EnemyStateController : MonoBehaviour
         };
     }
 
-    protected void Start()
+    //public void Initialize()
+    //{
+    //    currentHealth = maxHealth;
+
+    //    enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
+    //    enemyAgent.stoppingDistance = attackRange;
+    //    enemyAgent.acceleration = moveSpeedStat.GetFinalValue() * 5;
+
+    //    playerController = playerReference.GetComponent<PlayerStateController>();
+    //    isDead = false;
+    //    currentStatusEffects.Clear();
+
+    //    transform.position = newSpawnPos;
+
+    //    if (hasSpawnVibration)
+    //    {
+    //        ChangeState(new VibratingSpawnState());
+    //    }
+    //    else
+    //    {
+    //        ChangeState(new EnemyMoveState());
+    //    }
+    //}
+
+    public void Initialize()
     {
         currentHealth = maxHealth;
+        isDead = false;
+        currentStatusEffects.Clear();
+
+        enemyAgent.enabled = true;
+        enemyAgent.ResetPath();
+        enemyAgent.Warp(newSpawnPos);
 
         enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
         enemyAgent.stoppingDistance = attackRange;
         enemyAgent.acceleration = moveSpeedStat.GetFinalValue() * 5;
-        
+        enemyAgent.autoRepath = false;
+
         playerController = playerReference.GetComponent<PlayerStateController>();
 
+        AudioManager.instance.PlayRandomSoundClip(EnemySpawnSounds);
 
-        ChangeState(new EnemySpawnState());
+        if (hasSpawnVibration)            
+            ChangeState(new VibratingSpawnState());     
+        else
+            ChangeState(new EnemyMoveState());
     }
 
-    protected virtual void Spawning()
-    {
-        currentState = new EnemyMoveState();
-        currentState.EnterState(this);
-    }
 
     protected virtual void Update()
     {
@@ -104,7 +149,8 @@ public abstract class EnemyStateController : MonoBehaviour
             return;
         }
         currentState?.ExitState();
-        currentState = newState;
+        currentState = newState;     
+        //Debug.Log("Entered State: " + currentState);
         currentState.EnterState(this);
     }
 
@@ -112,6 +158,8 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
         currentHealth -= finalDamage;
+
+        AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
 
         ShowDamage(finalDamage);
 
@@ -126,6 +174,8 @@ public abstract class EnemyStateController : MonoBehaviour
         int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
         currentHealth -= finalDamage;
 
+        AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
+
         ShowDamage(finalDamage, color);
 
         if (currentHealth <= 0)
@@ -134,6 +184,13 @@ public abstract class EnemyStateController : MonoBehaviour
         }
     }
 
+    public void AdjustScaledHealth(float multiplier)
+    {
+        maxHealth = (int)((float)maxHealth * multiplier);
+        currentHealth = maxHealth;
+    }
+
+   
     public abstract void Attack();
     public abstract void CompleteAttack();
 
@@ -203,25 +260,13 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         vibrationDuration = duration;
         vibrationTimer = 0f;
-        
+
         initialPosition = transform.position;
-        isVibrating = true;    
+        isVibrating = true;
 
         if (animator != null)
         {
             animator.speed = 0f;
-        }
-    }
-
-    public void StopVibrating()
-    {
-        isVibrating = false;
-        transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
-
-        if (animator != null)
-        {
-            //Debug.Log("Animation Restarted");
-            animator.speed = 1f;
         }
     }
 
@@ -242,59 +287,51 @@ public abstract class EnemyStateController : MonoBehaviour
         transform.position = new Vector3(initialPosition.x + x, transform.position.y, initialPosition.z + z);
     }
 
-    public void StartSpawnVibration()
+    public void StopVibrating()
     {
-        StartCoroutine(SpawnAnimation());
-    }
+        isVibrating = false;
+        transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
 
-    private IEnumerator SpawnAnimation()
-    {
-        float timeElapsed = 0f;
-        Vector3 startPos = transform.position;
-        Vector3 endPos = new Vector3(transform.position.x, transform.position.y + 5f, transform.position.z);
-        while (timeElapsed < 5f)
+        if (animator != null)
         {
-            Vector3 lerpOffset = Vector3.Lerp(startPos, endPos, timeElapsed / 5f);
-            transform.position = lerpOffset + SpawningAnimationVibrateOffset();
-            timeElapsed += Time.deltaTime;
-
-            yield return null;
+            animator.speed = 1f;
         }
-        StopVibrating();
-        transform.position = endPos;
-        isSpawning = false;
-        ChangeState(new EnemyMoveState());
-    }
-
-    private Vector3 SpawningAnimationVibrateOffset()
-    {
-        //if (!isVibrating) { return Vector3.zero; }
-        float x = Mathf.Sin(Time.time * vibrateSpeed) * vibrateIntensity;
-        float z = Mathf.Sin(Time.time * vibrateSpeed) * vibrateIntensity;
-        return new Vector3(x, 0, z);
     }
 
     protected void ShowDamage(int damage)
     {
-        Vector3 randomOffset = new(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f));
-        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-4f, 4f), UnityEngine.Random.Range(6f, 8f), UnityEngine.Random.Range(-4f, 4f));
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
         float size = Mathf.Clamp(10 + (damage * 1.1f), 36f, 240f);
         tempTMPAccess.fontSize = size;
 
+       
     }
 
     protected void ShowDamage(int damage, Color color)
     {
-        Vector3 randomOffset = new(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-2f, 2f));
-        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-4f, 4f), UnityEngine.Random.Range(6f, 8f), UnityEngine.Random.Range(-4f, 4f));
+        
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
+
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
+        
         tempTMPAccess.color = color;
-        float size = Mathf.Clamp(10 + (damage * 1.1f), 36f, 240f);
+        float size = Mathf.Clamp(10 + (damage * 1.1f), 48f, 240f);
         tempTMPAccess.fontSize = size;
 
+        
     }
 
     protected void ShowEffect(string effectText)
@@ -302,8 +339,12 @@ public abstract class EnemyStateController : MonoBehaviour
         //Debug.Log("effect applied");
         //Debug.Log(effectText);
 
-        Vector3 randomOffset = new(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f));
-        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(8f, 10f), UnityEngine.Random.Range(-3f, 3f));
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = effectText;
     }
@@ -313,22 +354,52 @@ public abstract class EnemyStateController : MonoBehaviour
         //Debug.Log("effect applied");
         //Debug.Log(effectText);
 
-        Vector3 randomOffset = new(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(2f, 4f), UnityEngine.Random.Range(-3f, 3f));
-        GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(8f, 10f), UnityEngine.Random.Range(-3f, 3f));
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = effectText;
         tempTMPAccess.color = color;
         tempTMPAccess.fontSize = 52f;
     }
 
+    //public virtual void OnDeath()
+    //{
+    //    if (isDead) return;
+    //    isDead = true;
+    //    currentState?.ExitState();
+    //    EnemyHasDied?.Invoke();
+    //    StopVibrating();
+
+    //    //Destroy(gameObject);
+    //    ObjectPoolManager.ReturnObjectToPool(gameObject);
+    //}
+
     public virtual void OnDeath()
     {
         if (isDead) return;
         isDead = true;
+
+        AudioManager.instance.PlayRandomSoundClip(EnemyDeathSounds);
+
         currentState?.ExitState();
+        StopVibrating();
+
+        if (enemyAgent.enabled)
+        {
+            enemyAgent.isStopped = true;
+            enemyAgent.ResetPath();
+        }
+
         EnemyHasDied?.Invoke();
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
+
+
+
 
     // Check for Knockback wall damage
     protected void OnCollisionEnter(Collision collision) 
@@ -337,7 +408,7 @@ public abstract class EnemyStateController : MonoBehaviour
         if (!isKnockedBack) { return; }
         if (isKnockedBackByGolem) { return; }      
 
-        Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
+        //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
 
         float dmgMod = Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f);
         int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);
@@ -345,11 +416,13 @@ public abstract class EnemyStateController : MonoBehaviour
         if (appliedDamage < 10) { return; }
         if (wallSlamDamageModifierStat.GetFinalValue() > 1.1f)
         {
+            AudioManager.instance.PlayRandomSoundClip(EnemyShatteredSounds);
             ShowEffect("Shattered", Color.deepSkyBlue);
             OnTakeDamage(appliedDamage, Color.deepSkyBlue);
         }
         else
         {
+            AudioManager.instance.PlayRandomSoundClip(EnemyWallSlamSounds);
             ShowEffect("Slammed", Color.darkGoldenRod);
             OnTakeDamage(appliedDamage, Color.darkGoldenRod);
         }
@@ -360,28 +433,6 @@ public abstract class EnemyStateController : MonoBehaviour
         // add a check for the value of dmgMod to increase volume/size of effects
 
         
-    }
-
-    // During Attack Cooldown maintain a look rotation and if the player moves out of range bypass cooldown to continue moving - Used by all Enemies
-    protected IEnumerator ContinueLookAtPlayer(float duration)
-    {
-        Vector3 playerDir = playerReference.transform.position - transform.position;
-        playerDir.y = transform.position.y;
-        Quaternion lookRotation = Quaternion.LookRotation(playerDir);
-        float movementTimer = 0f;
-        while (movementTimer < duration && playerDir.magnitude < attackRange * 1.25f || movementTimer < 0.5f)
-        {
-            playerDir = playerReference.transform.position - transform.position;
-            playerDir.y = transform.position.y;
-            lookRotation = Quaternion.LookRotation(playerDir);
-            lookRotation.z = 0f;
-            lookRotation.x = 0f;
-            movementTimer += Time.deltaTime;
-            float t = movementTimer / duration;
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);
-            yield return null;
-        }
-        ChangeState(new EnemyMoveState());
     }
 
     // Single Instant Look At Player - Used By Ranged Enemy when attack starts

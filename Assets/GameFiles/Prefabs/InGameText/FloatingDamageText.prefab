@@ -84,7 +84,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2269168269847865573
 MonoBehaviour:
@@ -98,7 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8c04d15fc848649b7e0ea51fe4aaa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatingDamageText
-  targetCamera: {fileID: 0}
+  myRenderer: {fileID: 277299564860383203}
+  tmp: {fileID: 1189241359717837780}
 --- !u!114 &1189241359717837780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +163,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 4
   m_linkedTextComponent: {fileID: 0}

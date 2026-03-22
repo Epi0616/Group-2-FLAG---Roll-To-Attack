@@ -2,9 +2,12 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.EventSystems.EventTrigger;
+using static UnityEngine.UI.Image;
 public class PlayerStateController : MonoBehaviour
 {
     [Header("Dont modify the variables listed below")]
@@ -13,13 +16,14 @@ public class PlayerStateController : MonoBehaviour
     public PlayerBaseState currentState;
     public AbilitySystem abilitySystem;
     public AttackSystem attackSystem;
+    public HealthSystem healthSystem;
+    public PlayerBodySystem bodySystem;
     public BoxCollider boxCollider;
-    public GameObject body;
+    //public GameObject body;
     public bool isGrounded;
+    public LayerMask enemyLayer;
     [SerializeField] private LayerMask groundLayer;
 
-    public static event Action<int> UpdateHealthBar;
-    public static event Action GameOver;
     public static event Action<float> ShakeScreen;
 
     [Header("For modification")]
@@ -39,38 +43,31 @@ public class PlayerStateController : MonoBehaviour
     public int fourPipWeight;
     public int fivePipWeight;
     public int sixPipWeight;
- 
 
     [Header("Attack feel")]
     public Stat baseRadiusSize;
     private float holdTime = 0;
-    private bool charging = false;
-    public Quaternion originalRotation;
 
-    [Header("General Stats")]
-    public int maxHealth;
-    public int currentHealth;
-
+    [Header("Player SoundFX")]
+    public AudioClip[] playerLightAttackSounds;
+    public AudioClip[] playerHeavyAttackSounds;
+    public AudioClip[] playerLightJumpSounds;
+    public AudioClip playerChargeSound;
 
     private void OnEnable()
     {
         move.action.Enable();
         attack.action.Enable();
-        EnemyDirector.WaveOver += HealToFull;
     }
 
     private void OnDisable()
     {
         move.action.Disable();
         attack.action.Disable();
-        EnemyDirector.WaveOver -= HealToFull;
     }
 
     private void Start()
     {
-        currentHealth = maxHealth;
-        UpdateHealthBar?.Invoke(currentHealth);
-        originalRotation = body.transform.rotation;
         currentState = new PlayerMovementState();
         currentState.EnterState(this);
     }
@@ -88,30 +85,15 @@ public class PlayerStateController : MonoBehaviour
     }
 
     public void SwitchState(PlayerBaseState newState)
-    { 
+    {
+        if (newState == null)
+        { 
+            Debug.LogError("Trying to switch to a state that doesn't exist.");
+            return;
+        }
+
         currentState = newState;
         currentState.EnterState(this);
-    }
-
-    public void OnTakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        UpdateHealthBar?.Invoke(currentHealth);
-
-        if (currentHealth <= 0)
-        {
-            OnDeath();
-        }
-    }
-    public void HealToFull(float waveNumber)
-    {
-        currentHealth = maxHealth;
-        UpdateHealthBar?.Invoke(currentHealth);
-    }
-    public void OnDeath()
-    {
-        Debug.Log("Game Over");
-        GameOver?.Invoke();
     }
 
     public void AddScreenShake(float magnitude)
@@ -121,7 +103,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void CheckForGrounded()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1f, groundLayer);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 2f, groundLayer);
     }
 
     private void CheckForAttackAction()
@@ -130,6 +112,7 @@ public class PlayerStateController : MonoBehaviour
 
         if (attack.action.WasPressedThisFrame())
         {
+            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds);
             SwitchState(new PlayerJumpState());
             holdTime = 0;
             return;
@@ -140,10 +123,20 @@ public class PlayerStateController : MonoBehaviour
             holdTime += Time.deltaTime;
             holdTime = Math.Clamp(holdTime, 0, 1);
             ChargingEffect();
+
+            if (holdTime > 0.2)
+            {
+                if (isGrounded)
+                {
+                    AudioManager.instance.PlaySingleLoopingClip(playerChargeSound);
+                }
+            }
         }
 
         else if (attack.action.WasReleasedThisFrame() && holdTime > 0.2)
         {
+            AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds);
             jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             impactSpeed.AddMultiplierFlat(holdTime * 2);
             baseRadiusSize.AddMultiplierFlat(holdTime);
@@ -161,14 +154,7 @@ public class PlayerStateController : MonoBehaviour
         moveSpeedMultiplier = Mathf.Clamp(moveSpeedMultiplier, 0.35f, 1);
 
         moveSpeed.SetMultiplier(moveSpeedMultiplier);
-        ShakeDiceBody(2 / moveSpeedMultiplier);
-    }
+        bodySystem.ShakeDiceBody(2 / moveSpeedMultiplier);
 
-    private void ShakeDiceBody(float magnitude)
-    {
-        float x = Mathf.Sin(Time.time * 50f) * magnitude;
-        float y = Mathf.Sin(Time.time * 50f) * magnitude;
-        float z = Mathf.Sin(Time.time * 50f) * magnitude;
-        body.transform.rotation = originalRotation * Quaternion.Euler(x, y, z);
     }
 }
