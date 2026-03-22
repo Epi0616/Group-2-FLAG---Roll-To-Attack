@@ -59,6 +59,7 @@ public class RangedRaiderEnemy : EnemyStateController
             distanceToEndofLaser = hit.distance;
         }
 
+        laserHolder.transform.position = firingOrigin.position;
         MoveLaserCylinder(laserDirection, distanceToEndofLaser, chargingWidth);
 
         laserObject.SetActive(true);
@@ -68,6 +69,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
         while (activeTimer < chargeTime)
         {
+            laserHolder.transform.position = firingOrigin.position;
             if (attackInterrupted)
             {
                 yield break;
@@ -84,6 +86,8 @@ public class RangedRaiderEnemy : EnemyStateController
 
         while (activeTimer < laserDuration && !isStunned && !attackInterrupted)
         {
+            laserHolder.transform.position = firingOrigin.position;
+
             activeTimer += Time.deltaTime;
             damageTickTimer += Time.deltaTime;
 
@@ -124,7 +128,7 @@ public class RangedRaiderEnemy : EnemyStateController
         while (activeTimer < chargeTime && !isStunned && !attackInterrupted)
         {
             LookAtPlayer();
-            laserHolder.transform.position = firingOrigin.position;
+            
 
             laserTarget = playerReference.transform.position;
 
@@ -167,6 +171,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     private void MoveLaserCylinder(Vector3 laserDir, float distance, float width)
     {
+        laserHolder.transform.position = firingOrigin.position;
         laserHolder.rotation = Quaternion.LookRotation(laserDir);
         Vector3 scale = laserHolder.localScale;
         scale.x = width;
