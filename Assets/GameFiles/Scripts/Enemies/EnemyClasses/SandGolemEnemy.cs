@@ -81,7 +81,7 @@ public class SandGolemEnemy : EnemyStateController
     }
 
     public override void CompleteAttack()
-    {
+    {    
         attackInterrupted = true;
     }
 

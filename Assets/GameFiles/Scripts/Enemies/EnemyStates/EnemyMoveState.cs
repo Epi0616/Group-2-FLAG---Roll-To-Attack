@@ -15,12 +15,7 @@ public class EnemyMoveState : EnemyBaseState
         //enemy.animator.SetBool("isMoving", true);
         enemy.enemyAgent.enabled = true;
         enemy.enemyAgent.updatePosition = true;
-        enemy.enemyAgent.updateRotation = true;
-        
-        if (enemy.animator != null)
-        {
-            enemy.animator.speed = 1f;
-        }
+        enemy.enemyAgent.updateRotation = true;            
         
         playerPosition = enemy.playerReference.transform.position;
         MoveTowardsPlayerNavMesh();
@@ -100,9 +95,5 @@ public class EnemyMoveState : EnemyBaseState
     {
         enemy.enemyAgent.enabled = false;
 
-        if (enemy.animator != null)
-        {
-            enemy.animator.speed = 0f;
-        }
     }
 }
