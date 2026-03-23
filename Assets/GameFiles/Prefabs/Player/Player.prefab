@@ -150,6 +150,9 @@ MonoBehaviour:
   bodySystem: {fileID: 1549561879397095893}
   boxCollider: {fileID: 2663442673991085227}
   isGrounded: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 16384
   groundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -171,7 +174,14 @@ MonoBehaviour:
   fivePipWeight: 1
   sixPipWeight: 0
   baseRadiusSize:
-    baseValue: 7.5
+    baseValue: 10
+  playerLightAttackSounds:
+  - {fileID: 8300000, guid: b9d6807a43ea956439c5660efc147290, type: 3}
+  playerHeavyAttackSounds:
+  - {fileID: 8300000, guid: 90825550ec0de954a91ec2745d43d027, type: 3}
+  playerLightJumpSounds:
+  - {fileID: 8300000, guid: 97d8d7141925f804eb165ae886d0d222, type: 3}
+  playerChargeSound: {fileID: 0}
 --- !u!114 &1323944957761061384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +210,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySystem
   defaultAbility: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
   playerAbilities:
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+  - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
   - {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
   playerAbilityStorage: []
 --- !u!114 &5004288492463444806
@@ -253,8 +268,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.8, y: 1.8, z: 1.8}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.8, y: 3.95, z: 1.8}
+  m_Center: {x: 0, y: 1.11, z: 0}
 --- !u!54 &712423231959406454
 Rigidbody:
   m_ObjectHideFlags: 0
