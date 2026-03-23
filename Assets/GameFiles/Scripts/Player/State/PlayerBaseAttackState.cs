@@ -53,11 +53,11 @@ public class PlayerBaseAttackState : PlayerMovementState
         if (player.impactSpeed.GetFinalValue() > player.impactSpeed.GetBaseValue())
         {
             //float volumePercent = Mathf.Clamp01(player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue() - 1);
-            AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 1f);
+            AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
             return;
         }
 
-        AudioManager.instance.PlayRandomSoundClip(player.playerLightAttackSounds, new Vector3(0, 0, 0), 1f);
+        AudioManager.instance.PlayRandomSoundClip(player.playerLightAttackSounds, new Vector3(0, 0, 0), 0.4f);
     }
 
     protected virtual void Attack(Collider[] colliders, int collisions)

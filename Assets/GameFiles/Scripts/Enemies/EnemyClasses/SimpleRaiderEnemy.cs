@@ -17,9 +17,11 @@ public class SimpleRaiderEnemy : EnemyStateController
     private GameObject impactFieldObj;
     private EnemyAttackImpactField impactField;
     private bool attackInterrupted;
+    private bool attackCompleted;
 
     public override void Attack()
     {
+        attackCompleted = false;
         attackInterrupted = false;       
         SpawnImpactField();
         StartCoroutine(ChargeTime());
@@ -28,7 +30,7 @@ public class SimpleRaiderEnemy : EnemyStateController
     private void MeleeAttack()
     {
         Collider[] colliders = Physics.OverlapSphere(attackOriginTransform.position, meleeAttackRadius, playerLayer);
-        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds);
+        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.4f);
         foreach (var collider in colliders)
         {
             if (collider.gameObject == gameObject) { continue; }
@@ -46,7 +48,8 @@ public class SimpleRaiderEnemy : EnemyStateController
         if (attackInterrupted)
         {
             return;          
-        }       
+        }  
+        attackCompleted = true;
         ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));        
     }
 
@@ -57,14 +60,21 @@ public class SimpleRaiderEnemy : EnemyStateController
         yield return new WaitForSeconds(meleeAttackChargeTime);
 
         if (attackInterrupted)
+        {
             yield break;
-
+        }
+      
         MeleeAttack();
     }  
 
     public override void CompleteAttack()
     {
-        attackInterrupted = true;     
+        attackInterrupted = true;
+        if (!attackCompleted)
+        {
+            impactField.DestroyMe();
+        }
+        
     }
         
 

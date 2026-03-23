@@ -82,7 +82,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
         activeTimer = 0;
 
-        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds);
+        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);
 
         while (activeTimer < laserDuration && !isStunned && !attackInterrupted)
         {
@@ -134,7 +134,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
             laserDirection = playerReference.transform.position - firingOrigin.position;         
             laserDirection.y = 0f;
-
+            
 
             ray = new Ray(firingOrigin.position, laserDirection);
             
@@ -151,6 +151,8 @@ public class RangedRaiderEnemy : EnemyStateController
             yield return null;
         }
         yield return new WaitForSeconds(0.5f);
+
+        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);
 
         activeTimer = 0;
         while (activeTimer < laserDuration && !isStunned && !attackInterrupted)

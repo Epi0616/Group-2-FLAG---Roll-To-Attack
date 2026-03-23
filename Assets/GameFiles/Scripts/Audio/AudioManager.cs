@@ -27,7 +27,8 @@ public class AudioManager : MonoBehaviour
         if (audioClip == null) return;
 
         AudioSource audioSource = ObjectPoolManager.SpawnObject(soundObject, position, Quaternion.identity);
-
+        //Debug.Log(volume);
+        audioSource.volume = 1f;
         audioSource.clip = audioClip;
         audioSource.volume = volume;
         audioSource.Play();
