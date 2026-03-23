@@ -9,10 +9,12 @@ public class BackWallTransparencyManager: MonoBehaviour
     [SerializeField] private Material transparentMaterial;
     [SerializeField] private Material backWallMaterial;
     private Vector3 playerPosition;
-    private bool isTransparent = false;
+    private bool isTransparent = true;
 
-    private void Awake()
+    private void Start()
     {
+        UpdateTransparency();
+        isTransparent = false;
         UpdateTransparency();
     }
 
@@ -24,7 +26,6 @@ public class BackWallTransparencyManager: MonoBehaviour
         {
             UpdateTransparency();
             isTransparent = false;
-
         }
 
         if (playerPosition.z <= -30 && !isTransparent)
