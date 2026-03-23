@@ -4923,61 +4923,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1533056583}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: bodySystem
-      value: 
-      objectReference: {fileID: 1837163550}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: healthSystem
-      value: 
-      objectReference: {fileID: 1837163549}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: enemyLayer.m_Bits
       value: 16384
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: jumpSpeed.baseValue
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: moveSpeed.baseValue
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: jumpHeight.baseValue
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: impactSpeed.baseValue
-      value: 10
+      propertyPath: playerChargeSound
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: baseRadiusSize.baseValue
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: moveSpeedWhileJumping.baseValue
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: playerLightJumpSounds.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: playerHeavyAttackSounds.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: playerLightAttackSounds.Array.size
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: 'playerHeavyAttackSounds.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 90825550ec0de954a91ec2745d43d027, type: 3}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerAbilities.Array.size
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: 'playerAbilities.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[1]'
       value: 
@@ -5002,10 +4966,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6130292915329008721, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5027,28 +4987,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a32842fe22ceba43add7f8940ff9b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySystem
---- !u!114 &1837163549 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1323944957761061384, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-  m_PrefabInstance: {fileID: 1837163540}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 171471193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 712b8f54d52968e4db70b248a1d32947, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
---- !u!114 &1837163550 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1549561879397095893, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-  m_PrefabInstance: {fileID: 1837163540}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 171471193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409ce266d5537ab4e9556fdf66392efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerBodySystem
 --- !u!1 &1920937858 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6042698470259078454, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
