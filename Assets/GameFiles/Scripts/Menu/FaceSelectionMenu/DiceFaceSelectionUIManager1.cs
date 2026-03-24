@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DiceFaceSelectionUIManager : MonoBehaviour
 {
+    public bool visibleForTesting;
+
     private Canvas canvas;
     [SerializeField] private GameObject DiceFaceSelectionUI, AbilitySelectionUI;
     [SerializeField] private AbilitySlotManager abilitySlotManager;
@@ -42,8 +44,13 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
     private void Start()
     {
-        DiceFaceSelectionUI.SetActive(false);
-        AbilitySelectionUI.SetActive(false);
+        DiceFaceSelectionUI.SetActive(visibleForTesting);
+        AbilitySelectionUI.SetActive(visibleForTesting);
+
+        if (visibleForTesting)
+        {
+            Setup();
+        }
     }
 
     public void ContinueButton()
