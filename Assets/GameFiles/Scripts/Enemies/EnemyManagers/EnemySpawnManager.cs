@@ -11,20 +11,24 @@ public class EnemySpawnManager : MonoBehaviour
     
     
     private Vector2 playerPos;
+    private float spawnPointAreaRadius = 4f;
     private GameObject playerRef;
     private float spawnTolerance = 50f;
     private IEnemyFactory[] enemyFactories;
-    [SerializeField] private Camera cameraReference;
-    [SerializeField] private LayerMask propsLayer;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float spawnPointAreaRadius = 4f;
-    [SerializeField] private float enemySpawnInterval;
-    [SerializeField] private float enemyScalingHealthMultiplier;
+
+    [Header("Adjustable Variables")]
+    [SerializeField] private float enemySpawnInterval; 
     [SerializeField] private float healthScalingIncreasePerWave;
+    
     [Header("This List holds all the Spawn Points placed in the scene, to use press the +")]
     [Header("then drag in a SpawnPoint Prefab.   DOES NOTHING IF EMPTY")]
     [SerializeField] private List<EnemySpawnPoint> spawnPointList;
 
+    [Header("Non Adjustable Variables")]
+    [SerializeField] private float enemyScalingHealthMultiplier;
+    [SerializeField] private Camera cameraReference;
+    [SerializeField] private LayerMask propsLayer;
+    [SerializeField] private LayerMask groundLayer;
     private void Awake()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player");

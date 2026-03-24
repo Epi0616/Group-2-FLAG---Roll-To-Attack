@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.VFX;
 using System.Collections;
 
 public class RangedRaiderEnemy : EnemyStateController
@@ -11,6 +12,7 @@ public class RangedRaiderEnemy : EnemyStateController
     [SerializeField] private float damageTickRateInSeconds;
     [SerializeField] private float chargingWidth;
     [SerializeField] private float firingWidth;
+    [Header("Currently In Testing")]
     [SerializeField] private bool hasTracking;
 
     private float activeTimer;
@@ -22,6 +24,9 @@ public class RangedRaiderEnemy : EnemyStateController
     [SerializeField] private Transform firingOrigin;
     [SerializeField] private Transform laserHolder;
     [SerializeField] private GameObject laserObject;
+    [SerializeField] private Transform laserParticleHolder;
+    [SerializeField] private VisualEffect laserParticle;
+
    
 
 
@@ -43,7 +48,7 @@ public class RangedRaiderEnemy : EnemyStateController
     private IEnumerator FireLaser()
     {
 
-        laserHolder.transform.position = firingOrigin.position;
+        //laserHolder.transform.position = firingOrigin.position;
 
         Vector3 laserTarget = playerReference.transform.position;
 
@@ -57,19 +62,21 @@ public class RangedRaiderEnemy : EnemyStateController
         if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
         {
             distanceToEndofLaser = hit.distance;
+            laserParticle.SetVector3("EndPos", hit.point);
+            //Debug.DrawLine(firingOrigin.position, hit.point, Color.green, 100f);
         }
 
-        laserHolder.transform.position = firingOrigin.position;
-        MoveLaserCylinder(laserDirection, distanceToEndofLaser, chargingWidth);
+        //laserHolder.transform.position = firingOrigin.position;
+        MoveLaserCylinderParticle(laserDirection, distanceToEndofLaser, chargingWidth);
 
-        laserObject.SetActive(true);
+        //laserObject.SetActive(true);
         activeTimer = 0;
 
         AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
 
         while (activeTimer < chargeTime)
         {
-            laserHolder.transform.position = firingOrigin.position;
+            //laserHolder.transform.position = firingOrigin.position;
             if (attackInterrupted)
             {
                 yield break;
@@ -81,12 +88,15 @@ public class RangedRaiderEnemy : EnemyStateController
         //yield return new WaitForSeconds(chargeTime);
 
         activeTimer = 0;
-
+        laserParticle.SetVector3("StartPos", firingOrigin.position);
         AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);
-
+        laserParticle.enabled = true;
+        laserParticle.SetFloat("Duration", laserDuration);
+        laserParticle.SetVector3("StartPos", firingOrigin.position);
+        laserParticle.Play();
         while (activeTimer < laserDuration && !isStunned && !attackInterrupted)
         {
-            laserHolder.transform.position = firingOrigin.position;
+            //laserHolder.transform.position = firingOrigin.position;
 
             activeTimer += Time.deltaTime;
             damageTickTimer += Time.deltaTime;
@@ -100,7 +110,8 @@ public class RangedRaiderEnemy : EnemyStateController
             yield return null;
         }
 
-        laserObject.SetActive(false);
+        laserParticle.enabled = false;
+        //laserObject.SetActive(false);
         if (!attackInterrupted)
         {
             ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));          
@@ -182,10 +193,23 @@ public class RangedRaiderEnemy : EnemyStateController
         laserHolder.localScale = scale;     
     }
 
+    private void MoveLaserCylinderParticle(Vector3 laserDir, float distance, float width)
+    {
+        //laserParticleHolder.transform.position = firingOrigin.position;
+        Quaternion r = Quaternion.LookRotation(laserDir);
+        laserParticleHolder.rotation = r;
+        Vector3 scale = laserParticleHolder.localScale;
+        scale.x = width;
+        scale.y = width;
+        scale.z = distance / 20;
+        laserParticleHolder.localScale = scale;
+    }
+
+
     private void LaserCheck(Vector3 laserTarget, Vector3 laserDir, Ray ray, RaycastHit hit)
     {
         float distanceToEndofLaser = laserRange;
-        if (Physics.SphereCast(ray, firingWidth, out hit, laserRange, playerLayer))
+        if (Physics.SphereCast(ray, 1f, out hit, laserRange, playerLayer))
         {
             
             if (hit.collider.CompareTag("Player") && damageTickTimer >= damageTickRateInSeconds)
@@ -198,6 +222,11 @@ public class RangedRaiderEnemy : EnemyStateController
         if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
         {
             distanceToEndofLaser = hit.distance;
+            Vector3 w = new Vector3(hit.point.x, hit.point.y + 200, hit.point.z);
+            //Debug.DrawLine(hit.point, w, Color.red, 100f);
+            //Debug.DrawLine(firingOrigin.position, hit.point, Color.green, 100f);
+            laserParticle.SetVector3("EndPos", hit.point);
+            //Debug.Log(hit.point);
         }
 
         MoveLaserCylinder(laserDir, distanceToEndofLaser, firingWidth);
