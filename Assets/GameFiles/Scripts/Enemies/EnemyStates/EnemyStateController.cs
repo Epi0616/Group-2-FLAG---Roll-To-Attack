@@ -13,7 +13,6 @@ public abstract class EnemyStateController : MonoBehaviour
 
     [Header("Variables that can be changed")]
     [SerializeField] protected int maxHealth;
-    [SerializeField] protected int currentHealth;  
     public Stat moveSpeedStat;
     public Stat stunTimeStat;
     public Stat damageTakenModifierStat;
@@ -25,6 +24,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
     [Header("Variables not to be Adjusted")]
     public float attackRange;
+    [SerializeField] protected int currentHealth;
     public bool hasSpawnVibration;
     public NavMeshAgent enemyAgent;
     public Rigidbody rb;
