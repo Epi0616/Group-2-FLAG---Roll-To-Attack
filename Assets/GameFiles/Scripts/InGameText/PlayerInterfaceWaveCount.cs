@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerInterfaceWaveCount : MonoBehaviour
 {
     public TextMeshProUGUI Text;
+    public TextMeshProUGUI numberText;
 
     private int waveCount = 0;
     private float timer = 0;
@@ -49,6 +50,7 @@ public class PlayerInterfaceWaveCount : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
+        numberText.text = "" + waveCount;
 
         if (newWave)
         {

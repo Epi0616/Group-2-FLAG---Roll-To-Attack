@@ -25,7 +25,7 @@ public class HealthBar : MonoBehaviour
 
     private void UpdatePlayerHealth(int currentHealth, int maxHealth)
     {
-        text.text = currentHealth.ToString();
+        text.text = maxHealth.ToString() + " / " + currentHealth.ToString();
         healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(1000 * ((float)currentHealth / maxHealth), healthBar.GetComponent<RectTransform>().sizeDelta.y);
     }
 
