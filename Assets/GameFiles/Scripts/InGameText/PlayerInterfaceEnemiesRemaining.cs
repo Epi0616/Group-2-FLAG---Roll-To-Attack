@@ -2,13 +2,16 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
 {
     public TextMeshProUGUI Text;
+    public Image progress;
 
     private float timer = 0;
     private int enemyCount = 0;
+    private int totalEnemyCount;
     private bool waveInProgress = false;
 
 
@@ -27,6 +30,7 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
     private void Awake()
     {
         Text.alpha = 0f;
+        totalEnemyCount = enemyCount;
     }
 
     private void NewWave(List<EnemyTypes> totalEnemies)
@@ -50,7 +54,7 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
-
+        progress.fillAmount = enemyCount / totalEnemyCount;
         if (waveInProgress)
         {
             FadeIn();
