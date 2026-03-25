@@ -10,7 +10,7 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
     public Image progress;
 
     private float timer = 0;
-    private int enemyCount = 0;
+    private int enemyCount;
     private int totalEnemyCount;
     private bool waveInProgress = false;
 
@@ -30,11 +30,11 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
     private void Awake()
     {
         Text.alpha = 0f;
-        totalEnemyCount = enemyCount;
     }
 
     private void NewWave(List<EnemyTypes> totalEnemies)
     {
+        totalEnemyCount = totalEnemies.Count;
         enemyCount = totalEnemies.Count;
         timer = 0;
         Text.alpha = 0;
@@ -54,13 +54,13 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
-        progress.fillAmount = enemyCount / totalEnemyCount;
         if (waveInProgress)
         {
             FadeIn();
             DisplayRemainingEnemies();
             FadeOut();
         }
+        progress.fillAmount = (float)enemyCount / (float)totalEnemyCount;
     }
 
     private void FadeIn()
