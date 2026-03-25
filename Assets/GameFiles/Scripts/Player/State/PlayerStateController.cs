@@ -54,6 +54,16 @@ public class PlayerStateController : MonoBehaviour
     public AudioClip[] playerLightJumpSounds;
     public AudioClip playerChargeSound;
 
+    [Header("Player Ability Impact SoundFX")]
+    public AudioClip[] playerFreezeSounds;
+    public AudioClip[] playerPoisonSounds;
+    public AudioClip[] playerSpikeSounds;
+    public AudioClip[] playerKnockbackSounds;
+    public AudioClip[] playerSlowSounds;
+    public AudioClip[] playerWeakenSounds;
+    public AudioClip[] playerRocketSounds;
+    public AudioClip[] playerVacuumSounds;
+
     private void OnEnable()
     {
         move.action.Enable();
