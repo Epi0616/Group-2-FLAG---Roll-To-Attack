@@ -76,10 +76,14 @@ public class RangedRaiderEnemy : EnemyStateController
         laserParticle.Reinit();
        
         laserParticle.enabled = true;
-       
+
+        laserParticle.SetFloat("Duration", chargeTime + laserDuration);
+
         activeTimer = 0;
 
         AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
+
+        animator.speed = 0.7f;
 
         while (activeTimer < chargeTime)
         {
@@ -112,9 +116,9 @@ public class RangedRaiderEnemy : EnemyStateController
         
         AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);
         laserParticle.enabled = false;       
-        laserParticle.SetFloat("Duration", laserDuration);
-        laserParticle.enabled = true;
         
+        laserParticle.enabled = true;
+        animator.speed = 1.3f;
         
         
         while (activeTimer < laserDuration && !isStunned && !attackInterrupted)
@@ -145,14 +149,16 @@ public class RangedRaiderEnemy : EnemyStateController
     {
 
         laserParticle.Reinit();
-
+        
         laserParticle.enabled = true;
-
+        laserParticle.SetFloat("Duration", chargeTime + laserDuration);
+        Debug.Log(laserParticle.GetFloat("Duration"));
         float distanceToEndofLaser;
         Vector3 laserDirection = Vector3.zero;
         Ray ray = new Ray(firingOrigin.position, laserDirection);
 
         activeTimer = 0;
+        animator.speed = 0.7f;
         while (activeTimer < chargeTime && !isStunned && !attackInterrupted)
         {
             LookAtPlayer();          
@@ -161,6 +167,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
             laserDirection = playerReference.transform.position - firingOrigin.position;         
             laserDirection.y = 0f;
+            laserDirection = laserDirection.normalized;
 
             firingOrigin.forward = laserDirection;
             ray = new Ray(firingOrigin.position, laserDirection);
@@ -175,7 +182,6 @@ public class RangedRaiderEnemy : EnemyStateController
             {
                 distanceToEndofLaser = laserRange;
             }
-            laserParticle.SetFloat("Beam Length", distanceToEndofLaser);
             MoveLaserParticle(ray, distanceToEndofLaser, chargingWidth);
             if (attackInterrupted)
             {
@@ -184,10 +190,14 @@ public class RangedRaiderEnemy : EnemyStateController
             activeTimer += Time.deltaTime;
             yield return null;
         }
+        animator.speed = 0f;
 
         yield return new WaitForSeconds(0.5f);
+
+        animator.speed = 1.3f;
+
         laserParticle.enabled = false;
-        laserParticle.SetFloat("Duration", laserDuration);
+        //laserParticle.SetFloat("Duration", laserDuration);
         laserParticle.enabled = true;
 
         AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);

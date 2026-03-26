@@ -84,7 +84,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1.5
+      m_SerializableObject: 100
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -196,7 +196,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1.5
+      m_SerializableObject: 100
     m_Space: -1
   m_Property:
     name: o
@@ -241,9 +241,11 @@ MonoBehaviour:
   - {fileID: 8926484042661614994}
   m_OutputSlots: []
   m_Label: Red Main Beam
-  m_Data: {fileID: 8926484042661615360}
+  m_Data: {fileID: 8926484042661615263}
   m_InputFlowSlot:
-  - link: []
+  - link:
+    - context: {fileID: 8926484042661615274}
+      slotIndex: 0
   m_OutputFlowSlot:
   - link: []
   blendMode: 1
@@ -1898,7 +1900,7 @@ MonoBehaviour:
   m_Owners:
   - {fileID: 8926484042661615001}
   - {fileID: 8926484042661615048}
-  - {fileID: 8926484042661615318}
+  - {fileID: 8926484042661615050}
   dataType: 0
   capacity: 68
   stripCapacity: 1
@@ -2031,7 +2033,7 @@ MonoBehaviour:
       slotIndex: 0
   m_OutputFlowSlot:
   - link:
-    - context: {fileID: 8926484042661615318}
+    - context: {fileID: 8926484042661615050}
       slotIndex: 0
   integration: 0
   angularIntegration: 0
@@ -2072,9 +2074,11 @@ MonoBehaviour:
   - {fileID: 8926484042661615069}
   m_OutputSlots: []
   m_Label: Pink Centre Beam
-  m_Data: {fileID: 8926484042661615361}
+  m_Data: {fileID: 8926484042661615015}
   m_InputFlowSlot:
-  - link: []
+  - link:
+    - context: {fileID: 8926484042661615048}
+      slotIndex: 0
   m_OutputFlowSlot:
   - link: []
   blendMode: 1
@@ -4697,7 +4701,7 @@ MonoBehaviour:
   m_Owners:
   - {fileID: 8926484042661615249}
   - {fileID: 8926484042661615274}
-  - {fileID: 8926484042661615276}
+  - {fileID: 8926484042661614934}
   dataType: 0
   capacity: 68
   stripCapacity: 1
@@ -5062,7 +5066,7 @@ MonoBehaviour:
       slotIndex: 0
   m_OutputFlowSlot:
   - link:
-    - context: {fileID: 8926484042661615276}
+    - context: {fileID: 8926484042661614934}
       slotIndex: 0
   integration: 0
   angularIntegration: 0
@@ -5103,11 +5107,9 @@ MonoBehaviour:
   - {fileID: 8926484042661615295}
   m_OutputSlots: []
   m_Label: Designer Test Main Beam
-  m_Data: {fileID: 8926484042661615263}
+  m_Data: {fileID: 8926484042661615362}
   m_InputFlowSlot:
-  - link:
-    - context: {fileID: 8926484042661615274}
-      slotIndex: 0
+  - link: []
   m_OutputFlowSlot:
   - link: []
   blendMode: 1
@@ -6482,11 +6484,9 @@ MonoBehaviour:
   - {fileID: 8926484042661615337}
   m_OutputSlots: []
   m_Label: Designer Test Centre Beam
-  m_Data: {fileID: 8926484042661615015}
+  m_Data: {fileID: 8926484042661615363}
   m_InputFlowSlot:
-  - link:
-    - context: {fileID: 8926484042661615048}
-      slotIndex: 0
+  - link: []
   m_OutputFlowSlot:
   - link: []
   blendMode: 1
@@ -7827,7 +7827,7 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
   m_LinkedSlots: []
---- !u!114 &8926484042661615360
+--- !u!114 &8926484042661615362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7847,7 +7847,7 @@ MonoBehaviour:
   m_UISuperCollapsed: 0
   title: 
   m_Owners:
-  - {fileID: 8926484042661614934}
+  - {fileID: 8926484042661615276}
   dataType: 0
   capacity: 128
   stripCapacity: 1
@@ -7855,7 +7855,7 @@ MonoBehaviour:
   needsComputeBounds: 0
   boundsMode: 0
   m_Space: 0
---- !u!114 &8926484042661615361
+--- !u!114 &8926484042661615363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7875,7 +7875,7 @@ MonoBehaviour:
   m_UISuperCollapsed: 0
   title: 
   m_Owners:
-  - {fileID: 8926484042661615050}
+  - {fileID: 8926484042661615318}
   dataType: 0
   capacity: 128
   stripCapacity: 1
