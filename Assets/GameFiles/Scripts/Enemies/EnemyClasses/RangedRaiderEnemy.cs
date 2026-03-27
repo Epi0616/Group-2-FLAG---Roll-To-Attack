@@ -166,7 +166,7 @@ public class RangedRaiderEnemy : EnemyStateController
         Ray ray = new Ray(firingOrigin.position, laserDirection);
 
         activeTimer = 0;
-        animator.speed = 0.7f;
+        animator.speed = 0.5f;
         while (activeTimer < chargeTime && !isStunned && !attackInterrupted)
         {
             LookAtPlayer();          
@@ -202,7 +202,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
         yield return new WaitForSeconds(0.5f);
 
-        animator.speed = 1.3f;
+        animator.speed = 1.5f;
 
         laserParticle.enabled = false;
         //laserParticle.SetFloat("Duration", laserDuration);
