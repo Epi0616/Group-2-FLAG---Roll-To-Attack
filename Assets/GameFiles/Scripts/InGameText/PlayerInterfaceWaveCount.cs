@@ -45,12 +45,12 @@ public class PlayerInterfaceWaveCount : MonoBehaviour
         timer = 0;
         Text.alpha = 0;
         Text.text = "WAVE " + waveCount;
+        numberText.text = "" + waveCount;
     }
 
     private void Update()
     {
         timer += Time.deltaTime;
-        numberText.text = "" + waveCount;
 
         if (newWave)
         {

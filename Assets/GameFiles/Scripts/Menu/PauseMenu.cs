@@ -6,17 +6,21 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private InputActionReference pauseGame;
     [SerializeField] private GameObject pauseMenuUI;
+    [SerializeField] private SettingsUIManager settingsManager;
+    [SerializeField] private GameObject[] pauseMenuButtons;
     public static bool isGamePaused = false;
     private bool isGameOver = false;
 
     private void OnEnable()
     {
         HealthSystem.GameOver += GameOver;
+        SettingsUIManager.settingsClosed += setPauseButtonsVisibility;
     }
 
     private void OnDisable()
     {
         HealthSystem.GameOver -= GameOver;
+        SettingsUIManager.settingsClosed -= setPauseButtonsVisibility;
     }
 
     private void Update()
@@ -38,8 +42,9 @@ public class PauseMenu : MonoBehaviour
     }
 
     public void Options()
-    { 
-    
+    {
+        setPauseButtonsVisibility(false);
+        settingsManager.MainSettings();
     }
 
     public void Menu()
@@ -59,10 +64,20 @@ public class PauseMenu : MonoBehaviour
         }
         else
         {
+            settingsManager.ClearSettingsScreen();
+            setPauseButtonsVisibility(true);
             pauseMenuUI.SetActive(false);
             Time.timeScale = 1;
         }
 
         isGamePaused = !isGamePaused;
+    }
+
+    public void setPauseButtonsVisibility(bool visible)
+    {
+        for (int i = 0; i < pauseMenuButtons.Length; i++)
+        {
+            pauseMenuButtons[i].SetActive(visible);
+        }
     }
 }

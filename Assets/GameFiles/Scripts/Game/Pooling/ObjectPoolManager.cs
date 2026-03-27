@@ -138,7 +138,7 @@ public class ObjectPoolManager : MonoBehaviour
                 cloneToPrefabMap.Add(obj, objectToSpawn);
             }
 
-            Debug.Log($"Pools: {objectPools.Count}, Active objects tracked: {cloneToPrefabMap.Count}");
+            //Debug.Log($"Pools: {objectPools.Count}, Active objects tracked: {cloneToPrefabMap.Count}");
 
             obj.transform.position = spawnPosition;
             obj.transform.rotation = spawnRotation;
@@ -188,7 +188,7 @@ public class ObjectPoolManager : MonoBehaviour
                 if (obj != null && prefab != null && pool != null)
                 {
                     pool.Release(obj);
-                    Debug.Log($"Pools: {objectPools.Count}, Active objects tracked: {cloneToPrefabMap.Count}");
+                    //Debug.Log($"Pools: {objectPools.Count}, Active objects tracked: {cloneToPrefabMap.Count}");
                     Debug.Log(obj.ToString());
                 }
                 else
