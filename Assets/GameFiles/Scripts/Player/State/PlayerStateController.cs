@@ -54,6 +54,16 @@ public class PlayerStateController : MonoBehaviour
     public AudioClip[] playerLightJumpSounds;
     public AudioClip playerChargeSound;
 
+    [Header("Player Ability Impact SoundFX")]
+    public AudioClip[] playerFreezeSounds;
+    public AudioClip[] playerPoisonSounds;
+    public AudioClip[] playerSpikeSounds;
+    public AudioClip[] playerKnockbackSounds;
+    public AudioClip[] playerSlowSounds;
+    public AudioClip[] playerWeakenSounds;
+    public AudioClip[] playerRocketSounds;
+    public AudioClip[] playerVacuumSounds;
+
     private void OnEnable()
     {
         move.action.Enable();
@@ -112,7 +122,7 @@ public class PlayerStateController : MonoBehaviour
 
         if (attack.action.WasPressedThisFrame())
         {
-            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds);
+            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
             holdTime = 0;
             return;
@@ -136,7 +146,7 @@ public class PlayerStateController : MonoBehaviour
         else if (attack.action.WasReleasedThisFrame() && holdTime > 0.2)
         {
             AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
-            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds);
+            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             impactSpeed.AddMultiplierFlat(holdTime * 2);
             baseRadiusSize.AddMultiplierFlat(holdTime);

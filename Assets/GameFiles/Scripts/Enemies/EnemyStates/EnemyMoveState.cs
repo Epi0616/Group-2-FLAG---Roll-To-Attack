@@ -76,7 +76,7 @@ public class EnemyMoveState : EnemyBaseState
     {
         if (enemy.enemyAgent == null || !enemy.enemyAgent.isOnNavMesh) return;
 
-        if (Time.time - lastSetTime > 0.25f)
+        if (Time.time - lastSetTime > 0.15f)
         {
             enemy.enemyAgent.SetDestination(playerPosition);
             lastSetTime = Time.time;

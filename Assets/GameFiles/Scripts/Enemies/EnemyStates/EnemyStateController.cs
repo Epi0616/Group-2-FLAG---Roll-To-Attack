@@ -13,7 +13,6 @@ public abstract class EnemyStateController : MonoBehaviour
 
     [Header("Variables that can be changed")]
     [SerializeField] protected int maxHealth;
-    [SerializeField] protected int currentHealth;  
     public Stat moveSpeedStat;
     public Stat stunTimeStat;
     public Stat damageTakenModifierStat;
@@ -25,6 +24,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
     [Header("Variables not to be Adjusted")]
     public float attackRange;
+    [SerializeField] protected int currentHealth;
     public bool hasSpawnVibration;
     public NavMeshAgent enemyAgent;
     public Rigidbody rb;
@@ -118,11 +118,18 @@ public abstract class EnemyStateController : MonoBehaviour
         enemyAgent.autoRepath = false;
 
         playerController = playerReference.GetComponent<PlayerStateController>();
+        if (this is RangedRaiderEnemy)
+        {
+            AudioManager.instance.PlayRandomSoundClip(EnemySpawnSounds, default, 0.3f);
+        }
+        else
+        {
+            AudioManager.instance.PlayRandomSoundClip(EnemySpawnSounds, default, 0.6f);
+        }
 
-        AudioManager.instance.PlayRandomSoundClip(EnemySpawnSounds);
 
-        if (hasSpawnVibration)            
-            ChangeState(new VibratingSpawnState());     
+        if (hasSpawnVibration)
+            ChangeState(new VibratingSpawnState());
         else
             ChangeState(new EnemyMoveState());
     }
@@ -174,7 +181,7 @@ public abstract class EnemyStateController : MonoBehaviour
         int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
         currentHealth -= finalDamage;
 
-        AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
+        AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds, default, 0.4f);
 
         ShowDamage(finalDamage, color);
 
@@ -383,7 +390,7 @@ public abstract class EnemyStateController : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        AudioManager.instance.PlayRandomSoundClip(EnemyDeathSounds);
+        AudioManager.instance.PlayRandomSoundClip(EnemyDeathSounds, default, 0.3f);
 
         currentState?.ExitState();
         StopVibrating();

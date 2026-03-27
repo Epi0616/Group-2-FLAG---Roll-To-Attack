@@ -14,6 +14,12 @@ public class EnemyLookAtPlayerState : EnemyBaseState
 
     public override void EnterState(EnemyStateController enemy)
     {
+        if(enemy.animator != null)
+        {
+            enemy.animator.speed = 0f;
+        }
+
+
         activeTimer = 0f;
         base.EnterState(enemy);
     }
@@ -34,5 +40,13 @@ public class EnemyLookAtPlayerState : EnemyBaseState
         float t = activeTimer / duration;
         enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, t);
         
+    }
+
+    public override void ExitState()
+    {
+        if (enemy.animator != null)
+        {
+            enemy.animator.speed = 1f;
+        }
     }
 }

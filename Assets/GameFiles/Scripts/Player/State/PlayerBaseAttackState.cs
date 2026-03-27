@@ -8,10 +8,12 @@ public class PlayerBaseAttackState : PlayerMovementState
     protected Color myColor = Color.red;
     protected float myRadius;
     protected bool attacked;
+    protected AudioClip[] impactSounds;
 
     public override void EnterState(PlayerStateController player)
     {
         base.EnterState(player);
+        impactSounds = player.playerLightAttackSounds;
         myRadius = player.baseRadiusSize.GetFinalValue();
         attacked = false;
     }
@@ -48,16 +50,17 @@ public class PlayerBaseAttackState : PlayerMovementState
     }
 
 
-    protected void PlayImpactSound()
+    protected virtual void PlayImpactSound()
     {
         if (player.impactSpeed.GetFinalValue() > player.impactSpeed.GetBaseValue())
         {
             //float volumePercent = Mathf.Clamp01(player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue() - 1);
-            AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 1f);
-            return;
+            AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
         }
-
-        AudioManager.instance.PlayRandomSoundClip(player.playerLightAttackSounds, new Vector3(0, 0, 0), 1f);
+        else 
+        {
+            AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
+        }
     }
 
     protected virtual void Attack(Collider[] colliders, int collisions)

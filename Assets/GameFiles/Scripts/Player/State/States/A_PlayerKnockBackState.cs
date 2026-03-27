@@ -5,9 +5,20 @@ public class A_PlayerKnockbackState : PlayerBaseAttackState
     public override void EnterState(PlayerStateController player)
     {
         base.EnterState(player);
-
+        impactSounds = player.playerKnockbackSounds;
         myColor = Color.darkGoldenRod;
     }
+    protected override void PlayImpactSound()
+    {
+        if (player.impactSpeed.GetFinalValue() > player.impactSpeed.GetBaseValue())
+        {
+            //float volumePercent = Mathf.Clamp01(player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue() - 1);
+            AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
+        }
+
+        AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
+    }
+
     protected override void CustomAttack(GameObject Enemy)
     {
         EnemyStateController tempScriptAccess = Enemy.GetComponent<EnemyStateController>();

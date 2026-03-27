@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
     public TextMeshProUGUI text;
-    public GameObject healthBar;
+    public Image healthBar;
     float timer;
 
     private void OnEnable()
@@ -25,8 +26,9 @@ public class HealthBar : MonoBehaviour
 
     private void UpdatePlayerHealth(int currentHealth, int maxHealth)
     {
-        text.text = currentHealth.ToString();
-        healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(1000 * ((float)currentHealth / maxHealth), healthBar.GetComponent<RectTransform>().sizeDelta.y);
+        text.text = currentHealth.ToString() + " / " + maxHealth.ToString();
+        //healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(1000 * ((float)currentHealth / maxHealth), healthBar.GetComponent<RectTransform>().sizeDelta.y);
+        healthBar.fillAmount = (float)currentHealth / (float)maxHealth;
     }
 
     private void Update()
