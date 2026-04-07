@@ -77,4 +77,51 @@ public class AbilitySystem : MonoBehaviour
             playerAbilities[i].pipNumber = i + 1;
         }
     }
+
+    public int CompareAbilitySets(List<AbilityDescriptor> abilitiesToCompare)
+    {
+        Dictionary<int, int> indexToCountCurrent = new Dictionary<int, int>();
+        Dictionary<int, int> indexToCountCompare = new Dictionary<int, int>();
+
+        //setup dictionary with each type of ability (Key) the current ability list has and its amount (Value)
+        for (int i = 0; i < playerAbilities.Count; i++)
+        {
+            int currentAbilityIndex = playerAbilities[i].abilityIndex;
+            if (indexToCountCurrent.ContainsKey(currentAbilityIndex))
+            {
+                indexToCountCurrent[currentAbilityIndex]++;
+                continue;
+            }
+
+            indexToCountCurrent.Add(currentAbilityIndex, 1);
+        }
+
+        for (int i = 0; i < abilitiesToCompare.Count; i++)
+        {
+            int currentAbilityIndex = abilitiesToCompare[i].abilityIndex;
+            if (indexToCountCompare.ContainsKey(currentAbilityIndex))
+            {
+                indexToCountCompare[currentAbilityIndex]++;
+                continue;
+            }
+
+            indexToCountCompare.Add(currentAbilityIndex, 1);
+        }
+
+        //compare any difference in the new set vs the set the player currently has
+        int abilityDifferenceCount = 0;
+
+        foreach (KeyValuePair<int,int> pair in indexToCountCompare)
+        {
+            if (indexToCountCurrent.ContainsKey(pair.Key))
+            {
+                abilityDifferenceCount += Mathf.Abs(indexToCountCurrent[pair.Key] - indexToCountCompare[pair.Key]);
+                continue;
+            }
+
+            abilityDifferenceCount += indexToCountCompare[pair.Key];
+        }
+
+        return abilityDifferenceCount / 2; //div 2 as one difference will always log 2 changes (1 missing and 1 new)
+    }
 }

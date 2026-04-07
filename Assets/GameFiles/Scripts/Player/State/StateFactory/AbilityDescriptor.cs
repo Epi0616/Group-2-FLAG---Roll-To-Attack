@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public abstract class AbilityDescriptor : ScriptableObject
 {
+    public int abilityIndex;
     public int pipNumber;
     public int weight;
     public string abilityName;
