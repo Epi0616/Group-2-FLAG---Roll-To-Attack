@@ -63,6 +63,7 @@ public class AbilitySlotManager : MonoBehaviour
                 currentAbilities.Add(ability.GetAbilityDescriptor());
             }
         }
+        RunTimeStatTracker.totalAbilitiesEquipped += abilitySystem.CompareAbilitySets(currentAbilities);
         abilitySystem.SetPlayerAbilities(currentAbilities);
 
         List<AbilityDescriptor> currentAbilityStorage = new List<AbilityDescriptor>();

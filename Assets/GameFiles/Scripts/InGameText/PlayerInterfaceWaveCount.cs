@@ -38,6 +38,7 @@ public class PlayerInterfaceWaveCount : MonoBehaviour
     public void IncrementWaveCount()
     { 
         this.waveCount++;
+        RunTimeStatTracker.waveNumber = waveCount;
     }
 
     public void DisplayWaveCount()

@@ -189,7 +189,7 @@ public class ObjectPoolManager : MonoBehaviour
                 {
                     pool.Release(obj);
                     //Debug.Log($"Pools: {objectPools.Count}, Active objects tracked: {cloneToPrefabMap.Count}");
-                    Debug.Log(obj.ToString());
+                    //Debug.Log(obj.ToString());
                 }
                 else
                 {
