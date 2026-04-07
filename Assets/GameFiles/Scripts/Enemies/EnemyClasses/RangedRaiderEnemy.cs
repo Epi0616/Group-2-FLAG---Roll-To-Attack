@@ -12,6 +12,8 @@ public class RangedRaiderEnemy : EnemyStateController
     [SerializeField] private float damageTickRateInSeconds;
     [SerializeField] private float chargingWidth;
     [SerializeField] private float firingWidth;
+    [SerializeField] private Color chargeColour;
+    [SerializeField] private Color activeColour;
     [Header("Currently In Testing")]
     [SerializeField] private bool hasTracking;
 
@@ -75,6 +77,8 @@ public class RangedRaiderEnemy : EnemyStateController
              
         laserParticle.Reinit();
        
+        laserParticle.SetVector4("Beam Colour", chargeColour);
+
         laserParticle.enabled = true;
 
         laserParticle.SetFloat("Duration", chargeTime + laserDuration);
@@ -115,8 +119,10 @@ public class RangedRaiderEnemy : EnemyStateController
         activeTimer = 0;
         
         AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);
-        laserParticle.enabled = false;       
-        
+        laserParticle.enabled = false;
+
+        laserParticle.SetVector4("Beam Colour", activeColour);
+
         laserParticle.enabled = true;
         animator.speed = 1.3f;
         
@@ -149,10 +155,12 @@ public class RangedRaiderEnemy : EnemyStateController
     {
 
         laserParticle.Reinit();
-        
+
+        laserParticle.SetVector4("Beam Colour", chargeColour);
+
         laserParticle.enabled = true;
         laserParticle.SetFloat("Duration", chargeTime + laserDuration);
-        Debug.Log(laserParticle.GetFloat("Duration"));
+       // Debug.Log(laserParticle.GetFloat("Duration"));
         float distanceToEndofLaser;
         Vector3 laserDirection = Vector3.zero;
         Ray ray = new Ray(firingOrigin.position, laserDirection);
@@ -198,6 +206,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
         laserParticle.enabled = false;
         //laserParticle.SetFloat("Duration", laserDuration);
+        laserParticle.SetVector4("Beam Colour", activeColour);
         laserParticle.enabled = true;
 
         AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);
