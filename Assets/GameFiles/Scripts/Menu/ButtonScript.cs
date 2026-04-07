@@ -5,18 +5,22 @@ using UnityEngine.EventSystems;
 
 public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public ParticleSystem pSystem;
+    //public ParticleSystem pSystem;
+    public float sizeWidth;
+    public float sizeHeight;
+    public float sizeWidthHover;
+    public float sizeHeightHover;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        pSystem.Play();
-        gameObject.transform.localScale = new Vector3(1f, 1f, 1);
+        //pSystem.Play();
+        gameObject.transform.localScale = new Vector3(sizeHeightHover, sizeWidthHover, 1);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         {
-            gameObject.transform.localScale = new Vector3(0.9f, 0.9f, 1);
+            gameObject.transform.localScale = new Vector3(sizeHeight, sizeWidth, 1);
         }
     }
 }
