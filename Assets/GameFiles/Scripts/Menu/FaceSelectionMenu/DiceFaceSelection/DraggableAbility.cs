@@ -18,7 +18,12 @@ public class DraggableAbility : DraggableObject
     }
 
     private void UpdateObject()
-    { 
+    {
+        if (myAbility.sprite != null)
+        { 
+            Image.sprite = myAbility.sprite;
+            return;
+        }
         Image.color = myAbility.color;
     }
 }
