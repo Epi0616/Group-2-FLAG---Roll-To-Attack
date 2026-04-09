@@ -9,6 +9,7 @@ public class AbilitySlotManager : MonoBehaviour
     //public List<AbilityDescriptor> abilityPool;
     public List<AbilitySlot> abilitySlots = new List<AbilitySlot>();
     public AbilityBay abilityStorage;
+    [SerializeField] private GameObject centralAbilityPoint;
     [SerializeField] private GameObject abilityObjectPrefab;
     [SerializeField] private AbilitySystem abilitySystem;
     private List<GameObject> draggableObjects = new List<GameObject>();
