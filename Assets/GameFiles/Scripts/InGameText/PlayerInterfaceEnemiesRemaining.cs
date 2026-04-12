@@ -39,11 +39,13 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
         timer = 0;
         Text.alpha = 0;
         waveInProgress = true;
+        progress.fillAmount = (float)enemyCount / (float)totalEnemyCount;
     }
 
     private void EnemyHasDied()
     {
         enemyCount--;
+        progress.fillAmount = (float)enemyCount / (float)totalEnemyCount;
     }
 
     public void DisplayRemainingEnemies()
@@ -60,7 +62,6 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
             DisplayRemainingEnemies();
             FadeOut();
         }
-        progress.fillAmount = (float)enemyCount / (float)totalEnemyCount;
     }
 
     private void FadeIn()

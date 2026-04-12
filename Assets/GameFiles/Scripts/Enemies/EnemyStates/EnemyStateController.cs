@@ -166,8 +166,9 @@ public abstract class EnemyStateController : MonoBehaviour
         int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
         currentHealth -= finalDamage;
 
-        AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
+        RunTimeStatTracker.totalDamageDealt += finalDamage;
 
+        AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
         ShowDamage(finalDamage);
 
         if (currentHealth <= 0)
@@ -180,6 +181,8 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
         currentHealth -= finalDamage;
+
+        RunTimeStatTracker.totalDamageDealt += finalDamage;
 
         AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds, default, 0.4f);
 
@@ -317,8 +320,6 @@ public abstract class EnemyStateController : MonoBehaviour
         tempTMPAccess.text = damage.ToString();
         float size = Mathf.Clamp(10 + (damage * 1.1f), 36f, 240f);
         tempTMPAccess.fontSize = size;
-
-       
     }
 
     protected void ShowDamage(int damage, Color color)

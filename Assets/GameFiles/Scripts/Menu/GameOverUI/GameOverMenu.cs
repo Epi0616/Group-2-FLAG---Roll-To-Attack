@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class GameOverMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject GameOverMenuUI;
+    [SerializeField] private GameObject gameOverMenuUI;
+    [SerializeField] private GameOverStatsDisplay gameOverStatsDisplay;
 
     private void OnEnable()
     {
@@ -18,12 +19,13 @@ public class GameOverMenu : MonoBehaviour
 
     private void Start()
     {
-        GameOverMenuUI.SetActive(false);
+        gameOverMenuUI.SetActive(false);
     }
 
     private void GameOver()
     {
-        GameOverMenuUI.SetActive(true);
+        gameOverMenuUI.SetActive(true);
+        gameOverStatsDisplay.UpdateStatsDisplay();
         Time.timeScale = 0;
     }
 
