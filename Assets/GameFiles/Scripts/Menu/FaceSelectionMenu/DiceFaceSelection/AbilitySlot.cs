@@ -43,7 +43,11 @@ public class AbilitySlot : AbilityDropZoneParent
                 newObject.SetCurrentParent(this);
                 FormatChildren();
 
-                myCurrentObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0,0);
+                if (centralAbilitySlot != null)
+                {
+                    centralAbilitySlot.GetComponent<AbilitySlot>().AddChild(myCurrentObject);
+                }
+                //myCurrentObject.GetComponent<RectTransform>().anchoredPosition = 
             }
             return;
         }
