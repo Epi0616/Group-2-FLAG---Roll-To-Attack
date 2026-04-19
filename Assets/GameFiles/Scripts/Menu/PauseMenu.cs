@@ -50,7 +50,8 @@ public class PauseMenu : MonoBehaviour
     public void Menu()
     {
         TogglePaused();
-        SceneManager.LoadScene("Menu");
+        // SceneManager.LoadScene("Menu");
+        TransitionManager.LoadScene("Menu", 0.5f, 1f);
     }
 
     public void TogglePaused()
