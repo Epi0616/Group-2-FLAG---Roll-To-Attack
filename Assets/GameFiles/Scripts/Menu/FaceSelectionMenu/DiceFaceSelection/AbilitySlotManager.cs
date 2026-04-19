@@ -9,6 +9,7 @@ public class AbilitySlotManager : MonoBehaviour
     //public List<AbilityDescriptor> abilityPool;
     public List<AbilitySlot> abilitySlots = new List<AbilitySlot>();
     public AbilityBay abilityStorage;
+    [SerializeField] private GameObject centralAbilityPoint;
     [SerializeField] private GameObject abilityObjectPrefab;
     [SerializeField] private AbilitySystem abilitySystem;
     private List<GameObject> draggableObjects = new List<GameObject>();
@@ -33,6 +34,7 @@ public class AbilitySlotManager : MonoBehaviour
             var tempObj = Instantiate(abilityObjectPrefab, transform);
             tempObj.GetComponent<DraggableAbility>().SetAbilityDescriptor(abilities[i]);
             abilitySlots[i].AddChild(tempObj.GetComponent<DraggableAbility>());
+            abilitySlots[i].SetCentralAbilitySlot(centralAbilityPoint);
             draggableObjects.Add(tempObj);
         }
     }
@@ -63,6 +65,7 @@ public class AbilitySlotManager : MonoBehaviour
                 currentAbilities.Add(ability.GetAbilityDescriptor());
             }
         }
+        RunTimeStatTracker.totalAbilitiesEquipped += abilitySystem.CompareAbilitySets(currentAbilities);
         abilitySystem.SetPlayerAbilities(currentAbilities);
 
         List<AbilityDescriptor> currentAbilityStorage = new List<AbilityDescriptor>();
@@ -79,6 +82,10 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void DestroyDraggableObjects()
     {
+        DraggableObject centralObj = centralAbilityPoint.GetComponent<AbilitySlot>().GetChild();
+        centralAbilityPoint.GetComponent<AbilitySlot>().RemoveChild(centralObj);
+        Destroy(centralObj.gameObject);
+
         for (int i = 0; i < abilitySlots.Count; i++)
         {
             var temp = abilitySlots[i].GetChild();
@@ -107,5 +114,10 @@ public class AbilitySlotManager : MonoBehaviour
         {
             draggableObjects.Add(newObjects[i]);
         }
+    }
+
+    public GameObject GetCentralAbilityPoint()
+    {
+        return centralAbilityPoint;
     }
 }

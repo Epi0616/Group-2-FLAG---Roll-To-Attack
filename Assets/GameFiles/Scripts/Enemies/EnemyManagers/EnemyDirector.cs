@@ -95,6 +95,7 @@ public class EnemyDirector : MonoBehaviour
     {
         if (enemiesLeftInCurrentWave <= 0) return;
 
+        RunTimeStatTracker.totalEnemiesKilled += 1;
         enemiesLeftInCurrentWave--;
         if (enemiesLeftInCurrentWave == 0)
         {

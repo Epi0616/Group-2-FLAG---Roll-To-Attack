@@ -44,7 +44,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
     private void Start()
     {
-        DiceFaceSelectionUI.SetActive(visibleForTesting);
+        DiceFaceSelectionUI.SetActive(false);
         AbilitySelectionUI.SetActive(visibleForTesting);
 
         if (visibleForTesting)
@@ -74,18 +74,23 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
     private void Setup()
     {
-        DiceFaceSelectionUI.SetActive(true);
         AbilitySelectionUI.SetActive(true);
-        abilitySelectionManager.SetUpAbilityPannels();
+        DiceFaceSelectionUI.SetActive(true);
+        DiceFaceSelectionUI.GetComponent<CanvasGroup>().alpha = 0;
         abilitySlotManager.Unpack();
+        abilitySelectionManager.SetUpAbilityPannels();
+
         setupComplete = true;
     }
 
     private void AbilitySelected(AbilityPanel abilityPanel)
     {
+        DiceFaceSelectionUI.GetComponent<CanvasGroup>().alpha = 1;
+
         DraggableAbility ability = abilityPanel.GetAbility();
         ability.transform.SetParent(canvas.transform);
-        ability.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+
+        abilitySlotManager.GetCentralAbilityPoint().GetComponent<AbilitySlot>().AddChild(ability);
         AbilitySelectionUI.SetActive(false);
     }
 
