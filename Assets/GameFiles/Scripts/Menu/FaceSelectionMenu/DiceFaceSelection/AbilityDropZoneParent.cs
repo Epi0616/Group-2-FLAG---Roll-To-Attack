@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class AbilityDropZoneParent : MonoBehaviour
 {
     public GameObject displayText;
-    private RectTransform rectTransform;
+    protected GameObject centralAbilitySlot;
+    protected RectTransform rectTransform;
     protected int objectLimit = 0;
     protected List<DraggableObject> draggableObjects;
 
@@ -15,6 +16,11 @@ public class AbilityDropZoneParent : MonoBehaviour
     {
         draggableObjects = new List<DraggableObject>();
         rectTransform = GetComponent<RectTransform>();
+    }
+
+    public void SetCentralAbilitySlot(GameObject obj)
+    {
+        centralAbilitySlot = obj;
     }
 
     public virtual void AddChild(DraggableObject newObject)
@@ -51,6 +57,7 @@ public class AbilityDropZoneParent : MonoBehaviour
     }
     protected virtual void displayCapacity(int count)
     {
+        if (displayText == null) return;
         displayText.GetComponent<TextMeshProUGUI>().text = count + "/" + objectLimit;
     }
 

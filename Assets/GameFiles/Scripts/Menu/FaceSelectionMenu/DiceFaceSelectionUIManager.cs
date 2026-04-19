@@ -90,8 +90,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
         DraggableAbility ability = abilityPanel.GetAbility();
         ability.transform.SetParent(canvas.transform);
 
-        Debug.Log(CentralAbilityPoint.rectTransform.anchoredPosition.x);
-        ability.GetComponent<RectTransform>().anchoredPosition = CentralAbilityPoint.rectTransform.anchoredPosition;
+        abilitySlotManager.GetCentralAbilityPoint().GetComponent<AbilitySlot>().AddChild(ability);
         AbilitySelectionUI.SetActive(false);
     }
 

@@ -43,11 +43,11 @@ public class AbilitySlot : AbilityDropZoneParent
                 newObject.SetCurrentParent(this);
                 FormatChildren();
 
-
-                Debug.Log(CentralAbilityPoint.rectTransform.anchoredPosition.x + " x");
-                Debug.Log(CentralAbilityPoint.rectTransform.anchoredPosition.y + " y");
-
-                myCurrentObject.GetComponent<RectTransform>().anchoredPosition = CentralAbilityPoint.rectTransform.anchoredPosition;
+                if (centralAbilitySlot != null)
+                {
+                    centralAbilitySlot.GetComponent<AbilitySlot>().AddChild(myCurrentObject);
+                }
+                //myCurrentObject.GetComponent<RectTransform>().anchoredPosition = 
             }
             return;
         }
