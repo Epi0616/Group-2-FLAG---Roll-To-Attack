@@ -38,8 +38,9 @@ public class TransitionManager : MonoBehaviour
     {
         isTransitioning = true;
         yield return StartCoroutine(Cover(CoverTime));
+        yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene(sceneName);
-        yield return new WaitForSeconds(1f);
+        yield return null;
         yield return StartCoroutine(UnCover(UnCoverTime));
         isTransitioning = false;
     }

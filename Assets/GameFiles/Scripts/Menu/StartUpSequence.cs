@@ -43,7 +43,7 @@ public class StartUpSequence : MonoBehaviour
 
         yield return new WaitForSeconds(2.5f);
 
-        TransitionManager.LoadScene("Menu", 3f, 1f);
+        TransitionManager.LoadScene("Menu", 0.5f, 1f);
 
     }
 
