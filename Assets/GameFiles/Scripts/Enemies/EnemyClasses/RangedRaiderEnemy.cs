@@ -16,6 +16,8 @@ public class RangedRaiderEnemy : EnemyStateController
     [SerializeField] private Color activeColour;
     [Header("Currently In Testing")]
     [SerializeField] private bool hasTracking;
+    [SerializeField] private float minTurnSpeedDegrees = 60f;
+    [SerializeField] private float maxTurnSpeedDegrees = 1080f;
 
     private float activeTimer;
     private float damageTickTimer;
@@ -31,29 +33,26 @@ public class RangedRaiderEnemy : EnemyStateController
     [SerializeField] private Transform laserParticleHolder;
     [SerializeField] private VisualEffect laserParticle;
 
-   
-
+    
 
     public override void Attack()
     {
         LookAtPlayer();
         
         attackInterrupted = false;
-        if (hasTracking)
-        {
-            StartCoroutine(FireLaserTracking());
-        }
+       
+        StartCoroutine(FireLaserTracking());
+        
+        /*
         else
         {
             StartCoroutine(FireLaser());
         }
+        */
     }
-
+    /*
     private IEnumerator FireLaser()
     {
-
-        
-
         Vector3 laserTarget = playerReference.transform.position;
 
         Vector3 laserDirection = playerReference.transform.position - firingOrigin.position;
@@ -139,7 +138,7 @@ public class RangedRaiderEnemy : EnemyStateController
                 yield break;
             }
 
-            LaserCheck(laserDirection, ray, hit);
+            LaserCheck(ray, hit);
             yield return null;
         }
         
@@ -150,7 +149,7 @@ public class RangedRaiderEnemy : EnemyStateController
             ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));          
         }
     }
-
+    */
     private IEnumerator FireLaserTracking()
     {
 
@@ -160,25 +159,40 @@ public class RangedRaiderEnemy : EnemyStateController
 
         laserParticle.enabled = true;
         laserParticle.SetFloat("Duration", chargeTime + laserDuration);
-       // Debug.Log(laserParticle.GetFloat("Duration"));
+        
         float distanceToEndofLaser;
-        Vector3 laserDirection = Vector3.zero;
-        Ray ray = new Ray(firingOrigin.position, laserDirection);
+        Vector3 playerDirection = Vector3.zero;
+        Ray ray = new Ray(firingOrigin.position, playerDirection);
 
         activeTimer = 0;
         animator.speed = 0.5f;
+        Quaternion lookRotation;
         while (activeTimer < chargeTime && !isStunned && !attackInterrupted)
         {
-            LookAtPlayer();          
+            //LookAtPlayer();
 
-            Vector3 laserTarget = playerReference.transform.position;
+            playerDirection = playerReference.transform.position - firingOrigin.position;         
+            playerDirection.y = 0f;
+            playerDirection = playerDirection.normalized;
 
-            laserDirection = playerReference.transform.position - firingOrigin.position;         
-            laserDirection.y = 0f;
-            laserDirection = laserDirection.normalized;
+            lookRotation = Quaternion.LookRotation(playerDirection);
+            lookRotation.z = 0f;
+            lookRotation.x = 0f;
 
-            firingOrigin.forward = laserDirection;
-            ray = new Ray(firingOrigin.position, laserDirection);
+            // Determine Angle Difference between current rotation and desired rotation
+            float angleDifference = Quaternion.Angle(transform.rotation, lookRotation);
+            // Scale to 0-1 for time
+            float t = angleDifference / 180f;
+            // Use Lerp to dynamically adjust the speed depending on angleDifference
+            float turnSpeedDegrees = Mathf.Lerp(minTurnSpeedDegrees, maxTurnSpeedDegrees, t);
+          
+            float step = turnSpeedDegrees * Time.deltaTime;
+            // Actually Rotate The Beholder
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, step);
+
+            //firingOrigin.forward = playerDirection;
+
+            ray = new Ray(firingOrigin.position, transform.forward);
 
             if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
             {
@@ -195,7 +209,9 @@ public class RangedRaiderEnemy : EnemyStateController
             {
                 yield break;
             }
+                   
             activeTimer += Time.deltaTime;
+            
             yield return null;
         }
         animator.speed = 0f;
@@ -205,7 +221,7 @@ public class RangedRaiderEnemy : EnemyStateController
         animator.speed = 1.5f;
 
         laserParticle.enabled = false;
-        //laserParticle.SetFloat("Duration", laserDuration);
+        
         laserParticle.SetVector4("Beam Colour", activeColour);
         laserParticle.enabled = true;
 
@@ -218,7 +234,7 @@ public class RangedRaiderEnemy : EnemyStateController
             activeTimer += Time.deltaTime;
             damageTickTimer += Time.deltaTime;
 
-            LaserCheck(laserDirection, ray, hit);
+            LaserCheck(ray, hit);
 
             yield return null;  
         }
@@ -244,7 +260,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
     private void MoveLaserParticle(Ray ray, float distance, float width)
     {      
-        Quaternion r = Quaternion.LookRotation(ray.direction);
+        Quaternion r = Quaternion.LookRotation(transform.forward);
         laserParticleHolder.rotation = r;
         Vector3 scale = laserParticleHolder.localScale;
         scale.x = width;
@@ -255,10 +271,10 @@ public class RangedRaiderEnemy : EnemyStateController
     }
 
 
-    private void LaserCheck(Vector3 laserDir, Ray ray, RaycastHit hit)
+    private void LaserCheck(Ray ray, RaycastHit hit)
     {
         float distanceToEndofLaser = laserRange;
-        if (Physics.SphereCast(ray, 1f, out hit, laserRange, playerLayer))
+        if (Physics.SphereCast(ray, 0.7f, out hit, laserRange, playerLayer))
         {
             
             if (hit.collider.CompareTag("Player") && damageTickTimer >= damageTickRateInSeconds)
