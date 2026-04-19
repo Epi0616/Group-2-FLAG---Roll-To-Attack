@@ -83,8 +83,12 @@ public class AbilitySlotManager : MonoBehaviour
     private void DestroyDraggableObjects()
     {
         DraggableObject centralObj = centralAbilityPoint.GetComponent<AbilitySlot>().GetChild();
-        centralAbilityPoint.GetComponent<AbilitySlot>().RemoveChild(centralObj);
-        Destroy(centralObj.gameObject);
+        if (centralObj != null)
+        {
+            centralAbilityPoint.GetComponent<AbilitySlot>().RemoveChild(centralObj);
+            Destroy(centralObj.gameObject);
+        }
+
 
         for (int i = 0; i < abilitySlots.Count; i++)
         {
