@@ -13,6 +13,7 @@ public class AbilitySystem : MonoBehaviour
     private void Start()
     {
         CorrectPipNumbers();
+        AdjustDisplaySprites();
     }
     public AbilityDescriptor GetRandomAbility()
     {
