@@ -7,38 +7,16 @@ public class PlayerVacuum : MonoBehaviour
 {
     [SerializeField] GameObject temporaryImpactField;
     [SerializeField] private LayerMask enemyLayer;
-    private Color red = Color.red, blue = Color.blue;
-    private Material material;
     private float timer = 2f, range;
-    private bool detonated = false, activated = false, toggle = false;
-
-
-    private void Awake()
-    {
-        material = GetComponent<MeshRenderer>().material;
-    }
-
-    void Update()
-    {
-        if (!activated) return;
-
-        timer -= Time.deltaTime;
-
-        if (timer <= 0 && !detonated)
-        {
-            OnVacuum();
-            detonated = true;
-        }
-    }
+    private bool detonated = false, toggle = false;
 
     public void SetUp(float range, float timer)
     {
         detonated = false;
         this.range = range;
         this.timer = timer;
-        activated = true;
         ShowRange();
-        StartCoroutine(FlashRoutine());
+        StartCoroutine(CountDown());
     }
 
     private void OnVacuum()
@@ -53,6 +31,7 @@ public class PlayerVacuum : MonoBehaviour
                 enemy.OnTakeDamage(20, Color.blue);
             }
         }
+
         DestroyMe();
     }
 
@@ -88,17 +67,29 @@ public class PlayerVacuum : MonoBehaviour
         rangeDisplay.GetComponent<TemporaryImpactField>().adjustObject(range, 0.25f, 0.15f, timer);
     }
 
-    private IEnumerator FlashRoutine()
+    private IEnumerator CountDown()
     {
-        while (timer > 0)
+        while (timer > 0 && !detonated)
         {
-            toggle = !toggle;
-            material.color = toggle ? red : blue;
-
-            float t = 1 - Mathf.Clamp01(timer / 2f);
-            float interval = Mathf.Lerp(0.5f, 0.05f, t);
-
-            yield return new WaitForSeconds(interval);
+            timer -= Time.deltaTime;
+            yield return null;
         }
+
+        OnVacuum();
+        detonated = true;
     }
+
+    //private IEnumerator FlashRoutine()
+    //{
+    //    while (timer > 0)
+    //    {
+    //        toggle = !toggle;
+    //        material.color = toggle ? red : blue;
+
+    //        float t = 1 - Mathf.Clamp01(timer / 2f);
+    //        float interval = Mathf.Lerp(0.5f, 0.05f, t);
+
+    //        yield return new WaitForSeconds(interval);
+    //    }
+    //}
 }
