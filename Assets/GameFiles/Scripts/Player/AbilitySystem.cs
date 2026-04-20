@@ -7,11 +7,13 @@ public class AbilitySystem : MonoBehaviour
     [SerializeField] private AbilityDescriptor defaultAbility;
     [SerializeField] private List<AbilityDescriptor> playerAbilities;
     [SerializeField] private List<AbilityDescriptor> playerAbilityStorage = new List<AbilityDescriptor>();
+    [SerializeField] private SpriteRenderer[] diceDisplaySprites;
     private int lastReturnedPipNumber = 1;
 
     private void Start()
     {
         CorrectPipNumbers();
+        AdjustDisplaySprites();
     }
     public AbilityDescriptor GetRandomAbility()
     {
@@ -37,11 +39,20 @@ public class AbilitySystem : MonoBehaviour
     { 
         playerAbilities = newAbilityList;
         CorrectPipNumbers();
+        AdjustDisplaySprites();
     }
 
     public void SetPlayerAbilityStorage(List<AbilityDescriptor> newAbilityList)
     { 
         playerAbilityStorage = newAbilityList;
+    }
+
+    private void AdjustDisplaySprites()
+    {
+        for (int i = 0; i < diceDisplaySprites.Length; i++)
+        {
+            diceDisplaySprites[i].sprite = playerAbilities[i].sprite;
+        }
     }
 
     private AbilityDescriptor SelectDiceFace()

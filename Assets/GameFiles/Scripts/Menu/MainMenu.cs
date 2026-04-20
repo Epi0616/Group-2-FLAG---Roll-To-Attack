@@ -6,7 +6,16 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("MainBuild");
+        if (TransitionManager.instance == null)
+        {
+            SceneManager.LoadScene("MainBuild");
+        }
+        else
+        {
+            TransitionManager.LoadScene("MainBuild", 0.5f, 1f);
+        }
+
+            
     }
 
     public void Options()

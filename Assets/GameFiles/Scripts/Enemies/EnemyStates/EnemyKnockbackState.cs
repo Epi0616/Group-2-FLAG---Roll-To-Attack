@@ -56,7 +56,7 @@ public class EnemyKnockbackState : EnemyBaseState
                 enemy.rb.MovePosition(enemy.transform.position + returntoNavMeshDirection * 10f * Time.deltaTime);
                 
                 float distance = Vector3.Distance(enemy.transform.position, destinationPos);
-                if (distance < 0.05f)
+                if (distance < 0.1f)
                 {
                     enemy.ChangeState(new EnemyMoveState());
                 }
