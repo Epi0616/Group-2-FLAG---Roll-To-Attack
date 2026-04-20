@@ -32,13 +32,27 @@ public class GameOverMenu : MonoBehaviour
     public void PlayAgain()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("MainBuild");
+        if (TransitionManager.instance == null)
+        {
+            SceneManager.LoadScene("MainBuild");
+        }
+        else
+        {
+            TransitionManager.LoadScene("MainBuild", 0.5f, 1f);
+        }
     }
 
     public void Menu()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("Menu");
+        if (TransitionManager.instance == null)
+        {
+            SceneManager.LoadScene("Menu");
+        }
+        else
+        {
+            TransitionManager.LoadScene("Menu", 0.5f, 1f);
+        }
     }
 
 }

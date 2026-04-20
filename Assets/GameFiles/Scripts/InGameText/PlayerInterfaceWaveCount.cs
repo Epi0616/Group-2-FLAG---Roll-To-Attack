@@ -46,7 +46,7 @@ public class PlayerInterfaceWaveCount : MonoBehaviour
         timer = 0;
         Text.alpha = 0;
         Text.text = "WAVE " + waveCount;
-        numberText.text = "" + waveCount;
+        numberText.text = "WAVE: " + waveCount;
     }
 
     private void Update()
