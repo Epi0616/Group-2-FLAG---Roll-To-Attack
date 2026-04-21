@@ -9,12 +9,14 @@ public class SettingsUIManager : MonoBehaviour
     [SerializeField] private GameObject gameSettingsUI;
     [SerializeField] private GameObject audioSettingsUI;
     [SerializeField] private GameObject videoSettingsUI;
+    [SerializeField] private GameObject background;
 
     private GameObject currentSettingsScreen;
 
     public void MainSettings()
     { 
         ClearSettingsScreen();
+        background.SetActive(true);
         mainSettingsUI.SetActive(true);
         currentSettingsScreen = mainSettingsUI;
     }
@@ -49,6 +51,7 @@ public class SettingsUIManager : MonoBehaviour
         }
 
         settingsClosed?.Invoke(true);
+        background.SetActive(false);
         ClearSettingsScreen();
     }
 
