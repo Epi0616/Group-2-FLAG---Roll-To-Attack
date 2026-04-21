@@ -17,6 +17,9 @@ public class AudioSettings : MonoBehaviour
     public void AdjustMasterVolume()
     {
         float volume = master.value;
-        masterMixerGroup.audioMixer.SetFloat("Master Volume", volume);
+        float adjustedVolume = Mathf.Log10(volume) * 20;
+        masterMixerGroup.audioMixer.SetFloat("Master Volume", adjustedVolume);
+
+        Debug.Log("adjusted vloume to: " + volume);
     }
 }
