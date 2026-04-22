@@ -56,7 +56,8 @@ public class SettingsUIManager : MonoBehaviour
     }
 
     public void ClearSettingsScreen()
-    { 
+    {
+        background.SetActive(false);
         mainSettingsUI.SetActive(false);
         gameSettingsUI.SetActive(false);
         audioSettingsUI.SetActive(false);
