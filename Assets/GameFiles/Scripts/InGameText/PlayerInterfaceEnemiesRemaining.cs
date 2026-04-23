@@ -50,7 +50,7 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
 
     public void DisplayRemainingEnemies()
     {
-        Text.text = "ENEMIES REMAINING " + enemyCount;
+        Text.text = "" + enemyCount;
     }
 
     private void Update()
