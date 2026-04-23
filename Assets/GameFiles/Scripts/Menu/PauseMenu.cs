@@ -14,13 +14,13 @@ public class PauseMenu : MonoBehaviour
     private void OnEnable()
     {
         HealthSystem.GameOver += GameOver;
-        SettingsUIManager.settingsClosed += setPauseButtonsVisibility;
+        SettingsUIManager.settingsClosed += SetPauseButtonsVisibility;
     }
 
     private void OnDisable()
     {
         HealthSystem.GameOver -= GameOver;
-        SettingsUIManager.settingsClosed -= setPauseButtonsVisibility;
+        SettingsUIManager.settingsClosed -= SetPauseButtonsVisibility;
     }
 
     private void Update()
@@ -43,7 +43,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Options()
     {
-        setPauseButtonsVisibility(false);
+        SetPauseButtonsVisibility(false);
         settingsManager.MainSettings();
     }
 
@@ -74,7 +74,7 @@ public class PauseMenu : MonoBehaviour
         else
         {
             settingsManager.ClearSettingsScreen();
-            setPauseButtonsVisibility(true);
+            SetPauseButtonsVisibility(true);
             pauseMenuUI.SetActive(false);
             Time.timeScale = 1;
         }
@@ -82,7 +82,7 @@ public class PauseMenu : MonoBehaviour
         isGamePaused = !isGamePaused;
     }
 
-    public void setPauseButtonsVisibility(bool visible)
+    public void SetPauseButtonsVisibility(bool visible)
     {
         for (int i = 0; i < pauseMenuButtons.Length; i++)
         {
