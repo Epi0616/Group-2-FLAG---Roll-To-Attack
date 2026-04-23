@@ -13,6 +13,11 @@ public class SettingsUIManager : MonoBehaviour
 
     private GameObject currentSettingsScreen;
 
+    private void Start()
+    {
+        ClearSettingsScreen();
+    }
+
     public void MainSettings()
     { 
         ClearSettingsScreen();
@@ -25,6 +30,7 @@ public class SettingsUIManager : MonoBehaviour
     {
         ClearSettingsScreen();
         gameSettingsUI.SetActive(true);
+        background.SetActive(true);
         currentSettingsScreen = gameSettingsUI;
     }
 
@@ -32,6 +38,7 @@ public class SettingsUIManager : MonoBehaviour
     {
         ClearSettingsScreen();
         audioSettingsUI.SetActive(true);
+        background.SetActive(true);
         currentSettingsScreen = audioSettingsUI;
     }
 
@@ -39,6 +46,7 @@ public class SettingsUIManager : MonoBehaviour
     {
         ClearSettingsScreen();
         videoSettingsUI.SetActive(true);
+        background.SetActive(true);
         currentSettingsScreen = videoSettingsUI;
     }
 
