@@ -8,15 +8,16 @@ public class FPSCounter : MonoBehaviour
     [SerializeField] private float refreshRate = 1f;
     private bool isVisible = false;
     private float timer = 1;
+    [SerializeField] GameObject fpsToggleCheckMark;
 
     private void OnEnable()
     {
-        GameSettings.toggleFPSVisibility += SetTextVisibility;
+        VideoSettingUI.toggleFPSVisibility += SetTextVisibility;
     }
 
     private void OnDisable()
     {
-        GameSettings.toggleFPSVisibility -= SetTextVisibility;
+        VideoSettingUI.toggleFPSVisibility -= SetTextVisibility;
     }
 
     private void Update()
@@ -34,6 +35,7 @@ public class FPSCounter : MonoBehaviour
     private void SetTextVisibility()
     {
         isVisible = !isVisible;
+        fpsToggleCheckMark.SetActive(isVisible);
         if (isVisible)
         {
             fpsText.alpha = 1;
