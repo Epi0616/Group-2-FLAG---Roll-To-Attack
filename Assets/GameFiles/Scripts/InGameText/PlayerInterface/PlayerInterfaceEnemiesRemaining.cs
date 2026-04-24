@@ -38,7 +38,7 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
     private void NewWave(List<EnemyTypes> totalEnemies)
     {
         totalEnemyCount = totalEnemies.Count;
-        enemyCount = totalEnemies.Count;
+        enemyCount = 0;
         timer = 0;
         tmpAsset.alpha = 0;
         waveInProgress = true;
@@ -47,7 +47,7 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
 
     private void EnemyHasDied()
     {
-        enemyCount--;
+        enemyCount++;
         progress.fillAmount = (float)enemyCount / (float)totalEnemyCount;
     }
 
