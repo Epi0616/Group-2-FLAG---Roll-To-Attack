@@ -8,7 +8,7 @@ public class PlayerVacuum : MonoBehaviour
     [SerializeField] GameObject temporaryImpactField;
     [SerializeField] private LayerMask enemyLayer;
     private float timer = 2f, range;
-    private bool detonated = false, toggle = false;
+    private bool detonated = false; //, toggle = false;
 
     public void SetUp(float range, float timer)
     {
