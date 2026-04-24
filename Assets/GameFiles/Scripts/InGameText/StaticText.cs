@@ -8,7 +8,7 @@ public class StaticText : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        localizedString.StringChanged += UpdateText;   
+        localizedString.StringChanged += UpdateText;
     }
 
     protected virtual void OnDisable()
