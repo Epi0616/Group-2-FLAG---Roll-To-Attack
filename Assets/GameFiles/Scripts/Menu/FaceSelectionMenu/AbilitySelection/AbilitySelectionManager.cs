@@ -15,8 +15,8 @@ public class AbilitySelectionManager : MonoBehaviour
         {
             AbilityPanel thisPanel = abilityPanels[i];
             DraggableAbility ability = SpawnRandomNewAbility().GetComponent<DraggableAbility>();
-            string name = ability.GetAbilityDescriptor().abilityName;
-            string description = ability.GetAbilityDescriptor().abilityDescription;
+            string name = ability.GetAbilityDescriptor().abilityName.GetLocalizedString();
+            string description = ability.GetAbilityDescriptor().abilityDescription.GetLocalizedString();
 
             thisPanel.SetName(name);
             thisPanel.SetDescription(description);

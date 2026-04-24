@@ -2,55 +2,54 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
-public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
+public class PlayerInterfaceWaveNumber : StaticText
 {
-    public TextMeshProUGUI Text;
-    public Image progress;
-
+    private int waveCount = 0;
     private float timer = 0;
-    private int enemyCount;
-    private int totalEnemyCount;
+    private int enemyCount = 0;
     private bool waveInProgress = false;
 
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         EnemyDirector.SpawnWave += NewWave;
         EnemyStateController.EnemyHasDied += EnemyHasDied;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         EnemyDirector.SpawnWave -= NewWave;
         EnemyStateController.EnemyHasDied -= EnemyHasDied;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        Text.alpha = 0f;
+        base.Awake();
+        tmpAsset.alpha = 0f;
     }
 
     private void NewWave(List<EnemyTypes> totalEnemies)
     {
-        totalEnemyCount = totalEnemies.Count;
+        waveCount++;
         enemyCount = totalEnemies.Count;
         timer = 0;
-        Text.alpha = 0;
+        tmpAsset.alpha = 0;
         waveInProgress = true;
-        progress.fillAmount = (float)enemyCount / (float)totalEnemyCount;
     }
 
     private void EnemyHasDied()
     {
         enemyCount--;
-        progress.fillAmount = (float)enemyCount / (float)totalEnemyCount;
     }
 
-    public void DisplayRemainingEnemies()
+    protected override void UpdateText(string newText)
     {
-        Text.text = "ENEMIES REMAINING " + enemyCount;
+        tmpAsset.text = localizedString.GetLocalizedString() + " " + waveCount;
     }
 
     private void Update()
@@ -59,7 +58,7 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
         if (waveInProgress)
         {
             FadeIn();
-            DisplayRemainingEnemies();
+            UpdateText(localizedString.GetLocalizedString());
             FadeOut();
         }
     }
@@ -67,16 +66,16 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
     private void FadeIn()
     {
         if (!((timer <= 2) && (timer >= 1))) { return; }
-        Text.alpha = Mathf.Clamp01(Text.alpha + (1f * Time.deltaTime));
+        tmpAsset.alpha = Mathf.Clamp01(tmpAsset.alpha + (1f * Time.deltaTime));
     }
 
     private void FadeOut()
     {
         if (!(enemyCount <= 0)) { return; }
 
-        Text.alpha -= 2f * Time.deltaTime;
+        tmpAsset.alpha -= 2f * Time.deltaTime;
 
-        if (Text.alpha <= 0)
+        if (tmpAsset.alpha <= 0)
         {
             waveInProgress = false;
         }

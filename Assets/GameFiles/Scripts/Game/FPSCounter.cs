@@ -21,10 +21,11 @@ public class FPSCounter : MonoBehaviour
 
     private void Update()
     {
+        if (!gameObject.activeSelf) return;
+
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
-            Debug.Log("update fps");
             fpsText.text = Mathf.RoundToInt(1 / Time.unscaledDeltaTime) + " FPS";
             timer = refreshRate;
         }

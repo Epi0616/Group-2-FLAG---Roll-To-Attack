@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 public abstract class AbilityDescriptor : ScriptableObject
@@ -6,8 +7,8 @@ public abstract class AbilityDescriptor : ScriptableObject
     public int abilityIndex;
     public int pipNumber;
     public int weight;
-    public string abilityName;
-    public string abilityDescription;
+    public LocalizedString abilityName;
+    public LocalizedString abilityDescription;
     public Sprite sprite;
     public Color color;
 
