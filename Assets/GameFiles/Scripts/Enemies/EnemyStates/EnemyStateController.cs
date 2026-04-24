@@ -4,6 +4,7 @@ using UnityEngine.AI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Localization;
 
 public abstract class EnemyStateController : MonoBehaviour
 {
@@ -61,6 +62,9 @@ public abstract class EnemyStateController : MonoBehaviour
     public AudioClip[] EnemyAttackChargeUpSounds;
     public AudioClip[] EnemyActiveAttackSounds;
 
+    [Header("Localization for damage text")]
+
+    public LocalizedString slammedText, shatteredText;
 
     private Stat[] stats;
     private List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
@@ -425,13 +429,13 @@ public abstract class EnemyStateController : MonoBehaviour
         if (wallSlamDamageModifierStat.GetFinalValue() > 1.1f)
         {
             AudioManager.instance.PlayRandomSoundClip(EnemyShatteredSounds);
-            ShowEffect("Shattered", Color.deepSkyBlue);
+            ShowEffect(shatteredText.GetLocalizedString(), Color.deepSkyBlue);
             OnTakeDamage(appliedDamage, Color.deepSkyBlue);
         }
         else
         {
             AudioManager.instance.PlayRandomSoundClip(EnemyWallSlamSounds);
-            ShowEffect("Slammed", Color.darkGoldenRod);
+            ShowEffect(slammedText.GetLocalizedString(), Color.darkGoldenRod);
             OnTakeDamage(appliedDamage, Color.darkGoldenRod);
         }
 

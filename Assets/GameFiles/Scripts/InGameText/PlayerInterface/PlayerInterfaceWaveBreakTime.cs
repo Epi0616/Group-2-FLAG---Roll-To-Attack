@@ -2,40 +2,41 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerInterfaceWaveBreakTime : MonoBehaviour
+public class PlayerInterfaceWaveBreakTime : StaticText
 {
-    public TextMeshProUGUI Text;
-
     private float timer = 0, timeToNextWave = 0;
     private bool waveOver = false;
 
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         EnemyDirector.WaveCountStart += WaitForNextWave;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         EnemyDirector.WaveCountStart -= WaitForNextWave;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        Text.alpha = 0f;
+        base.Awake();
+        tmpAsset.alpha = 0f;
     }
 
     private void WaitForNextWave(float timeToNextWave)
     {
         this.timeToNextWave = timeToNextWave;
         timer = 0;
-        Text.alpha = 0;
+        tmpAsset.alpha = 0;
         waveOver = true;
     }
 
-    public void DisplayTimer()
+    protected override void UpdateText(string newText)
     {
-        Text.text = "NEXT WAVE IN " + (timeToNextWave - Mathf.FloorToInt(timer));
+        tmpAsset.text = localizedString.GetLocalizedString() + " " + (timeToNextWave - Mathf.FloorToInt(timer));
     }
 
     private void Update()
@@ -45,7 +46,7 @@ public class PlayerInterfaceWaveBreakTime : MonoBehaviour
         if (waveOver)
         {
             FadeIn();
-            DisplayTimer();
+            UpdateText(localizedString.GetLocalizedString());
             FadeOut();
         }
     }
@@ -53,15 +54,15 @@ public class PlayerInterfaceWaveBreakTime : MonoBehaviour
     private void FadeIn()
     {
         if (!(timer <= 1)) { return; }
-        Text.alpha = Mathf.Clamp01(Text.alpha + (1f * Time.deltaTime));
+        tmpAsset.alpha = Mathf.Clamp01(tmpAsset.alpha + (1f * Time.deltaTime));
     }
 
     private void FadeOut()
     {
         if (!(timer >= timeToNextWave)) { return; }
-        Text.alpha -= 2f * Time.deltaTime;
+        tmpAsset.alpha -= 2f * Time.deltaTime;
 
-        if (Text.alpha <= 0)
+        if (tmpAsset.alpha <= 0)
         {
             waveOver = false;
         }

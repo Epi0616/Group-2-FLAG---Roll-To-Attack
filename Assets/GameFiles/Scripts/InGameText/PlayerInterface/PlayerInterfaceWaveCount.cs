@@ -3,35 +3,37 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerInterfaceWaveCount : MonoBehaviour
+public class PlayerInterfaceWaveCount : StaticText
 {
-    public TextMeshProUGUI Text;
-    public TextMeshProUGUI numberText;
-
     private int waveCount = 0;
     private float timer = 0;
     private bool newWave = false;
 
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         EnemyDirector.SpawnWave += NewWave;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         EnemyDirector.SpawnWave -= NewWave;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        Text.alpha = 0f;
+        base.Awake();
+        tmpAsset.alpha = 0f;
     }
 
     private void NewWave(List<EnemyTypes> Enemies)
     {
         IncrementWaveCount();
-        DisplayWaveCount();
+        UpdateText(localizedString.GetLocalizedString());
+        timer = 0;
+        tmpAsset.alpha = 0;
         newWave = true;
     }
 
@@ -41,12 +43,9 @@ public class PlayerInterfaceWaveCount : MonoBehaviour
         RunTimeStatTracker.waveNumber = waveCount;
     }
 
-    public void DisplayWaveCount()
+    protected override void UpdateText(string newText)
     {
-        timer = 0;
-        Text.alpha = 0;
-        Text.text = "WAVE " + waveCount;
-        numberText.text = "WAVE: " + waveCount;
+        tmpAsset.text = localizedString.GetLocalizedString() + " " + waveCount;
     }
 
     private void Update()
@@ -64,16 +63,16 @@ public class PlayerInterfaceWaveCount : MonoBehaviour
     private void FadeIn()
     {
         if (!(timer <= 2)) { return; }
-        Text.alpha += 0.5f * Time.deltaTime;        
+        tmpAsset.alpha += 0.5f * Time.deltaTime;        
     }
 
     private void FadeOut()
     {
         if (!(timer >= 2)) { return; }
         
-        Text.alpha -= 0.5f * Time.deltaTime;
+        tmpAsset.alpha -= 0.5f * Time.deltaTime;
 
-        if (Text.alpha <= 0)
+        if (tmpAsset.alpha <= 0)
         {
             newWave = false;
         }
