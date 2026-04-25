@@ -297,7 +297,6 @@ public abstract class EnemyStateController : MonoBehaviour
         if (vibrationTimer >= vibrationDuration)
         {
             isVibrating = false;
-            transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
             return;
         }
 
@@ -317,7 +316,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
         if (isDead) { return; }
 
-        transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
+        //transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
 
         
     }
@@ -408,7 +407,7 @@ public abstract class EnemyStateController : MonoBehaviour
         AudioManager.instance.PlayRandomSoundClip(EnemyDeathSounds, default, 0.3f);
 
         currentState?.ExitState();
-        StopVibrating();
+        //StopVibrating();
 
         if (animator != null)
         {
