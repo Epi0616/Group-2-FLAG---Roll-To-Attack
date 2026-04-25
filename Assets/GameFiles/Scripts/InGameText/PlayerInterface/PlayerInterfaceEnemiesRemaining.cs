@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,15 +11,15 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
     public Image progress;
 
     private float timer = 0;
-    private int enemyCount = 0;
+    private int enemyDeaths = 0;
     private int totalEnemyCount = 1;
     private bool waveInProgress = false;
-
 
     protected override void OnEnable()
     {
         base.OnEnable();
         EnemyDirector.SpawnWave += NewWave;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver += StartDrainProgressBarRoutine;
         EnemyStateController.EnemyHasDied += EnemyHasDied;
     }
 
@@ -26,6 +27,7 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
     {
         base.OnDisable();
         EnemyDirector.SpawnWave -= NewWave;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver -= StartDrainProgressBarRoutine;
         EnemyStateController.EnemyHasDied -= EnemyHasDied;
     }
 
@@ -38,22 +40,25 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
     private void NewWave(List<EnemyTypes> totalEnemies)
     {
         totalEnemyCount = totalEnemies.Count;
-        enemyCount = 0;
+        enemyDeaths = 0;
         timer = 0;
         tmpAsset.alpha = 0;
-        waveInProgress = true;
-        progress.fillAmount = (float)enemyCount / (float)totalEnemyCount;
+    }
+
+    private void StartDrainProgressBarRoutine(float timeBetweenWaves)
+    {
+        StartCoroutine(DrainProgressBarRoutine(timeBetweenWaves));
     }
 
     private void EnemyHasDied()
     {
-        enemyCount++;
-        progress.fillAmount = (float)enemyCount / (float)totalEnemyCount;
+        enemyDeaths++;
+        progress.fillAmount = (float)enemyDeaths / (float)totalEnemyCount;
     }
 
     protected override void UpdateText(string newText)
     {
-        tmpAsset.text = localizedString.GetLocalizedString() + " " + enemyCount;
+        tmpAsset.text = localizedString.GetLocalizedString() + " " + enemyDeaths;
     }
 
     private void Update()
@@ -75,7 +80,7 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
 
     private void FadeOut()
     {
-        if (!(enemyCount <= 0)) { return; }
+        if (!(enemyDeaths >= totalEnemyCount)) { return; }
 
         tmpAsset.alpha -= 2f * Time.deltaTime;
 
@@ -83,5 +88,21 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
         {
             waveInProgress = false;
         }
+    }
+
+    private IEnumerator DrainProgressBarRoutine(float timeBetweenWaves)
+    {
+        float timer = 3;
+
+        while (timer >= 0)
+        {
+            Debug.Log(timer);
+            float fillAmount = timer / timeBetweenWaves;
+            progress.fillAmount = fillAmount;
+            yield return new WaitForSeconds(0.01f);
+            timer -= 0.01f;
+        }
+
+        yield return null;
     }
 }
