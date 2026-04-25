@@ -3,10 +3,18 @@ using System;
 
 public class GameSettings : MonoBehaviour
 {
-    [SerializeField] private GameObject languageNote;
+    public static event Action<bool> toggleFullScreen;
 
+    [SerializeField] private GameObject languageNote;
+    [SerializeField] private GameObject fullScreenCheckMark;
     public void ToggleLanguageNoteVisibility()
     {
         languageNote.SetActive(!languageNote.activeSelf);
+    }
+
+    public void ToggleFullScreen()
+    { 
+        fullScreenCheckMark.SetActive(!fullScreenCheckMark.activeSelf);
+        Screen.fullScreen = fullScreenCheckMark.activeSelf;
     }
 }
