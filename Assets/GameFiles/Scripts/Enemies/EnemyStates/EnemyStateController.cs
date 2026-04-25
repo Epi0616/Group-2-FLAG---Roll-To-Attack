@@ -41,7 +41,7 @@ public abstract class EnemyStateController : MonoBehaviour
     public Vector3 newSpawnPos;
     
     public bool isSpawning;
-    private bool isDead;
+    public bool isDead;
     public static event Action EnemyHasDied;
 
     protected float vibrationDuration;
@@ -110,6 +110,11 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         currentHealth = maxHealth;
         isDead = false;
+
+        animator.Rebind();
+        animator.Play("Walk", 0 , 0);
+        animator.Update(0f);
+
         currentStatusEffects.Clear();
 
         enemyAgent.enabled = true;
@@ -292,7 +297,6 @@ public abstract class EnemyStateController : MonoBehaviour
         if (vibrationTimer >= vibrationDuration)
         {
             isVibrating = false;
-            transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
             return;
         }
 
@@ -304,12 +308,17 @@ public abstract class EnemyStateController : MonoBehaviour
     public void StopVibrating()
     {
         isVibrating = false;
-        transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
 
         if (animator != null)
         {
             animator.speed = 1f;
         }
+
+        if (isDead) { return; }
+
+        //transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
+
+        
     }
 
     protected void ShowDamage(int damage)
@@ -398,7 +407,16 @@ public abstract class EnemyStateController : MonoBehaviour
         AudioManager.instance.PlayRandomSoundClip(EnemyDeathSounds, default, 0.3f);
 
         currentState?.ExitState();
-        StopVibrating();
+        //StopVibrating();
+
+        if (animator != null)
+        {
+            animator.SetBool("isAttacking", false);
+            animator.Rebind();
+            animator.Play("Walk", 0, 0);
+            animator.Update(0f);
+        }
+
 
         if (enemyAgent.enabled)
         {

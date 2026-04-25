@@ -25,7 +25,8 @@ public class SandGolemEnemy : EnemyStateController
     public override void Attack()
     {
         attackCompleted = false;
-        attackInterrupted = false;   
+        attackInterrupted = false;
+        LookAtPlayer();
         SpawnImpactField();
         StartCoroutine(ChargeTime());
     }

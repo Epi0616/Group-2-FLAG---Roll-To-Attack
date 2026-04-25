@@ -39,9 +39,7 @@ public class EnemyMoveState : EnemyBaseState
         }
 
         playerPosition = enemy.playerReference.transform.position;
-        targetVector = (playerPosition - enemy.transform.position);
-
-        //enemy.transform.rotation = Quaternion.LookRotation(targetVector);
+        targetVector = (playerPosition - enemy.transform.position);     
 
         MoveTowardsPlayerNavMesh();
 
@@ -50,26 +48,11 @@ public class EnemyMoveState : EnemyBaseState
             enemy.ChangeState(new EnemyAttackState());
         }
 
-        //if (CheckIfAIHasStopped(enemy.enemyAgent))
-        //{
-        //    enemy.ChangeState(new EnemyAttackState());
-        //}
     }
 
     public override void FixedUpdateState()
     {
         //MoveTowardsPlayerVector();
-    }
-
-    private bool CheckIfAIHasStopped(NavMeshAgent enemyAgent)
-    {
-        if (enemyAgent == null || !enemyAgent.isOnNavMesh) return false;
-        if (enemyAgent.pathPending) return false;
-        if (!enemyAgent.hasPath) return false;
-        if (enemyAgent.remainingDistance > enemyAgent.stoppingDistance) return false;
-        if (enemyAgent.velocity.magnitude > 0.1f) return false;
-
-        return true;
     }
 
     private void MoveTowardsPlayerNavMesh()
