@@ -48,6 +48,7 @@ public class EnemyAttackImpactField : MonoBehaviour
 
     private void AdjustRadiusSize()
     {
+        transform.localScale = new Vector3(1.0f, 0.2f, 1.0f);
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;
         tempScale.z = radius * 2;
@@ -67,6 +68,7 @@ public class EnemyAttackImpactField : MonoBehaviour
             a = Mathf.Lerp( 0f, 0.75f, easeOutBack(timeElapsed / chargeTime) );
 
             Color color = this.color;
+                     
             color.a = a;
             SetColor(color);
 
@@ -99,6 +101,7 @@ public class EnemyAttackImpactField : MonoBehaviour
             float fadeA = Mathf.Lerp(1f, 0f, timeElapsed / 0.4f);
 
             Color color = this.color;
+            
             color.a = fadeA;
             SetColor(color);
 
