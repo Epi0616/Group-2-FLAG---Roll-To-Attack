@@ -18,11 +18,15 @@ public class StaticText : MonoBehaviour
 
     protected virtual void Awake()
     {
-        tmpAsset.text = localizedString.GetLocalizedString();
+        if (localizedString.IsEmpty) return;
+
+        UpdateText(localizedString.GetLocalizedString());
     }
 
     protected virtual void UpdateText(string newText)
-    { 
+    {
+        if (localizedString.IsEmpty) return;
+
         tmpAsset.text = localizedString.GetLocalizedString();
     }
 

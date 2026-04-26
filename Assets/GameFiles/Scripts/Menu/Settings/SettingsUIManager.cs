@@ -9,6 +9,7 @@ public class SettingsUIManager : MonoBehaviour
     [SerializeField] private GameObject gameSettingsUI;
     [SerializeField] private GameObject audioSettingsUI;
     [SerializeField] private GameObject videoSettingsUI;
+    [SerializeField] private GameObject KeysBindUI;
     [SerializeField] private GameObject background;
 
     private GameObject currentSettingsScreen;
@@ -50,8 +51,23 @@ public class SettingsUIManager : MonoBehaviour
         currentSettingsScreen = videoSettingsUI;
     }
 
-    public void BackButton()
+    public void KeyBinds()
     { 
+        ClearSettingsScreen();
+        KeysBindUI.SetActive(true);
+        background.SetActive(true);
+        currentSettingsScreen = KeysBindUI;
+
+    }
+
+    public void BackButton()
+    {
+        if (currentSettingsScreen == KeysBindUI)
+        {
+            GameSettings();
+            return;
+        }
+
         if (currentSettingsScreen != mainSettingsUI)
         { 
             MainSettings();
@@ -70,5 +86,6 @@ public class SettingsUIManager : MonoBehaviour
         gameSettingsUI.SetActive(false);
         audioSettingsUI.SetActive(false);
         videoSettingsUI.SetActive(false);
+        KeysBindUI.SetActive(false);
     }
 }
