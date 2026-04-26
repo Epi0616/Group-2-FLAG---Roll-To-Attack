@@ -5,9 +5,11 @@ public class VideoSettingUI : MonoBehaviour
 {
     public static event Action toggleFPSVisibility;
     public static event Action<bool> toggleVSync;
+    public static event Action<bool> togglePostProcessing;
 
     [SerializeField] private GameObject fpsCounterCheckMark;
-    [SerializeField] private GameObject VSyncCheckMark;
+    [SerializeField] private GameObject vSyncCheckMark;
+    [SerializeField] private GameObject postProcessingCheckMark;
 
     public void ToggleFPSVisibility()
     {
@@ -17,7 +19,13 @@ public class VideoSettingUI : MonoBehaviour
 
     public void ToggleVsync()
     {
-        VSyncCheckMark.SetActive(!VSyncCheckMark.activeSelf);
-        toggleVSync.Invoke(VSyncCheckMark.activeSelf);
+        vSyncCheckMark.SetActive(!vSyncCheckMark.activeSelf);
+        toggleVSync.Invoke(vSyncCheckMark.activeSelf);
+    }
+
+    public void TogglePostProcessing()
+    {
+        postProcessingCheckMark.SetActive(!postProcessingCheckMark.activeSelf);
+        togglePostProcessing.Invoke(postProcessingCheckMark.activeSelf);
     }
 }
