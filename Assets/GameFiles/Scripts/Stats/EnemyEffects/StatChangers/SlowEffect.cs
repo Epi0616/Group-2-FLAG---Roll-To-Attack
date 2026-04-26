@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SlowEffect : StatusEffect
 {
+    /*
     private float slowingMultiplier;
 
     public SlowEffect(float duration, float slowingMultiplier, string effectText)
@@ -12,8 +13,9 @@ public class SlowEffect : StatusEffect
         this.effectText = effectText;
     }
 
-    public override void ApplyStatModifier(EnemyStateController enemy)
+    protected override void ApplyStatModifier()
     {
-        enemy.moveSpeedStat.AddMultiplier(slowingMultiplier);
+        enemyRef.moveSpeedStat.AddMultiplier(slowingMultiplier);
     }
+    */
 }

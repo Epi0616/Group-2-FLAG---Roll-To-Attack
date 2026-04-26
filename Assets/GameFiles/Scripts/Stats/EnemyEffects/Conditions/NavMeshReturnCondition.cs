@@ -1,0 +1,41 @@
+using UnityEngine;
+using UnityEngine.AI;
+
+public class NavMeshReturnCondition : BaseCondition
+{
+    private EnemyStateController enemy;
+    private float distance = 100.0f;
+
+    public NavMeshReturnCondition(bool required, EnemyStateController enemy)
+    {
+        this.enemy = enemy;   
+        isRequired = required;
+    }
+
+    public override void ConditionUpdate()
+    {
+        // Check for Enemy slowing enough after knockback to return to moving
+        if (enemy.rb.linearVelocity.magnitude <= 2f)
+        {
+            NavMeshHit hit;
+            bool validNavMeshNode = NavMesh.SamplePosition(enemy.transform.position, out hit, 3f, NavMesh.AllAreas);
+            if (validNavMeshNode)
+            {
+                Vector3 destinationPos = new Vector3(hit.position.x, enemy.transform.position.y, hit.position.z);
+                Vector3 returntoNavMeshDirection = (destinationPos - enemy.transform.position).normalized;
+                returntoNavMeshDirection.y = enemy.transform.position.y;
+                enemy.rb.MovePosition(enemy.transform.position + returntoNavMeshDirection * 10f * Time.deltaTime);
+
+                distance = Vector3.Distance(enemy.transform.position, destinationPos);
+
+            }
+        }
+    }
+
+    public override void ResetCondition() { }
+
+    public override bool IsExpired()
+    {
+        return (distance < 0.1f);
+    }
+}

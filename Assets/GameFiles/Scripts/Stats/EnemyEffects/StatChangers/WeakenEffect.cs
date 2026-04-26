@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class WeakenEffect : StatusEffect
 {
+    /*
     private float weakeningMultiplier;
 
     public WeakenEffect(float duration, float weakeningMultiplier, string effectText) //use 1.x to modify damage dealt
@@ -12,8 +13,9 @@ public class WeakenEffect : StatusEffect
         this.effectText = effectText;
     }
 
-    public override void ApplyStatModifier(EnemyStateController enemy)
+    protected override void ApplyStatModifier()
     {
         enemy.damageTakenModifierStat.AddMultiplierFlat(weakeningMultiplier);
     }
+    */
 }

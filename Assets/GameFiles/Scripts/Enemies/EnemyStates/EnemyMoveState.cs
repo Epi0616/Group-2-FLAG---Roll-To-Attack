@@ -13,10 +13,9 @@ public class EnemyMoveState : EnemyBaseState
         base.EnterState(enemy);
 
         //enemy.animator.SetBool("isMoving", true);
-        enemy.enemyAgent.enabled = true;
-        enemy.enemyAgent.updatePosition = true;
-        enemy.enemyAgent.updateRotation = true;            
-        
+
+        enemy.EnableAI();
+
         playerPosition = enemy.playerReference.transform.position;
         MoveTowardsPlayerNavMesh();
     }
@@ -24,6 +23,22 @@ public class EnemyMoveState : EnemyBaseState
     public override void UpdateState()
     {
         base.UpdateState();
+
+        if (enemy.isAIDisabled) { return; }
+
+        playerPosition = enemy.playerReference.transform.position;
+        targetVector = (playerPosition - enemy.transform.position);
+
+        if (targetVector.magnitude <= enemy.attackRange && enemy.canAttack)
+        {
+            enemy.ChangeState(new EnemyAttackState());
+        }
+
+        if (!enemy.canMove)
+        {
+            enemy.enemyAgent.SetDestination(enemy.transform.position);
+            return;
+        }
 
         footStepTimer += Time.deltaTime;
 
@@ -33,20 +48,7 @@ public class EnemyMoveState : EnemyBaseState
             footStepTimer = 0f;
         }
 
-        if (enemy.isKnockedBack || enemy.isStunned )
-        {
-            return;
-        }
-
-        playerPosition = enemy.playerReference.transform.position;
-        targetVector = (playerPosition - enemy.transform.position);     
-
         MoveTowardsPlayerNavMesh();
-
-        if (targetVector.magnitude <= enemy.attackRange)
-        {
-            enemy.ChangeState(new EnemyAttackState());
-        }
 
     }
 
@@ -73,10 +75,5 @@ public class EnemyMoveState : EnemyBaseState
         targetDirection.y = 0;
         enemy.rb.linearVelocity = targetDirection * enemy.moveSpeedStat.GetFinalValue();
     }
-
-    public override void ExitState()
-    {
-        enemy.enemyAgent.enabled = false;
-
-    }
+   
 }

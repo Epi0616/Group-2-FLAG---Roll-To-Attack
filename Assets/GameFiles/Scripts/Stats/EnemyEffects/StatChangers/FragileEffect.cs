@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FragileEffect : StatusEffect
 {
+    /*
     private float fragileMultiplier;
 
     public FragileEffect(float duration, float fragileMultiplier, string effectText)
@@ -15,4 +16,5 @@ public class FragileEffect : StatusEffect
     {
         enemy.wallSlamDamageModifierStat.AddMultiplier(fragileMultiplier);
     }
+    */
 }

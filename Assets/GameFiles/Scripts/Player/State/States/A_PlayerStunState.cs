@@ -39,6 +39,7 @@ public class A_PlayerStunState : PlayerBaseAttackState
         {
             if (Enemy == null) continue;
             CustomAttack(Enemy);
+            ApplyKnockback(Enemy);
         }
         CustomDisplayAttack();
     }
@@ -47,8 +48,11 @@ public class A_PlayerStunState : PlayerBaseAttackState
     {
         EnemyStateController enemyTempScriptAccess = Enemy.GetComponent<EnemyStateController>();
         enemyTempScriptAccess.OnTakeDamage(30, myColor);
-        enemyTempScriptAccess.OnRecieveEffect(new FragileEffect(2f, 2.0f, player.frozenText.GetLocalizedString()), myColor);
-        enemyTempScriptAccess.OnStunned();
+        //enemyTempScriptAccess.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(2.0f, player.frozenText.GetLocalizedString()), new List<ActiveStatusEffect>() { new DurationCondition(2.0f) }), myColor);
+        enemyTempScriptAccess.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(2.0f, player.frozenText.GetLocalizedString()),
+                new List<IEffectExpirationCondition> {new DurationCondition(true, 2.0f) }));
+        //enemyTempScriptAccess.OnRecieveEffect(new FragileEffect(2f, 2.0f, player.frozenText.GetLocalizedString()), myColor);
+        //enemyTempScriptAccess.OnStunned();
     }
 
     protected override void CustomDisplayAttack()

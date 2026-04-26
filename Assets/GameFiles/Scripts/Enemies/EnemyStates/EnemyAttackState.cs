@@ -12,6 +12,15 @@ public class EnemyAttackState : EnemyBaseState
         enemy.Attack();
     }
 
+    public override void UpdateState()
+    {
+        base.UpdateState();
+        if (!enemy.canAttack)
+        {
+            enemy.ChangeState(new EnemyMoveState());
+        }
+    }
+
     public override void ExitState()
     {
         if (enemy.animator != null)
@@ -19,5 +28,6 @@ public class EnemyAttackState : EnemyBaseState
             enemy.animator.SetBool("isAttacking", false);
         }
         enemy.CompleteAttack();
+        
     }
 }

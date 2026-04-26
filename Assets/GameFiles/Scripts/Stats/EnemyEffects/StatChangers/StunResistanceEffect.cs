@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class StunResistanceEffect : StatusEffect
 {
+    /*
     private float resistanceMultiplier;
 
     public StunResistanceEffect(float duration, float resistanceMultiplier, string effectText)
@@ -11,8 +12,9 @@ public class StunResistanceEffect : StatusEffect
         this.effectText = effectText;
     }
 
-    public override void ApplyStatModifier(EnemyStateController enemy)
+    protected override void ApplyStatModifier()
     {
-        enemy.stunTimeStat.AddMultiplier(resistanceMultiplier);
+        enemyRef.stunTimeStat.AddMultiplier(resistanceMultiplier);
     }
+    */
 }
