@@ -23,7 +23,7 @@ public class A_PlayerKnockbackState : PlayerBaseAttackState
     {
         EnemyStateController tempScriptAccess = Enemy.GetComponent<EnemyStateController>();
         tempScriptAccess.OnTakeDamage(35, myColor);
-        tempScriptAccess.OnTakeKnockback(player.transform.position, 5);
+        tempScriptAccess.OnTakeKnockback(new Vector3(player.transform.position.x, player.transform.position.y + 15, player.transform.position.z), 10);
     }
 
     protected override void CustomDisplayAttack()

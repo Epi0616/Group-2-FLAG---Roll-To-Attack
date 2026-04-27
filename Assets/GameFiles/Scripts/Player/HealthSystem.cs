@@ -8,6 +8,7 @@ public class HealthSystem : MonoBehaviour
     public static event Action GameOver;
     public static event Action<float> IFrames;
     private float iFrameTimer = 0;
+    private bool isDead = false;
 
     private void OnEnable()
     {
@@ -49,6 +50,8 @@ public class HealthSystem : MonoBehaviour
     }
     public void OnDeath()
     {
+        if (isDead) return;
+        isDead = true;
         Debug.Log("Game Over");
         GameOver?.Invoke();
     }

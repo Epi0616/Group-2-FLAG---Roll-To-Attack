@@ -198,7 +198,7 @@ public class RangedRaiderEnemy : EnemyStateController
             if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
             {
                 distanceToEndofLaser = hit.distance;
-                Debug.DrawLine(firingOrigin.position, hit.point, Color.blue, 10f);
+                //Debug.DrawLine(firingOrigin.position, hit.point, Color.blue, 10f);
 
             }
             else
@@ -275,7 +275,7 @@ public class RangedRaiderEnemy : EnemyStateController
     private void LaserCheck(Ray ray, RaycastHit hit)
     {
         float distanceToEndofLaser = laserRange;
-        if (Physics.SphereCast(ray, 0.7f, out hit, laserRange, playerLayer))
+        if (Physics.SphereCast(ray, 0.3f, out hit, laserRange, playerLayer))
         {
             
             if (hit.collider.CompareTag("Player") && damageTickTimer >= damageTickRateInSeconds)
