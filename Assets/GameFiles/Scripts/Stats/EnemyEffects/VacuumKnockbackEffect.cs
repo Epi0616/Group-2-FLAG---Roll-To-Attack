@@ -9,6 +9,7 @@ public class VacuumDisplacementEffect : BaseDisplacementEffect
     {
         this.origin = origin;
         this.force = force;
+        type = StatusType.Knockback;
     }
 
     protected override void OnApplication()

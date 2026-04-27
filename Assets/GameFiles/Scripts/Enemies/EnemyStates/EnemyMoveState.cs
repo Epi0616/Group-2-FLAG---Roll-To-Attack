@@ -14,10 +14,10 @@ public class EnemyMoveState : EnemyBaseState
 
         //enemy.animator.SetBool("isMoving", true);
 
-        enemy.EnableAI();
+        //enemy.EnableAI();
 
-        playerPosition = enemy.playerReference.transform.position;
-        MoveTowardsPlayerNavMesh();
+        //playerPosition = enemy.playerReference.transform.position;
+        //MoveTowardsPlayerNavMesh();
     }
 
     public override void UpdateState()

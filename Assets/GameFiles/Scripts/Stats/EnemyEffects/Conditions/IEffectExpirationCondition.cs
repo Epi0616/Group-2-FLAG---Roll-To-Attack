@@ -12,7 +12,7 @@ public interface IEffectExpirationCondition
 
 public abstract class BaseCondition : IEffectExpirationCondition
 {
-    protected bool isRequired = false;
+    public bool isRequired = false;
 
     public abstract void ConditionUpdate();
 

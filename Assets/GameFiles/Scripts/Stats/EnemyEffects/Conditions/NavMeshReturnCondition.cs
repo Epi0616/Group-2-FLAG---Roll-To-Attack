@@ -21,9 +21,9 @@ public class NavMeshReturnCondition : BaseCondition
             bool validNavMeshNode = NavMesh.SamplePosition(enemy.transform.position, out hit, 3f, NavMesh.AllAreas);
             if (validNavMeshNode)
             {
-                Vector3 destinationPos = new Vector3(hit.position.x, enemy.transform.position.y, hit.position.z);
+                Vector3 destinationPos = new Vector3(hit.position.x, hit.position.y, hit.position.z);
                 Vector3 returntoNavMeshDirection = (destinationPos - enemy.transform.position).normalized;
-                returntoNavMeshDirection.y = enemy.transform.position.y;
+                //returntoNavMeshDirection.y = enemy.transform.position.y;
                 enemy.rb.MovePosition(enemy.transform.position + returntoNavMeshDirection * 10f * Time.deltaTime);
 
                 distance = Vector3.Distance(enemy.transform.position, destinationPos);
@@ -36,6 +36,6 @@ public class NavMeshReturnCondition : BaseCondition
 
     public override bool IsExpired()
     {
-        return (distance < 0.1f);
+        return (distance < 0.02f && enemy.rb.linearVelocity.y < 0.2f);
     }
 }

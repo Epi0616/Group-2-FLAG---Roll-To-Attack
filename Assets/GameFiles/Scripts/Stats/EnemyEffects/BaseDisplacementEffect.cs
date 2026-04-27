@@ -6,6 +6,7 @@ public class BaseDisplacementEffect : BaseStunEffect
     {
         base.OnApplication();
         isDisplacing = true;
+        isStackable = true;
     }
 
     protected override void OnRemoval()
