@@ -3,6 +3,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class AbilityPanel : MonoBehaviour, IPointerClickHandler
 {
@@ -26,10 +27,14 @@ public class AbilityPanel : MonoBehaviour, IPointerClickHandler
         this.ability = ability as DraggableAbility;
         ability.transform.SetParent(AbilityHolder.transform);
         ability.transform.localPosition = Vector3.zero;
+        ability.GetComponent<Image>().raycastTarget = false;
+        ability.transform.localScale *= 2;
     }
 
     public DraggableAbility GetAbility()
     {
+        ability.GetComponent<Image>().raycastTarget = true;
+        ability.transform.localScale /= 2;
         return ability;
     }
 

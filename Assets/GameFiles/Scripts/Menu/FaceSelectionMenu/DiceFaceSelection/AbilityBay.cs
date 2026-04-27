@@ -11,7 +11,7 @@ public class AbilityBay : AbilityDropZoneParent
     protected override void FormatChildren()
     {
         int step = draggableObjects.Count;
-        float adjustedWidth = rectTransform.sizeDelta.y * 0.35f;
+        float adjustedWidth = rectTransform.sizeDelta.y * 0.4f;
         float distancePerStep = adjustedWidth / (step + 1);
 
         for (int i = 0; i < step; i++)
