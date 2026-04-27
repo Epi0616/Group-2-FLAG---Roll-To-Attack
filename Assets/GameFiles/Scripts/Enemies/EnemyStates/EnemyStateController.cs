@@ -125,6 +125,7 @@ public abstract class EnemyStateController : MonoBehaviour
         animator.Update(0f);
 
         currentStatusEffects.Clear();
+        RecalculateStats();
 
         EnableAI();
 
@@ -157,21 +158,28 @@ public abstract class EnemyStateController : MonoBehaviour
         if (isDead) return;
 
         currentState?.UpdateState();
+        
         UpdateActiveEffects();
+        
     }
     protected virtual void FixedUpdate()
     {
+        //CheckAllStatsCondition();
+        //Debug.Log(rb.linearVelocity);
         if (isDead) return;
-        //Vibrate();
-        if (rb.linearVelocity.y < 0 && !isVibrating)
+        //Vibrate()
+        
+        if (rb.linearVelocity.y < 0)
         {
             rb.AddForce(new Vector3(0, -2.5f, 0), ForceMode.Impulse);
         }
+        
         currentState?.FixedUpdateState();
     }
 
     public void ChangeState(EnemyBaseState newState)
     {
+        //Debug.Log("State Change");
         if (isSpawning)
         {
             return;
@@ -224,9 +232,24 @@ public abstract class EnemyStateController : MonoBehaviour
    
     public abstract void Attack();
     public abstract void CompleteAttack();
+
+    public void CheckAllStatsCondition()
+    {
+        if (!(currentStatusEffects.Count > 0)) { return; }
+        for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
+        {
+            Debug.Log(currentStatusEffects[i].effect.type.ToString() + ": Condition Count: " + currentStatusEffects[i].conditions.Count + " isExpiredTotal: " + currentStatusEffects[i].CheckForExpiration());
+            foreach (BaseCondition condition in currentStatusEffects[i].conditions)
+            {
+                Debug.Log(condition.name + " IsExpired?: " + condition.IsExpired() + " isRequired?: " + condition.isRequired);
+            }
+        }
+    }
+
     
     public void OnRecieveEffect(ActiveStatusEffect newStatus)
     {
+        //Debug.Log("New Effect");
         if (!newStatus.effect.isStackable)
         {
             for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
@@ -366,13 +389,13 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         rb.isKinematic = false;
         rb.linearDamping = 0f;
-        rb.linearVelocity = Vector3.zero;
+        ;
         rb.useGravity = false;
         rb.isKinematic = true;
 
         isAIDisabled = false;
 
-        enemyAgent.enabled = true;      
+        //enemyAgent.enabled = true;      
         enemyAgent.updatePosition = true;
         enemyAgent.updateRotation = true;
 
@@ -382,7 +405,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
     public void DisableAI()
     {
-        enemyAgent.enabled = false;
+        //enemyAgent.enabled = false;
         enemyAgent.updatePosition = false;
         enemyAgent.updateRotation = false;
 
@@ -391,6 +414,13 @@ public abstract class EnemyStateController : MonoBehaviour
         rb.useGravity = true;
         rb.isKinematic = false;
         rb.linearDamping = 3f;
+    }
+
+    public bool IsGrounded()
+    {
+        NavMeshHit hit;
+      
+        return (NavMesh.SamplePosition(transform.position, out hit, 0.3f, NavMesh.AllAreas));
     }
 
 

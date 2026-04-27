@@ -94,7 +94,7 @@ public class PlayerBaseAttackState : PlayerMovementState
             //enemy.OnTakeKnockback(player.transform.position, knockbackForce * 2);
            
             enemy.OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(player.transform.position, knockbackForce * 2f),
-                new List<BaseCondition> { new NavMeshReturnCondition(true, enemy), new DurationCondition(true, 0.75f) } ));
+                new List<BaseCondition> { new GroundedCondition(true, enemy), new DurationCondition(true, 0.75f) } ));
         }
     }
 

@@ -37,6 +37,7 @@ public class ActiveStatusEffect
 
                 if (!condition.IsExpired())
                 {
+                    //Debug.Log("missing required condition");
                     return false;
                 }
                 
@@ -45,6 +46,7 @@ public class ActiveStatusEffect
             {
                 if (condition.IsExpired())
                 {
+                    //Debug.Log("optional condition present");
                     anyNonRequiredPresent = true;
                 }
             }           

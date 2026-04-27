@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class SandGolemEnemy : EnemyStateController
@@ -22,13 +23,15 @@ public class SandGolemEnemy : EnemyStateController
     private GameObject impactFieldObj;
     private EnemyAttackImpactField impactField;
 
+    private Coroutine charge;
+
     public override void Attack()
     {
         attackCompleted = false;
         attackInterrupted = false;
         LookAtPlayer();
         SpawnImpactField();
-        StartCoroutine(ChargeTime());
+        charge = StartCoroutine(ChargeTime());
     }
 
     private void GolemSlam()
@@ -54,7 +57,9 @@ public class SandGolemEnemy : EnemyStateController
                 {
                     Debug.LogError("EnemyRef is NULL");
                 }
-                enemyRef.OnTakeGolemKnockback(attackOriginTransform.position, golemKnockBackForce);
+                //enemyRef.OnTakeGolemKnockback(attackOriginTransform.position, golemKnockBackForce);
+                enemyRef.OnRecieveEffect(new ActiveStatusEffect(new GolemKnockBackEffect(attackOriginTransform.position, golemKnockBackForce),
+                new List<BaseCondition> { new GroundedCondition(true, enemyRef), new DurationCondition(true, 0.75f) }));
             }
         }
 
@@ -84,7 +89,8 @@ public class SandGolemEnemy : EnemyStateController
     }
 
     public override void CompleteAttack()
-    {    
+    {
+        StopCoroutine(charge);
         attackInterrupted = true;
         if (!attackCompleted)
         {

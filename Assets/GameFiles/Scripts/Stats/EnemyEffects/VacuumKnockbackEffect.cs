@@ -16,15 +16,15 @@ public class VacuumDisplacementEffect : BaseDisplacementEffect
     {
         base.OnApplication();
 
+        enemyRef.canAttack = false;
+
+        enemyRef.DisableAI();
+
         enemyRef.rb.linearVelocity = Vector3.zero;
         Vector3 targetVector = (enemyRef.transform.position - origin);
 
         Vector3 targetDirection = targetVector.normalized;
-
-        targetDirection.y = 0.1f;
-        targetDirection.x *= 1.5f;
-        targetDirection.z *= 1.5f;
-
+        targetDirection.y = 0.2f;
         enemyRef.rb.AddForce(targetDirection * ((force * enemyRef.knockbackWeightModifierStat.GetFinalValue()) * 10f), ForceMode.VelocityChange);
     }
 

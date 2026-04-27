@@ -19,13 +19,15 @@ public class SimpleRaiderEnemy : EnemyStateController
     private bool attackInterrupted;
     private bool attackCompleted;
 
+    private Coroutine charge;
+
     public override void Attack()
     {
         attackCompleted = false;
         attackInterrupted = false;
         LookAtPlayer();
         SpawnImpactField();
-        StartCoroutine(ChargeTime());
+        charge = StartCoroutine(ChargeTime());
     }
 
     private void MeleeAttack()
@@ -70,6 +72,7 @@ public class SimpleRaiderEnemy : EnemyStateController
 
     public override void CompleteAttack()
     {
+        StopCoroutine(charge);
         attackInterrupted = true;
         if (!attackCompleted)
         {

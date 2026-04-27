@@ -14,6 +14,8 @@ public abstract class BaseCondition : IEffectExpirationCondition
 {
     public bool isRequired = false;
 
+    public string name = "Base";
+
     public abstract void ConditionUpdate();
 
     public abstract void ResetCondition();

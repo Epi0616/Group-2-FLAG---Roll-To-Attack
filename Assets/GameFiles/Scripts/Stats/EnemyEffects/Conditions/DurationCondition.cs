@@ -11,6 +11,7 @@ public class DurationCondition : BaseCondition
         isRequired = required;
         this.duration = duration;
         timer = duration;
+        name = "DurationCondition";
     }
 
     public override void ConditionUpdate()

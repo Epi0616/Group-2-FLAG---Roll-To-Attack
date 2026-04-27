@@ -10,15 +10,16 @@ public class NavMeshReturnCondition : BaseCondition
     {
         this.enemy = enemy;   
         isRequired = required;
+        name = "NavReturnCondition";
     }
 
     public override void ConditionUpdate()
     {
-        // Check for Enemy slowing enough after knockback to return to moving
+      
         if (enemy.rb.linearVelocity.magnitude <= 2f)
         {
             NavMeshHit hit;
-            bool validNavMeshNode = NavMesh.SamplePosition(enemy.transform.position, out hit, 3f, NavMesh.AllAreas);
+            bool validNavMeshNode = NavMesh.SamplePosition(enemy.transform.position, out hit, 5f, NavMesh.AllAreas);
             if (validNavMeshNode)
             {
                 Vector3 destinationPos = new Vector3(hit.position.x, hit.position.y, hit.position.z);
@@ -35,7 +36,7 @@ public class NavMeshReturnCondition : BaseCondition
     public override void ResetCondition() { }
 
     public override bool IsExpired()
-    {
-        return (distance < 0.02f && enemy.rb.linearVelocity.y < 0.2f);
+    {        
+        return (distance < 0.2f);
     }
 }
