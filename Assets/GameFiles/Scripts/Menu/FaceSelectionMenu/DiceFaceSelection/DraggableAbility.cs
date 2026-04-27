@@ -9,6 +9,8 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
     public static event Action<LocalizedString, LocalizedString, Sprite> OnAbilityHoverStart;
     public static event Action OnAbilityHoverEnd;
 
+    [SerializeField] private GameObject spriteObj;
+
     private AbilityDescriptor myAbility;
     public Image Image;
 
@@ -27,10 +29,10 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
     {
         if (myAbility.sprite != null)
         { 
-            Image.sprite = myAbility.sprite;
+            spriteObj.GetComponent<Image>().sprite = myAbility.sprite;
             return;
         }
-        Image.color = myAbility.color;
+        spriteObj.GetComponent<Image>().color = myAbility.color;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
