@@ -7,9 +7,12 @@ public class AbilitySelectionManager : MonoBehaviour
     public List<AbilityDescriptor> abilityPool;
     [SerializeField] private GameObject abilityObjectPrefab;
     private List<GameObject> draggableObjects = new List<GameObject>();
+   
+    private HashSet<int> selectedIndex = new HashSet<int>();
 
     public void SetUpAbilityPannels()
     {
+        selectedIndex.Clear();
         draggableObjects.Clear();
         for (int i = 0; i < abilityPanels.Count; i++)
         {
@@ -28,7 +31,18 @@ public class AbilitySelectionManager : MonoBehaviour
 
     public GameObject SpawnRandomNewAbility()
     {
-        int random = Random.Range(0, abilityPool.Count);
+        bool foundNewIndex = false;
+        int random = 0;
+        while (!foundNewIndex)
+        {
+            random = Random.Range(0, abilityPool.Count);
+            if (!selectedIndex.Contains(random))
+            {
+                selectedIndex.Add(random);
+                foundNewIndex = true;
+            }
+        }
+
         var tempObj = Instantiate(abilityObjectPrefab, transform);
         tempObj.GetComponent<DraggableAbility>().SetAbilityDescriptor(abilityPool[random]);
 
