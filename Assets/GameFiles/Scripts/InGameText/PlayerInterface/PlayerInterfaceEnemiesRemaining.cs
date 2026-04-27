@@ -92,7 +92,7 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
 
     private IEnumerator DrainProgressBarRoutine(float timeBetweenWaves)
     {
-        float timer = 3;
+        float timer = 4;
 
         while (timer >= 0)
         {

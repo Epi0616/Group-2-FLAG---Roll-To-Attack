@@ -14,13 +14,13 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void OnPointerEnter(PointerEventData eventData)
     {
         //pSystem.Play();
-        gameObject.transform.localScale = new Vector3(sizeHeightHover, sizeWidthHover, 1);
+        gameObject.transform.localScale = new Vector3(sizeWidthHover, sizeHeightHover, 1);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         {
-            gameObject.transform.localScale = new Vector3(sizeHeight, sizeWidth, 1);
+            gameObject.transform.localScale = new Vector3(sizeWidth, sizeHeight, 1);
         }
     }
 }
