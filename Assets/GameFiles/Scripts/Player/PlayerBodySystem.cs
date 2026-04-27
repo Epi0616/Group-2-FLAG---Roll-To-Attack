@@ -46,7 +46,7 @@ public class PlayerBodySystem : MonoBehaviour
 
     private IEnumerator IFrameFlashRoutine()
     {
-        Debug.Log("starting corotuine");
+        //Debug.Log("starting corotuine");
         bool toggle = false;
         while (iFrameTimer > 0)
         {

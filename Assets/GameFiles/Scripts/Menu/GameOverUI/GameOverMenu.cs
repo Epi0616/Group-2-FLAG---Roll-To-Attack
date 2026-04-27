@@ -25,7 +25,7 @@ public class GameOverMenu : MonoBehaviour
     private void GameOver()
     {
         gameOverMenuUI.SetActive(true);
-        gameOverStatsDisplay.UpdateStatsDisplay();
+        gameOverStatsDisplay.UpdateStatsDisplay("null");
         Time.timeScale = 0;
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AbilityPanel : MonoBehaviour, IPointerClickHandler
+public class AbilityPanel : MonoBehaviour
 {
     public TextMeshProUGUI Name, Description;
     public GameObject AbilityHolder;
@@ -38,7 +38,7 @@ public class AbilityPanel : MonoBehaviour, IPointerClickHandler
         return ability;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void Clicked()
     {
         AbilitySelected?.Invoke(this);
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -69,6 +70,7 @@ public class PauseMenu : MonoBehaviour
         if (!isGamePaused)
         {
             pauseMenuUI.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(pauseMenuButtons[0]);
             Time.timeScale = 0;
         }
         else
