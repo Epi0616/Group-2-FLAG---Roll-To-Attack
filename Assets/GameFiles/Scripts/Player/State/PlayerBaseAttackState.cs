@@ -91,7 +91,10 @@ public class PlayerBaseAttackState : PlayerMovementState
         { 
             EnemyStateController enemy = Enemy.GetComponent<EnemyStateController>();
             float knockbackForce = player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue();
-            enemy.OnTakeKnockback(player.transform.position, knockbackForce * 2);
+            //enemy.OnTakeKnockback(player.transform.position, knockbackForce * 2);
+           
+            enemy.OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(player.transform.position, knockbackForce * 2f),
+                new List<BaseCondition> { new GroundedCondition(true, enemy), new DurationCondition(true, 0.75f) } ));
         }
     }
 

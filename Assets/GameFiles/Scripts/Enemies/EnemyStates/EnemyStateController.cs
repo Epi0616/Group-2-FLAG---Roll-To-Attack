@@ -32,14 +32,20 @@ public abstract class EnemyStateController : MonoBehaviour
     public Animator animator;
     private EnemyBaseState currentState;
     public bool isStunned;
-    public bool isKnockedBack;
+
+    public GameObject enemyModel;
+
     public bool isKnockedBackByGolem;
     public bool isVibrating;
     public bool isFragile;
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
     public Vector3 newSpawnPos;
-    
+
+    public bool canMove = true;
+    public bool canAttack = true;
+    public bool isBeingDisplaced = false;
+    public bool isAIDisabled = false;
     public bool isSpawning;
     public bool isDead;
     public static event Action EnemyHasDied;
@@ -48,7 +54,7 @@ public abstract class EnemyStateController : MonoBehaviour
     protected Vector3 initialPosition;
     public float vibrateSpeed = 50f;
     public float vibrateIntensity = 0.1f;
-    private float vibrationTimer = 0f;
+   
 
     [Header("Enemy General Sound Effects")]
     public AudioClip[] EnemyHurtSounds;
@@ -67,7 +73,8 @@ public abstract class EnemyStateController : MonoBehaviour
     public LocalizedString slammedText, shatteredText;
 
     private Stat[] stats;
-    private List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
+    // private List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
+    private List<ActiveStatusEffect> currentStatusEffects = new List<ActiveStatusEffect>();
 
     private void Awake()
     {
@@ -111,15 +118,16 @@ public abstract class EnemyStateController : MonoBehaviour
         currentHealth = maxHealth;
         isDead = false;
 
+        animator.speed = 1f;
+
         animator.Rebind();
         animator.Play("Walk", 0 , 0);
         animator.Update(0f);
 
         currentStatusEffects.Clear();
+        RecalculateStats();
 
-        enemyAgent.enabled = true;
-        enemyAgent.ResetPath();
-        enemyAgent.Warp(newSpawnPos);
+        EnableAI();
 
         enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
         enemyAgent.stoppingDistance = attackRange;
@@ -141,6 +149,7 @@ public abstract class EnemyStateController : MonoBehaviour
             ChangeState(new VibratingSpawnState());
         else
             ChangeState(new EnemyMoveState());
+    
     }
 
 
@@ -149,17 +158,28 @@ public abstract class EnemyStateController : MonoBehaviour
         if (isDead) return;
 
         currentState?.UpdateState();
-        UpdateEffects();
+        
+        UpdateActiveEffects();
+        
     }
     protected virtual void FixedUpdate()
     {
+        //CheckAllStatsCondition();
+        //Debug.Log(rb.linearVelocity);
         if (isDead) return;
-        Vibrate();
+        //Vibrate()
+        
+        if (rb.linearVelocity.y < 0)
+        {
+            rb.AddForce(new Vector3(0, -2.5f, 0), ForceMode.Impulse);
+        }
+        
         currentState?.FixedUpdateState();
     }
 
     public void ChangeState(EnemyBaseState newState)
     {
+        //Debug.Log("State Change");
         if (isSpawning)
         {
             return;
@@ -213,25 +233,77 @@ public abstract class EnemyStateController : MonoBehaviour
     public abstract void Attack();
     public abstract void CompleteAttack();
 
-    public void OnRecieveEffect(StatusEffect newEffect)
-    { 
-        currentStatusEffects.Add(newEffect);
-        ShowEffect(newEffect.GetEffectText());
+    public void CheckAllStatsCondition()
+    {
+        if (!(currentStatusEffects.Count > 0)) { return; }
+        for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
+        {
+            Debug.Log(currentStatusEffects[i].effect.type.ToString() + ": Condition Count: " + currentStatusEffects[i].conditions.Count + " isExpiredTotal: " + currentStatusEffects[i].CheckForExpiration());
+            foreach (BaseCondition condition in currentStatusEffects[i].conditions)
+            {
+                Debug.Log(condition.name + " IsExpired?: " + condition.IsExpired() + " isRequired?: " + condition.isRequired);
+            }
+        }
+    }
+
+    
+    public void OnRecieveEffect(ActiveStatusEffect newStatus)
+    {
+        //Debug.Log("New Effect");
+        if (!newStatus.effect.isStackable)
+        {
+            for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
+            {
+                if (currentStatusEffects[i].effect.type == newStatus.effect.type)
+                {
+                    //Debug.Log("Exisint Non Stackable Effect Found, Reseting Condition");
+                    currentStatusEffects[i].ResetConditionsAll();
+                    return;
+                }
+            }
+        }
+
+
+        currentStatusEffects.Add(newStatus);
+        newStatus.effect.AddEffect(this);      
         RecalculateStats();
     }
 
+    /*
     public void OnRecieveEffect(StatusEffect newEffect, Color effectColor)
     {
         currentStatusEffects.Add(newEffect);
         ShowEffect(newEffect.GetEffectText(), effectColor);
         RecalculateStats();
     }
+    */
 
+    public void OnRecieveEffect(ActiveStatusEffect newStatus, Color effectColor)
+    {
+        if (!newStatus.effect.isStackable)
+        {
+            for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
+            {
+                if (currentStatusEffects[i].effect.type == newStatus.effect.type)
+                {
+                    //Debug.Log("Exisint Non Stackable Effect Found, Reseting Condition");
+                    currentStatusEffects[i].ResetConditionsAll();
+                    return;
+                }
+            }
+        }
+
+        currentStatusEffects.Add(newStatus);
+        newStatus.effect.AddEffect(this);
+        ShowEffect(newStatus.effect.GetEffectText(), effectColor); 
+        RecalculateStats();
+    }
+    /*
     private void UpdateEffects()
     {
         for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
         {
-            currentStatusEffects[i].Update();
+            currentStatusEffects[i].TimerUpdate();
 
             if (currentStatusEffects[i].IsExpired())
             {
@@ -240,6 +312,47 @@ public abstract class EnemyStateController : MonoBehaviour
             }
         }
     }
+    */
+
+    private void UpdateActiveEffects()
+    {
+        bool movementStopper = false;
+        bool attackStopper = false;
+        bool AIDisabler = false;
+        bool displacer = false;
+
+        for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
+        {
+            currentStatusEffects[i].effect.UpdateEffect();
+            currentStatusEffects[i].UpdateConditionsAll();
+            //currentStatusEffects[i].condition.AdvanceTimer();
+
+            if (currentStatusEffects[i].effect.preventsMovement) { movementStopper = true; }
+            if (currentStatusEffects[i].effect.preventsAttack) { attackStopper = true; }
+            if (currentStatusEffects[i].effect.disablesAI) { AIDisabler = true; }
+            if (currentStatusEffects[i].effect.isDisplacing) {  displacer = true; }
+
+            if(currentStatusEffects[i].conditions != null && currentStatusEffects[i].CheckForExpiration())
+            {
+                currentStatusEffects[i].effect.RemoveEffect();
+                currentStatusEffects.RemoveAt(i);
+                RecalculateStats();
+            }
+        }
+
+        canMove = !movementStopper;
+        canAttack = !attackStopper;
+        isBeingDisplaced = displacer;
+
+        if (AIDisabler && !isAIDisabled)
+        {          
+            DisableAI();
+        }
+        else if (!AIDisabler && isAIDisabled)
+        {        
+            EnableAI();
+        }
+    } 
 
     private void RecalculateStats()
     {
@@ -248,15 +361,66 @@ public abstract class EnemyStateController : MonoBehaviour
             stat.ResetModifiers();
         }
 
-        foreach (var effect in currentStatusEffects)
+        foreach (var status in currentStatusEffects)
         {
-            effect.ApplyStatModifier(this);
-        }
+            status.effect.ApplyStatModifierUpdates();
 
+        }     
+        
         //Debug.Log("current speed = " + moveSpeedStat.GetFinalValue());
-
         enemyAgent.speed = moveSpeedStat.GetFinalValue() * 2;
         enemyAgent.acceleration = moveSpeedStat.GetFinalValue() * 5;
+    }
+
+    private void RemoveEffectByType(StatusType type)
+    {
+        for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (currentStatusEffects[i].effect.type == type)
+            {
+                currentStatusEffects[i].effect.RemoveEffect();
+                currentStatusEffects.RemoveAt(i);
+            }
+        }
+        RecalculateStats();
+    }
+
+    public void EnableAI()
+    {
+        rb.isKinematic = false;
+        rb.linearDamping = 0f;
+        ;
+        rb.useGravity = false;
+        rb.isKinematic = true;
+
+        isAIDisabled = false;
+
+        //enemyAgent.enabled = true;      
+        enemyAgent.updatePosition = true;
+        enemyAgent.updateRotation = true;
+
+        enemyAgent.Warp(transform.position);
+        enemyAgent.ResetPath();
+    }
+
+    public void DisableAI()
+    {
+        //enemyAgent.enabled = false;
+        enemyAgent.updatePosition = false;
+        enemyAgent.updateRotation = false;
+
+        isAIDisabled = true;
+
+        rb.useGravity = true;
+        rb.isKinematic = false;
+        rb.linearDamping = 3f;
+    }
+
+    public bool IsGrounded()
+    {
+        NavMeshHit hit;
+      
+        return (NavMesh.SamplePosition(transform.position, out hit, 0.3f, NavMesh.AllAreas));
     }
 
 
@@ -275,12 +439,12 @@ public abstract class EnemyStateController : MonoBehaviour
         ChangeState(new EnemyStunnedState(stunTimeStat.GetFinalValue()));        
     }
 
-    public void StartVibrating(float duration)
+    public void StartVibrating()
     {
-        vibrationDuration = duration;
-        vibrationTimer = 0f;
+        //vibrationDuration = duration;
+        //vibrationTimer = 0f;
 
-        initialPosition = transform.position;
+        initialPosition = Vector3.zero;
         isVibrating = true;
 
         if (animator != null)
@@ -289,20 +453,15 @@ public abstract class EnemyStateController : MonoBehaviour
         }
     }
 
-    private void Vibrate()
+    public void Vibrate()
     {
         if (!isVibrating) { return; }
-
-        vibrationTimer += Time.deltaTime;      
-        if (vibrationTimer >= vibrationDuration)
-        {
-            isVibrating = false;
-            return;
-        }
+        if (isBeingDisplaced) { return; }
+        if (isSpawning) { return; }
 
         float x = Mathf.Sin(Time.time * vibrateSpeed) * vibrateIntensity;
         float z = Mathf.Sin(Time.time * vibrateSpeed) * vibrateIntensity;    
-        transform.position = new Vector3(initialPosition.x + x, transform.position.y, initialPosition.z + z);
+        enemyModel.transform.localPosition = new Vector3(initialPosition.x + x, 0, initialPosition.z + z);
     }
 
     public void StopVibrating()
@@ -316,7 +475,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
         if (isDead) { return; }
 
-        //transform.position = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
+        enemyModel.transform.localPosition = Vector3.zero;
 
         
     }
@@ -418,10 +577,10 @@ public abstract class EnemyStateController : MonoBehaviour
         }
 
 
-        if (enemyAgent.enabled)
+        if (!isAIDisabled)
         {
-            enemyAgent.isStopped = true;
-            enemyAgent.ResetPath();
+            DisableAI();            
+            //enemyAgent.ResetPath();
         }
 
         EnemyHasDied?.Invoke();
@@ -435,20 +594,24 @@ public abstract class EnemyStateController : MonoBehaviour
     protected void OnCollisionEnter(Collision collision) 
     {
         if (!collision.gameObject.CompareTag("Environment")) {  return; }
-        if (!isKnockedBack) { return; }
-        if (isKnockedBackByGolem) { return; }      
+        if (!isBeingDisplaced) { return; }
+        //if (isKnockedBackByGolem) { return; }
 
         //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
 
+        RemoveEffectByType(StatusType.Knockback);
+
+
         float dmgMod = Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f);
         int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);
-        isKnockedBack = false;
+     
         if (appliedDamage < 10) { return; }
         if (wallSlamDamageModifierStat.GetFinalValue() > 1.1f)
         {
             AudioManager.instance.PlayRandomSoundClip(EnemyShatteredSounds);
             ShowEffect(shatteredText.GetLocalizedString(), Color.deepSkyBlue);
             OnTakeDamage(appliedDamage, Color.deepSkyBlue);
+            RemoveEffectByType(StatusType.Freeze);
         }
         else
         {

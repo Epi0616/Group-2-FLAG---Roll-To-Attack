@@ -33,8 +33,7 @@ public class RangedRaiderEnemy : EnemyStateController
     [SerializeField] private Transform laserParticleHolder;
     [SerializeField] private VisualEffect laserParticle;
 
-    private Coroutine FireLaser;
-    
+    private Coroutine Laser;
 
     public override void Attack()
     {
@@ -42,7 +41,7 @@ public class RangedRaiderEnemy : EnemyStateController
         
         attackInterrupted = false;
        
-        FireLaser = StartCoroutine(FireLaserTracking());
+        Laser = StartCoroutine(FireLaserTracking());
         
         /*
         else
@@ -296,10 +295,11 @@ public class RangedRaiderEnemy : EnemyStateController
 
     public override void CompleteAttack()
     {
-        StopCoroutine(FireLaser);
+        StopCoroutine(Laser);
         attackInterrupted = true;
         laserParticle.Stop();
-        laserParticle.enabled = false;      
+        laserParticle.enabled = false;
+        
     }
 
 }

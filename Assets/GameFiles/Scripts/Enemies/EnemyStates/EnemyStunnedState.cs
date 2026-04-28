@@ -18,7 +18,7 @@ public class EnemyStunnedState : EnemyBaseState
 
         enemy.enemyAgent.enabled = false;
         enemy.isStunned = true;
-        enemy.StartVibrating(duration);
+        enemy.StartVibrating();
     
         stunTimer = duration;      
     }

@@ -66,6 +66,7 @@ public class VibratingSpawnState : EnemySpawnState
             enemy.StopVibrating();
             enemy.transform.position = endPos;
             enemy.isSpawning = false;
+            enemy.EnableAI();
             enemy.ChangeState(new EnemyMoveState());
 
         }
