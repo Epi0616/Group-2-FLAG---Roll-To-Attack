@@ -24,9 +24,11 @@ public class A_PlayerWeakenState : PlayerBaseAttackState
 
     protected override void CustomAttack(GameObject enemy)
     {
-        EnemyStateController tempControllerReference = enemy.GetComponent<EnemyStateController>();
-        tempControllerReference.OnTakeDamage(5, myColor);
+        EnemyStateController enemyTempScriptAccess = enemy.GetComponent<EnemyStateController>();
+        enemyTempScriptAccess.OnTakeDamage(5, myColor);
         //tempControllerReference.OnRecieveEffect(new WeakenEffect(5, 1, player.weakenedText.GetLocalizedString()), myColor);
+        enemyTempScriptAccess.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(1.0f, player.weakenedText.GetLocalizedString()),
+                new List<BaseCondition> { new DurationCondition(true, 5.0f) }), myColor);
     }
 
     protected override void CustomDisplayAttack()
