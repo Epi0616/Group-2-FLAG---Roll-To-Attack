@@ -3,7 +3,7 @@ using System;
 
 public class GameSettings : MonoBehaviour
 {
-    public static event Action<bool> toggleFullScreen;
+    //public static event Action<bool> toggleFullScreen;
 
     [SerializeField] private GameObject languageNote;
     [SerializeField] private GameObject fullScreenCheckMark;

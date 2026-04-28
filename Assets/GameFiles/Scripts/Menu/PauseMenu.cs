@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private SettingsUIManager settingsManager;
     [SerializeField] private GameObject[] pauseMenuButtons;
+    [SerializeField] private GameObject previousUiSelection;
     public static bool isGamePaused = false;
     private bool isGameOver = false;
 
@@ -28,6 +29,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (pauseGame.action.WasPressedThisFrame())
         {
+            previousUiSelection = EventSystem.current.currentSelectedGameObject;
             TogglePaused();
         }
     }
@@ -78,6 +80,13 @@ public class PauseMenu : MonoBehaviour
             settingsManager.ClearSettingsScreen();
             SetPauseButtonsVisibility(true);
             pauseMenuUI.SetActive(false);
+
+            if (previousUiSelection != null)
+            {
+                EventSystem.current.SetSelectedGameObject(previousUiSelection);
+                previousUiSelection = null;
+            }
+            
             Time.timeScale = 1;
         }
 

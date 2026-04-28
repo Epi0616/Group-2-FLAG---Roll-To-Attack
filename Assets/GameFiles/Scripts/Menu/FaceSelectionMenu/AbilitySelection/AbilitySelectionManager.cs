@@ -30,6 +30,7 @@ public class AbilitySelectionManager : MonoBehaviour
         }
 
         EventSystem.current.firstSelectedGameObject = abilityPanels[0].gameObject;
+        EventSystem.current.SetSelectedGameObject(abilityPanels[0].gameObject);
     }
 
     public GameObject SpawnRandomNewAbility()

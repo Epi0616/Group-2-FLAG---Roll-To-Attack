@@ -13,7 +13,7 @@ public class SettingsUIManager : MonoBehaviour
     [SerializeField] private GameObject KeysBindUI;
     [SerializeField] private GameObject background;
 
-    [SerializeField] private GameObject menuFirstSelected;
+    [SerializeField] private GameObject previousMenuSelection;
     [SerializeField] private GameObject mainSettingsFirstSelected;
     [SerializeField] private GameObject gameSettingsFirstSelected;
     [SerializeField] private GameObject audioSettingsFirstSelected;
@@ -25,6 +25,11 @@ public class SettingsUIManager : MonoBehaviour
     private void Start()
     {
         ClearSettingsScreen();
+    }
+
+    public void SetMenuFirstSelected(GameObject previousSelection) //must be an object that is selectable
+    {
+        previousMenuSelection = previousSelection;
     }
 
     public void MainSettings()
@@ -89,7 +94,7 @@ public class SettingsUIManager : MonoBehaviour
 
         settingsClosed?.Invoke(true);
         background.SetActive(false);
-        EventSystem.current.SetSelectedGameObject(menuFirstSelected);
+        EventSystem.current.SetSelectedGameObject(previousMenuSelection);
 
         ClearSettingsScreen();
     }
