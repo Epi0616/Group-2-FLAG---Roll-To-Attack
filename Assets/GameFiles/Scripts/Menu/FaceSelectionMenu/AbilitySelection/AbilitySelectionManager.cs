@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class AbilitySelectionManager : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class AbilitySelectionManager : MonoBehaviour
             
             draggableObjects.Add(ability.gameObject);
         }
+
+        EventSystem.current.firstSelectedGameObject = abilityPanels[0].gameObject;
     }
 
     public GameObject SpawnRandomNewAbility()

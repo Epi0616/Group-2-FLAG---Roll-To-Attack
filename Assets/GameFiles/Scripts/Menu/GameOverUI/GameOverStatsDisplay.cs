@@ -1,17 +1,34 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 
 public class GameOverStatsDisplay : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI waveCountText, numberOfAttacksText, timeSurvivedText, totalDamageDealtText, totalKillsText, totalAbilitiesEquipped;
+    [SerializeField] private LocalizedString waveCountLocalizedString, numberOfAttacksLocalizedString, timeSurvivedLocalizedString, totalDamageDealtLocalizedString, totalKillsLocalizedString, totalAbilitiesEquippedLocalizedString;
 
-    public void UpdateStatsDisplay()
+    private void OnEnable()
+    {
+        waveCountLocalizedString.StringChanged += UpdateStatsDisplay;
+    }
+
+    private void OnDisable()
+    {
+        waveCountLocalizedString.StringChanged -= UpdateStatsDisplay;
+    }
+
+    private void Awake()
+    {
+        //UpdateStatsDisplay("null");
+    }
+
+    public void UpdateStatsDisplay(string newText)
     { 
-        waveCountText.text = $"Wave Reached: {RunTimeStatTracker.waveNumber}";
-        numberOfAttacksText.text = $"Number of Attacks: {RunTimeStatTracker.numberOfAttacks}";
-        timeSurvivedText.text = $"Time Survived: {RunTimeStatTracker.totalTimeSurvived.ToString("F2")}s";
-        totalDamageDealtText.text = $"Total Damage Dealt: {RunTimeStatTracker.totalDamageDealt}";
-        totalKillsText.text = $"Total Kills: {RunTimeStatTracker.totalEnemiesKilled}";
-        totalAbilitiesEquipped.text = $"Total Abilities Equipped: {RunTimeStatTracker.totalAbilitiesEquipped}";
+        waveCountText.text = waveCountLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.waveNumber;
+        numberOfAttacksText.text = numberOfAttacksLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.numberOfAttacks;
+        timeSurvivedText.text = timeSurvivedLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.totalTimeSurvived.ToString("F2");
+        totalDamageDealtText.text = totalDamageDealtLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.totalDamageDealt;
+        totalKillsText.text = totalKillsLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.totalEnemiesKilled;
+        totalAbilitiesEquipped.text = totalAbilitiesEquippedLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.totalAbilitiesEquipped;
     }
 }
