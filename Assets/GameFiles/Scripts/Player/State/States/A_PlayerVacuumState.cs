@@ -22,6 +22,28 @@ public class A_PlayerVacuumState : PlayerBaseAttackGatherState
         AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
     }
 
+    protected override void Attack(Collider[] colliders, int collisions)
+    {
+        List<GameObject> Enemies = new();
+        for (int i = 0; i < collisions; i++)
+        {
+            if (!colliders[i].gameObject) { continue; }
+
+            if (colliders[i].gameObject.CompareTag("Enemy"))
+            {
+                Enemies.Add(colliders[i].gameObject);
+            }
+        }
+
+        foreach (var Enemy in Enemies)
+        {
+            if (Enemy == null) continue;
+            CustomAttack(Enemy);          
+        }
+        CustomDisplayAttack();
+    }
+
+
     protected override void CustomDisplayAttack()
     {
         player.attackSystem.CreateVaccum(myRadius, 3);

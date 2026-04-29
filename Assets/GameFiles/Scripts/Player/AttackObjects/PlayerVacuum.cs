@@ -8,7 +8,7 @@ public class PlayerVacuum : MonoBehaviour
     [SerializeField] GameObject temporaryImpactField;
     [SerializeField] private LayerMask enemyLayer;
     private float timer = 2f, range;
-    private bool detonated = false, toggle = false;
+    private bool detonated = false; //, toggle = false;
 
     public void SetUp(float range, float timer)
     {
@@ -27,7 +27,9 @@ public class PlayerVacuum : MonoBehaviour
         {
             if (enemy != null)
             {
-                enemy.OnTakeKnockback(transform.position, -10);
+                //enemy.OnTakeKnockback(transform.position, -10);
+                enemy.OnRecieveEffect(new ActiveStatusEffect(new VacuumDisplacementEffect(transform.position, -17f),
+                new List<BaseCondition> { new GroundedCondition(true, enemy), new DurationCondition(true, 0.75f) }));
                 enemy.OnTakeDamage(20, Color.blue);
             }
         }

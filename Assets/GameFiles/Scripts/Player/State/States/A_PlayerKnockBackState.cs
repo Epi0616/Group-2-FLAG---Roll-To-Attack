@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class A_PlayerKnockbackState : PlayerBaseAttackState
@@ -23,7 +24,10 @@ public class A_PlayerKnockbackState : PlayerBaseAttackState
     {
         EnemyStateController tempScriptAccess = Enemy.GetComponent<EnemyStateController>();
         tempScriptAccess.OnTakeDamage(35, myColor);
-        tempScriptAccess.OnTakeKnockback(player.transform.position, 5);
+        tempScriptAccess.OnTakeKnockback(new Vector3(player.transform.position.x, player.transform.position.y + 15, player.transform.position.z), 5);
+
+        tempScriptAccess.OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(new Vector3(player.transform.position.x, player.transform.position.y + 15, player.transform.position.z), 5f),
+                new List<BaseCondition> { new GroundedCondition(true, tempScriptAccess), new DurationCondition(true, 0.75f) }));
     }
 
     protected override void CustomDisplayAttack()

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class DiceFaceSelectionUIManager : MonoBehaviour
 {
@@ -57,7 +58,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
     {
         Debug.Log("continue pressed");
         if (!CheckForFullDiceSlots()) return;
-
+        //Time.timeScale = 1;
         abilitySlotManager.AddNewObjectsToList(abilitySelectionManager.GetDraggableObjects());
         abilitySlotManager.PackAway();
         DiceFaceSelectionUI.SetActive(false);
@@ -79,7 +80,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
         DiceFaceSelectionUI.GetComponent<CanvasGroup>().alpha = 0;
         abilitySlotManager.Unpack();
         abilitySelectionManager.SetUpAbilityPannels();
-
+        //Time.timeScale = 0;
         setupComplete = true;
     }
 
@@ -92,6 +93,8 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
         abilitySlotManager.GetCentralAbilityPoint().GetComponent<AbilitySlot>().AddChild(ability);
         AbilitySelectionUI.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
     }
 
     private bool CheckForFullDiceSlots()

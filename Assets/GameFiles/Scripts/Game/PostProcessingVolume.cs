@@ -1,0 +1,20 @@
+using UnityEngine;
+using UnityEngine.Rendering;
+
+public class PostProcessing : MonoBehaviour
+{
+    [SerializeField] private Volume volume;
+    private void OnEnable()
+    {
+        VideoSettingUI.togglePostProcessing += TogglePostProcessing;
+    }
+
+    private void OnDisable()
+    {
+        VideoSettingUI.togglePostProcessing -= TogglePostProcessing;
+    }
+    private void TogglePostProcessing(bool isActive)
+    { 
+        volume.weight = isActive ? 1 : 0;
+    }
+}

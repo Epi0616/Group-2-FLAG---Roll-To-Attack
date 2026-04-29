@@ -21,7 +21,7 @@ public class EnemyKnockbackState : EnemyBaseState
         enemy.rb.useGravity = true;
         enemy.rb.isKinematic = false;      
         enemy.rb.linearDamping = 3f;
-        enemy.isKnockedBack = true;
+        //enemy.isKnockedBack = true;
 
         knockbackTimer = 0f;
 
@@ -81,7 +81,7 @@ public class EnemyKnockbackState : EnemyBaseState
         enemy.rb.useGravity = false;
         enemy.rb.isKinematic = true;
 
-        enemy.isKnockedBack = false;
+        //enemy.isKnockedBack = false;
 
         enemy.enemyAgent.updatePosition = true;
         enemy.enemyAgent.updateRotation = true;

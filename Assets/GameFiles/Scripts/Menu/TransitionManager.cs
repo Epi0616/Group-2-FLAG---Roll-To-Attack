@@ -37,10 +37,13 @@ public class TransitionManager : MonoBehaviour
     public IEnumerator Transition(string sceneName, float UnCoverTime, float CoverTime)
     {
         isTransitioning = true;
+        Debug.Log("Fading to Black");
         yield return StartCoroutine(Cover(CoverTime));
         yield return new WaitForSeconds(0.5f);
+        Debug.Log("Changing Scene");
         SceneManager.LoadScene(sceneName);
         yield return null;
+        Debug.Log("Fading from Black");
         yield return StartCoroutine(UnCover(UnCoverTime));
         isTransitioning = false;
     }

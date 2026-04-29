@@ -26,7 +26,7 @@ public class EnemyLookAtPlayerState : EnemyBaseState
 
     public override void UpdateState()
     {
-        if((activeTimer > duration || playerDir.magnitude > enemy.attackRange * 1.25f && activeTimer > 0.5f) && (!enemy.isStunned && !enemy.isKnockedBack))
+        if((activeTimer > duration || playerDir.magnitude > enemy.attackRange * 1.25f && activeTimer > 0.5f) && (!enemy.isStunned && !enemy.isBeingDisplaced))
         {
             enemy.ChangeState(new EnemyMoveState());
         }

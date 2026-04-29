@@ -33,7 +33,7 @@ public class RangedRaiderEnemy : EnemyStateController
     [SerializeField] private Transform laserParticleHolder;
     [SerializeField] private VisualEffect laserParticle;
 
-    
+    private Coroutine Laser;
 
     public override void Attack()
     {
@@ -41,7 +41,7 @@ public class RangedRaiderEnemy : EnemyStateController
         
         attackInterrupted = false;
        
-        StartCoroutine(FireLaserTracking());
+        Laser = StartCoroutine(FireLaserTracking());
         
         /*
         else
@@ -197,7 +197,7 @@ public class RangedRaiderEnemy : EnemyStateController
             if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
             {
                 distanceToEndofLaser = hit.distance;
-                Debug.DrawLine(firingOrigin.position, hit.point, Color.blue, 10f);
+                //Debug.DrawLine(firingOrigin.position, hit.point, Color.blue, 10f);
 
             }
             else
@@ -274,7 +274,7 @@ public class RangedRaiderEnemy : EnemyStateController
     private void LaserCheck(Ray ray, RaycastHit hit)
     {
         float distanceToEndofLaser = laserRange;
-        if (Physics.SphereCast(ray, 0.7f, out hit, laserRange, playerLayer))
+        if (Physics.SphereCast(ray, 0.3f, out hit, laserRange, playerLayer))
         {
             
             if (hit.collider.CompareTag("Player") && damageTickTimer >= damageTickRateInSeconds)
@@ -295,10 +295,11 @@ public class RangedRaiderEnemy : EnemyStateController
 
     public override void CompleteAttack()
     {
-        StopCoroutine("FireLaser");
+        StopCoroutine(Laser);
         attackInterrupted = true;
         laserParticle.Stop();
-        laserParticle.enabled = false;      
+        laserParticle.enabled = false;
+        
     }
 
 }

@@ -13,17 +13,32 @@ public class EnemyMoveState : EnemyBaseState
         base.EnterState(enemy);
 
         //enemy.animator.SetBool("isMoving", true);
-        enemy.enemyAgent.enabled = true;
-        enemy.enemyAgent.updatePosition = true;
-        enemy.enemyAgent.updateRotation = true;            
-        
-        playerPosition = enemy.playerReference.transform.position;
-        MoveTowardsPlayerNavMesh();
+
+        //enemy.EnableAI();
+
+        //playerPosition = enemy.playerReference.transform.position;
+        //MoveTowardsPlayerNavMesh();
     }
 
     public override void UpdateState()
     {
         base.UpdateState();
+
+        if (enemy.isAIDisabled) { return; }
+
+        playerPosition = enemy.playerReference.transform.position;
+        targetVector = (playerPosition - enemy.transform.position);
+
+        if (targetVector.magnitude <= enemy.attackRange && enemy.canAttack)
+        {
+            enemy.ChangeState(new EnemyAttackState());
+        }
+
+        if (!enemy.canMove)
+        {
+            enemy.enemyAgent.SetDestination(enemy.transform.position);
+            return;
+        }
 
         footStepTimer += Time.deltaTime;
 
@@ -33,43 +48,13 @@ public class EnemyMoveState : EnemyBaseState
             footStepTimer = 0f;
         }
 
-        if (enemy.isKnockedBack || enemy.isStunned )
-        {
-            return;
-        }
-
-        playerPosition = enemy.playerReference.transform.position;
-        targetVector = (playerPosition - enemy.transform.position);
-
-        //enemy.transform.rotation = Quaternion.LookRotation(targetVector);
-
         MoveTowardsPlayerNavMesh();
 
-        if (targetVector.magnitude <= enemy.attackRange)
-        {
-            enemy.ChangeState(new EnemyAttackState());
-        }
-
-        //if (CheckIfAIHasStopped(enemy.enemyAgent))
-        //{
-        //    enemy.ChangeState(new EnemyAttackState());
-        //}
     }
 
     public override void FixedUpdateState()
     {
         //MoveTowardsPlayerVector();
-    }
-
-    private bool CheckIfAIHasStopped(NavMeshAgent enemyAgent)
-    {
-        if (enemyAgent == null || !enemyAgent.isOnNavMesh) return false;
-        if (enemyAgent.pathPending) return false;
-        if (!enemyAgent.hasPath) return false;
-        if (enemyAgent.remainingDistance > enemyAgent.stoppingDistance) return false;
-        if (enemyAgent.velocity.magnitude > 0.1f) return false;
-
-        return true;
     }
 
     private void MoveTowardsPlayerNavMesh()
@@ -90,10 +75,5 @@ public class EnemyMoveState : EnemyBaseState
         targetDirection.y = 0;
         enemy.rb.linearVelocity = targetDirection * enemy.moveSpeedStat.GetFinalValue();
     }
-
-    public override void ExitState()
-    {
-        enemy.enemyAgent.enabled = false;
-
-    }
+   
 }

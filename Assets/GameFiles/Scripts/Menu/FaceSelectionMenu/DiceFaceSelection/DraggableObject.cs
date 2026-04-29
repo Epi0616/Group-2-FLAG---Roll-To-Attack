@@ -30,14 +30,18 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
         //Debug.Log("end drag");
-        ResetCurrentParent();
+        //ResetCurrentParent();
+        currentParent.RemoveChild(this);
         foreach (var zone in dropZones)
         {
             if (IsOverlapping(rectTransform, zone.GetComponent<RectTransform>()))
             {
                 zone.GetComponent<AbilityDropZoneParent>().AddChild(this);
+                return;
             }
         }
+
+        currentParent.AddChild(this);
     }
 
     private bool IsOverlapping(RectTransform a, RectTransform b)
@@ -63,7 +67,7 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     public Vector2 GetAnchoredPositionAtStartOfDrag()
     {
-    return anchoredPositionAtStartOfDrag;
+        return anchoredPositionAtStartOfDrag;
     }
     public AbilityDropZoneParent GetParentAtStartOfDrag()
     {
@@ -84,4 +88,6 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         currentParent.RemoveChild(this);
         currentParent = null;
     }
+
+
 }

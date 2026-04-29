@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Localization;
 using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.UI.Image;
 public class PlayerStateController : MonoBehaviour
@@ -63,6 +64,9 @@ public class PlayerStateController : MonoBehaviour
     public AudioClip[] playerWeakenSounds;
     public AudioClip[] playerRocketSounds;
     public AudioClip[] playerVacuumSounds;
+
+    [Header("Localization for damage text")]
+    public LocalizedString slowedText, weakenedText, frozenText;
 
     private void OnEnable()
     {
