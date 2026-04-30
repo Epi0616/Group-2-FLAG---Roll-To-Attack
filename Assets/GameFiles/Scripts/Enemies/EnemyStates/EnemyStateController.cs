@@ -389,7 +389,7 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         rb.isKinematic = false;
         rb.linearDamping = 0f;
-        ;
+        
         rb.useGravity = false;
         rb.isKinematic = true;
 
