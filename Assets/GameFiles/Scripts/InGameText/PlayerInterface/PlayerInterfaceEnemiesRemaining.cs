@@ -96,7 +96,6 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
 
         while (timer >= 0)
         {
-            Debug.Log(timer);
             float fillAmount = timer / timeBetweenWaves;
             progress.fillAmount = fillAmount;
             yield return new WaitForSeconds(0.01f);

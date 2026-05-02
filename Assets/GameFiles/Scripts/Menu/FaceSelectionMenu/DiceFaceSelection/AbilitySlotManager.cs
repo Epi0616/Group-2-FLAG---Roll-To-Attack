@@ -15,16 +15,23 @@ public class AbilitySlotManager : MonoBehaviour
     [SerializeField] private GameObject centralAbilityPoint;
     [SerializeField] private GameObject abilityObjectPrefab;
     [SerializeField] private AbilitySystem abilitySystem;
+    [SerializeField] private InputActionReference cancelSwap;
+    [SerializeField] private InputActionReference quickStore;
+
     private List<GameObject> draggableObjects = new List<GameObject>();
 
     private void OnEnable()
     {
         AbilitySlot.selected += RecieveSelectedSlot;
+        cancelSwap.action.performed += context => Deselect();
+        quickStore.action.performed += context => CheckForQuickStoreAction();
     }
 
     private void OnDisable()
     {
         AbilitySlot.selected -= RecieveSelectedSlot;
+        cancelSwap.action.performed -= context => Deselect();
+        quickStore.action.performed -= context => CheckForQuickStoreAction();
     }
 
     public void Unpack()
@@ -139,38 +146,28 @@ public class AbilitySlotManager : MonoBehaviour
 
     //controller functions///////
     private List<AbilitySlot> slotPair = new List<AbilitySlot>();
-    [SerializeField] private InputActionReference cancelSwap;
-    [SerializeField] private InputActionReference quickStore;
 
-    private void Update()
+    private void CheckForQuickStoreAction()
     {
-        if (cancelSwap.action.WasPressedThisFrame() && slotPair.Count < 2)
-        {
-            Deselect();
-        }
+        if (EventSystem.current.currentSelectedGameObject.GetComponent<AbilitySlot>() == null) return;
 
-        if (quickStore.action.WasPressedThisFrame() && !StorageFull())
+        AbilitySlot destination = null;
+        for (int i = 0; i < abilityStorage.Count; i++)
         {
-            if (EventSystem.current.currentSelectedGameObject.GetComponent<AbilitySlot>() == null) return;
-
-            AbilitySlot destination = null;
-            for (int i = 0; i < abilityStorage.Count; i++)
+            if (abilityStorage[i].GetChild() == null)
             {
-                if (abilityStorage[i].GetChild() == null)
-                {
-                    destination = abilityStorage[i];
-                    break;
-                }
+                destination = abilityStorage[i];
+                break;
             }
-
-            if (destination == null) return;
-            AbilitySlot parent = EventSystem.current.currentSelectedGameObject.GetComponent<AbilitySlot>();
-            DraggableObject ability = parent.GetChild();
-
-            if (ability == null) return;
-            parent.RemoveChild(ability);
-            destination.AddChild(ability);
         }
+
+        if (destination == null) return;
+        AbilitySlot parent = EventSystem.current.currentSelectedGameObject.GetComponent<AbilitySlot>();
+        DraggableObject ability = parent.GetChild();
+
+        if (ability == null) return;
+        parent.RemoveChild(ability);
+        destination.AddChild(ability);
     }
 
     private bool StorageFull()
