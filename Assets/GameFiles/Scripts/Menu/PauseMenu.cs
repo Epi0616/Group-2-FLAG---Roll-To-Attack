@@ -29,7 +29,10 @@ public class PauseMenu : MonoBehaviour
     {
         if (pauseGame.action.WasPressedThisFrame())
         {
-            previousUiSelection = EventSystem.current.currentSelectedGameObject;
+            if (EventSystem.current.currentSelectedGameObject != null)
+            {
+                previousUiSelection = EventSystem.current.currentSelectedGameObject;
+            }
             TogglePaused();
         }
     }
@@ -72,7 +75,9 @@ public class PauseMenu : MonoBehaviour
         if (!isGamePaused)
         {
             pauseMenuUI.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(pauseMenuButtons[0]);
+            EventSystem.current.firstSelectedGameObject = pauseMenuButtons[0];
+            UISelectionManager.instance.TrySetSelectedGameObject(pauseMenuButtons[0]);
+            //EventSystem.current.SetSelectedGameObject(pauseMenuButtons[0]);
             Time.timeScale = 0;
         }
         else
@@ -83,7 +88,9 @@ public class PauseMenu : MonoBehaviour
 
             if (previousUiSelection != null)
             {
-                EventSystem.current.SetSelectedGameObject(previousUiSelection);
+                EventSystem.current.firstSelectedGameObject = previousUiSelection;
+                UISelectionManager.instance.TrySetSelectedGameObject(previousUiSelection);
+                //EventSystem.current.SetSelectedGameObject(previousUiSelection);
                 previousUiSelection = null;
             }
             
@@ -100,4 +107,6 @@ public class PauseMenu : MonoBehaviour
             pauseMenuButtons[i].SetActive(visible);
         }
     }
+
+
 }
