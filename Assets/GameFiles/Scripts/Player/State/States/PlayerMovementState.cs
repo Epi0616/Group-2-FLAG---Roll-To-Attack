@@ -27,6 +27,8 @@ public class PlayerMovementState : PlayerBaseState
 
     private void CheckForMoveActionPressed()
     {
+        if (player.UiActive) return;
+
         if (player.move.action.IsPressed())
         {
             moveDirection = player.move.action.ReadValue<Vector3>();
