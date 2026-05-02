@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class SettingsUIManager : MonoBehaviour
 {
     public static Action<bool> settingsClosed;
+    [SerializeField] private InputActionReference backButtonAction;
 
     [SerializeField] private GameObject mainSettingsUI;
     [SerializeField] private GameObject gameSettingsUI;
@@ -21,6 +23,12 @@ public class SettingsUIManager : MonoBehaviour
     [SerializeField] private GameObject keysBindFirstSelected;
 
     private GameObject currentSettingsScreen;
+    private bool settingsOpen = false;
+
+    private void OnEnable()
+    {
+        backButtonAction.action.performed += context => BackButton();
+    }
 
     private void Start()
     {
@@ -34,6 +42,7 @@ public class SettingsUIManager : MonoBehaviour
 
     public void MainSettings()
     { 
+        settingsOpen = true;
         ClearSettingsScreen();
         background.SetActive(true);
         mainSettingsUI.SetActive(true);
@@ -90,6 +99,8 @@ public class SettingsUIManager : MonoBehaviour
 
     public void BackButton()
     {
+        if (!settingsOpen) return;
+
         if (currentSettingsScreen == KeysBindUI)
         {
             GameSettings();
@@ -104,6 +115,7 @@ public class SettingsUIManager : MonoBehaviour
 
         settingsClosed?.Invoke(true);
         background.SetActive(false);
+        settingsOpen = false;
         EventSystem.current.firstSelectedGameObject = previousMenuSelection;
         UISelectionManager.instance.TrySetSelectedGameObject(previousMenuSelection);
         //EventSystem.current.SetSelectedGameObject(previousMenuSelection);
