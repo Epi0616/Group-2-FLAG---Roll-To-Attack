@@ -10109,7 +10109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1323944957761061384, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerHitSounds.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1323944957761061384, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerHitSounds.Array.data[0]'
@@ -10212,17 +10212,45 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
-      propertyPath: playerLightAttackSounds.Array.size
+      propertyPath: playerChargeSound
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerFreezeSounds.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerRocketSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerFreezeSounds.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 4f04ed5b7e49c1144a2a7f6a04bc488d, type: 3}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerLightJumpSounds.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerRocketSounds.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 5f528a0795cb35a439f2f024cb21ec91, type: 3}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerHeavyAttackSounds.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerLightAttackSounds.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerLightJumpSounds.Array.data[0]'
       value: 
-      objectReference: {fileID: 8300000, guid: 7ed712b245bd0d6499d4feaeb8ebdccb, type: 3}
+      objectReference: {fileID: 8300000, guid: 9ce1b9dda27de0b42b92d3ba60353191, type: 3}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerLightAttackSounds.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: 7f591d5f4b38c4f4a9ec4d02201ccc93, type: 3}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: frozenText.m_TableEntryReference.m_KeyId
       value: 128798306304
@@ -19272,7 +19300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3994452088990171394, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: visibleForTesting
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4242354465778101988, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: m_Enabled
