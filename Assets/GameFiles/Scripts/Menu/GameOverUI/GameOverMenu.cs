@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameOverMenu : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverMenuUI;
+    [SerializeField] private GameObject playAgainButton;
     [SerializeField] private GameOverStatsDisplay gameOverStatsDisplay;
 
     private void OnEnable()
@@ -26,6 +28,8 @@ public class GameOverMenu : MonoBehaviour
     {
         gameOverMenuUI.SetActive(true);
         gameOverStatsDisplay.UpdateStatsDisplay("null");
+        EventSystem.current.firstSelectedGameObject = playAgainButton;
+        UISelectionManager.instance.TrySetSelectedGameObject(playAgainButton);
         Time.timeScale = 0;
     }
 

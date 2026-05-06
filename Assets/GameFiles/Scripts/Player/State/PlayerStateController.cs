@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization;
 
@@ -7,7 +8,7 @@ public class PlayerStateController : MonoBehaviour
 {
     [Header("Dont modify the variables listed below")]
     public Rigidbody rb;
-    public InputActionReference move, attack;
+    public InputActionReference move, attack, controllerChargeAttack;
     public PlayerBaseState currentState;
     public AbilitySystem abilitySystem;
     public AttackSystem attackSystem;
@@ -16,6 +17,7 @@ public class PlayerStateController : MonoBehaviour
     public BoxCollider boxCollider;
     //public GameObject body;
     public bool isGrounded;
+    public bool isUsingGamePad = false;
     public LayerMask enemyLayer;
     public bool UiActive = false;
     [SerializeField] private LayerMask groundLayer;
@@ -67,9 +69,11 @@ public class PlayerStateController : MonoBehaviour
     {
         move.action.Enable();
         attack.action.Enable();
+        UISelectionManager.switchToGamepad += () => isUsingGamePad = true;
+        UISelectionManager.switchToKeyboard += () => isUsingGamePad = false;
         DiceFaceSelectionUIManager.DiceFaceSelectionStart += () => UiActive = true;
         DiceFaceSelectionUIManager.DiceFaceSelectionOver += (float waveNumber) => UiActive = false;
-        PauseMenu.GamePaused += () => UiActive = true;
+        PauseMenu.GamePaused += () =>  UiActive = true;
         PauseMenu.GameUnPaused += () => UiActive = false;
     }
 
@@ -87,7 +91,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void Update()
     {
-        CheckForAttackAction();
+        CheckForAttack();
         currentState.UpdateState();
     }
 
@@ -117,6 +121,16 @@ public class PlayerStateController : MonoBehaviour
     private void CheckForGrounded()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 2f, groundLayer);
+    }
+
+    private void CheckForAttack()
+    {
+        if (isUsingGamePad)
+        {
+            CheckForControllerAttackAction();
+            return;
+        }
+        CheckForAttackAction();
     }
 
     private void CheckForAttackAction()
@@ -162,6 +176,56 @@ public class PlayerStateController : MonoBehaviour
         }
     }
 
+    private void CheckForControllerAttackAction()
+    {
+        if (!isGrounded) return;
+        if (UiActive) return;
+
+        if (attack.action.IsPressed())
+        {
+            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
+            SwitchState(new PlayerJumpState());
+            holdTime = 0;
+            return;
+        }
+
+        if (controllerChargeAttack.action.IsPressed())
+        {
+            holdTime += Time.deltaTime;
+            holdTime = Math.Clamp(holdTime, 0, 1);
+            ChargingEffect();
+
+            if (holdTime > 0.2)
+            {
+                if (isGrounded)
+                {
+                    AudioManager.instance.PlaySingleLoopingClip(playerChargeSound);
+                }
+            }
+        }
+
+        if (controllerChargeAttack.action.WasReleasedThisFrame() && holdTime <= 0.2)
+        {
+            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
+            SwitchState(new PlayerJumpState());
+            holdTime = 0;
+            return;
+        }
+
+        else if (controllerChargeAttack.action.WasReleasedThisFrame() && holdTime > 0.2)
+        {
+            AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
+            jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
+            impactSpeed.AddMultiplierFlat(holdTime * 2);
+            baseRadiusSize.AddMultiplierFlat(holdTime);
+
+            SwitchState(new PlayerJumpState());
+            moveSpeed.ResetModifiers();
+            holdTime = 0;
+            return;
+        }
+    }
 
     private void ChargingEffect()
     {
