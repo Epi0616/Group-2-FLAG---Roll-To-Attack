@@ -92,17 +92,17 @@ MonoBehaviour:
   vibrateIntensity: 0.1
   EnemyHurtSounds:
   - {fileID: 8300000, guid: 45e97efc521df1a43b66075c4d069346, type: 3}
-  EnemyWalkSounds: []
+  EnemyWalkSounds:
+  - {fileID: 0}
   EnemyWallSlamSounds: []
   EnemyShatteredSounds: []
   EnemySpawnSounds:
-  - {fileID: 8300000, guid: 053e7fc659a8b1846bc8482cf0009ab7, type: 3}
+  - {fileID: 0}
   EnemyDeathSounds:
   - {fileID: 8300000, guid: 2e051dddde308304cb8c27969155c5fc, type: 3}
   EnemyAttackChargeUpSounds: []
   EnemyActiveAttackSounds:
-  - {fileID: 8300000, guid: 7d0c9b3d8a3daf141af2af84c8bfda92, type: 3}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: a852fc9f6a39bbc4e91be360bda2466d, type: 3}
   slammedText:
     m_TableReference:
       m_TableCollectionName: GUID:d2cfdaf00b5778148a5bbc382684a152
@@ -153,7 +153,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 6.11
-  m_BaseOffset: 0.21
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!136 &6676624963262135465
@@ -178,7 +178,7 @@ CapsuleCollider:
   m_Radius: 3
   m_Height: 5.4
   m_Direction: 1
-  m_Center: {x: 0, y: 2.98, z: 0}
+  m_Center: {x: 0, y: 2.77, z: 0}
 --- !u!54 &800335953903496024
 Rigidbody:
   m_ObjectHideFlags: 0

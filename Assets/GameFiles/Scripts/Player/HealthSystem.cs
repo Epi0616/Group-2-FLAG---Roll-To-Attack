@@ -4,6 +4,7 @@ using UnityEngine;
 public class HealthSystem : MonoBehaviour
 {
     [SerializeField] private int maxHealth, currentHealth;
+    [SerializeField] AudioClip[] playerHitSounds;
     public static event Action<int, int> UpdateHealthBar;
     public static event Action GameOver;
     public static event Action<float> IFrames;
@@ -36,6 +37,7 @@ public class HealthSystem : MonoBehaviour
 
         PlayerIFrames();
         currentHealth -= damage;
+        AudioManager.instance.PlayRandomSoundClip(playerHitSounds, transform.position);
         UpdateHealthBar?.Invoke(currentHealth, maxHealth);
 
         if (currentHealth <= 0)

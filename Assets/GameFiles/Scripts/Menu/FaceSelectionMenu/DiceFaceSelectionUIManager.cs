@@ -6,11 +6,11 @@ using UnityEngine.EventSystems;
 public class DiceFaceSelectionUIManager : MonoBehaviour
 {
     public bool visibleForTesting;
-
     private Canvas canvas;
     [SerializeField] private GameObject DiceFaceSelectionUI, AbilitySelectionUI;
     [SerializeField] private AbilitySlotManager abilitySlotManager;
     [SerializeField] private AbilitySelectionManager abilitySelectionManager;
+    public static event Action DiceFaceSelectionStart;
     public static event Action<float> DiceFaceSelectionOver;
     private float delayBetweenWaves; //not really needed, the original wave over from enemy director contains this float. may need to pass it into future functions??
     private float timer = 0;
@@ -75,6 +75,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
     private void Setup()
     {
+        DiceFaceSelectionStart?.Invoke();
         AbilitySelectionUI.SetActive(true);
         DiceFaceSelectionUI.SetActive(true);
         DiceFaceSelectionUI.GetComponent<CanvasGroup>().alpha = 0;
@@ -94,7 +95,9 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
         abilitySlotManager.GetCentralAbilityPoint().GetComponent<AbilitySlot>().AddChild(ability);
         AbilitySelectionUI.SetActive(false);
 
-        EventSystem.current.SetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
+        //EventSystem.current.SetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
+        EventSystem.current.firstSelectedGameObject = abilitySlotManager.GetCentralAbilityPoint();
+        UISelectionManager.instance.TrySetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
     }
 
     private bool CheckForFullDiceSlots()

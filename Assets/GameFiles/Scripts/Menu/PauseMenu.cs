@@ -2,10 +2,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] private InputActionReference pauseGame;
+    public static event Action GamePaused;
+    public static event Action GameUnPaused;
+
+    [SerializeField] private InputActionReference pauseGame, backButton;
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private SettingsUIManager settingsManager;
     [SerializeField] private GameObject[] pauseMenuButtons;
@@ -17,21 +21,31 @@ public class PauseMenu : MonoBehaviour
     {
         HealthSystem.GameOver += GameOver;
         SettingsUIManager.settingsClosed += SetPauseButtonsVisibility;
+        pauseGame.action.performed += HandlePauseGame;
+        backButton.action.performed += HandleBackButton;
     }
 
     private void OnDisable()
     {
         HealthSystem.GameOver -= GameOver;
         SettingsUIManager.settingsClosed -= SetPauseButtonsVisibility;
+        pauseGame.action.performed -= HandlePauseGame;
+        backButton.action.performed -= HandleBackButton;
     }
 
-    private void Update()
+    private void HandlePauseGame(InputAction.CallbackContext context)
     {
-        if (pauseGame.action.WasPressedThisFrame())
+        if (EventSystem.current.currentSelectedGameObject != null)
         {
             previousUiSelection = EventSystem.current.currentSelectedGameObject;
-            TogglePaused();
         }
+        TogglePaused();
+    }
+
+    private void HandleBackButton(InputAction.CallbackContext context)
+    {
+        //if (!isGamePaused) return;
+        //TogglePaused();
     }
 
     public void GameOver()
@@ -72,8 +86,11 @@ public class PauseMenu : MonoBehaviour
         if (!isGamePaused)
         {
             pauseMenuUI.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(pauseMenuButtons[0]);
+            EventSystem.current.firstSelectedGameObject = pauseMenuButtons[0];
+            UISelectionManager.instance.TrySetSelectedGameObject(pauseMenuButtons[0]);
+            //EventSystem.current.SetSelectedGameObject(pauseMenuButtons[0]);
             Time.timeScale = 0;
+            GamePaused?.Invoke();
         }
         else
         {
@@ -83,11 +100,14 @@ public class PauseMenu : MonoBehaviour
 
             if (previousUiSelection != null)
             {
-                EventSystem.current.SetSelectedGameObject(previousUiSelection);
+                EventSystem.current.firstSelectedGameObject = previousUiSelection;
+                UISelectionManager.instance.TrySetSelectedGameObject(previousUiSelection);
+                //EventSystem.current.SetSelectedGameObject(previousUiSelection);
                 previousUiSelection = null;
             }
             
             Time.timeScale = 1;
+            GameUnPaused?.Invoke();
         }
 
         isGamePaused = !isGamePaused;
@@ -100,4 +120,6 @@ public class PauseMenu : MonoBehaviour
             pauseMenuButtons[i].SetActive(visible);
         }
     }
+
+
 }

@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class SettingsUIManager : MonoBehaviour
 {
     public static Action<bool> settingsClosed;
+    [SerializeField] private InputActionReference backButtonAction;
 
     [SerializeField] private GameObject mainSettingsUI;
     [SerializeField] private GameObject gameSettingsUI;
@@ -21,6 +23,12 @@ public class SettingsUIManager : MonoBehaviour
     [SerializeField] private GameObject keysBindFirstSelected;
 
     private GameObject currentSettingsScreen;
+    private bool settingsOpen = false;
+
+    private void OnEnable()
+    {
+        backButtonAction.action.performed += context => BackButton();
+    }
 
     private void Start()
     {
@@ -34,10 +42,13 @@ public class SettingsUIManager : MonoBehaviour
 
     public void MainSettings()
     { 
+        settingsOpen = true;
         ClearSettingsScreen();
         background.SetActive(true);
         mainSettingsUI.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(mainSettingsFirstSelected);
+        EventSystem.current.firstSelectedGameObject = mainSettingsFirstSelected;
+        UISelectionManager.instance.TrySetSelectedGameObject(mainSettingsFirstSelected);
+        //EventSystem.current.SetSelectedGameObject(mainSettingsFirstSelected);
         currentSettingsScreen = mainSettingsUI;
     }
 
@@ -46,7 +57,9 @@ public class SettingsUIManager : MonoBehaviour
         ClearSettingsScreen();
         gameSettingsUI.SetActive(true);
         background.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(gameSettingsFirstSelected);
+        EventSystem.current.firstSelectedGameObject = gameSettingsFirstSelected;
+        UISelectionManager.instance.TrySetSelectedGameObject(gameSettingsFirstSelected);
+        //EventSystem.current.SetSelectedGameObject(gameSettingsFirstSelected);
         currentSettingsScreen = gameSettingsUI;
     }
 
@@ -55,7 +68,9 @@ public class SettingsUIManager : MonoBehaviour
         ClearSettingsScreen();
         audioSettingsUI.SetActive(true);
         background.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(audioSettingsFirstSelected);
+        EventSystem.current.firstSelectedGameObject = audioSettingsFirstSelected;
+        UISelectionManager.instance.TrySetSelectedGameObject(audioSettingsFirstSelected);
+        //EventSystem.current.SetSelectedGameObject(audioSettingsFirstSelected);
         currentSettingsScreen = audioSettingsUI;
     }
 
@@ -64,7 +79,9 @@ public class SettingsUIManager : MonoBehaviour
         ClearSettingsScreen();
         videoSettingsUI.SetActive(true);
         background.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(videoSettingsFirstSelected);
+        EventSystem.current.firstSelectedGameObject = videoSettingsFirstSelected;
+        UISelectionManager.instance.TrySetSelectedGameObject(videoSettingsFirstSelected);
+        //EventSystem.current.SetSelectedGameObject(videoSettingsFirstSelected);
         currentSettingsScreen = videoSettingsUI;
     }
 
@@ -73,13 +90,17 @@ public class SettingsUIManager : MonoBehaviour
         ClearSettingsScreen();
         KeysBindUI.SetActive(true);
         background.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(keysBindFirstSelected);
+        EventSystem.current.firstSelectedGameObject = keysBindFirstSelected;
+        UISelectionManager.instance.TrySetSelectedGameObject(keysBindFirstSelected);
+        //EventSystem.current.SetSelectedGameObject(keysBindFirstSelected);
         currentSettingsScreen = KeysBindUI;
 
     }
 
     public void BackButton()
     {
+        if (!settingsOpen) return;
+
         if (currentSettingsScreen == KeysBindUI)
         {
             GameSettings();
@@ -94,7 +115,10 @@ public class SettingsUIManager : MonoBehaviour
 
         settingsClosed?.Invoke(true);
         background.SetActive(false);
-        EventSystem.current.SetSelectedGameObject(previousMenuSelection);
+        settingsOpen = false;
+        EventSystem.current.firstSelectedGameObject = previousMenuSelection;
+        UISelectionManager.instance.TrySetSelectedGameObject(previousMenuSelection);
+        //EventSystem.current.SetSelectedGameObject(previousMenuSelection);
 
         ClearSettingsScreen();
     }
