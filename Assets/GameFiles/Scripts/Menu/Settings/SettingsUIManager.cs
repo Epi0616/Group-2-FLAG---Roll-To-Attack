@@ -27,7 +27,12 @@ public class SettingsUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        backButtonAction.action.performed += context => BackButton();
+        backButtonAction.action.performed += HandleBackButton;
+    }
+
+    private void OnDisable()
+    {
+        backButtonAction.action.performed -= HandleBackButton;
     }
 
     private void Start()
@@ -95,6 +100,11 @@ public class SettingsUIManager : MonoBehaviour
         //EventSystem.current.SetSelectedGameObject(keysBindFirstSelected);
         currentSettingsScreen = KeysBindUI;
 
+    }
+
+    private void HandleBackButton(InputAction.CallbackContext context)
+    {
+        BackButton();
     }
 
     public void BackButton()

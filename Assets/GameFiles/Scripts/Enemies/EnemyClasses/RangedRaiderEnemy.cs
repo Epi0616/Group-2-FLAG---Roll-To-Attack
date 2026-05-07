@@ -181,6 +181,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
             // Determine Angle Difference between current rotation and desired rotation
             float angleDifference = Quaternion.Angle(transform.rotation, lookRotation);
+
             // Scale to 0-1 for time
             float t = angleDifference / 180f;
             // Use Lerp to dynamically adjust the speed depending on angleDifference
@@ -194,7 +195,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
             ray = new Ray(firingOrigin.position, transform.forward);
 
-            if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
+            if (Physics.SphereCast(ray, 0.04f, out hit, laserRange, environmentLayer))
             {
                 distanceToEndofLaser = hit.distance;
                 //Debug.DrawLine(firingOrigin.position, hit.point, Color.blue, 10f);
@@ -274,20 +275,20 @@ public class RangedRaiderEnemy : EnemyStateController
     private void LaserCheck(Ray ray, RaycastHit hit)
     {
         float distanceToEndofLaser = laserRange;
-        if (Physics.SphereCast(ray, 0.3f, out hit, laserRange, playerLayer))
+        if (Physics.SphereCast(ray, 0.04f, out hit, laserRange, playerLayer))
         {
-            
             if (hit.collider.CompareTag("Player") && damageTickTimer >= damageTickRateInSeconds)
             {
-                damageTickTimer = 0f;                 
-                playerController.healthSystem.OnTakeDamage(laserDamage/2);           
-            }                     
+                damageTickTimer = 0f;
+                playerController.healthSystem.OnTakeDamage(laserDamage / 2);
+            }
+                     
         }
-        if (Physics.Raycast(ray, out hit, laserRange, environmentLayer))
+        if (Physics.SphereCast(ray, 0.04f, out hit, laserRange, environmentLayer))
         {
-            distanceToEndofLaser = hit.distance;         
-                  
+            distanceToEndofLaser = hit.distance;
         }
+        
         
         MoveLaserParticle(ray, distanceToEndofLaser, firingWidth);
 

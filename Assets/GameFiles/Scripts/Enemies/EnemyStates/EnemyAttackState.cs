@@ -9,6 +9,9 @@ public class EnemyAttackState : EnemyBaseState
         {
             enemy.animator.SetBool("isAttacking", true);
         }
+
+        enemy.enemyAgent.SetDestination(enemy.transform.position);
+        enemy.enemyAgent.isStopped = true;
         enemy.Attack();
     }
 
@@ -28,6 +31,6 @@ public class EnemyAttackState : EnemyBaseState
             enemy.animator.SetBool("isAttacking", false);
         }
         enemy.CompleteAttack();
-        
+        enemy.enemyAgent.isStopped = false;
     }
 }
