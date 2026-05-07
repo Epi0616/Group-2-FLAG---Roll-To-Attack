@@ -43,6 +43,8 @@ public class PlayerStateController : MonoBehaviour
     [Header("Attack feel")]
     public Stat baseRadiusSize;
     private float holdTime = 0;
+    public ParticleSystem heavyReady;
+    public ParticleSystem hold;
 
     [Header("Player SoundFX")]
     public AudioClip[] playerLightAttackSounds;
@@ -89,6 +91,18 @@ public class PlayerStateController : MonoBehaviour
     {
         CheckForAttackAction();
         currentState.UpdateState();
+
+
+
+        // change this for more efficient code, couldnt get it to work the way you code
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            hold.Play();
+        }
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            hold.Stop();
+        }
     }
 
     private void FixedUpdate()
@@ -129,7 +143,6 @@ public class PlayerStateController : MonoBehaviour
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
             holdTime = 0;
-            return;
         }
 
         if (attack.action.IsPressed())
@@ -137,8 +150,7 @@ public class PlayerStateController : MonoBehaviour
             holdTime += Time.deltaTime;
             holdTime = Math.Clamp(holdTime, 0, 1);
             ChargingEffect();
-
-            if (holdTime > 0.2)
+            if (holdTime > 0.5f)
             {
                 if (isGrounded)
                 {
@@ -147,13 +159,21 @@ public class PlayerStateController : MonoBehaviour
             }
         }
 
-        else if (attack.action.WasReleasedThisFrame() && holdTime > 0.2)
+        if (attack.action.WasReleasedThisFrame() && holdTime > 0.5f)
         {
             AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             impactSpeed.AddMultiplierFlat(holdTime * 2);
             baseRadiusSize.AddMultiplierFlat(holdTime);
+            if (heavyReady.isPlaying)
+            {
+                heavyReady.Stop();
+            }
+            if (hold.isPlaying)
+            {
+                hold.Stop();
+            }
 
             SwitchState(new PlayerJumpState());
             moveSpeed.ResetModifiers();
@@ -170,6 +190,19 @@ public class PlayerStateController : MonoBehaviour
 
         moveSpeed.SetMultiplier(moveSpeedMultiplier);
         bodySystem.ShakeDiceBody(2 / moveSpeedMultiplier);
-
+        if (holdTime > 0.9f)
+        {
+            if (!heavyReady.isPlaying)
+            {
+                heavyReady.Play();
+            }
+        }
+        if(holdTime > 0.1f)
+        {
+            if (!hold.isPlaying)
+            {
+                hold.Play();
+            }
+        }
     }
 }
