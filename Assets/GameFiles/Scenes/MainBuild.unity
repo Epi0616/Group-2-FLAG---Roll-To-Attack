@@ -10105,7 +10105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1323944957761061384, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: maxHealth
-      value: 1000
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1323944957761061384, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerHitSounds.Array.size
@@ -10239,6 +10239,10 @@ PrefabInstance:
       propertyPath: playerChargeSound
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: controllerChargeAttack
+      value: 
+      objectReference: {fileID: 5210933787773654223, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerSlowSounds.Array.size
       value: 1
@@ -11316,6 +11320,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1965870551 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4596168733774059853, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+  m_PrefabInstance: {fileID: 3021083723300026058}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1968842176 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6560168383814539436, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
@@ -15178,6 +15187,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 12919414782020209, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 12919414782020209, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+      propertyPath: m_Navigation.m_SelectOnLeft
+      value: 
+      objectReference: {fileID: 3021083723300026060}
+    - target: {fileID: 12919414782020209, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+      propertyPath: m_Navigation.m_SelectOnRight
+      value: 
+      objectReference: {fileID: 3021083723300026060}
     - target: {fileID: 75660200485235016, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
       propertyPath: m_Type
       value: 1
@@ -15330,6 +15351,18 @@ PrefabInstance:
       propertyPath: totalAbilitiesEquippedLocalizedString.m_TableReference.m_TableCollectionName
       value: GUID:608cc403505cf8549a913e14baf9cb16
       objectReference: {fileID: 0}
+    - target: {fileID: 1995830218139896677, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995830218139896677, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+      propertyPath: m_Navigation.m_SelectOnLeft
+      value: 
+      objectReference: {fileID: 3021083723300026059}
+    - target: {fileID: 1995830218139896677, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+      propertyPath: m_Navigation.m_SelectOnRight
+      value: 
+      objectReference: {fileID: 3021083723300026059}
     - target: {fileID: 2437236314802868460, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -15782,6 +15815,10 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8714114665910098567, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+      propertyPath: playAgainButton
+      value: 
+      objectReference: {fileID: 1965870551}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15802,6 +15839,28 @@ PrefabInstance:
       insertIndex: 2
       addedObject: {fileID: 929881699}
   m_SourcePrefab: {fileID: 100100000, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+--- !u!114 &3021083723300026059 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 12919414782020209, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+  m_PrefabInstance: {fileID: 3021083723300026058}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &3021083723300026060 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1995830218139896677, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
+  m_PrefabInstance: {fileID: 3021083723300026058}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965870551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &3021083723300026061 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4094965896591447869, guid: 7ba8d656d4766504ea4bb3ff420c64f2, type: 3}
@@ -19348,7 +19407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3994452088990171394, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: visibleForTesting
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4242354465778101988, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: m_Enabled
