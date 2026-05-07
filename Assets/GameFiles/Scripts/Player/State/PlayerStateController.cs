@@ -99,6 +99,7 @@ public class PlayerStateController : MonoBehaviour
 
 
         // change this for more efficient code, couldnt get it to work the way you code
+        // guys code
         if (Input.GetKeyDown(KeyCode.Space))
         {
             hold.Play();
@@ -107,6 +108,7 @@ public class PlayerStateController : MonoBehaviour
         {
             hold.Stop();
         }
+        //guys code
     }
 
     private void FixedUpdate()
@@ -180,6 +182,8 @@ public class PlayerStateController : MonoBehaviour
             jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             impactSpeed.AddMultiplierFlat(holdTime * 2);
             baseRadiusSize.AddMultiplierFlat(holdTime);
+
+            //guys code
             if (heavyReady.isPlaying)
             {
                 heavyReady.Stop();
@@ -188,6 +192,7 @@ public class PlayerStateController : MonoBehaviour
             {
                 hold.Stop();
             }
+            //guys code
 
             SwitchState(new PlayerJumpState());
             moveSpeed.ResetModifiers();
@@ -254,6 +259,8 @@ public class PlayerStateController : MonoBehaviour
 
         moveSpeed.SetMultiplier(moveSpeedMultiplier);
         bodySystem.ShakeDiceBody(2 / moveSpeedMultiplier);
+
+        // guys code
         if (holdTime > 0.9f)
         {
             if (!heavyReady.isPlaying)
@@ -268,5 +275,6 @@ public class PlayerStateController : MonoBehaviour
                 hold.Play();
             }
         }
+        // guys code
     }
 }
