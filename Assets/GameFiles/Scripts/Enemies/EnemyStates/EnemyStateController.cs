@@ -171,7 +171,7 @@ public abstract class EnemyStateController : MonoBehaviour
         
         if (rb.linearVelocity.y < 0)
         {
-            rb.AddForce(new Vector3(0, -2.5f, 0), ForceMode.Impulse);
+            rb.AddForce(new Vector3(0, -2.0f, 0), ForceMode.Impulse);
         }
         
         currentState?.FixedUpdateState();
@@ -415,12 +415,18 @@ public abstract class EnemyStateController : MonoBehaviour
         rb.isKinematic = false;
         rb.linearDamping = 3f;
     }
-
+    /*
     public bool IsGrounded()
     {
         NavMeshHit hit;
-      
         return (NavMesh.SamplePosition(transform.position, out hit, 0.3f, NavMesh.AllAreas));
+    }
+    */
+    public bool IsGrounded()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position,Vector3.down);
+        return (Physics.Raycast(ray, out hit, 1f, environmentLayer));
     }
 
 
