@@ -7,6 +7,8 @@ public class PlayerVacuum : MonoBehaviour
 {
     [SerializeField] GameObject temporaryImpactField;
     [SerializeField] private LayerMask enemyLayer;
+    public AudioClip[] mineSpawned;
+    public AudioClip[] mineDetonated;
     private float timer = 2f, range;
     private bool detonated = false; //, toggle = false;
 
@@ -16,11 +18,14 @@ public class PlayerVacuum : MonoBehaviour
         this.range = range;
         this.timer = timer;
         ShowRange();
+        AudioManager.instance.PlayRandomSoundClip(mineSpawned, new Vector3(0, 0, 0), 1.0f);
         StartCoroutine(CountDown());
     }
 
     private void OnVacuum()
     {
+        AudioManager.instance.PlayRandomSoundClip(mineDetonated, new Vector3(0, 0, 0), 0.2f);
+
         List<EnemyStateController> enemies = GetEnemiesInRange();
 
         foreach (EnemyStateController enemy in enemies)
