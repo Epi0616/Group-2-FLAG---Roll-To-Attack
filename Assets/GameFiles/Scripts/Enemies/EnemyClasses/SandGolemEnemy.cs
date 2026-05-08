@@ -30,13 +30,17 @@ public class SandGolemEnemy : EnemyStateController
         attackCompleted = false;
         attackInterrupted = false;
         LookAtPlayer();
+
         SpawnImpactField();
         charge = StartCoroutine(ChargeTime());
     }
 
     private void GolemSlam()
     {
-        Collider [] colliders = Physics.OverlapSphere(attackOriginTransform.position, meleeAttackRadius, canBeKnockedBackByGolem);
+        RaycastHit hit;
+        Ray ray = new Ray(attackOriginTransform.position, Vector3.down);
+        bool wewa = (Physics.Raycast(ray, out hit, 20f, environmentLayer));
+        Collider [] colliders = Physics.OverlapSphere(hit.point, meleeAttackRadius, canBeKnockedBackByGolem);
         AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);
         foreach (var collider in colliders)
         {
@@ -101,10 +105,13 @@ public class SandGolemEnemy : EnemyStateController
 
     private void SpawnImpactField()
     {
-        Vector3 impactFieldPosition = new Vector3(attackOriginTransform.position.x, attackOriginTransform.position.y - 1f, attackOriginTransform.position.z);
+        RaycastHit hit;
+        Ray ray = new Ray(attackOriginTransform.position, Vector3.down);
+        bool wewa = (Physics.Raycast(ray, out hit, 20f, environmentLayer));
+        //Vector3 impactFieldPosition = new Vector3(attackOriginTransform.position.x, hit.point.y, attackOriginTransform.position.z);
 
         //impactFieldObj = Instantiate(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
-        impactFieldObj = ObjectPoolManager.SpawnObject(impactFieldPrefab, impactFieldPosition, Quaternion.identity);
+        impactFieldObj = ObjectPoolManager.SpawnObject(impactFieldPrefab, hit.point, Quaternion.identity);
 
         impactField = impactFieldObj.GetComponent<EnemyAttackImpactField>();
         impactField.PassInValuesColorRadiusLifeTimeChargeTime(impactFieldColor, meleeAttackRadius * 0.9f, 2.5f, meleeAttackChargeTime);

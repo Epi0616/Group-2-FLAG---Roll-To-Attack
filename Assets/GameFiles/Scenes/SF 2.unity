@@ -2262,7 +2262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8624776094652209326, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.2
+      value: -6.65
       objectReference: {fileID: 0}
     - target: {fileID: 8624776094652209326, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10973,27 +10973,27 @@ PrefabInstance:
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: d54947d1c1a96b24c95df295a0d7fcdb, type: 2}
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: d54947d1c1a96b24c95df295a0d7fcdb, type: 2}
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: d54947d1c1a96b24c95df295a0d7fcdb, type: 2}
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: d54947d1c1a96b24c95df295a0d7fcdb, type: 2}
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[4]'
       value: 
-      objectReference: {fileID: 11400000, guid: d54947d1c1a96b24c95df295a0d7fcdb, type: 2}
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[5]'
       value: 
-      objectReference: {fileID: 11400000, guid: d54947d1c1a96b24c95df295a0d7fcdb, type: 2}
+      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'diceDisplaySprites.Array.data[0]'
       value: 
@@ -13609,13 +13609,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d70838775753cf428e4cf43c89ff92c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsUIManager
+  backButtonAction: {fileID: 0}
   mainSettingsUI: {fileID: 6008044407350854585}
   gameSettingsUI: {fileID: 840580149174991976}
   audioSettingsUI: {fileID: 2187774662684779519}
   videoSettingsUI: {fileID: 8459766079296248630}
   KeysBindUI: {fileID: 0}
   background: {fileID: 9045589459414551553}
-  menuFirstSelected: {fileID: 0}
+  previousMenuSelection: {fileID: 0}
   mainSettingsFirstSelected: {fileID: 0}
   gameSettingsFirstSelected: {fileID: 0}
   audioSettingsFirstSelected: {fileID: 0}
@@ -19905,12 +19906,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
   pauseGame: {fileID: -4040889879905438515, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  backButton: {fileID: 0}
   pauseMenuUI: {fileID: 6548631952456225802}
   settingsManager: {fileID: 951824000414023711}
   pauseMenuButtons:
   - {fileID: 7159155758295621966}
   - {fileID: 7479427732370540828}
   - {fileID: 2442983588662923791}
+  previousUiSelection: {fileID: 0}
 --- !u!114 &7225708834002396115
 MonoBehaviour:
   m_ObjectHideFlags: 0
