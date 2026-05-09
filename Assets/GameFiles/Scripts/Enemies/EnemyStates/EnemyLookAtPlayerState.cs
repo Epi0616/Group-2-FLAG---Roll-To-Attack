@@ -26,17 +26,20 @@ public class EnemyLookAtPlayerState : EnemyBaseState
 
     public override void UpdateState()
     {
-        if((activeTimer > duration || playerDir.magnitude > enemy.attackRange * 1.25f && activeTimer > 0.5f) && (!enemy.isStunned && !enemy.isBeingDisplaced))
+        if(activeTimer > duration || playerDir.magnitude > enemy.attackRange * 1.25f && activeTimer > 0.5f)
         {
             enemy.ChangeState(new EnemyMoveState());
         }
-        
+
+        activeTimer += Time.deltaTime;
+
+        if (!enemy.canMove) { return; }
+
         playerDir = enemy.playerReference.transform.position - enemy.transform.position;
         playerDir.y = enemy.transform.position.y;
         lookRotation = Quaternion.LookRotation(playerDir);
         lookRotation.z = 0f;
-        lookRotation.x = 0f;
-        activeTimer += Time.deltaTime;
+        lookRotation.x = 0f; 
         float t = activeTimer / duration;
         enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, t);
         
@@ -44,7 +47,7 @@ public class EnemyLookAtPlayerState : EnemyBaseState
 
     public override void ExitState()
     {
-        if (enemy.animator != null)
+        if (enemy.animator != null && enemy.canMove)
         {
             enemy.animator.speed = 1f;
         }
