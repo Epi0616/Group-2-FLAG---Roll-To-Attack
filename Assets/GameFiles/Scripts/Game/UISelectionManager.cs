@@ -11,7 +11,7 @@ public class UISelectionManager : MonoBehaviour
 
     [SerializeField] private PlayerInput playerInput;
 
-    private bool isGamepadActive = false;
+    public bool isGamepadActive { get; private set; }
 
     private void OnEnable()
     {
@@ -34,6 +34,7 @@ public class UISelectionManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        isGamepadActive = false;
         switchToKeyboard?.Invoke();
     }
 
