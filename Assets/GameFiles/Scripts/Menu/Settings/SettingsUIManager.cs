@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class SettingsUIManager : MonoBehaviour
 {
     public static Action<bool> settingsClosed;
+    public static Action keyBindUIOpened, keyBindUIClosed;
     [SerializeField] private InputActionReference backButtonAction;
 
     [SerializeField] private GameObject mainSettingsUI;
@@ -20,7 +21,6 @@ public class SettingsUIManager : MonoBehaviour
     [SerializeField] private GameObject gameSettingsFirstSelected;
     [SerializeField] private GameObject audioSettingsFirstSelected;
     [SerializeField] private GameObject videoSettingsFirstSelected;
-    [SerializeField] private GameObject keysBindFirstSelected;
 
     private GameObject currentSettingsScreen;
     private bool settingsOpen = false;
@@ -95,11 +95,9 @@ public class SettingsUIManager : MonoBehaviour
         ClearSettingsScreen();
         KeysBindUI.SetActive(true);
         background.SetActive(true);
-        EventSystem.current.firstSelectedGameObject = keysBindFirstSelected;
-        UISelectionManager.instance.TrySetSelectedGameObject(keysBindFirstSelected);
         //EventSystem.current.SetSelectedGameObject(keysBindFirstSelected);
         currentSettingsScreen = KeysBindUI;
-
+        keyBindUIOpened?.Invoke();
     }
 
     private void HandleBackButton(InputAction.CallbackContext context)
@@ -113,6 +111,7 @@ public class SettingsUIManager : MonoBehaviour
 
         if (currentSettingsScreen == KeysBindUI)
         {
+            //keyBindUIClosed?.Invoke();
             GameSettings();
             return;
         }
