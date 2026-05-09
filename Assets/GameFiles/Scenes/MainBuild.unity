@@ -22714,13 +22714,17 @@ PrefabInstance:
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerChargeSound
       value: 
-      objectReference: {fileID: 8300000, guid: 878439f74d761804c999917e673832c3, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: controllerChargeAttack
       value: 
       objectReference: {fileID: 5210933787773654223, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerSlowSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerSpikeSounds.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
@@ -22733,16 +22737,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerRocketSounds.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerSlowSounds.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: d46e3b1e39289bd44b69657ba0b9ab98, type: 3}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerSpikeSounds.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: cc6066926fd9ad04aa121929a790392d, type: 3}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerFreezeSounds.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: e8b780528491df240bcb2fba06492ff5, type: 3}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerKnockbackSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerLightJumpSounds.Array.size
       value: 0
@@ -22754,7 +22766,7 @@ PrefabInstance:
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerRocketSounds.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: d77ac5dfff2e8df4cb8f8822af40850e, type: 3}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerHeavyAttackSounds.Array.size
       value: 1
@@ -22818,31 +22830,47 @@ PrefabInstance:
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8daf04e4b5bf3b144b16712b4b710a30, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8daf04e4b5bf3b144b16712b4b710a30, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8daf04e4b5bf3b144b16712b4b710a30, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8daf04e4b5bf3b144b16712b4b710a30, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[4]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8daf04e4b5bf3b144b16712b4b710a30, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[5]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8daf04e4b5bf3b144b16712b4b710a30, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[6]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8aadc7987d946b6428f6e12ea92a4ede, type: 2}
+      objectReference: {fileID: 11400000, guid: 7d7f6c8786cbc684bab13c5b0aac0f3d, type: 2}
+    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerAbilities.Array.data[7]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d7f6c8786cbc684bab13c5b0aac0f3d, type: 2}
+    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerAbilities.Array.data[8]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d7f6c8786cbc684bab13c5b0aac0f3d, type: 2}
+    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerAbilities.Array.data[9]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d7f6c8786cbc684bab13c5b0aac0f3d, type: 2}
+    - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerAbilities.Array.data[10]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d7f6c8786cbc684bab13c5b0aac0f3d, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'diceDisplaySprites.Array.data[0]'
       value: 
