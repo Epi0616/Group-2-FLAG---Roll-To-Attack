@@ -24,7 +24,7 @@ public class PlayerVacuum : MonoBehaviour
 
     private void OnVacuum()
     {
-        AudioManager.instance.PlayRandomSoundClip(mineDetonated, new Vector3(0, 0, 0), 0.2f);
+        
 
         List<EnemyStateController> enemies = GetEnemiesInRange();
 
@@ -76,12 +76,19 @@ public class PlayerVacuum : MonoBehaviour
 
     private IEnumerator CountDown()
     {
+        bool hasPlayedSFX = false;
         while (timer > 0 && !detonated)
         {
             timer -= Time.deltaTime;
+            if (timer < 0.055f && !hasPlayedSFX)
+            {
+                AudioManager.instance.PlayRandomSoundClip(mineDetonated, new Vector3(0, 0, 0), 1f);
+                hasPlayedSFX = true;
+            }
+
             yield return null;
         }
-
+        
         OnVacuum();
         detonated = true;
     }
