@@ -382,6 +382,7 @@ public abstract class EnemyStateController : MonoBehaviour
             {
                 currentStatusEffects[i].effect.RemoveEffect();
                 currentStatusEffects.RemoveAt(i);
+                Debug.Log("Status Removed: " + type.ToString());
             }
         }
         RecalculateStats();
@@ -608,7 +609,7 @@ public abstract class EnemyStateController : MonoBehaviour
         //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
 
         
-        OnRecieveEffect(new ActiveStatusEffect(new BaseStunEffect(), new List<BaseCondition> { new DurationCondition(true, 0.5f) }));
+        OnRecieveEffect(new ActiveStatusEffect(new BaseStunEffect(), new List<BaseCondition> { new DurationCondition(true, 0.5f), new NavMeshReturnCondition(false, this) }));
 
         float dmgMod = Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f);
         int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);
