@@ -46,6 +46,7 @@ public class PlayerStateController : MonoBehaviour
     public Stat baseRadiusSize;
     private float holdTime = 0;
     private bool chargeComplete = false;
+    private bool hasPlayedCompleteVFX = false;
 
     [Header("Player SoundFX")]
     public AudioClip[] playerLightAttackSounds;
@@ -155,6 +156,7 @@ public class PlayerStateController : MonoBehaviour
             holdTime = 0;
             bodySystem.ResetChargingEffects();
             chargeComplete = false;
+            hasPlayedCompleteVFX = false;
         }
 
         if (attack.action.IsPressed())
@@ -185,6 +187,7 @@ public class PlayerStateController : MonoBehaviour
             holdTime = 0;
             bodySystem.ResetChargingEffects();
             chargeComplete = false;
+            hasPlayedCompleteVFX = false;
             return;
         }
     }
@@ -200,6 +203,7 @@ public class PlayerStateController : MonoBehaviour
             holdTime = 0;
             bodySystem.ResetChargingEffects();
             chargeComplete = false;
+            hasPlayedCompleteVFX = false;
             return;
         }
 
@@ -225,6 +229,7 @@ public class PlayerStateController : MonoBehaviour
             holdTime = 0;
             bodySystem.ResetChargingEffects();
             chargeComplete = false;
+            hasPlayedCompleteVFX = false;
             return;
         }
 
@@ -242,6 +247,7 @@ public class PlayerStateController : MonoBehaviour
             bodySystem.ResetChargingEffects();
 
             chargeComplete = false;
+            hasPlayedCompleteVFX = false;
             return;
         }
     }
