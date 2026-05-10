@@ -19,6 +19,7 @@ public class PlayerStateController : MonoBehaviour
     public bool isGrounded;
     public bool isUsingGamePad = false;
     public LayerMask enemyLayer;
+    public LayerMask pedestalLayer;
     public bool pauseUiActive = false, selectionUiActive = false;
     [SerializeField] private LayerMask groundLayer;
 
@@ -46,6 +47,7 @@ public class PlayerStateController : MonoBehaviour
     public Stat baseRadiusSize;
     private float holdTime = 0;
     private bool chargeComplete = false;
+    private bool hasPlayedCompleteVFX = false;
 
     [Header("Player SoundFX")]
     public AudioClip[] playerLightAttackSounds;
@@ -79,10 +81,10 @@ public class PlayerStateController : MonoBehaviour
         attack.action.Enable();
         UISelectionManager.switchToGamepad += () => isUsingGamePad = true;
         UISelectionManager.switchToKeyboard += () => isUsingGamePad = false;
-        DiceFaceSelectionUIManager.DiceFaceSelectionStart += () => selectionUiActive = true;
-        DiceFaceSelectionUIManager.DiceFaceSelectionOver += (float waveNumber) => selectionUiActive = false;
-        PauseMenu.GamePaused += () =>  pauseUiActive = true;
-        PauseMenu.GameUnPaused += () => pauseUiActive = false;
+        DiceFaceSelectionUIManager.DiceFaceSelectionStart += DiceFaceSelectionStart;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver += DiceFaceSelectionFinish;
+        PauseMenu.GamePaused += PauseStart;
+        PauseMenu.GameUnPaused += PauseFinish;
     }
 
     private void OnDisable()
@@ -152,9 +154,10 @@ public class PlayerStateController : MonoBehaviour
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
-            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            bodySystem.ResetChargingEffects();
             chargeComplete = false;
+            hasPlayedCompleteVFX = false;
         }
 
         if (attack.action.IsPressed())
@@ -181,9 +184,10 @@ public class PlayerStateController : MonoBehaviour
 
             SwitchState(new PlayerJumpState());
             moveSpeed.ResetModifiers();
-            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            bodySystem.ResetChargingEffects();
             chargeComplete = false;
+            hasPlayedCompleteVFX = false;
             return;
         }
     }
@@ -196,16 +200,17 @@ public class PlayerStateController : MonoBehaviour
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
-            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            bodySystem.ResetChargingEffects();
             chargeComplete = false;
+            hasPlayedCompleteVFX = false;
             return;
         }
 
         if (controllerChargeAttack.action.IsPressed())
         {
             holdTime += Time.deltaTime;
-            holdTime = Math.Clamp(holdTime, 0, 1);
+            holdTime = Mathf.Clamp(holdTime, 0, 1);
             ChargingEffect();
 
             if (holdTime > 0.2)
@@ -221,9 +226,10 @@ public class PlayerStateController : MonoBehaviour
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
-            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            bodySystem.ResetChargingEffects();
             chargeComplete = false;
+            hasPlayedCompleteVFX = false;
             return;
         }
 
@@ -237,9 +243,11 @@ public class PlayerStateController : MonoBehaviour
 
             SwitchState(new PlayerJumpState());
             moveSpeed.ResetModifiers();
-            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            bodySystem.ResetChargingEffects();
+
             chargeComplete = false;
+            hasPlayedCompleteVFX = false;
             return;
         }
     }
@@ -252,17 +260,47 @@ public class PlayerStateController : MonoBehaviour
         moveSpeed.SetMultiplier(moveSpeedMultiplier);
         bodySystem.ShakeDiceBody(2 / moveSpeedMultiplier);
 
-        if (holdTime >= 0.2 && holdTime < 1)
+        if (holdTime < 0.2)
         {
-            bodySystem.DisplayChargingEffect();
+            bodySystem.ResetChargingEffects();
+            chargeComplete = false;
             return;
         }
+
+        if (holdTime < 1)
+        {
+            bodySystem.DisplayChargingEffect();
+            chargeComplete = false;
+            return;
+        }
+
         if (!chargeComplete)
         {
             bodySystem.ResetChargingEffects();
+            bodySystem.DisplayChargeCompleteEffect();
             chargeComplete = true;
         }
+    }
 
-        bodySystem.DisplayChargeCompleteEffect();
+    private void DiceFaceSelectionStart()
+    {
+        selectionUiActive = true;
+        AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+    }
+
+    private void DiceFaceSelectionFinish(float time)
+    {
+        selectionUiActive = false;
+    }
+
+    private void PauseStart()
+    {
+        pauseUiActive = true;
+        AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+    }
+
+    private void PauseFinish()
+    {
+        pauseUiActive = false;
     }
 }

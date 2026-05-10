@@ -29,13 +29,13 @@ public class EnemyDirector : MonoBehaviour
     private void OnEnable()
     {
         EnemyStateController.EnemyHasDied += ProcessEnemyDeath;
-        DiceFaceSelectionUIManager.DiceFaceSelectionOver += StartNextWave;
+        DicePedestal.WaveStartPedestal += StartNextWave;
     }
 
     private void OnDisable()
     {
         EnemyStateController.EnemyHasDied -= ProcessEnemyDeath;
-        DiceFaceSelectionUIManager.DiceFaceSelectionOver -= StartNextWave;
+        DicePedestal.WaveStartPedestal += StartNextWave;
     }
 
     void Start()
@@ -47,9 +47,8 @@ public class EnemyDirector : MonoBehaviour
             { EnemyTypes.SandGolem, sandGolemCost },
         };
         currentBudget = startingBudget;
-        StartNextWave(delayBetweenWaves);
     }
-    private void StartNextWave(float delayBetweenWaves)
+    private void StartNextWave(float time)
     {
         BuildWave();
         WaveCountStart?.Invoke(delayBetweenWaves);
