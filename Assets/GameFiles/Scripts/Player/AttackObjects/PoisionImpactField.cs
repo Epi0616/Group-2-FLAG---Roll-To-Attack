@@ -10,6 +10,7 @@ public class PoisionImpactField : MonoBehaviour
     private float lifeSpan = 10, lifeTimer = 0;
     private float damageTickTimer = 0, currentTickCount = 0;
     private float radius = 0;
+    public AudioClip[] poisonTickSound;
 
 
     private void Awake()
@@ -69,8 +70,9 @@ public class PoisionImpactField : MonoBehaviour
 
             if (collider.gameObject.CompareTag("Enemy"))
             {
+                AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
                 collider.gameObject.GetComponent<EnemyStateController>().OnTakeDamage(8, Color.green);
-                Debug.Log("dealing damage");
+                //Debug.Log("dealing damage");
             }
         }
     }
