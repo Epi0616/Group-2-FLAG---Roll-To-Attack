@@ -67,7 +67,7 @@ public class VibratingSpawnState : EnemySpawnState
             enemy.transform.position = endPos;
             enemy.isSpawning = false;
             enemy.EnableAI();
-            LookAtPlayer();
+            enemy.LookAtPlayer();
             enemy.ChangeState(new EnemyMoveState());
 
         }
