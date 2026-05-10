@@ -701,7 +701,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 16384
-  UiActive: 0
+  pauseUiActive: 0
+  selectionUiActive: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -724,26 +725,31 @@ MonoBehaviour:
   sixPipWeight: 1
   baseRadiusSize:
     baseValue: 10
-  heavyReady: {fileID: 0}
-  hold: {fileID: 0}
   playerLightAttackSounds: []
   playerHeavyAttackSounds: []
   playerLightJumpSounds: []
   playerChargeSound: {fileID: 0}
   playerFreezeSounds:
   - {fileID: 8300000, guid: e7bfc8e4e524ec84c9fc265f0fd26d09, type: 3}
+  hitPlayerFreezeSounds: []
   playerPoisonSounds:
   - {fileID: 8300000, guid: 358663f35014f6a4a9ed981b4f0cfb55, type: 3}
+  hitPlayerPoisonSounds: []
   playerSpikeSounds:
   - {fileID: 8300000, guid: 7d3800238658043488fa2dfc5e305ebb, type: 3}
+  hitPlayerSpikeSounds: []
   playerKnockbackSounds:
   - {fileID: 8300000, guid: a6162cc059e353a449d235681afc7c83, type: 3}
+  hitPlayerKnockbackSounds: []
   playerSlowSounds:
   - {fileID: 8300000, guid: 495cfc8de54754144bd6b6faecafe7f0, type: 3}
+  hitPlayerSlowSounds: []
   playerWeakenSounds:
   - {fileID: 0}
+  hitPlayerWeakenSounds: []
   playerRocketSounds:
   - {fileID: 8300000, guid: ed7538cd026a9bd4ea06370367b77fbf, type: 3}
+  hitPlayerRocketSounds: []
   playerVacuumSounds:
   - {fileID: 8300000, guid: 901a4e7964ead644fbe4cdafa4e9236e, type: 3}
   slowedText:
@@ -792,6 +798,8 @@ MonoBehaviour:
   currentHealth: 0
   playerHitSounds:
   - {fileID: 0}
+  playerHealSounds:
+  - {fileID: 8300000, guid: d28e403cc9bb7d146a6cc5d6d7e3f254, type: 3}
 --- !u!114 &5475185179310996633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -852,6 +860,8 @@ MonoBehaviour:
   body: {fileID: 4389461699070581269}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
   healEffect: {fileID: 3829716411362340313}
+  chargeCompleteEffect: {fileID: 0}
+  chargingEffect: {fileID: 0}
 --- !u!65 &2663442673991085227
 BoxCollider:
   m_ObjectHideFlags: 0
