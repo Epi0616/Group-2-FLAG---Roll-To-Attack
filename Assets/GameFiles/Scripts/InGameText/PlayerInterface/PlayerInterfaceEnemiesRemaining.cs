@@ -19,7 +19,7 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
     {
         base.OnEnable();
         EnemyDirector.SpawnWave += NewWave;
-        DiceFaceSelectionUIManager.DiceFaceSelectionOver += StartDrainProgressBarRoutine;
+        DicePedestal.WaveStartPedestal += StartDrainProgressBarRoutine;
         EnemyStateController.EnemyHasDied += EnemyHasDied;
     }
 
@@ -27,7 +27,7 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
     {
         base.OnDisable();
         EnemyDirector.SpawnWave -= NewWave;
-        DiceFaceSelectionUIManager.DiceFaceSelectionOver -= StartDrainProgressBarRoutine;
+        DicePedestal.WaveStartPedestal -= StartDrainProgressBarRoutine;
         EnemyStateController.EnemyHasDied -= EnemyHasDied;
     }
 
