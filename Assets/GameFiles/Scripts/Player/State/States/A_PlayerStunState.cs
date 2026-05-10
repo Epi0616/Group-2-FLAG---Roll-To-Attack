@@ -9,6 +9,7 @@ public class A_PlayerStunState : PlayerBaseAttackState
     {
         base.EnterState(player);
         impactSounds = player.playerFreezeSounds;
+        hitSounds = player.hitPlayerFreezeSounds;
         myColor = Color.lightBlue;
     }
     protected override void PlayImpactSound()
@@ -19,7 +20,7 @@ public class A_PlayerStunState : PlayerBaseAttackState
             AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
         }
 
-        AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
+        AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 1f);
     }  
 
     protected override void CustomAttack(GameObject Enemy)

@@ -19,7 +19,7 @@ public class PlayerStateController : MonoBehaviour
     public bool isGrounded;
     public bool isUsingGamePad = false;
     public LayerMask enemyLayer;
-    public bool UiActive = false;
+    public bool pauseUiActive = false, selectionUiActive = false;
     [SerializeField] private LayerMask groundLayer;
 
     public static event Action<float> ShakeScreen;
@@ -45,8 +45,7 @@ public class PlayerStateController : MonoBehaviour
     [Header("Attack feel")]
     public Stat baseRadiusSize;
     private float holdTime = 0;
-    public ParticleSystem heavyReady;
-    public ParticleSystem hold;
+    private bool chargeComplete = false;
 
     [Header("Player SoundFX")]
     public AudioClip[] playerLightAttackSounds;
@@ -56,12 +55,19 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("Player Ability Impact SoundFX")]
     public AudioClip[] playerFreezeSounds;
+    public AudioClip[] hitPlayerFreezeSounds;
     public AudioClip[] playerPoisonSounds;
+    public AudioClip[] hitPlayerPoisonSounds;
     public AudioClip[] playerSpikeSounds;
+    public AudioClip[] hitPlayerSpikeSounds;
     public AudioClip[] playerKnockbackSounds;
+    public AudioClip[] hitPlayerKnockbackSounds;
     public AudioClip[] playerSlowSounds;
+    public AudioClip[] hitPlayerSlowSounds;
     public AudioClip[] playerWeakenSounds;
+    public AudioClip[] hitPlayerWeakenSounds;
     public AudioClip[] playerRocketSounds;
+    public AudioClip[] hitPlayerRocketSounds;
     public AudioClip[] playerVacuumSounds;
 
     [Header("Localization for damage text")]
@@ -73,10 +79,10 @@ public class PlayerStateController : MonoBehaviour
         attack.action.Enable();
         UISelectionManager.switchToGamepad += () => isUsingGamePad = true;
         UISelectionManager.switchToKeyboard += () => isUsingGamePad = false;
-        DiceFaceSelectionUIManager.DiceFaceSelectionStart += () => UiActive = true;
-        DiceFaceSelectionUIManager.DiceFaceSelectionOver += (float waveNumber) => UiActive = false;
-        PauseMenu.GamePaused += () =>  UiActive = true;
-        PauseMenu.GameUnPaused += () => UiActive = false;
+        DiceFaceSelectionUIManager.DiceFaceSelectionStart += () => selectionUiActive = true;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver += (float waveNumber) => selectionUiActive = false;
+        PauseMenu.GamePaused += () =>  pauseUiActive = true;
+        PauseMenu.GameUnPaused += () => pauseUiActive = false;
     }
 
     private void OnDisable()
@@ -95,24 +101,6 @@ public class PlayerStateController : MonoBehaviour
     {
         CheckForAttack();
         currentState.UpdateState();
-
-
-
-        // change this for more efficient code, couldnt get it to work the way you code
-        if (heavyReady != null && hold != null)
-        {
-            // guys code
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                hold.Play();
-            }
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                hold.Stop();
-            }
-            //guys code
-        }
-
     }
 
     private void FixedUpdate()
@@ -146,6 +134,8 @@ public class PlayerStateController : MonoBehaviour
 
     private void CheckForAttack()
     {
+        if (pauseUiActive || selectionUiActive) return;
+
         if (isUsingGamePad)
         {
             CheckForControllerAttackAction();
@@ -157,13 +147,14 @@ public class PlayerStateController : MonoBehaviour
     private void CheckForAttackAction()
     {
         if (!isGrounded) return;
-        if (UiActive) return;
 
         if (attack.action.WasPressedThisFrame())
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
+            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            chargeComplete = false;
         }
 
         if (attack.action.IsPressed())
@@ -187,25 +178,12 @@ public class PlayerStateController : MonoBehaviour
             jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             impactSpeed.AddMultiplierFlat(holdTime * 2);
             baseRadiusSize.AddMultiplierFlat(holdTime);
-            if (heavyReady != null && hold != null)
-            {
-                //guys code
-                if (heavyReady.isPlaying)
-                {
-                    heavyReady.Stop();
-                }
-                if (hold.isPlaying)
-                {
-                    hold.Stop();
-                }
-                //guys code
-            }
-
-
 
             SwitchState(new PlayerJumpState());
             moveSpeed.ResetModifiers();
+            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            chargeComplete = false;
             return;
         }
     }
@@ -213,13 +191,14 @@ public class PlayerStateController : MonoBehaviour
     private void CheckForControllerAttackAction()
     {
         if (!isGrounded) return;
-        if (UiActive) return;
 
         if (attack.action.IsPressed())
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
+            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            chargeComplete = false;
             return;
         }
 
@@ -242,7 +221,9 @@ public class PlayerStateController : MonoBehaviour
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
+            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            chargeComplete = false;
             return;
         }
 
@@ -256,7 +237,9 @@ public class PlayerStateController : MonoBehaviour
 
             SwitchState(new PlayerJumpState());
             moveSpeed.ResetModifiers();
+            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            chargeComplete = false;
             return;
         }
     }
@@ -269,26 +252,17 @@ public class PlayerStateController : MonoBehaviour
         moveSpeed.SetMultiplier(moveSpeedMultiplier);
         bodySystem.ShakeDiceBody(2 / moveSpeedMultiplier);
 
-        // guys code
-        if (heavyReady != null && hold != null)
+        if (holdTime >= 0.2 && holdTime < 1)
         {
-            if (holdTime > 0.9f)
-            {
-                if (!heavyReady.isPlaying)
-                {
-                    heavyReady.Play();
-                }
-            }
-            if (holdTime > 0.1f)
-            {
-                if (!hold.isPlaying)
-                {
-                    hold.Play();
-                }
-            }
-            // guys code
+            bodySystem.DisplayChargingEffect();
+            return;
+        }
+        if (!chargeComplete)
+        {
+            bodySystem.ResetChargingEffects();
+            chargeComplete = true;
         }
 
-
+        bodySystem.DisplayChargeCompleteEffect();
     }
 }

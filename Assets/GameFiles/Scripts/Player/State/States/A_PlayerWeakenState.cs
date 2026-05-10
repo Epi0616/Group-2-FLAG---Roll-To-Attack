@@ -9,6 +9,7 @@ public class A_PlayerWeakenState : PlayerBaseAttackState
     {
         base.EnterState(player);
         impactSounds = player.playerWeakenSounds;
+        hitSounds = player.hitPlayerWeakenSounds;
         myColor = Color.darkMagenta;
     }
     protected override void PlayImpactSound()
@@ -19,7 +20,7 @@ public class A_PlayerWeakenState : PlayerBaseAttackState
             AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
         }
 
-        AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
+        AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 1f);
     }
 
     protected override void CustomAttack(GameObject enemy)

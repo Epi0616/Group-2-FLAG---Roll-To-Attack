@@ -9,6 +9,7 @@ public class PlayerBaseAttackState : PlayerMovementState
     protected float myRadius;
     protected bool attacked;
     protected AudioClip[] impactSounds;
+    protected AudioClip[] hitSounds;
 
     public override void EnterState(PlayerStateController player)
     {
@@ -43,12 +44,18 @@ public class PlayerBaseAttackState : PlayerMovementState
 
         Collider[] colliders = new Collider[100];
         int collisions = Physics.OverlapSphereNonAlloc(player.rb.position, myRadius, colliders, player.enemyLayer);
+        if (collisions > 0)
+        {
+            //Debug.Log("Enemy Hit");
+            PlayEnemyHitSound();
+        }
         Attack(colliders, collisions);
 
         ResetAttackModifiers();
         player.SwitchState(new PlayerMovementState());
     }
 
+    
 
     protected virtual void PlayImpactSound()
     {
@@ -61,6 +68,11 @@ public class PlayerBaseAttackState : PlayerMovementState
         {
             AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
         }
+    }
+
+    protected virtual void PlayEnemyHitSound()
+    {
+        AudioManager.instance.PlayRandomSoundClip(hitSounds, new Vector3(0, 0, 0), 1f);
     }
 
     protected virtual void Attack(Collider[] colliders, int collisions)
@@ -107,6 +119,7 @@ public class PlayerBaseAttackState : PlayerMovementState
 
     protected virtual void CustomDisplayAttack() { }
     protected virtual void CustomAttack(GameObject Enemy) { }
+   
     //check for attack action pressed needs to do nothing so you cant attack while in the process of performing the current attack
 }
 

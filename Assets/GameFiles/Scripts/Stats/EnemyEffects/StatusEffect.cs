@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum StatusType
 {
-    Freeze, Knockback, Weak, Slow
+    Freeze, Knockback, Weak, Slow, Stun
 }
 
 

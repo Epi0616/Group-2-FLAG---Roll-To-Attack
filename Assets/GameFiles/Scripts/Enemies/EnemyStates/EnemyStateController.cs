@@ -169,6 +169,8 @@ public abstract class EnemyStateController : MonoBehaviour
         if (isDead) return;
         //Vibrate()
         
+
+
         if (rb.linearVelocity.y < 0)
         {
             rb.AddForce(new Vector3(0, -2.0f, 0), ForceMode.Impulse);
@@ -380,6 +382,7 @@ public abstract class EnemyStateController : MonoBehaviour
             {
                 currentStatusEffects[i].effect.RemoveEffect();
                 currentStatusEffects.RemoveAt(i);
+                //Debug.Log("Status Removed: " + type.ToString());
             }
         }
         RecalculateStats();
@@ -605,8 +608,8 @@ public abstract class EnemyStateController : MonoBehaviour
 
         //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
 
-        RemoveEffectByType(StatusType.Knockback);
-
+        
+        OnRecieveEffect(new ActiveStatusEffect(new BaseStunEffect(), new List<BaseCondition> { new DurationCondition(true, 0.5f), new NavMeshReturnCondition(false, this) }));
 
         float dmgMod = Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f);
         int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);
@@ -625,17 +628,17 @@ public abstract class EnemyStateController : MonoBehaviour
             ShowEffect(slammedText.GetLocalizedString(), Color.darkGoldenRod);
             OnTakeDamage(appliedDamage, Color.darkGoldenRod);
         }
+        RemoveEffectByType(StatusType.Knockback);
 
-        
 
         // Eventual VFX/SFX can go here for wall slams
         // add a check for the value of dmgMod to increase volume/size of effects
 
-        
+
     }
 
     // Single Instant Look At Player - Used By Ranged Enemy when attack starts
-    protected void LookAtPlayer()
+    public void LookAtPlayer()
     {
         Vector3 playerDir = playerReference.transform.position - transform.position;
         playerDir.y = transform.position.y;

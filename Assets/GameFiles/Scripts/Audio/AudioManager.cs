@@ -53,7 +53,7 @@ public class AudioManager : MonoBehaviour
         if (audioClip == null) return;
         if (loopingClips.ContainsKey(audioClip))
         {
-            Debug.Log("contains key"); 
+            //Debug.Log("contains key"); 
             return;
         } 
 

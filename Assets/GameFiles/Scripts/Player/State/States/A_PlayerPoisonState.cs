@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class A_PlayerPoisonState : PlayerBaseAttackState
 {
@@ -6,6 +7,7 @@ public class A_PlayerPoisonState : PlayerBaseAttackState
     {
         base.EnterState(player);
         impactSounds = player.playerPoisonSounds;
+        hitSounds = player.hitPlayerPoisonSounds;
         myColor = Color.green;
     }
     protected override void PlayImpactSound()
@@ -16,7 +18,29 @@ public class A_PlayerPoisonState : PlayerBaseAttackState
             AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
         }
 
-        AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
+        AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 1f);
+    }
+
+    protected override void Attack(Collider[] colliders, int collisions)
+    {
+        List<GameObject> Enemies = new();
+        for (int i = 0; i < collisions; i++)
+        {
+            if (!colliders[i].gameObject) { continue; }
+
+            if (colliders[i].gameObject.CompareTag("Enemy"))
+            {
+                Enemies.Add(colliders[i].gameObject);
+            }
+        }
+
+        foreach (var Enemy in Enemies)
+        {
+            if (Enemy == null) continue;
+            CustomAttack(Enemy);
+            //ApplyKnockback(Enemy);
+        }
+        CustomDisplayAttack();
     }
 
     protected override void CustomAttack(GameObject Enemy)

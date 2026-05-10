@@ -30,7 +30,7 @@ public class EnemySpawnState : EnemyBaseState
     {
         enemy.enemyAgent.isStopped = false;
         enemy.isSpawning = false;
-        if (enemy.animator != null)
+        if (enemy.animator != null && enemy.canMove)
         {
             enemy.animator.speed = 1f;
         }
@@ -63,10 +63,11 @@ public class VibratingSpawnState : EnemySpawnState
         {
             
             Debug.Log("Spawning Ended");
-            enemy.StopVibrating();
+            //enemy.StopVibrating();
             enemy.transform.position = endPos;
             enemy.isSpawning = false;
             enemy.EnableAI();
+            enemy.LookAtPlayer();
             enemy.ChangeState(new EnemyMoveState());
 
         }
