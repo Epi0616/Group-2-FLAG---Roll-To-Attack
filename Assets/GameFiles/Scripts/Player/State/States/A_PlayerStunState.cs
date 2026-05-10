@@ -9,6 +9,7 @@ public class A_PlayerStunState : PlayerBaseAttackState
     {
         base.EnterState(player);
         impactSounds = player.playerFreezeSounds;
+        hitSounds = player.hitPlayerFreezeSounds;
         myColor = Color.lightBlue;
     }
     protected override void PlayImpactSound()

@@ -10,18 +10,36 @@ public class ControllerScrollAdjust : MonoBehaviour
     [SerializeField] private InputActionReference navigate;
     [SerializeField] private float scrollPadding;
 
+    [SerializeField] private GameObject gamePadFirstSelected;
+    [SerializeField] private GameObject contentGamepad, contentKeyboard;
+    private RectTransform gamepadTransform, keyboardTransform;
 
     private GameObject lastSelected = null;
 
 
     private void OnEnable()
     {
+        SettingsUIManager.keyBindUIOpened += SetFirstElement;
+        UISelectionManager.switchToGamepad += SwitchToGamepad;
+        UISelectionManager.switchToKeyboard += SwitchToKeyboard;
         navigate.action.performed += OnNavigate;
+
+        UpdateControlScheme();
     }
 
     private void OnDisable()
     {
+        SettingsUIManager.keyBindUIOpened -= SetFirstElement;
+        UISelectionManager.switchToGamepad -= SwitchToGamepad;
+        UISelectionManager.switchToKeyboard -= SwitchToKeyboard;    
         navigate.action.performed -= OnNavigate;
+    }
+
+    private void Awake()
+    {
+        gamepadTransform = contentGamepad.GetComponent<RectTransform>();
+        keyboardTransform = contentKeyboard.GetComponent<RectTransform>();
+        SwitchToKeyboard();
     }
 
     private void OnNavigate(InputAction.CallbackContext context)
@@ -76,5 +94,40 @@ public class ControllerScrollAdjust : MonoBehaviour
             content.anchoredPosition += new Vector2(0, viewportBottom - activeBottom);
         }
 
+    }
+
+    private void UpdateControlScheme()
+    {
+        if (UISelectionManager.instance.isGamepadActive)
+        {
+            SwitchToGamepad();
+            return;
+        }
+
+        SwitchToKeyboard();
+    }
+
+    public void SetFirstElement()
+    {         
+        if (scrollRect.content.childCount == 0) return;
+        UISelectionManager.instance.TrySetSelectedGameObject(gamePadFirstSelected);
+        EventSystem.current.firstSelectedGameObject = gamePadFirstSelected;
+    }
+
+    private void SwitchToGamepad()
+    {
+        contentKeyboard.SetActive(false);
+        contentGamepad.SetActive(true);
+        SetFirstElement();
+
+        scrollRect.content = gamepadTransform;
+    }
+
+    private void SwitchToKeyboard()
+    {
+        contentGamepad.SetActive(false);
+        contentKeyboard.SetActive(true);
+
+        scrollRect.content = keyboardTransform;
     }
 }

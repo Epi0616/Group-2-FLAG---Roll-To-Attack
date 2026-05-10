@@ -6,6 +6,7 @@ public class A_PlayerSpikeState : PlayerBaseAttackState
     {
         base.EnterState(player);
         impactSounds = player.playerSpikeSounds;
+        hitSounds = player.hitPlayerSpikeSounds;
         myColor = Color.silver;
     }
     protected override void PlayImpactSound()

@@ -382,7 +382,7 @@ public abstract class EnemyStateController : MonoBehaviour
             {
                 currentStatusEffects[i].effect.RemoveEffect();
                 currentStatusEffects.RemoveAt(i);
-                Debug.Log("Status Removed: " + type.ToString());
+                //Debug.Log("Status Removed: " + type.ToString());
             }
         }
         RecalculateStats();

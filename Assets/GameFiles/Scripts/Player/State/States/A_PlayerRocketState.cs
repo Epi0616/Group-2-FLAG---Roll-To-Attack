@@ -9,6 +9,7 @@ public class A_PlayerRocketState : PlayerBaseAttackState
     {
         base.EnterState(player);
         impactSounds = player.playerRocketSounds;
+        hitSounds = player.hitPlayerRocketSounds;
         myColor = Color.orange;
     }
     protected override void PlayImpactSound()

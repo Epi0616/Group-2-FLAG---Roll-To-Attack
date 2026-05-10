@@ -9,6 +9,7 @@ public class A_PlayerSlowState : PlayerBaseAttackState
     {
         base.EnterState(player);
         impactSounds = player.playerSlowSounds;
+        hitSounds = player.hitPlayerSlowSounds;
         myColor = Color.white;
     }
     protected override void PlayImpactSound()
