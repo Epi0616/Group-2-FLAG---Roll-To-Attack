@@ -27,7 +27,7 @@ public class PlayerMovementState : PlayerBaseState
 
     private void CheckForMoveActionPressed()
     {
-        if (player.UiActive)
+        if (player.pauseUiActive || player.selectionUiActive)
         {
             moveDirection = new(0, 0, 0); 
             return;

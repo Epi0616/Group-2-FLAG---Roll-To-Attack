@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,26 +26,26 @@ public class ReBindButton : MonoBehaviour
 
         tmpAsset.text = setKeyString.GetLocalizedString();
 
-        rebind = actionReference.action.PerformInteractiveRebinding(bindingIndex);
+        rebind = actionReference.action.PerformInteractiveRebinding(bindingIndex)
+            .WithControlsExcluding("<Gamepad>/leftStick/x")
+            .WithControlsExcluding("<Gamepad>/leftStick/y")
+            .WithControlsExcluding("<Gamepad>/rightStick/x")
+            .WithControlsExcluding("<Gamepad>/rightStick/y");
         rebind.OnComplete(operation =>
         {
-            actionReference.action.Enable();
             rebind.Dispose();
             UpdateText(actionReference.action.bindings[bindingIndex].ToDisplayString());
+            StartCoroutine(EnableAction());
             Debug.Log("sucess");
         });
         rebind.OnCancel(operation =>
         {
-            actionReference.action.Enable();
             UpdateText(actionReference.action.bindings[bindingIndex].ToDisplayString());
+            StartCoroutine(EnableAction());
             rebind.Dispose();
             Debug.Log("failure");
         });
 
-
-        Debug.Log("Rebinding index: " + bindingIndex);
-        Debug.Log("Binding path before: " + actionReference.action.bindings[bindingIndex].path);
-        Debug.Log("Expected control type: " + actionReference.action.expectedControlType);
         rebind.Start();
     }
 
@@ -58,6 +59,11 @@ public class ReBindButton : MonoBehaviour
     {
         tmpAsset.text = newText;
     }
-    
 
+    private IEnumerator EnableAction()
+    {
+        yield return new WaitForSecondsRealtime(0.15f);
+
+        actionReference.action.Enable();
+    }
 }

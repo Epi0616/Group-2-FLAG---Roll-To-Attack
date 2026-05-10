@@ -19,7 +19,7 @@ public class PlayerStateController : MonoBehaviour
     public bool isGrounded;
     public bool isUsingGamePad = false;
     public LayerMask enemyLayer;
-    public bool UiActive = false;
+    public bool pauseUiActive = false, selectionUiActive = false;
     [SerializeField] private LayerMask groundLayer;
 
     public static event Action<float> ShakeScreen;
@@ -80,10 +80,10 @@ public class PlayerStateController : MonoBehaviour
         attack.action.Enable();
         UISelectionManager.switchToGamepad += () => isUsingGamePad = true;
         UISelectionManager.switchToKeyboard += () => isUsingGamePad = false;
-        DiceFaceSelectionUIManager.DiceFaceSelectionStart += () => UiActive = true;
-        DiceFaceSelectionUIManager.DiceFaceSelectionOver += (float waveNumber) => UiActive = false;
-        PauseMenu.GamePaused += () =>  UiActive = true;
-        PauseMenu.GameUnPaused += () => UiActive = false;
+        DiceFaceSelectionUIManager.DiceFaceSelectionStart += () => selectionUiActive = true;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver += (float waveNumber) => selectionUiActive = false;
+        PauseMenu.GamePaused += () =>  pauseUiActive = true;
+        PauseMenu.GameUnPaused += () => pauseUiActive = false;
     }
 
     private void OnDisable()
@@ -149,6 +149,8 @@ public class PlayerStateController : MonoBehaviour
 
     private void CheckForAttack()
     {
+        if (pauseUiActive || selectionUiActive) return;
+
         if (isUsingGamePad)
         {
             CheckForControllerAttackAction();
@@ -160,7 +162,6 @@ public class PlayerStateController : MonoBehaviour
     private void CheckForAttackAction()
     {
         if (!isGrounded) return;
-        if (UiActive) return;
 
         if (attack.action.WasPressedThisFrame())
         {
@@ -212,7 +213,6 @@ public class PlayerStateController : MonoBehaviour
     private void CheckForControllerAttackAction()
     {
         if (!isGrounded) return;
-        if (UiActive) return;
 
         if (attack.action.IsPressed())
         {
