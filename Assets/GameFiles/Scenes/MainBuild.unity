@@ -17519,7 +17519,7 @@ GameObject:
   - component: {fileID: 661356166}
   m_Layer: 31
   m_Name: Collider
-  m_TagString: Environment
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22418,7 +22418,7 @@ GameObject:
   - component: {fileID: 1233216729}
   m_Layer: 31
   m_Name: Collider
-  m_TagString: Environment
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22476,7 +22476,7 @@ GameObject:
   - component: {fileID: 1268895032}
   m_Layer: 31
   m_Name: Collider
-  m_TagString: Environment
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23521,7 +23521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: budgetIncreasePerWave
-      value: 200
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4189374790445322270, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: enemyPrefab
@@ -27730,6 +27730,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: playerSpikeSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: playerFreezeSounds.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -27749,6 +27753,10 @@ PrefabInstance:
       propertyPath: 'playerSlowSounds.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: d46e3b1e39289bd44b69657ba0b9ab98, type: 3}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: 'playerSpikeSounds.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 23aeb902a9fab5848b02a3b85780ab40, type: 3}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: hitPlayerFreezeSounds.Array.size
       value: 1
@@ -27792,11 +27800,11 @@ PrefabInstance:
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerHeavyAttackSounds.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: 5529a0446d4eddd4d80ef71a725d7cec, type: 3}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerLightAttackSounds.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: 178fd80272f28fc4290cf2a4e77ec3d7, type: 3}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: frozenText.m_TableEntryReference.m_KeyId
       value: 128798306304
@@ -27840,27 +27848,27 @@ PrefabInstance:
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[4]'
       value: 
-      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[5]'
       value: 
-      objectReference: {fileID: 11400000, guid: d3a882c9774ef8d4da8b6f0b2bf87481, type: 2}
+      objectReference: {fileID: 11400000, guid: b4e3c457d4c3382488062a69b3551d7e, type: 2}
     - target: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: 'playerAbilities.Array.data[6]'
       value: 
@@ -30642,7 +30650,7 @@ GameObject:
   - component: {fileID: 1997309227}
   m_Layer: 31
   m_Name: Rib
-  m_TagString: Environment
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
