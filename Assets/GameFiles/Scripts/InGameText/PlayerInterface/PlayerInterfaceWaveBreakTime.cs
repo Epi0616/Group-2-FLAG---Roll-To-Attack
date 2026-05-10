@@ -11,13 +11,13 @@ public class PlayerInterfaceWaveBreakTime : StaticText
     protected override void OnEnable()
     {
         base.OnEnable();
-        EnemyDirector.WaveCountStart += WaitForNextWave;
+        DicePedestal.WaveStartPedestal += WaitForNextWave;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        EnemyDirector.WaveCountStart -= WaitForNextWave;
+        DicePedestal.WaveStartPedestal -= WaitForNextWave;
     }
 
     protected override void Awake()

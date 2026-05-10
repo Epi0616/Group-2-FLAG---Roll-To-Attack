@@ -69,6 +69,8 @@ public class AudioManager : MonoBehaviour
     public void StopSingleLoopingClip(AudioClip audioClip)
     {
         if (audioClip == null) return;
+        if (!loopingClips.ContainsKey(audioClip)) return;
+
         AudioSource audioSource = loopingClips[audioClip];
         audioSource.loop = false;
         loopingClips.Remove(audioClip);

@@ -19,6 +19,7 @@ public class PlayerStateController : MonoBehaviour
     public bool isGrounded;
     public bool isUsingGamePad = false;
     public LayerMask enemyLayer;
+    public LayerMask pedestalLayer;
     public bool pauseUiActive = false, selectionUiActive = false;
     [SerializeField] private LayerMask groundLayer;
 
@@ -159,7 +160,6 @@ public class PlayerStateController : MonoBehaviour
 
         if (attack.action.IsPressed())
         {
-            Debug.Log(holdTime);
             holdTime += Time.deltaTime;
             holdTime = Math.Clamp(holdTime, 0, 1);
             ChargingEffect();
