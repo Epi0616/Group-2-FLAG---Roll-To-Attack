@@ -9,6 +9,7 @@ public class A_PlayerWeakenState : PlayerBaseAttackState
     {
         base.EnterState(player);
         impactSounds = player.playerWeakenSounds;
+        hitSounds = player.hitPlayerWeakenSounds;
         myColor = Color.darkMagenta;
     }
     protected override void PlayImpactSound()

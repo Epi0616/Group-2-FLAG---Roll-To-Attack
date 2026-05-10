@@ -56,12 +56,19 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("Player Ability Impact SoundFX")]
     public AudioClip[] playerFreezeSounds;
+    public AudioClip[] hitPlayerFreezeSounds;
     public AudioClip[] playerPoisonSounds;
+    public AudioClip[] hitPlayerPoisonSounds;
     public AudioClip[] playerSpikeSounds;
+    public AudioClip[] hitPlayerSpikeSounds;
     public AudioClip[] playerKnockbackSounds;
+    public AudioClip[] hitPlayerKnockbackSounds;
     public AudioClip[] playerSlowSounds;
+    public AudioClip[] hitPlayerSlowSounds;
     public AudioClip[] playerWeakenSounds;
+    public AudioClip[] hitPlayerWeakenSounds;
     public AudioClip[] playerRocketSounds;
+    public AudioClip[] hitPlayerRocketSounds;
     public AudioClip[] playerVacuumSounds;
 
     [Header("Localization for damage text")]
