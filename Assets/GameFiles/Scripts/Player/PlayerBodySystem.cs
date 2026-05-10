@@ -91,6 +91,5 @@ public class PlayerBodySystem : MonoBehaviour
         {
             chargeCompleteEffect.Stop();
         }
-        //Debug.Log("Reset");
     }
 }
