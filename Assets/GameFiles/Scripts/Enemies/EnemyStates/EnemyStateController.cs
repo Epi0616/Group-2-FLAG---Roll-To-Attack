@@ -638,7 +638,7 @@ public abstract class EnemyStateController : MonoBehaviour
     }
 
     // Single Instant Look At Player - Used By Ranged Enemy when attack starts
-    protected void LookAtPlayer()
+    public void LookAtPlayer()
     {
         Vector3 playerDir = playerReference.transform.position - transform.position;
         playerDir.y = transform.position.y;

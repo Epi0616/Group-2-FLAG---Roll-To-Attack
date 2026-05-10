@@ -17,7 +17,7 @@ public class A_PlayerSpikeState : PlayerBaseAttackState
             AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
         }
 
-        AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
+        AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.7f);
     }
 
     protected override void CustomAttack(GameObject Enemy)
