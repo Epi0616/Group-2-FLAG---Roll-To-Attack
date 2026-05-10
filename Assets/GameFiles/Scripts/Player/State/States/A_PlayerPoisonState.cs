@@ -6,6 +6,7 @@ public class A_PlayerPoisonState : PlayerBaseAttackState
     {
         base.EnterState(player);
         impactSounds = player.playerPoisonSounds;
+        hitSounds = player.hitPlayerPoisonSounds;
         myColor = Color.green;
     }
     protected override void PlayImpactSound()

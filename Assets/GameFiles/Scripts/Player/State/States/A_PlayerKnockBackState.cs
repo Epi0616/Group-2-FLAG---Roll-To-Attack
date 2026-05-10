@@ -7,6 +7,7 @@ public class A_PlayerKnockbackState : PlayerBaseAttackState
     {
         base.EnterState(player);
         impactSounds = player.playerKnockbackSounds;
+        hitSounds = player.hitPlayerKnockbackSounds;
         myColor = Color.darkGoldenRod;
     }
     protected override void PlayImpactSound()
