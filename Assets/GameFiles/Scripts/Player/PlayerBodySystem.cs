@@ -70,10 +70,12 @@ public class PlayerBodySystem : MonoBehaviour
 
     public void DisplayChargingEffect()
     {
+        if (chargingEffect.isPlaying) return;
         chargingEffect.Play();
     }
     public void DisplayChargeCompleteEffect()
     {
+        if (chargeCompleteEffect.isPlaying) return;
         chargeCompleteEffect.Play();
     }
 
@@ -87,6 +89,5 @@ public class PlayerBodySystem : MonoBehaviour
         {
             chargeCompleteEffect.Stop();
         }
-        Debug.Log("Reset");
     }
 }
