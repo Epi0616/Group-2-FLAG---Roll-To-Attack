@@ -45,8 +45,7 @@ public class PlayerStateController : MonoBehaviour
     [Header("Attack feel")]
     public Stat baseRadiusSize;
     private float holdTime = 0;
-    public ParticleSystem heavyReady;
-    public ParticleSystem hold;
+    private bool chargeComplete = false;
 
     [Header("Player SoundFX")]
     public AudioClip[] playerLightAttackSounds;
@@ -102,20 +101,6 @@ public class PlayerStateController : MonoBehaviour
     {
         CheckForAttack();
         currentState.UpdateState();
-
-
-
-        // change this for more efficient code, couldnt get it to work the way you code
-        // guys code
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            hold.Play();
-        }
-        if(Input.GetKeyUp(KeyCode.Space))
-        {
-            hold.Stop();
-        }
-        //guys code
     }
 
     private void FixedUpdate()
@@ -167,7 +152,9 @@ public class PlayerStateController : MonoBehaviour
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
+            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            chargeComplete = false;
         }
 
         if (attack.action.IsPressed())
@@ -192,20 +179,11 @@ public class PlayerStateController : MonoBehaviour
             impactSpeed.AddMultiplierFlat(holdTime * 2);
             baseRadiusSize.AddMultiplierFlat(holdTime);
 
-            //guys code
-            if (heavyReady.isPlaying)
-            {
-                heavyReady.Stop();
-            }
-            if (hold.isPlaying)
-            {
-                hold.Stop();
-            }
-            //guys code
-
             SwitchState(new PlayerJumpState());
             moveSpeed.ResetModifiers();
+            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            chargeComplete = false;
             return;
         }
     }
@@ -218,7 +196,9 @@ public class PlayerStateController : MonoBehaviour
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
+            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            chargeComplete = false;
             return;
         }
 
@@ -241,7 +221,9 @@ public class PlayerStateController : MonoBehaviour
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
+            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            chargeComplete = false;
             return;
         }
 
@@ -255,7 +237,9 @@ public class PlayerStateController : MonoBehaviour
 
             SwitchState(new PlayerJumpState());
             moveSpeed.ResetModifiers();
+            bodySystem.ResetChargingEffects();
             holdTime = 0;
+            chargeComplete = false;
             return;
         }
     }
@@ -268,21 +252,17 @@ public class PlayerStateController : MonoBehaviour
         moveSpeed.SetMultiplier(moveSpeedMultiplier);
         bodySystem.ShakeDiceBody(2 / moveSpeedMultiplier);
 
-        // guys code
-        if (holdTime > 0.9f)
+        if (holdTime >= 0.2 && holdTime < 1)
         {
-            if (!heavyReady.isPlaying)
-            {
-                heavyReady.Play();
-            }
+            bodySystem.DisplayChargingEffect();
+            return;
         }
-        if(holdTime > 0.1f)
+        if (!chargeComplete)
         {
-            if (!hold.isPlaying)
-            {
-                hold.Play();
-            }
+            bodySystem.ResetChargingEffects();
+            chargeComplete = true;
         }
-        // guys code
+
+        bodySystem.DisplayChargeCompleteEffect();
     }
 }

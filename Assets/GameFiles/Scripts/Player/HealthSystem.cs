@@ -5,6 +5,7 @@ public class HealthSystem : MonoBehaviour
 {
     [SerializeField] private int maxHealth, currentHealth;
     [SerializeField] AudioClip[] playerHitSounds;
+    [SerializeField] AudioClip[] playerHealSounds;
     public static event Action<int, int> UpdateHealthBar;
     public static event Action GameOver;
     public static event Action<float> IFrames;
@@ -48,6 +49,7 @@ public class HealthSystem : MonoBehaviour
     public void HealToFull(float waveNumber)
     {
         currentHealth = maxHealth;
+        AudioManager.instance.PlayRandomSoundClip(playerHealSounds, transform.position);
         UpdateHealthBar?.Invoke(currentHealth, maxHealth);
     }
     public void OnDeath()
