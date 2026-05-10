@@ -7,6 +7,8 @@ public class PlayerBodySystem : MonoBehaviour
     public GameObject body;
     public Quaternion originalRotation;
     public ParticleSystem healEffect;
+    public ParticleSystem chargeCompleteEffect;
+    public ParticleSystem chargingEffect;
     private float iFrameTimer;
 
     private void OnEnable()
@@ -64,5 +66,27 @@ public class PlayerBodySystem : MonoBehaviour
     private void DisplayHeal(float healAmount)
     { 
         healEffect.Play();
+    }
+
+    public void DisplayChargingEffect()
+    {
+        chargingEffect.Play();
+    }
+    public void DisplayChargeCompleteEffect()
+    {
+        chargeCompleteEffect.Play();
+    }
+
+    public void ResetChargingEffects()
+    {
+        if (chargingEffect.isPlaying)
+        {
+            chargingEffect.Stop();
+        }
+        if (chargeCompleteEffect.isPlaying)
+        {
+            chargeCompleteEffect.Stop();
+        }
+        Debug.Log("Reset");
     }
 }
