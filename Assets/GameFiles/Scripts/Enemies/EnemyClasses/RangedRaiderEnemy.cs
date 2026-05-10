@@ -164,6 +164,8 @@ public class RangedRaiderEnemy : EnemyStateController
         Vector3 playerDirection = Vector3.zero;
         Ray ray = new Ray(firingOrigin.position, playerDirection);
 
+        AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
+
         activeTimer = 0;
         animator.speed = 0.5f;
         Quaternion lookRotation;

@@ -690,15 +690,18 @@ MonoBehaviour:
   rb: {fileID: 712423231959406454}
   move: {fileID: -1868467007967312457, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   attack: {fileID: -6595154157516738094, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  controllerChargeAttack: {fileID: 0}
   abilitySystem: {fileID: 5475185179310996633}
   attackSystem: {fileID: 5004288492463444806}
   healthSystem: {fileID: 1323944957761061384}
   bodySystem: {fileID: 1549561879397095893}
   boxCollider: {fileID: 2663442673991085227}
   isGrounded: 0
+  isUsingGamePad: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 16384
+  UiActive: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -721,17 +724,16 @@ MonoBehaviour:
   sixPipWeight: 1
   baseRadiusSize:
     baseValue: 10
-  playerLightAttackSounds:
-  - {fileID: 8300000, guid: d4cb8870297837d48a2dbd36ce3a044c, type: 3}
-  playerHeavyAttackSounds:
-  - {fileID: 8300000, guid: 3c25ae698bb14034bbaeddeb8a02774b, type: 3}
-  playerLightJumpSounds:
-  - {fileID: 8300000, guid: 69dc114c1cda6a0409a7e003e6c3258d, type: 3}
+  heavyReady: {fileID: 0}
+  hold: {fileID: 0}
+  playerLightAttackSounds: []
+  playerHeavyAttackSounds: []
+  playerLightJumpSounds: []
   playerChargeSound: {fileID: 0}
   playerFreezeSounds:
   - {fileID: 8300000, guid: e7bfc8e4e524ec84c9fc265f0fd26d09, type: 3}
   playerPoisonSounds:
-  - {fileID: 8300000, guid: 78a2a5c80e2e9054082969c9a304f856, type: 3}
+  - {fileID: 8300000, guid: 358663f35014f6a4a9ed981b4f0cfb55, type: 3}
   playerSpikeSounds:
   - {fileID: 8300000, guid: 7d3800238658043488fa2dfc5e305ebb, type: 3}
   playerKnockbackSounds:
@@ -744,6 +746,36 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ed7538cd026a9bd4ea06370367b77fbf, type: 3}
   playerVacuumSounds:
   - {fileID: 8300000, guid: 901a4e7964ead644fbe4cdafa4e9236e, type: 3}
+  slowedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  weakenedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  frozenText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &1323944957761061384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,6 +790,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
+  playerHitSounds:
+  - {fileID: 0}
 --- !u!114 &5475185179310996633
 MonoBehaviour:
   m_ObjectHideFlags: 0
