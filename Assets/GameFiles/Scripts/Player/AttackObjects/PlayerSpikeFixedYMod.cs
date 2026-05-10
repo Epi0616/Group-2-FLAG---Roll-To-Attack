@@ -8,6 +8,7 @@ public class PlayerSpikeFixedYMod : MonoBehaviour
     public float radius = 5f;
     public float speed = 360f;
     public Vector3 desiredWorldUp;
+    public AudioClip[] spikeOnHitSound;
 
     private float age = 0;
     private GameObject player;
@@ -56,7 +57,8 @@ public class PlayerSpikeFixedYMod : MonoBehaviour
 
     private void DamageEnemy(GameObject Enemy)
     {
-        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(12, Color.silver);
+        AudioManager.instance.PlayRandomSoundClip(spikeOnHitSound, new Vector3(0, 0, 0), 0.7f);
+        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(18, Color.silver);
         DestroyMe();
     }
 
