@@ -24,6 +24,8 @@ public class PlayerBodySystem : MonoBehaviour
 
     void Start()
     {
+        chargeCompleteEffect.Stop();
+        chargingEffect.Stop();
         originalRotation = body.transform.rotation;
     }
 
@@ -70,10 +72,12 @@ public class PlayerBodySystem : MonoBehaviour
 
     public void DisplayChargingEffect()
     {
+        if (chargingEffect.isPlaying) { return; }
         chargingEffect.Play();
     }
     public void DisplayChargeCompleteEffect()
     {
+        if (chargeCompleteEffect.isPlaying) { return; }
         chargeCompleteEffect.Play();
     }
 
@@ -87,6 +91,6 @@ public class PlayerBodySystem : MonoBehaviour
         {
             chargeCompleteEffect.Stop();
         }
-        Debug.Log("Reset");
+        //Debug.Log("Reset");
     }
 }
