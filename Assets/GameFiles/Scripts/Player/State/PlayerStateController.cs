@@ -194,7 +194,7 @@ public class PlayerStateController : MonoBehaviour
     {
         if (!isGrounded) return;
 
-        if (attack.action.IsPressed())
+        if (attack.action.WasPressedThisFrame())
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
             SwitchState(new PlayerJumpState());
