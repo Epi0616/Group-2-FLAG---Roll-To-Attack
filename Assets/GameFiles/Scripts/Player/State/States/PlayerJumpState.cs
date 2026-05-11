@@ -78,10 +78,8 @@ public class PlayerJumpState : PlayerBaseState
         float verticalVelocity = remainingHeight * jumpSpeed;
         Vector3 velocity = new Vector3(0, verticalVelocity, 0);
 
-        if (player.moveWhileJumping)
-        {
-            velocity += moveDirection * player.moveSpeedWhileJumping.GetFinalValue();
-        }
+
+        velocity += MoveWhileJumping();
 
         player.rb.linearVelocity = velocity;
 
@@ -89,6 +87,29 @@ public class PlayerJumpState : PlayerBaseState
         ApplyRotation(progress);
 
         return remainingHeight <= 0.01f;
+    }
+
+    private Vector3 MoveWhileJumping()
+    {
+        if (player.moveWhileJumping)
+        {
+            Vector3 horizontalMovement = moveDirection * player.moveSpeedWhileJumping.GetFinalValue();
+
+            if (horizontalMovement.sqrMagnitude > 0)
+            {
+                if (player.rb.SweepTest(horizontalMovement.normalized, out RaycastHit hit, 1f))
+                {
+                    if (MathF.Abs(hit.normal.y) < 0.5)
+                    {
+                        horizontalMovement = Vector3.ProjectOnPlane(horizontalMovement, hit.normal);
+                    }
+                }
+            }
+
+            return horizontalMovement;
+        }
+
+        return Vector3.zero;
     }
 
     private void ApplyRotation(float jumpProgress)

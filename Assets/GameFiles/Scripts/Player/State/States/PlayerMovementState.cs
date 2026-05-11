@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -22,7 +23,13 @@ public class PlayerMovementState : PlayerBaseState
 
         Vector3 targetVelocity = moveDirection * player.moveSpeed.GetFinalValue();
         targetVelocity.y = player.rb.linearVelocity.y;
+
         player.rb.linearVelocity = targetVelocity;
+
+        if (!player.isGrounded)
+        {
+            player.rb.AddForce(Vector3.down * 100, ForceMode.Acceleration); 
+        }
     }
 
     private void CheckForMoveActionPressed()

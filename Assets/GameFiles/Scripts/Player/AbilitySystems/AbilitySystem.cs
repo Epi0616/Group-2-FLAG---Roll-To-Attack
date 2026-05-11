@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AbilitySystem : MonoBehaviour
 {
+    [SerializeField] private PlayerLoadOut playerLoadOut;
     [SerializeField] private AbilityDescriptor defaultAbility;
     [SerializeField] private List<AbilityDescriptor> playerAbilities;
     [SerializeField] private List<AbilityDescriptor> playerAbilityStorage = new List<AbilityDescriptor>();
@@ -14,6 +15,7 @@ public class AbilitySystem : MonoBehaviour
     {
         CorrectPipNumbers();
         AdjustDisplaySprites();
+        playerLoadOut.WriteAbilities(playerAbilities);
     }
     public AbilityDescriptor GetRandomAbility()
     {
@@ -40,6 +42,7 @@ public class AbilitySystem : MonoBehaviour
         playerAbilities = newAbilityList;
         CorrectPipNumbers();
         AdjustDisplaySprites();
+        playerLoadOut.WriteAbilities(newAbilityList);
     }
 
     public void SetPlayerAbilityStorage(List<AbilityDescriptor> newAbilityList)
