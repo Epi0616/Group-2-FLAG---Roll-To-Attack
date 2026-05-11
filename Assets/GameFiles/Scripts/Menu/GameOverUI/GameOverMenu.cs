@@ -8,6 +8,7 @@ public class GameOverMenu : MonoBehaviour
     [SerializeField] private GameObject gameOverMenuUI;
     [SerializeField] private GameObject playAgainButton;
     [SerializeField] private GameOverStatsDisplay gameOverStatsDisplay;
+    [SerializeField] private PlayerAbilitiesDisplay playerAbilitiesDisplay;
 
     private void OnEnable()
     {
@@ -28,6 +29,7 @@ public class GameOverMenu : MonoBehaviour
     {
         gameOverMenuUI.SetActive(true);
         gameOverStatsDisplay.UpdateStatsDisplay("null");
+        playerAbilitiesDisplay.DisplayLoadout();
         EventSystem.current.firstSelectedGameObject = playAgainButton;
         UISelectionManager.instance.TrySetSelectedGameObject(playAgainButton);
         Time.timeScale = 0;

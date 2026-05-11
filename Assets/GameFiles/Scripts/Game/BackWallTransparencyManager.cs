@@ -22,13 +22,13 @@ public class BackWallTransparencyManager: MonoBehaviour
     {
         playerPosition = playerReference.transform.position;
 
-        if (playerPosition.z > -30 && isTransparent)
+        if (playerPosition.z > -13 && isTransparent)
         {
             UpdateTransparency();
             isTransparent = false;
         }
 
-        if (playerPosition.z <= -30 && !isTransparent)
+        if (playerPosition.z <= -13 && !isTransparent)
         {
             UpdateTransparency();
             isTransparent = true;
