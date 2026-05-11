@@ -35,7 +35,7 @@ public class EnemyDirector : MonoBehaviour
     private void OnDisable()
     {
         EnemyStateController.EnemyHasDied -= ProcessEnemyDeath;
-        DicePedestal.WaveStartPedestal += StartNextWave;
+        DicePedestal.WaveStartPedestal -= StartNextWave;
     }
 
     void Start()
@@ -50,6 +50,8 @@ public class EnemyDirector : MonoBehaviour
     }
     private void StartNextWave(float time)
     {
+        //Debug.Log("starting wave");
+
         BuildWave();
         WaveCountStart?.Invoke(delayBetweenWaves);
         StartCoroutine(SpawnWaveDelay());

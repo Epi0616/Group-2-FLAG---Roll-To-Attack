@@ -9,14 +9,16 @@ public class ChargedAttackDescriptor : StaticText
     protected override void OnEnable()
     {
         base.OnEnable();
-        DiceFaceSelectionUIManager.DiceFaceSelectionOver += HandleSelectionPhaseOver;
+        //DiceFaceSelectionUIManager.DiceFaceSelectionOver += HandleSelectionPhaseOver;
+        DicePedestal.ChargeTextAppear += HandleTextAppear;
         DicePedestal.WaveStartPedestal += HandleWaveStart;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        DiceFaceSelectionUIManager.DiceFaceSelectionOver -= HandleSelectionPhaseOver;
+        //DiceFaceSelectionUIManager.DiceFaceSelectionOver -= HandleSelectionPhaseOver;
+        DicePedestal.ChargeTextAppear -= HandleTextAppear;
         DicePedestal.WaveStartPedestal -= HandleWaveStart;
     }
 
@@ -26,7 +28,7 @@ public class ChargedAttackDescriptor : StaticText
         tmpAsset.alpha = 1f;
     }
 
-    private void HandleSelectionPhaseOver(float time)
+    private void HandleTextAppear(float time)
     {
         StartCoroutine(FadeIn());
     }
@@ -64,7 +66,10 @@ public class ChargedAttackDescriptor : StaticText
         {
             timer -= Time.deltaTime;
 
-            tmpAsset.alpha = Mathf.Clamp01(timer);
+            if (timer < tmpAsset.alpha)
+            {
+                tmpAsset.alpha = Mathf.Clamp01(timer);
+            }
             yield return null;
         }
 
