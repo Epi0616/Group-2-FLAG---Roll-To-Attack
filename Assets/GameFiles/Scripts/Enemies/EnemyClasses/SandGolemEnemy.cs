@@ -30,6 +30,7 @@ public class SandGolemEnemy : EnemyStateController
         attackCompleted = false;
         attackInterrupted = false;
         LookAtPlayer();
+        animator.speed = 1f;
 
         SpawnImpactField();
         charge = StartCoroutine(ChargeTime());
