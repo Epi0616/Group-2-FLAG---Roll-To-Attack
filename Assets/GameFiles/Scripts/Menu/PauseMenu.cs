@@ -67,6 +67,7 @@ public class PauseMenu : MonoBehaviour
     public void Menu()
     {
         TogglePaused();
+
         if (TransitionManager.instance == null)
         {
             SceneManager.LoadScene("Menu");
