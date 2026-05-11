@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class DiceButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class DiceButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
     public Quaternion originalRotation;
     public GameObject dice;
@@ -44,5 +44,17 @@ public class DiceButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
         float y = Time.time * 50f + magnitude;
         float z = Time.time * 50f + magnitude;
         dice.transform.rotation = originalRotation * Quaternion.Euler(x, y, z);
+    }
+
+    void ISelectHandler.OnSelect(BaseEventData eventData)
+    {
+        gameObject.transform.localScale = new Vector3(sizeWidthHover, sizeHeightHover, 1);
+        dice.SetActive(true);
+    }
+
+    void IDeselectHandler.OnDeselect(BaseEventData eventData)
+    {
+        gameObject.transform.localScale = new Vector3(sizeWidth, sizeHeight, 1);
+        dice.SetActive(false);
     }
 }
