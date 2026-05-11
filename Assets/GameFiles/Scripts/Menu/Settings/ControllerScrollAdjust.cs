@@ -79,9 +79,9 @@ public class ControllerScrollAdjust : MonoBehaviour
         float viewportTop = viewportCorners[1].y - scrollPadding;
         float viewportBottom = viewportCorners[0].y + scrollPadding;
 
-        Debug.Log(contentYPos);
-        Debug.Log(contentHeight);
-        Debug.Log(viewportHeight);
+        //Debug.Log(contentYPos);
+        //Debug.Log(contentHeight);
+        //Debug.Log(viewportHeight);
 
         if (activeTop > viewportTop)
         {
