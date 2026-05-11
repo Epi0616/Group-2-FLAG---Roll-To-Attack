@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,6 +10,35 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private InputActionReference pauseGame;
     [SerializeField] private SettingsUIManager SettingsUIManager;
     [SerializeField] private GameObject greyBackground;
+    [SerializeField] private GameObject firstSelected;
+
+    private void OnEnable()
+    {
+        SettingsUIManager.settingsClosed += HideGreyBackground;
+    }
+    private void OnDisable()
+    {
+        SettingsUIManager.settingsClosed -= HideGreyBackground;
+    }
+
+    private IEnumerator Start()
+    {
+        EventSystem.current.firstSelectedGameObject = firstSelected;
+        yield return new WaitForEndOfFrame();
+
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    private void Update()
+    {
+        if (pauseGame.action.WasPressedThisFrame())
+        {
+            if (greyBackground.activeSelf)
+            {
+                ToggleOptions();
+            }
+        }
+    }
 
     public void PlayGame()
     {
@@ -20,26 +51,6 @@ public class MainMenu : MonoBehaviour
             TransitionManager.LoadScene("MainBuild", 0.5f, 1f);
         }
 
-    }
-
-    private void OnEnable()
-    {
-        SettingsUIManager.settingsClosed += HideGreyBackground;
-    }
-    private void OnDisable()
-    {
-        SettingsUIManager.settingsClosed -= HideGreyBackground;
-    }
-
-    private void Update()
-    {
-        if (pauseGame.action.WasPressedThisFrame())
-        {
-            if (greyBackground.activeSelf)
-            {
-                ToggleOptions();
-            }
-        }
     }
 
     public void Options()
