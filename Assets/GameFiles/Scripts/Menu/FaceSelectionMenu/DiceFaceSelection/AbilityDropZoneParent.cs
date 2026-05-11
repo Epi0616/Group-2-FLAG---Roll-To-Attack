@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class AbilityDropZoneParent : MonoBehaviour
 {
     public GameObject displayText;
+    [SerializeField] protected Image myImage;
     protected GameObject centralAbilitySlot;
     protected RectTransform rectTransform;
     protected int objectLimit = 0;
@@ -73,6 +74,10 @@ public class AbilityDropZoneParent : MonoBehaviour
 
     public void DisplayEmptyAnimation(float timer)
     {
+        if (myImage == null)
+        {
+            return;
+        }
         StartCoroutine(ShakeRoutine(timer));
     }
 
@@ -80,8 +85,8 @@ public class AbilityDropZoneParent : MonoBehaviour
     {
         float shakeTimer = timer;
         Quaternion originalRotation = rectTransform.rotation;
-        Image image = GetComponent<Image>();
-        image.color = Color.red; //in the future set to whatever material the slot uses
+
+        myImage.color = Color.red; //in the future set to whatever material the slot uses
 
         while (shakeTimer > 0)
         {
@@ -94,7 +99,7 @@ public class AbilityDropZoneParent : MonoBehaviour
 
             yield return null;
         }
-        image.color = Color.black; //in the future set to whatever material the slot uses
+        myImage.color = Color.white; //in the future set to whatever material the slot uses
 
         rectTransform.rotation = originalRotation;
     }

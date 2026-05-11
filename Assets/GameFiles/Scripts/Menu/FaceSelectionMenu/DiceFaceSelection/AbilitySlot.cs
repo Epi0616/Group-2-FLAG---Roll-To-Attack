@@ -8,6 +8,10 @@ using UnityEngine.UI;
 public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandler
 {
     public static event Action<AbilitySlot> selected;
+    public static event Action unselected;
+    public static event Action<Vector3> selectedPos;
+
+    private bool isSelected = false;
 
     protected override void Awake()
     {
@@ -87,11 +91,13 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
     void ISelectHandler.OnSelect(BaseEventData eventData)
     {
         OnHoverStart();
+        selectedPos?.Invoke(transform.position);
     }
 
     void IDeselectHandler.OnDeselect(BaseEventData eventData)
     {
         onHoverEnd();
+        unselected?.Invoke();
     }
 
     private void CheckForDisplayRequired()
@@ -120,16 +126,23 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
     public void onHoverEnd()
     {
         OnSlotHoverEnd?.Invoke();
+        if (isSelected == false)
+        {
+            image.color = button.colors.normalColor;
+        }
     }
 
     public void Selected()
     {
-        //image.color = button.colors.selectedColor;
-        selected.Invoke(this);
+        image.color = button.colors.selectedColor;
+        selected?.Invoke(this);
+        isSelected = true;
     }
 
     public void Unselected()
-    {                      
+    {
+        unselected?.Invoke();
         image.color = button.colors.normalColor;
+        isSelected = false;
     }
 }
