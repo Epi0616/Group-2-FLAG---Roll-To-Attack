@@ -572,7 +572,7 @@ public abstract class EnemyStateController : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        AudioManager.instance.PlayRandomSoundClip(EnemyDeathSounds, default, 0.3f);
+        AudioManager.instance.PlayRandomSoundClip(EnemyDeathSounds, new Vector3(0,0,0), 1f);
 
         currentState?.ExitState();
         //StopVibrating();
@@ -602,7 +602,7 @@ public abstract class EnemyStateController : MonoBehaviour
     // Check for Knockback wall damage
     protected void OnCollisionEnter(Collision collision) 
     {
-        if (!collision.gameObject.CompareTag("Environment")) {  return; }
+        if (!collision.gameObject.CompareTag("Environment") && !collision.gameObject.CompareTag("Pedestal")) {  return; }
         if (!isBeingDisplaced) { return; }
         //if (isKnockedBackByGolem) { return; }
 

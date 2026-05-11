@@ -59,7 +59,11 @@ public class PlayerSpikeFixedYMod : MonoBehaviour
     {
         AudioManager.instance.PlayRandomSoundClip(spikeOnHitSound, new Vector3(0, 0, 0), 0.7f);
         Enemy.GetComponent<EnemyStateController>().OnTakeDamage(18, Color.silver);
-        DestroyMe();
+        if (age > 0.75f)
+        {
+            DestroyMe();
+        }
+        
     }
 
     private void CheckForExpiration()

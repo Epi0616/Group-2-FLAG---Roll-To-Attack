@@ -1,45 +1,25 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAbilitiesDisplay : MonoBehaviour
 {
-    [SerializeField] private AbilitySystem abilitySystem;
-    [SerializeField] private float radius;
-    [SerializeField] private GameObject abilityObject;
+    [SerializeField] private PlayerLoadOut playerLoadOut;
+    [SerializeField] private Image[] abilityDisplayImages;
 
-    private void Start()
+    public void DisplayLoadout()
     {
-        spawnAbilityObjects();
-    }
+        Debug.Log("displaying abilities");
 
-    public void spawnAbilityObjects()
-    {
-        List<AbilityDescriptor> abilities = abilitySystem.GetPlayerAbilities();
+        List<AbilityDescriptor> abilities = playerLoadOut.ReadAbilities();
+        if (abilities == null) return;
+        if (abilities.Count == 0) return;
 
-        List<Vector3> coordinates = GetAbilityCoordinates(abilities);
-        for (int i = 0; i < coordinates.Count; i++)
+        for (int i = 0; i < abilityDisplayImages.Length; i++)
         {
-            DraggableAbility currentAbility = Instantiate(abilityObject, transform).GetComponent<DraggableAbility>();
-            currentAbility.SetAbilityDescriptor(abilities[i]);
+            if (abilities.Count < i) return;
+            abilityDisplayImages[i].sprite = abilities[i].sprite;
         }
-    }
-
-    private List<Vector3> GetAbilityCoordinates(List<AbilityDescriptor> abilities)
-    {
-        List<Vector3> coordinates = new List<Vector3>();
-        Vector3 position = transform.position;
-
-        for (int i = 0; i < abilities.Count; i++)
-        {
-            float angle = i * (360f / abilities.Count);
-            Quaternion rotation = Quaternion.Euler(0, 0, angle);
-            Vector3 offset = rotation * new Vector3 (0, 1, 0) * radius;
-
-            Vector3 newCoord = position + offset;
-            coordinates.Add(newCoord);
-        }
-
-        return coordinates;
     }
 }
