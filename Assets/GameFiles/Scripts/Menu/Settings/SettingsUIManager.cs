@@ -7,6 +7,7 @@ public class SettingsUIManager : MonoBehaviour
 {
     public static Action<bool> settingsClosed;
     public static Action keyBindUIOpened, keyBindUIClosed;
+    public static Action settingsCleared;
     [SerializeField] private InputActionReference backButtonAction;
 
     [SerializeField] private GameObject mainSettingsUI;
@@ -134,6 +135,8 @@ public class SettingsUIManager : MonoBehaviour
 
     public void ClearSettingsScreen()
     {
+        settingsCleared?.Invoke();
+
         background.SetActive(false);
         mainSettingsUI.SetActive(false);
         gameSettingsUI.SetActive(false);

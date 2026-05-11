@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerRocket : MonoBehaviour
 {
     [SerializeField] GameObject impactFieldPrefab;
+    [SerializeField] AudioClip[] rocketOnHitSounds;
     private EnemyStateController target;
     private bool searchingForTarget = false;
     private bool flyingTowardsTarget = false;
@@ -104,7 +105,8 @@ public class PlayerRocket : MonoBehaviour
         //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
         ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
 
-        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(15, Color.orange);
+        Enemy.GetComponent<EnemyStateController>().OnTakeDamage(20, Color.orange);
+        AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position);
         DestroyMe();
     }
 

@@ -51,11 +51,16 @@ public class PlayerBaseAttackState : PlayerMovementState
         }
         Attack(colliders, collisions);
 
+        Collider[] pedestalColliders = new Collider[5];
+        int pedestalCollisions = Physics.OverlapSphereNonAlloc(player.rb.position, myRadius, pedestalColliders, player.pedestalLayer);
+        if (pedestalCollisions > 0)
+        {
+            AttackPedestal(pedestalColliders, pedestalCollisions);
+        }
+
         ResetAttackModifiers();
         player.SwitchState(new PlayerMovementState());
     }
-
-    
 
     protected virtual void PlayImpactSound()
     {
@@ -95,6 +100,22 @@ public class PlayerBaseAttackState : PlayerMovementState
             ApplyKnockback(Enemy);
         }
         CustomDisplayAttack();
+    }
+
+    protected virtual void AttackPedestal(Collider[] colliders, int collisions)
+    {
+        for (int i = 0; i < collisions; i++)
+        {
+            if (colliders[i] == null) { continue; }
+            if (colliders[i].gameObject.CompareTag("Pedestal"))
+            {
+                if (player.impactSpeed.GetFinalValue() > player.impactSpeed.GetBaseValue())
+                {
+                    colliders[i].gameObject.GetComponent<DicePedestal>().ActivatePedestalWithHeavy();
+                }
+                colliders[i].gameObject.GetComponent<DicePedestal>().ActivatePedestal();
+            }
+        }
     }
 
     protected void ApplyKnockback(GameObject Enemy)

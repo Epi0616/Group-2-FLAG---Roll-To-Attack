@@ -164,6 +164,8 @@ public class RangedRaiderEnemy : EnemyStateController
         Vector3 playerDirection = Vector3.zero;
         Ray ray = new Ray(firingOrigin.position, playerDirection);
 
+        AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds, transform.position, 0.3f);
+
         activeTimer = 0;
         animator.speed = 0.5f;
         Quaternion lookRotation;
@@ -226,7 +228,7 @@ public class RangedRaiderEnemy : EnemyStateController
         laserParticle.SetVector4("Beam Colour", activeColour);
         laserParticle.enabled = true;
 
-        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);
+        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.7f);
 
         activeTimer = 0;
 
