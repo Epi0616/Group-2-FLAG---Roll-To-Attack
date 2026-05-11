@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class DicePedestal : MonoBehaviour
 {
-    public static Action<float> WaveStartPedestal;
+    public static event Action<float> WaveStartPedestal;
+    public static event Action<float> ChargeTextAppear;
+
     [SerializeField] GameObject diceBody;
     [SerializeField] float positionAmount = 0.05f;
     [SerializeField] float positionSpeed = 0.5f;
@@ -28,16 +31,21 @@ public class DicePedestal : MonoBehaviour
 
     private void OnEnable()
     {
-        WaveStartPedestal += HandleWaveStarted;
         DiceFaceSelectionUIManager.DiceFaceSelectionOver += HandleDiceSelectionPhaseOver;
         GameSettings.autoStart += HandleAutoStart;
+        EnemyDirector.WaveCountStart += HandleWaveCountStart;
     }
 
     private void OnDisable()
     {
-        WaveStartPedestal -= HandleWaveStarted;
         DiceFaceSelectionUIManager.DiceFaceSelectionOver -= HandleDiceSelectionPhaseOver;
         GameSettings.autoStart -= HandleAutoStart;
+        EnemyDirector.WaveCountStart -= HandleWaveCountStart;
+    }
+
+    private void Awake()
+    {
+        waveStarted = false;
     }
 
     private void Start()
@@ -46,6 +54,7 @@ public class DicePedestal : MonoBehaviour
         startRotation = diceBody.transform.localRotation;
 
         seed = Random.Range(0, 10000);
+        Debug.Log(Time.timeScale);
     }
 
     private void Update()
@@ -83,6 +92,8 @@ public class DicePedestal : MonoBehaviour
     public void ActivatePedestalWithHeavy()
     {
         if (waveStarted) return;
+        waveStarted = true;
+
         WaveStartPedestal?.Invoke(timeBetweenWaves);
         activated = true;
         StartCoroutine(DiceStartWaveReaction());
@@ -123,6 +134,7 @@ public class DicePedestal : MonoBehaviour
 
     private IEnumerator DiceStartWaveReaction()
     {
+        Debug.Log("starting wave reaction");
         rotationWeight = 0;
         float timer = 0;
 
@@ -188,30 +200,33 @@ public class DicePedestal : MonoBehaviour
         this.autoStart = autoStart;
     }
 
-    private void HandleWaveStarted(float time)
+    private void HandleWaveCountStart(float countdown)
     {
-        waveStarted = true;
+        StartCoroutine(ResetAutoStartHandled());
     }
 
-    private IEnumerator DelayWaveStarted(float time)
+    private IEnumerator ResetAutoStartHandled()
     {
-        yield return new WaitForSecondsRealtime(0.1f);
-
+        yield return new WaitForSeconds(1);
         autoStartHandled = false;
-        WaveStartPedestal?.Invoke(time);
     }
 
     private void HandleDiceSelectionPhaseOver(float time)
     {
-        if (autoStart)
+        timeBetweenWaves = time;
+        waveStarted = false;
+
+        if (autoStart && !autoStartHandled)
         {
-            if (autoStartHandled) return;
             autoStartHandled = true;
-            StartCoroutine(DelayWaveStarted(time));
+            WaveStartPedestal?.Invoke(time);
+            waveStarted = true;
             return;
         }
 
-        timeBetweenWaves = time;
-        waveStarted = false;
+        if (!autoStart)
+        {
+            ChargeTextAppear?.Invoke(time);
+        }
     }
 }

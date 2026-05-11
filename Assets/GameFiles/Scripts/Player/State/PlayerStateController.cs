@@ -137,7 +137,11 @@ public class PlayerStateController : MonoBehaviour
 
     private void CheckForAttack()
     {
-        if (pauseUiActive || selectionUiActive) return;
+        if (pauseUiActive || selectionUiActive)
+        {
+            CancelChargeEffect();
+            return;
+        }
 
         if (isUsingGamePad)
         {
@@ -155,10 +159,7 @@ public class PlayerStateController : MonoBehaviour
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
-            holdTime = 0;
-            bodySystem.ResetChargingEffects();
-            chargeComplete = false;
-            hasPlayedCompleteVFX = false;
+            CancelChargeEffect();
         }
 
         if (attack.action.IsPressed())
@@ -175,20 +176,16 @@ public class PlayerStateController : MonoBehaviour
             }
         }
 
-        if (attack.action.WasReleasedThisFrame() && holdTime > 0.5f)
+        if (attack.action.WasReleasedThisFrame() && holdTime > 0.2f)
         {
             AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             impactSpeed.AddMultiplierFlat(holdTime * 2);
             baseRadiusSize.AddMultiplierFlat(holdTime);
-
             SwitchState(new PlayerJumpState());
-            moveSpeed.ResetModifiers();
-            holdTime = 0;
-            bodySystem.ResetChargingEffects();
-            chargeComplete = false;
-            hasPlayedCompleteVFX = false;
+
+            CancelChargeEffect();
             return;
         }
     }
@@ -201,10 +198,7 @@ public class PlayerStateController : MonoBehaviour
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
-            holdTime = 0;
-            bodySystem.ResetChargingEffects();
-            chargeComplete = false;
-            hasPlayedCompleteVFX = false;
+            CancelChargeEffect();
             return;
         }
 
@@ -227,10 +221,7 @@ public class PlayerStateController : MonoBehaviour
         {
             AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.7f);
             SwitchState(new PlayerJumpState());
-            holdTime = 0;
-            bodySystem.ResetChargingEffects();
-            chargeComplete = false;
-            hasPlayedCompleteVFX = false;
+            CancelChargeEffect();
             return;
         }
 
@@ -243,14 +234,20 @@ public class PlayerStateController : MonoBehaviour
             baseRadiusSize.AddMultiplierFlat(holdTime);
 
             SwitchState(new PlayerJumpState());
-            moveSpeed.ResetModifiers();
-            holdTime = 0;
-            bodySystem.ResetChargingEffects();
-
-            chargeComplete = false;
-            hasPlayedCompleteVFX = false;
+            CancelChargeEffect();
             return;
         }
+    }
+
+    private void CancelChargeEffect()
+    {
+        AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+        holdTime = 0f;
+        chargeComplete = false;
+        hasPlayedCompleteVFX = false;
+
+        moveSpeed.ResetModifiers();
+        bodySystem.ResetChargingEffects();
     }
 
     private void ChargingEffect()
@@ -286,7 +283,7 @@ public class PlayerStateController : MonoBehaviour
     private void DiceFaceSelectionStart()
     {
         selectionUiActive = true;
-        AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+        CancelChargeEffect();
     }
 
     private void DiceFaceSelectionFinish(float time)
@@ -297,7 +294,7 @@ public class PlayerStateController : MonoBehaviour
     private void PauseStart()
     {
         pauseUiActive = true;
-        AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+        CancelChargeEffect();
     }
 
     private void PauseFinish()
