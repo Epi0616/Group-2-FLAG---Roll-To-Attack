@@ -83,6 +83,7 @@ public class PlayerBodySystem : MonoBehaviour
 
     public void ResetChargingEffects()
     {
+        if (chargingEffect == null || chargeCompleteEffect == null) { return; }   
         if (chargingEffect.isPlaying)
         {
             chargingEffect.Stop();
