@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 public class AbilitySlotManager : MonoBehaviour
 {
     //public List<AbilityDescriptor> abilityPool;
+
     public List<AbilitySlot> abilitySlots = new List<AbilitySlot>();
     public List<AbilitySlot> abilityStorage;
     [SerializeField] private GameObject centralAbilityPoint;
@@ -146,6 +147,8 @@ public class AbilitySlotManager : MonoBehaviour
 
     //controller functions///////
     private List<AbilitySlot> slotPair = new List<AbilitySlot>();
+    public static event Action<Vector3> SlotSelected;
+    public static event Action SlotDeselected;
 
     private void CheckForQuickStoreAction()
     {
@@ -187,9 +190,11 @@ public class AbilitySlotManager : MonoBehaviour
     {
         for (int i = 0; i < slotPair.Count; i++)
         {
-            slotPair[0].Unselected();
+            slotPair[i].Unselected();
         }
         slotPair.Clear();
+
+        SlotDeselected?.Invoke();
     }
 
     private void RecieveSelectedSlot(AbilitySlot selectedSlot)
@@ -197,6 +202,8 @@ public class AbilitySlotManager : MonoBehaviour
         if (slotPair.Count >= 2) return;
 
         slotPair.Add(selectedSlot);
+        Debug.Log("slot selected " + selectedSlot.transform.position);
+        SlotSelected?.Invoke(selectedSlot.transform.position);
         if (slotPair.Count == 2)
         {
             SwapSlots();
