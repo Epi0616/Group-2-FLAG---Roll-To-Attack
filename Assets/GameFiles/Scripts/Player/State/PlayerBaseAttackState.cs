@@ -141,19 +141,21 @@ public class PlayerBaseAttackState : PlayerMovementState
     protected virtual void CustomDisplayAttack() { }
     protected virtual void CustomAttack(GameObject Enemy)
     {
-        if (player.hasHitAlready) return;
-        player.hasHitAlready = true;
-        if (!(player.customAttackText == null))
-        {
-            if (player.textMode)
+        if (!player.hasHitAlready)
+        { 
+            player.hasHitAlready = true;
+            if (!(player.customAttackText == null))
             {
-                Enemy.GetComponent<EnemyStateController>().OnTakeDamageCustomText(player.customAttackText, player.customTextColor, player.customAttackFontSize, player.displayTextScreen);
-            }
-            else
-            {
-                Enemy.GetComponent<EnemyStateController>().OnTakeDamageCustomText(player.customAttackText, player.customTextColor, player.customAttackFontSize);
-            }
+                if (player.textMode)
+                {
+                    Enemy.GetComponent<EnemyStateController>().OnTakeDamageCustomText(player.customAttackText, player.customTextColor, player.customAttackFontSize, player.displayTextScreen);
+                }
+                else
+                {
+                    Enemy.GetComponent<EnemyStateController>().OnTakeDamageCustomText(player.customAttackText, player.customTextColor, player.customAttackFontSize);
+                }
 
+            }
         }
     }
    

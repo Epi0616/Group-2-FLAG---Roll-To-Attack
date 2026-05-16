@@ -9,7 +9,7 @@ using UnityEngine.Localization;
 public abstract class EnemyStateController : MonoBehaviour
 {
     // code added by matt to show damage text
-    public GameObject playerReference,damageText, cinematicDamageText;
+    public GameObject playerReference, damageText, worldSpaceDamageText, cinematicDamageText;
     public Camera cameraReference;
 
     [Header("Variables that can be changed")]
@@ -584,7 +584,7 @@ public abstract class EnemyStateController : MonoBehaviour
         Vector3 randomOffset = new(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(8f, 10f), UnityEngine.Random.Range(-3f, 3f));
 
         //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
-        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(worldSpaceDamageText, rb.position + randomOffset, Quaternion.identity);
 
         damageNumber.GetComponent<WorldSpaceDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
