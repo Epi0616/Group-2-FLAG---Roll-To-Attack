@@ -586,7 +586,7 @@ public abstract class EnemyStateController : MonoBehaviour
         //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
         GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
 
-        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
+        damageNumber.GetComponent<WorldSpaceDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = effectText;
         tempTMPAccess.color = color;
