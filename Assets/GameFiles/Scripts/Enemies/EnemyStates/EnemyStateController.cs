@@ -9,7 +9,7 @@ using UnityEngine.Localization;
 public abstract class EnemyStateController : MonoBehaviour
 {
     // code added by matt to show damage text
-    public GameObject playerReference,damageText;
+    public GameObject playerReference,damageText, cinematicDamageText;
     public Camera cameraReference;
 
     [Header("Variables that can be changed")]
@@ -234,10 +234,16 @@ public abstract class EnemyStateController : MonoBehaviour
         }
     }
 
+    public void OnTakeDamageCustomText(string text, Color color, int fontSize, Canvas screen)
+    {
+        Debug.Log("show damage text custom");
+        ShowEffect(text, color, fontSize, screen);
+    }
+
     public void OnTakeDamageCustomText(string text, Color color, int fontSize)
     {
         Debug.Log("show damage text custom");
-        ShowEffect(text, color);
+        ShowEffect(text, color, fontSize);
     }
 
     public void AdjustScaledHealth(float multiplier)
@@ -585,6 +591,23 @@ public abstract class EnemyStateController : MonoBehaviour
         tempTMPAccess.text = effectText;
         tempTMPAccess.color = color;
         tempTMPAccess.fontSize = fontSize;
+    }
+    protected void ShowEffect(string effectText, Color color, int fontSize, Canvas screen)
+    {
+        Debug.Log("effect applied");
+        //Debug.Log(effectText);
+
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(8f, 10f), UnityEngine.Random.Range(-3f, 3f));
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(cinematicDamageText, rb.position + randomOffset, Quaternion.identity);
+
+        damageNumber.GetComponent<CinematicDisplayScript>().Initialize(cameraReference, screen);
+        TextMeshProUGUI tempTMPAccess = damageNumber.GetComponent<TextMeshProUGUI>();
+        tempTMPAccess.text = effectText;
+        tempTMPAccess.color = color;
+        tempTMPAccess.fontSize = fontSize;
+        
     }
 
     //public virtual void OnDeath()

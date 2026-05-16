@@ -8,7 +8,7 @@ public class FloatingDamageText : MonoBehaviour
     [SerializeField] private Renderer myRenderer;
     [SerializeField] private TextMeshPro tmp;
     private Camera targetCamera;
-    private float lifeTime = 3f;
+    [SerializeField] private float lifeTime = 500f;
     private Vector3 originalScale;
     //private Vector3 targetWorldUp;
     //private Vector3 targetWorldPosition;
@@ -36,8 +36,15 @@ public class FloatingDamageText : MonoBehaviour
         //tmp.ForceMeshUpdate(true, true);
         //Debug.Log(tmp.mesh.bounds);
         transform.rotation = targetCamera.transform.rotation;
-        transform.position += Vector3.up * Time.deltaTime * 3f;
-        transform.localScale *= 0.999f;
+        //transform.position += Vector3.up * Time.deltaTime * 3f;
+        //transform.localScale *= 0.999f;
+
+        //Vector3 directionToCamera = (targetCamera.transform.position - transform.position).normalized;
+        //transform.position += directionToCamera * Time.deltaTime * 5f;
+
+        Vector3 earlyCameraView = targetCamera.transform.position + new Vector3 (0, -7.5f, 10);
+
+        transform.position = Vector3.Lerp(transform.position, earlyCameraView, Time.deltaTime * 1f);
     }
 
     private IEnumerator DestroyRoutine()

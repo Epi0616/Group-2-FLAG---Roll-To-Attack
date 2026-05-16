@@ -31,6 +31,9 @@ public class PlayerStateController : MonoBehaviour
     public string customAttackText = "Attack";
     public int customAttackFontSize = 30;
     public Color customTextColor = Color.white;
+    public bool textMode = false;
+    public Canvas displayTextScreen;
+    public bool hasHitAlready = false;
 
     [Header("Movement feel")]
     public bool moveWhileJumping;
