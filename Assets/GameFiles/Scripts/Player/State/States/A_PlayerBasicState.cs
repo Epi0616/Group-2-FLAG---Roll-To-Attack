@@ -28,6 +28,8 @@ public class A_PlayerBasicState : PlayerBaseAttackState
 
     protected override void CustomAttack(GameObject enemy)
     {
+        base.CustomAttack(enemy);
+
         EnemyStateController tempControllerReference = enemy.GetComponent<EnemyStateController>();
         if (critDamage <= 2)
         {

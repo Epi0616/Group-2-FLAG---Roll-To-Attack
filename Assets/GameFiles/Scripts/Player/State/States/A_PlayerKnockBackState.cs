@@ -21,9 +21,11 @@ public class A_PlayerKnockbackState : PlayerBaseAttackState
         AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
     }
 
-    protected override void CustomAttack(GameObject Enemy)
+    protected override void CustomAttack(GameObject enemy)
     {
-        EnemyStateController tempScriptAccess = Enemy.GetComponent<EnemyStateController>();
+        base.CustomAttack(enemy);
+
+        EnemyStateController tempScriptAccess = enemy.GetComponent<EnemyStateController>();
         tempScriptAccess.OnTakeDamage(35, myColor);
         tempScriptAccess.OnTakeKnockback(new Vector3(player.transform.position.x, player.transform.position.y + 15, player.transform.position.z), 5);
 

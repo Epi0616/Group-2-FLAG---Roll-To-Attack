@@ -43,8 +43,9 @@ public class A_PlayerPoisonState : PlayerBaseAttackState
         CustomDisplayAttack();
     }
 
-    protected override void CustomAttack(GameObject Enemy)
+    protected override void CustomAttack(GameObject enemy)
     {
+        base.CustomAttack(enemy);
         //Enemy.GetComponent<EnemyStateController>().OnTakeDamage(15, myColor);
     }
 

@@ -27,6 +27,11 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("For modification")]
 
+    [Header("Custom Attack Text")]
+    public string customAttackText = "Attack";
+    public int customAttackFontSize = 30;
+    public Color customTextColor = Color.white;
+
     [Header("Movement feel")]
     public bool moveWhileJumping;
     public Stat moveSpeed;

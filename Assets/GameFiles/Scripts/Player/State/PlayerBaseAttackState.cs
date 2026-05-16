@@ -139,7 +139,13 @@ public class PlayerBaseAttackState : PlayerMovementState
     }
 
     protected virtual void CustomDisplayAttack() { }
-    protected virtual void CustomAttack(GameObject Enemy) { }
+    protected virtual void CustomAttack(GameObject Enemy)
+    {
+        if (!(player.customAttackText == null))
+        {
+            Enemy.GetComponent<EnemyStateController>().OnTakeDamageCustomText(player.customAttackText, player.customTextColor, player.customAttackFontSize);
+        }
+    }
    
     //check for attack action pressed needs to do nothing so you cant attack while in the process of performing the current attack
 }

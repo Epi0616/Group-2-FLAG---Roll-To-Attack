@@ -20,9 +20,11 @@ public class A_PlayerSpikeState : PlayerBaseAttackState
         AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.7f);
     }
 
-    protected override void CustomAttack(GameObject Enemy)
+    protected override void CustomAttack(GameObject enemy)
     {
-        EnemyStateController enemyTempScriptAccess = Enemy.GetComponent<EnemyStateController>();
+        base.CustomAttack(enemy);
+
+        EnemyStateController enemyTempScriptAccess = enemy.GetComponent<EnemyStateController>();
         //enemyTempScriptAccess.OnTakeDamage(25, myColor);
     }
 

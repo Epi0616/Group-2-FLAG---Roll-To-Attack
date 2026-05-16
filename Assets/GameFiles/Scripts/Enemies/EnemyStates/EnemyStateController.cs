@@ -20,6 +20,8 @@ public abstract class EnemyStateController : MonoBehaviour
     public Stat knockbackWeightModifierStat;
     public Stat wallSlamDamageModifierStat;
     public Stat attackCooldownStat;
+
+    public bool showDamageNumbers = true;
    
     protected PlayerStateController playerController;
 
@@ -200,7 +202,10 @@ public abstract class EnemyStateController : MonoBehaviour
         RunTimeStatTracker.totalDamageDealt += finalDamage;
 
         AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
-        ShowDamage(finalDamage);
+        if (showDamageNumbers)
+        {
+            ShowDamage(finalDamage);
+        }
 
         if (currentHealth <= 0)
         {
@@ -217,12 +222,22 @@ public abstract class EnemyStateController : MonoBehaviour
 
         AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds, default, 0.4f);
 
-        ShowDamage(finalDamage, color);
+        if (showDamageNumbers)
+        {
+            ShowDamage(finalDamage, color);
+        }
+
 
         if (currentHealth <= 0)
         {
             OnDeath();
         }
+    }
+
+    public void OnTakeDamageCustomText(string text, Color color, int fontSize)
+    {
+        Debug.Log("show damage text custom");
+        ShowEffect(text, color);
     }
 
     public void AdjustScaledHealth(float multiplier)
@@ -540,7 +555,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
     protected void ShowEffect(string effectText, Color color)
     {
-        //Debug.Log("effect applied");
+        Debug.Log("effect applied");
         //Debug.Log(effectText);
 
         Vector3 randomOffset = new(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(8f, 10f), UnityEngine.Random.Range(-3f, 3f));
@@ -553,6 +568,23 @@ public abstract class EnemyStateController : MonoBehaviour
         tempTMPAccess.text = effectText;
         tempTMPAccess.color = color;
         tempTMPAccess.fontSize = 52f;
+    }
+
+    protected void ShowEffect(string effectText, Color color, int fontSize)
+    {
+        Debug.Log("effect applied");
+        //Debug.Log(effectText);
+
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(8f, 10f), UnityEngine.Random.Range(-3f, 3f));
+
+        //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
+        GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
+
+        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
+        TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
+        tempTMPAccess.text = effectText;
+        tempTMPAccess.color = color;
+        tempTMPAccess.fontSize = fontSize;
     }
 
     //public virtual void OnDeath()

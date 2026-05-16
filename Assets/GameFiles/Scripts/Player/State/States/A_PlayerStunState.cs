@@ -23,9 +23,11 @@ public class A_PlayerStunState : PlayerBaseAttackState
         AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 1f);
     }  
 
-    protected override void CustomAttack(GameObject Enemy)
+    protected override void CustomAttack(GameObject enemy)
     {
-        EnemyStateController enemyTempScriptAccess = Enemy.GetComponent<EnemyStateController>();
+        base.CustomAttack(enemy);
+
+        EnemyStateController enemyTempScriptAccess = enemy.GetComponent<EnemyStateController>();
         enemyTempScriptAccess.OnTakeDamage(30, myColor);
         //enemyTempScriptAccess.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(2.0f, player.frozenText.GetLocalizedString()), new List<ActiveStatusEffect>() { new DurationCondition(2.0f) }), myColor);
 
