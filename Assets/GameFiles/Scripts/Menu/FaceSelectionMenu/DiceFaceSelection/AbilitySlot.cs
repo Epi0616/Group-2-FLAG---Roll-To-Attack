@@ -119,17 +119,22 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         {
             sprite = myAbility.sprite;
         }
+        (draggableObjects[0] as DraggableAbility).SizeUp();
 
         OnSlotHoverStart?.Invoke(name, description, sprite);
     }
 
     public void onHoverEnd()
     {
+        if (draggableObjects.Count == 0) return;
+        if (draggableObjects[0] == null) return;
+
         OnSlotHoverEnd?.Invoke();
         if (isSelected == false)
         {
             image.color = button.colors.normalColor;
         }
+        (draggableObjects[0] as DraggableAbility).SizeDown();
     }
 
     public void Selected()

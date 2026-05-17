@@ -10,7 +10,7 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     private AbilityDropZoneParent currentParent, parentAtStartOfDrag;
     private Vector2 anchoredPositionAtStartOfDrag;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         canvas = GetComponentInParent<Canvas>();
         dropZones = FindObjectsByType<AbilityDropZoneParent>(FindObjectsSortMode.None);
@@ -18,17 +18,29 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
+        OnBeginDrag(eventData);
+
         parentAtStartOfDrag = currentParent;
         anchoredPositionAtStartOfDrag = rectTransform.anchoredPosition;
         transform.SetParent(canvas.transform); //so the object will be rendered infront of the drop zone while moving around.
     }
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        OnDrag(eventData);
+
+        PointerEventData pointerData = eventData;
+        Vector2 position;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform, pointerData.position, canvas.worldCamera, out position);
+
+        transform.position = canvas.transform.TransformPoint(position);
+
+        //rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
+        OnEndDrag(eventData);
+
         //Debug.Log("end drag");
         //ResetCurrentParent();
         currentParent.RemoveChild(this);
@@ -43,6 +55,10 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
         currentParent.AddChild(this);
     }
+
+    protected virtual void OnBeginDrag(PointerEventData eventData) { }
+    protected virtual void OnDrag(PointerEventData eventData) { }
+    protected virtual void OnEndDrag(PointerEventData eventData) { }
 
     private bool IsOverlapping(RectTransform a, RectTransform b)
     {
@@ -88,6 +104,4 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         currentParent.RemoveChild(this);
         currentParent = null;
     }
-
-
 }
