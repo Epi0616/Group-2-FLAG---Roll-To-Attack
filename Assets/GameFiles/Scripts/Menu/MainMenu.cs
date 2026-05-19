@@ -1,24 +1,30 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public static Action rollCredits;
+
     [SerializeField] private InputActionReference pauseGame;
     [SerializeField] private SettingsUIManager SettingsUIManager;
     [SerializeField] private GameObject greyBackground;
     [SerializeField] private GameObject firstSelected;
 
+    private bool creditsRolling;
+
     private void OnEnable()
     {
         SettingsUIManager.settingsClosed += HideGreyBackground;
+        Credits.creditsOver += HandleCreditsOver;
     }
     private void OnDisable()
     {
         SettingsUIManager.settingsClosed -= HideGreyBackground;
+        Credits.creditsOver -= HandleCreditsOver;
     }
 
     private IEnumerator Start()
@@ -33,10 +39,9 @@ public class MainMenu : MonoBehaviour
     {
         if (pauseGame.action.WasPressedThisFrame())
         {
-            if (greyBackground.activeSelf)
-            {
-                ToggleOptions();
-            }
+            if (!greyBackground.activeSelf) return;
+            if (creditsRolling) return;
+            ToggleOptions();
         }
     }
 
@@ -56,6 +61,17 @@ public class MainMenu : MonoBehaviour
     public void Options()
     { 
         ToggleOptions();
+    }
+
+    public void RollCredits()
+    {
+        rollCredits?.Invoke();
+        creditsRolling = true;
+    }
+
+    private void HandleCreditsOver()
+    {
+        creditsRolling = false;
     }
 
     private void ToggleOptions()

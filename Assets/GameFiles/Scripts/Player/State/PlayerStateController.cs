@@ -79,6 +79,7 @@ public class PlayerStateController : MonoBehaviour
     {
         move.action.Enable();
         attack.action.Enable();
+        controllerChargeAttack.action.Enable();
         UISelectionManager.switchToGamepad += () => isUsingGamePad = true;
         UISelectionManager.switchToKeyboard += () => isUsingGamePad = false;
         DiceFaceSelectionUIManager.DiceFaceSelectionStart += DiceFaceSelectionStart;
@@ -91,6 +92,7 @@ public class PlayerStateController : MonoBehaviour
     {
         move.action.Disable();
         attack.action.Disable();
+        controllerChargeAttack.action.Disable();
     }
 
     private void Start()
