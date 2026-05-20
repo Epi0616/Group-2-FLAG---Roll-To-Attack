@@ -12,7 +12,7 @@ public class EnemySpawnManager : MonoBehaviour
     
     private Vector2 playerPos;
     private float spawnPointAreaRadius = 4f;
-    private GameObject playerRef;
+    [SerializeField] private GameObject playerRef;
     private float spawnTolerance = 50f;
     private IEnemyFactory[] enemyFactories;
 
@@ -31,7 +31,7 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     private void Awake()
     {
-        playerRef = GameObject.FindGameObjectWithTag("Player");
+        //playerRef = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Start()
@@ -136,11 +136,11 @@ public class EnemySpawnManager : MonoBehaviour
                     return hit.point;
                 }
             }
-            Debug.DrawLine(spawnPos, new Vector3(spawnPos.x, 100f, spawnPos.z), Color.red, 100f);
+            //Debug.DrawLine(spawnPos, new Vector3(spawnPos.x, 100f, spawnPos.z), Color.red, 100f);
             iterations++;
         }
-        Debug.LogError("No Valid Spawn Point Found");
-        return Vector3.zero;
+        Debug.LogError("No Valid Spawn Point Found, Reverting to Normal Enemy Spawn Logic");
+        return PickSpawnAreaPoint(spawnPointList);
     }
 
     // This Function picks one of the spawn points in the List to act as the position for enemy spawns

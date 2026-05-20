@@ -47,7 +47,6 @@ public class PlayerStateController : MonoBehaviour
     public Stat baseRadiusSize;
     private float holdTime = 0;
     private bool chargeComplete = false;
-    private bool hasPlayedCompleteVFX = false;
 
     [Header("Player SoundFX")]
     public AudioClip[] playerLightAttackSounds;
@@ -246,7 +245,6 @@ public class PlayerStateController : MonoBehaviour
         AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
         holdTime = 0f;
         chargeComplete = false;
-        hasPlayedCompleteVFX = false;
 
         moveSpeed.ResetModifiers();
         bodySystem.ResetChargingEffects();
