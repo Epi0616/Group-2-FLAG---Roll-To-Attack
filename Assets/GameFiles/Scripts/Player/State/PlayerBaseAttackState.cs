@@ -123,6 +123,10 @@ public class PlayerBaseAttackState : PlayerMovementState
         if (player.impactSpeed.GetFinalValue() > player.impactSpeed.GetBaseValue())
         { 
             EnemyStateController enemy = Enemy.GetComponent<EnemyStateController>();
+            if (enemy.isSpawning)
+            {
+                return;
+            }
             float knockbackForce = player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue();
             //enemy.OnTakeKnockback(player.transform.position, knockbackForce * 2);
            

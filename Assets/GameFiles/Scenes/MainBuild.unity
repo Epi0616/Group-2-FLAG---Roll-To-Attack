@@ -20038,7 +20038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: beholderCost
-      value: 2
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: sandGolemCost
@@ -20050,7 +20050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: simpleRaiderCost
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: budgetIncreasePerWave
@@ -20076,6 +20076,10 @@ PrefabInstance:
       propertyPath: enemyPrefab
       value: 
       objectReference: {fileID: 3018744880051642863, guid: 4f6ff85cc8777034886af00d861c2244, type: 3}
+    - target: {fileID: 9194013166296953379, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
+      propertyPath: playerRef
+      value: 
+      objectReference: {fileID: 1611368690}
     - target: {fileID: 9194013166296953379, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: wawa.m_Bits
       value: 1073741824
@@ -21678,7 +21682,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6783148395617640826, guid: bce01f1d3bd89f641b16cdb16b7cbd77, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8091814718111658368, guid: bce01f1d3bd89f641b16cdb16b7cbd77, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22150,6 +22154,11 @@ Transform:
   - {fileID: 1366653544}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1611368690 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6130292915329008721, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+  m_PrefabInstance: {fileID: 1837163540}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1623979305
 GameObject:
   m_ObjectHideFlags: 0
@@ -23893,7 +23902,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5475185179310996633, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
   m_PrefabInstance: {fileID: 1837163540}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1611368690}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a32842fe22ceba43add7f8940ff9b13, type: 3}
@@ -29657,6 +29666,7 @@ SceneRoots:
   - {fileID: 8504774219784827768}
   - {fileID: 1673683088}
   - {fileID: 1383465985}
+  - {fileID: 1609790275}
   - {fileID: 949880575}
   - {fileID: 1353766019}
   - {fileID: 1502047340}
@@ -29669,4 +29679,3 @@ SceneRoots:
   - {fileID: 1837163540}
   - {fileID: 1533056582}
   - {fileID: 1002218923}
-  - {fileID: 1609790275}

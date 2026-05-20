@@ -401,6 +401,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
         enemyAgent.Warp(transform.position);
         enemyAgent.ResetPath();
+        animator.speed = 1f;
     }
 
     public void DisableAI()
@@ -414,6 +415,7 @@ public abstract class EnemyStateController : MonoBehaviour
         rb.useGravity = true;
         rb.isKinematic = false;
         rb.linearDamping = 3f;
+        animator.speed = 0f;
     }
     /*
     public bool IsGrounded()
@@ -426,7 +428,7 @@ public abstract class EnemyStateController : MonoBehaviour
     {
         RaycastHit hit;
         Ray ray = new Ray(transform.position,Vector3.down);
-        return (Physics.Raycast(ray, out hit, 1f, environmentLayer));
+        return (Physics.Raycast(ray, out hit, 1.3f, environmentLayer));
     }
 
 

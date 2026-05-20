@@ -12,7 +12,7 @@ public class EnemySpawnManager : MonoBehaviour
     
     private Vector2 playerPos;
     private float spawnPointAreaRadius = 4f;
-    private GameObject playerRef;
+    [SerializeField] private GameObject playerRef;
     private float spawnTolerance = 50f;
     private IEnemyFactory[] enemyFactories;
 
@@ -31,7 +31,7 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     private void Awake()
     {
-        playerRef = GameObject.FindGameObjectWithTag("Player");
+        //playerRef = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Start()
