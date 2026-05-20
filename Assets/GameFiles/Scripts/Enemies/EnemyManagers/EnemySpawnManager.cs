@@ -136,11 +136,11 @@ public class EnemySpawnManager : MonoBehaviour
                     return hit.point;
                 }
             }
-            Debug.DrawLine(spawnPos, new Vector3(spawnPos.x, 100f, spawnPos.z), Color.red, 100f);
+            //Debug.DrawLine(spawnPos, new Vector3(spawnPos.x, 100f, spawnPos.z), Color.red, 100f);
             iterations++;
         }
-        Debug.LogError("No Valid Spawn Point Found");
-        return Vector3.zero;
+        Debug.LogError("No Valid Spawn Point Found, Reverting to Normal Enemy Spawn Logic");
+        return PickSpawnAreaPoint(spawnPointList);
     }
 
     // This Function picks one of the spawn points in the List to act as the position for enemy spawns

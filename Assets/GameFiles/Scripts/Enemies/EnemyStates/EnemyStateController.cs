@@ -31,13 +31,10 @@ public abstract class EnemyStateController : MonoBehaviour
     public Rigidbody rb;
     public Animator animator;
     private EnemyBaseState currentState;
-    public bool isStunned;
 
     public GameObject enemyModel;
 
-    public bool isKnockedBackByGolem;
     public bool isVibrating;
-    public bool isFragile;
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
     public Vector3 newSpawnPos;

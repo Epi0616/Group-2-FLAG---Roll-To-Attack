@@ -17,7 +17,6 @@ public class EnemyStunnedState : EnemyBaseState
         base.EnterState(enemy);
 
         enemy.enemyAgent.enabled = false;
-        enemy.isStunned = true;
         enemy.StartVibrating();
     
         stunTimer = duration;      
@@ -42,7 +41,6 @@ public class EnemyStunnedState : EnemyBaseState
         // can be uncommented if we want diminishing returns on stuns
         //enemy.OnRecieveEffect(new StunResistanceEffect(5f, 0.75f, "Resist"), Color.gray);
        
-        enemy.isStunned = false;
         enemy.StopVibrating();
         enemy.enemyAgent.enabled = true;
         if (!enemy.isDead)
