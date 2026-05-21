@@ -39,7 +39,7 @@ public class WorldSpaceDamageText : MonoBehaviour
         //tmp.ForceMeshUpdate(true, true);
         //Debug.Log(tmp.mesh.bounds);
         transform.rotation = targetCamera.transform.rotation;
-        transform.position += Vector3.up * Time.deltaTime * 1.5f;
+        transform.position += Vector3.up * Time.deltaTime * 2f;
         transform.localScale *= 0.9999f;
 
         //Vector3 directionToCamera = (targetCamera.transform.position - transform.position).normalized;
