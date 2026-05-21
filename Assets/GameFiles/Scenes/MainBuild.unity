@@ -9296,7 +9296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &509042919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9321,7 +9321,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 3
+  m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -9367,7 +9367,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 32.96973
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -9382,7 +9382,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 40
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -9408,13 +9408,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509042918}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.0307248, y: -0, z: -0, w: 0.9995279}
   m_LocalPosition: {x: 3.8, y: 5.6, z: -31.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 3.521, y: 0, z: 0}
 --- !u!1 &540396389 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8916533063045106494, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
@@ -17640,11 +17640,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3117763228394331497, guid: 0b04809e79f2966499a90329e8f26c0c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5084825786453978103, guid: 0b04809e79f2966499a90329e8f26c0c, type: 3}
       propertyPath: m_Antialiasing
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5084825786453978103, guid: 0b04809e79f2966499a90329e8f26c0c, type: 3}
       propertyPath: m_RenderPostProcessing
@@ -19768,7 +19768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: beholderCost
-      value: 25
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: sandGolemCost
@@ -19776,7 +19776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: startingBudget
-      value: 500
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: simpleRaiderCost
@@ -21296,7 +21296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6783148395617640826, guid: bce01f1d3bd89f641b16cdb16b7cbd77, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8091814718111658368, guid: bce01f1d3bd89f641b16cdb16b7cbd77, type: 3}
       propertyPath: m_LocalPosition.x
@@ -23155,7 +23155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: customAttackText
-      value: Controller support
+      value: Endless Waves
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: moveWhileJumping
@@ -23167,11 +23167,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: customTextColor.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: customTextColor.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: displayTextScreen
@@ -23181,6 +23181,10 @@ PrefabInstance:
       propertyPath: playerChargeSound
       value: 
       objectReference: {fileID: 8300000, guid: 8cf7955cbe54ad8438ac76e77df45723, type: 3}
+    - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
+      propertyPath: moveSpeed.baseValue
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5040166482731725688, guid: 31f32a1114a412045bb09db6782c2c49, type: 3}
       propertyPath: customAttackFontSize
       value: 20
