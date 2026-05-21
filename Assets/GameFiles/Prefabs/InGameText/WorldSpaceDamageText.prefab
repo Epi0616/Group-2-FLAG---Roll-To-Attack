@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -4.76117, y: 2.32}
-  m_SizeDelta: {x: 40, y: 5}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &277299564860383203
 MeshRenderer:
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 8001305256688012422, guid: edc57f07f6726d2409b3c951ab103964, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,7 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FloatingDamageText
   myRenderer: {fileID: 277299564860383203}
   tmp: {fileID: 1189241359717837780}
-  lifeTime: 5
+  lifeTime: 3
+  originalScale: {x: 1, y: 1, z: 1}
+  targetScale: {x: 3, y: 3, z: 3}
 --- !u!114 &1189241359717837780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +126,7 @@ MonoBehaviour:
   m_text: HELLooo
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: edc57f07f6726d2409b3c951ab103964, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8001305256688012422, guid: edc57f07f6726d2409b3c951ab103964, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -156,7 +158,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -192,6 +194,6 @@ MonoBehaviour:
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_renderer: {fileID: 277299564860383203}
   m_maskType: 0
