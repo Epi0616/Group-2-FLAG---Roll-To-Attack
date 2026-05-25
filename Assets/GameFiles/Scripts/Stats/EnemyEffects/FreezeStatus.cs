@@ -30,7 +30,10 @@ public class FreezeStatus : BaseStunEffect
 
     protected override void OnRemoval()
     {
-        enemyRef.StopVibrating();
+        if (!enemyRef.isSpawning)
+        {
+            enemyRef.StopVibrating();
+        }
         base.OnRemoval();
     }
 
