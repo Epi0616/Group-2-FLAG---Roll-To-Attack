@@ -13,6 +13,7 @@ public class PlayerBaseAttackState : PlayerMovementState
 
     public override void EnterState(PlayerStateController player)
     {
+        Debug.Log("entering base attack state");
         base.EnterState(player);
         impactSounds = player.playerLightAttackSounds;
         myRadius = player.baseRadiusSize.GetFinalValue();
@@ -59,6 +60,7 @@ public class PlayerBaseAttackState : PlayerMovementState
         }
 
         ResetAttackModifiers();
+        Debug.Log("impacted ground");
         player.SwitchState(new PlayerMovementState());
     }
 
@@ -144,6 +146,11 @@ public class PlayerBaseAttackState : PlayerMovementState
 
     protected virtual void CustomDisplayAttack() { }
     protected virtual void CustomAttack(GameObject Enemy) { }
+
+    public override void ExitState()
+    {
+        player.isAttacking = false;
+    }
    
     //check for attack action pressed needs to do nothing so you cant attack while in the process of performing the current attack
 }

@@ -102,7 +102,7 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
 
     private void CheckForDisplayRequired()
     {
-        if (!EventSystem.current.currentSelectedGameObject == this) return;
+        if (!(EventSystem.current.currentSelectedGameObject == this)) return;
         OnHoverStart();
     }
 
