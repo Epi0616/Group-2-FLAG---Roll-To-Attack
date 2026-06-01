@@ -90,6 +90,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     public void SizeUp()
     {
+        Debug.Log("sizeup called");
         if (sizeShiftRoutine != null) StopCoroutine(sizeShiftRoutine);
         sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(scaleOrigin * 1.2f));
     }

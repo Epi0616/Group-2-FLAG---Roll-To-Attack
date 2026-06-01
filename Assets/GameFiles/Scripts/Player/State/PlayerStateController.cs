@@ -17,6 +17,7 @@ public class PlayerStateController : MonoBehaviour
     public BoxCollider boxCollider;
     //public GameObject body;
     public bool isGrounded;
+    public bool isAttacking = false;
     public bool isUsingGamePad = false;
     public LayerMask enemyLayer;
     public LayerMask pedestalLayer;
@@ -120,6 +121,7 @@ public class PlayerStateController : MonoBehaviour
             Debug.LogError("Trying to switch to a state that doesn't exist.");
             return;
         }
+        currentState.ExitState();
 
         currentState = newState;
         currentState.EnterState(this);
@@ -154,7 +156,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void CheckForAttackAction()
     {
-        if (!isGrounded) return;
+        if (isAttacking) return; 
 
         if (attack.action.WasPressedThisFrame())
         {
@@ -193,7 +195,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void CheckForControllerAttackAction()
     {
-        if (!isGrounded) return;
+        if (isAttacking) return;
 
         if (attack.action.WasPressedThisFrame())
         {

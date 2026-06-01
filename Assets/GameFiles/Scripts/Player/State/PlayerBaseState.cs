@@ -9,4 +9,5 @@ public abstract class PlayerBaseState : StateInterface
     }
     public abstract void UpdateState();
     public abstract void FixedUpdateState();
+    public abstract void ExitState();
 }

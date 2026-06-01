@@ -13,7 +13,7 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     protected virtual void Awake()
     {
         canvas = GetComponentInParent<Canvas>();
-        dropZones = FindObjectsByType<AbilityDropZoneParent>(FindObjectsSortMode.None);
+        SearchForDropZones();
     }
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
@@ -40,7 +40,7 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
         OnEndDrag(eventData);
-
+        
         //Debug.Log("end drag");
         //ResetCurrentParent();
         currentParent.RemoveChild(this);
@@ -103,5 +103,10 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         if (!currentParent) { return; }
         currentParent.RemoveChild(this);
         currentParent = null;
+    }
+
+    public void SearchForDropZones()
+    {
+        dropZones = FindObjectsByType<AbilityDropZoneParent>(FindObjectsSortMode.None);
     }
 }
