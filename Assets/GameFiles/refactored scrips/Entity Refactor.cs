@@ -68,7 +68,7 @@ public class EntityStatusSystem : IEntitySystem
         //whatever form that takes eventually
     }
 
-    public void OnRecieveEffect(ActiveStatusEffect statusEffect)
+    public void OnRecieveEffect(ActiveStatusEffect newStatus)
     {
         // Check if the new Status can be "stacked" if not simply reset the conditions of the current Status
         if (!newStatus.effect.isStackable)
@@ -84,8 +84,8 @@ public class EntityStatusSystem : IEntitySystem
             }
         }
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
-        currentStatusEffects.Add(newStatus);
-        newStatus.effect.AddEffect(this);
+        currentActiveStatusEffects.Add(newStatus);
+        //newStatus.effect.AddEffect(OwnerEntity);
 
         // The Effect Display will be handled by the Entity itself not the Status System 
 
@@ -94,7 +94,7 @@ public class EntityStatusSystem : IEntitySystem
     public int ModifyDamage(int damageAmount, DamageType damageType)
     {
         int modifiedDamageAmount = damageAmount;
-        for (int i = currentStatusEffects.Count - 1; i >= 0; i--)
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
             // Call Status OnTakeDamage or equivelent trigger
             // Can return either the adjusted value and immediately update modifiedDamageAmount 
@@ -106,13 +106,13 @@ public class EntityStatusSystem : IEntitySystem
 
     public void RemoveEffectByType(StatusType type)
     {
-        for(int i = currentStatusEffects.Count - 1; i >= 0; i--)
+        for(int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
             // Simply Check the StatusType Enum against the desired type removing it if found
-            if (currentStatusEffects[i].effect.type == type)
+            if (currentActiveStatusEffects[i].effect.type == type)
             {
-                currentStatusEffects[i].effect.RemoveEffect();
-                currentStatusEffects.RemoveAt(i);
+                currentActiveStatusEffects[i].effect.RemoveEffect();
+                currentActiveStatusEffects.RemoveAt(i);
                 //Debug.Log("Status Removed: " + type.ToString());
             }
         }
