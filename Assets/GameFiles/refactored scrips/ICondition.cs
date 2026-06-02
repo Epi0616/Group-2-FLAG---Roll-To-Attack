@@ -26,7 +26,14 @@ public abstract class BaseCondition : ICondition
 
 [Serializable]
 public class HealthCondition : BaseCondition
-{ 
+{
+    public int healthAmount;
+
+    public HealthCondition(int currentHealth)
+    {
+        healthAmount = currentHealth;
+    }
+
     public override void ConditionUpdate()
     {
     }

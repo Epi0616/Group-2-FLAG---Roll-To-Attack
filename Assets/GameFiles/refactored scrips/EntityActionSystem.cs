@@ -31,8 +31,12 @@ public class BaseEntityAction : IAction
 [Serializable]
 public class ConditionalAction
 {
+    [SerializeReference, SubclassSelector]
     public BaseEntityAction action;
+    [SerializeReference, SubclassSelector]
     public List<BaseCondition> conditions;
+
+    //public ConditionalAction() { }
 
     public ConditionalAction(BaseEntityAction action, List<BaseCondition> conditions)
     { 
@@ -52,10 +56,11 @@ public interface IConditionalActionDescriptor
 public class ConditionalActionDescriptor : ScriptableObject
 {
     public int variable = 1;
-    [SerializeReference]
+
+    [SerializeReference, SubclassSelector]
     public BaseEntityAction action;
 
-    [SerializeReference]
+    [SerializeReference, SubclassSelector]
     public List<BaseCondition> conditions;
 
     public ConditionalAction Create(List<BaseCondition> condiitons, BaseEntityAction actions)
