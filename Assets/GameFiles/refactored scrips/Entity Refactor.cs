@@ -11,16 +11,16 @@ public interface IEntity
     public void OnRecieveEffect(ActiveStatusEffect statusEffect);
 }
 
+public interface IGrounded
+{
+    public bool isGrounded { get; set; }
+    public void CheckForGrounded();
+}
+
 public class TextDisplaySystem
 {
-    public void DisplayDamage(int damageAmount, Color color)
-    {
-    }
-    public void DisplayHeal(int healAmount, Color color)
-    {
-    }
-    public void DisplayStatusEffect(ActiveStatusEffect statusEffect)
-    {
+    public void DisplayText(string text, Color color, int fontSize)
+    { 
     }
 }
 
@@ -56,8 +56,10 @@ public class EntityHealthSystem
     }
 }
 
-public class Entity : MonoBehaviour, IEntity
+public class Entity : MonoBehaviour, IEntity, IGrounded
 {
+    public bool isGrounded { get; set; }
+
     EntityHealthSystem healthSystem;
     EntityStatusSystem statusSystem;
     TextDisplaySystem textDisplaySystem;
@@ -65,13 +67,13 @@ public class Entity : MonoBehaviour, IEntity
     public void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
         int finalDamage = statusSystem.ModifyDamage(amount, damageType);
-        textDisplaySystem.DisplayDamage(finalDamage, color);
+        textDisplaySystem.DisplayText(finalDamage.ToString(), color, 20);
 
         healthSystem.OnTakeDamage(finalDamage);
     }
     public void OnRecieveEffect(ActiveStatusEffect statusEffect)
     {
-        textDisplaySystem.DisplayStatusEffect(statusEffect);
+        textDisplaySystem.DisplayText(statusEffect.effect.GetEffectText(), Color.red, 20);
 
         statusSystem.OnRecieveEffect(statusEffect);
     }
@@ -79,5 +81,10 @@ public class Entity : MonoBehaviour, IEntity
     private void Update()
     {
         statusSystem.UpdateConditions();
+    }
+
+    public void CheckForGrounded()
+    { 
+
     }
 }

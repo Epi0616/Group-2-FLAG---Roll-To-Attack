@@ -25,7 +25,7 @@ public class DurationCondition : BaseCondition
         timer = duration;
     }
 
-    public override bool IsExpired()
+    public override bool IsConditionMet()
     {      
         return timer <= 0;
     }

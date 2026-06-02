@@ -240,7 +240,7 @@ public abstract class EnemyStateController : MonoBehaviour
             Debug.Log(currentStatusEffects[i].effect.type.ToString() + ": Condition Count: " + currentStatusEffects[i].conditions.Count + " isExpiredTotal: " + currentStatusEffects[i].CheckForExpiration());
             foreach (BaseCondition condition in currentStatusEffects[i].conditions)
             {
-                Debug.Log(condition.name + " IsExpired?: " + condition.IsExpired() + " isRequired?: " + condition.isRequired);
+                Debug.Log(condition.name + " IsExpired?: " + condition.IsConditionMet() + " isRequired?: " + condition.isRequired);
             }
         }
     }

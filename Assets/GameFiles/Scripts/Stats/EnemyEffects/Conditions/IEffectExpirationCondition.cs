@@ -10,7 +10,7 @@ public interface IEffectExpirationCondition
     public bool IsExpired();
 }
 
-public abstract class BaseCondition : IEffectExpirationCondition
+public abstract class BaseEffectCondition : IEffectExpirationCondition
 {
     public bool isRequired = false;
 

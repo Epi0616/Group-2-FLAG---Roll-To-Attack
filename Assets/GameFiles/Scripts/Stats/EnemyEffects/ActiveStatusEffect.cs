@@ -35,7 +35,7 @@ public class ActiveStatusEffect
             {
                 allRequiredPresent = true;
 
-                if (!condition.IsExpired())
+                if (!condition.IsConditionMet())
                 {
                     //Debug.Log("missing required condition");
                     return false;
@@ -44,7 +44,7 @@ public class ActiveStatusEffect
             }
             else
             {
-                if (condition.IsExpired())
+                if (condition.IsConditionMet())
                 {
                     //Debug.Log("optional condition present");
                     anyNonRequiredPresent = true;

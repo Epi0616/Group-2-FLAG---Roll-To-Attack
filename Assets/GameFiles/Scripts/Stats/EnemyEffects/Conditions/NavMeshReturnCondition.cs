@@ -35,7 +35,7 @@ public class NavMeshReturnCondition : BaseCondition
 
     public override void ResetCondition() { }
 
-    public override bool IsExpired()
+    public override bool IsConditionMet()
     {        
         return (distance < 0.2f);
     }
