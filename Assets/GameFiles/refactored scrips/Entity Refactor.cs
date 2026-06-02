@@ -20,20 +20,52 @@ public interface IGrounded
     public void CheckForGrounded();
 }
 
-public class TextDisplaySystem
+public interface IEntitySystem
 {
-    public void DisplayText(string text, Color color, int fontSize)
-    { 
-    }
+    public Entity OwnerEntity { get; set; }
+    public void InitialiseSystem(Entity entity);
+    public void ResetSystem();
 }
 
-public class EntityStatusSystem
+public class TextDisplaySystem : IEntitySystem
 {
+    public Entity OwnerEntity { get; set; }
+    public void InitialiseSystem(Entity entity)
+    {
+        OwnerEntity = entity;
+        // Give the Camera Reference to the TextDisplaySystem
+    }
+
+    public void ResetSystem() { }
+
+    public void DisplayText(string text, Color color, int fontSize)
+    { 
+
+    }
+
+    
+}
+
+public class EntityStatusSystem : IEntitySystem
+{
+    public Entity OwnerEntity { get; set; }
     public List<ActiveStatusEffect> currentActiveStatusEffects = new List<ActiveStatusEffect>();
 
+    public void InitialiseSystem(Entity entity)
+    {
+        OwnerEntity = entity;
+    }
+
+    public void ResetSystem() { }
+
     public void UpdateConditions()
-    { 
-    
+    {
+
+
+
+
+        // RECALCULATE STATS
+        //whatever form that takes eventually
     }
 
     public void OnRecieveEffect(ActiveStatusEffect statusEffect)
@@ -95,17 +127,37 @@ public class EntityStatusSystem
         // This entirely depends on where we store the Stats, if stored in here its easy to Recalculate but more difficult to use elsewhere
         // or if stored in the Entity the StatusSystem will need someway to access and update those Stats
     }
+
+    
 }
 
-public class EntityHealthSystem
+public class EntityHealthSystem : IEntitySystem
 {
+    public Entity OwnerEntity { get; set; }
+
+    private int maxHealth;
+    private int currentHealth;
+    public bool isDead;
+
+    public void InitialiseSystem(Entity entity)
+    {
+        OwnerEntity = entity;
+        // Set MaxHealth
+    }
+
+    public void ResetSystem() { }
+
     public void OnTakeDamage(int damageAmount)
     {
-
+        currentHealth -= damageAmount;
+        if (currentHealth < 0)
+        {
+            OnDeath();
+        }
     }
     public void OnHeal(int healAmount)
     {
-
+        currentHealth = Math.Clamp(currentHealth + healAmount, 0, maxHealth);
     }
     public void OnDeath()
     {
