@@ -14,26 +14,30 @@ public class FreezeStatus : BaseStunEffect
 
     protected override void ApplyStatModifier()
     {
-        enemyRef.wallSlamDamageModifierStat.AddMultiplier(fragileMultiplier);
+        if (entityRef is IKnockbackable temp)
+        {
+            temp.slammedDamageMod.AddMultiplier(fragileMultiplier);
+        }
+        
     }
 
     protected override void OnApplication()
     {
         base.OnApplication();
-        enemyRef.StartVibrating();
+
+        //  NEED BODY SYSTEM entityRef.StartVibrating();
     }
 
     protected override void OnUpdate()
     {
-        enemyRef.Vibrate();
+        //  NEED BODY SYSTEM entityRef.Vibrate();
     }
 
     protected override void OnRemoval()
     {
-        if (!enemyRef.isSpawning)
-        {
-            enemyRef.StopVibrating();
-        }
+        
+        // NEED BODY SYSTEM  entityRef.StopVibrating();
+        
         base.OnRemoval();
     }
 

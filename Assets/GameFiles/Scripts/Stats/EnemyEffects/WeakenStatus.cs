@@ -9,13 +9,21 @@ public class WeakenStatus : StatusEffect
         type = StatusType.Weak;
         this.weakMultiplier = weakMultiplier;
         this.effectText = effectText;
+        this.effectColour = Color.darkMagenta;
         isStackable = true;
     }
-
+    /*
     protected override void ApplyStatModifier()
     {
         enemyRef.damageTakenModifierStat.AddMultiplierFlat(weakMultiplier);
     }
+    */
+
+    protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
+    {
+        damage.AddMultiplierFlat(weakMultiplier);
+    }
+
     /*
     protected override void OnApplication()
     {

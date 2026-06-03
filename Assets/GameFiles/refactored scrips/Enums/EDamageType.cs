@@ -2,5 +2,5 @@ using UnityEngine;
 
 public enum DamageType
 {
-    Normal
+    Normal, Slammed, Shattered
 }

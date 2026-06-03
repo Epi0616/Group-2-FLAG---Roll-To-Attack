@@ -9,25 +9,27 @@ public enum StatusType
 //currently only works with enemy, however this can be changed by making a parent class for enemy and player and then using that reference in the ApplyStatModifier() function
 public abstract class StatusEffect
 {
-    //protected float timer;
 
     protected string effectText;
+    protected Color effectColour;
 
     public bool isDisplacing;
     public bool preventsMovement;
-    public bool preventsAttack;
-    public bool disablesAI;
-    public bool isStackable = false; // if true new instances can be added if not the duration of a current instance resets
+    public bool preventsAction;
 
+    public bool isStackable = false; // if true new instances can be added if not the duration of a current instance resets
+    public bool isActive = true;
     //public bool isUnique = false; // if true will prevent any new instances being added if one already exists
+
+    public bool toBeRemoved = false;
 
     public StatusType type;
 
-    protected EnemyStateController enemyRef;
+    protected Entity entityRef;
 
-    public void AddEffect(EnemyStateController enemy)
+    public void AddEffect(Entity entity)
     {
-        enemyRef = enemy;
+        entityRef = entity;
         OnApplication();
     }
 
@@ -46,27 +48,27 @@ public abstract class StatusEffect
         ApplyStatModifier();
     }
 
-    /*
-    public virtual void TimerUpdate()
+    public void TriggerOnDamageEffects(ref Stat damage, DamageType type)
     {
-        timer -= Time.deltaTime;
+        ApplyOnDamageEffects(ref damage, type);
     }
-    public bool IsExpired()
-    {
-        if (timer > 0) return false;
-        return true;
-    }
-    */
 
     public string GetEffectText()
     {
         return effectText;
     }
+    public Color GetEffectColour()
+    {
+        return effectColour;
+    }
+
+
 
     protected virtual void OnApplication() { }
     protected virtual void OnUpdate() { }
     protected virtual void OnRemoval() { }
 
     protected virtual void ApplyStatModifier() { }
+    protected virtual void ApplyOnDamageEffects(ref Stat damage, DamageType type) { }
 }
 

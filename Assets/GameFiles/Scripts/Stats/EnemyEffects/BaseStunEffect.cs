@@ -10,15 +10,15 @@ public class BaseStunEffect : StatusEffect
 
     protected override void OnApplication()
     {
+        isActive = entityRef is IStunable temp && temp.canBeStunned;
+
         preventsMovement = true;
-        preventsAttack = true;
-        disablesAI = true;
+        preventsAction = true;       
     }
 
     protected override void OnRemoval()
     {
         preventsMovement = false;
-        preventsAttack = false;
-        disablesAI = false;
+        preventsAction = false;        
     }
 }
