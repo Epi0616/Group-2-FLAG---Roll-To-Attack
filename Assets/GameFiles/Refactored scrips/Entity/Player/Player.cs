@@ -1,8 +1,12 @@
 using UnityEngine;
 using System;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput
 {
+    //IUsesEntityInput Interface properties
+    public EntityInputManager inputManager { get; set; }
+    public bool canUseInput { get; set; }
+
     //IGrounded Interface properties
     public bool isGrounded { get; set; }
 
@@ -17,12 +21,15 @@ public class Player : Entity, IMoveable, IActionable, IGrounded
 
     private void Start()
     {
-
+        inputManager = GetComponent<EntityInputManager>();
+        movementSpeed = new Stat(5f);
+        movementController = new MovementController(this, new BaseMovementState(this));
     }
 
     protected override void Update()
     {
         base.Update();
+        movementController.Update();
     }
 
     //IGrounded Interface Methods

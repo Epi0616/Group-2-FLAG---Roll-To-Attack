@@ -4,6 +4,7 @@ public class Entity : MonoBehaviour, IEntity
 {
     protected EntityHealthSystem healthSystem;
     protected EntityStatusSystem statusSystem;
+    protected EntityBodySystem bodySystem;
     protected TextDisplaySystem textDisplaySystem;
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)
