@@ -12,7 +12,10 @@ public class NavMeshReturnCondition : BaseCondition
         isRequired = required;
         name = "NavReturnCondition";
     }
-
+    public override void Initialize(Entity entity)
+    {
+        //this.entity = entity;
+    }
     public override void ConditionUpdate()
     {
       

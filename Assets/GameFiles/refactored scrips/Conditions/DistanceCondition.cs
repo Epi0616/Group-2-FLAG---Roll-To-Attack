@@ -17,7 +17,10 @@ public class DistanceCondition : BaseCondition
         this.entity = entity;
         this.distanceThreshold = distanceThreshold;
     }
-
+    public override void Initialize(Entity entity) 
+    {
+        this.entity = entity;
+    }
     public override void ConditionUpdate()
     {
     }

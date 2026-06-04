@@ -10,7 +10,7 @@ public class GroundedCondition : BaseCondition
         isRequired = required;
         name = "GroundedCondition";
     }
-
+    public override void Initialize(Entity entity) { }
     public override void ConditionUpdate() { }
 
     public override void ResetCondition() { }

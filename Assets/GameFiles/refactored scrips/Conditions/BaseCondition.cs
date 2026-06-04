@@ -8,6 +8,7 @@ public abstract class BaseCondition : ICondition
 
     public string name = "Base";
 
+    public abstract void Initialize(Entity entity);
     public abstract void ConditionUpdate();
 
     public abstract void ResetCondition();

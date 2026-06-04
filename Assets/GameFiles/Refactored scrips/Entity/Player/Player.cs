@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput
 {
@@ -19,11 +20,21 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public ActionController actionController { get; set; }
     public bool canAct { get; set; }
 
+    //PLAYER BASED PROPERTIES
+    public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
+    private List<ConditionalMovement> movements = new List<ConditionalMovement>();
+
+
     private void Start()
     {
         inputManager = GetComponent<EntityInputManager>();
         movementSpeed = new Stat(5f);
-        movementController = new MovementController(this, new BaseMovementState(this));
+
+        foreach (var movement in movementDescriptors)
+        {
+            movements.Add(movement.Create());
+        }
+        movementController = new MovementController(this, movements);
 
         movementController.Initialize();
     }
@@ -43,7 +54,6 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     //IMoveable Interface Methods
     public void CheckForCanMove()
     {
-
     }
 
     //IActionable Interface Methods
