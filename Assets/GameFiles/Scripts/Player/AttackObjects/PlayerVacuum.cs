@@ -34,7 +34,7 @@ public class PlayerVacuum : MonoBehaviour
             {
                 //enemy.OnTakeKnockback(transform.position, -10);
                 enemy.OnRecieveEffect(new ActiveStatusEffect(new VacuumDisplacementEffect(transform.position, -17f),
-                new List<BaseCondition> { new GroundedCondition(true, enemy), new DurationCondition(true, 0.75f) }));
+                new List<BaseCondition> { new oldGroundedCondition(true, enemy), new DurationCondition(true, 0.75f) }));
                 enemy.OnTakeDamage(20, Color.blue);
             }
         }

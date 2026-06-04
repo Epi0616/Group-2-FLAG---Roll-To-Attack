@@ -3,11 +3,15 @@ using UnityEngine;
 public class BaseDisplacementEffect : StatusEffect
 {
     protected IKnockbackable knockbackInterfaceAccess;
+    protected IUsesRigidBody rbInterfaceAccess;
 
     protected override void OnApplication()
     {
         knockbackInterfaceAccess = entityRef as IKnockbackable;
-        isActive = knockbackInterfaceAccess != null;
+        rbInterfaceAccess = entityRef as IUsesRigidBody;
+        isActive = knockbackInterfaceAccess != null && rbInterfaceAccess != null;
+
+        if (!isActive) { toBeRemoved = true; return; }
 
         preventsMovement = true;
         preventsAction = true;

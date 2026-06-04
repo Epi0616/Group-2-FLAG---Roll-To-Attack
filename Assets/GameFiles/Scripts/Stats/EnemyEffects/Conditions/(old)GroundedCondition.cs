@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class GroundedCondition : BaseCondition
+public class oldGroundedCondition : BaseCondition
 {
     private EnemyStateController enemy;
 
-    public GroundedCondition(bool required, EnemyStateController enemy)
+    public oldGroundedCondition(bool required, EnemyStateController enemy)
     {
         this.enemy = enemy;
         isRequired = required;

@@ -116,10 +116,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
                 status.effect.ApplyStatModifierUpdates();
             }
             
-        }
-
-        // This entirely depends on where we store the Stats, if stored in here its easy to Recalculate but more difficult to use elsewhere
-        // or if stored in the Entity the StatusSystem will need someway to access and update those Stats
+        }       
 
     }
 

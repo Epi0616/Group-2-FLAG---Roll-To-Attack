@@ -64,7 +64,7 @@ public class SandGolemEnemy : EnemyStateController
                 }
                 //enemyRef.OnTakeGolemKnockback(attackOriginTransform.position, golemKnockBackForce);
                 enemyRef.OnRecieveEffect(new ActiveStatusEffect(new GolemKnockBackEffect(attackOriginTransform.position, golemKnockBackForce),
-                new List<BaseCondition> { new GroundedCondition(true, enemyRef), new DurationCondition(true, 0.75f), new NavMeshReturnCondition(false, enemyRef) }));
+                new List<BaseCondition> { new oldGroundedCondition(true, enemyRef), new DurationCondition(true, 0.75f), new NavMeshReturnCondition(false, enemyRef) }));
             }
         }
 

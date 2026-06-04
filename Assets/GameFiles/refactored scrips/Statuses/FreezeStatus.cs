@@ -33,6 +33,7 @@ public class FreezeStatus : BaseStunEffect
     protected override void OnUpdate()
     {
         //  NEED BODY SYSTEM entityRef.Vibrate();
+        entityRef.bodySystem.Vibrate();
     }
 
     protected override void OnRemoval()

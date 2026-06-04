@@ -7,10 +7,10 @@ public class Entity : MonoBehaviour, IEntity
 {
     public List<Stat> statList {  get;  set; }
 
-    protected EntityHealthSystem healthSystem;
-    protected EntityStatusSystem statusSystem;
-    protected EntityBodySystem bodySystem;
-    protected TextDisplaySystem textDisplaySystem;
+    [HideInInspector] public EntityHealthSystem healthSystem;
+    [HideInInspector] public EntityStatusSystem statusSystem;
+    [HideInInspector] public EntityBodySystem bodySystem;
+    [HideInInspector] public TextDisplaySystem textDisplaySystem;
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
