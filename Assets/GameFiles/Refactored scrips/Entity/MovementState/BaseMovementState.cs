@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 public class BaseMovementState : IEntityBaseMovementState
 {
     Entity ownerEntity;
+    private IMoveable moveable;
     bool activeState = false;
     public BaseMovementState(Entity ownerEntity)
     {
@@ -13,19 +14,12 @@ public class BaseMovementState : IEntityBaseMovementState
 
     public virtual void EnterState()
     {
-        if (!typeof(IMoveable).IsAssignableFrom(ownerEntity.GetType())) return;
-        if (!typeof(IUsesEntityInput).IsAssignableFrom(ownerEntity.GetType())) return;
-
-        activeState = true;
+        moveable = ownerEntity as IMoveable;
+        if (moveable == null) return;
     }
     public virtual void UpdateState()
     {
         if (!activeState) return;
-
-        Vector3 direction = (ownerEntity as IUsesEntityInput).inputManager.moveDirection;
-        float movementSpeed = (ownerEntity as IMoveable).movementSpeed.GetFinalValue();
-
-        ownerEntity.transform.position += direction * movementSpeed * Time.deltaTime;
     }
     public virtual void FixedUpdateState()
     {
@@ -33,6 +27,6 @@ public class BaseMovementState : IEntityBaseMovementState
     }
     public virtual void ExitState()
     {
-        ownerEntity = null;
+        activeState = false;
     }
 }
