@@ -1,7 +1,12 @@
 using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Entity : MonoBehaviour, IEntity
 {
+    public List<Stat> statList {  get;  set; }
+
     protected EntityHealthSystem healthSystem;
     protected EntityStatusSystem statusSystem;
     protected EntityBodySystem bodySystem;

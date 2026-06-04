@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityStatusSystem : IEntitySystem
+public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
     public List<ActiveStatusEffect> currentActiveStatusEffects = new List<ActiveStatusEffect>();
@@ -11,13 +11,32 @@ public class EntityStatusSystem : IEntitySystem
         OwnerEntity = entity;
     }
 
-    public void ResetSystem() { }
+    public void ResetSystem()
+    { 
+        currentActiveStatusEffects.Clear();
+        RecalculateStats();
+        // RECALCULATE STATS
+    }
 
     public void UpdateConditions()
     {
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (currentActiveStatusEffects[i].effect.isActive)
+            {
+                currentActiveStatusEffects[i].effect.UpdateEffect();
+            }
 
+            currentActiveStatusEffects[i].UpdateConditionsAll();
 
+            if (currentActiveStatusEffects[i].conditions != null && (currentActiveStatusEffects[i].CheckForExpiration() || currentActiveStatusEffects[i].effect.toBeRemoved))
+            {
+                currentActiveStatusEffects[i].effect.RemoveEffect();
+                currentActiveStatusEffects.RemoveAt(i);
+            }
+        }
 
+        RecalculateStats();
 
         // RECALCULATE STATS
         //whatever form that takes eventually
@@ -52,13 +71,20 @@ public class EntityStatusSystem : IEntitySystem
         Stat modifiedDamageAmount = new Stat(damageAmount);
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
+            currentActiveStatusEffects[i].effect.TriggerOnDamageEffects(ref  modifiedDamageAmount, damageType);
+            
             // Call Status OnTakeDamage or equivelent trigger
             // Can return either the adjusted value and immediately update modifiedDamageAmount 
             // or return the delta and aggregate them applying it at the end to modify the dmg
             // Depends if we want each status to apply its modification in isolation or have the previous effect modifications effect the next ones
         }
 
-        return (int)modifiedDamageAmount.GetFinalValue();
+        if (damageType == DamageType.Shattered)
+        {
+            RemoveEffectByType(StatusType.Freeze);
+        }
+
+        return Mathf.FloorToInt(modifiedDamageAmount.GetFinalValue());
     }
 
     public void RemoveEffectByType(StatusType type)
@@ -74,6 +100,8 @@ public class EntityStatusSystem : IEntitySystem
             }
         }
 
+        RecalculateStats();
+
         // RECALCULATE STATS
         //whatever form that takes eventually
 
@@ -81,8 +109,23 @@ public class EntityStatusSystem : IEntitySystem
 
     public void RecalculateStats()
     {
+        foreach (var stat in OwnerEntity.statList)
+        {
+            stat.ResetModifiers();
+        }
+
+        foreach (var status in currentActiveStatusEffects)
+        {
+            if (status.effect.isActive)
+            {
+                status.effect.ApplyStatModifierUpdates();
+            }
+            
+        }
+
         // This entirely depends on where we store the Stats, if stored in here its easy to Recalculate but more difficult to use elsewhere
         // or if stored in the Entity the StatusSystem will need someway to access and update those Stats
+
     }
 
 
