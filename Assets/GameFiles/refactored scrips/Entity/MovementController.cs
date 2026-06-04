@@ -8,12 +8,12 @@ public class MovementController
     public MovementController(IEntity entity, BaseMovementState startState)
     {
         this.entity = entity;
-        this.currentState = startState;
+        currentState = startState;
     }
 
     public void Initialize()
     {
-
+        currentState.EnterState();
     }
 
     public void Update()

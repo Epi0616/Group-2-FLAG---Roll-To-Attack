@@ -24,6 +24,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         inputManager = GetComponent<EntityInputManager>();
         movementSpeed = new Stat(5f);
         movementController = new MovementController(this, new BaseMovementState(this));
+
+        movementController.Initialize();
     }
 
     protected override void Update()
