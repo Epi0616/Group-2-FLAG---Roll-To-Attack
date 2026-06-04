@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BaseStunEffect : StatusEffect
 {
+    protected IStunable stunInterfaceAccess;
 
     public BaseStunEffect()
     {
@@ -10,7 +11,8 @@ public class BaseStunEffect : StatusEffect
 
     protected override void OnApplication()
     {
-        isActive = entityRef is IStunable temp && temp.canBeStunned;
+        stunInterfaceAccess = entityRef as IStunable;
+        isActive = stunInterfaceAccess != null;
 
         preventsMovement = true;
         preventsAction = true;       

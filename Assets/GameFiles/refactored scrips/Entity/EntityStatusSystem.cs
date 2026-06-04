@@ -77,12 +77,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             // Can return either the adjusted value and immediately update modifiedDamageAmount 
             // or return the delta and aggregate them applying it at the end to modify the dmg
             // Depends if we want each status to apply its modification in isolation or have the previous effect modifications effect the next ones
-        }
-
-        if (damageType == DamageType.Shattered)
-        {
-            RemoveEffectByType(StatusType.Freeze);
-        }
+        }        
 
         return Mathf.FloorToInt(modifiedDamageAmount.GetFinalValue());
     }

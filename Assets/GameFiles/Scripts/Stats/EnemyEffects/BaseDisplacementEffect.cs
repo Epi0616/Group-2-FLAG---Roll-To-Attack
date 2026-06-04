@@ -6,7 +6,8 @@ public class BaseDisplacementEffect : StatusEffect
 
     protected override void OnApplication()
     {
-        isActive = entityRef is IKnockbackable knockbackInterfaceAccess;
+        knockbackInterfaceAccess = entityRef as IKnockbackable;
+        isActive = knockbackInterfaceAccess != null;
 
         preventsMovement = true;
         preventsAction = true;
