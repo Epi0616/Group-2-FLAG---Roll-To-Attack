@@ -3,7 +3,7 @@ using UnityEngine;
 public class SlowStatus : StatusEffect
 {
     private float slowMultiplier;
-    private IMoveable temp;
+    private IMoveable moveInferfaceAccess;
 
     public SlowStatus(float slowMultiplier, string effectText)
     {
@@ -16,11 +16,12 @@ public class SlowStatus : StatusEffect
 
     protected override void OnApplication()
     {
-        isActive = entityRef is IMoveable temp;
+        moveInferfaceAccess = entityRef as IMoveable;
+        isActive = moveInferfaceAccess != null;
     }
 
     protected override void ApplyStatModifier()
     {               
-        temp.movementSpeed.AddMultiplier(slowMultiplier);               
+        moveInferfaceAccess.movementSpeed.AddMultiplier(slowMultiplier);               
     }
 }

@@ -14,11 +14,13 @@ public class FreezeStatus : BaseStunEffect
 
     protected override void ApplyStatModifier()
     {
-        if (entityRef is IKnockbackable temp)
-        {
-            temp.slammedDamageMod.AddMultiplier(fragileMultiplier);
-        }
-        
+        if (!entityRef is IKnockbackable) { return; }
+        (entityRef as IKnockbackable).slammedDamageMod.AddMultiplierFlat(fragileMultiplier);       
+    }
+
+    protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
+    {
+        if (type == DamageType.Shattered) { toBeRemoved = true; }
     }
 
     protected override void OnApplication()
