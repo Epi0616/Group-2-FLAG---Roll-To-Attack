@@ -14,10 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   variable: 1
   action:
-    rid: -2
-  conditions: []
+    rid: 5154423747726540877
+  conditions:
+  - rid: 5154423747726540878
+  - rid: 5154423747726540879
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 5154423747726540877
+      type: {class: JumpAction, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5154423747726540878
+      type: {class: InputMovementCondition, ns: , asm: Assembly-CSharp}
+      data:
+        isRequired: 1
+        name: Base
+    - rid: 5154423747726540879
+      type: {class: BasicAttackCondition, ns: , asm: Assembly-CSharp}
+      data:
+        isRequired: 1
+        name: Base
