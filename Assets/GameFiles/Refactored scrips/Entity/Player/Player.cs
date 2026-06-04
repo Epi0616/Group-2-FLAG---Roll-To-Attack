@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody
 {
     //IUsesEntityInput Interface properties
     public EntityInputManager inputManager { get; set; }
@@ -20,29 +20,42 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public ActionController actionController { get; set; }
     public bool canAct { get; set; }
 
+    //IUsesRigidBody Interface properties
+    public Rigidbody rb { get; set; }
+
     //PLAYER BASED PROPERTIES
     public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
     private List<ConditionalMovement> movements = new List<ConditionalMovement>();
 
+    public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
+    private List<ConditionalAction> actions = new List<ConditionalAction>();
 
     private void Start()
     {
         inputManager = GetComponent<EntityInputManager>();
         movementSpeed = new Stat(5f);
+        rb = GetComponent<Rigidbody>();
 
         foreach (var movement in movementDescriptors)
         {
             movements.Add(movement.Create());
         }
         movementController = new MovementController(this, movements);
-
         movementController.Initialize();
+
+        foreach (var action in actionDescriptors)
+        {
+            actions.Add(action.Create());
+        }
+        actionController = new ActionController(this, actions);
+        actionController.Initialize();
     }
 
     protected override void Update()
     {
         base.Update();
         movementController.Update();
+        actionController.Update();
     }
 
     //IGrounded Interface Methods

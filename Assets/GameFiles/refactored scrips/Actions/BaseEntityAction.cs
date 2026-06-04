@@ -4,16 +4,25 @@ using UnityEngine;
 [Serializable]
 public class BaseEntityAction : IAction
 {
-    public void StartAction()
+    public bool isComplete { get; set; }
+    protected Entity ownerEntity;
+    protected IActionable actionable;
+    public virtual void StartAction(Entity ownerEntity)
+    {
+        this.ownerEntity = ownerEntity;
+        actionable = ownerEntity as IActionable;
+        isComplete = false;
+    }
+    public virtual void UpdateAction()
     {
     }
-    public void UpdateAction()
+    public virtual void FixedUpdateAction()
+    { 
+    }
+    public virtual void InterruptAction()
     {
     }
-    public void InterruptAction()
-    {
-    }
-    public void EndAction()
+    public virtual void EndAction()
     {
     }
 }

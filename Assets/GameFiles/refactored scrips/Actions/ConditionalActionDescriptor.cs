@@ -11,7 +11,7 @@ public class ConditionalActionDescriptor : ScriptableObject
     [SerializeReference, SubclassSelector]
     public List<ICondition> conditions;
 
-    public ConditionalAction Create(List<ICondition> condiitons, IAction actions)
+    public ConditionalAction Create()
     {
         return new ConditionalAction(action, conditions);
     }

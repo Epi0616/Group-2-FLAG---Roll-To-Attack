@@ -2,33 +2,88 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEditor.Rendering;
 
-public class ActionController : MonoBehaviour
+public class ActionController
 {
-    public GameObject obj;
     private Entity entity;
-    private List<IAction> actions;
+    private List<ConditionalAction> availableActions;
+    private List<ConditionalAction> activeActions;
 
-    public void Initialize(Entity entity, List<IAction> actions)
+    public ActionController(Entity entity, List<ConditionalAction> actions)
     {
         this.entity = entity;
-        this.actions = actions;
+        availableActions = actions;
+        activeActions = new List<ConditionalAction>();
     }
 
-    public void UpdateActions()
+    public void Initialize()
     {
-        for (int i = 0; i < actions.Count; i++)
+        foreach (var action in availableActions)
         {
-            actions[i].UpdateAction();
-            //perform various checks to see if an action needs to be interrupted/ended
+            List<ICondition> conditions = action.conditions;
+            foreach (BaseCondition condition in conditions)
+            {
+                condition.Initialize(entity);
+            }
         }
     }
-    public void InterruptAction()
-    {
 
+    public void Update()
+    {
+        CheckForValidActions();
+        CheckForCompleteActions();
+
+        foreach (ConditionalAction action in activeActions)
+        {
+            action.action.UpdateAction();
+        }
     }
-    public void EndAction()
+    public void FixedUpdate()
     {
+        foreach (ConditionalAction action in activeActions)
+        {
+            action.action.FixedUpdateAction();
+        }
+    }
 
+    public void CheckForValidActions()
+    {
+        for (int i = availableActions.Count - 1; i >= 0; i--)
+        {
+            ConditionalAction action = availableActions[i];
+            List<ICondition> conditions = action.conditions;
+            bool allReleventConditionsMet = true;
+            foreach (BaseCondition condition in conditions)
+            {
+                condition.ConditionUpdate();
+
+                if (!condition.IsConditionMet() && condition.isRequired)
+                {
+                    allReleventConditionsMet = false;
+                }
+            }
+
+            if (allReleventConditionsMet)
+            {
+                activeActions.Add(action);
+                availableActions.Remove(action);
+                action.action.StartAction(entity);
+            }
+        }
+    }
+
+    public void CheckForCompleteActions()
+    {
+        for (int i = activeActions.Count - 1; i >= 0; i--)
+        {
+            ConditionalAction action = activeActions[i];
+
+            if (action.action.isComplete)
+            {
+                activeActions.Remove(action);
+                availableActions.Add(action);
+            }
+        }
     }
 }

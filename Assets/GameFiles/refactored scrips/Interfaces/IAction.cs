@@ -2,8 +2,10 @@ using UnityEngine;
 
 public interface IAction
 {
-    public void StartAction();
+    bool isComplete { get; set; }
+    public void StartAction(Entity entity);
     public void UpdateAction();
+    public void FixedUpdateAction();
     public void InterruptAction();
     public void EndAction();
 }
