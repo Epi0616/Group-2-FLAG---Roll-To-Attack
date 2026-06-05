@@ -28,7 +28,7 @@ public class BasicAttackCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
-        Debug.Log("attack condition: " + conditionMet);
+        //Debug.Log("attack condition: " + conditionMet);
         return conditionMet;
     }
 }

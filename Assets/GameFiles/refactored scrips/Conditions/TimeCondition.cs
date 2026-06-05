@@ -1,10 +1,12 @@
 using UnityEngine;
+using System;
 
+[Serializable]
 public class TimeCondition : BaseCondition
 {
-    public float timer;
+    private float timer;
     public float duration;
-    public float totalTimeElapsed;
+    private float totalTimeElapsed;
 
     private Entity ownerEntity;
 

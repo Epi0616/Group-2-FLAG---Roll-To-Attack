@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
+[Serializable]
 public class OnNavMeshCondition : BaseCondition
 {
-    private Entity ownerEntity;
-    private float distance = 100.0f;
+    private Entity ownerEntity;  
     private INavAgent aiInterfaceAccess;
     private IUsesRigidBody rbInterfaceAccess;
 
@@ -39,9 +40,7 @@ public class OnNavMeshCondition : BaseCondition
                 Vector3 returntoNavMeshDirection = (destinationPos - ownerEntity.transform.position).normalized;
                 //returntoNavMeshDirection.y = enemy.transform.position.y;
                 rbInterfaceAccess.rb.MovePosition(ownerEntity.transform.position + returntoNavMeshDirection * 10f * Time.deltaTime);
-
-                distance = Vector3.Distance(ownerEntity.transform.position, destinationPos);
-
+            
             }
         }
     }
@@ -50,15 +49,12 @@ public class OnNavMeshCondition : BaseCondition
 
     public override bool IsConditionMet()
     {
-        if (aiInterfaceAccess == null) return false;
-
-        NavMeshHit hit;
-        bool validNavMeshNode = NavMesh.SamplePosition(ownerEntity.transform.position, out hit, 5f, NavMesh.AllAreas);
-        if (validNavMeshNode)
+        if (aiInterfaceAccess == null)
         {
-            distance = Vector3.Distance(ownerEntity.transform.position, hit.position);
+            Debug.LogWarning("Nav Agent Missing");
+            return false;
         }
-
-        return (distance < 0.2f);
+        //Debug.Log(aiInterfaceAccess.agent.isOnNavMesh);
+        return aiInterfaceAccess.agent.isOnNavMesh;
     }
 }

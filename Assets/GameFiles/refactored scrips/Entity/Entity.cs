@@ -7,6 +7,8 @@ public class Entity : MonoBehaviour, IEntity
 {
     public List<Stat> statList {  get;  set; }
 
+    public GameObject target;
+
     [HideInInspector] public EntityHealthSystem healthSystem;
     [HideInInspector] public EntityStatusSystem statusSystem;
     [HideInInspector] public EntityBodySystem bodySystem;

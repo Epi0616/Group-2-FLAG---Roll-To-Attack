@@ -13,8 +13,7 @@ public class FreezeStatus : BaseStunEffect
     }
 
     protected override void ApplyStatModifier()
-    {
-        if (!entityRef is IKnockbackable) { return; }
+    {       
         (entityRef as IKnockbackable).slammedDamageMod.AddMultiplierFlat(fragileMultiplier);       
     }
 

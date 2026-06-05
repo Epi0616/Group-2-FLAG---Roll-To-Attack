@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
+  m_Name: AiNavTest
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
+  variable: 1
+  movement:
+    rid: 963243777686241353
+  conditions:
+  - rid: 963243777686241358
+  references:
+    version: 2
+    RefIds:
+    - rid: 963243777686241353
+      type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
+      data:
+        targetPos: {x: 0, y: 0, z: 0}
+    - rid: 963243777686241358
+      type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
+      data:
+        isRequired: 1
+        name: Base

@@ -6,5 +6,5 @@ public interface IKnockbackable
     public Stat slammedDamageMod { get; set; }
     public bool isBeingDisplaced { get; set; }
 
-    public bool CheckForDisplacement();
+    public void CheckForDisplacement();
 }

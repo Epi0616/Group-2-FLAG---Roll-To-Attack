@@ -118,6 +118,11 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             
         }       
 
+        if (OwnerEntity is INavAgent ai && OwnerEntity is IMoveable mo)
+        {
+            ai.agent.speed = mo.movementSpeed.GetFinalValue();
+        }
+
     }
 
 
