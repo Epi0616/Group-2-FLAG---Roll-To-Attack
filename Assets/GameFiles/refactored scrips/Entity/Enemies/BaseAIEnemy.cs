@@ -7,6 +7,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
 {
     // IGrounded Interface Properties
     public bool isGrounded { get; set; }
+    public LayerMask environmentMask { get; set; }
 
     // IMoveable Interface Properties
     public bool canMove { get; set; }
@@ -33,10 +34,12 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
     private List<ConditionalAction> actions = new List<ConditionalAction>();
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
+        environmentMask = LayerMask.GetMask("Ground", "ColliderProps", "Pedestal");
 
         if (rb == null || agent == null)
         {
@@ -60,7 +63,13 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         actionController.Initialize();
 
         agent.speed = movementSpeed.GetFinalValue();
+
+        statList.Add(movementSpeed);
+        statList.Add(slammedDamageMod);
+        statList.Add(knockbackWeightMod);
+
         movements.Add(new ConditionalMovement(new NavMeshMovement(), new List<ICondition>() { new AlwaysTrueCondition() }));
+
         EnableAIAgent();
     }
 

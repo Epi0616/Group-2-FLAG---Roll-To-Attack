@@ -10,6 +10,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     //IGrounded Interface properties
     public bool isGrounded { get; set; }
+    public LayerMask environmentMask { get; set; }
 
     //IMoveable Interface properties
     public bool canMove { get; set; }
@@ -30,8 +31,9 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
     private List<ConditionalAction> actions = new List<ConditionalAction>();
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         inputManager = GetComponent<EntityInputManager>();
         movementSpeed = new Stat(5f);
         rb = GetComponent<Rigidbody>();
