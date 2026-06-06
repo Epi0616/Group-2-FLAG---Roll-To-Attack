@@ -22,7 +22,7 @@ public class NavMeshMovement : BaseEntityMovement
     public override void UpdateMovement()
     {        
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
-
+        //if (moveable.canMove == false) { Debug.LogError("no move allowed"); return; }
         targetPos = ownerEntity.target.transform.position;
 
         intervalTimer += Time.deltaTime;

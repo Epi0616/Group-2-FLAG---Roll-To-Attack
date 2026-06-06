@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseEntityAction : IAction
 {
     public bool isComplete { get; set; }
+    public bool preventsMovement { get; set; }
     protected Entity ownerEntity;
     protected IActionable actionable;
     public virtual void StartAction(Entity ownerEntity)

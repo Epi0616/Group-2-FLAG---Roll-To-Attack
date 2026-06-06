@@ -29,6 +29,6 @@ public class DistanceCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
-        return (targetPos.position - entity.transform.position).magnitude < distanceThreshold;
+        return (entity.target.transform.position - entity.transform.position).magnitude < distanceThreshold;
     }
 }

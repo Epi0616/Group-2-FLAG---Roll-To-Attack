@@ -3,7 +3,7 @@ using UnityEngine.AI;
 using System;
 using System.Collections.Generic;
 
-public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable
+public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, ISlamActionRequirements
 {
     // IGrounded Interface Properties
     public bool isGrounded { get; set; }
@@ -27,6 +27,12 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     // IStunable Interface Properties
     public bool canBeStunned { get; set; }
 
+    // ISlamAction Interface Propertires
+    public float slamBaseRange { get; set; }
+    public Vector3 slamPositionOffset { get; set; }
+    public Color defaultSlamColour { get; set; }
+    public float slamChargeUpTime { get; set; }
+
     // ENEMY MOVEMENT AND ACTION PROPERTIES
     public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
     private List<ConditionalMovement> movements = new List<ConditionalMovement>();
@@ -40,6 +46,12 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         environmentMask = LayerMask.GetMask("Ground", "ColliderProps", "Pedestal");
+        canMove = true;
+        slamBaseRange = 5f;
+        slamPositionOffset = Vector3.zero;
+        defaultSlamColour = Color.white;
+        slamChargeUpTime = 1.5f;
+
 
         if (rb == null || agent == null)
         {
@@ -78,7 +90,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         base.Update();
         movementController.Update();
         actionController.Update();
-        
+        CheckForCanMove();
     }
 
     // IGrounded Interface Methods
@@ -90,12 +102,13 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     // IMoveable Interface Methods
     public void CheckForCanMove()
     {
+        canMove = !actionController.CheckForMovementBlockersAction();
     }
 
     // IActionable Interface Methods
     public void CheckForCanAct()
     {
-
+        
     }
 
     // IKnockbackable Interface Methods
