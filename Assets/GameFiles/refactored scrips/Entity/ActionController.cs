@@ -21,7 +21,7 @@ public class ActionController
     {
         foreach (var action in availableActions)
         {
-            List<ICondition> conditions = action.conditions;
+            List<BaseCondition> conditions = action.conditions;
             foreach (BaseCondition condition in conditions)
             {
                 condition.Initialize(entity);
@@ -52,10 +52,20 @@ public class ActionController
         for (int i = availableActions.Count - 1; i >= 0; i--)
         {
             ConditionalAction action = availableActions[i];
-            List<ICondition> conditions = action.conditions;
+
+            if (action.singleUse && action.triggered)
+            { 
+                availableActions.Remove(action);
+                continue;
+            }
+
+            List<BaseCondition> conditions = action.conditions;
             bool allReleventConditionsMet = true;
-            foreach (BaseCondition condition in conditions)
+
+            for (int j = conditions.Count - 1; j >= 0; j--)
             {
+                BaseCondition condition = conditions[j];
+
                 condition.ConditionUpdate();
 
                 if (!condition.IsConditionMet() && condition.isRequired)
@@ -68,10 +78,12 @@ public class ActionController
             {
                 activeActions.Add(action);
                 availableActions.Remove(action);
+                action.triggered = true;
                 action.action.StartAction(entity);
             }
         }
     }
+
 
     public void CheckForCompleteActions()
     {

@@ -134,8 +134,8 @@ public class PlayerStateController : MonoBehaviour
 
     private void CheckForGrounded()
     {
-        Ray ray = new Ray(transform.position, Vector3.down);
-        isGrounded = Physics.SphereCast(ray, 0.4f, 1.5f, groundLayer);
+        //Ray ray = new Ray(transform.position, Vector3.down);
+        //isGrounded = Physics.SphereCast(ray, 0.4f, 1.5f, groundLayer);
     }
 
     private void CheckForAttack()

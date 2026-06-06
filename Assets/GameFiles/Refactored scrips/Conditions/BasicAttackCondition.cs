@@ -1,11 +1,11 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
 public class BasicAttackCondition : BaseCondition
 {
     private Entity ownerEntity;
-    private bool conditionMet;
     private IUsesEntityInput usesEntityInput;
 
     public BasicAttackCondition() { }
@@ -21,14 +21,17 @@ public class BasicAttackCondition : BaseCondition
     }
     public override void ConditionUpdate()
     {
-        conditionMet = usesEntityInput.inputManager.attackWasPressedThisFrame;
     }
     public override void ResetCondition()
     {
     }
     public override bool IsConditionMet()
     {
-        //Debug.Log("attack condition: " + conditionMet);
+        bool conditionMet = true;
+        if (ownerEntity is not IUsesEntityInput) { conditionMet = false; }
+        if (!usesEntityInput.inputManager.attack.action.WasPressedThisFrame()) { conditionMet = false; }
+        //if (!(ownerEntity as IGrounded).isGrounded) { conditionMet = false; }
+
         return conditionMet;
     }
 }

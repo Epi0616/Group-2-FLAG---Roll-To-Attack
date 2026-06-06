@@ -12,9 +12,11 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public bool isGrounded { get; set; }
     public LayerMask environmentMask { get; set; }
 
-    //IMoveable Interface properties
-    public bool canMove { get; set; }
-    public Stat movementSpeed { get; set; }
+    [Header("IMoveable")]
+    [SerializeField] private bool CanMove;
+    [SerializeField] private Stat MovementSpeed = new Stat(5f);
+    public bool canMove { get => CanMove; set => CanMove = value; }
+    public Stat movementSpeed { get => MovementSpeed; set => MovementSpeed = value; }
     public MovementController movementController { get; set; }
 
     //IActionable Interface properties
@@ -35,7 +37,6 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     {
         base.Start();
         inputManager = GetComponent<EntityInputManager>();
-        movementSpeed = new Stat(5f);
         rb = GetComponent<Rigidbody>();
 
         foreach (var movement in movementDescriptors)
@@ -60,10 +61,18 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         actionController.Update();
     }
 
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        movementController.FixedUpdate();
+        actionController.FixedUpdate();
+    }
+
     //IGrounded Interface Methods
     public void CheckForGrounded()
     {
-
+        //Ray ray = new Ray(transform.position, Vector3.down);
+        //isGrounded = Physics.SphereCast(ray, 0.4f, 1.5f, groundLayer);
     }
 
     //IMoveable Interface Methods

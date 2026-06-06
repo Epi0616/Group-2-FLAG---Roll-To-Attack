@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 [Serializable]
@@ -12,6 +13,8 @@ public class JumpAction : BaseEntityAction
 
     public override void StartAction(Entity entity)
     {
+        isComplete = false;
+        Debug.Log("starting jump");
         base.StartAction(entity);
         rb = (entity as IUsesRigidBody).rb;
 
@@ -47,6 +50,7 @@ public class JumpAction : BaseEntityAction
         if (ApplyJump())
         {
             EndAction();
+
         }
     }
     public override void InterruptAction()
@@ -58,6 +62,7 @@ public class JumpAction : BaseEntityAction
         //player.bodySystem.originalRotation = targetRotation;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+        isComplete = true;
     }
     public override void EndAction()
     {
@@ -68,6 +73,7 @@ public class JumpAction : BaseEntityAction
         //player.bodySystem.originalRotation = targetRotation;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+        isComplete = true;
     }
 
     //Helper Functions
@@ -87,7 +93,5 @@ public class JumpAction : BaseEntityAction
         //ApplyRotation(progress);
 
         return remainingHeight <= 0.01f;
-
-        isComplete = true;
     }
 }

@@ -40,4 +40,9 @@ public class Entity : MonoBehaviour, IEntity
     {
         //statusSystem.UpdateConditions();
     }
+
+    protected virtual void FixedUpdate()
+    {
+
+    }
 }

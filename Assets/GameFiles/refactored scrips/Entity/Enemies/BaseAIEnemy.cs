@@ -40,6 +40,8 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
     private List<ConditionalAction> actions = new List<ConditionalAction>();
 
+    public float slamBaseRangeValue;
+
     protected override void Start()
     {
         base.Start();

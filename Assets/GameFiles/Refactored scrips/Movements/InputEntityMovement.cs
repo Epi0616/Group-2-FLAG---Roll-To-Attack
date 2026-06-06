@@ -13,7 +13,7 @@ public class InputEntityMovement : BaseEntityMovement
     }
     public override void UpdateMovement()
     {
-        Vector3 direction = usesEntityInput.inputManager.moveDirection;
+        Vector3 direction = usesEntityInput.inputManager.move.action.ReadValue<Vector3>();
         float movementSpeed = moveable.movementSpeed.GetFinalValue();
 
         ownerEntity.transform.position += direction * movementSpeed * Time.deltaTime;

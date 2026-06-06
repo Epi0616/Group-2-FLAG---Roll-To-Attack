@@ -27,7 +27,7 @@ public class InputMovementState : IEntityBaseMovementState
     {
         if (!activeState) return;
 
-        Vector3 direction = usesEntityInput.inputManager.moveDirection;
+        Vector3 direction = usesEntityInput.inputManager.move.action.ReadValue<Vector3>();
         float movementSpeed = moveable.movementSpeed.GetFinalValue();
 
         ownerEntity.transform.position += direction * movementSpeed * Time.deltaTime;
