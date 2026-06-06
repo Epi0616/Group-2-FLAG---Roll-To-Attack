@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TextDisplaySystem : IEntitySystem
+public class TextDisplaySystem : MonoBehaviour, IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
     public void InitialiseSystem(Entity entity)

@@ -8,11 +8,19 @@ public class Entity : MonoBehaviour, IEntity
     public List<Stat> statList {  get;  set; }
 
     public GameObject target;
+    public LayerMask hostileMask;
 
-    [HideInInspector] public EntityHealthSystem healthSystem;
-    [HideInInspector] public EntityStatusSystem statusSystem;
-    [HideInInspector] public EntityBodySystem bodySystem;
-    [HideInInspector] public TextDisplaySystem textDisplaySystem;
+
+    public EntityHealthSystem healthSystem;
+    public EntityStatusSystem statusSystem;
+    public EntityBodySystem bodySystem;
+    public TextDisplaySystem textDisplaySystem;
+
+    protected virtual void Start()
+    {
+        statList = new List<Stat>();
+        
+    }
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)
     {

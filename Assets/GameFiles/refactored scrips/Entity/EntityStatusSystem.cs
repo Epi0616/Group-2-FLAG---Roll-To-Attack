@@ -125,5 +125,34 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 
     }
 
+    public bool CheckForMovementBlockersStatus()
+    {
+        bool result = false;
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (currentActiveStatusEffects[i].effect.preventsMovement) { result = true; }
+        }
+        return result;
+    }
+
+    public bool CheckForActionBlockersStatus()
+    {
+        bool result = false;
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (currentActiveStatusEffects[i].effect.preventsAction) { result = true; }
+        }
+        return result;
+    }
+
+    public bool CheckForDisplacementStatus()
+    {
+        bool result = false;
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (currentActiveStatusEffects[i].effect.isDisplacing) { result = true; }
+        }
+        return result;
+    }
 
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EntityHealthSystem : IEntitySystem
+public class EntityHealthSystem : MonoBehaviour, IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
 
