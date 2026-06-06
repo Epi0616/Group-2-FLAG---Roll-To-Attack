@@ -3,7 +3,7 @@ using UnityEngine.AI;
 using System;
 using System.Collections.Generic;
 
-public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IUsesRigidBody, IActionable
+public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable
 {
     // IGrounded Interface Properties
     public bool isGrounded { get; set; }
@@ -17,9 +17,6 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     // IActionable Interface Properties
     public ActionController actionController { get; set; }
     public bool canAct { get; set; }
-
-    // IUsesRigidBody Interface Properties
-    public Rigidbody rb { get; set; }
 
     // IKnockbackable Interface Properties
     public Stat knockbackWeightMod { get; set; }
@@ -63,6 +60,8 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         actionController.Initialize();
 
         agent.speed = movementSpeed.GetFinalValue();
+        movements.Add(new ConditionalMovement(new NavMeshMovement(), new List<ICondition>() { new AlwaysTrueCondition() }));
+        EnableAIAgent();
     }
 
     protected override void Update()

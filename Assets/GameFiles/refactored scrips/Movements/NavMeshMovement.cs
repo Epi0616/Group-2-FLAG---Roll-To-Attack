@@ -15,7 +15,8 @@ public class NavMeshMovement : BaseEntityMovement
     public override void StartMovement(Entity ownerEntity)
     {
         base.StartMovement(ownerEntity);
-        aiInterfaceAccess = ownerEntity as INavAgent;      
+        aiInterfaceAccess = ownerEntity as INavAgent;
+        aiInterfaceAccess.EnableAIAgent();
     }
 
     public override void UpdateMovement()
