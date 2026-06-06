@@ -39,7 +39,7 @@ public class BaseSlamAction : BaseEntityAction
 
     public virtual void Slam()
     {
-        Vector3 slamOrigin = ownerEntity.transform.position + slamVariablesAccess.slamPositionOffset;
+        Vector3 slamOrigin = ownerEntity.transform.TransformPoint(slamVariablesAccess.slamPositionOffset);
         RaycastHit hit;
         Ray ray = new Ray(slamOrigin, Vector3.down);
         if (Physics.Raycast(ray, out hit, 20f, slamVariablesAccess.environmentMask))

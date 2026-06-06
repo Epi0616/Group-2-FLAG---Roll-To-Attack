@@ -26,7 +26,7 @@ public class Entity : MonoBehaviour, IEntity
     {
         //int finalDamage = statusSystem.ModifyDamage(amount, damageType);
         //textDisplaySystem.DisplayText(finalDamage.ToString(), color, 20);
-        //Debug.Log("DAMAGE TAKEN");
+        Debug.Log("DAMAGE TAKEN");
         //healthSystem.OnTakeDamage(finalDamage);
     }
     public virtual void OnRecieveEffect(ActiveStatusEffect statusEffect)
