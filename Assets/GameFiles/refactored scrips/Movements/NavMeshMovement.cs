@@ -6,7 +6,7 @@ using UnityEngine;
 public class NavMeshMovement : BaseEntityMovement
 {
     private INavAgent aiInterfaceAccess;
-    public Vector3 targetPos;
+    private Vector3 targetPos;
     private float setDestinationInterval = 0.15f;
     private float intervalTimer = 0;
 
@@ -16,13 +16,14 @@ public class NavMeshMovement : BaseEntityMovement
     {
         base.StartMovement(ownerEntity);
         aiInterfaceAccess = ownerEntity as INavAgent;
+        aiInterfaceAccess.EnableAIAgent();
         
     }
 
     public override void UpdateMovement()
     {        
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
-        //if (moveable.canMove == false) { Debug.LogError("no move allowed"); return; }
+        if (moveable.canMove == false) { EndMovement(); return; }
         targetPos = ownerEntity.target.transform.position;
 
         intervalTimer += Time.deltaTime;
@@ -36,12 +37,14 @@ public class NavMeshMovement : BaseEntityMovement
 
     public override void InterruptMovement()
     {
-        
+        EndMovement();
     }
 
     public override void EndMovement()
     {
+       // Debug.Log("Movement Ended");
         aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position);
+        
     }
 
 }

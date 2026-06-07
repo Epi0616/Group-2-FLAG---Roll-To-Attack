@@ -29,8 +29,9 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 
             currentActiveStatusEffects[i].UpdateConditionsAll();
 
-            if (currentActiveStatusEffects[i].conditions != null && (currentActiveStatusEffects[i].CheckForExpiration() || currentActiveStatusEffects[i].effect.toBeRemoved))
+            if ((currentActiveStatusEffects[i].conditions != null && (currentActiveStatusEffects[i].CheckForExpiration()) || currentActiveStatusEffects[i].effect.toBeRemoved))
             {
+                Debug.Log("Effect Removed");
                 currentActiveStatusEffects[i].effect.RemoveEffect();
                 currentActiveStatusEffects.RemoveAt(i);
             }
@@ -59,7 +60,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
         }
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
         currentActiveStatusEffects.Add(newStatus);
-        //newStatus.effect.AddEffect(OwnerEntity);
+        newStatus.effect.AddEffect(OwnerEntity);
 
         // The Effect Display will be handled by the Entity itself not the Status System 
 
@@ -103,7 +104,9 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
     }
 
     public void RecalculateStats()
-    {
+    {  
+        if (OwnerEntity == null) { return; }
+
         foreach (var stat in OwnerEntity.statList)
         {
             stat.ResetModifiers();
@@ -127,22 +130,23 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 
     public bool CheckForMovementBlockersStatus()
     {
-        bool result = false;
+       // bool result = false;
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
-            if (currentActiveStatusEffects[i].effect.preventsMovement) { result = true; }
+            if (currentActiveStatusEffects[i].effect.preventsMovement) { return true; }
         }
-        return result;
+        
+        return false;
     }
 
     public bool CheckForActionBlockersStatus()
     {
-        bool result = false;
+        
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
-            if (currentActiveStatusEffects[i].effect.preventsAction) { result = true; }
+            if (currentActiveStatusEffects[i].effect.preventsAction) { return true; }
         }
-        return result;
+        return false;
     }
 
     public bool CheckForDisplacementStatus()

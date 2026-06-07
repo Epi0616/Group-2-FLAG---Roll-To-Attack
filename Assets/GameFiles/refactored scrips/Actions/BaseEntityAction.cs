@@ -12,7 +12,7 @@ public class BaseEntityAction : IAction
     {
         this.ownerEntity = ownerEntity;
         actionable = ownerEntity as IActionable;
-        isComplete = false;
+        //isComplete = false;
     }
     public virtual void UpdateAction()
     {

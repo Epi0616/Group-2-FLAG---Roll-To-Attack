@@ -158,6 +158,8 @@ public class ActionController
             if (action.action.isComplete)
             {
                 activeActions.Remove(action);
+                action.action.isComplete = false;
+                action.ResetConditionsAll();
                 availableActions.Add(action);
             }
         }

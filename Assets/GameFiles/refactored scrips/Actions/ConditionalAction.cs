@@ -24,4 +24,20 @@ public class ConditionalAction
         this.exclusive = exclusive;
         this.priority = priority;
     }
+
+    public void UpdateConditionsAll()
+    {
+        foreach (BaseCondition condition in conditions)
+        {
+            condition.ConditionUpdate();
+        }
+    }
+
+    public void ResetConditionsAll()
+    {
+        foreach (BaseCondition condition in conditions)
+        {
+            condition.ResetCondition();
+        }
+    }
 }

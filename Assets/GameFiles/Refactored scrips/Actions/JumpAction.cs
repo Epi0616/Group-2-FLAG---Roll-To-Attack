@@ -13,7 +13,7 @@ public class JumpAction : BaseEntityAction
 
     public override void StartAction(Entity entity)
     {
-        isComplete = false;
+        //isComplete = false;
         Debug.Log("starting jump");
         base.StartAction(entity);
         rb = (entity as IUsesRigidBody).rb;

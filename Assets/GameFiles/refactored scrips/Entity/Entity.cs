@@ -18,27 +18,26 @@ public class Entity : MonoBehaviour, IEntity
 
     protected virtual void Start()
     {
-        //statList = new List<Stat>();
-        
+        //statList = new List<Stat>();       
     }
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
         //int finalDamage = statusSystem.ModifyDamage(amount, damageType);
         //textDisplaySystem.DisplayText(finalDamage.ToString(), color, 20);
-        Debug.Log("DAMAGE TAKEN");
+        Debug.Log("DAMAGE TAKEN: " + amount);
         //healthSystem.OnTakeDamage(finalDamage);
     }
-    public virtual void OnRecieveEffect(ActiveStatusEffect statusEffect)
+    public virtual void OnRecieveEffect(ActiveStatusEffect statusEffect, Color effectColour)
     {
-        textDisplaySystem.DisplayText(statusEffect.effect.GetEffectText(), Color.red, 20);
+        //textDisplaySystem.DisplayText(statusEffect.effect.GetEffectText(), effectColour, 20);
 
         statusSystem.OnRecieveEffect(statusEffect);
     }
 
     protected virtual void Update()
     {
-        //statusSystem.UpdateConditions();
+        statusSystem.UpdateConditions();
     }
 
     protected virtual void FixedUpdate()

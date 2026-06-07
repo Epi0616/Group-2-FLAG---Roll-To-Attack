@@ -9,7 +9,7 @@ public class FreezeStatus : BaseStunEffect
         type = StatusType.Freeze;
         fragileMultiplier = fragileMult;
         this.effectText = effectText;
-        
+        Debug.Log("Freeze Applied, it is: " + isActive);
     }
 
     protected override void ApplyStatModifier()
@@ -32,7 +32,7 @@ public class FreezeStatus : BaseStunEffect
     protected override void OnUpdate()
     {
         //  NEED BODY SYSTEM entityRef.Vibrate();
-        entityRef.bodySystem.Vibrate();
+        //entityRef.bodySystem.Vibrate();
     }
 
     protected override void OnRemoval()

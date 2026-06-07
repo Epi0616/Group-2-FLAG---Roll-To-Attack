@@ -4,12 +4,14 @@ using System.Collections.Generic;
 public class MovementController
 {
     private Entity entity;
+    private IMoveable moveInterfaceAccess;
     public List<ConditionalMovement> availableMovements;
     private List<ConditionalMovement> activeMovements;
 
     public MovementController(Entity entity, List<ConditionalMovement> startMovements)
     {
         this.entity = entity;
+        moveInterfaceAccess = entity as IMoveable;
         availableMovements = startMovements;
         activeMovements = new List<ConditionalMovement>();
     }
@@ -35,6 +37,7 @@ public class MovementController
         { 
             movement.movement.UpdateMovement();
         }
+
     }
     public void FixedUpdate()
     {
@@ -58,7 +61,7 @@ public class MovementController
                 }
             }
 
-            if (allReleventConditionsMet)
+            if (allReleventConditionsMet && moveInterfaceAccess.canMove)
             {
                 activeMovements.Add(movement);
                 availableMovements.Remove(movement);

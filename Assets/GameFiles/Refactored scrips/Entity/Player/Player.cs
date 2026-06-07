@@ -13,7 +13,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public LayerMask environmentMask { get; set; }
 
     [Header("IMoveable")]
-    [SerializeField] private bool CanMove;
+    [SerializeField] private bool CanMove = true;
     [SerializeField] private Stat MovementSpeed = new Stat(5f);
     public bool canMove { get => CanMove; set => CanMove = value; }
     public Stat movementSpeed { get => MovementSpeed; set => MovementSpeed = value; }
@@ -64,6 +64,9 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
             modifiableActions.Add(modifiableAction.Create());
         }
         actionSelectionSystem = new ActionSelectionSystem(this);
+
+        statList.Add(movementSpeed);
+
     }
 
     protected override void Update()

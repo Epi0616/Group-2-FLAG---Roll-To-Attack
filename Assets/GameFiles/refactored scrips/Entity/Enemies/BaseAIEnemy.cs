@@ -37,18 +37,16 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public bool isBeingDisplaced { get => IsBeingDisplaced; set => IsBeingDisplaced = value; }
 
     // IStunable Interface Properties
-    public bool canBeStunned { get; set; }
+    [SerializeField] private bool CanBeStunned = true;
+    public bool canBeStunned { get => CanBeStunned; set => CanBeStunned = value; }
 
     // ISlamAction Interface Propertires
     [Header("ISlam Required Properties")]
     [SerializeField] float SlamRange = 5;
     [SerializeField] Vector3 SlamOriginOffset = Vector3.zero;
-    [SerializeField] Color SlamColour = Color.white;
     [SerializeField] GameObject prefab;
     public float slamBaseRange { get => SlamRange; set => SlamRange = value; }
     public Vector3 slamPositionOffset { get => SlamOriginOffset; set => SlamOriginOffset = value; }
-    public Color defaultSlamColour { get => SlamColour; set => SlamColour = value; }
-    public float slamChargeUpTime { get; set; }
     public GameObject DebugSlamObj { get => prefab; set => prefab = value; }
 
     // ENEMY MOVEMENT AND ACTION PROPERTIES
@@ -81,6 +79,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         {
             movements.Add(movement.Create());
         }
+        //movements.Add(new ConditionalMovement(new NavMeshMovement(), new List<ICondition>() { new CanMoveCondition() }));
         movementController = new MovementController(this, movements);
         movementController.Initialize();
 
@@ -97,9 +96,9 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         statList.Add(slammedDamageMod);
         statList.Add(knockbackWeightMod);
 
-        //movements.Add(new ConditionalMovement(new NavMeshMovement(), new List<ICondition>() { new AlwaysTrueCondition() }));
+        
         agent.speed = movementSpeed.GetFinalValue();
-        EnableAIAgent();
+        //EnableAIAgent();
     }
 
     protected override void Update()
@@ -108,30 +107,37 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         movementController.Update();
         actionController.Update();
         CheckForCanMove();
+        CheckForCanAct();
+        CheckForDisplacement();
+        CheckForGrounded();
     }
 
     // IGrounded Interface Methods
     public void CheckForGrounded()
     {
-
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, Vector3.down);
+        isGrounded = (Physics.Raycast(ray, out hit, 1.3f, environmentMask));
+        //IsGrounded = (Physics.Raycast(ray, out hit, 1.3f, environmentMask));
     }
 
     // IMoveable Interface Methods
     public void CheckForCanMove()
     {
-        canMove = !actionController.CheckForMovementBlockersAction();
+        //canMove = !(actionController.CheckForMovementBlockersAction() || statusSystem.CheckForMovementBlockersStatus());
+        canMove = !statusSystem.CheckForMovementBlockersStatus();
     }
 
     // IActionable Interface Methods
     public void CheckForCanAct()
     {
-        
+        canAct = !statusSystem.CheckForActionBlockersStatus();
     }
 
     // IKnockbackable Interface Methods
     public void CheckForDisplacement()
     {
-
+        isBeingDisplaced = statusSystem.CheckForDisplacementStatus();
     }
 
     public GameObject SPAWNTHING(GameObject thing, Vector3 pos)

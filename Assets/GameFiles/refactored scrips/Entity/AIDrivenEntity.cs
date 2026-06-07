@@ -12,7 +12,7 @@ public class AIDrivenEntity : Entity , INavAgent , IUsesRigidBody
 
     public virtual void EnableAIAgent()
     {
-        //if (!isAIDisabled) { return; }
+        if (!isAIDisabled) { return; }
 
         rb.isKinematic = false;
         rb.linearDamping = 0f;
@@ -33,7 +33,7 @@ public class AIDrivenEntity : Entity , INavAgent , IUsesRigidBody
 
     public virtual void DisableAIAgent()
     {
-        //if (isAIDisabled) { return; }
+        if (isAIDisabled) { return; }
 
         //agent.enabled = false;
         agent.updatePosition = false;

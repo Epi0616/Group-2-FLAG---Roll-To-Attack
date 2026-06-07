@@ -14,18 +14,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   variable: 1
   action:
-    rid: 963243805466165317
+    rid: 963243827680247808
   conditions:
   - rid: 963243805466165318
+  - rid: 963243827680247878
+  singleUse: 0
+  exclusive: 1
+  priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 963243805466165317
-      type: {class: BaseSlamAction, ns: , asm: Assembly-CSharp}
-      data: 
     - rid: 963243805466165318
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         isRequired: 1
         name: Base
         distanceThreshold: 5
+    - rid: 963243827680247808
+      type: {class: BaseSlamAction, ns: , asm: Assembly-CSharp}
+      data:
+        damage: 50
+        slamColour: {r: 1, g: 0, b: 0, a: 1}
+        chargeTime: 1
+    - rid: 963243827680247878
+      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
+      data:
+        isRequired: 1
+        name: Base
+        duration: 2
