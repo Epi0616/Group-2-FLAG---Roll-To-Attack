@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 public class Entity : MonoBehaviour, IEntity
 {
-    public List<Stat> statList {  get;  set; }
+    public List<Stat> VisibleStatList = new List<Stat> ();
+    public List<Stat> statList {  get => VisibleStatList;  set => VisibleStatList = value; }
 
     public GameObject target;
     public LayerMask hostileMask;
@@ -17,7 +18,7 @@ public class Entity : MonoBehaviour, IEntity
 
     protected virtual void Start()
     {
-        statList = new List<Stat>();
+        //statList = new List<Stat>();
         
     }
 
