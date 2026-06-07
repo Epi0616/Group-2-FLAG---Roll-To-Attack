@@ -9,8 +9,10 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public bool canUseInput { get; set; }
 
     //IGrounded Interface properties
+    [SerializeField] private LayerMask GroundLayer;
     public bool isGrounded { get; set; }
-    public LayerMask environmentMask { get; set; }
+    public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
+    public LayerMask environmentLayer { get; set; }
 
     [Header("IMoveable")]
     [SerializeField] private bool CanMove = true;
@@ -74,6 +76,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         base.Update();
         movementController.Update();
         actionController.Update();
+        CheckForGrounded();
     }
 
     protected override void FixedUpdate()
@@ -86,8 +89,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     //IGrounded Interface Methods
     public void CheckForGrounded()
     {
-        //Ray ray = new Ray(transform.position, Vector3.down);
-        //isGrounded = Physics.SphereCast(ray, 0.4f, 1.5f, groundLayer);
+        Ray ray = new Ray(transform.position, Vector3.down);
+        isGrounded = Physics.SphereCast(ray, 0.4f, 1.5f, groundLayer);
     }
 
     //IMoveable Interface Methods

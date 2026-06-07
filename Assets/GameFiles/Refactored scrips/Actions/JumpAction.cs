@@ -11,6 +11,8 @@ public class JumpAction : BaseEntityAction
     private Quaternion startRotation, targetRotation;
     private Quaternion[] rotationMap;
 
+    private float remainingHeight;
+
     public override void StartAction(Entity entity)
     {
         //isComplete = false;
@@ -52,11 +54,13 @@ public class JumpAction : BaseEntityAction
     }
     public override void FixedUpdateAction()
     {
-        if (ApplyJump())
+        if (remainingHeight > 0.01f)
         {
-            EndAction();
-
+            ApplyJump();
+            return;
         }
+
+
     }
     public override void InterruptAction()
     {
@@ -86,7 +90,7 @@ public class JumpAction : BaseEntityAction
     private bool ApplyJump()
     {
         float currentHeight = ownerEntity.transform.position.y;
-        float remainingHeight = targetHeight - currentHeight;
+        remainingHeight = targetHeight - currentHeight;
 
         float verticalVelocity = remainingHeight * jumpSpeed;
         Vector3 velocity = new Vector3(0, verticalVelocity, 0);
@@ -109,5 +113,10 @@ public class JumpAction : BaseEntityAction
 
         Quaternion visualSpin = Quaternion.Euler(360 * t, 360 * t, 360 * t);
         ownerEntity.bodySystem.body.transform.rotation *= visualSpin;
+    }
+
+    private void ApplyDownwardForce()
+    {
+
     }
 }

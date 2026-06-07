@@ -7,10 +7,10 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
 {
     // IGrounded Interface Properties
     [Header("IGrounded Properties")]
-    [SerializeField] private LayerMask EnvironmentMask;
+    [SerializeField] private LayerMask GroundLayer;
     [SerializeField] private bool IsGrounded;
     public bool isGrounded { get => IsGrounded; set => IsGrounded = value; }
-    public LayerMask environmentMask { get => EnvironmentMask; set => EnvironmentMask = value; }
+    public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
 
     // IMoveable Interface Properties
     [Header("IMoveable Properties")]
@@ -44,9 +44,11 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     [Header("ISlam Required Properties")]
     [SerializeField] float SlamRange = 5;
     [SerializeField] Vector3 SlamOriginOffset = Vector3.zero;
+    [SerializeField] private LayerMask EnvironmentMask;
     [SerializeField] GameObject prefab;
     public float slamBaseRange { get => SlamRange; set => SlamRange = value; }
     public Vector3 slamPositionOffset { get => SlamOriginOffset; set => SlamOriginOffset = value; }
+    public LayerMask environmentMask { get => EnvironmentMask; set => EnvironmentMask = value; }
     public GameObject DebugSlamObj { get => prefab; set => prefab = value; }
 
     // ENEMY MOVEMENT AND ACTION PROPERTIES
