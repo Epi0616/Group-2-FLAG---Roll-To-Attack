@@ -79,7 +79,7 @@ public class BaseSlamAction : BaseEntityAction
         {
             if (attackInterrupted) { break; }
             if (collider == null) continue;
-            if (collider.gameObject == ownerEntity.gameObject) { Debug.Log("Hit yourself"); continue; }
+            if (collider.gameObject == ownerEntity.gameObject) { continue; }
             //Debug.Log("HIT A THING");
             Entity hitEntity = collider.gameObject.GetComponent<Entity>();
             if (hitEntity == null) { continue; }

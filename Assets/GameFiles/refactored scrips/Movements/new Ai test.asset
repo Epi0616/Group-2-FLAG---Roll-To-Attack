@@ -14,10 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
   variable: 1
   movement:
-    rid: -2
-  conditions: []
+    rid: 963243828785184857
+  conditions:
+  - rid: 963243828785184858
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 963243828785184857
+      type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 963243828785184858
+      type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
+      data:
+        isRequired: 1
+        name: Base

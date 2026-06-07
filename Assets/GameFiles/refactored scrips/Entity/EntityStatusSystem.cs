@@ -31,7 +31,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 
             if ((currentActiveStatusEffects[i].conditions != null && (currentActiveStatusEffects[i].CheckForExpiration()) || currentActiveStatusEffects[i].effect.toBeRemoved))
             {
-                Debug.Log("Effect Removed");
+               // Debug.Log("Effect Removed");
                 currentActiveStatusEffects[i].effect.RemoveEffect();
                 currentActiveStatusEffects.RemoveAt(i);
             }

@@ -9,7 +9,7 @@ public class FreezeStatus : BaseStunEffect
         type = StatusType.Freeze;
         fragileMultiplier = fragileMult;
         this.effectText = effectText;
-        Debug.Log("Freeze Applied, it is: " + isActive);
+        //Debug.Log("Freeze Applied, it is: " + isActive);
     }
 
     protected override void ApplyStatModifier()
