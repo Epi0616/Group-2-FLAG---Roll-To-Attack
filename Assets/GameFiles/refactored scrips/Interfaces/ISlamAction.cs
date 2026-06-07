@@ -7,4 +7,6 @@ public interface ISlamActionRequirements
     public Color defaultSlamColour { get; set; }
     public float slamChargeUpTime { get; set; }
     public LayerMask environmentMask { get; set; }
+    public GameObject DebugSlamObj { get; set; }
+    public GameObject SPAWNTHING(GameObject thing, Vector3 pos);
 }
