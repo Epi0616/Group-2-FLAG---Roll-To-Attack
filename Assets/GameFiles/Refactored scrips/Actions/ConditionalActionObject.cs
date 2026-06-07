@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Conditional Actions/ ConditionalActionObject")]
+[CreateAssetMenu(menuName = "Actions/ ConditionalActionObject")]
 public class ConditionalActionObject : ConditionalActionDescriptor
 {
 }

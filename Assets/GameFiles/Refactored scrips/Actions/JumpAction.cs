@@ -39,8 +39,13 @@ public class JumpAction : BaseEntityAction
         eulerStartRotation.z = Mathf.Round(eulerStartRotation.z);
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
 
-        targetRotation = rotationMap[0];
 
+        ConditionalAction targetAction = (ownerEntity as IModifiableActions).modifiableActions[0].conditionalAction;
+        targetAction.triggered = false;
+        int index = (ownerEntity as IModifiableActions).actionSelectionSystem.LastReturnedActionIndex;
+        targetRotation = rotationMap[index];
+
+        (ownerEntity as IActionable).actionController.availableActions.Add(targetAction);
     }
     public override void UpdateAction()
     {
@@ -58,8 +63,8 @@ public class JumpAction : BaseEntityAction
         rb.useGravity = true;
         rb.isKinematic = false;
 
-        //player.bodySystem.body.transform.rotation = targetRotation;
-        //player.bodySystem.originalRotation = targetRotation;
+        ownerEntity.bodySystem.body.transform.rotation = targetRotation;
+        ownerEntity.bodySystem.originalRotation = targetRotation;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         isComplete = true;
@@ -69,8 +74,8 @@ public class JumpAction : BaseEntityAction
         rb.useGravity = true;
         rb.isKinematic = false;
 
-        //player.bodySystem.body.transform.rotation = targetRotation;
-        //player.bodySystem.originalRotation = targetRotation;
+        ownerEntity.bodySystem.body.transform.rotation = targetRotation;
+        ownerEntity.bodySystem.originalRotation = targetRotation;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         isComplete = true;
@@ -90,8 +95,19 @@ public class JumpAction : BaseEntityAction
         rb.linearVelocity = velocity;
 
         float progress = Mathf.InverseLerp(startHeight, targetHeight, currentHeight);
-        //ApplyRotation(progress);
+        ApplyRotation(progress);
 
         return remainingHeight <= 0.01f;
+    }
+
+    private void ApplyRotation(float jumpProgress)
+    {
+        float t = Mathf.SmoothStep(0f, 1f, jumpProgress);
+
+        Quaternion rotation = Quaternion.Slerp(startRotation, targetRotation, t);
+        ownerEntity.bodySystem.body.transform.rotation = rotation;
+
+        Quaternion visualSpin = Quaternion.Euler(360 * t, 360 * t, 360 * t);
+        ownerEntity.bodySystem.body.transform.rotation *= visualSpin;
     }
 }

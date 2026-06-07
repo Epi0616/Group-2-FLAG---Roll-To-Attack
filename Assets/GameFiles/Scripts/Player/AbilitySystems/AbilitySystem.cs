@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilitySystem : MonoBehaviour
+public class OldAbilitySystem : MonoBehaviour
 {
     [SerializeField] private PlayerLoadOut playerLoadOut;
     [SerializeField] private AbilityDescriptor defaultAbility;

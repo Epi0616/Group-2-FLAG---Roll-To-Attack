@@ -10,7 +10,6 @@ public class Entity : MonoBehaviour, IEntity
     public GameObject target;
     public LayerMask hostileMask;
 
-
     public EntityHealthSystem healthSystem;
     public EntityStatusSystem statusSystem;
     public EntityBodySystem bodySystem;

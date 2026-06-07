@@ -1,13 +1,15 @@
 using NUnit.Framework;
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Rendering;
+using UnityEngine;
+using static System.Collections.Specialized.BitVector32;
 
 public class ActionController
 {
     private Entity entity;
-    private List<ConditionalAction> availableActions;
+    public List<ConditionalAction> availableActions;
     private List<ConditionalAction> activeActions;
 
     public ActionController(Entity entity, List<ConditionalAction> actions)
@@ -49,6 +51,8 @@ public class ActionController
 
     public void CheckForValidActions()
     {
+        List<ConditionalAction> potentialExclusiveActions = new List<ConditionalAction>();
+
         for (int i = availableActions.Count - 1; i >= 0; i--)
         {
             ConditionalAction action = availableActions[i];
@@ -76,12 +80,72 @@ public class ActionController
 
             if (allReleventConditionsMet)
             {
-                activeActions.Add(action);
-                availableActions.Remove(action);
-                action.triggered = true;
-                action.action.StartAction(entity);
+                if (action.exclusive)
+                {
+                    potentialExclusiveActions.Add(action);
+                }
+                else 
+                {
+                    activeActions.Add(action);
+                    availableActions.Remove(action);
+                    action.triggered = true;
+                    action.action.StartAction(entity);
+                }
             }
         }
+
+        //if there are exlcusive actions to choose from and there are no active exclusive actions, choose one to activate.
+        if (potentialExclusiveActions.Count <= 0) return;
+        foreach (ConditionalAction action in activeActions)
+        {
+            if (action.exclusive)
+            {
+                return;
+            }
+        }
+
+        ActivateExclusiveAction(potentialExclusiveActions);
+    }
+
+    private void ActivateExclusiveAction(List<ConditionalAction> potentialActiveActions)
+    {
+        List<ConditionalAction> lowestPriorityActiveActions = new List<ConditionalAction>();
+
+        for (int i = 0; i < potentialActiveActions.Count; i++)
+        {
+            ConditionalAction action = potentialActiveActions[i];
+            //fill list if empty
+            if (lowestPriorityActiveActions.Count <= 0)
+            {
+                lowestPriorityActiveActions.Add(action);
+                continue;
+            }
+            //add to list if same priority as current lowest
+            if (action.priority == lowestPriorityActiveActions[0].priority)
+            {
+                lowestPriorityActiveActions.Add(action);
+            }
+            //empty list and add action if its lowest priority so far
+            else if (action.priority < lowestPriorityActiveActions[0].priority)
+            { 
+                lowestPriorityActiveActions.Clear();
+                lowestPriorityActiveActions.Add(action);
+            }
+        }
+
+        //if there is only one lowest priority action, use it.
+        ConditionalAction chosenAction = lowestPriorityActiveActions[0];
+        //if there are multiple actions, use one at random.
+        if (lowestPriorityActiveActions.Count > 1)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, lowestPriorityActiveActions.Count);
+            chosenAction = lowestPriorityActiveActions[randomIndex];
+        }
+
+        activeActions.Add(chosenAction);
+        availableActions.Remove(chosenAction);
+        chosenAction.triggered = true;
+        chosenAction.action.StartAction(entity);
     }
 
 

@@ -4,6 +4,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
     public GameObject body;
+    public Quaternion originalRotation;
 
     public void InitialiseSystem(Entity entity)
     {

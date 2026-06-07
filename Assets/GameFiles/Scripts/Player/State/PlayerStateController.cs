@@ -10,7 +10,7 @@ public class PlayerStateController : MonoBehaviour
     public Rigidbody rb;
     public InputActionReference move, attack, controllerChargeAttack;
     public PlayerBaseState currentState;
-    public AbilitySystem abilitySystem;
+    public OldAbilitySystem abilitySystem;
     public AttackSystem attackSystem;
     public HealthSystem healthSystem;
     public PlayerBodySystem bodySystem;

@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions
 {
     //IUsesEntityInput Interface properties
     public EntityInputManager inputManager { get; set; }
@@ -22,6 +22,12 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     //IActionable Interface properties
     public ActionController actionController { get; set; }
     public bool canAct { get; set; }
+
+    //IModifiableActions Interface properties
+    [SerializeField] private List<ModifiableActionDescriptor> modifiableActionDescriptors = new List<ModifiableActionDescriptor>();
+    private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
+    public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
+    public ActionSelectionSystem actionSelectionSystem { get; set; }
 
     //IUsesRigidBody Interface properties
     public Rigidbody rb { get; set; }
@@ -52,6 +58,12 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         }
         actionController = new ActionController(this, actions);
         actionController.Initialize();
+
+        foreach (var modifiableAction in modifiableActionDescriptors)
+        {
+            modifiableActions.Add(modifiableAction.Create());
+        }
+        actionSelectionSystem = new ActionSelectionSystem(this);
     }
 
     protected override void Update()

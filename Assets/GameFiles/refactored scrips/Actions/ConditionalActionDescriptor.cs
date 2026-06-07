@@ -12,9 +12,11 @@ public class ConditionalActionDescriptor : ScriptableObject
     public List<BaseCondition> conditions;
 
     public bool singleUse = false;
+    public bool exclusive = true;
+    public int priority = 0;
 
     public ConditionalAction Create()
     {
-        return new ConditionalAction(action, conditions, singleUse);
+        return new ConditionalAction(action, conditions, singleUse, exclusive, priority);
     }
 }

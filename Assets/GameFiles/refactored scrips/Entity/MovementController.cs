@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class MovementController
 {
     private Entity entity;
-    private List<ConditionalMovement> availableMovements;
+    public List<ConditionalMovement> availableMovements;
     private List<ConditionalMovement> activeMovements;
 
     public MovementController(Entity entity, List<ConditionalMovement> startMovements)

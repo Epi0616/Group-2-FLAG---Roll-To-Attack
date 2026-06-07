@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Conditional Movements/ ConditionalMovementObject")]
+[CreateAssetMenu(menuName = "Movements/ ConditionalMovementObject")]
 public class ConditionalMovementObject : ConditionalMovementDescriptor
 {
 }

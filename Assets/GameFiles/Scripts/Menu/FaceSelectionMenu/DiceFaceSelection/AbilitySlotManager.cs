@@ -15,7 +15,7 @@ public class AbilitySlotManager : MonoBehaviour
     public List<AbilitySlot> abilityStorage;
     [SerializeField] private GameObject centralAbilityPoint;
     [SerializeField] private GameObject abilityObjectPrefab;
-    [SerializeField] private AbilitySystem abilitySystem;
+    [SerializeField] private OldAbilitySystem abilitySystem;
     [SerializeField] private InputActionReference cancelSwap;
     [SerializeField] private InputActionReference quickStore;
 
