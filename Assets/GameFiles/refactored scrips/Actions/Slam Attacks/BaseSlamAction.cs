@@ -13,7 +13,7 @@ public class BaseSlamAction : BaseEntityAction
     private bool chargeComplete = false;
     protected Vector3 slamOrigin;
     protected bool attackInterrupted = false;
-    protected EnemyAttackImpactField impactField;
+    protected ImpactFieldVisual impactField;
     public float slamRange = 0;
     public Vector3 slamPositionOffset = Vector3.zero;
     public GameObject slamImpactField;
@@ -36,12 +36,13 @@ public class BaseSlamAction : BaseEntityAction
         // + ownerEntity.transform.TransformPoint(slamVariablesAccess.slamPositionOffset);
         //EnemyAttackImpactField field = slamVariablesAccess.SPAWNTHING(slamVariablesAccess.DebugSlamObj, slamOrigin).GetComponent<EnemyAttackImpactField>();
         SpawnSlamStartVFX();
+        
     }
 
     public virtual void SpawnSlamStartVFX()
     {
-        impactField = ObjectPoolManager.SpawnObject(slamImpactField, slamOrigin, Quaternion.identity).GetComponent<EnemyAttackImpactField>();
-        impactField.PassInValuesColorRadiusLifeTimeChargeTime(slamColour, slamRange, chargeTime + 1f, chargeTime);
+        impactField = ObjectPoolManager.SpawnObject(slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
+        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, true);
     }
 
     public virtual void SpawnSlamCompleteVFX() { }

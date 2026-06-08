@@ -10,6 +10,12 @@ public class PoisonSlamAction : BaseSlamAction
     
     PoisonSlamAction() { }
 
+    public override void SpawnSlamStartVFX()
+    {
+        impactField = ObjectPoolManager.SpawnObject(slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
+        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, false);
+    }
+
     public override void ExtraSlamEffect()
     {
         GameObject poisonField = ObjectPoolManager.SpawnObject(poisonFieldPrefab, slamOrigin, Quaternion.identity);
