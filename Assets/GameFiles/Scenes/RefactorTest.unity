@@ -499,7 +499,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 922248948404803261, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1106476328781772052, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
       propertyPath: m_Layer
@@ -1095,7 +1095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 922248948404803261, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1106476328781772052, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
       propertyPath: m_Layer
@@ -1445,7 +1445,7 @@ GameObject:
   - component: {fileID: 1919211746}
   - component: {fileID: 1919211745}
   - component: {fileID: 1919211744}
-  - component: {fileID: 1919211743}
+  - component: {fileID: 1919211747}
   m_Layer: 31
   m_Name: Floor
   m_TagString: Ground
@@ -1453,28 +1453,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &1919211743
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919211742}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1919211744
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1546,6 +1524,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1919211747
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919211742}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 2, z: 10}
+  m_Center: {x: 0, y: -1, z: 0}
 --- !u!1 &1985006062 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5443647968532470383, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
@@ -1596,15 +1595,40 @@ MonoBehaviour:
   textDisplaySystem: {fileID: 0}
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2147483648
   CanMove: 1
   MovementSpeed:
     baseValue: 5
-  modifiableActionDescriptors: []
   movementDescriptors:
   - {fileID: 11400000, guid: 61b6851bd4f9d8448a097b34084e53a8, type: 2}
-  actionDescriptors:
-  - {fileID: 11400000, guid: 08bf4a9e7422fbe45bc99be6b8584cc6, type: 2}
+  actions:
+  - action:
+      rid: 5154423847817838841
+    conditions:
+    - rid: 5154423847817838842
+    singleUse: 0
+    triggered: 0
+    exclusive: 1
+    priority: 0
+  modifiableActionDescriptors:
+  - {fileID: 11400000, guid: 84325c2a78662e14186cb7463eb12067, type: 2}
+  JumpHeight:
+    baseValue: 3
+  JumpSpeed:
+    baseValue: 8
+  ImpactSpeed:
+    baseValue: 10
+  references:
+    version: 2
+    RefIds:
+    - rid: 5154423847817838841
+      type: {class: JumpAction, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5154423847817838842
+      type: {class: AttackCondition, ns: , asm: Assembly-CSharp}
+      data:
+        isRequired: 1
+        name: Base
 --- !u!65 &2016936893
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1656,6 +1680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityInputManager
   move: {fileID: -1868467007967312457, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   attack: {fileID: -6595154157516738094, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  holdTime: 0
 --- !u!54 &2016936898
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1664,9 +1689,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016936891}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1682,7 +1707,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &2016936899
 MonoBehaviour:
   m_ObjectHideFlags: 0
