@@ -7,15 +7,16 @@ public class BaseSlamAction : BaseEntityAction
 {
     protected ISlamActionRequirements slamVariablesAccess;
     private float chargeUpTimer = 0;
-    public int damage = 10;
+    public int slamDamage = 10;
     public Color slamColour = Color.white;
     public float chargeTime = 1f;
     private bool chargeComplete = false;
-    private Vector3 slamOrigin;
+    protected Vector3 slamOrigin;
     protected bool attackInterrupted = false;
     protected EnemyAttackImpactField impactField;
     public float slamRange = 0;
     public Vector3 slamPositionOffset = Vector3.zero;
+    public GameObject slamImpactField;
 
     public BaseSlamAction() { }
 
@@ -28,14 +29,22 @@ public class BaseSlamAction : BaseEntityAction
         chargeComplete = false;
         attackInterrupted = false;
 
-            //Debug.Log("STARTED");
-        slamOrigin = ownerEntity.transform.position + (ownerEntity.transform.forward * slamPositionOffset.z) + (ownerEntity.transform.right * slamPositionOffset.x);
-        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.DebugSlamObj, slamOrigin, Quaternion.identity).GetComponent<EnemyAttackImpactField>();
+        //Debug.Log("STARTED");
 
+        slamOrigin = ownerEntity.transform.position + (ownerEntity.transform.forward * slamPositionOffset.z) + (ownerEntity.transform.right * slamPositionOffset.x);
+        
         // + ownerEntity.transform.TransformPoint(slamVariablesAccess.slamPositionOffset);
         //EnemyAttackImpactField field = slamVariablesAccess.SPAWNTHING(slamVariablesAccess.DebugSlamObj, slamOrigin).GetComponent<EnemyAttackImpactField>();
+        SpawnSlamStartVFX();
+    }
+
+    public virtual void SpawnSlamStartVFX()
+    {
+        impactField = ObjectPoolManager.SpawnObject(slamImpactField, slamOrigin, Quaternion.identity).GetComponent<EnemyAttackImpactField>();
         impactField.PassInValuesColorRadiusLifeTimeChargeTime(slamColour, slamRange, chargeTime + 1f, chargeTime);
     }
+
+    public virtual void SpawnSlamCompleteVFX() { }
 
     public override void UpdateAction()
     {
@@ -44,6 +53,8 @@ public class BaseSlamAction : BaseEntityAction
         if (chargeUpTimer > chargeTime && !chargeComplete)
         {
             chargeComplete = true;
+            SpawnSlamCompleteVFX();
+            ExtraSlamEffect();
            // Debug.Log("SLAMMING");
             Slam();
         }
@@ -85,15 +96,17 @@ public class BaseSlamAction : BaseEntityAction
             //Debug.Log("HIT A THING");
             Entity hitEntity = collider.gameObject.GetComponent<Entity>();
             if (hitEntity == null) { continue; }
-            ApplyCustomEffect(hitEntity);
+            ApplyCustomEffectPerEntity(hitEntity);
             
         }
         EndAction();
     }
 
-    public virtual void ApplyCustomEffect(Entity hitEntity)
+    public virtual void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        hitEntity.OnTakeDamage(damage, slamColour, DamageType.Normal);
+       // hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
     }
+
+    public virtual void ExtraSlamEffect() { }
 }
 // slamVariablesAccess.defaultSlamColour

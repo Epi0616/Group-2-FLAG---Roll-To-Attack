@@ -13,9 +13,11 @@ public class FreezeSlamAction : BaseSlamAction
 
     public FreezeSlamAction() { }
 
-    public override void ApplyCustomEffect(Entity hitEntity)
+    public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(FragileDamageMult, "frozen" ),
+        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
+
+        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(FragileDamageMult, "PlaceHolderFrozen"),
                 new List<BaseCondition> { new TimeCondition(true, hitEntity, FreezeDuration) }), slamColour);
     }
 }
