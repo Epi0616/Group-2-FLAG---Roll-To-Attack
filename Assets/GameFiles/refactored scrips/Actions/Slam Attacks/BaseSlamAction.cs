@@ -14,6 +14,8 @@ public class BaseSlamAction : BaseEntityAction
     private Vector3 slamOrigin;
     protected bool attackInterrupted = false;
     protected EnemyAttackImpactField impactField;
+    public float slamRange = 0;
+    public Vector3 slamPositionOffset = Vector3.zero;
 
     public BaseSlamAction() { }
 
@@ -26,13 +28,13 @@ public class BaseSlamAction : BaseEntityAction
         chargeComplete = false;
         attackInterrupted = false;
 
-        //Debug.Log("STARTED");
-        slamOrigin = ownerEntity.transform.position + (ownerEntity.transform.forward * slamVariablesAccess.slamPositionOffset.z) + (ownerEntity.transform.right * slamVariablesAccess.slamPositionOffset.x);
+            //Debug.Log("STARTED");
+        slamOrigin = ownerEntity.transform.position + (ownerEntity.transform.forward * slamPositionOffset.z) + (ownerEntity.transform.right * slamPositionOffset.x);
         impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.DebugSlamObj, slamOrigin, Quaternion.identity).GetComponent<EnemyAttackImpactField>();
 
         // + ownerEntity.transform.TransformPoint(slamVariablesAccess.slamPositionOffset);
         //EnemyAttackImpactField field = slamVariablesAccess.SPAWNTHING(slamVariablesAccess.DebugSlamObj, slamOrigin).GetComponent<EnemyAttackImpactField>();
-        impactField.PassInValuesColorRadiusLifeTimeChargeTime(slamColour, slamVariablesAccess.slamBaseRange, chargeTime + 1f, chargeTime);
+        impactField.PassInValuesColorRadiusLifeTimeChargeTime(slamColour, slamRange, chargeTime + 1f, chargeTime);
     }
 
     public override void UpdateAction()
@@ -68,7 +70,7 @@ public class BaseSlamAction : BaseEntityAction
         if (Physics.Raycast(ray, out hit, 20f, slamVariablesAccess.environmentMask))
         {
             
-            Collider[] colliders = Physics.OverlapSphere(hit.point, slamVariablesAccess.slamBaseRange, ownerEntity.hostileMask);
+            Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange, ownerEntity.hostileMask);
             ProcessHits(colliders, hit);
         }
     }
