@@ -18,14 +18,37 @@ MonoBehaviour:
   conditions:
   - rid: 5154423747726540879
   singleUse: 0
+  exclusive: 1
+  priority: 0
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 5154423747726540877
       type: {class: JumpAction, ns: , asm: Assembly-CSharp}
-      data: 
+      data:
+        <isComplete>k__BackingField: 0
+        <preventsMovement>k__BackingField: 0
+        ownerEntity: {fileID: 0}
+        rb: {fileID: 0}
+        jumpHeight: 3
+        jumpSpeed: 8
+        startHeight: 0.8
+        targetHeight: 3.8
+        startRotation: {x: 0, y: 0, z: 0, w: 1}
+        targetRotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
+        rotationMap:
+        - {x: 0, y: 0, z: 0, w: 1}
+        - {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
+        - {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+        - {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
+        - {x: 0.70710677, y: 0, z: 0, w: -0.70710677}
+        - {x: 1, y: 0, z: 0, w: -0.00000004371139}
+        remainingHeight: 0.009513378
     - rid: 5154423747726540879
       type: {class: BasicAttackCondition, ns: , asm: Assembly-CSharp}
       data:
         isRequired: 1
         name: Base
+        ownerEntity: {fileID: 0}

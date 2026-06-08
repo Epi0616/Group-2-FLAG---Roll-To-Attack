@@ -1,6 +1,7 @@
 using System;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [Serializable]
 public class JumpAction : BaseEntityAction
@@ -13,12 +14,19 @@ public class JumpAction : BaseEntityAction
 
     private float remainingHeight;
 
+    //interfaces to cache
+    IGrounded grounded;
+    IJumpable jumpable;
+
     public override void StartAction(Entity entity)
     {
         //isComplete = false;
         Debug.Log("starting jump");
         base.StartAction(entity);
+
         rb = (entity as IUsesRigidBody).rb;
+        grounded = entity as IGrounded;
+        jumpable = entity as IJumpable;
 
         rotationMap = new Quaternion[]
         {
@@ -30,10 +38,14 @@ public class JumpAction : BaseEntityAction
             Quaternion.Euler(180,0,0) //6
         };
 
+        jumpHeight = jumpable.jumpHeight.GetFinalValue();
+        jumpSpeed = jumpable.jumpSpeed.GetFinalValue();
+
         rb.useGravity = false;
 
         startHeight = entity.transform.position.y;
         targetHeight = startHeight + jumpHeight;
+        remainingHeight = targetHeight - startHeight;
 
         Vector3 eulerStartRotation = entity.transform.rotation.eulerAngles;
         eulerStartRotation.x = Mathf.Round(eulerStartRotation.x);
@@ -51,6 +63,7 @@ public class JumpAction : BaseEntityAction
     }
     public override void UpdateAction()
     {
+
     }
     public override void FixedUpdateAction()
     {
@@ -60,7 +73,13 @@ public class JumpAction : BaseEntityAction
             return;
         }
 
+        if (!grounded.isGrounded)
+        {
+            ApplyDownwardForce();
+            return;
+        }
 
+        EndAction();
     }
     public override void InterruptAction()
     {
@@ -71,6 +90,8 @@ public class JumpAction : BaseEntityAction
         ownerEntity.bodySystem.originalRotation = targetRotation;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+        jumpable.jumpHeight.ResetModifiers();
+        jumpable.impactSpeed.ResetModifiers();
         isComplete = true;
     }
     public override void EndAction()
@@ -82,11 +103,12 @@ public class JumpAction : BaseEntityAction
         ownerEntity.bodySystem.originalRotation = targetRotation;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+        jumpable.jumpHeight.ResetModifiers();
+        jumpable.impactSpeed.ResetModifiers();
         isComplete = true;
     }
 
     //Helper Functions
-
     private bool ApplyJump()
     {
         float currentHeight = ownerEntity.transform.position.y;
@@ -117,6 +139,8 @@ public class JumpAction : BaseEntityAction
 
     private void ApplyDownwardForce()
     {
-
+        Vector3 targetVelocity = Vector3.zero;
+        targetVelocity.y = rb.linearVelocity.y - jumpable.impactSpeed.GetFinalValue();
+        rb.linearVelocity = targetVelocity;
     }
 }

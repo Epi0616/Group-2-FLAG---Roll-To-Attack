@@ -2,44 +2,49 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable
 {
-    //IUsesEntityInput Interface properties
+    [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
     public bool canUseInput { get; set; }
 
-    //IGrounded Interface properties
+    [Header("IGrounded")]
     [SerializeField] private LayerMask GroundLayer;
     public bool isGrounded { get; set; }
     public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
-    public LayerMask environmentLayer { get; set; }
 
     [Header("IMoveable")]
     [SerializeField] private bool CanMove = true;
     [SerializeField] private Stat MovementSpeed = new Stat(5f);
+    public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
+    private List<ConditionalMovement> movements = new List<ConditionalMovement>();
     public bool canMove { get => CanMove; set => CanMove = value; }
     public Stat movementSpeed { get => MovementSpeed; set => MovementSpeed = value; }
     public MovementController movementController { get; set; }
 
-    //IActionable Interface properties
+    [Header("IActionable")]
+    //public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
+    [SerializeField] private List<ConditionalAction> actions = new List<ConditionalAction>();
     public ActionController actionController { get; set; }
     public bool canAct { get; set; }
 
-    //IModifiableActions Interface properties
+    [Header("IModifiableActions")]
     [SerializeField] private List<ModifiableActionDescriptor> modifiableActionDescriptors = new List<ModifiableActionDescriptor>();
     private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
     public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
 
-    //IUsesRigidBody Interface properties
+    [Header("IUsesRigidBody")]
     public Rigidbody rb { get; set; }
 
-    //PLAYER BASED PROPERTIES
-    public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
-    private List<ConditionalMovement> movements = new List<ConditionalMovement>();
-
-    public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
-    private List<ConditionalAction> actions = new List<ConditionalAction>();
+    [Header("Jumpable")]
+    [SerializeField] private Stat JumpHeight = new Stat(3f);
+    [SerializeField] private Stat JumpSpeed = new Stat(8f);
+    [SerializeField] private Stat ImpactSpeed = new Stat(10f);
+    public Stat jumpHeight { get => JumpHeight; set => JumpHeight = value; }
+    public Stat jumpSpeed { get => JumpSpeed; set => JumpSpeed = value; }
+    public Stat impactSpeed { get => ImpactSpeed; set => ImpactSpeed = value; }
+    public bool canJump { get; set; }
 
     protected override void Start()
     {
@@ -54,10 +59,10 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         movementController = new MovementController(this, movements);
         movementController.Initialize();
 
-        foreach (var action in actionDescriptors)
-        {
-            actions.Add(action.Create());
-        }
+        //foreach (var action in actionDescriptors)
+        //{
+        //    actions.Add(action.Create());
+        //}
         actionController = new ActionController(this, actions);
         actionController.Initialize();
 
@@ -90,7 +95,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public void CheckForGrounded()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
-        isGrounded = Physics.SphereCast(ray, 0.4f, 1.5f, groundLayer);
+        isGrounded = Physics.SphereCast(ray, 0.4f, 1, groundLayer);
     }
 
     //IMoveable Interface Methods
@@ -102,5 +107,11 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public void CheckForCanAct()
     {
 
+    }
+
+    //IJumpable Interface Methods
+    public void CheckForCanJump()
+    { 
+    
     }
 }

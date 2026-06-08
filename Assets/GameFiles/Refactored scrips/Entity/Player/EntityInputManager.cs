@@ -7,32 +7,35 @@ public class EntityInputManager : MonoBehaviour
     public InputActionReference move;
     public InputActionReference attack;
 
-    //public Vector3 moveDirection { get; private set; }
-    //public bool attackWasPressedThisFrame { get; private set; }
-    //public bool attackIsPressed { get; private set; }
+    public float holdTime;
 
-    //private void OnEnable()
-    //{
-    //    move.action.Enable();
-    //    attack.action.Enable();
-    //}
+    private void OnEnable()
+    {
+        move.action.Enable();
+        attack.action.Enable();
+    }
 
-    //private void OnDisable()
-    //{
-    //    move.action.Disable();
-    //    attack.action.Disable();
-    //}
+    private void OnDisable()
+    {
+        move.action.Disable();
+        attack.action.Disable();
+    }
 
-    //private void Update()
-    //{
-    //    moveDirection = move.action.ReadValue<Vector3>();
+    private void Update()
+    {
+        UpdateHoldTime();
+    }
 
-    //    attackWasPressedThisFrame = attack.action.WasPressedThisFrame();
-    //    attackIsPressed = attack.action.IsPressed();
-    //}
-
-    //private void LateUpdate()
-    //{
-    //    attackWasPressedThisFrame = false;
-    //}
+    private void UpdateHoldTime()
+    {
+        if (attack.action.IsPressed())
+        {
+            holdTime += Time.deltaTime;
+            holdTime = Mathf.Clamp(holdTime, 0, 1);
+        }
+        else
+        {
+            holdTime = 0;
+        }
+    }
 }
