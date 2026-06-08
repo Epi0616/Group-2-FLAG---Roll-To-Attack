@@ -86,7 +86,8 @@ public class PoisonField : MonoBehaviour
         this.lifeSpan = lifespan;
 
         lifeTimer = 0;
-        color.a = 0.175f;
+        //color.a = 0.175f;
+        color.a = 0.3f;
         material.color = color;
 
         Vector3 tempScale = transform.localScale;
