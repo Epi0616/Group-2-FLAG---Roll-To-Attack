@@ -42,21 +42,17 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
 
     // ISlamAction Interface Propertires
     [Header("ISlam Required Properties")]
-    [SerializeField] float SlamRange = 5;
-    [SerializeField] Vector3 SlamOriginOffset = Vector3.zero;
     [SerializeField] private LayerMask EnvironmentMask;
     [SerializeField] GameObject prefab;
-    public float slamBaseRange { get => SlamRange; set => SlamRange = value; }
-    public Vector3 slamPositionOffset { get => SlamOriginOffset; set => SlamOriginOffset = value; }
     public LayerMask environmentMask { get => EnvironmentMask; set => EnvironmentMask = value; }
     public GameObject DebugSlamObj { get => prefab; set => prefab = value; }
 
     // ENEMY MOVEMENT AND ACTION PROPERTIES
-    public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
-    private List<ConditionalMovement> movements = new List<ConditionalMovement>();
+    private List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
+    [SerializeField] private List<ConditionalMovement> movements = new List<ConditionalMovement>();
 
-    public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
-    private List<ConditionalAction> actions = new List<ConditionalAction>();
+    private List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
+    [SerializeField] private List<ConditionalAction> actions = new List<ConditionalAction>();
 
     
 
@@ -126,8 +122,8 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     // IMoveable Interface Methods
     public void CheckForCanMove()
     {
-        //canMove = !(actionController.CheckForMovementBlockersAction() || statusSystem.CheckForMovementBlockersStatus());
-        canMove = !statusSystem.CheckForMovementBlockersStatus();
+        canMove = !(actionController.CheckForMovementBlockersAction() || statusSystem.CheckForMovementBlockersStatus());
+        //canMove = !statusSystem.CheckForMovementBlockersStatus();
     }
 
     // IActionable Interface Methods
