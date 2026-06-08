@@ -11,10 +11,6 @@ public class AttackCondition : BaseCondition
     private bool conditionMet = false;
 
     public AttackCondition() { }
-    public AttackCondition(Entity entity)
-    {
-        Initialize(entity);
-    }
     public override void Initialize(Entity entity)
     {
         ownerEntity = entity;
@@ -50,5 +46,9 @@ public class AttackCondition : BaseCondition
         //if (!(ownerEntity as IGrounded).isGrounded) { conditionMet = false; }
 
         return conditionMet;
+    }
+    public override BaseCondition Clone()
+    {
+        return new AttackCondition();
     }
 }

@@ -18,4 +18,8 @@ public class HealthCondition : BaseCondition
     {
         return false;
     }
+    public override BaseCondition Clone()
+    {
+        return new HealthCondition();
+    }
 }

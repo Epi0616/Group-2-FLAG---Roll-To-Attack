@@ -21,4 +21,8 @@ public class BaseEntityMovement : IMovement
     public virtual void EndMovement()
     {
     }
+    public virtual BaseEntityMovement Clone()
+    { 
+        return new BaseEntityMovement();
+    }
 }

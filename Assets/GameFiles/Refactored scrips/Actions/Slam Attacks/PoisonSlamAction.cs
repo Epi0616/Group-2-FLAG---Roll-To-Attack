@@ -15,4 +15,9 @@ public class PoisonSlamAction : BaseSlamAction
         GameObject poisonField = ObjectPoolManager.SpawnObject(poisonFieldPrefab, slamOrigin, Quaternion.identity);
         poisonField.GetComponent<PoisonField>().Initialize(ownerEntity, slamRange, lifespan, tickDamage, slamColour);
     }
+
+    public override BaseEntityAction Clone()
+    {
+        return new PoisonSlamAction();
+    }
 }

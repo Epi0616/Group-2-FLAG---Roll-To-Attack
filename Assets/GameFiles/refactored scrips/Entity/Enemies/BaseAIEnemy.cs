@@ -48,10 +48,10 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public GameObject DebugSlamObj { get => prefab; set => prefab = value; }
 
     // ENEMY MOVEMENT AND ACTION PROPERTIES
-    private List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
+    public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
     [SerializeField] private List<ConditionalMovement> movements = new List<ConditionalMovement>();
 
-    private List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
+    public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
     [SerializeField] private List<ConditionalAction> actions = new List<ConditionalAction>();
 
     

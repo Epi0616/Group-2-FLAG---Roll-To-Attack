@@ -18,7 +18,12 @@ public class FreezeSlamAction : BaseSlamAction
         hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
 
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(FragileDamageMult, "PlaceHolderFrozen"),
-                new List<BaseCondition> { new TimeCondition(true, hitEntity, FreezeDuration) }), slamColour);
+                new List<BaseCondition> { new TimeCondition(true, FreezeDuration) }), slamColour);
+    }
+
+    public override BaseEntityAction Clone()
+    {
+        return new FreezeSlamAction();
     }
 }
 // frozenText.GetLocalizedString()

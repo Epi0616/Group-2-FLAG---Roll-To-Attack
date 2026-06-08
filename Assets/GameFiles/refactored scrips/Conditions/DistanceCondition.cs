@@ -10,11 +10,10 @@ public class DistanceCondition : BaseCondition
 
     public DistanceCondition() { }
 
-    public DistanceCondition(bool isRequired, Entity entity, Transform target, float distanceThreshold)
+    public DistanceCondition(bool isRequired, Transform target, float distanceThreshold)
     {
         this.isRequired = isRequired;
         targetPos = target;
-        this.entity = entity;
         this.distanceThreshold = distanceThreshold;
     }
     public override void Initialize(Entity entity) 
@@ -30,5 +29,9 @@ public class DistanceCondition : BaseCondition
     public override bool IsConditionMet()
     {
         return (entity.target.transform.position - entity.transform.position).magnitude < distanceThreshold;
+    }
+    public override BaseCondition Clone()
+    {
+        return new DistanceCondition(isRequired, targetPos, distanceThreshold);
     }
 }

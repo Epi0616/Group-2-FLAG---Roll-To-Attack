@@ -26,4 +26,8 @@ public class BaseEntityAction : IAction
     public virtual void EndAction()
     {
     }
+    public virtual BaseEntityAction Clone()
+    { 
+        return new BaseEntityAction();
+    }
 }

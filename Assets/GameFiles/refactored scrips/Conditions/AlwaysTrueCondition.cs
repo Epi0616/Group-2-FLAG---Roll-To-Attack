@@ -16,4 +16,8 @@ public class AlwaysTrueCondition : BaseCondition
     {
         return true;
     }
+    public override BaseCondition Clone()
+    {
+        return new AlwaysTrueCondition();
+    }
 }

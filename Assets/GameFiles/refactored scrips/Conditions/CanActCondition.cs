@@ -26,4 +26,9 @@ public class CanActCondition : BaseCondition
         }
         return false;
     }
+
+    public override BaseCondition Clone()
+    {
+        return new CanActCondition();
+    }
 }

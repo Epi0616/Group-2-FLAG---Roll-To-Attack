@@ -5,7 +5,7 @@ using UnityEngine;
 public class InputEntityMovement : BaseEntityMovement
 {
     private IUsesEntityInput usesEntityInput;
-    public InputEntityMovement() {}
+    public InputEntityMovement() { }
     public override void StartMovement(Entity ownerEntity)
     {
         base.StartMovement(ownerEntity);
@@ -23,5 +23,9 @@ public class InputEntityMovement : BaseEntityMovement
     }
     public override void EndMovement()
     {
+    }
+    public override BaseEntityMovement Clone()
+    {
+        return new InputEntityMovement();
     }
 }

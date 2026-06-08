@@ -108,5 +108,10 @@ public class BaseSlamAction : BaseEntityAction
     }
 
     public virtual void ExtraSlamEffect() { }
+
+    public override BaseEntityAction Clone()
+    {
+        return new BaseSlamAction();
+    }
 }
 // slamVariablesAccess.defaultSlamColour

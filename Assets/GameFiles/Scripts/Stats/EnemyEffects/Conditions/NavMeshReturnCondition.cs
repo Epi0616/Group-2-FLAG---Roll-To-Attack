@@ -42,4 +42,8 @@ public class NavMeshReturnCondition : BaseCondition
     {        
         return (distance < 0.2f);
     }
+    public override BaseCondition Clone()
+    {
+        return new NavMeshReturnCondition(isRequired, enemy);
+    }
 }

@@ -28,4 +28,8 @@ public class CanMoveCondition : BaseCondition
         }
         return false;
     }
+    public override BaseCondition Clone()
+    {
+        return new CanMoveCondition();
+    }
 }

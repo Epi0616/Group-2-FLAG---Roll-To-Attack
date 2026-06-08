@@ -31,4 +31,8 @@ public class InputMovementCondition : BaseCondition
 
         return conditionMet;
     }
+    public override BaseCondition Clone()
+    {
+        return new InputMovementCondition();
+    }
 }

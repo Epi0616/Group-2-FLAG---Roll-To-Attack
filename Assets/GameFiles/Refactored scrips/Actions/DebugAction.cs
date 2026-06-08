@@ -22,4 +22,8 @@ public class DebugAction : BaseEntityAction
     public override void EndAction()
     {
     }
+    public override BaseEntityAction Clone()
+    {
+        return new DebugAction();
+    }
 }

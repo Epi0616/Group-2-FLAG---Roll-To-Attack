@@ -13,9 +13,8 @@ public class OnNavMeshCondition : BaseCondition
 
     public OnNavMeshCondition() { }
 
-    public OnNavMeshCondition(bool required, Entity entity, bool active)
+    public OnNavMeshCondition(bool required, bool active)
     {
-        ownerEntity = entity;
         isRequired = required;
         name = "NavReturnCondition";
         isActive = active;
@@ -56,5 +55,10 @@ public class OnNavMeshCondition : BaseCondition
         }
         //Debug.Log(aiInterfaceAccess.agent.isOnNavMesh);
         return aiInterfaceAccess.agent.isOnNavMesh;
+    }
+
+    public override BaseCondition Clone()
+    {
+        return new OnNavMeshCondition(isRequired, isActive);
     }
 }

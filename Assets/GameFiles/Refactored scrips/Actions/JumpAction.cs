@@ -143,4 +143,9 @@ public class JumpAction : BaseEntityAction
         targetVelocity.y = rb.linearVelocity.y - jumpable.impactSpeed.GetFinalValue();
         rb.linearVelocity = targetVelocity;
     }
+
+    public override BaseEntityAction Clone()
+    {
+        return new JumpAction();
+    }
 }

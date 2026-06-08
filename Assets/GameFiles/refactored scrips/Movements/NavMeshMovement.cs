@@ -45,5 +45,9 @@ public class NavMeshMovement : BaseEntityMovement
         aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position);
         
     }
+    public override BaseEntityMovement Clone()
+    {
+        return new NavMeshMovement();
+    }
 
 }

@@ -19,4 +19,8 @@ public class oldGroundedCondition : BaseCondition
     {
         return (enemy.IsGrounded());
     }
+    public override BaseCondition Clone()
+    {
+        return new oldGroundedCondition(isRequired, enemy);
+    }
 }

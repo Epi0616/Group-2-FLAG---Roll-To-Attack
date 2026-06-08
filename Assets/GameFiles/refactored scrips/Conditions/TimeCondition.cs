@@ -12,9 +12,8 @@ public class TimeCondition : BaseCondition
 
     public TimeCondition() { }
 
-    public TimeCondition(bool required, Entity entity, float duration)
+    public TimeCondition(bool required, float duration)
     {
-        ownerEntity = entity;
         isRequired = required;
         this.duration = duration;
         timer = duration;
@@ -39,5 +38,9 @@ public class TimeCondition : BaseCondition
     public override bool IsConditionMet()
     {
         return timer <= 0;
+    }
+    public override BaseCondition Clone()
+    {
+        return new TimeCondition(isRequired, duration);
     }
 }

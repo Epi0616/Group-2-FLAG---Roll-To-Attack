@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DurationCondition : BaseCondition
 {
-    private float timer; 
+    private float timer;
     private float duration;
     private float totalDuration;
 
@@ -29,7 +29,11 @@ public class DurationCondition : BaseCondition
     }
 
     public override bool IsConditionMet()
-    {      
+    {
         return timer <= 0;
+    }
+    public override BaseCondition Clone()
+    {
+        return new DurationCondition(isRequired, duration);
     }
 }

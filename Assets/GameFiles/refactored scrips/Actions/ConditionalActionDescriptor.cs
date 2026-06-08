@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ConditionalActionDescriptor : ScriptableObject
@@ -6,7 +7,7 @@ public class ConditionalActionDescriptor : ScriptableObject
     public int variable = 1;
 
     [SerializeReference, SubclassSelector]
-    public IAction action;
+    public BaseEntityAction action;
 
     [SerializeReference, SubclassSelector]
     public List<BaseCondition> conditions;
@@ -17,6 +18,6 @@ public class ConditionalActionDescriptor : ScriptableObject
 
     public ConditionalAction Create()
     {
-        return new ConditionalAction(action, conditions, singleUse, exclusive, priority);
+        return new ConditionalAction(action.Clone(), conditions.Select(c => c.Clone()).ToList(), singleUse, exclusive, priority);
     }
 }

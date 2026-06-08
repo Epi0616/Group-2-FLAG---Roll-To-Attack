@@ -20,7 +20,7 @@ public class MovementController
     {
         foreach (var movement in availableMovements)
         {
-            List<ICondition> conditions = movement.conditions;
+            List<BaseCondition> conditions = movement.conditions;
             foreach (BaseCondition condition in conditions)
             {
                 condition.Initialize(entity);
@@ -49,7 +49,7 @@ public class MovementController
         for (int i = availableMovements.Count - 1; i >= 0; i--)
         {
             ConditionalMovement movement = availableMovements[i];
-            List<ICondition> conditions = movement.conditions;
+            List<BaseCondition> conditions = movement.conditions;
             bool allReleventConditionsMet = true;
             foreach (BaseCondition condition in conditions)
             {
@@ -75,7 +75,7 @@ public class MovementController
         for (int i = activeMovements.Count - 1; i >= 0; i--)
         {
             ConditionalMovement movement = activeMovements[i];
-            List<ICondition> conditions = movement.conditions;
+            List<BaseCondition> conditions = movement.conditions;
             bool allReleventConditionsMet = true;
 
             foreach (BaseCondition condition in conditions)

@@ -10,7 +10,6 @@ public class WeakenSlamAction : BaseSlamAction
     public float WeakenDamageMult = 2f;
     public LocalizedString weakenText;
 
-
     public WeakenSlamAction() { }
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
@@ -18,7 +17,12 @@ public class WeakenSlamAction : BaseSlamAction
         hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
 
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(WeakenDamageMult, "PlaceHolderWeaken" ),
-                new List<BaseCondition> { new TimeCondition(true, hitEntity, WeakenDuration) }), slamColour);
+                new List<BaseCondition> { new TimeCondition(true, WeakenDuration) }), slamColour);
+    }
+
+    public override BaseEntityAction Clone()
+    {
+        return new WeakenSlamAction();
     }
 }
 // weakenText.GetLocalizedString()

@@ -14,4 +14,6 @@ public abstract class BaseCondition : ICondition
     public abstract void ResetCondition();
 
     public abstract bool IsConditionMet();
+
+    public abstract BaseCondition Clone();
 }

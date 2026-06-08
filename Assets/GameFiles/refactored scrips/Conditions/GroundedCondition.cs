@@ -8,10 +8,9 @@ public class GroundedCondition : BaseCondition
     private IGrounded groundInterfaceAccess;
 
     GroundedCondition() { }
-    GroundedCondition(bool required, Entity entity)
+    GroundedCondition(bool required)
     {
         isRequired = required;
-        ownerEntity = entity;
     }
 
     public override void Initialize(Entity entity)
@@ -27,5 +26,10 @@ public class GroundedCondition : BaseCondition
     {
         if (groundInterfaceAccess == null) {  return false; }
         return groundInterfaceAccess.isGrounded;
+    }
+
+    public override BaseCondition Clone()
+    {
+        return new GroundedCondition(isRequired);
     }
 }

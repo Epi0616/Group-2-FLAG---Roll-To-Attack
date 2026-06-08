@@ -6,13 +6,13 @@ using UnityEngine;
 public class ConditionalMovement
 {
     [SerializeReference, SubclassSelector]
-    public IMovement movement;
+    public BaseEntityMovement movement;
     [SerializeReference, SubclassSelector]
-    public List<ICondition> conditions;
+    public List<BaseCondition> conditions;
 
     //public ConditionalAction() { }
 
-    public ConditionalMovement(IMovement movement, List<ICondition> conditions)
+    public ConditionalMovement(BaseEntityMovement movement, List<BaseCondition> conditions)
     {
         this.movement = movement;
         this.conditions = conditions;
