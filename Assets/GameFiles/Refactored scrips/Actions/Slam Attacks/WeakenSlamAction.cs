@@ -12,6 +12,10 @@ public class WeakenSlamAction : BaseSlamAction
 
     public WeakenSlamAction() { }
 
+    public WeakenSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float WeakenDuration) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour)
+    {
+        this.WeakenDuration = WeakenDuration;
+    }
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
         hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
@@ -22,7 +26,7 @@ public class WeakenSlamAction : BaseSlamAction
 
     public override BaseEntityAction Clone()
     {
-        return new WeakenSlamAction();
+        return new WeakenSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, WeakenDuration);
     }
 }
 // weakenText.GetLocalizedString()

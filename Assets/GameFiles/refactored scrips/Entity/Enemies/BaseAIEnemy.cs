@@ -3,7 +3,7 @@ using UnityEngine.AI;
 using System;
 using System.Collections.Generic;
 
-public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, ISlamActionRequirements
+public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, ISlamActionRequirements, IPoisonSpawner
 {
     // IGrounded Interface Properties
     [Header("IGrounded Properties")]
@@ -43,9 +43,13 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     // ISlamAction Interface Propertires
     [Header("ISlam Required Properties")]
     [SerializeField] private LayerMask EnvironmentMask;
-    [SerializeField] GameObject prefab;
+    [SerializeField] GameObject ImpactFieldPrefab;
+    [SerializeField] GameObject PoisonFieldPrefab;
     public LayerMask environmentMask { get => EnvironmentMask; set => EnvironmentMask = value; }
-    public GameObject DebugSlamObj { get => prefab; set => prefab = value; }
+    public GameObject SlamImpactField { get => ImpactFieldPrefab; set => ImpactFieldPrefab = value; }
+
+    public GameObject PoisonFieldObj { get => PoisonFieldPrefab; set => PoisonFieldPrefab = value; }
+
 
     // ENEMY MOVEMENT AND ACTION PROPERTIES
     public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();

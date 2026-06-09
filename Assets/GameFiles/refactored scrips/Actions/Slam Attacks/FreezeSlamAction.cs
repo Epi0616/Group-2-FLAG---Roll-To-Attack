@@ -13,6 +13,11 @@ public class FreezeSlamAction : BaseSlamAction
 
     public FreezeSlamAction() { }
 
+    public FreezeSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float FreezeDuration) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour)
+    {
+        this.FreezeDuration = FreezeDuration;
+    }
+
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
         hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
@@ -23,7 +28,7 @@ public class FreezeSlamAction : BaseSlamAction
 
     public override BaseEntityAction Clone()
     {
-        return new FreezeSlamAction();
+        return new FreezeSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, FreezeDuration);
     }
 }
 // frozenText.GetLocalizedString()

@@ -16,9 +16,17 @@ public class BaseSlamAction : BaseEntityAction
     protected ImpactFieldVisual impactField;
     public float slamRange = 0;
     public Vector3 slamPositionOffset = Vector3.zero;
-    public GameObject slamImpactField;
+    //public GameObject slamImpactField;
 
     public BaseSlamAction() { }
+    public BaseSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour)
+    {
+        this.slamDamage = slamDamage;
+        this.chargeTime = chargeTime;
+        this.slamRange = slamRange;
+        this.slamPositionOffset = slamPositionOffset;
+        this.slamColour = slamColour;
+    }
 
     public override void StartAction(Entity entity)
     {
@@ -29,7 +37,10 @@ public class BaseSlamAction : BaseEntityAction
         chargeComplete = false;
         attackInterrupted = false;
 
-        //Debug.Log("STARTED");
+
+        //slamImpactField = slamVariablesAccess.SlamImpactField;
+        Debug.Log("SLAM STRTED");
+
 
         slamOrigin = ownerEntity.transform.position + (ownerEntity.transform.forward * slamPositionOffset.z) + (ownerEntity.transform.right * slamPositionOffset.x);
         
@@ -41,7 +52,7 @@ public class BaseSlamAction : BaseEntityAction
 
     public virtual void SpawnSlamStartVFX()
     {
-        impactField = ObjectPoolManager.SpawnObject(slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
+        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.SlamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
         impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, true);
     }
 
@@ -112,7 +123,7 @@ public class BaseSlamAction : BaseEntityAction
 
     public override BaseEntityAction Clone()
     {
-        return new BaseSlamAction();
+        return new BaseSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour);
     }
 }
 // slamVariablesAccess.defaultSlamColour
