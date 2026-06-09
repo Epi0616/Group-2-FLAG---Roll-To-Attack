@@ -8,7 +8,7 @@ public class PoisonSlamAction : BaseSlamAction
     
     public PoisonSlamAction() { }
 
-    public PoisonSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour) { }
+    public PoisonSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
    
     
 
@@ -20,8 +20,6 @@ public class PoisonSlamAction : BaseSlamAction
         {
             EndAction();
         }
-        
-       
         
     }
 
@@ -39,6 +37,6 @@ public class PoisonSlamAction : BaseSlamAction
 
     public override BaseEntityAction Clone()
     {
-        return new PoisonSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour);
+        return new PoisonSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesActionPreventMovement);
     }
 }

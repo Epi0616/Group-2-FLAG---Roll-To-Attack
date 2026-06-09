@@ -1,9 +1,10 @@
-using UnityEngine;
-using UnityEngine.AI;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using UnityEngine;
+using UnityEngine.AI;
 
-public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, ISlamActionRequirements, IPoisonSpawner
+public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, ISlamActionRequirements, IPoisonSpawner, IOrbitSpikeSpawner
 {
     // IGrounded Interface Properties
     [Header("IGrounded Properties")]
@@ -48,13 +49,34 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public LayerMask environmentMask { get => EnvironmentMask; set => EnvironmentMask = value; }
     public GameObject SlamImpactField { get => ImpactFieldPrefab; set => ImpactFieldPrefab = value; }
 
-    [Header("IPoison Required Porperties")]
+    // IPoisonSpawner Interface
+    [Header("IPoison Required Properties")]
     [SerializeField] private GameObject PoisonFieldPrefab;
     [SerializeField] private float PoisonFieldLifeTime = 5;
-    [SerializeField] private float PoisonFieldDamageTick = 8;
+    [SerializeField] private int PoisonFieldDamageTick;
     public GameObject PoisonFieldObj { get => PoisonFieldPrefab; set => PoisonFieldPrefab = value; }
     public float fieldLifetime { get => PoisonFieldLifeTime; set => PoisonFieldLifeTime = value; }
-    public float fieldTickDamage { get => PoisonFieldDamageTick; set => PoisonFieldDamageTick = value; }
+    public int fieldTickDamage { get => PoisonFieldDamageTick; set => PoisonFieldDamageTick = value; }
+
+    // IOrbitSpikeSpawner Interface
+    
+
+    private List<BaseOrbitObject> orbitObj = new List<BaseOrbitObject>();
+    public List<BaseOrbitObject> orbitObjects { get => orbitObj; set => orbitObj = value; }
+
+    [Header("IOrbitSpike Required Properties")]
+    [SerializeField] private int NumberOfSpikesPerSpawn = 5;
+    public int numSpikesPerSpawn { get => NumberOfSpikesPerSpawn; set => NumberOfSpikesPerSpawn = value; }
+    [SerializeField] private float SpikeLifeSpan = 10;
+    public float spikeLifeSpan { get => SpikeLifeSpan; set => SpikeLifeSpan = value; }
+    [SerializeField] private float SpikeOrbitRadius = 4;
+    public float orbitRadius { get => SpikeOrbitRadius; set => SpikeOrbitRadius = value; }
+    [SerializeField] private float SpikeOrbitSpeed = 15;
+    public float initialOrbitSpeed { get => SpikeOrbitSpeed; set => SpikeOrbitSpeed = value; }
+    [SerializeField] private int SpikeDamage;
+    public int spikeDamage { get => SpikeDamage; set => SpikeDamage = value; }
+    [SerializeField] private GameObject SpikePrefab;
+    public GameObject spikePrefab { get => SpikePrefab; set => SpikePrefab = value; }
 
     // ENEMY MOVEMENT AND ACTION PROPERTIES
     public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
@@ -145,6 +167,22 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public void CheckForDisplacement()
     {
         isBeingDisplaced = statusSystem.CheckForDisplacementStatus();
+    }
+
+    // IOrbitSpike Interface Methods
+
+    public void RemoveObjectFromOrbit(BaseOrbitObject obj)
+    {
+        orbitObjects.Remove(obj);
+    }   
+
+    public void UpdateOrbitObjectAngles()
+    {
+        for (int i = 0; i < orbitObjects.Count; i++)
+        {
+            float angle = i * (360f / orbitObjects.Count);
+            orbitObjects[i].UpdateAngle(angle);            
+        }
     }
 
     public GameObject SPAWNTHING(GameObject thing, Vector3 pos)

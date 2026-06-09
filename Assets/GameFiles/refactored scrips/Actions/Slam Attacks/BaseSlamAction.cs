@@ -16,22 +16,24 @@ public class BaseSlamAction : BaseEntityAction
     protected ImpactFieldVisual impactField;
     public float slamRange = 0;
     public Vector3 slamPositionOffset = Vector3.zero;
+    public bool DoesActionPreventMovement = true;
     //public GameObject slamImpactField;
 
     public BaseSlamAction() { }
-    public BaseSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour)
+    public BaseSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent)
     {
         this.slamDamage = slamDamage;
         this.chargeTime = chargeTime;
         this.slamRange = slamRange;
         this.slamPositionOffset = slamPositionOffset;
         this.slamColour = slamColour;
+        preventsMovement = DoesPrevent;
     }
 
     public override void StartAction(Entity entity)
     {
         base.StartAction(entity);
-        preventsMovement = true;
+        
         slamVariablesAccess = entity as ISlamActionRequirements;
         chargeUpTimer = 0;
         chargeComplete = false;
@@ -123,7 +125,7 @@ public class BaseSlamAction : BaseEntityAction
 
     public override BaseEntityAction Clone()
     {
-        return new BaseSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour);
+        return new BaseSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesActionPreventMovement);
     }
 }
 // slamVariablesAccess.defaultSlamColour

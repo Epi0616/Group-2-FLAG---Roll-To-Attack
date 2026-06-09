@@ -4,5 +4,5 @@ public interface IPoisonSpawner
 {
     public GameObject PoisonFieldObj { get; set; }
     public float fieldLifetime { get; set; }
-    public float fieldTickDamage { get; set; }
+    public int fieldTickDamage { get; set; }
 }

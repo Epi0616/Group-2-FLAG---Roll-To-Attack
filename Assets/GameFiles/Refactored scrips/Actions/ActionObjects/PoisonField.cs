@@ -9,6 +9,7 @@ public class PoisonField : MonoBehaviour
     private float damageTickTimer = 0, currentTickCount = 0;
     private float radius = 0;
     private Entity ownerEntity;
+    private int poisonTickDMG;
     //public AudioClip[] poisonTickSound;
 
 
@@ -67,19 +68,20 @@ public class PoisonField : MonoBehaviour
             if (!collider.gameObject) { continue; }
             
             //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
-            collider.gameObject.GetComponent<Entity>().OnTakeDamage(8, slamColour, DamageType.Normal);
+            collider.gameObject.GetComponent<Entity>().OnTakeDamage(poisonTickDMG, slamColour, DamageType.Normal);
             //Debug.Log("dealing damage");
             
         }
     }
 
-    public void Initialize(Entity entity, float radius, float lifespan, float tickDamage, Color colour)
+    public void Initialize(Entity entity, float radius, float lifespan, int tickDamage, Color colour)
     {
         ownerEntity = entity;
 
         this.radius = radius;
         damageTickTimer = 0;
         //currentTickCount = 0;
+        poisonTickDMG = tickDamage;
 
         color = colour;
         slamColour = colour;
