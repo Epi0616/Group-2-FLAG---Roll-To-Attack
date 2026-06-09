@@ -44,12 +44,17 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     [Header("ISlam Required Properties")]
     [SerializeField] private LayerMask EnvironmentMask;
     [SerializeField] GameObject ImpactFieldPrefab;
-    [SerializeField] GameObject PoisonFieldPrefab;
+   
     public LayerMask environmentMask { get => EnvironmentMask; set => EnvironmentMask = value; }
     public GameObject SlamImpactField { get => ImpactFieldPrefab; set => ImpactFieldPrefab = value; }
 
+    [Header("IPoison Required Porperties")]
+    [SerializeField] private GameObject PoisonFieldPrefab;
+    [SerializeField] private float PoisonFieldLifeTime = 5;
+    [SerializeField] private float PoisonFieldDamageTick = 8;
     public GameObject PoisonFieldObj { get => PoisonFieldPrefab; set => PoisonFieldPrefab = value; }
-
+    public float fieldLifetime { get => PoisonFieldLifeTime; set => PoisonFieldLifeTime = value; }
+    public float fieldTickDamage { get => PoisonFieldDamageTick; set => PoisonFieldDamageTick = value; }
 
     // ENEMY MOVEMENT AND ACTION PROPERTIES
     public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();

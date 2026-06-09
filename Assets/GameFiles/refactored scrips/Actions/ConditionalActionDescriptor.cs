@@ -12,12 +12,14 @@ public class ConditionalActionDescriptor : ScriptableObject
     [SerializeReference, SubclassSelector]
     public List<BaseCondition> conditions;
 
+    public bool allConditionsRequired = false;
+
     public bool singleUse = false;
     public bool exclusive = true;
     public int priority = 0;
 
     public ConditionalAction Create()
     {
-        return new ConditionalAction(action.Clone(), conditions.Select(c => c.Clone()).ToList(), singleUse, exclusive, priority);
+        return new ConditionalAction(action.Clone(), conditions.Select(c => c.Clone()).ToList(), singleUse, exclusive, priority, allConditionsRequired);
     }
 }

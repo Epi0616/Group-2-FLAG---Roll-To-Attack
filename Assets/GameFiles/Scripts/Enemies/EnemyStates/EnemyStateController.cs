@@ -240,7 +240,7 @@ public abstract class EnemyStateController : MonoBehaviour
             Debug.Log(currentStatusEffects[i].effect.type.ToString() + ": Condition Count: " + currentStatusEffects[i].conditions.Count + " isExpiredTotal: " + currentStatusEffects[i].CheckForExpiration());
             foreach (BaseCondition condition in currentStatusEffects[i].conditions)
             {
-                Debug.Log(condition.name + " IsExpired?: " + condition.IsConditionMet() + " isRequired?: " + condition.isRequired);
+               // Debug.Log(condition.name + " IsExpired?: " + condition.IsConditionMet() + " isRequired?: " + condition.isRequired);
             }
         }
     }
@@ -608,7 +608,7 @@ public abstract class EnemyStateController : MonoBehaviour
         //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
 
 
-        OnRecieveEffect(new ActiveStatusEffect(new BaseStunEffect(), new List<BaseCondition> { new DurationCondition(true, 0.5f), new NavMeshReturnCondition(false, this) }));
+        //OnRecieveEffect(new ActiveStatusEffect(new BaseStunEffect(), new List<BaseCondition> { new DurationCondition(true, 0.5f), new NavMeshReturnCondition(false, this) }));
 
         float dmgMod = Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f);
         int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);

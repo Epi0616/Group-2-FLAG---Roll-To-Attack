@@ -4,10 +4,19 @@ using UnityEngine;
 [Serializable]
 public class HealthCondition : BaseCondition
 {
-    public int healthAmount;
+    public int healthThreshold;
+    public Entity ownerEntity;
 
     public HealthCondition() { }
-    public override void Initialize(Entity entity) { }
+    public HealthCondition(bool inverse, int healththreshold)
+    {
+        this.inverse = inverse;
+        this.healthThreshold = healththreshold;
+    }
+    public override void Initialize(Entity entity)
+    {
+        ownerEntity = entity;
+    }
     public override void ConditionUpdate()
     {
     }
@@ -16,10 +25,12 @@ public class HealthCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
+        //if (inverse) return ownerEntity.healthSystem.currentHealth > healthThreshold;
+        //return ownerEntity.healthSystem.currentHealth < healthThreshold;
         return false;
     }
     public override BaseCondition Clone()
     {
-        return new HealthCondition();
+        return new HealthCondition(inverse, healthThreshold);
     }
 }

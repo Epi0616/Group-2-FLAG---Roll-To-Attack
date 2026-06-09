@@ -8,6 +8,10 @@ public class CanMoveCondition : BaseCondition
     private bool valid = true;
 
     public CanMoveCondition() { }
+    public CanMoveCondition(bool inverse)
+    {
+        this.inverse = inverse;
+    }
     public override void Initialize(Entity entity)
     {
         move = entity as IMoveable;
@@ -22,14 +26,18 @@ public class CanMoveCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
-        if (valid)
+        if (valid && !inverse)
         {
             return move.canMove;
+        }
+        else if (valid && inverse)
+        {
+            return !move.canMove;
         }
         return false;
     }
     public override BaseCondition Clone()
     {
-        return new CanMoveCondition();
+        return new CanMoveCondition(inverse);
     }
 }

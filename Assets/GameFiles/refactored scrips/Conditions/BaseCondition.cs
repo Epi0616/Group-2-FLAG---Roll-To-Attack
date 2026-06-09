@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public abstract class BaseCondition : ICondition
 {
-    public bool isRequired = false;
+    public bool inverse = false;
 
     public string name = "Base";
 

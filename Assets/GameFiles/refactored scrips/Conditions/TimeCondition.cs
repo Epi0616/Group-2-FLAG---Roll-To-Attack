@@ -12,9 +12,9 @@ public class TimeCondition : BaseCondition
 
     public TimeCondition() { }
 
-    public TimeCondition(bool required, float duration)
+    public TimeCondition(bool inverse, float duration)
     {
-        isRequired = required;
+        this.inverse = inverse;
         this.duration = duration;
         timer = duration;
         name = "DurationCondition";
@@ -41,6 +41,6 @@ public class TimeCondition : BaseCondition
     }
     public override BaseCondition Clone()
     {
-        return new TimeCondition(isRequired, duration);
+        return new TimeCondition(inverse, duration);
     }
 }

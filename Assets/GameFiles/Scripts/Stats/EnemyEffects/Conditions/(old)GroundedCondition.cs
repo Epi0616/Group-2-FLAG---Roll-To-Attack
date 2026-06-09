@@ -4,10 +4,10 @@ public class oldGroundedCondition : BaseCondition
 {
     private EnemyStateController enemy;
 
-    public oldGroundedCondition(bool required, EnemyStateController enemy)
+    public oldGroundedCondition(EnemyStateController enemy)
     {
         this.enemy = enemy;
-        isRequired = required;
+        //isRequired = required;
         name = "GroundedCondition";
     }
     public override void Initialize(Entity entity) { }
@@ -21,6 +21,6 @@ public class oldGroundedCondition : BaseCondition
     }
     public override BaseCondition Clone()
     {
-        return new oldGroundedCondition(isRequired, enemy);
+        return new oldGroundedCondition(enemy);
     }
 }

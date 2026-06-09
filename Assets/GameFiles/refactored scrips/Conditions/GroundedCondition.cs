@@ -8,9 +8,9 @@ public class GroundedCondition : BaseCondition
     private IGrounded groundInterfaceAccess;
 
     GroundedCondition() { }
-    GroundedCondition(bool required)
+    GroundedCondition(bool inverse)
     {
-        isRequired = required;
+        this.inverse = inverse;
     }
 
     public override void Initialize(Entity entity)
@@ -30,6 +30,6 @@ public class GroundedCondition : BaseCondition
 
     public override BaseCondition Clone()
     {
-        return new GroundedCondition(isRequired);
+        return new GroundedCondition(inverse);
     }
 }

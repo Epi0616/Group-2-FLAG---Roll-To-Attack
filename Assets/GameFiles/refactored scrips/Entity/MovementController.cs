@@ -34,7 +34,7 @@ public class MovementController
         CheckForInvalidMovements();
 
         foreach (ConditionalMovement movement in activeMovements)
-        { 
+        {
             movement.movement.UpdateMovement();
         }
 
@@ -50,25 +50,71 @@ public class MovementController
         {
             ConditionalMovement movement = availableMovements[i];
             List<BaseCondition> conditions = movement.conditions;
-            bool allReleventConditionsMet = true;
+            bool allRequiredConditionsMet = false;
+            bool anyNonRequiredPresent = false;
             foreach (BaseCondition condition in conditions)
             {
                 condition.ConditionUpdate();
 
-                if (!condition.IsConditionMet() && condition.isRequired)
+                if (movement.allConditionsRequired)
                 {
-                    allReleventConditionsMet = false;
+                    allRequiredConditionsMet = true;
+                    if (!condition.IsConditionMet())
+                    {
+                        allRequiredConditionsMet = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    if (condition.IsConditionMet())
+                    {
+                        anyNonRequiredPresent = true;
+                    }
                 }
             }
 
-            if (allReleventConditionsMet && moveInterfaceAccess.canMove)
+            if (allRequiredConditionsMet && moveInterfaceAccess.canMove)
             {
                 activeMovements.Add(movement);
                 availableMovements.Remove(movement);
                 movement.movement.StartMovement(entity);
             }
+            else if (anyNonRequiredPresent && !movement.allConditionsRequired && moveInterfaceAccess.canMove)
+            {
+                activeMovements.Add(movement);
+                availableMovements.Remove(movement);
+                movement.movement.StartMovement(entity);
+            }
+
         }
     }
+
+    // Old Version
+
+    //for (int i = availableMovements.Count - 1; i >= 0; i--)
+    //    {
+    //        ConditionalMovement movement = availableMovements[i];
+    //        List<BaseCondition> conditions = movement.conditions;
+    //        bool allReleventConditionsMet = true;
+    //        foreach (BaseCondition condition in conditions)
+    //        {
+    //            condition.ConditionUpdate();
+
+    //            if (!condition.IsConditionMet() && condition.isRequired)
+    //            {
+    //                allReleventConditionsMet = false;
+    //            }
+    //        }
+
+    //        if (allReleventConditionsMet && moveInterfaceAccess.canMove)
+    //        {
+    //            activeMovements.Add(movement);
+    //            availableMovements.Remove(movement);
+    //            movement.movement.StartMovement(entity);
+    //      }
+    //}
+
 
     public void CheckForInvalidMovements()
     {
@@ -76,24 +122,74 @@ public class MovementController
         {
             ConditionalMovement movement = activeMovements[i];
             List<BaseCondition> conditions = movement.conditions;
-            bool allReleventConditionsMet = true;
-
+            bool allRequiredConditionsMet = false;
+            bool anyNonRequiredPresent = false;
             foreach (BaseCondition condition in conditions)
             {
                 condition.ConditionUpdate();
 
-                if (!condition.IsConditionMet() && condition.isRequired)
+                allRequiredConditionsMet = true;
+
+                if (movement.allConditionsRequired)
                 {
-                    allReleventConditionsMet = false;
+
+                    if (!condition.IsConditionMet())
+                    {
+                        allRequiredConditionsMet = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    if (condition.IsConditionMet())
+                    {
+                        anyNonRequiredPresent = true;
+                    }
                 }
             }
 
-            if (!allReleventConditionsMet)
+            if (!allRequiredConditionsMet && movement.allConditionsRequired)
             {
                 availableMovements.Add(movement);
                 activeMovements.Remove(movement);
                 movement.movement.EndMovement();
+                movement.ResetConditionsAll();
+            }
+            else if (!anyNonRequiredPresent && !movement.allConditionsRequired)
+            {
+                availableMovements.Add(movement);
+                activeMovements.Remove(movement);
+                movement.movement.EndMovement();
+                movement.ResetConditionsAll();
             }
         }
     }
 }
+
+    // Old Version
+
+//    for (int i = activeMovements.Count - 1; i >= 0; i--)
+//    {
+//    ConditionalMovement movement = activeMovements[i];
+//    List<BaseCondition> conditions = movement.conditions;
+//    bool allReleventConditionsMet = true;
+
+//    foreach (BaseCondition condition in conditions)
+//    {
+//        condition.ConditionUpdate();
+
+//        if (!condition.IsConditionMet() && condition.isRequired)
+//        {
+//            allReleventConditionsMet = false;
+//        }
+//    }
+
+//    if (!allReleventConditionsMet)
+//    {
+//        availableMovements.Add(movement);
+//        activeMovements.Remove(movement);
+//        movement.movement.EndMovement();
+//    }
+//    }
+
+

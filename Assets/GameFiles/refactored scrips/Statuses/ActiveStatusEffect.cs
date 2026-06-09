@@ -8,20 +8,13 @@ public class ActiveStatusEffect
 
     public StatusEffect effect;
     public List<BaseCondition> conditions;
-    public int numRequired = 0;
+    public bool allConditionsRequired = false;
 
-    public ActiveStatusEffect(StatusEffect effect, List<BaseCondition> conditionList)
+    public ActiveStatusEffect(StatusEffect effect, List<BaseCondition> conditionList, bool allConditionsRequired)
     {
         this.effect = effect;
         conditions = conditionList;
-
-        foreach (BaseCondition condition in conditions)
-        {
-            if (condition.isRequired)
-            {
-                numRequired++;  
-            }
-        }
+        this.allConditionsRequired = allConditionsRequired;    
     }
 
     public bool CheckForExpiration()
@@ -31,7 +24,7 @@ public class ActiveStatusEffect
 
         foreach (BaseCondition condition in conditions)
         {
-            if (condition.isRequired)
+            if (allConditionsRequired)
             {
                 allRequiredPresent = true;
 

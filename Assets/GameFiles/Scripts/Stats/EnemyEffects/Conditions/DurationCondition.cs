@@ -6,9 +6,9 @@ public class DurationCondition : BaseCondition
     private float duration;
     private float totalDuration;
 
-    public DurationCondition(bool required, float duration)
+    public DurationCondition( float duration)
     {
-        isRequired = required;
+        //isRequired = required;
         this.duration = duration;
         timer = duration;
         name = "DurationCondition";
@@ -34,6 +34,6 @@ public class DurationCondition : BaseCondition
     }
     public override BaseCondition Clone()
     {
-        return new DurationCondition(isRequired, duration);
+        return new DurationCondition( duration);
     }
 }

@@ -18,6 +18,7 @@ MonoBehaviour:
   conditions:
   - rid: 963243828785184839
   - rid: 963243828785184840
+  allConditionsRequired: 1
   singleUse: 0
   exclusive: 1
   priority: 0
@@ -27,9 +28,11 @@ MonoBehaviour:
     - rid: 963243828785184838
       type: {class: FreezeSlamAction, ns: , asm: Assembly-CSharp}
       data:
-        damage: 120
+        slamDamage: 10
         slamColour: {r: 0, g: 0.6012521, b: 0.754717, a: 1}
         chargeTime: 1
+        slamRange: 5
+        slamPositionOffset: {x: 0, y: 0, z: 4}
         FreezeDuration: 3
         FragileDamageMult: 2
         frozenText:
@@ -44,12 +47,12 @@ MonoBehaviour:
     - rid: 963243828785184839
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
-        isRequired: 1
+        inverse: 1
         name: Base
-        distanceThreshold: 5
+        distanceThreshold: 15
     - rid: 963243828785184840
       type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
       data:
-        isRequired: 1
+        inverse: 0
         name: Base
         duration: 2

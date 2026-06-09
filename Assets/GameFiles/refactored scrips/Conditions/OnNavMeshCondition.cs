@@ -13,9 +13,9 @@ public class OnNavMeshCondition : BaseCondition
 
     public OnNavMeshCondition() { }
 
-    public OnNavMeshCondition(bool required, bool active)
+    public OnNavMeshCondition(bool inverse, bool active)
     {
-        isRequired = required;
+        this.inverse = inverse;
         name = "NavReturnCondition";
         isActive = active;
     }
@@ -54,11 +54,12 @@ public class OnNavMeshCondition : BaseCondition
             return false;
         }
         //Debug.Log(aiInterfaceAccess.agent.isOnNavMesh);
+        if (inverse) { return !aiInterfaceAccess.agent.isOnNavMesh; }
         return aiInterfaceAccess.agent.isOnNavMesh;
     }
 
     public override BaseCondition Clone()
     {
-        return new OnNavMeshCondition(isRequired, isActive);
+        return new OnNavMeshCondition(inverse, isActive);
     }
 }

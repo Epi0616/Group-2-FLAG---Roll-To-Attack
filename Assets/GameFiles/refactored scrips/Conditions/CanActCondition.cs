@@ -6,6 +6,10 @@ public class CanActCondition : BaseCondition
     private bool valid = true;
 
     public CanActCondition() { }
+    public CanActCondition(bool inverse)
+    {
+        this.inverse = inverse;
+    }
     public override void Initialize(Entity entity)
     {
         act = entity as IActionable;
@@ -29,6 +33,6 @@ public class CanActCondition : BaseCondition
 
     public override BaseCondition Clone()
     {
-        return new CanActCondition();
+        return new CanActCondition(inverse);
     }
 }

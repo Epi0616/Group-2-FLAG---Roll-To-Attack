@@ -2,21 +2,21 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
-using static System.Collections.Specialized.BitVector32;
 
 public class ActionController
 {
     private Entity entity;
     public List<ConditionalAction> availableActions;
     private List<ConditionalAction> activeActions;
+    private IActionable actionable;
 
     public ActionController(Entity entity, List<ConditionalAction> actions)
     {
         this.entity = entity;
         availableActions = actions;
         activeActions = new List<ConditionalAction>();
+        actionable = entity as IActionable;
     }
 
     public void Initialize()
@@ -64,27 +64,53 @@ public class ActionController
             }
 
             List<BaseCondition> conditions = action.conditions;
-            bool allReleventConditionsMet = true;
-
-            for (int j = conditions.Count - 1; j >= 0; j--)
+            bool allRequiredConditionsMet = false;
+            bool anyNonRequiredPresent = false;
+            int numRequired = 0;
+            foreach (BaseCondition condition in conditions)
             {
-                BaseCondition condition = conditions[j];
-
                 condition.ConditionUpdate();
 
-                if (!condition.IsConditionMet() && condition.isRequired)
+                if (action.allConditionsRequired)
                 {
-                    allReleventConditionsMet = false;
+                    numRequired++;
+                    allRequiredConditionsMet = true;
+                    if (!condition.IsConditionMet())
+                    {
+                        allRequiredConditionsMet = false;
+                        break;
+                    }
                 }
-            }
+                else
+                {
+                    if (condition.IsConditionMet())
+                    {
+                        anyNonRequiredPresent = true;
+                    }
+                }
+            }          
 
-            if (allReleventConditionsMet)
+            if (allRequiredConditionsMet && actionable.canAct)
             {
                 if (action.exclusive)
                 {
                     potentialExclusiveActions.Add(action);
                 }
                 else 
+                {
+                    activeActions.Add(action);
+                    availableActions.Remove(action);
+                    action.triggered = true;
+                    action.action.StartAction(entity);
+                }
+            }
+            else if (anyNonRequiredPresent && !action.allConditionsRequired && actionable.canAct)
+            {
+                if (action.exclusive)
+                {
+                    potentialExclusiveActions.Add(action);
+                }
+                else
                 {
                     activeActions.Add(action);
                     availableActions.Remove(action);

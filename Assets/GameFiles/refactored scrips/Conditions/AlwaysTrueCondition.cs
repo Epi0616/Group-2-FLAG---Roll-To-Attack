@@ -5,6 +5,10 @@ using System;
 public class AlwaysTrueCondition : BaseCondition
 {
     public AlwaysTrueCondition() { }
+    public AlwaysTrueCondition(bool inverse)
+    {
+        this.inverse = inverse;
+    }
     public override void Initialize(Entity entity) { }
     public override void ConditionUpdate()
     {
@@ -14,10 +18,11 @@ public class AlwaysTrueCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
+        if (inverse) return false;
         return true;
     }
     public override BaseCondition Clone()
     {
-        return new AlwaysTrueCondition();
+        return new AlwaysTrueCondition(inverse);
     }
 }

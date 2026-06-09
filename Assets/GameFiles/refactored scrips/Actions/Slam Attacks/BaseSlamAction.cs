@@ -39,7 +39,7 @@ public class BaseSlamAction : BaseEntityAction
 
 
         //slamImpactField = slamVariablesAccess.SlamImpactField;
-        Debug.Log("SLAM STRTED");
+       // Debug.Log("SLAM STRTED");
 
 
         slamOrigin = ownerEntity.transform.position + (ownerEntity.transform.forward * slamPositionOffset.z) + (ownerEntity.transform.right * slamPositionOffset.x);

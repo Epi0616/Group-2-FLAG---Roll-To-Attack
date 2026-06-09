@@ -448,11 +448,14 @@ MonoBehaviour:
     m_Bits: 0
   ImpactFieldPrefab: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
   PoisonFieldPrefab: {fileID: 113574429688223637, guid: a5b33ee770a26d84da3bc26642f27f5a, type: 3}
+  PoisonFieldLifeTime: 2
+  PoisonFieldDamageTick: 16
   movementDescriptors:
   - {fileID: 11400000, guid: fb496c70cf88b8248b8065f9f0094b81, type: 2}
   movements: []
   actionDescriptors:
   - {fileID: 11400000, guid: b3fe5214e80d0fe46b08517632ad3e4a, type: 2}
+  - {fileID: 11400000, guid: 96f92d77117d73449940bfcb9d661257, type: 2}
   actions: []
   references:
     version: 2
@@ -693,7 +696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7072523793003558088, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.128273
+      value: 8.8
       objectReference: {fileID: 0}
     - target: {fileID: 7072523793003558088, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
       propertyPath: m_LocalPosition.y
@@ -701,7 +704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7072523793003558088, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.355028
+      value: 13.44
       objectReference: {fileID: 0}
     - target: {fileID: 7072523793003558088, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1137,11 +1140,13 @@ MonoBehaviour:
     m_Bits: 0
   ImpactFieldPrefab: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
   PoisonFieldPrefab: {fileID: 113574429688223637, guid: a5b33ee770a26d84da3bc26642f27f5a, type: 3}
+  PoisonFieldLifeTime: 5
+  PoisonFieldDamageTick: 8
   movementDescriptors:
   - {fileID: 11400000, guid: fb496c70cf88b8248b8065f9f0094b81, type: 2}
   movements: []
   actionDescriptors:
-  - {fileID: 11400000, guid: 3d5e3f18234798341a7884728331fc74, type: 2}
+  - {fileID: 11400000, guid: b3fe5214e80d0fe46b08517632ad3e4a, type: 2}
   actions: []
   references:
     version: 2
@@ -1393,18 +1398,22 @@ MonoBehaviour:
     m_Bits: 0
   ImpactFieldPrefab: {fileID: 0}
   PoisonFieldPrefab: {fileID: 0}
+  PoisonFieldLifeTime: 5
+  PoisonFieldDamageTick: 8
   movementDescriptors: []
   movements:
   - movement:
       rid: 963243844844388424
     conditions:
     - rid: 963243844844388425
+    allConditionsRequired: 0
   actionDescriptors: []
   actions:
   - action:
       rid: 963243844844388427
     conditions:
     - rid: 963243844844388428
+    allConditionsRequired: 0
     singleUse: 0
     triggered: 0
     exclusive: 1
@@ -1418,7 +1427,7 @@ MonoBehaviour:
     - rid: 963243844844388425
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
-        isRequired: 1
+        inverse: 0
         name: Base
     - rid: 963243844844388427
       type: {class: FreezeSlamAction, ns: , asm: Assembly-CSharp}
@@ -1428,7 +1437,6 @@ MonoBehaviour:
         chargeTime: 1.2
         slamRange: 10
         slamPositionOffset: {x: 0, y: 0, z: 3}
-        slamImpactField: {fileID: 0}
         FreezeDuration: 5
         FragileDamageMult: 2
         frozenText:
@@ -1443,7 +1451,7 @@ MonoBehaviour:
     - rid: 963243844844388428
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
-        isRequired: 1
+        inverse: 0
         name: Base
         distanceThreshold: 7
 --- !u!1001 &1470131799
@@ -1464,7 +1472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 922248948404803261, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1106476328781772052, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
       propertyPath: m_Layer
@@ -1837,6 +1845,7 @@ MonoBehaviour:
       rid: 5154423847817838841
     conditions:
     - rid: 5154423847817838842
+    allConditionsRequired: 0
     singleUse: 0
     triggered: 0
     exclusive: 1
@@ -1858,7 +1867,7 @@ MonoBehaviour:
     - rid: 5154423847817838842
       type: {class: AttackCondition, ns: , asm: Assembly-CSharp}
       data:
-        isRequired: 1
+        inverse: 0
         name: Base
 --- !u!65 &2016936893
 BoxCollider:

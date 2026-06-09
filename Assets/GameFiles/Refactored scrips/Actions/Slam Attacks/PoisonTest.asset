@@ -18,6 +18,7 @@ MonoBehaviour:
   conditions:
   - rid: 963243866989002823
   - rid: 963243866989002824
+  allConditionsRequired: 1
   singleUse: 0
   exclusive: 1
   priority: 0
@@ -32,19 +33,15 @@ MonoBehaviour:
         chargeTime: 1
         slamRange: 4
         slamPositionOffset: {x: 0, y: 0, z: 3}
-        slamImpactField: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
-        lifespan: 10
-        tickDamage: 8
-        poisonFieldPrefab: {fileID: 113574429688223637, guid: a5b33ee770a26d84da3bc26642f27f5a, type: 3}
     - rid: 963243866989002823
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
-        isRequired: 1
+        inverse: 0
         name: Base
-        distanceThreshold: 5
+        distanceThreshold: 15
     - rid: 963243866989002824
       type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
       data:
-        isRequired: 1
+        inverse: 0
         name: Base
-        duration: 3
+        duration: 1

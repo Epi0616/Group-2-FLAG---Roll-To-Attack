@@ -132,8 +132,8 @@ public class PlayerBaseAttackState : PlayerMovementState
             float knockbackForce = player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue();
             //enemy.OnTakeKnockback(player.transform.position, knockbackForce * 2);
            
-            enemy.OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(player.transform.position, knockbackForce * 2f),
-                new List<BaseCondition> { new oldGroundedCondition(true, enemy), new DurationCondition(true, 0.75f), new NavMeshReturnCondition(false, enemy) } ));
+            //enemy.OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(player.transform.position, knockbackForce * 2f),
+            //    new List<BaseCondition> { new oldGroundedCondition(true, enemy), new DurationCondition(true, 0.75f), new NavMeshReturnCondition(false, enemy) } ));
         }
     }
 

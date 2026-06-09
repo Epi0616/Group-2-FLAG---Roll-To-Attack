@@ -13,8 +13,10 @@ public class ConditionalMovementDescriptor : ScriptableObject
     [SerializeReference, SubclassSelector]
     public List<BaseCondition> conditions;
 
+    public bool allConditionsRequired = false;
+
     public ConditionalMovement Create()
-    {
-        return new ConditionalMovement(movement.Clone(), conditions.Select(c => c.Clone()).ToList());
+    {      
+        return new ConditionalMovement(movement.Clone(), conditions.Select(c => c.Clone()).ToList(), allConditionsRequired);
     }
 }
