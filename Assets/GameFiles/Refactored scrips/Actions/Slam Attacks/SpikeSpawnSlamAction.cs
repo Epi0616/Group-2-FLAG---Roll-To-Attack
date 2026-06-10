@@ -22,7 +22,7 @@ public class SpikeSpawnSlamAction : BaseSlamAction
 
     public override void SpawnSlamStartVFX()
     {
-        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.SlamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
+        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
         impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, false);
     }
 

@@ -57,7 +57,7 @@ MonoBehaviour:
   target: {fileID: 0}
   hostileMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   healthSystem: {fileID: 9192187836952963803}
   statusSystem: {fileID: 2280677556928069547}
   bodySystem: {fileID: 3183200901877279129}
@@ -74,13 +74,14 @@ MonoBehaviour:
   actionDescriptors:
   - {fileID: 11400000, guid: 08bf4a9e7422fbe45bc99be6b8584cc6, type: 2}
   modifiableActionDescriptors:
-  - {fileID: 11400000, guid: 84325c2a78662e14186cb7463eb12067, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
   JumpHeight:
     baseValue: 3
   JumpSpeed:
     baseValue: 8
   ImpactSpeed:
     baseValue: 10
+  SlamImpactField: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
 --- !u!114 &9192187836952963803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,6 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealthSystem
   maxHealth: 100
+  currentHealth: 0
   isDead: 0
 --- !u!114 &3183200901877279129
 MonoBehaviour:

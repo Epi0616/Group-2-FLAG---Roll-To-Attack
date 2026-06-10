@@ -42,6 +42,8 @@ public class BaseOrbitObject : MonoBehaviour , IOrbitObject
     protected virtual void Update()
     {
         CheckForExpiration();
+
+        if (ownerEntity == null) return;
         OrbitAnchor();
     }
 
@@ -71,7 +73,7 @@ public class BaseOrbitObject : MonoBehaviour , IOrbitObject
     protected virtual void CheckForExpiration()
     {
         age += Time.deltaTime;
-        if (!(age >= lifeSpan)) { return; }
+        if (!(age >= lifeSpan) && ownerEntity != null) { return; }
 
         DestroyMe();
     }

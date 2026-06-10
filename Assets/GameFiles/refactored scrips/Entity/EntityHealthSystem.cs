@@ -1,8 +1,10 @@
 using UnityEngine;
+using System;
 
 public class EntityHealthSystem : MonoBehaviour, IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
+    public static event Action EnemyHasDied;
 
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
@@ -19,7 +21,7 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
     public void OnTakeDamage(int damageAmount)
     {
         currentHealth -= damageAmount;
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
         {
             OnDeath();
         }
@@ -30,6 +32,16 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
     }
     public void OnDeath()
     {
+        try
+        {
+            EnemyHasDied?.Invoke();
+            ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject);
+        }
+        catch
+        { 
+            Destroy(OwnerEntity.gameObject);
+        }
 
+        Debug.Log("dead");
     }
 }

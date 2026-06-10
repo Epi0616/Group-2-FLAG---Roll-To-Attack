@@ -44,14 +44,14 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     // ISlamAction Interface Propertires
     [Header("ISlam Required Properties")]
     [SerializeField] GameObject ImpactFieldPrefab;
-    public GameObject SlamImpactField { get => ImpactFieldPrefab; set => ImpactFieldPrefab = value; }
+    public GameObject slamImpactField { get => ImpactFieldPrefab; set => ImpactFieldPrefab = value; }
 
     // IPoisonSpawner Interface
     [Header("IPoison Required Properties")]
     [SerializeField] private GameObject PoisonFieldPrefab;
     [SerializeField] private float PoisonFieldLifeTime = 5;
     [SerializeField] private int PoisonFieldDamageTick;
-    public GameObject PoisonFieldObj { get => PoisonFieldPrefab; set => PoisonFieldPrefab = value; }
+    public GameObject poisonFieldObj { get => PoisonFieldPrefab; set => PoisonFieldPrefab = value; }
     public float fieldLifetime { get => PoisonFieldLifeTime; set => PoisonFieldLifeTime = value; }
     public int fieldTickDamage { get => PoisonFieldDamageTick; set => PoisonFieldDamageTick = value; }
 

@@ -21,6 +21,7 @@ public class Entity : MonoBehaviour, IEntity
         //statList = new List<Stat>();       
         bodySystem.InitialiseSystem(this);
         statusSystem.InitialiseSystem(this);
+        healthSystem.InitialiseSystem(this);
     }
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)

@@ -54,7 +54,7 @@ public class BaseSlamAction : BaseEntityAction
 
     public virtual void SpawnSlamStartVFX()
     {
-        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.SlamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
+        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
         impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, true);
     }
 
@@ -118,7 +118,7 @@ public class BaseSlamAction : BaseEntityAction
 
     public virtual void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-       // hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
+       hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
     }
 
     public virtual void ExtraSlamEffect() { }

@@ -184,7 +184,6 @@ public class MovementController
             chosenMovement = lowestPriorityActiveMovements[randomIndex];
         }
 
-        Debug.Log("active movement chosen");
         activeMovements.Add(chosenMovement);
         availableMovements.Remove(chosenMovement);
         chosenMovement.movement.StartMovement(entity);

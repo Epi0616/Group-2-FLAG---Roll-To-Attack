@@ -13,7 +13,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     [SerializeField] private GameObject spriteObj;
 
-    private AbilityDescriptor myAbility;
+    private ModifiableActionDescriptor myAbility;
     public Image Image;
 
     private Vector3 scaleOrigin;
@@ -25,13 +25,13 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
         scaleOrigin = spriteObj.transform.localScale;
     }
 
-    public void SetAbilityDescriptor(AbilityDescriptor newAbility)
+    public void SetAbilityDescriptor(ModifiableActionDescriptor newAbility)
     {
         myAbility = newAbility;
         UpdateObject();
     }
 
-    public AbilityDescriptor GetAbilityDescriptor()
+    public ModifiableActionDescriptor GetAbilityDescriptor()
     {
         return myAbility;
     }
@@ -43,13 +43,13 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
             spriteObj.GetComponent<Image>().sprite = myAbility.sprite;
             return;
         }
-        spriteObj.GetComponent<Image>().color = myAbility.color;
+        spriteObj.GetComponent<Image>().color = Color.white;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        LocalizedString name = myAbility.abilityName;
-        LocalizedString description = myAbility.abilityDescription;
+        LocalizedString name = myAbility.actionName;
+        LocalizedString description = myAbility.actionDescription;
         Sprite sprite = null;
         if (myAbility.sprite != null)
         {
