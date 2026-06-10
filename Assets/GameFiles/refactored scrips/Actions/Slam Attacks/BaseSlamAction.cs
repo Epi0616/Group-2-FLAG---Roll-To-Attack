@@ -92,7 +92,7 @@ public class BaseSlamAction : BaseEntityAction
     {       
         RaycastHit hit;
         Ray ray = new Ray(slamOrigin, Vector3.down);
-        if (Physics.Raycast(ray, out hit, 20f, slamVariablesAccess.environmentMask))
+        if (Physics.Raycast(ray, out hit, 20f, slamVariablesAccess.groundLayer))
         {
             
             Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange, ownerEntity.hostileMask);
