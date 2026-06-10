@@ -43,10 +43,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
 
     // ISlamAction Interface Propertires
     [Header("ISlam Required Properties")]
-    [SerializeField] private LayerMask EnvironmentMask;
     [SerializeField] GameObject ImpactFieldPrefab;
-   
-    public LayerMask environmentMask { get => EnvironmentMask; set => EnvironmentMask = value; }
     public GameObject SlamImpactField { get => ImpactFieldPrefab; set => ImpactFieldPrefab = value; }
 
     // IPoisonSpawner Interface
@@ -97,7 +94,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         base.Start();
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
-        environmentMask = LayerMask.GetMask("Ground", "Collider Props", "Pedestal");        
+        //environmentMask = LayerMask.GetMask("Ground", "Collider Props", "Pedestal");        
         //slamBaseRange = 5f;
         //slamPositionOffset = Vector3.zero;
         //defaultSlamColour = Color.white;
@@ -151,7 +148,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     {
         RaycastHit hit;
         Ray ray = new Ray(transform.position, Vector3.down);
-        isGrounded = (Physics.Raycast(ray, out hit, 1.3f, environmentMask));
+        isGrounded = (Physics.Raycast(ray, out hit, 1.3f, groundLayer));
         //IsGrounded = (Physics.Raycast(ray, out hit, 1.3f, environmentMask));
     }
 
@@ -196,10 +193,5 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
             float angle = i * (360f / orbitObjects.Count);
             orbitObjects[i].UpdateAngle(angle);            
         }
-    }
-
-    public GameObject SPAWNTHING(GameObject thing, Vector3 pos)
-    {
-        return Instantiate(thing, pos, Quaternion.identity);
     }
 }
