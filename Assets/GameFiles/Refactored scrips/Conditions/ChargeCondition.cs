@@ -23,7 +23,7 @@ public class InputChargeCondition : BaseCondition
     public override bool IsConditionMet()
     {
         bool conditionMet = true;
-        if (usesEntityInput.inputManager.holdTime <= 0) { conditionMet = false; }
+        if (usesEntityInput.inputManager.holdTime <= 0.05f) { conditionMet = false; }
         if (!grounded.isGrounded) { conditionMet = false; }
         
         return conditionMet;

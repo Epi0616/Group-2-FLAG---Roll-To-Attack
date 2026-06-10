@@ -42,7 +42,10 @@ public class MovementController
     }
     public void FixedUpdate()
     {
-
+        foreach (ConditionalMovement movement in activeMovements)
+        {
+            movement.movement.FixedUpdateMovement();
+        }
     }
 
     public void CheckForValidMovements()

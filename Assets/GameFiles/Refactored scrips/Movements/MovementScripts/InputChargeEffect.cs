@@ -27,12 +27,12 @@ public class InputChargeEffect : BaseEntityMovement
     }
     public override void InterruptMovement()
     {
-        ownerEntity.transform.rotation = ownerEntity.bodySystem.originalRotation;
+        ownerEntity.bodySystem.body.transform.rotation = ownerEntity.bodySystem.originalRotation;
         playerBodySystem.ResetChargingEffects();
     }
     public override void EndMovement()
     {
-        ownerEntity.transform.rotation = ownerEntity.bodySystem.originalRotation;
+        ownerEntity.bodySystem.body.transform.rotation = ownerEntity.bodySystem.originalRotation;
         playerBodySystem.ResetChargingEffects();
     }
     public override BaseEntityMovement Clone()
@@ -42,11 +42,6 @@ public class InputChargeEffect : BaseEntityMovement
 
     private void ChargeParticles(float holdTime)
     {
-        if (holdTime < 0.05f)
-        { 
-            playerBodySystem.ResetChargingEffects();
-            return;
-        }
         if (holdTime < 1)
         {
             playerBodySystem.DisplayChargingEffect();

@@ -27,12 +27,14 @@ public class AttackCondition : BaseCondition
         { 
             conditionMet = true; 
             Debug.Log("basic attack");
+            Debug.Log(holdTime);
         }
         else if (usesEntityInput.inputManager.attack.action.WasReleasedThisFrame() && holdTime >= 0.2f)
         {
             conditionMet = true;
             jumpable.jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             jumpable.impactSpeed.AddMultiplierFlat(holdTime * 2);
+            Debug.Log(holdTime);
             Debug.Log("charged attack");
         }
     }

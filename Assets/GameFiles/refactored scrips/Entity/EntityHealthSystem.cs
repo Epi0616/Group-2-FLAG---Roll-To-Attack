@@ -4,14 +4,14 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
 
-    private int maxHealth;
-    private int currentHealth;
+    [SerializeField] private int maxHealth;
+    [SerializeField] private int currentHealth;
     public bool isDead;
 
     public void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
-        // Set MaxHealth
+        currentHealth = maxHealth;
     }
 
     public void ResetSystem() { }

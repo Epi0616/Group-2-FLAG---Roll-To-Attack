@@ -76,7 +76,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
         Stat modifiedDamageAmount = new Stat(damageAmount);
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
-            currentActiveStatusEffects[i].effect.TriggerOnDamageEffects(ref  modifiedDamageAmount, damageType);
+            currentActiveStatusEffects[i].effect.TriggerOnDamageEffects(ref modifiedDamageAmount, damageType);
             
             // Call Status OnTakeDamage or equivelent trigger
             // Can return either the adjusted value and immediately update modifiedDamageAmount 

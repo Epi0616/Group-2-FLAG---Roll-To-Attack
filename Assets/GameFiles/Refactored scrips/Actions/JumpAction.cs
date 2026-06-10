@@ -31,6 +31,8 @@ public class JumpAction : BaseEntityAction
         grounded = entity as IGrounded;
         jumpable = entity as IJumpable;
 
+        jumpable.isJumping = true;
+
         rotationMap = new Quaternion[]
         {
             Quaternion.Euler(0,0,0), //1
@@ -92,10 +94,11 @@ public class JumpAction : BaseEntityAction
 
         ownerEntity.bodySystem.body.transform.rotation = targetRotation;
         ownerEntity.bodySystem.originalRotation = targetRotation;
-        rb.linearVelocity = Vector3.zero;
+        //rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         jumpable.jumpHeight.ResetModifiers();
         jumpable.impactSpeed.ResetModifiers();
+        jumpable.isJumping = false;
         isComplete = true;
     }
     public override void EndAction()
@@ -105,10 +108,11 @@ public class JumpAction : BaseEntityAction
 
         ownerEntity.bodySystem.body.transform.rotation = targetRotation;
         ownerEntity.bodySystem.originalRotation = targetRotation;
-        rb.linearVelocity = Vector3.zero;
+        //rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         jumpable.jumpHeight.ResetModifiers();
         jumpable.impactSpeed.ResetModifiers();
+        jumpable.isJumping = false;
         isComplete = true;
     }
 
@@ -119,8 +123,8 @@ public class JumpAction : BaseEntityAction
         remainingHeight = targetHeight - currentHeight;
 
         float verticalVelocity = remainingHeight * jumpSpeed;
-        Vector3 velocity = new Vector3(0, verticalVelocity, 0);
-
+        Vector3 velocity = rb.linearVelocity;
+        velocity.y = verticalVelocity;
 
         rb.linearVelocity = velocity;
 
@@ -143,9 +147,9 @@ public class JumpAction : BaseEntityAction
 
     private void ApplyDownwardForce()
     {
-        Vector3 targetVelocity = Vector3.zero;
-        targetVelocity.y = rb.linearVelocity.y - jumpable.impactSpeed.GetFinalValue();
-        rb.linearVelocity = targetVelocity;
+        Vector3 velocity = rb.linearVelocity;
+        velocity.y = rb.linearVelocity.y - jumpable.impactSpeed.GetFinalValue();
+        rb.linearVelocity = velocity;
     }
 
     private void ApplyScreenShake()
@@ -153,7 +157,7 @@ public class JumpAction : BaseEntityAction
         if (isComplete) return;
 
         float magnitude = jumpable.impactSpeed.GetFinalValue() / jumpable.impactSpeed.GetBaseValue() * 2;
-        ShakeScreen(magnitude);
+        ShakeScreen?.Invoke(magnitude);
     }
 
     public override BaseEntityAction Clone()

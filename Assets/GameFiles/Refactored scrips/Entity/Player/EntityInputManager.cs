@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class EntityInputManager : MonoBehaviour
 {
@@ -34,16 +35,20 @@ public class EntityInputManager : MonoBehaviour
         UpdateHoldTime();
     }
 
+    private void LateUpdate()
+    {
+        if (!(attack.action.IsPressed()))
+        {
+            holdTime = 0;
+        }
+    }
+
     private void UpdateHoldTime()
     {
         if (attack.action.IsPressed() && grounded.isGrounded)
         {
             holdTime += Time.deltaTime;
             holdTime = Mathf.Clamp(holdTime, 0, 1);
-        }
-        else
-        {
-            holdTime = 0;
         }
     }
 }

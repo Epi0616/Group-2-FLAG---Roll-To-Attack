@@ -42,4 +42,5 @@ public class ConditionalAction
             condition.ResetCondition();
         }
     }
+
 }

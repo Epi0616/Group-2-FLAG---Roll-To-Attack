@@ -15,6 +15,9 @@ public class BaseEntityMovement : IMovement
     public virtual void UpdateMovement()
     {
     }
+    public virtual void FixedUpdateMovement()
+    { 
+    }
     public virtual void InterruptMovement()
     {
     }

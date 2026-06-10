@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -39,20 +39,29 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [Header("IUsesRigidBody")]
     public Rigidbody rb { get; set; }
 
-    [Header("Jumpable")]
+    [Header("IJumpable")]
     [SerializeField] private Stat JumpHeight = new Stat(3f);
     [SerializeField] private Stat JumpSpeed = new Stat(8f);
     [SerializeField] private Stat ImpactSpeed = new Stat(10f);
+    private bool IsJumping = false;
     public Stat jumpHeight { get => JumpHeight; set => JumpHeight = value; }
     public Stat jumpSpeed { get => JumpSpeed; set => JumpSpeed = value; }
     public Stat impactSpeed { get => ImpactSpeed; set => ImpactSpeed = value; }
     public bool canJump { get; set; }
+    public bool isJumping { get => IsJumping; set => IsJumping = value; }
+
+    [Header("ISlamActionRequirements")]
+    //[SerializeField] private LayerMask GroundLayer;
+    public LayerMask environmentMask { get => GroundLayer; set => GroundLayer = value; }
+    public GameObject slamImpactField { get; set; }
+
 
     protected override void Start()
     {
         base.Start();
         inputManager = GetComponent<EntityInputManager>();
         inputManager.Initialise(this);
+        healthSystem.InitialiseSystem(this);
         rb = GetComponent<Rigidbody>();
 
         foreach (var movement in movementDescriptors)
