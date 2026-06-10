@@ -123,7 +123,7 @@ public class BaseSlamAction : BaseEntityAction
 
     public virtual void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-       // hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
+       hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
     }
 
     public virtual void ExtraSlamEffect() { }

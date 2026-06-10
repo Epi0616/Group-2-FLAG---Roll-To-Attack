@@ -30,12 +30,12 @@ public class ActionSelectionSystem
 
         foreach (var action in weightedActions)
         {
-            LastReturnedActionIndex++;
             ActionWeightTally += action.weighting;
             if (randomNumber <= ActionWeightTally)
             { 
                 return action;
             }
+            LastReturnedActionIndex++;
         }
 
         Debug.LogError("NO VALID ACTIONS PRESENT BRO WTF HAPPEBNED");

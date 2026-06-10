@@ -1,7 +1,8 @@
+using System.Collections.Generic;
+using NUnit.Framework;
 using System;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 
 [Serializable]
 public class JumpAction : BaseEntityAction
@@ -19,17 +20,18 @@ public class JumpAction : BaseEntityAction
     //interfaces to cache
     IGrounded grounded;
     IJumpable jumpable;
+    IModifiableActions modifiableActions;
 
     //public JumpAction() { }
     public override void StartAction(Entity entity)
     {
         //isComplete = false;
-        Debug.Log("starting jump");
         base.StartAction(entity);
 
         rb = (entity as IUsesRigidBody).rb;
         grounded = entity as IGrounded;
         jumpable = entity as IJumpable;
+        modifiableActions = entity as IModifiableActions;
 
         jumpable.isJumping = true;
 
@@ -58,11 +60,11 @@ public class JumpAction : BaseEntityAction
         eulerStartRotation.z = Mathf.Round(eulerStartRotation.z);
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
 
-
-        ConditionalAction targetAction = (ownerEntity as IModifiableActions).modifiableActions[0].conditionalAction;
+        ConditionalAction targetAction = modifiableActions.actionSelectionSystem.GetRandomModifiableAction().conditionalAction;
         targetAction.triggered = false;
-        int index = (ownerEntity as IModifiableActions).actionSelectionSystem.LastReturnedActionIndex;
+        int index = modifiableActions.actionSelectionSystem.LastReturnedActionIndex;
         targetRotation = rotationMap[index];
+        Debug.Log(index);
 
         (ownerEntity as IActionable).actionController.availableActions.Add(targetAction);
     }

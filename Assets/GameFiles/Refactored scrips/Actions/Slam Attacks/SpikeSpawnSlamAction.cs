@@ -6,9 +6,8 @@ public class SpikeSpawnSlamAction : BaseSlamAction
 {
     private IOrbitSpikeSpawner spike;
 
-    public int numSpikes = 5;
     public SpikeSpawnSlamAction() { }
-    public SpikeSpawnSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int numSpikes) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
+    public SpikeSpawnSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
 
     public override void StartAction(Entity entity)
     {
@@ -23,13 +22,13 @@ public class SpikeSpawnSlamAction : BaseSlamAction
 
     public override void SpawnSlamStartVFX()
     {
-        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.SlamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
-        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, true);
+        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
+        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, false);
     }
 
     public override void ExtraSlamEffect()
     {
-        for (int i = 0; i < numSpikes; i++)
+        for (int i = 0; i < spike.numSpikesPerSpawn; i++)
         {
             //GameObject spike = Instantiate(playerSpike);
             GameObject newObj = ObjectPoolManager.SpawnObject(spike.spikePrefab, new Vector3(0, -100, 0), Quaternion.identity);
@@ -42,6 +41,6 @@ public class SpikeSpawnSlamAction : BaseSlamAction
 
     public override BaseEntityAction Clone()
     {
-        return new SpikeSpawnSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesActionPreventMovement, numSpikes);
+        return new SpikeSpawnSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesActionPreventMovement);
     }
 }

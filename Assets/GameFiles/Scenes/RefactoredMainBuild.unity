@@ -8086,6 +8086,46 @@ PrefabInstance:
       propertyPath: healthSystem
       value: 
       objectReference: {fileID: 937705979}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: FieldLifetime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: PoisonFieldObj
+      value: 
+      objectReference: {fileID: 113574429688223637, guid: a5b33ee770a26d84da3bc26642f27f5a, type: 3}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: FieldTickDamage
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: ModifiableActionDescriptors.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'ModifiableActionDescriptors.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'ModifiableActionDescriptors.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'ModifiableActionDescriptors.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'ModifiableActionDescriptors.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'ModifiableActionDescriptors.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'ModifiableActionDescriptors.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
     - target: {fileID: 4278695722562126143, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.24635124
@@ -8183,6 +8223,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18962c2936f7e12469d76d89c5a1b900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealthSystem
+--- !u!114 &937705985 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+  m_PrefabInstance: {fileID: 934497098}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555950544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64872f9af23d58e46ac8d5eae4e9b593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
 --- !u!1 &949880574
 GameObject:
   m_ObjectHideFlags: 0
@@ -10921,7 +10972,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: beholderCost
-      value: 30
+      value: 100000
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: sandGolemCost
@@ -10929,20 +10980,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: startingBudget
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: simpleRaiderCost
-      value: 100000
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3619129167787743097, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: budgetIncreasePerWave
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4189374790445322270, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: enemyPrefab
       value: 
-      objectReference: {fileID: 922248948404803261, guid: 279a20abb410cfe4f9bd21d86b8dc3ec, type: 3}
+      objectReference: {fileID: 4335409805181785129, guid: 3b2d73923d7d8054fac94ac8631757bf, type: 3}
     - target: {fileID: 4908862021032207345, guid: 400e069145634b04db5c7c32efb7d850, type: 3}
       propertyPath: enemyPrefab
       value: 
@@ -19791,6 +19842,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3348097132547337457, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+      propertyPath: abilityPool.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348097132547337457, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+      propertyPath: 'abilityPool.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+    - target: {fileID: 3348097132547337457, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+      propertyPath: 'abilityPool.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1767bf0014bdffd4fb9d5197fc3308b5, type: 2}
     - target: {fileID: 3642446207219403683, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -10.000019
@@ -19875,6 +19938,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 139.99998
       objectReference: {fileID: 0}
+    - target: {fileID: 6908713982199466901, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 937705985}
     - target: {fileID: 6908713982199466901, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: abilitySystem
       value: 

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -31,8 +31,9 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public bool canAct { get => CanAct; set => CanAct = value; }
 
     [Header("IModifiableActions")]
-    [SerializeField] private List<ModifiableActionDescriptor> modifiableActionDescriptors = new List<ModifiableActionDescriptor>();
+    [SerializeField] private List <ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
     private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
+    public List<ModifiableActionDescriptor> modifiableActionDescriptors { get => ModifiableActionDescriptors; set => ModifiableActionDescriptors = value; }
     public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
 
@@ -52,8 +53,17 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("ISlamActionRequirements")]
     //[SerializeField] private LayerMask GroundLayer;
-    public LayerMask environmentMask { get => GroundLayer; set => GroundLayer = value; }
-    public GameObject slamImpactField { get; set; }
+    [SerializeField] private GameObject SlamImpactField;
+    //public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
+    public GameObject slamImpactField { get => SlamImpactField; set => SlamImpactField = value; }
+
+    [Header("IPoisonSpawner")]
+    [SerializeField] private GameObject PoisonFieldObj;
+    [SerializeField] private float FieldLifetime = 0f;
+    [SerializeField] private int FieldTickDamage = 0;
+    public GameObject poisonFieldObj { get => PoisonFieldObj; set => PoisonFieldObj = value; }
+    public float fieldLifetime { get => FieldLifetime; set => FieldLifetime = value; }
+    public int fieldTickDamage { get => FieldTickDamage; set => FieldTickDamage = value; }
 
 
     protected override void Start()
@@ -61,7 +71,6 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         base.Start();
         inputManager = GetComponent<EntityInputManager>();
         inputManager.Initialise(this);
-        healthSystem.InitialiseSystem(this);
         rb = GetComponent<Rigidbody>();
 
         foreach (var movement in movementDescriptors)
@@ -78,10 +87,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         actionController = new ActionController(this, actions);
         actionController.Initialize();
 
-        foreach (var modifiableAction in modifiableActionDescriptors)
-        {
-            modifiableActions.Add(modifiableAction.Create());
-        }
+        UnpackModifiableActions();
         actionSelectionSystem = new ActionSelectionSystem(this);
 
         statList.Add(movementSpeed);
@@ -124,5 +130,16 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public void CheckForCanJump()
     { 
     
+    }
+
+    //IModifiableActions Methods
+    public void UnpackModifiableActions()
+    { 
+        modifiableActions.Clear();
+        foreach (ModifiableActionDescriptor modifiableActionDescriptor in ModifiableActionDescriptors)
+        {
+            Debug.Log("added modif action ");
+            modifiableActions.Add(modifiableActionDescriptor.Create());
+        }
     }
 }

@@ -111,9 +111,9 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         if (draggableObjects.Count == 0) return;
         if (draggableObjects[0] == null) return;
 
-        AbilityDescriptor myAbility = (draggableObjects[0] as DraggableAbility).GetAbilityDescriptor();
-        LocalizedString name = myAbility.abilityName;
-        LocalizedString description = myAbility.abilityDescription;
+        ModifiableActionDescriptor myAbility = (draggableObjects[0] as DraggableAbility).GetAbilityDescriptor();
+        LocalizedString name = myAbility.actionName;
+        LocalizedString description = myAbility.actionDescription;
         Sprite sprite = null;
         if (myAbility.sprite != null)
         {
