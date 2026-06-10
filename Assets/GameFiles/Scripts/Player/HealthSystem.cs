@@ -38,7 +38,7 @@ public class HealthSystem : MonoBehaviour
 
         PlayerIFrames();
         currentHealth -= damage;
-        AudioManager.instance.PlayRandomSoundClip(playerHitSounds, transform.position);
+        AudioManager.instance.PlayRandomSoundClip(playerHitSounds, transform.position, 0.6f);
         UpdateHealthBar?.Invoke(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
@@ -49,7 +49,7 @@ public class HealthSystem : MonoBehaviour
     public void HealToFull(float waveNumber)
     {
         currentHealth = maxHealth;
-        AudioManager.instance.PlayRandomSoundClip(playerHealSounds, transform.position);
+        AudioManager.instance.PlayRandomSoundClip(playerHealSounds, transform.position, 0.6f);
         UpdateHealthBar?.Invoke(currentHealth, maxHealth);
     }
     public void OnDeath()

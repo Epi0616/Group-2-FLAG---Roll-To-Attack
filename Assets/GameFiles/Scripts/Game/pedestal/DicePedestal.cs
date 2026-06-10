@@ -213,9 +213,6 @@ public class DicePedestal : MonoBehaviour
 
     private void HandleDiceSelectionPhaseOver(float time)
     {
-        timeBetweenWaves = time;
-        waveStarted = false;
-
         if (autoStart && !autoStartHandled)
         {
             autoStartHandled = true;
@@ -226,6 +223,8 @@ public class DicePedestal : MonoBehaviour
 
         if (!autoStart)
         {
+            timeBetweenWaves = time;
+            waveStarted = false;
             ChargeTextAppear?.Invoke(time);
         }
     }

@@ -25,8 +25,8 @@ public class A_PlayerKnockbackState : PlayerBaseAttackState
     {
         EnemyStateController tempScriptAccess = Enemy.GetComponent<EnemyStateController>();
         tempScriptAccess.OnTakeDamage(35, myColor);
-        tempScriptAccess.OnTakeKnockback(new Vector3(player.transform.position.x, player.transform.position.y + 15, player.transform.position.z), 5);
-
+        //tempScriptAccess.OnTakeKnockback(new Vector3(player.transform.position.x, player.transform.position.y + 15, player.transform.position.z), 5);
+        if (tempScriptAccess.isSpawning) { return; }
         tempScriptAccess.OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(new Vector3(player.transform.position.x, player.transform.position.y + 15, player.transform.position.z), 5f),
                 new List<BaseCondition> { new GroundedCondition(true, tempScriptAccess), new DurationCondition(true, 0.75f), new NavMeshReturnCondition(false, tempScriptAccess) }));
     }

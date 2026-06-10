@@ -8,6 +8,10 @@ using UnityEngine.UI;
 public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandler
 {
     public static event Action<AbilitySlot> selected;
+    public static event Action unselected;
+    public static event Action<Vector3> selectedPos;
+
+    private bool isSelected = false;
 
     protected override void Awake()
     {
@@ -87,16 +91,18 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
     void ISelectHandler.OnSelect(BaseEventData eventData)
     {
         OnHoverStart();
+        selectedPos?.Invoke(transform.position);
     }
 
     void IDeselectHandler.OnDeselect(BaseEventData eventData)
     {
         onHoverEnd();
+        unselected?.Invoke();
     }
 
     private void CheckForDisplayRequired()
     {
-        if (!EventSystem.current.currentSelectedGameObject == this) return;
+        if (!(EventSystem.current.currentSelectedGameObject == this)) return;
         OnHoverStart();
     }
 
@@ -113,23 +119,35 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         {
             sprite = myAbility.sprite;
         }
+        (draggableObjects[0] as DraggableAbility).SizeUp();
 
         OnSlotHoverStart?.Invoke(name, description, sprite);
     }
 
     public void onHoverEnd()
     {
+        if (draggableObjects.Count == 0) return;
+        if (draggableObjects[0] == null) return;
+
         OnSlotHoverEnd?.Invoke();
+        if (isSelected == false)
+        {
+            image.color = button.colors.normalColor;
+        }
+        (draggableObjects[0] as DraggableAbility).SizeDown();
     }
 
     public void Selected()
     {
-        //image.color = button.colors.selectedColor;
-        selected.Invoke(this);
+        image.color = button.colors.selectedColor;
+        selected?.Invoke(this);
+        isSelected = true;
     }
 
     public void Unselected()
-    {                      
+    {
+        unselected?.Invoke();
         image.color = button.colors.normalColor;
+        isSelected = false;
     }
 }

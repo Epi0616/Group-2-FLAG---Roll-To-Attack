@@ -169,7 +169,7 @@ public class RangedRaiderEnemy : EnemyStateController
         activeTimer = 0;
         animator.speed = 0.5f;
         Quaternion lookRotation;
-        while (activeTimer < chargeTime && !isStunned && !attackInterrupted)
+        while (activeTimer < chargeTime && !attackInterrupted)
         {
             //LookAtPlayer();
 
@@ -232,7 +232,7 @@ public class RangedRaiderEnemy : EnemyStateController
 
         activeTimer = 0;
 
-        while (activeTimer < laserDuration && !isStunned && !attackInterrupted)
+        while (activeTimer < laserDuration && !attackInterrupted)
         {
             activeTimer += Time.deltaTime;
             damageTickTimer += Time.deltaTime;
@@ -249,6 +249,7 @@ public class RangedRaiderEnemy : EnemyStateController
             ChangeState(new EnemyLookAtPlayerState(attackCooldownStat.GetFinalValue()));          
         }
     }
+
     /*
     private void MoveLaserCylinder(Vector3 laserDir, float distance, float width)
     {

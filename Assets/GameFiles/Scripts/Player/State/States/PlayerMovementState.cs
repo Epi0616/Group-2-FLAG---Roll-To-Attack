@@ -48,4 +48,9 @@ public class PlayerMovementState : PlayerBaseState
 
         moveDirection = new(0, 0, 0);
     }
+
+    public override void ExitState()
+    {
+        player.isAttacking = true;
+    }
 }

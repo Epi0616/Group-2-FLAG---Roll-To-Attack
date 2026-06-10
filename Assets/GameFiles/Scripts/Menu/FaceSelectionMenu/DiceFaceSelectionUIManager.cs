@@ -77,9 +77,8 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
     {
         DiceFaceSelectionStart?.Invoke();
         AbilitySelectionUI.SetActive(true);
-        DiceFaceSelectionUI.SetActive(true);
-        DiceFaceSelectionUI.GetComponent<CanvasGroup>().alpha = 0;
-        abilitySlotManager.Unpack();
+
+        //DiceFaceSelectionUI.GetComponent<CanvasGroup>().alpha = 0;
         abilitySelectionManager.SetUpAbilityPannels();
         //Time.timeScale = 0;
         setupComplete = true;
@@ -87,10 +86,12 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
     private void AbilitySelected(AbilityPanel abilityPanel)
     {
-        DiceFaceSelectionUI.GetComponent<CanvasGroup>().alpha = 1;
+        DiceFaceSelectionUI.SetActive(true);
+        abilitySlotManager.Unpack();
 
         DraggableAbility ability = abilityPanel.GetAbility();
         ability.transform.SetParent(canvas.transform);
+        ability.SearchForDropZones();
 
         abilitySlotManager.GetCentralAbilityPoint().GetComponent<AbilitySlot>().AddChild(ability);
         AbilitySelectionUI.SetActive(false);

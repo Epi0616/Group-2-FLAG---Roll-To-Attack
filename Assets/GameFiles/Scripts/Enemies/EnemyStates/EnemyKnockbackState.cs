@@ -102,7 +102,6 @@ public class EnemyGolemKnockbackState : EnemyKnockbackState
 
     public override void EnterState(EnemyStateController enemy)
     {
-        enemy.isKnockedBackByGolem = true;
         base.EnterState(enemy);
         
     }
@@ -128,6 +127,5 @@ public class EnemyGolemKnockbackState : EnemyKnockbackState
     public override void ExitState()
     {
         base.ExitState();
-        enemy.isKnockedBackByGolem = false;
     }
 }

@@ -10,6 +10,11 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private AudioSource soundObject;
 
+    //common sfx
+    public AudioClip[] buttonHovers;
+    public AudioClip[] buttonClicks;
+    //
+
     private Dictionary<AudioClip, AudioSource> loopingClips;
 
     private void Awake()

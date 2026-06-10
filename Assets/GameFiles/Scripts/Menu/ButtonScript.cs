@@ -5,12 +5,18 @@ using UnityEngine.EventSystems;
 
 public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public Quaternion originalRotation;
     //public ParticleSystem pSystem;
     public float sizeWidth;
     public float sizeHeight;
     public float sizeWidthHover;
     public float sizeHeightHover;
 
+    void Start()
+    {
+        originalRotation = Quaternion.Euler(1, 1, 1);
+    }
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         //pSystem.Play();
@@ -19,8 +25,7 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        {
-            gameObject.transform.localScale = new Vector3(sizeWidth, sizeHeight, 1);
-        }
+        gameObject.transform.localScale = new Vector3(sizeWidth, sizeHeight, 1);
     }
+
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,6 +18,7 @@ public class PlayerJumpState : PlayerBaseState
 
     public override void EnterState(PlayerStateController player)
     {
+        Debug.Log("entering jump state");
         base.EnterState(player);
 
         //massive amount of setup that could probably do with its own function
@@ -155,7 +157,11 @@ public class PlayerJumpState : PlayerBaseState
 
         moveDirection = new(0, 0, 0);
     }
+
+    public override void ExitState() { }
 }
+
+
 
 
 // unlocking rotation for now as allows player to roll around, embraces dice feel??
