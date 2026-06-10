@@ -89,7 +89,8 @@ public class BaseSlamAction : BaseEntityAction
     }
 
     public virtual void Slam()
-    {       
+    {
+        //Debug.Log("Started Slam");
         RaycastHit hit;
         Ray ray = new Ray(slamOrigin, Vector3.down);
         if (Physics.Raycast(ray, out hit, 20f, slamVariablesAccess.groundLayer))
@@ -102,6 +103,7 @@ public class BaseSlamAction : BaseEntityAction
 
     public virtual void ProcessHits(Collider[] colliders, RaycastHit hit)
     {
+       // Debug.Log("Started Processing");
         foreach (var collider in colliders)
         {
             if (attackInterrupted) { break; }
@@ -111,8 +113,9 @@ public class BaseSlamAction : BaseEntityAction
             Entity hitEntity = collider.gameObject.GetComponent<Entity>();
             if (hitEntity == null) { continue; }
             ApplyCustomEffectPerEntity(hitEntity);
-            
+            //Debug.Log("Processing Loop End");
         }
+       // Debug.Log("Slam Ending");
         EndAction();
     }
 
