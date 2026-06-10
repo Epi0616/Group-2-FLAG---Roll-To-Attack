@@ -21,6 +21,7 @@ public class NavMeshMovement : BaseEntityMovement
 
     public override void UpdateMovement()
     {        
+        if (ownerEntity == null) return;
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
         if (moveable.canMove == false) { EndMovement(); return; }
       

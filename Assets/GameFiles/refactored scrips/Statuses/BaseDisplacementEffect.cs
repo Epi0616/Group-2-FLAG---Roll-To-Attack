@@ -11,6 +11,11 @@ public class BaseDisplacementEffect : StatusEffect
         rbInterfaceAccess = entityRef as IUsesRigidBody;
         isActive = knockbackInterfaceAccess != null && rbInterfaceAccess != null;
 
+        if (entityRef is INavAgent temp)
+        {
+            temp.DisableAIAgent();
+        }
+
         if (knockbackInterfaceAccess == null)
         {
             Debug.Log("KB missing");

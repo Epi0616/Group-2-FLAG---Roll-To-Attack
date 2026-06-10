@@ -54,6 +54,7 @@ public class BaseSlamAction : BaseEntityAction
 
     public virtual void SpawnSlamStartVFX()
     {
+        if (attackInterrupted) { return; }
         impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.SlamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
         impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, true);
     }
@@ -61,8 +62,8 @@ public class BaseSlamAction : BaseEntityAction
     public virtual void SpawnSlamCompleteVFX() { }
 
     public override void UpdateAction()
-    {
-        if (attackInterrupted) { return; }
+    {       
+        if (attackInterrupted) { impactField.DestroyMe();  return; }
         chargeUpTimer += Time.deltaTime;
         if (chargeUpTimer > chargeTime && !chargeComplete)
         {
@@ -93,17 +94,18 @@ public class BaseSlamAction : BaseEntityAction
         //Debug.Log("Started Slam");
         RaycastHit hit;
         Ray ray = new Ray(slamOrigin, Vector3.down);
-        if (Physics.Raycast(ray, out hit, 20f, slamVariablesAccess.groundLayer))
+        if (Physics.Raycast(ray, out hit, 200f, slamVariablesAccess.groundLayer))
         {
-            
             Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange, ownerEntity.hostileMask);
             ProcessHits(colliders, hit);
         }
+
+        
     }
 
     public virtual void ProcessHits(Collider[] colliders, RaycastHit hit)
     {
-       // Debug.Log("Started Processing");
+        //Debug.Log("Started Processing");
         foreach (var collider in colliders)
         {
             if (attackInterrupted) { break; }

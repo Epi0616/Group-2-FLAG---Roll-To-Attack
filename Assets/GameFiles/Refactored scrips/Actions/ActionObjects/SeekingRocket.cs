@@ -100,7 +100,7 @@ public class SeekingRocket : MonoBehaviour
 
         if ((ownerEntity.hostileMask & (1 << target.layer)) > 0)
         {
-            Debug.Log("Target Hit");
+           // Debug.Log("Target Hit");
             DamageTarget(target.GetComponent<Entity>());
         }
     }

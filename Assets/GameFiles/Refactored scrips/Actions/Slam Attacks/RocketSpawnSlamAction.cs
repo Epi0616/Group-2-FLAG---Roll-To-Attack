@@ -12,8 +12,7 @@ public class RocketSpawnSlamAction : BaseSlamAction
 
     public int numRockets = 3;
     private float rocketInterval = 0.5f;
-    private float intervalTimer = 0;
-    private bool rocketsTriggered;
+    
     public RocketSpawnSlamAction() { }
     public RocketSpawnSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int numRockets) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
 
@@ -43,14 +42,20 @@ public class RocketSpawnSlamAction : BaseSlamAction
     }
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
-    {      
+    {
         ownerEntity.StartCoroutine(SpawnRockets(hitEntity));
+    }
+
+
+    public override void EndAction()
+    {
+        base.EndAction();
     }
 
     private IEnumerator SpawnRockets(Entity hitEntity)
     {
         int count = 0;
-        while (count < numRockets)
+        while (count < numRockets && !attackInterrupted)
         {          
             count++;
                 

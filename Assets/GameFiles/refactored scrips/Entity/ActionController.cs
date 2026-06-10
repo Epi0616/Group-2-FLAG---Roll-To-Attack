@@ -200,4 +200,12 @@ public class ActionController
         }
         return result;
     }
+
+    public void InterruptAllActive()
+    {
+        foreach (ConditionalAction action in activeActions)
+        {
+            action.action.InterruptAction();
+        }
+    }
 }

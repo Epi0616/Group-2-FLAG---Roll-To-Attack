@@ -16,6 +16,7 @@ MonoBehaviour:
     rid: 963243777686241353
   conditions:
   - rid: 963243828785184856
+  - rid: 963243899525005379
   allConditionsRequired: 1
   exclusive: 1
   priority: 0
@@ -27,6 +28,11 @@ MonoBehaviour:
       data: 
     - rid: 963243828785184856
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        name: Base
+    - rid: 963243899525005379
+      type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
         name: Base

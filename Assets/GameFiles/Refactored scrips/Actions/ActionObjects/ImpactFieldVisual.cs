@@ -23,6 +23,7 @@ public class ImpactFieldVisual : MonoBehaviour
 
     public void PassInValuesColorRadiusChargeTimeFlash(Color color, float radius, float chargeTime, bool flash)
     {
+        hasBeenDestroyed = false;
         this.color = color;
         this.radius = radius;
         this.chargeTime = chargeTime;
@@ -33,8 +34,6 @@ public class ImpactFieldVisual : MonoBehaviour
             StopCoroutine(fadeRoutine);
             fadeRoutine = null;
         }
-
-        hasBeenDestroyed = false;
 
         Color startColor = color;
         startColor.a = 0f;

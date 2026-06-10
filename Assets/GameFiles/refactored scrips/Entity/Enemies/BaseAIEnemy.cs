@@ -170,6 +170,10 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public void CheckForCanAct()
     {
         canAct = !statusSystem.CheckForActionBlockersStatus();
+        if (!canAct)
+        {
+            actionController.InterruptAllActive();
+        }
     }
 
     // IKnockbackable Interface Methods
