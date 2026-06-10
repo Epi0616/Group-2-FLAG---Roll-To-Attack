@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public interface IOrbitSpikeSpawner
 {
-    public int numSpikesPerSpawn {  get; set; }
+    //public int numSpikesPerSpawn {  get; set; }
     public float spikeLifeSpan { get; set; }
     public float orbitRadius { get; set; }
     public float initialOrbitSpeed { get; set; }

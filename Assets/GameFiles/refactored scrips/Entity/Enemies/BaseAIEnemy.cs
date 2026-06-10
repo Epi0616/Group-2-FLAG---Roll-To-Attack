@@ -4,7 +4,7 @@ using System.Drawing;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, ISlamActionRequirements, IPoisonSpawner, IOrbitSpikeSpawner, IVacuumSpawner
+public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, ISlamActionRequirements, IPoisonSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IRocketSpawner
 {
     // IGrounded Interface Properties
     [Header("IGrounded Properties")]
@@ -60,8 +60,8 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public List<BaseOrbitObject> orbitObjects { get => orbitObj; set => orbitObj = value; }
 
     [Header("IOrbitSpike Required Properties")]
-    [SerializeField] private int NumberOfSpikesPerSpawn = 5;
-    public int numSpikesPerSpawn { get => NumberOfSpikesPerSpawn; set => NumberOfSpikesPerSpawn = value; }
+    //[SerializeField] private int NumberOfSpikesPerSpawn = 5;
+    //public int numSpikesPerSpawn { get => NumberOfSpikesPerSpawn; set => NumberOfSpikesPerSpawn = value; }
     [SerializeField] private float SpikeLifeSpan = 10;
     public float spikeLifeSpan { get => SpikeLifeSpan; set => SpikeLifeSpan = value; }
     [SerializeField] private float SpikeOrbitRadius = 4;
@@ -79,6 +79,13 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public float mineChargeTime { get => VacuumMineDetonationTime; set => VacuumMineDetonationTime = value; }
     [SerializeField] private GameObject VacuumMinePrefab;
     public GameObject minePrefab { get => VacuumMinePrefab; set => VacuumMinePrefab = value; }
+
+    // IRocketSpawner intercae
+    [SerializeField] private int RocketDamage;
+    public int rocketDamage { get => RocketDamage; set => RocketDamage = value; }
+    [SerializeField] private GameObject RocketPrefab;
+    public GameObject rocketPrefab { get => RocketPrefab; set => RocketPrefab = value; }
+
 
     // ENEMY MOVEMENT AND ACTION PROPERTIES
     public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();

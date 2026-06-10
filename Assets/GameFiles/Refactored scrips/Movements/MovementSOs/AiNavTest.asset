@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
   m_Name: AiNavTest
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
-  variable: 1
   movement:
     rid: 963243777686241353
   conditions:
   - rid: 963243828785184856
+  allConditionsRequired: 1
+  exclusive: 1
+  priority: 0
   references:
     version: 2
     RefIds:
@@ -26,5 +28,5 @@ MonoBehaviour:
     - rid: 963243828785184856
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
-        isRequired: 1
+        inverse: 0
         name: Base
