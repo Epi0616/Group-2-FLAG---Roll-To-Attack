@@ -1690,6 +1690,8 @@ MonoBehaviour:
     conditions:
     - rid: 963243844844388425
     allConditionsRequired: 0
+    exclusive: 0
+    priority: 0
   actionDescriptors: []
   actions:
   - action:
@@ -2124,16 +2126,9 @@ MonoBehaviour:
     baseValue: 5
   movementDescriptors:
   - {fileID: 11400000, guid: 61b6851bd4f9d8448a097b34084e53a8, type: 2}
-  actions:
-  - action:
-      rid: 5154423847817838841
-    conditions:
-    - rid: 5154423847817838842
-    allConditionsRequired: 0
-    singleUse: 0
-    triggered: 0
-    exclusive: 1
-    priority: 0
+  - {fileID: 11400000, guid: 1eba1c10fc9560b4ca4cdff0d3dda29d, type: 2}
+  actionDescriptors:
+  - {fileID: 11400000, guid: 08bf4a9e7422fbe45bc99be6b8584cc6, type: 2}
   modifiableActionDescriptors:
   - {fileID: 11400000, guid: 84325c2a78662e14186cb7463eb12067, type: 2}
   JumpHeight:
@@ -2142,17 +2137,6 @@ MonoBehaviour:
     baseValue: 8
   ImpactSpeed:
     baseValue: 10
-  references:
-    version: 2
-    RefIds:
-    - rid: 5154423847817838841
-      type: {class: JumpAction, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 5154423847817838842
-      type: {class: AttackCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        name: Base
 --- !u!65 &2016936893
 BoxCollider:
   m_ObjectHideFlags: 0

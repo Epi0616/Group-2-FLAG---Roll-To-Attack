@@ -18,6 +18,7 @@ public class JumpAction : BaseEntityAction
     IGrounded grounded;
     IJumpable jumpable;
 
+    //public JumpAction() { }
     public override void StartAction(Entity entity)
     {
         //isComplete = false;

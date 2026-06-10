@@ -17,6 +17,9 @@ MonoBehaviour:
     rid: 5154423747726540870
   conditions:
   - rid: 5154423747726540872
+  allConditionsRequired: 1
+  exclusive: 1
+  priority: 0
   references:
     version: 2
     RefIds:
@@ -26,5 +29,5 @@ MonoBehaviour:
     - rid: 5154423747726540872
       type: {class: InputMovementCondition, ns: , asm: Assembly-CSharp}
       data:
-        isRequired: 1
+        inverse: 0
         name: Base

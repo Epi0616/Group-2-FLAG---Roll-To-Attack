@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class MovementController
 {
@@ -46,6 +47,8 @@ public class MovementController
 
     public void CheckForValidMovements()
     {
+        List<ConditionalMovement> potentialExclusiveMovements = new List<ConditionalMovement>();
+
         for (int i = availableMovements.Count - 1; i >= 0; i--)
         {
             ConditionalMovement movement = availableMovements[i];
@@ -76,19 +79,47 @@ public class MovementController
 
             if (allRequiredConditionsMet && moveInterfaceAccess.canMove)
             {
-                activeMovements.Add(movement);
-                availableMovements.Remove(movement);
-                movement.movement.StartMovement(entity);
+                if (movement.exclusive)
+                {
+                    potentialExclusiveMovements.Add(movement);
+                }
+                else 
+                {
+                    activeMovements.Add(movement);
+                    availableMovements.Remove(movement);
+                    movement.movement.StartMovement(entity);
+                }
+
             }
             else if (anyNonRequiredPresent && !movement.allConditionsRequired && moveInterfaceAccess.canMove)
             {
-                activeMovements.Add(movement);
-                availableMovements.Remove(movement);
-                movement.movement.StartMovement(entity);
+                if (movement.exclusive)
+                {
+                    potentialExclusiveMovements.Add(movement);
+                }
+                else
+                {
+                    activeMovements.Add(movement);
+                    availableMovements.Remove(movement);
+                    movement.movement.StartMovement(entity);
+                }
             }
 
         }
+
+        //if there are exlcusive actions to choose from and there are no active exclusive actions, choose one to activate.
+        if (potentialExclusiveMovements.Count <= 0) return;
+        foreach (ConditionalMovement movement in activeMovements)
+        {
+            if (movement.exclusive)
+            {
+                return;
+            }
+        }
+
+        ActivateExclusiveMovement(potentialExclusiveMovements);
     }
+
 
     // Old Version
 
@@ -115,56 +146,96 @@ public class MovementController
     //      }
     //}
 
+    private void ActivateExclusiveMovement(List<ConditionalMovement> potentialActiveMovements)
+    {
+        List<ConditionalMovement> lowestPriorityActiveMovements = new List<ConditionalMovement>();
+
+        for (int i = 0; i < potentialActiveMovements.Count; i++)
+        {
+            ConditionalMovement movement = potentialActiveMovements[i];
+            //fill list if empty
+            if (lowestPriorityActiveMovements.Count <= 0)
+            {
+                lowestPriorityActiveMovements.Add(movement);
+                continue;
+            }
+            //add to list if same priority as current lowest
+            if (movement.priority == lowestPriorityActiveMovements[0].priority)
+            {
+                lowestPriorityActiveMovements.Add(movement);
+            }
+            //empty list and add action if its lowest priority so far
+            else if (movement.priority < lowestPriorityActiveMovements[0].priority)
+            {
+                lowestPriorityActiveMovements.Clear();
+                lowestPriorityActiveMovements.Add(movement);
+            }
+        }
+
+        //if there is only one lowest priority movement, use it.
+        ConditionalMovement chosenMovement = lowestPriorityActiveMovements[0];
+        //if there are multiple movements, use one at random.
+        if (lowestPriorityActiveMovements.Count > 1)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, lowestPriorityActiveMovements.Count);
+            chosenMovement = lowestPriorityActiveMovements[randomIndex];
+        }
+
+        Debug.Log("active movement chosen");
+        activeMovements.Add(chosenMovement);
+        availableMovements.Remove(chosenMovement);
+        chosenMovement.movement.StartMovement(entity);
+    }
 
     public void CheckForInvalidMovements()
-    {
-        for (int i = activeMovements.Count - 1; i >= 0; i--)
         {
-            ConditionalMovement movement = activeMovements[i];
-            List<BaseCondition> conditions = movement.conditions;
-            bool allRequiredConditionsMet = false;
-            bool anyNonRequiredPresent = false;
-            foreach (BaseCondition condition in conditions)
+            for (int i = activeMovements.Count - 1; i >= 0; i--)
             {
-                condition.ConditionUpdate();
-
-                allRequiredConditionsMet = true;
-
-                if (movement.allConditionsRequired)
+                ConditionalMovement movement = activeMovements[i];
+                List<BaseCondition> conditions = movement.conditions;
+                bool allRequiredConditionsMet = false;
+                bool anyNonRequiredPresent = false;
+                foreach (BaseCondition condition in conditions)
                 {
+                    condition.ConditionUpdate();
 
-                    if (!condition.IsConditionMet())
+                    allRequiredConditionsMet = true;
+
+                    if (movement.allConditionsRequired)
                     {
-                        allRequiredConditionsMet = false;
-                        break;
+
+                        if (!condition.IsConditionMet())
+                        {
+                            allRequiredConditionsMet = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (condition.IsConditionMet())
+                        {
+                            anyNonRequiredPresent = true;
+                        }
                     }
                 }
-                else
-                {
-                    if (condition.IsConditionMet())
-                    {
-                        anyNonRequiredPresent = true;
-                    }
-                }
-            }
 
-            if (!allRequiredConditionsMet && movement.allConditionsRequired)
-            {
-                availableMovements.Add(movement);
-                activeMovements.Remove(movement);
-                movement.movement.EndMovement();
-                movement.ResetConditionsAll();
-            }
-            else if (!anyNonRequiredPresent && !movement.allConditionsRequired)
-            {
-                availableMovements.Add(movement);
-                activeMovements.Remove(movement);
-                movement.movement.EndMovement();
-                movement.ResetConditionsAll();
+                if (!allRequiredConditionsMet && movement.allConditionsRequired)
+                {
+                    availableMovements.Add(movement);
+                    activeMovements.Remove(movement);
+                    movement.movement.EndMovement();
+                    movement.ResetConditionsAll();
+                }
+                else if (!anyNonRequiredPresent && !movement.allConditionsRequired)
+                {
+                    availableMovements.Add(movement);
+                    activeMovements.Remove(movement);
+                    movement.movement.EndMovement();
+                    movement.ResetConditionsAll();
+                }
             }
         }
     }
-}
 
     // Old Version
 

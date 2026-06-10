@@ -18,8 +18,7 @@ public class AlwaysTrueCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
-        if (inverse) return false;
-        return true;
+        return !inverse;
     }
     public override BaseCondition Clone()
     {

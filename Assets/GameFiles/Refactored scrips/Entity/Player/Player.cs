@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable
 {
@@ -16,17 +17,18 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [Header("IMoveable")]
     [SerializeField] private bool CanMove = true;
     [SerializeField] private Stat MovementSpeed = new Stat(5f);
-    public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
+    [SerializeField] private List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
     private List<ConditionalMovement> movements = new List<ConditionalMovement>();
     public bool canMove { get => CanMove; set => CanMove = value; }
     public Stat movementSpeed { get => MovementSpeed; set => MovementSpeed = value; }
     public MovementController movementController { get; set; }
 
     [Header("IActionable")]
-    //public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
-    [SerializeField] private List<ConditionalAction> actions = new List<ConditionalAction>();
+    public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
+    private List<ConditionalAction> actions = new List<ConditionalAction>();
+    private bool CanAct = true;
     public ActionController actionController { get; set; }
-    public bool canAct { get; set; }
+    public bool canAct { get => CanAct; set => CanAct = value; }
 
     [Header("IModifiableActions")]
     [SerializeField] private List<ModifiableActionDescriptor> modifiableActionDescriptors = new List<ModifiableActionDescriptor>();
@@ -59,10 +61,10 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         movementController = new MovementController(this, movements);
         movementController.Initialize();
 
-        //foreach (var action in actionDescriptors)
-        //{
-        //    actions.Add(action.Create());
-        //}
+        foreach (var action in actionDescriptors)
+        {
+            actions.Add(action.Create());
+        }
         actionController = new ActionController(this, actions);
         actionController.Initialize();
 
@@ -73,7 +75,6 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         actionSelectionSystem = new ActionSelectionSystem(this);
 
         statList.Add(movementSpeed);
-
     }
 
     protected override void Update()
