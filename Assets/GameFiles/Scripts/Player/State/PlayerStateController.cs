@@ -13,7 +13,7 @@ public class PlayerStateController : MonoBehaviour
     public OldAbilitySystem abilitySystem;
     public AttackSystem attackSystem;
     public HealthSystem healthSystem;
-    public PlayerBodySystem bodySystem;
+    public OldPlayerBodySystem bodySystem;
     public BoxCollider boxCollider;
     //public GameObject body;
     public bool isGrounded;
@@ -23,8 +23,6 @@ public class PlayerStateController : MonoBehaviour
     public LayerMask pedestalLayer;
     public bool pauseUiActive = false, selectionUiActive = false;
     [SerializeField] private LayerMask groundLayer;
-
-    public static event Action<float> ShakeScreen;
 
     [Header("For modification")]
 
@@ -117,7 +115,7 @@ public class PlayerStateController : MonoBehaviour
     public void SwitchState(PlayerBaseState newState)
     {
         if (newState == null)
-        { 
+        {
             Debug.LogError("Trying to switch to a state that doesn't exist.");
             return;
         }
@@ -128,8 +126,8 @@ public class PlayerStateController : MonoBehaviour
     }
 
     public void AddScreenShake(float magnitude)
-    { 
-        ShakeScreen?.Invoke(magnitude);
+    {
+        //ShakeScreen?.Invoke(magnitude);
     }
 
     private void CheckForGrounded()
@@ -156,7 +154,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void CheckForAttackAction()
     {
-        if (isAttacking) return; 
+        if (isAttacking) return;
 
         if (attack.action.WasPressedThisFrame())
         {
@@ -244,42 +242,42 @@ public class PlayerStateController : MonoBehaviour
 
     private void CancelChargeEffect()
     {
-        AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
-        holdTime = 0f;
-        chargeComplete = false;
+        //AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+        //holdTime = 0f;
+        //chargeComplete = false;
 
-        moveSpeed.ResetModifiers();
-        bodySystem.ResetChargingEffects();
+        //moveSpeed.ResetModifiers();
+        //bodySystem.ResetChargingEffects();
     }
 
     private void ChargingEffect()
     {
-        float moveSpeedMultiplier = ((2 - holdTime) / 2);
-        moveSpeedMultiplier = Mathf.Clamp(moveSpeedMultiplier, 0.35f, 1);
+        //float moveSpeedMultiplier = ((2 - holdTime) / 2);
+        //moveSpeedMultiplier = Mathf.Clamp(moveSpeedMultiplier, 0.35f, 1);
 
-        moveSpeed.SetMultiplier(moveSpeedMultiplier);
-        bodySystem.ShakeDiceBody(2 / moveSpeedMultiplier);
+        //moveSpeed.SetMultiplier(moveSpeedMultiplier);
+        //bodySystem.ShakeDiceBody(2 / moveSpeedMultiplier);
 
-        if (holdTime < 0.2)
-        {
-            bodySystem.ResetChargingEffects();
-            chargeComplete = false;
-            return;
-        }
+        //if (holdTime < 0.2)
+        //{
+        //    bodySystem.ResetChargingEffects();
+        //    chargeComplete = false;
+        //    return;
+        //}
 
-        if (holdTime < 1)
-        {
-            bodySystem.DisplayChargingEffect();
-            chargeComplete = false;
-            return;
-        }
+        //if (holdTime < 1)
+        //{
+        //    bodySystem.DisplayChargingEffect();
+        //    chargeComplete = false;
+        //    return;
+        //}
 
-        if (!chargeComplete)
-        {
-            bodySystem.ResetChargingEffects();
-            bodySystem.DisplayChargeCompleteEffect();
-            chargeComplete = true;
-        }
+        //if (!chargeComplete)
+        //{
+        //    bodySystem.ResetChargingEffects();
+        //    bodySystem.DisplayChargeCompleteEffect();
+        //    chargeComplete = true;
+        //}
     }
 
     private void DiceFaceSelectionStart()

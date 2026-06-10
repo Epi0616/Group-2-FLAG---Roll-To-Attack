@@ -6,18 +6,18 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public GameObject body;
     public Quaternion originalRotation;
 
-    public void InitialiseSystem(Entity entity)
+    public virtual void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
         originalRotation = body.transform.rotation;
     }
 
-    public void Vibrate()
+    public virtual void Vibrate()
     { 
     
     }
 
-    public void Wobble(float magnitude)
+    public virtual void Wobble(float magnitude)
     {
         float x = Mathf.Sin(Time.time * 50f) * magnitude;
         float y = Mathf.Sin(Time.time * 50f) * magnitude;
@@ -25,7 +25,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         body.transform.rotation = originalRotation * Quaternion.Euler(x, y, z);
     }
 
-    public void ResetSystem()
+    public virtual void ResetSystem()
     {
         // Reset body system state if needed
     }

@@ -52,6 +52,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     {
         base.Start();
         inputManager = GetComponent<EntityInputManager>();
+        inputManager.Initialise(this);
         rb = GetComponent<Rigidbody>();
 
         foreach (var movement in movementDescriptors)

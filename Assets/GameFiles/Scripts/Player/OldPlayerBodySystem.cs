@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class PlayerBodySystem : MonoBehaviour
+public class OldPlayerBodySystem : MonoBehaviour
 {
     public GameObject body;
     public Quaternion originalRotation;

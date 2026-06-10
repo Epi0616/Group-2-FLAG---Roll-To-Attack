@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 [Serializable]
 public class JumpAction : BaseEntityAction
 {
+    public static event Action<float> ShakeScreen;
+
     Rigidbody rb;
     private float jumpHeight = 5f, jumpSpeed = 5f;
     private float startHeight = 0f, targetHeight = 5f;
@@ -80,6 +82,7 @@ public class JumpAction : BaseEntityAction
             return;
         }
 
+        ApplyScreenShake();
         EndAction();
     }
     public override void InterruptAction()
@@ -143,6 +146,14 @@ public class JumpAction : BaseEntityAction
         Vector3 targetVelocity = Vector3.zero;
         targetVelocity.y = rb.linearVelocity.y - jumpable.impactSpeed.GetFinalValue();
         rb.linearVelocity = targetVelocity;
+    }
+
+    private void ApplyScreenShake()
+    {
+        if (isComplete) return;
+
+        float magnitude = jumpable.impactSpeed.GetFinalValue() / jumpable.impactSpeed.GetBaseValue() * 2;
+        ShakeScreen(magnitude);
     }
 
     public override BaseEntityAction Clone()
