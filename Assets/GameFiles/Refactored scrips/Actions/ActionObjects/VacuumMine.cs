@@ -53,7 +53,8 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
     {
         if (statusEffect.effect.type == StatusType.Knockback)
         {
-            rb.constraints = RigidbodyConstraints.None;
+            
+  
             statusSystem.OnRecieveEffect(statusEffect);
         }
     }
@@ -96,7 +97,6 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
     private void DestroyMe()
     {
         rb.linearVelocity = Vector3.zero;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
