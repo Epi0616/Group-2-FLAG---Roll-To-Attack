@@ -4,7 +4,7 @@ using System.Drawing;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, ISlamActionRequirements, IPoisonSpawner, IOrbitSpikeSpawner
+public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, ISlamActionRequirements, IPoisonSpawner, IOrbitSpikeSpawner, IVacuumSpawner
 {
     // IGrounded Interface Properties
     [Header("IGrounded Properties")]
@@ -59,8 +59,6 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public int fieldTickDamage { get => PoisonFieldDamageTick; set => PoisonFieldDamageTick = value; }
 
     // IOrbitSpikeSpawner Interface
-    
-
     private List<BaseOrbitObject> orbitObj = new List<BaseOrbitObject>();
     public List<BaseOrbitObject> orbitObjects { get => orbitObj; set => orbitObj = value; }
 
@@ -77,6 +75,13 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public int spikeDamage { get => SpikeDamage; set => SpikeDamage = value; }
     [SerializeField] private GameObject SpikePrefab;
     public GameObject spikePrefab { get => SpikePrefab; set => SpikePrefab = value; }
+
+    // IVacuumSpawner Interface
+
+    [SerializeField] private float VacuumMineDetonationTime = 5;
+    public float mineChargeTime { get => VacuumMineDetonationTime; set => VacuumMineDetonationTime = value; }
+    [SerializeField] private GameObject VacuumMinePrefab;
+    public GameObject minePrefab { get => VacuumMinePrefab; set => VacuumMinePrefab = value; }
 
     // ENEMY MOVEMENT AND ACTION PROPERTIES
     public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
@@ -167,6 +172,14 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public void CheckForDisplacement()
     {
         isBeingDisplaced = statusSystem.CheckForDisplacementStatus();
+        if (isBeingDisplaced)
+        {
+            DisableAIAgent();
+        }
+        else
+        {
+            EnableAIAgent();
+        }
     }
 
     // IOrbitSpike Interface Methods

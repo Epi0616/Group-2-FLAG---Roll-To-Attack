@@ -25,11 +25,19 @@ public abstract class StatusEffect
 
     public StatusType type;
 
-    protected Entity entityRef;
+    public Entity entityRef;
 
     public void AddEffect(Entity entity)
     {
         entityRef = entity;
+        if (entity == null)
+        {
+            Debug.Log("Passed Entity is NULL");
+        }
+        else if (entityRef == null)
+        {
+            Debug.Log("Held Reference is NULL");
+        }
         OnApplication();
     }
 

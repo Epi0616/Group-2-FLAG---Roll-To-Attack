@@ -10,12 +10,17 @@ public class VacuumDisplacementEffect : BaseDisplacementEffect
         this.origin = origin;
         this.force = force;
         type = StatusType.Knockback;
+        preventsMovement = true;
+        preventsAction = true;
+        isDisplacing = true;
+        isStackable = true;
     }
 
     protected override void OnApplication()
     {
         base.OnApplication();
-
+        if (!isActive) return;
+        Debug.Log("Active Vacuum Applied");
         rbInterfaceAccess.rb.linearVelocity = Vector3.zero;
         Vector3 targetVector = (entityRef.transform.position - origin);
 

@@ -59,9 +59,13 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             }
         }
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
-        currentActiveStatusEffects.Add(newStatus);
+        
         newStatus.effect.AddEffect(OwnerEntity);
-
+        foreach (BaseCondition condition in newStatus.conditions)
+        {
+            condition.Initialize(OwnerEntity);
+        }
+        currentActiveStatusEffects.Add(newStatus);
         // The Effect Display will be handled by the Entity itself not the Status System 
 
     }

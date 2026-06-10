@@ -10,6 +10,10 @@ public class GolemKnockBackEffect : BaseDisplacementEffect
         this.origin = origin;
         this.force = force;
         type = StatusType.Knockback;
+        preventsMovement = true;
+        preventsAction = true;
+        isDisplacing = true;
+        isStackable = true;
     }
 
     protected override void OnApplication()

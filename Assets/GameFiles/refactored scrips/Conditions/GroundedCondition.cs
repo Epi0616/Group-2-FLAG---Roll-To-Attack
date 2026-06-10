@@ -7,8 +7,8 @@ public class GroundedCondition : BaseCondition
     private Entity ownerEntity;
     private IGrounded groundInterfaceAccess;
 
-    GroundedCondition() { }
-    GroundedCondition(bool inverse)
+    public GroundedCondition() { }
+    public GroundedCondition(bool inverse)
     {
         this.inverse = inverse;
     }

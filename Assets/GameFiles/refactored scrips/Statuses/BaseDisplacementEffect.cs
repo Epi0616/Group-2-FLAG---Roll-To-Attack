@@ -11,6 +11,19 @@ public class BaseDisplacementEffect : StatusEffect
         rbInterfaceAccess = entityRef as IUsesRigidBody;
         isActive = knockbackInterfaceAccess != null && rbInterfaceAccess != null;
 
+        if (knockbackInterfaceAccess == null)
+        {
+            Debug.Log("KB missing");
+        }
+        if (rbInterfaceAccess == null)
+        {
+            Debug.Log("RB missing");
+        }
+        if (entityRef == null)
+        {
+            Debug.Log("Entity Missing");
+        }
+
         if (!isActive) { toBeRemoved = true; return; }
 
         preventsMovement = true;
