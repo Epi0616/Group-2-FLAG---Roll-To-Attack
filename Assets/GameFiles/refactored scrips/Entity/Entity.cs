@@ -22,18 +22,21 @@ public class Entity : MonoBehaviour, IEntity
         bodySystem.InitialiseSystem(this);
         statusSystem.InitialiseSystem(this);
         healthSystem.InitialiseSystem(this);
+        textDisplaySystem.InitialiseSystem(this);
     }
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
         int finalDamage = statusSystem.ModifyDamage(amount, damageType);
-        //textDisplaySystem.DisplayText(finalDamage.ToString(), color, 20);
-        Debug.Log("DAMAGE TAKEN: " + amount);
+        float size = Mathf.Clamp(10 + (finalDamage * 1.1f), 48f, 240f);
+        textDisplaySystem.DisplayText(finalDamage.ToString(), color,(int) size);
+        //Debug.Log("DAMAGE TAKEN: " + amount);
         healthSystem.OnTakeDamage(finalDamage);
     }
     public virtual void OnRecieveEffect(ActiveStatusEffect statusEffect, Color effectColour)
     {
-        //textDisplaySystem.DisplayText(statusEffect.effect.GetEffectText(), effectColour, 20);
+
+        textDisplaySystem.DisplayHigherText(statusEffect.effect.GetEffectText(), effectColour, 52);
 
         statusSystem.OnRecieveEffect(statusEffect);
     }

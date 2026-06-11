@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7513558762892348773}
   - component: {fileID: 4831820165640533573}
   - component: {fileID: 7763164246418716471}
+  - component: {fileID: -8321746254293056796}
   m_Layer: 14
   m_Name: New Test Golem
   m_TagString: Enemy
@@ -131,7 +132,7 @@ MonoBehaviour:
   healthSystem: {fileID: 4831820165640533573}
   statusSystem: {fileID: 7513558762892348773}
   bodySystem: {fileID: 7763164246418716471}
-  textDisplaySystem: {fileID: 0}
+  textDisplaySystem: {fileID: -8321746254293056796}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -206,6 +207,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityBodySystem
   body: {fileID: 7993172180229192925}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &-8321746254293056796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4966313164922115789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d2e1972d34b5d4fba9b2113a86edf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
+  targetCamera: {fileID: 0}
+  textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
 --- !u!1 &8892300649375301092
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,15 +263,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c432e3f757b163d4d8b6e186c5973344, type: 3}
       propertyPath: m_LocalScale.x
-      value: 180.9
+      value: 221.07
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c432e3f757b163d4d8b6e186c5973344, type: 3}
       propertyPath: m_LocalScale.y
-      value: 180.9
+      value: 221.07
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c432e3f757b163d4d8b6e186c5973344, type: 3}
       propertyPath: m_LocalScale.z
-      value: 8.78583
+      value: 10.73678
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c432e3f757b163d4d8b6e186c5973344, type: 3}
       propertyPath: m_LocalPosition.x

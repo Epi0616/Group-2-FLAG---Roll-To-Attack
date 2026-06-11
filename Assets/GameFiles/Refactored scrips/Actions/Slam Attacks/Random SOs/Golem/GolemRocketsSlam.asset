@@ -17,7 +17,6 @@ MonoBehaviour:
     rid: 963243912890679372
   conditions:
   - rid: 963243912890679374
-  - rid: 963243912890679373
   allConditionsRequired: 1
   singleUse: 0
   exclusive: 1
@@ -36,15 +35,9 @@ MonoBehaviour:
         SlamPositionOffset: {x: 0, y: 0, z: 10}
         DoesActionPreventMovement: 1
         numRockets: 3
-    - rid: 963243912890679373
-      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        name: Base
-        duration: 3
     - rid: 963243912890679374
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
         name: Base
-        distanceThreshold: 13
+        distanceThreshold: 17

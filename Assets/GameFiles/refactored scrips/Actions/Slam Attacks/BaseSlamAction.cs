@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 [Serializable]
 public class BaseSlamAction : BaseEntityAction, ISlam
@@ -144,6 +145,20 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             //Debug.Log("Processing Loop End");
         }
        // Debug.Log("Slam Ending");
+        if (ownerEntity is ISlamActionWithCooldown temp)
+        {
+            ownerEntity.StartCoroutine(slamCD(temp.cooldownTime));
+        }
+        else
+        {
+            EndAction();
+        }
+            
+    }
+
+    public virtual IEnumerator slamCD(float amount)
+    {
+        yield return new WaitForSeconds(amount);
         EndAction();
     }
 

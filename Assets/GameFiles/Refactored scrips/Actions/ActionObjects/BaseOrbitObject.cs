@@ -29,7 +29,7 @@ public class BaseOrbitObject : MonoBehaviour , IOrbitObject
         this.ownerEntity = ownerEntity;
         lifeSpan = lifetime;
         this.anchorObj = anchorObj;
-        tempY = anchorObj.transform.position.y + 10f;
+        tempY = anchorObj.transform.position.y + 30f;
         damage = objDamage;
 
     }

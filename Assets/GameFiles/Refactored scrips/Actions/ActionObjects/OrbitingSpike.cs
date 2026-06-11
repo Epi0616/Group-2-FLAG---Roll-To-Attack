@@ -6,6 +6,7 @@ public class OrbitingSpike : BaseOrbitObject
     protected override void OnTriggerEnter(Collider other)
     {
         GameObject target = other.gameObject;
+        if (target.CompareTag("EntitySpawnable")) { return; }
 
         if ((ownerEntity.hostileMask & (1 << target.layer)) > 0)
         {

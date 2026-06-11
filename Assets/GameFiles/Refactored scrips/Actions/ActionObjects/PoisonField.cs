@@ -66,6 +66,8 @@ public class PoisonField : MonoBehaviour
         foreach (var collider in colliders)
         {
             if (!collider.gameObject) { continue; }
+            if (collider.gameObject == ownerEntity) { continue; }
+            if (collider.gameObject.CompareTag("EntitySpawnable")) { continue; } 
             
             //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
             collider.gameObject.GetComponent<Entity>().OnTakeDamage(poisonTickDMG, slamColour, DamageType.Normal);
