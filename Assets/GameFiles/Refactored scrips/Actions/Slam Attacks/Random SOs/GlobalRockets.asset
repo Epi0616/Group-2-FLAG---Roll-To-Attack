@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
-  m_Name: SpikeSlam
+  m_Name: GlobalRockets
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   variable: 1
   action:
-    rid: 963243866989003069
+    rid: 963243912890679381
   conditions:
-  - rid: 963243866989003071
+  - rid: 963243912890679382
   allConditionsRequired: 1
   singleUse: 0
   exclusive: 1
@@ -24,18 +24,19 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 963243866989003069
-      type: {class: SpikeSpawnSlamAction, ns: , asm: Assembly-CSharp}
+    - rid: 963243912890679381
+      type: {class: RocketSpawnSlamAction, ns: , asm: Assembly-CSharp}
       data:
-        SlamDamage: 15
-        SlamColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+        SlamDamage: 0
+        SlamColor: {r: 0.6981132, g: 0.24452366, b: 0, a: 0}
         ChargeTime: 0
-        SlamRange: 8
+        SlamRange: 1000
         SlamPositionOffset: {x: 0, y: 0, z: 0}
         DoesActionPreventMovement: 0
-    - rid: 963243866989003071
+        numRockets: 6
+    - rid: 963243912890679382
       type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
         name: Base
-        duration: 3
+        duration: 10
