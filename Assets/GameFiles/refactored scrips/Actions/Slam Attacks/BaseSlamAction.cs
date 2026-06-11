@@ -138,7 +138,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             if (attackInterrupted) { break; }
             if (collider == null) continue;
             if (collider.gameObject == ownerEntity.gameObject) { continue; }
-            //Debug.Log("HIT A THING");
+            if (collider.gameObject.CompareTag("EntitySpawnable")) { continue; }
             Entity hitEntity = collider.gameObject.GetComponent<Entity>();
             if (hitEntity == null) { continue; }
             ApplyCustomEffectPerEntity(hitEntity);
