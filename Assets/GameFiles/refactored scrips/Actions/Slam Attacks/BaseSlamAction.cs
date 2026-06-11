@@ -77,7 +77,12 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             chargeComplete = true;
             SpawnSlamCompleteVFX();
             ExtraSlamEffect();
-           // Debug.Log("SLAMMING");
+            // Debug.Log("SLAMMING");
+
+            if (slamRange.GetFinalValue() > slamRange.GetBaseValue())
+            {
+                triggerPillars();
+            }
             Slam();
         }
     }
@@ -105,6 +110,22 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         {
             Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange.GetFinalValue(), ownerEntity.hostileMask);
             ProcessHits(colliders, hit);
+        }
+    }
+
+    public virtual void triggerPillars()
+    {
+        Debug.Log("enter trigger pillars");
+        RaycastHit hit;
+        Ray ray = new Ray(slamOrigin, Vector3.down);
+        if (Physics.Raycast(ray, out hit, 200f, slamVariablesAccess.groundLayer))
+        {
+            Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange.GetFinalValue(), slamVariablesAccess.pedestalLayer);
+            foreach (Collider collider in colliders)
+            {
+                collider.gameObject.GetComponent<DicePedestal>().ActivatePedestalWithHeavy();
+                Debug.Log("looping for pillar");
+            }
         }
     }
 

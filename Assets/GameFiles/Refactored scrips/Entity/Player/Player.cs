@@ -58,7 +58,9 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [Header("ISlamActionRequirements")]
     //[SerializeField] private LayerMask GroundLayer;
     [SerializeField] private GameObject SlamImpactField;
+    [SerializeField] private LayerMask PedestalLayer;
     //public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
+    public LayerMask pedestalLayer { get => PedestalLayer; set => PedestalLayer = value; }
     public GameObject slamImpactField { get => SlamImpactField; set => SlamImpactField = value; }
 
     [Header("IPoisonSpawner")]

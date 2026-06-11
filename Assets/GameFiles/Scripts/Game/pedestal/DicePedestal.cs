@@ -55,8 +55,6 @@ public class DicePedestal : MonoBehaviour
 
         seed = Random.Range(0, 10000);
         Debug.Log(Time.timeScale);
-
-        ActivatePedestalWithHeavy();
     }
 
     private void Update()

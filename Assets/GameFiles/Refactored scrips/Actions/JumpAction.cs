@@ -66,9 +66,14 @@ public class JumpAction : BaseEntityAction
         targetRotation = rotationMap[index];
         Debug.Log(index);
 
-        if (targetAction.action is ISlam && (jumpable.impactSpeed.GetFinalValue() > jumpable.impactSpeed.GetBaseValue()))
+        if (targetAction.action is ISlam)
         {
-            (targetAction.action as ISlam).slamRange.AddMultiplierFlat(1.5f);
+            (targetAction.action as ISlam).slamRange.ResetModifiers();
+            if ((jumpable.impactSpeed.GetFinalValue() > jumpable.impactSpeed.GetBaseValue()))
+            {
+                (targetAction.action as ISlam).slamRange.AddMultiplierFlat(1.5f);
+            }
+
         }
         (ownerEntity as IActionable).actionController.availableActions.Add(targetAction);
     }
