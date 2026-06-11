@@ -12,16 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b4fd156c01f3824e83f8635e0041ac4, type: 3}
   m_Name: PlayerBasic
   m_EditorClassIdentifier: Assembly-CSharp::ModifiableActionObject
-  action:
-    action:
-      rid: 5154423891078414457
-    conditions:
-    - rid: 5154423891078414337
-    allConditionsRequired: 0
-    singleUse: 1
-    triggered: 0
-    exclusive: 1
-    priority: 0
+  action: {fileID: 11400000, guid: 254b75e7614994e489fa67a53dc00b3c, type: 2}
   weighting: 100
   actionName:
     m_TableReference:
@@ -44,18 +35,4 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 0200cdc353112f84c8f7bf1c5cd302d6, type: 3}
   references:
     version: 2
-    RefIds:
-    - rid: 5154423891078414337
-      type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        name: Base
-    - rid: 5154423891078414457
-      type: {class: BaseSlamAction, ns: , asm: Assembly-CSharp}
-      data:
-        slamDamage: 100
-        slamColour: {r: 1, g: 0, b: 0, a: 1}
-        chargeTime: 0
-        slamRange: 10
-        slamPositionOffset: {x: 0, y: 0, z: 0}
-        DoesActionPreventMovement: 0
+    RefIds: []

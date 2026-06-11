@@ -8,7 +8,7 @@ public class PoisonSlamAction : BaseSlamAction
     
     public PoisonSlamAction() { }
 
-    public PoisonSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
+    public PoisonSlamAction(int slamDamage, float chargeTime, Stat slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
    
     
 
@@ -26,13 +26,13 @@ public class PoisonSlamAction : BaseSlamAction
     public override void SpawnSlamStartVFX()
     {
         impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
-        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, false);
+        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange.GetFinalValue(), chargeTime, false);
     }
 
     public override void ExtraSlamEffect()
     {
         GameObject poisonField = ObjectPoolManager.SpawnObject(poisonAccess.poisonFieldObj, slamOrigin, Quaternion.identity);
-        poisonField.GetComponent<PoisonField>().Initialize(ownerEntity, slamRange, poisonAccess.fieldLifetime, poisonAccess.fieldTickDamage, slamColour);
+        poisonField.GetComponent<PoisonField>().Initialize(ownerEntity, slamRange.GetFinalValue(), poisonAccess.fieldLifetime, poisonAccess.fieldTickDamage, slamColour);
     }
 
     public override BaseEntityAction Clone()

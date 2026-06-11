@@ -5,7 +5,7 @@ using UnityEngine.Localization;
 public class ModifiableActionDescriptor : ScriptableObject
 {
     // functionality
-    public ConditionalAction action;
+    public ConditionalActionDescriptor action;
     public int weighting = 100;
 
     //description

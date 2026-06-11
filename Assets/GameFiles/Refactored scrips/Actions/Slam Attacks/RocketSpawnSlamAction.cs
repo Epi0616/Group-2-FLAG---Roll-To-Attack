@@ -14,7 +14,7 @@ public class RocketSpawnSlamAction : BaseSlamAction
     private float rocketInterval = 0.5f;
     
     public RocketSpawnSlamAction() { }
-    public RocketSpawnSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int numRockets) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
+    public RocketSpawnSlamAction(int slamDamage, float chargeTime, Stat slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int numRockets) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
 
     public override void StartAction(Entity entity)
     {
@@ -34,7 +34,7 @@ public class RocketSpawnSlamAction : BaseSlamAction
     public override void SpawnSlamStartVFX()
     {
         impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
-        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, true);
+        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange.GetFinalValue(), chargeTime, true);
     }
 
     public override void ExtraSlamEffect()

@@ -170,7 +170,8 @@ MonoBehaviour:
   CanMove: 1
   MovementSpeed:
     baseValue: 10
-  CanAct: 1
+  ConditionalMovementDescriptors: []
+  ConditionalActionDescriptors: []
   WeightModifier:
     baseValue: 1
   SlammedDMGMod:
@@ -181,7 +182,6 @@ MonoBehaviour:
   PoisonFieldPrefab: {fileID: 113574429688223637, guid: a5b33ee770a26d84da3bc26642f27f5a, type: 3}
   PoisonFieldLifeTime: 10
   PoisonFieldDamageTick: 1
-  NumberOfSpikesPerSpawn: 1
   SpikeLifeSpan: 10
   SpikeOrbitRadius: 4
   SpikeOrbitSpeed: 180
@@ -189,6 +189,8 @@ MonoBehaviour:
   SpikePrefab: {fileID: 3002882421794928880, guid: c8ee6abd735f657439cea3c99ac68da8, type: 3}
   VacuumMineDetonationTime: 5
   VacuumMinePrefab: {fileID: 0}
+  RocketDamage: 0
+  RocketPrefab: {fileID: 0}
   movementDescriptors:
   - {fileID: 11400000, guid: fb496c70cf88b8248b8065f9f0094b81, type: 2}
   movements: []

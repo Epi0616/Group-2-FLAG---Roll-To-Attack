@@ -8,7 +8,7 @@ public class ModifiableAction
 {
     // functionality
     [SerializeField]
-    public ConditionalAction conditionalAction;
+    public ConditionalActionDescriptor conditionalActionDescriptor;
     public int weighting = 100;
 
     //description
@@ -16,9 +16,9 @@ public class ModifiableAction
     public LocalizedString actionDescription;
     public Sprite sprite;
 
-    public ModifiableAction(ConditionalAction conditionalAction, int weighting, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite)
+    public ModifiableAction(ConditionalActionDescriptor conditionalActionDescriptor, int weighting, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite)
     { 
-        this.conditionalAction = conditionalAction;
+        this.conditionalActionDescriptor = conditionalActionDescriptor;
         this.weighting = weighting;
         this.actionName = actionName;
         this.actionDescription = actionDescription;

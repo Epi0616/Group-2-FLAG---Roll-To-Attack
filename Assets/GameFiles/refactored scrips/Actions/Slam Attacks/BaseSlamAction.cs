@@ -7,14 +7,14 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     [SerializeField] protected int SlamDamage;
     [SerializeField] protected Color SlamColor;
     [SerializeField] protected float ChargeTime;
-    [SerializeField] protected float SlamRange;
+    [SerializeField] protected Stat SlamRange;
     [SerializeField] protected Vector3 SlamPositionOffset;
     [SerializeField] protected bool DoesActionPreventMovement;
 
     public int slamDamage { get => SlamDamage; set => SlamDamage = value; }
     public Color slamColour { get => SlamColor; set => SlamColor = value; }
     public float chargeTime { get => ChargeTime; set => ChargeTime = value; }
-    public float slamRange { get => SlamRange; set => SlamRange = value; }
+    public Stat slamRange { get => SlamRange; set => SlamRange = value; }
     public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
     public bool doesActionPreventMovement { get => DoesActionPreventMovement; set => DoesActionPreventMovement = value; }
 
@@ -27,7 +27,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     //public GameObject slamImpactField;
 
     public BaseSlamAction() { }
-    public BaseSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent)
+    public BaseSlamAction(int slamDamage, float chargeTime, Stat slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent)
     {
         this.slamDamage = slamDamage;
         this.chargeTime = chargeTime;
@@ -63,7 +63,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     {
         if (attackInterrupted) { return; }
         impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
-        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, true);
+        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange.GetFinalValue(), chargeTime, true);
     }
 
     public virtual void SpawnSlamCompleteVFX() { }
@@ -103,11 +103,9 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         Ray ray = new Ray(slamOrigin, Vector3.down);
         if (Physics.Raycast(ray, out hit, 200f, slamVariablesAccess.groundLayer))
         {
-            Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange, ownerEntity.hostileMask);
+            Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange.GetFinalValue(), ownerEntity.hostileMask);
             ProcessHits(colliders, hit);
         }
-
-        
     }
 
     public virtual void ProcessHits(Collider[] colliders, RaycastHit hit)

@@ -7,7 +7,7 @@ public class SpikeSpawnSlamAction : BaseSlamAction
     private IOrbitSpikeSpawner spike;
 
     public SpikeSpawnSlamAction() { }
-    public SpikeSpawnSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
+    public SpikeSpawnSlamAction(int slamDamage, float chargeTime, Stat slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
 
     public override void StartAction(Entity entity)
     {
@@ -23,7 +23,7 @@ public class SpikeSpawnSlamAction : BaseSlamAction
     public override void SpawnSlamStartVFX()
     {
         impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
-        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, false);
+        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange.GetFinalValue(), chargeTime, false);
     }
 
     public override void ExtraSlamEffect()

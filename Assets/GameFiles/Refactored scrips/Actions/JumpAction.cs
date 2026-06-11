@@ -60,12 +60,16 @@ public class JumpAction : BaseEntityAction
         eulerStartRotation.z = Mathf.Round(eulerStartRotation.z);
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
 
-        ConditionalAction targetAction = modifiableActions.actionSelectionSystem.GetRandomModifiableAction().conditionalAction;
+        ConditionalAction targetAction = modifiableActions.actionSelectionSystem.GetRandomModifiableAction().conditionalActionDescriptor.Create();
         targetAction.triggered = false;
         int index = modifiableActions.actionSelectionSystem.LastReturnedActionIndex;
         targetRotation = rotationMap[index];
         Debug.Log(index);
 
+        if (targetAction.action is ISlam && (jumpable.impactSpeed.GetFinalValue() > jumpable.impactSpeed.GetBaseValue()))
+        {
+            (targetAction.action as ISlam).slamRange.AddMultiplierFlat(1.5f);
+        }
         (ownerEntity as IActionable).actionController.availableActions.Add(targetAction);
     }
     public override void UpdateAction()
