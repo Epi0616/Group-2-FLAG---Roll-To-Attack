@@ -17,16 +17,20 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [Header("IMoveable")]
     [SerializeField] private bool CanMove = true;
     [SerializeField] private Stat MovementSpeed = new Stat(5f);
-    [SerializeField] private List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
-    private List<ConditionalMovement> movements = new List<ConditionalMovement>();
+    [SerializeField] private List<ConditionalMovementDescriptor> ConditionalMovementDescriptors = new List<ConditionalMovementDescriptor>();
+    private List<ConditionalMovement> ConditionalMovements = new List<ConditionalMovement>();
     public bool canMove { get => CanMove; set => CanMove = value; }
     public Stat movementSpeed { get => MovementSpeed; set => MovementSpeed = value; }
+    public List<ConditionalMovementDescriptor> conditionalMovementDescriptors { get => ConditionalMovementDescriptors; set => ConditionalMovementDescriptors = value; }
+    public List<ConditionalMovement> conditionalMovements { get => ConditionalMovements; set => ConditionalMovements = value; }
     public MovementController movementController { get; set; }
 
     [Header("IActionable")]
-    public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
-    private List<ConditionalAction> actions = new List<ConditionalAction>();
+    [SerializeField] private List<ConditionalActionDescriptor> ConditionalActionDescriptors = new List<ConditionalActionDescriptor>();
+    private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
     private bool CanAct = true;
+    public List<ConditionalActionDescriptor> conditionalActionDescriptors { get => ConditionalActionDescriptors; set => ConditionalActionDescriptors = value; }
+    public List<ConditionalAction> conditionalActions { get => ConditionalActions; set => ConditionalActions = value; }
     public ActionController actionController { get; set; }
     public bool canAct { get => CanAct; set => CanAct = value; }
 
@@ -73,18 +77,10 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         inputManager.Initialise(this);
         rb = GetComponent<Rigidbody>();
 
-        foreach (var movement in movementDescriptors)
-        {
-            movements.Add(movement.Create());
-        }
-        movementController = new MovementController(this, movements);
+        UnpackConditionalMovements();
         movementController.Initialize();
 
-        foreach (var action in actionDescriptors)
-        {
-            actions.Add(action.Create());
-        }
-        actionController = new ActionController(this, actions);
+        UnpackConditionalActions();
         actionController.Initialize();
 
         UnpackModifiableActions();
@@ -119,11 +115,27 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public void CheckForCanMove()
     {
     }
+    public void UnpackConditionalMovements()
+    {
+        foreach (var movement in ConditionalMovementDescriptors)
+        {
+            conditionalMovements.Add(movement.Create());
+        }
+        movementController = new MovementController(this, conditionalMovements);
+    }
 
     //IActionable Interface Methods
     public void CheckForCanAct()
     {
 
+    }
+    public void UnpackConditionalActions()
+    {
+        foreach (var action in conditionalActionDescriptors)
+        {
+            conditionalActions.Add(action.Create());
+        }
+        actionController = new ActionController(this, conditionalActions);
     }
 
     //IJumpable Interface Methods
