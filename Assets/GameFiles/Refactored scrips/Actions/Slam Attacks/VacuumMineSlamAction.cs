@@ -8,7 +8,7 @@ public class VacuumMineSlamAction : BaseSlamAction
 
     public VacuumMineSlamAction() { }
 
-    public VacuumMineSlamAction(int slamDamage, float chargeTime, Stat slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
+    public VacuumMineSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
 
 
 
@@ -37,6 +37,6 @@ public class VacuumMineSlamAction : BaseSlamAction
 
     public override BaseEntityAction Clone()
     {
-        return new VacuumMineSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesActionPreventMovement);
+        return new VacuumMineSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, DoesActionPreventMovement);
     }
 }

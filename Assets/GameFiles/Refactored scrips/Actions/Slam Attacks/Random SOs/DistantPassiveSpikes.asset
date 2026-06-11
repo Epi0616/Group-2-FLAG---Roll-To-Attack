@@ -28,11 +28,12 @@ MonoBehaviour:
     - rid: 963243866989003121
       type: {class: SpikeSpawnSlamAction, ns: , asm: Assembly-CSharp}
       data:
-        slamDamage: 0
-        slamColour: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
-        chargeTime: 0.5
-        slamRange: 0.2
-        slamPositionOffset: {x: 0, y: 0, z: 0}
+        SlamDamage: 0
+        SlamColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
+        ChargeTime: 0
+        SlamRange:
+          baseValue: 0
+        SlamPositionOffset: {x: 0, y: 0, z: 0}
         DoesActionPreventMovement: 0
     - rid: 963243866989003122
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}

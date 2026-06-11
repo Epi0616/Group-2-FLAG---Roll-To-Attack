@@ -7,7 +7,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     [SerializeField] protected int SlamDamage;
     [SerializeField] protected Color SlamColor;
     [SerializeField] protected float ChargeTime;
-    [SerializeField] protected Stat SlamRange;
+    [SerializeField] protected Stat SlamRange = new Stat(5);
     [SerializeField] protected Vector3 SlamPositionOffset;
     [SerializeField] protected bool DoesActionPreventMovement;
 
@@ -27,11 +27,11 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     //public GameObject slamImpactField;
 
     public BaseSlamAction() { }
-    public BaseSlamAction(int slamDamage, float chargeTime, Stat slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent)
+    public BaseSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent)
     {
         this.slamDamage = slamDamage;
         this.chargeTime = chargeTime;
-        this.slamRange = slamRange;
+        this.slamRange = new Stat(slamRange);
         this.slamPositionOffset = slamPositionOffset;
         this.slamColour = slamColour;
         preventsMovement = DoesPrevent;
@@ -156,7 +156,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
 
     public override BaseEntityAction Clone()
     {
-        return new BaseSlamAction(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesActionPreventMovement);
+        return new BaseSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, DoesActionPreventMovement);
     }
 }
 // slamVariablesAccess.defaultSlamColour
