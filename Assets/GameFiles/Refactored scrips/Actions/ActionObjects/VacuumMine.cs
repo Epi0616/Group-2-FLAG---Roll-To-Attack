@@ -85,7 +85,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
             if (!colliders[i].gameObject) { continue; }
             if (colliders[i].gameObject == ownerEntity.gameObject) { continue; }
             if (colliders[i].gameObject == this.gameObject) { continue; }
-            if (colliders[i].gameObject.CompareTag("EntitySpawnable")) { continue; }
+            if (colliders[i].CompareTag("EntitySpawnable")) { continue; }
             enemies.Add(colliders[i].GetComponent<Entity>());
             
         }
