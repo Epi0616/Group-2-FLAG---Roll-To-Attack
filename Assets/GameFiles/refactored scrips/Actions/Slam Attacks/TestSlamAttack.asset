@@ -35,11 +35,12 @@ MonoBehaviour:
     - rid: 963243827680247808
       type: {class: BaseSlamAction, ns: , asm: Assembly-CSharp}
       data:
-        slamDamage: 10
-        slamColour: {r: 1, g: 0, b: 0, a: 1}
-        chargeTime: 10
-        slamRange: 10
-        slamPositionOffset: {x: 0, y: 0, z: 4}
+        SlamDamage: 25
+        SlamColor: {r: 1, g: 0, b: 0, a: 1}
+        ChargeTime: 0
+        SlamRange:
+          baseValue: 5
+        SlamPositionOffset: {x: 0, y: 0, z: 0}
         DoesActionPreventMovement: 1
     - rid: 963243827680247878
       type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
