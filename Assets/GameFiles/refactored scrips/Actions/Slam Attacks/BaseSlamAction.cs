@@ -1,22 +1,29 @@
 using UnityEngine;
 using System;
-using System.Collections.Generic;
 
 [Serializable]
-public class BaseSlamAction : BaseEntityAction
+public class BaseSlamAction : BaseEntityAction, ISlam
 {
+    [SerializeField] protected int SlamDamage;
+    [SerializeField] protected Color SlamColor;
+    [SerializeField] protected float ChargeTime;
+    [SerializeField] protected float SlamRange;
+    [SerializeField] protected Vector3 SlamPositionOffset;
+    [SerializeField] protected bool DoesActionPreventMovement;
+
+    public int slamDamage { get => SlamDamage; set => SlamDamage = value; }
+    public Color slamColour { get => SlamColor; set => SlamColor = value; }
+    public float chargeTime { get => ChargeTime; set => ChargeTime = value; }
+    public float slamRange { get => SlamRange; set => SlamRange = value; }
+    public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
+    public bool doesActionPreventMovement { get => DoesActionPreventMovement; set => DoesActionPreventMovement = value; }
+
     protected ISlamActionRequirements slamVariablesAccess;
     private float chargeUpTimer = 0;
-    public int slamDamage = 10;
-    public Color slamColour = Color.white;
-    public float chargeTime = 1f;
     private bool chargeComplete = false;
     protected Vector3 slamOrigin;
     protected bool attackInterrupted = false;
     protected ImpactFieldVisual impactField;
-    public float slamRange = 0;
-    public Vector3 slamPositionOffset = Vector3.zero;
-    public bool DoesActionPreventMovement = true;
     //public GameObject slamImpactField;
 
     public BaseSlamAction() { }
@@ -55,7 +62,7 @@ public class BaseSlamAction : BaseEntityAction
     public virtual void SpawnSlamStartVFX()
     {
         if (attackInterrupted) { return; }
-        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.SlamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
+        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
         impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange, chargeTime, true);
     }
 

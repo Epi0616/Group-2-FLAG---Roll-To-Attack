@@ -28,13 +28,13 @@ public class EnemyDirector : MonoBehaviour
 
     private void OnEnable()
     {
-        EntityHealthSystem.EnemyHasDied += ProcessEnemyDeath;
+        EnemyHealthSystem.EnemyHasDied += ProcessEnemyDeath;
         DicePedestal.WaveStartPedestal += StartNextWave;
     }
 
     private void OnDisable()
     {
-        EntityHealthSystem.EnemyHasDied -= ProcessEnemyDeath;
+        EnemyHealthSystem.EnemyHasDied -= ProcessEnemyDeath;
         DicePedestal.WaveStartPedestal -= StartNextWave;
     }
 

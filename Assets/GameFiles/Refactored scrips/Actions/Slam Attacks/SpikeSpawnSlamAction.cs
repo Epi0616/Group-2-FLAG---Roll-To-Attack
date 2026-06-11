@@ -28,7 +28,7 @@ public class SpikeSpawnSlamAction : BaseSlamAction
 
     public override void ExtraSlamEffect()
     {
-        for (int i = 0; i < spike.numSpikesPerSpawn; i++)
+        for (int i = 0; i < 5; i++)
         {
             //GameObject spike = Instantiate(playerSpike);
             GameObject newObj = ObjectPoolManager.SpawnObject(spike.spikePrefab, new Vector3(0, -100, 0), Quaternion.identity);
