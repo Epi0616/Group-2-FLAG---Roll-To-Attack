@@ -1,6 +1,8 @@
-using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [Serializable]
 public class BaseSlamAction : BaseEntityAction, ISlam
@@ -142,6 +144,11 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             Entity hitEntity = collider.gameObject.GetComponent<Entity>();
             if (hitEntity == null) { continue; }
             ApplyCustomEffectPerEntity(hitEntity);
+            if (slamRange.GetFinalValue() > slamRange.GetBaseValue()) //potential rework if we buff range in some way??
+            {
+                ApplyHeavyEffect(hitEntity);
+            }
+
             //Debug.Log("Processing Loop End");
         }
        // Debug.Log("Slam Ending");
@@ -160,6 +167,15 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     {
         yield return new WaitForSeconds(amount);
         EndAction();
+    }
+
+    protected virtual void ApplyHeavyEffect(Entity hitEntity)
+    {
+        hitEntity.OnRecieveEffect(
+            new ActiveStatusEffect(new KnockbackEffect(hitEntity.transform.position, 17f),
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) }, 
+            true), 
+            Color.red);
     }
 
     public virtual void ApplyCustomEffectPerEntity(Entity hitEntity)
