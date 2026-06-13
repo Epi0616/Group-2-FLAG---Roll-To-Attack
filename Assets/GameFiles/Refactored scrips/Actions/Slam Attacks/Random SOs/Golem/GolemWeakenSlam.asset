@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   variable: 1
   action:
-    rid: 963243912890679378
+    rid: 963243957707866181
   conditions:
   - rid: 963243912890679379
   allConditionsRequired: 1
@@ -24,19 +24,30 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 963243912890679378
-      type: {class: VacuumMineSlamAction, ns: , asm: Assembly-CSharp}
-      data:
-        SlamDamage: 10
-        SlamColor: {r: 0.36108792, g: 0.1769313, b: 0.5283019, a: 1}
-        ChargeTime: 2
-        SlamRange:
-          baseValue: 6
-        SlamPositionOffset: {x: 0, y: 0, z: 10}
-        DoesActionPreventMovement: 1
     - rid: 963243912890679379
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
         name: Base
         distanceThreshold: 17
+    - rid: 963243957707866181
+      type: {class: WeakenSlamAction, ns: , asm: Assembly-CSharp}
+      data:
+        SlamDamage: 10
+        SlamColor: {r: 0.764151, g: 0.13336597, b: 0.7575951, a: 1}
+        ChargeTime: 2
+        SlamRange:
+          baseValue: 10.69
+        SlamPositionOffset: {x: 0, y: 0, z: 10}
+        DoesActionPreventMovement: 1
+        WeakenDuration: 10
+        WeakenDamageMult: 2
+        weakenText:
+          m_TableReference:
+            m_TableCollectionName: 
+          m_TableEntryReference:
+            m_KeyId: 0
+            m_Key: 
+          m_FallbackState: 0
+          m_WaitForCompletion: 0
+          m_LocalVariables: []
