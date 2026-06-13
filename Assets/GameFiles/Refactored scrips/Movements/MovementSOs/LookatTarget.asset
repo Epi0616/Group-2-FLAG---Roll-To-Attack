@@ -10,29 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
-  m_Name: AiNavTest
+  m_Name: LookatTarget
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
   movement:
-    rid: 963243912890679368
+    rid: 963243960410046533
   conditions:
-  - rid: 963243828785184856
-  - rid: 963243899525005379
+  - rid: 963243960410046535
   allConditionsRequired: 1
   exclusive: 0
   priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 963243828785184856
-      type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        name: Base
-    - rid: 963243899525005379
-      type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        name: Base
-    - rid: 963243912890679368
-      type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
+    - rid: 963243960410046533
+      type: {class: LookAtTargetMovement, ns: , asm: Assembly-CSharp}
       data: 
+    - rid: 963243960410046535
+      type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        name: Base
