@@ -31,6 +31,6 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
     }
     public virtual void OnDeath()
     {
-        Debug.Log("dead");
+        //Debug.Log("dead");
     }
 }

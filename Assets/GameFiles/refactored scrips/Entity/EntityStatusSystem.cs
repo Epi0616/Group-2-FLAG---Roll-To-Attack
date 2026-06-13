@@ -18,6 +18,17 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
         // RECALCULATE STATS
     }
 
+    public void FixedUpdate()
+    {
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (currentActiveStatusEffects[i].effect.isActive)
+            {
+                currentActiveStatusEffects[i].effect.FixedUpdateEffect();
+            }
+        }
+    }
+
     public void UpdateConditions()
     {
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)

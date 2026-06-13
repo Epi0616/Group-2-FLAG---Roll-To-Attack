@@ -21,7 +21,17 @@ public class WeakenStatus : StatusEffect
 
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
-        damage.AddMultiplierFlat(weakMultiplier);
+        //damage.AddMultiplierFlat(weakMultiplier);
+        Debug.Log("Weaken Being Applied");
+        if (type == DamageType.Weaken)
+        {
+            Debug.Log("Damage Type is Weaken");
+            return;
+        }
+ 
+        Debug.Log("New Weaken OnTakeDamage");
+        entityRef.OnTakeDamage((int)(damage.GetFinalValue() * (weakMultiplier - 1)), effectColour, DamageType.Weaken);
+        
     }
 
     /*

@@ -37,6 +37,16 @@ public class BaseDisplacementEffect : StatusEffect
         isStackable = true;
     }
 
+    protected override void OnFixedUpdate()
+    {
+        if (isActive && rbInterfaceAccess.rb.linearVelocity.y < 0)
+        {
+            
+            rbInterfaceAccess.rb.AddForce(new Vector3(0, -2.0f, 0), ForceMode.Impulse);
+            
+        }
+    }
+
     protected override void OnRemoval()
     {
         preventsMovement = false;

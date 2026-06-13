@@ -46,6 +46,11 @@ public abstract class StatusEffect
         OnUpdate();
     }
 
+    public void FixedUpdateEffect()
+    {
+        OnFixedUpdate();
+    }
+
     public void RemoveEffect()
     {
         OnRemoval();
@@ -74,6 +79,8 @@ public abstract class StatusEffect
 
     protected virtual void OnApplication() { }
     protected virtual void OnUpdate() { }
+
+    protected virtual void OnFixedUpdate() { }
     protected virtual void OnRemoval() { }
 
     protected virtual void ApplyStatModifier() { }

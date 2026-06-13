@@ -64,7 +64,7 @@ public class JumpAction : BaseEntityAction
         targetAction.triggered = false;
         int index = modifiableActions.actionSelectionSystem.LastReturnedActionIndex;
         targetRotation = rotationMap[index];
-        Debug.Log(index);
+        //Debug.Log(index);
 
         if (targetAction.action is ISlam)
         {

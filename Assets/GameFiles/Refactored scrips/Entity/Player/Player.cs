@@ -152,7 +152,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         modifiableActions.Clear();
         foreach (ModifiableActionDescriptor modifiableActionDescriptor in ModifiableActionDescriptors)
         {
-            Debug.Log("added modif action ");
+            //Debug.Log("added modif action ");
             modifiableActions.Add(modifiableActionDescriptor.Create());
         }
     }
