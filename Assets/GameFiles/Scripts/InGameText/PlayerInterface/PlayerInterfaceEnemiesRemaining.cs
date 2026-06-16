@@ -18,7 +18,7 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
     protected override void OnEnable()
     {
         base.OnEnable();
-        EnemyDirector.SpawnWave += NewWave;
+        OldEnemyDirector.SpawnWave += NewWave;
         DicePedestal.WaveStartPedestal += StartDrainProgressBarRoutine;
         EnemyHealthSystem.EnemyHasDied += EnemyHasDied;
     }
@@ -26,7 +26,7 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
     protected override void OnDisable()
     {
         base.OnDisable();
-        EnemyDirector.SpawnWave -= NewWave;
+        OldEnemyDirector.SpawnWave -= NewWave;
         DicePedestal.WaveStartPedestal -= StartDrainProgressBarRoutine;
         EnemyHealthSystem.EnemyHasDied -= EnemyHasDied;
     }

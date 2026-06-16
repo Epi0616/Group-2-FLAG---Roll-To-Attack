@@ -17,7 +17,6 @@ public class TimeCondition : BaseCondition
         this.inverse = inverse;
         this.duration = duration;
         timer = duration;
-        name = "DurationCondition";
     }
     public override void Initialize(Entity entity)
     {

@@ -11,12 +11,12 @@ public class HealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        HealthSystem.UpdateHealthBar += UpdatePlayerHealth;
+        PlayerHealthSystem.UpdateHealthBar += UpdatePlayerHealth;
     }
 
     private void OnDisable()
     {
-        HealthSystem.UpdateHealthBar -= UpdatePlayerHealth;
+        PlayerHealthSystem.UpdateHealthBar -= UpdatePlayerHealth;
     }
 
     private void Awake()

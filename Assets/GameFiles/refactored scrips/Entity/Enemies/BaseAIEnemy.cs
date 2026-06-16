@@ -64,6 +64,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     protected override void Start()
     {
         base.Start();
+        target = GameObject.FindGameObjectWithTag("Player"); //needs to be moved into interface/system for finding target
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         //environmentMask = LayerMask.GetMask("Ground", "Collider Props", "Pedestal");        

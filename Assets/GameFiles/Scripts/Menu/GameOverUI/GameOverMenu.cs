@@ -12,12 +12,12 @@ public class GameOverMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        HealthSystem.GameOver += GameOver;
+        PlayerHealthSystem.GameOver += GameOver;
     }
 
     private void OnDisable()
     {
-        HealthSystem.GameOver -= GameOver;
+        PlayerHealthSystem.GameOver -= GameOver;
     }
 
     private void Start()

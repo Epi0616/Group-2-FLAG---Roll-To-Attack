@@ -66,7 +66,13 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     {
         if (attackInterrupted) { return; }
         impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
-        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange.GetFinalValue(), chargeTime, true);
+
+        bool flashRed = false;
+        if (chargeTime > 0)
+        {
+            flashRed = true;
+        }
+        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange.GetFinalValue(), chargeTime, flashRed);
     }
 
     public virtual void SpawnSlamCompleteVFX() { }

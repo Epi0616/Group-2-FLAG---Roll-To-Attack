@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Random = UnityEngine.Random;
 
-public class EnemySpawnManager : MonoBehaviour
+public class OldEnemySpawnManager : MonoBehaviour
 {
     private Vector2 spawnAreaCentrePoint = new Vector2(0f, 15f);
     private float spawnAreaRadius = 50f;
@@ -43,12 +43,12 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EnemyDirector.SpawnWave += StartWaveSpawn;
+        OldEnemyDirector.SpawnWave += StartWaveSpawn;
     }
 
     private void OnDisable()
     {
-        EnemyDirector.SpawnWave -= StartWaveSpawn;
+        OldEnemyDirector.SpawnWave -= StartWaveSpawn;
     }
 
     private void StartWaveSpawn(List<EnemyTypes> wave)

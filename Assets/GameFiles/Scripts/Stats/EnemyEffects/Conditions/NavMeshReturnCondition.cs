@@ -10,7 +10,6 @@ public class NavMeshReturnCondition : BaseCondition
     {
         this.enemy = enemy;   
         //isRequired = required;
-        name = "NavReturnCondition";
     }
     public override void Initialize(Entity entity)
     {

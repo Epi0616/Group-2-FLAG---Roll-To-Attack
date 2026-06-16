@@ -16,7 +16,6 @@ public class OnNavMeshCondition : BaseCondition
     public OnNavMeshCondition(bool inverse, bool active)
     {
         this.inverse = inverse;
-        name = "NavReturnCondition";
         isActive = active;
     }
     public override void Initialize(Entity entity)

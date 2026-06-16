@@ -6,8 +6,6 @@ public abstract class BaseCondition : ICondition
 {
     public bool inverse = false;
 
-    public string name = "Base";
-
     public abstract void Initialize(Entity entity);
     public abstract void ConditionUpdate();
 

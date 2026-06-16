@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnemyDirector : MonoBehaviour
+public class OldEnemyDirector : MonoBehaviour
 {
     public static event Action<List<EnemyTypes>> SpawnWave;
     public static event Action<float> WaveOver;

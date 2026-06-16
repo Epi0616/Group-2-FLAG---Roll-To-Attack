@@ -31,7 +31,7 @@ public class VacuumMineSlamAction : BaseSlamAction
 
     public override void ExtraSlamEffect()
     {
-        GameObject vacuumMine = ObjectPoolManager.SpawnObject(vacuumAccess.minePrefab, slamOrigin, Quaternion.identity);
+        GameObject vacuumMine = ObjectPoolManager.SpawnObject(vacuumAccess.mineObj, slamOrigin, Quaternion.identity);
         vacuumMine.GetComponent<VacuumMine>().Initialize(ownerEntity, slamRange.GetFinalValue(), vacuumAccess.mineChargeTime);
     }
 

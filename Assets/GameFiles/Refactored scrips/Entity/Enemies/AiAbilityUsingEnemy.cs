@@ -34,15 +34,15 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
     // IVacuumSpawner Interface
     [SerializeField] private float VacuumMineDetonationTime = 5;
     public float mineChargeTime { get => VacuumMineDetonationTime; set => VacuumMineDetonationTime = value; }
-    [SerializeField] private GameObject VacuumMinePrefab;
-    public GameObject minePrefab { get => VacuumMinePrefab; set => VacuumMinePrefab = value; }
+    [SerializeField] private GameObject VacuumMineObj;
+    public GameObject mineObj { get => VacuumMineObj; set => VacuumMineObj = value; }
 
     [Header("IRocketSpawner Required Properties")]
     // IRocketSpawner intercae
     [SerializeField] private int RocketDamage;
     public int rocketDamage { get => RocketDamage; set => RocketDamage = value; }
-    [SerializeField] private GameObject RocketPrefab;
-    public GameObject rocketPrefab { get => RocketPrefab; set => RocketPrefab = value; }
+    [SerializeField] private GameObject RocketObj;
+    public GameObject rocketObj { get => RocketObj; set => RocketObj = value; }
 
 
     // IOrbitSpike Interface Methods

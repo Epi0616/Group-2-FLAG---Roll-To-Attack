@@ -8,7 +8,6 @@ public class oldGroundedCondition : BaseCondition
     {
         this.enemy = enemy;
         //isRequired = required;
-        name = "GroundedCondition";
     }
     public override void Initialize(Entity entity) { }
     public override void ConditionUpdate() { }

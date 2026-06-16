@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -36,8 +36,10 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IModifiableActions")]
     [SerializeField] private List <ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
+    private List<ModifiableActionDescriptor> ModifiableActionDescriptorStorage = new List<ModifiableActionDescriptor>();
     private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
     public List<ModifiableActionDescriptor> modifiableActionDescriptors { get => ModifiableActionDescriptors; set => ModifiableActionDescriptors = value; }
+    public List<ModifiableActionDescriptor> modifiableActionDescriptorStorage { get => ModifiableActionDescriptorStorage; set => ModifiableActionDescriptorStorage = value; }
     public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
 
@@ -71,6 +73,31 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public float fieldLifetime { get => FieldLifetime; set => FieldLifetime = value; }
     public int fieldTickDamage { get => FieldTickDamage; set => FieldTickDamage = value; }
 
+    [Header("IRocketSpawner")]
+    [SerializeField] private GameObject RocketObj;
+    [SerializeField] private int RocketDamage = 0;
+    public GameObject rocketObj { get => RocketObj; set => RocketObj = value; }
+    public int rocketDamage { get => RocketDamage; set => RocketDamage = value; }
+
+    [Header("IOrbitSpikeSpawner")]
+    [SerializeField] private GameObject SpikePrefab;
+    [SerializeField] private float SpikeLifeSpan = 0f;
+    [SerializeField] private float OrbitRadius = 0f;
+    [SerializeField] private float InitialOrbitSpeed = 0f;
+    [SerializeField] private int SpikeDamaged = 0;
+    private List<BaseOrbitObject> OrbitObjects = new List<BaseOrbitObject>();
+    public GameObject spikePrefab { get => SpikePrefab; set => SpikePrefab = value; }
+    public float spikeLifeSpan { get => SpikeLifeSpan; set => SpikeLifeSpan = value; }
+    public float orbitRadius { get => OrbitRadius; set => OrbitRadius = value; }
+    public float initialOrbitSpeed { get => InitialOrbitSpeed; set => InitialOrbitSpeed = value; }
+    public int spikeDamage { get => SpikeDamaged; set => SpikeDamaged = value; }
+    public List<BaseOrbitObject> orbitObjects { get => OrbitObjects; set => OrbitObjects = value; }
+
+    [Header("IVacuumSpawner")]
+    [SerializeField] private GameObject MineObj;
+    [SerializeField] private float MineChargeTime = 0f;
+    public GameObject mineObj { get => MineObj; set => MineObj = value; }
+    public float mineChargeTime { get => MineChargeTime; set => MineChargeTime = value; }
 
     protected override void Start()
     {
@@ -154,6 +181,21 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         {
             //Debug.Log("added modif action ");
             modifiableActions.Add(modifiableActionDescriptor.Create());
+        }
+    }
+
+    //IOrbitSpikeSpawner Methods
+    public void RemoveObjectFromOrbit(BaseOrbitObject obj)
+    {
+        orbitObjects.Remove(obj);
+    }
+
+    public void UpdateOrbitObjectAngles()
+    {
+        for (int i = 0; i < orbitObjects.Count; i++)
+        {
+            float angle = i * (360f / orbitObjects.Count);
+            orbitObjects[i].UpdateAngle(angle);
         }
     }
 }

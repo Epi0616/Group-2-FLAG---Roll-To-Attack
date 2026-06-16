@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface IRocketSpawner
 {
-    public GameObject rocketPrefab {  get; set; }
+    public GameObject rocketObj {  get; set; }
     public int rocketDamage { get; set; }
 }

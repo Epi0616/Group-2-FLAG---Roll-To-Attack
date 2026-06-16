@@ -31,13 +31,6 @@ public class RocketSpawnSlamAction : BaseSlamAction
         base .UpdateAction();
     }
 
-    public override void SpawnSlamStartVFX()
-    {
-        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
-        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange.GetFinalValue(), chargeTime, true);
-        Debug.Log(slamRange.GetFinalValue());
-    }
-
     public override void ExtraSlamEffect()
     {        
     }
@@ -60,7 +53,7 @@ public class RocketSpawnSlamAction : BaseSlamAction
         {          
             count++;
                 
-            GameObject spawned = ObjectPoolManager.SpawnObject(rocket.rocketPrefab, ownerEntity.transform.position, Quaternion.identity);
+            GameObject spawned = ObjectPoolManager.SpawnObject(rocket.rocketObj, ownerEntity.transform.position, Quaternion.identity);
             spawned.GetComponent<SeekingRocket>().Initialize(ownerEntity, hitEntity.gameObject, ownerEntity.transform.position.y, rocket.rocketDamage);
 
             yield return new WaitForSeconds(rocketInterval);

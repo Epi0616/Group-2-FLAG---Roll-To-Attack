@@ -5,8 +5,8 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
 
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int currentHealth;
+    [SerializeField] protected int maxHealth;
+    [SerializeField] protected int currentHealth;
     public bool isDead;
 
     public virtual void InitialiseSystem(Entity entity)
