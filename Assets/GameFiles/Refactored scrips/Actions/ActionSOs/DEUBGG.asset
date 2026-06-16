@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b4fd156c01f3824e83f8635e0041ac4, type: 3}
+  m_Name: DEUBGG
+  m_EditorClassIdentifier: Assembly-CSharp::ModifiableActionObject
+  action:
+    action:
+      rid: 5154423817793437769
+    conditions:
+    - rid: 5154423817793437770
+    singleUse: 1
+    triggered: 0
+    exclusive: 1
+    priority: 0
+  weighting: 100
+  references:
+    version: 2
+    RefIds:
+    - rid: 5154423817793437769
+      type: {class: DebugAction, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5154423817793437770
+      type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
+      data:
+        isRequired: 0
+        name: Base

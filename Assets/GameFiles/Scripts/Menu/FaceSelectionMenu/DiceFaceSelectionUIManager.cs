@@ -33,13 +33,13 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EnemyDirector.WaveOver += WaveOver;
+        WaveManager.WaveOver += WaveOver;
         AbilityPanel.AbilitySelected += AbilitySelected;
     }
 
     private void OnDisable()
     {
-        EnemyDirector.WaveOver -= WaveOver;
+        WaveManager.WaveOver -= WaveOver;
         AbilityPanel.AbilitySelected -= AbilitySelected;
     }
 

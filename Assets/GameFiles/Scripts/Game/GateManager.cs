@@ -12,13 +12,13 @@ public class GateManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EnemyDirector.WaveOver += GatesUp;
+        WaveManager.WaveOver += GatesUp;
         DicePedestal.WaveStartPedestal += GatesDown;
     }
 
     private void OnDisable()
     {
-        EnemyDirector.WaveOver -= GatesUp;
+        WaveManager.WaveOver -= GatesUp;
         DicePedestal.WaveStartPedestal -= GatesDown;
     }
 

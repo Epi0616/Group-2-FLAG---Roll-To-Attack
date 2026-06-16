@@ -19,7 +19,7 @@ public class PauseMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        HealthSystem.GameOver += GameOver;
+        PlayerHealthSystem.GameOver += GameOver;
         SettingsUIManager.settingsClosed += SetPauseButtonsVisibility;
         pauseGame.action.performed += HandlePauseGame;
         backButton.action.performed += HandleBackButton;
@@ -27,7 +27,7 @@ public class PauseMenu : MonoBehaviour
 
     private void OnDisable()
     {
-        HealthSystem.GameOver -= GameOver;
+        PlayerHealthSystem.GameOver -= GameOver;
         SettingsUIManager.settingsClosed -= SetPauseButtonsVisibility;
         pauseGame.action.performed -= HandlePauseGame;
         backButton.action.performed -= HandleBackButton;

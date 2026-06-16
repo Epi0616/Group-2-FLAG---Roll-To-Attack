@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,23 +9,19 @@ using UnityEngine.UI;
 public class PlayerInterfaceWaveNumber : StaticText
 {
     private int waveCount = 0;
-    private float timer = 0;
-    private int enemyCount = 0;
-    private bool waveInProgress = false;
-
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        EnemyDirector.SpawnWave += NewWave;
-        EnemyStateController.EnemyHasDied += EnemyHasDied;
+        WaveManager.DisplayWaveNumber += NewWave;
+        WaveManager.WaveOver += FadeOut;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        EnemyDirector.SpawnWave -= NewWave;
-        EnemyStateController.EnemyHasDied -= EnemyHasDied;
+        WaveManager.DisplayWaveNumber -= NewWave;
+        WaveManager.WaveOver -= FadeOut;
     }
 
     protected override void Awake()
@@ -33,18 +30,12 @@ public class PlayerInterfaceWaveNumber : StaticText
         tmpAsset.alpha = 0f;
     }
 
-    private void NewWave(List<EnemyTypes> totalEnemies)
+    private void NewWave(int waveNumber)
     {
-        waveCount++;
-        enemyCount = totalEnemies.Count;
-        timer = 0;
+        waveCount = waveNumber;
         tmpAsset.alpha = 0;
-        waveInProgress = true;
-    }
-
-    private void EnemyHasDied()
-    {
-        enemyCount--;
+        UpdateText(null);
+        FadeIn(0);
     }
 
     protected override void UpdateText(string newText)
@@ -52,32 +43,33 @@ public class PlayerInterfaceWaveNumber : StaticText
         tmpAsset.text = localizedString.GetLocalizedString() + " " + waveCount;
     }
 
-    private void Update()
+    private void FadeIn(float timeBetweenWaves)
     {
-        timer += Time.deltaTime;
-        if (waveInProgress)
+        StartCoroutine(FadeInRoutine());
+    }
+
+    private IEnumerator FadeInRoutine()
+    {
+        yield return new WaitForSeconds(1f);
+
+        while (tmpAsset.alpha < 1)
         {
-            FadeIn();
-            UpdateText(localizedString.GetLocalizedString());
-            FadeOut();
+            tmpAsset.alpha = Mathf.Clamp01(tmpAsset.alpha + (1f * Time.deltaTime));
+            yield return null;
         }
     }
 
-    private void FadeIn()
+    private void FadeOut(float timeBetweenWaves)
     {
-        if (!((timer <= 2) && (timer >= 1))) { return; }
-        tmpAsset.alpha = Mathf.Clamp01(tmpAsset.alpha + (1f * Time.deltaTime));
+        StartCoroutine(FadeOutRoutine());
     }
 
-    private void FadeOut()
+    private IEnumerator FadeOutRoutine()
     {
-        if (!(enemyCount <= 0)) { return; }
-
-        tmpAsset.alpha -= 2f * Time.deltaTime;
-
-        if (tmpAsset.alpha <= 0)
+        while (tmpAsset.alpha > 0)
         {
-            waveInProgress = false;
+            tmpAsset.alpha -= 2f * Time.deltaTime;
+            yield return null;
         }
     }
 }

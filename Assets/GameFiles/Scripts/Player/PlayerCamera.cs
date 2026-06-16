@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,12 +15,12 @@ public class PlayerCamera : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerStateController.ShakeScreen += AddScreenShake;
+        JumpAction.ShakeScreen += AddScreenShake;
     }
 
     private void OnDisable()
     {
-        PlayerStateController.ShakeScreen -= AddScreenShake;
+        JumpAction.ShakeScreen -= AddScreenShake;
     }
 
     void LateUpdate()
@@ -28,7 +29,7 @@ public class PlayerCamera : MonoBehaviour
 
         if (shakeDuration > 0)
         {
-            Vector3 shakeOffset = Random.insideUnitSphere * shakeMagnitude;
+            Vector3 shakeOffset = UnityEngine.Random.insideUnitSphere * shakeMagnitude;
             desiredPosition += shakeOffset;
 
             shakeDuration -= Time.deltaTime;
