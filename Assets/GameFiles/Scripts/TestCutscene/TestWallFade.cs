@@ -7,7 +7,7 @@ public class TestWallFade : MonoBehaviour
     [SerializeField] private Material testMat;
     [SerializeField] private Material normalMat;
     [SerializeField] private float seconds;
-
+    [SerializeField] private ParticleSystem ps;
     private MeshRenderer[] meshRenderers;
     private float a;
     private bool checkMat;
@@ -15,7 +15,6 @@ public class TestWallFade : MonoBehaviour
     private void Start()
     {
         meshRenderers = GetComponentsInChildren<MeshRenderer>(); //Gets all mesh renderers of child objs
-
         foreach (var renderer in meshRenderers)
         {
             renderer.material = testMat; //Sets all materials to test mat
