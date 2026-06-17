@@ -15,7 +15,8 @@ MonoBehaviour:
   movement:
     rid: 963243960410046533
   conditions:
-  - rid: 963243960410046535
+  - rid: 963244047682502725
+  - rid: 963244047682502726
   allConditionsRequired: 1
   exclusive: 0
   priority: 0
@@ -25,8 +26,12 @@ MonoBehaviour:
     - rid: 963243960410046533
       type: {class: LookAtTargetMovement, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 963243960410046535
-      type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
+    - rid: 963244047682502725
+      type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        name: Base
+    - rid: 963244047682502726
+      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+        lookThreshold: 5

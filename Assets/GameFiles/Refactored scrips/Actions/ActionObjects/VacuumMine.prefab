@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3840311400407514942}
   - component: {fileID: -7214448203396744137}
   - component: {fileID: 315534459191703507}
+  - component: {fileID: 2576632064901962220}
   m_Layer: 28
   m_Name: VacuumMine
   m_TagString: EntitySpawnable
@@ -54,7 +55,7 @@ MonoBehaviour:
   hostileMask:
     serializedVersion: 2
     m_Bits: 0
-  healthSystem: {fileID: 0}
+  healthSystem: {fileID: 2576632064901962220}
   statusSystem: {fileID: 716484508206351171}
   bodySystem: {fileID: 3840311400407514942}
   textDisplaySystem: {fileID: 0}
@@ -134,6 +135,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.4890459, y: 0.6191795, z: 1.4820707}
   m_Center: {x: 0.01668927, y: 0.27548945, z: 0.040172577}
+--- !u!114 &2576632064901962220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165927085165346944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18962c2936f7e12469d76d89c5a1b900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityHealthSystem
+  maxHealth: 0
+  currentHealth: 0
+  isDead: 0
 --- !u!1 &3668710178189902525
 GameObject:
   m_ObjectHideFlags: 0
