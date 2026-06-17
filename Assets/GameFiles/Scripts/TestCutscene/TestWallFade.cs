@@ -7,7 +7,6 @@ public class TestWallFade : MonoBehaviour
     [SerializeField] private Material testMat;
     [SerializeField] private Material normalMat;
     [SerializeField] private float seconds;
-    [SerializeField] private ParticleSystem ps;
     private MeshRenderer[] meshRenderers;
     private float a;
     private bool checkMat;
