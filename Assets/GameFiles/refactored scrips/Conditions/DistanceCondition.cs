@@ -4,16 +4,14 @@ using UnityEngine;
 [Serializable]
 public class DistanceCondition : BaseCondition
 {
-    private Transform targetPos;
     private Entity entity;
     public float distanceThreshold;
 
     public DistanceCondition() { }
 
-    public DistanceCondition(bool inverse, Transform target, float distanceThreshold)
+    public DistanceCondition(bool inverse, float distanceThreshold)
     {
         this.inverse = inverse;
-        targetPos = target;
         this.distanceThreshold = distanceThreshold;
     }
     public override void Initialize(Entity entity) 
@@ -33,6 +31,6 @@ public class DistanceCondition : BaseCondition
     }
     public override BaseCondition Clone()
     {
-        return new DistanceCondition(inverse, targetPos, distanceThreshold);
+        return new DistanceCondition(inverse, distanceThreshold);
     }
 }

@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
-  m_Name: BasicGolemSlam
+  m_Name: GolemPoisonSlam
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   variable: 1
   action:
-    rid: 963243912890679365
+    rid: 963243912890679369
   conditions:
-  - rid: 963243912890679366
+  - rid: 963243912890679370
+  - rid: 963244047682502729
   allConditionsRequired: 1
   singleUse: 0
   exclusive: 1
@@ -24,19 +25,23 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 963243912890679365
-      type: {class: BaseSlamAction, ns: , asm: Assembly-CSharp}
+    - rid: 963243912890679369
+      type: {class: PoisonSlamAction, ns: , asm: Assembly-CSharp}
       data:
-        SlamDamage: 25
-        SlamColor: {r: 0.4528302, g: 0.36852297, b: 0.15592737, a: 1}
+        SlamDamage: 10
+        SlamColor: {r: 0, g: 0.7924528, b: 0.013390991, a: 1}
         ChargeTime: 2
         SlamRange:
           baseValue: 6
         SlamPositionOffset: {x: 0, y: 0, z: 10}
         DoesActionPreventMovement: 1
-    - rid: 963243912890679366
+    - rid: 963243912890679370
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        name: Base
         distanceThreshold: 17
+    - rid: 963244047682502729
+      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        lookThreshold: 15

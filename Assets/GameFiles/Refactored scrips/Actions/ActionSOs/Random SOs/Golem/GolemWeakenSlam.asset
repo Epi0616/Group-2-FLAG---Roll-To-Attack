@@ -17,6 +17,7 @@ MonoBehaviour:
     rid: 963243957707866181
   conditions:
   - rid: 963243912890679379
+  - rid: 963244047682502734
   allConditionsRequired: 1
   singleUse: 0
   exclusive: 1
@@ -28,7 +29,6 @@ MonoBehaviour:
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        name: Base
         distanceThreshold: 17
     - rid: 963243957707866181
       type: {class: WeakenSlamAction, ns: , asm: Assembly-CSharp}
@@ -51,3 +51,8 @@ MonoBehaviour:
           m_FallbackState: 0
           m_WaitForCompletion: 0
           m_LocalVariables: []
+    - rid: 963244047682502734
+      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        lookThreshold: 15
