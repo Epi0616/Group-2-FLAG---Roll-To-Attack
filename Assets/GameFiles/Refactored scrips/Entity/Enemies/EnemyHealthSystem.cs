@@ -8,6 +8,7 @@ public class EnemyHealthSystem : EntityHealthSystem
     public override void OnDeath()
     {
         base.OnDeath();
+        isDead = true;
         try
         {
             EnemyHasDied?.Invoke();

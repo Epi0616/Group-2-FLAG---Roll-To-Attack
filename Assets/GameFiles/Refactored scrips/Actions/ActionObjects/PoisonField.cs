@@ -6,7 +6,7 @@ public class PoisonField : MonoBehaviour
     private Color color;
     private Color slamColour;
     private float lifeSpan = 10, lifeTimer = 0;
-    private float damageTickTimer = 0, currentTickCount = 0;
+    private float damageTickTimer = 0;//, currentTickCount = 0;
     private float radius = 0;
     private Entity ownerEntity;
     private int poisonTickDMG;

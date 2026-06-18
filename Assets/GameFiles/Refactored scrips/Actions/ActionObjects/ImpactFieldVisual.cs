@@ -4,24 +4,24 @@ using System.Collections;
 
 public class ImpactFieldVisual : MonoBehaviour
 {
-    private MeshRenderer meshRenderer;
-    private MaterialPropertyBlock block;
-    private Coroutine fadeRoutine;
+    protected MeshRenderer meshRenderer;
+    protected MaterialPropertyBlock block;
+    protected Coroutine fadeRoutine;
 
-    private Color color;
-    private float chargeTime;
-    private float radius;
+    protected Color color;
+    protected float chargeTime;
+    protected float radius;
 
-    private bool flashRed;
+    protected bool flashRed;
     public bool hasBeenDestroyed;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
         block = new MaterialPropertyBlock();
     }
 
-    public void PassInValuesColorRadiusChargeTimeFlash(Color color, float radius, float chargeTime, bool flash)
+    public virtual void PassInValuesColorRadiusChargeTimeFlash(Color color, float radius, float chargeTime, bool flash)
     {
         hasBeenDestroyed = false;
         this.color = color;
@@ -43,7 +43,7 @@ public class ImpactFieldVisual : MonoBehaviour
         fadeRoutine = StartCoroutine(ImpactFadeIn());
     }
 
-    private void AdjustRadiusSize()
+    protected virtual void AdjustRadiusSize()
     {
         transform.localScale = new Vector3(1.0f, 0.2f, 1.0f);
         Vector3 tempScale = transform.localScale;
@@ -52,7 +52,7 @@ public class ImpactFieldVisual : MonoBehaviour
         transform.localScale = tempScale;
     }
 
-    private IEnumerator ImpactFadeIn()
+    protected virtual IEnumerator ImpactFadeIn()
     {
         //Debug.Log("Fade in started");
         float timeElapsed = 0f;
@@ -113,7 +113,7 @@ public class ImpactFieldVisual : MonoBehaviour
         DestroyMe();
     }
 
-    private void SetColor(Color color)
+    protected void SetColor(Color color)
     {
         meshRenderer.GetPropertyBlock(block);
         block.SetColor("_BaseColor", color);
@@ -128,7 +128,7 @@ public class ImpactFieldVisual : MonoBehaviour
     }
 
 
-    private float easeOutBack(float x)
+    protected float easeOutBack(float x)
     {
         const float c1 = 2.70158f;
         const float c3 = c1 + 1f;

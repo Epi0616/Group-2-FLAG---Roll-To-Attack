@@ -5,23 +5,8 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using System.Collections;
 
-public interface ILaser : IBoxCast
-{
-    public int tickDamage { get; set; }
-    public float chargingVisualWidth { get; set; }
-    public float activeVisualWidth { get; set; }
-    public Color chargingVisualColour { get; set; }
-    public Color activeVisualColour { get; set; }
-}
-
-public interface ILaserRequirements : ICastRequirements
-{
-    public VisualEffect laserVFX { get; set; }
-    public Transform laserHolder { get; set; }
-}
-
 [Serializable]
-public class TrackingLaserAction : BaseSphereCastAction , ILaser
+public class TrackingLaserAction : BaseBoxCastAction , ILaser
 {
     [SerializeField] private int TickDamage = 2;
     public int tickDamage { get => TickDamage; set => TickDamage = value; }

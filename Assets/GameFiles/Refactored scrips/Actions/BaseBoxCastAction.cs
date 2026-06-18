@@ -2,27 +2,10 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public interface IBoxCast
-{
-    bool doesActionPreventMovement { get; set; }
-    public float castWidth {  get; set; }
-    public Stat castRange { get; set; }
-    public bool isBlockedByEnvironment { get; set; }
-    public float chargeDuration { get; set; }
-    public float activeDuration { get; set; }
-
-    public float castInterval { get; set; }
-}
-
-public interface ICastRequirements
-{
-    public LayerMask environmentLayer {  get; set; }
-    public Transform castOriginTransform { get; set; }
-}
 [Serializable]
-public class BaseSphereCastAction : BaseEntityAction , IBoxCast
+public class BaseBoxCastAction : BaseEntityAction , IBoxCast
 {
-    // ISphereCast Requirements
+    // IBoxCast Requirements
     [SerializeField] protected float CastBoxCheckWidth;
     [SerializeField] protected Stat CastRange = new Stat(10);
     [SerializeField] protected float ChargeDuration;
@@ -50,9 +33,9 @@ public class BaseSphereCastAction : BaseEntityAction , IBoxCast
     protected enum CastPhase { Charging, Active, Complete }
     protected CastPhase currentPhase;
 
-    public BaseSphereCastAction() { }
+    public BaseBoxCastAction() { }
 
-    public BaseSphereCastAction(float castWidth, float castRange, float chargeDuration, float activeDuration, bool isBlockedByEnvironment, bool doesActionPreventMovement) 
+    public BaseBoxCastAction(float castWidth, float castRange, float chargeDuration, float activeDuration, bool isBlockedByEnvironment, bool doesActionPreventMovement) 
     {
         this.castWidth = castWidth;
         this.castRange = new Stat(castRange);
@@ -160,6 +143,6 @@ public class BaseSphereCastAction : BaseEntityAction , IBoxCast
     
     public override BaseEntityAction Clone()
     {
-        return new BaseSphereCastAction(castWidth, castRange.GetFinalValue(), chargeDuration, activeDuration, isBlockedByEnvironment, doesActionPreventMovement);
+        return new BaseBoxCastAction(castWidth, castRange.GetFinalValue(), chargeDuration, activeDuration, isBlockedByEnvironment, doesActionPreventMovement);
     }
 }

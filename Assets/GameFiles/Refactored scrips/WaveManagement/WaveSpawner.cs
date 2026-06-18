@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
@@ -102,7 +103,8 @@ public class WaveSpawner : MonoBehaviour
             spawnPosFinal = PickSpawnAreaPoint();
         }
 
-        ObjectPoolManager.SpawnObject(obj, spawnPosFinal, Quaternion.identity);
+        GameObject spawnedEntity = ObjectPoolManager.SpawnObject(obj, spawnPosFinal, Quaternion.identity);
+        spawnedEntity.GetComponent<Entity>().healthSystem.isDead = false;
     }
 
     private Vector3 PickSpawnAreaCircular()
