@@ -8,8 +8,6 @@ public class TimeCondition : BaseCondition
     public float duration;
     private float totalTimeElapsed;
 
-    private Entity ownerEntity;
-
     public TimeCondition() { }
 
     public TimeCondition(bool inverse, float duration)
@@ -20,7 +18,6 @@ public class TimeCondition : BaseCondition
     }
     public override void Initialize(Entity entity)
     {
-        ownerEntity = entity;
     }
 
     public override void ConditionUpdate()

@@ -18,6 +18,7 @@ MonoBehaviour:
   conditions:
   - rid: 963244051395248198
   - rid: 963244051395248209
+  - rid: 963244070511313001
   allConditionsRequired: 1
   singleUse: 0
   exclusive: 1
@@ -30,7 +31,7 @@ MonoBehaviour:
       data:
         CastBoxCheckWidth: 2
         CastRange:
-          baseValue: 10
+          baseValue: 50
         ChargeDuration: 1.5
         ActiveDuration: 2
         CastInterval: 0
@@ -50,4 +51,8 @@ MonoBehaviour:
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        distanceThreshold: 15
+        distanceThreshold: 50
+    - rid: 963244070511313001
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1

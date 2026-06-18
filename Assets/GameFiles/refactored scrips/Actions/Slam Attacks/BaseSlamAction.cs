@@ -124,7 +124,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
 
     public virtual void triggerPillars()
     {
-        Debug.Log("enter trigger pillars");
+        //Debug.Log("enter trigger pillars");
         RaycastHit hit;
         Ray ray = new Ray(slamOrigin, Vector3.down);
         if (Physics.Raycast(ray, out hit, 200f, slamVariablesAccess.groundLayer))
@@ -133,7 +133,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             foreach (Collider collider in colliders)
             {
                 collider.gameObject.GetComponent<DicePedestal>().ActivatePedestalWithHeavy();
-                Debug.Log("looping for pillar");
+                //Debug.Log("looping for pillar");
             }
         }
     }

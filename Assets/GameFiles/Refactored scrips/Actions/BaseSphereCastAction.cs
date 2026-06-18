@@ -117,7 +117,7 @@ public class BaseSphereCastAction : BaseEntityAction , IBoxCast
                 CastChargeUpdate();
                 break;
             case CastPhase.Active:
-                if (currentTimer > activeDuration)
+                if (currentTimer > activeDuration && isComplete == false)
                 {                
                     currentPhase = CastPhase.Complete;
                     EndAction();
@@ -133,7 +133,7 @@ public class BaseSphereCastAction : BaseEntityAction , IBoxCast
 
     protected virtual Vector3 GetCastDirection() { return ownerEntity.transform.forward; }
     protected virtual Vector3 GetBoxExtents() { return new Vector3(castWidth, castHeight, 1f); }
-    protected virtual Vector3 GetCastOrigin() { return new Vector3(castOrigin.position.x, castOrigin.position.y - castHeight / 2, castOrigin.position.z); }
+    protected virtual Vector3 GetCastOrigin() { return new Vector3(castOrigin.position.x, castOrigin.position.y - castHeight, castOrigin.position.z); }
     protected virtual Ray UpdateRay() { return new Ray(castOrigin.position, GetCastDirection()); }
     protected virtual void ProcessHit(RaycastHit hit) { }
 

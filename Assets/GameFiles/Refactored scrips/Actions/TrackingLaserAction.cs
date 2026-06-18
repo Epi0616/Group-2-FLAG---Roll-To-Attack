@@ -3,6 +3,7 @@ using System;
 using UnityEngine.VFX;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using System.Collections;
 
 public interface ILaser : IBoxCast
 {
@@ -91,14 +92,14 @@ public class TrackingLaserAction : BaseSphereCastAction , ILaser
             CastActiveStarted();
         }
     }
-
+    //chargeDuration + activeDuration + 1.5f
     protected override void CastChargeStarted()
     {
         laserAccess.laserVFX.Reinit();
-        laserAccess.laserVFX.SetFloat("Duration", chargeDuration + activeDuration);
+        laserAccess.laserVFX.SetFloat("Duration", 20f);
         laserAccess.laserVFX.SetVector4("Beam Colour", chargingVisualColour);
         laserAccess.laserVFX.enabled = true;
-        Debug.Log("Laser Started");
+        //Debug.Log("Laser Started");
     }
 
     protected override void CastChargeUpdate()
@@ -113,7 +114,7 @@ public class TrackingLaserAction : BaseSphereCastAction , ILaser
 
     protected override void CastChargeFinished()
     {
-        laserAccess.laserVFX.enabled = false;
+       // laserAccess.laserVFX.enabled = false;
     }
 
     protected override void CastActiveStarted()
@@ -125,13 +126,9 @@ public class TrackingLaserAction : BaseSphereCastAction , ILaser
     protected override void CastActiveUpdate()
     {
         damageTickTimer += Time.deltaTime;
-        if (damageTickTimer > 0.3f)
-        {
-            PerformActivePiercingBoxCast(castLayer);
-            damageTickTimer = 0;
-        }
-
-
+        
+        
+        PerformActivePiercingBoxCast(castLayer);
         
         // don't rotate on active
         UpdateLaserVFX(activeVisualWidth, laserAccess.environmentLayer);
@@ -139,7 +136,25 @@ public class TrackingLaserAction : BaseSphereCastAction , ILaser
 
     public override void EndAction()
     {
+        ownerEntity.StartCoroutine(BeamEnd());
         isComplete = true;
+        //Debug.Log("Laser Turned Off");
+        
+    }
+
+    public IEnumerator BeamEnd()
+    {
+        
+        float cooldownVFXTimer = 0;
+        float currentWidth = activeVisualWidth;
+        while (cooldownVFXTimer < 1.5f && currentWidth > 0f && !attackInterrupted)
+        {
+            //Debug.Log("Laser Get Smaller");
+            currentWidth -= 0.01f;
+            cooldownVFXTimer += Time.deltaTime;
+            UpdateLaserVFX(currentWidth, laserAccess.environmentLayer);
+            yield return null;
+        }
         laserAccess.laserVFX.enabled = false;
     }
 
@@ -163,10 +178,23 @@ public class TrackingLaserAction : BaseSphereCastAction , ILaser
     protected override void PerformActivePiercingBoxCast(LayerMask layer)
     {
         RaycastHit[] hits = Physics.BoxCastAll(GetCastOrigin(), GetBoxExtents(), GetCastDirection(), ownerEntity.transform.rotation, castRange.GetFinalValue(), layer);
-        foreach (RaycastHit hit in hits)
+
+        Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        if (damageTickTimer > 0.3f)
         {
-            ProcessHit(hit);
+            foreach (RaycastHit hit in hits)
+            {        
+                if (hit.collider.CompareTag("Environment") || hit.collider.CompareTag("Pedestal"))
+                {
+                    break;
+                } 
+
+                ProcessHit(hit);
+            }
+            damageTickTimer = 0;
         }
+        
     }
 
 
@@ -189,8 +217,7 @@ public class TrackingLaserAction : BaseSphereCastAction , ILaser
         if (Physics.SphereCast(ray, castWidth, out hit, castRange.GetFinalValue(), layer))
         {
             dist = hit.distance;
-        }
-        //laserAccess.laserHolder.rotation = Quaternion.LookRotation(ray.direction);
+        }       
 
         Vector3 scale = laserAccess.laserHolder.localScale;
 
