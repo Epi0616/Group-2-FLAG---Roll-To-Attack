@@ -63,6 +63,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
         abilitySlotManager.PackAway();
         DiceFaceSelectionUI.SetActive(false);
         AbilitySelectionUI.SetActive(false);
+        //UpgradeUI.SetActive(false);
         DiceFaceSelectionOver?.Invoke(delayBetweenWaves);
     }
 
@@ -87,6 +88,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
     private void AbilitySelected(AbilityPanel abilityPanel)
     {
         DiceFaceSelectionUI.SetActive(true);
+        //UpgradeUI.SetActive(true);
         abilitySlotManager.Unpack();
 
         DraggableAbility ability = abilityPanel.GetAbility();
@@ -95,6 +97,8 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
         abilitySlotManager.GetCentralAbilityPoint().GetComponent<AbilitySlot>().AddChild(ability);
         AbilitySelectionUI.SetActive(false);
+
+        
 
         //EventSystem.current.SetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
         EventSystem.current.firstSelectedGameObject = abilitySlotManager.GetCentralAbilityPoint();
