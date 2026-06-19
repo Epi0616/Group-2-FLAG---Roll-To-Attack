@@ -190,6 +190,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
 
     public virtual void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
+        if (slamDamage == 0) { return; }
        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
     }
 
