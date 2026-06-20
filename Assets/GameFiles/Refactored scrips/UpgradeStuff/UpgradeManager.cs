@@ -51,7 +51,7 @@ public class UpgradeManager : MonoBehaviour
                     var tempObj = Instantiate(abilityObjectPrefab, transform);
                     DraggableAbility tempAB = tempObj.GetComponent<DraggableAbility>();
                     ModifiableActionDescriptor newMAD = Instantiate(AB1.upgradeResult);
-                    newMAD.action.EnhancedLevel = 1;
+                    //newMAD.action.EnhancedLevel = 1;
                     tempAB.SetAbilityDescriptor(newMAD);
 
                     resultSlot.AddChild(tempAB);
@@ -72,7 +72,7 @@ public class UpgradeManager : MonoBehaviour
                         var tempObj = Instantiate(abilityObjectPrefab, transform);
                         DraggableAbility tempAB = tempObj.GetComponent<DraggableAbility>();
                         ModifiableActionDescriptor newMAD = Instantiate(MAD1);
-                        newMAD.action.EnhancedLevel = MAD1.action.EnhancedLevel + 1;
+                        //newMAD.action.EnhancedLevel = MAD1.action.EnhancedLevel + 1;
                         //EAB1.enhancementLevel++;
 
                         tempAB.SetAbilityDescriptor(newMAD);
