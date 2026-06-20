@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public interface IUpgradableAbility
 {
@@ -19,6 +20,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private AbilitySlot resultSlot;
 
     [SerializeField] private GameObject abilityObjectPrefab;
+    [SerializeField] private AbilitySlotManager abilitySlotmanager;
 
     //private void OnEnable()
     //{
@@ -29,41 +31,64 @@ public class UpgradeManager : MonoBehaviour
     {
         BaseEntityAction ability1;
         BaseEntityAction ability2;
+        ModifiableActionDescriptor MAD1;
+        ModifiableActionDescriptor MAD2;
 
         if (slot1.draggableObjects.Count == 0 || slot2.draggableObjects.Count == 0) { Debug.LogWarning("Component Slot Empty"); return; }
         if (resultSlot.draggableObjects.Count != 0) { Debug.LogWarning("Result Slot Filled"); return; }
 
         if (slot1.draggableObjects[0] is DraggableAbility DragAB1 && slot2.draggableObjects[0] is DraggableAbility DragAB2)
         {
-            ability1 = DragAB1.GetAbilityDescriptor().action.action;
-            ability2 = DragAB2.GetAbilityDescriptor().action.action;
+            
+            MAD1 = DragAB1.GetAbilityDescriptor();
+            ability1 = MAD1.action.action;
+            MAD2 = DragAB2.GetAbilityDescriptor();
+            ability2 = MAD2.action.action;
             if (ability1 == ability2)
             {
                 if (ability1 is IUpgradableAbility AB1 && ability2 is IUpgradableAbility AB2)
                 {
                     var tempObj = Instantiate(abilityObjectPrefab, transform);
                     DraggableAbility tempAB = tempObj.GetComponent<DraggableAbility>();
-                    tempAB.SetAbilityDescriptor(AB1.upgradeResult);
+                    ModifiableActionDescriptor newMAD = Instantiate(AB1.upgradeResult);
+                    newMAD.action.EnhancedLevel = 1;
+                    tempAB.SetAbilityDescriptor(newMAD);
 
                     resultSlot.AddChild(tempAB);
-
-                    slot1.RemoveChild(slot1.draggableObjects[0]);
-                    slot2.RemoveChild(slot2.draggableObjects[0]);
+                    abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
+                    
+                    slot1.RemoveChild(DragAB1);
+                    Destroy(DragAB1.gameObject);
+                    slot2.RemoveChild(DragAB2);
+                    Destroy(DragAB2.gameObject);
 
                     Debug.Log("Basic Ability Upgrade to Enhanced");
                     return;                   
                 }
                 else if (ability1 is IEnhancedAbility EAB1 && ability2 is IEnhancedAbility EAB2)
                 {
-                    EAB1.enhancementLevel++;
+                    if (EAB1.enhancementLevel == EAB2.enhancementLevel)
+                    {
+                        var tempObj = Instantiate(abilityObjectPrefab, transform);
+                        DraggableAbility tempAB = tempObj.GetComponent<DraggableAbility>();
+                        ModifiableActionDescriptor newMAD = Instantiate(MAD1);
+                        newMAD.action.EnhancedLevel = MAD1.action.EnhancedLevel + 1;
+                        //EAB1.enhancementLevel++;
 
-                    resultSlot.AddChild(slot1.draggableObjects[0]);
+                        tempAB.SetAbilityDescriptor(newMAD);
 
-                    slot1.RemoveChild(slot1.draggableObjects[0]);
-                    slot2.RemoveChild(slot2.draggableObjects[0]);
+                        resultSlot.AddChild(tempAB);
+                        abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
-                    Debug.Log("Enhanced Ability Levelled Up to Level: " + EAB1.enhancementLevel);
-                    return;
+                        slot1.RemoveChild(DragAB1);
+                        Destroy(DragAB1.gameObject);
+                        slot2.RemoveChild(DragAB2);
+                        Destroy(DragAB2.gameObject);
+
+                        Debug.Log("Enhanced Ability Levelled Up to Level: " + EAB1.enhancementLevel);
+                        return;
+                    }
+                    
                 }
             }
         }

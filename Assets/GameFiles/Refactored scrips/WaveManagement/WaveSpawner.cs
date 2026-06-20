@@ -12,6 +12,7 @@ using Random = UnityEngine.Random;
 public class WaveSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject playerRef;
+    [SerializeField] private Camera cameraRef;
     [SerializeField] private List<GameObject> spawnPoints;
     [SerializeField] private Vector2 spawnAreaCentrePoint = new Vector2(0, 15);
     [SerializeField] private float spawnAreaRadius = 50f;
@@ -104,7 +105,8 @@ public class WaveSpawner : MonoBehaviour
         }
 
         GameObject spawnedEntity = ObjectPoolManager.SpawnObject(obj, spawnPosFinal, Quaternion.identity);
-        spawnedEntity.GetComponent<Entity>().healthSystem.isDead = false;
+        spawnedEntity.GetComponent<Entity>().healthSystem.ResetSystem();
+        spawnedEntity.GetComponent<Entity>().textDisplaySystem.targetCamera = cameraRef;
     }
 
     private Vector3 PickSpawnAreaCircular()

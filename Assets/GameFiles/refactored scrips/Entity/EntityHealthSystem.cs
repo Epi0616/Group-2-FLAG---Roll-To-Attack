@@ -15,7 +15,11 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
         currentHealth = maxHealth;
     }
 
-    public virtual void ResetSystem() { }
+    public virtual void ResetSystem()
+    {
+        currentHealth = maxHealth;
+        isDead = false;
+    }
 
     public virtual void OnTakeDamage(int damageAmount)
     {
