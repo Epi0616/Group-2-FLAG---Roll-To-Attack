@@ -5,7 +5,7 @@ public class EquippableActionHolder
 {
     public ModifiableActionDescriptor actionDescriptor;
     public ConditionalAction actionInstance;
-    public int EnhancementLevel = 1;
+    public int EnhancementLevel = 0;
 
     public EquippableActionHolder() { }
     public EquippableActionHolder(ModifiableActionDescriptor actionDescriptor, int enhancementLevel)
@@ -23,9 +23,9 @@ public class EquippableActionHolder
 
     public void UpdateEnhancementLevel(int newLevel)
     {
+        EnhancementLevel = newLevel;
         if ( actionInstance.action is IEnhancedAbility temp)
         {
-            EnhancementLevel = newLevel;
             temp.enhancementLevel = EnhancementLevel;
         }
     }

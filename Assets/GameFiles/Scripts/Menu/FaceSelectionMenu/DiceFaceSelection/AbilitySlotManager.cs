@@ -152,7 +152,7 @@ public class AbilitySlotManager : MonoBehaviour
     public void FillSlotWithBasic(int i)
     {
         var tempObj = Instantiate(abilityObjectPrefab, transform);
-        tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(new EquippableActionHolder(fillAbility, 1));
+        tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(new EquippableActionHolder(fillAbility, 0));
         abilitySlots[i].AddChild(tempObj.GetComponent<DraggableAbility>());       
         draggableObjects.Add(tempObj);
     }
@@ -229,6 +229,7 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void SwapSlots()
     {
+        Debug.Log("Slots Swapped");
         AbilityDropZoneParent parent1, parent2;
         DraggableObject ability1, ability2;
 

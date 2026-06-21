@@ -118,6 +118,20 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 
     }
 
+    public void ResetStatusByType(StatusType type)
+    {
+
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            // Simply Check the StatusType Enum against the desired type removing it if found
+            if (currentActiveStatusEffects[i].effect.type == type)
+            {
+                currentActiveStatusEffects[i].ResetConditionsAll();
+                //Debug.Log("Status Removed: " + type.ToString());
+            }
+        }
+    }
+
     public void RecalculateStats()
     {  
         if (OwnerEntity == null) { return; }
