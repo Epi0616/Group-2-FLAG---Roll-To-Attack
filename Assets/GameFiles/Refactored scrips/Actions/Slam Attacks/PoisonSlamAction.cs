@@ -2,10 +2,13 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class PoisonSlamAction : BaseSlamAction
+public class PoisonSlamAction : BaseSlamAction , IUpgradableAbility
 {
-    private IPoisonSpawner poisonAccess;
-    
+    protected IPoisonSpawner poisonAccess;
+
+    [SerializeField] private ModifiableActionDescriptor EnhancementUpgradeResult;
+    public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
+
     public PoisonSlamAction() { }
 
     public PoisonSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
@@ -33,6 +36,11 @@ public class PoisonSlamAction : BaseSlamAction
     {
         GameObject poisonField = ObjectPoolManager.SpawnObject(poisonAccess.poisonFieldObj, slamOrigin, Quaternion.identity);
         poisonField.GetComponent<PoisonField>().Initialize(ownerEntity, slamRange.GetFinalValue(), poisonAccess.fieldLifetime, poisonAccess.fieldTickDamage, slamColour);
+    }
+
+    protected override void ApplyHeavyEffect(Entity hitEntity)
+    {
+
     }
 
     public override BaseEntityAction Clone()

@@ -2,34 +2,34 @@ using UnityEngine;
 
 public class PoisonField : MonoBehaviour
 {
-    private Material material;
-    private Color color;
-    private Color slamColour;
-    private float lifeSpan = 10, lifeTimer = 0;
-    private float damageTickTimer = 0;//, currentTickCount = 0;
-    private float radius = 0;
-    private Entity ownerEntity;
-    private int poisonTickDMG;
+    protected Material material;
+    protected Color color;
+    protected Color slamColour;
+    protected float lifeSpan = 10, lifeTimer = 0;
+    protected float damageTickTimer = 0;//, currentTickCount = 0;
+    protected float radius = 0;
+    protected Entity ownerEntity;
+    protected int poisonTickDMG;
     //public AudioClip[] poisonTickSound;
 
 
-    private void Awake()
+    protected void Awake()
     {
         material = GetComponent<MeshRenderer>().material;      
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         DealDamage();
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         TickDamage();
         BecomeTransparent();
     }
 
-    private void BecomeTransparent()
+    protected void BecomeTransparent()
     {
         lifeTimer += Time.fixedDeltaTime;
 
@@ -47,7 +47,7 @@ public class PoisonField : MonoBehaviour
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
-    private void TickDamage()
+    protected virtual void TickDamage()
     {
         damageTickTimer += Time.fixedDeltaTime;
         if (!(damageTickTimer >= 1)) { return; }
@@ -55,7 +55,7 @@ public class PoisonField : MonoBehaviour
         damageTickTimer = 0;
     }
 
-    private void DealDamage()
+    protected virtual void DealDamage()
     {
         if (ownerEntity == null) return;
         //if (!(currentTickCount < 10)) { return; }
@@ -76,7 +76,7 @@ public class PoisonField : MonoBehaviour
         }
     }
 
-    public void Initialize(Entity entity, float radius, float lifespan, int tickDamage, Color colour)
+    public virtual void Initialize(Entity entity, float radius, float lifespan, int tickDamage, Color colour)
     {
         ownerEntity = entity;
 

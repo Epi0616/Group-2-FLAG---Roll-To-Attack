@@ -49,7 +49,7 @@ public class RocketSpawnSlamAction : BaseSlamAction
     private IEnumerator SpawnRockets(Entity hitEntity)
     {
         int count = 0;
-        while (count < numRockets && !attackInterrupted)
+        while (count < numRockets && !attackInterrupted && hitEntity != null)
         {          
             count++;
                 

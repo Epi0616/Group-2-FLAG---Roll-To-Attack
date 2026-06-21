@@ -67,9 +67,11 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IPoisonSpawner")]
     [SerializeField] private GameObject PoisonFieldObj;
+    [SerializeField] private GameObject EnhancedPoisonFieldObj;
     [SerializeField] private float FieldLifetime = 0f;
     [SerializeField] private int FieldTickDamage = 0;
     public GameObject poisonFieldObj { get => PoisonFieldObj; set => PoisonFieldObj = value; }
+    public GameObject enhancedPoisonFieldObj { get => EnhancedPoisonFieldObj; set => EnhancedPoisonFieldObj = value; }
     public float fieldLifetime { get => FieldLifetime; set => FieldLifetime = value; }
     public int fieldTickDamage { get => FieldTickDamage; set => FieldTickDamage = value; }
 

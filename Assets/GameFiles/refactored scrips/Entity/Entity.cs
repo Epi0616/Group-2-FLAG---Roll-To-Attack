@@ -36,9 +36,11 @@ public class Entity : MonoBehaviour, IEntity
     }
     public virtual void OnRecieveEffect(ActiveStatusEffect statusEffect, Color effectColour)
     {
-
         textDisplaySystem.DisplayHigherText(statusEffect.effect.GetEffectText(), effectColour, 52);
-
+        statusSystem.OnRecieveEffect(statusEffect);
+    }
+    public virtual void OnRecieveEffect(ActiveStatusEffect statusEffect)
+    {
         statusSystem.OnRecieveEffect(statusEffect);
     }
 

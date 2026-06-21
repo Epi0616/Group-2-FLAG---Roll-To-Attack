@@ -6,9 +6,11 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
     // IPoisonSpawner Interface
     [Header("IPoison Required Properties")]
     [SerializeField] private GameObject PoisonFieldPrefab;
+    [SerializeField] private GameObject EnhancedPoisonFieldObj;
     [SerializeField] private float PoisonFieldLifeTime = 5;
     [SerializeField] private int PoisonFieldDamageTick;
     public GameObject poisonFieldObj { get => PoisonFieldPrefab; set => PoisonFieldPrefab = value; }
+    public GameObject enhancedPoisonFieldObj { get => EnhancedPoisonFieldObj; set => EnhancedPoisonFieldObj = value; }
     public float fieldLifetime { get => PoisonFieldLifeTime; set => PoisonFieldLifeTime = value; }
     public int fieldTickDamage { get => PoisonFieldDamageTick; set => PoisonFieldDamageTick = value; }
 
