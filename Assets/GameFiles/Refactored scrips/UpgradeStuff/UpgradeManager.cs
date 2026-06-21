@@ -141,6 +141,7 @@ public class UpgradeManager : MonoBehaviour
                     tempAB.SetEquippableAbility(new EquippableActionHolder(AB1.upgradeResult, 1));
 
                     resultSlot.AddChild(tempAB);
+                    tempAB.UpdateObject();
                     abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
                     UpgradeUIslot1.RemoveChild(DragAB1);
@@ -148,7 +149,7 @@ public class UpgradeManager : MonoBehaviour
                     UpgradeUIslot2.RemoveChild(DragAB2);
                     Destroy(DragAB2.gameObject);
 
-                    Debug.Log("Basic Ability Upgrade to Enhanced");
+                    //Debug.Log("Basic Ability Upgrade to Enhanced");
                     return;
                 }
                 else if (ability1 is IEnhancedAbility EAB1 && ability2 is IEnhancedAbility EAB2)
@@ -161,6 +162,7 @@ public class UpgradeManager : MonoBehaviour
                         tempAB.SetEquippableAbility(EHolder1);
 
                         resultSlot.AddChild(tempAB);
+                        tempAB.UpdateObject();
                         abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
                         UpgradeUIslot1.RemoveChild(DragAB1);
@@ -168,7 +170,7 @@ public class UpgradeManager : MonoBehaviour
                         UpgradeUIslot2.RemoveChild(DragAB2);
                         Destroy(DragAB2.gameObject);
 
-                        Debug.Log("Enhanced Ability Levelled Up to Level: " + EHolder1.EnhancementLevel);
+                        //Debug.Log("Enhanced Ability Levelled Up to Level: " + EHolder1.EnhancementLevel);
                         return;
                     }
 

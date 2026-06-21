@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization;
-using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
 
 public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
@@ -15,6 +15,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     private EquippableActionHolder myAbility;
     public Image Image;
+    [SerializeField] private TextMeshProUGUI LevelText;
 
     private Vector3 scaleOrigin;
     private Coroutine sizeShiftRoutine;
@@ -36,14 +37,38 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
         return myAbility;
     }
 
-    private void UpdateObject()
+    public void UpdateObject()
     {
+        //Debug.Log("Updating Object");
         if (myAbility.actionDescriptor.sprite != null)
         { 
-            spriteObj.GetComponent<Image>().sprite = myAbility.actionDescriptor.sprite;
-            return;
+            spriteObj.GetComponent<Image>().sprite = myAbility.actionDescriptor.sprite;           
         }
-        spriteObj.GetComponent<Image>().color = Color.white;
+        else
+        {
+            spriteObj.GetComponent<Image>().color = Color.white;
+        }
+
+        if (LevelText != null)
+        {
+            //Debug.Log("Updating Text");
+            if (myAbility.EnhancementLevel == 0)
+            {
+                //Debug.Log("Base Form Text");
+                LevelText.text = "Base Form";
+            }
+            else
+            {
+                //ebug.Log("Level Change");
+                LevelText.text = "E-Level: " + myAbility.EnhancementLevel;
+            }
+            // Maybe add colour changes
+        }
+        else
+        {
+            Debug.Log("Level Text null");
+        }
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)
