@@ -229,6 +229,7 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void SwapSlots()
     {
+        Debug.Log("Slots Swapped");
         AbilityDropZoneParent parent1, parent2;
         DraggableObject ability1, ability2;
 

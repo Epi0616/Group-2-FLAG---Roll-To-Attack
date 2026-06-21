@@ -63,7 +63,8 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
         abilitySlotManager.PackAway();
         DiceFaceSelectionUI.SetActive(false);
         AbilitySelectionUI.SetActive(false);
-        //UpgradeUI.SetActive(false);
+        //UpgradeConfirmationUI.SetActive(false);
+       
         DiceFaceSelectionOver?.Invoke(delayBetweenWaves);
     }
 
