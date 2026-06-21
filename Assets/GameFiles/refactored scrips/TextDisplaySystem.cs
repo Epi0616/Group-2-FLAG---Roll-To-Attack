@@ -4,7 +4,7 @@ using UnityEngine;
 public class TextDisplaySystem : MonoBehaviour, IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
-    [SerializeField] private Camera targetCamera;
+    public Camera targetCamera;
     [SerializeField] private GameObject textPrefab;
     public void InitialiseSystem(Entity entity)
     {

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine.Localization;
 
 [Serializable]
-public class FreezeSlamAction : BaseSlamAction
+public class FreezeSlamAction : BaseSlamAction , IUpgradableAbility
 {
     public float FreezeDuration = 1f;
     public float FragileDamageMult = 2f;
     public LocalizedString frozenText;
-
-
+    [SerializeField] private ModifiableActionDescriptor EnhancementUpgradeResult;
+    public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
     public FreezeSlamAction() { }
 
     public FreezeSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float FreezeDuration, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
@@ -22,7 +22,7 @@ public class FreezeSlamAction : BaseSlamAction
     {
         hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
 
-        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(FragileDamageMult, "PlaceHolderFrozen"),
+        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(FragileDamageMult, "Frozen"),
                 new List<BaseCondition> { new TimeCondition(true, FreezeDuration) }, true), slamColour);
     }
 

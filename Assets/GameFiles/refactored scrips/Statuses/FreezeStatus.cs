@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FreezeStatus : BaseStunEffect
 {
-    private float fragileMultiplier; 
+    protected float fragileMultiplier; 
 
     public FreezeStatus(float fragileMult, string effectText)
     {
@@ -19,7 +19,7 @@ public class FreezeStatus : BaseStunEffect
 
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
-        if (type == DamageType.Shattered) { toBeRemoved = true; }
+        if (type == DamageType.Shattered) { toBeRemoved = true; return; }
     }
 
     protected override void OnApplication()

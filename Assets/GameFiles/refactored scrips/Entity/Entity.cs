@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public class Entity : MonoBehaviour, IEntity
 {
@@ -50,4 +51,28 @@ public class Entity : MonoBehaviour, IEntity
     {
 
     }
+
+    public virtual void UpdateTarget()
+    {
+        Collider[] hitColliders = new Collider[10];
+        int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, hostileMask);
+
+        float minDist = float.MaxValue;
+        GameObject newTarget = null;
+        foreach (Collider collider in hitColliders)
+        {
+            if ((collider.transform.position - transform.position).magnitude < minDist)
+            {
+                minDist = (collider.transform.position - transform.position).magnitude;
+                newTarget = collider.gameObject;
+            }
+        }
+        if (newTarget == null)
+        {
+            Debug.LogError("No New Target Located");
+            return;
+        }
+        target = newTarget;
+    }
+
 }

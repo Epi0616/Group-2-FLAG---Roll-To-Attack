@@ -8,6 +8,11 @@ public class EnemyHealthSystem : EntityHealthSystem
     public override void OnDeath()
     {
         base.OnDeath();
+        isDead = true;
+        if (OwnerEntity is IActionable temp)
+        {
+            temp.actionController.InterruptAllActive();
+        }
         try
         {
             EnemyHasDied?.Invoke();

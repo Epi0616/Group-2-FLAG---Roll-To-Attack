@@ -11,7 +11,7 @@ public class AbilityDropZoneParent : MonoBehaviour
     protected GameObject centralAbilitySlot;
     protected RectTransform rectTransform;
     protected int objectLimit = 0;
-    protected List<DraggableObject> draggableObjects;
+    public List<DraggableObject> draggableObjects;
 
     protected virtual void Awake()
     {

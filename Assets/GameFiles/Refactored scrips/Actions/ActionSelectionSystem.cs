@@ -15,25 +15,25 @@ public class ActionSelectionSystem
         modifiableActions = entity as IModifiableActions;
     }
 
-    public ModifiableAction GetRandomModifiableAction()
+    public ConditionalAction GetRandomConditionalAction()
     {
-        List<ModifiableAction> weightedActions = modifiableActions.modifiableActions;
+        //List<EquippableActionHolder> weightedActions = ;
         int totalWeight = 0;
         LastReturnedActionIndex = 0;
 
-        foreach (var action in weightedActions)
+        foreach (var action in modifiableActions.equippableActions)
         {
-            totalWeight += action.weighting;
+            totalWeight += action.actionDescriptor.weighting;
         }
         int randomNumber = Random.Range(1, totalWeight + 1);
         int ActionWeightTally = 0;
 
-        foreach (var action in weightedActions)
+        foreach (var action in modifiableActions.equippableActions)
         {
-            ActionWeightTally += action.weighting;
+            ActionWeightTally += action.actionDescriptor.weighting;
             if (randomNumber <= ActionWeightTally)
             { 
-                return action;
+                return action.actionInstance;
             }
             LastReturnedActionIndex++;
         }

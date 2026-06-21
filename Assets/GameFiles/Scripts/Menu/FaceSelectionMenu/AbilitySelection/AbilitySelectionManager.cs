@@ -19,8 +19,8 @@ public class AbilitySelectionManager : MonoBehaviour
         {
             AbilityPanel thisPanel = abilityPanels[i];
             DraggableAbility ability = SpawnRandomNewAbility().GetComponent<DraggableAbility>();
-            string name = ability.GetAbilityDescriptor().actionName.GetLocalizedString();
-            string description = ability.GetAbilityDescriptor().actionDescription.GetLocalizedString();
+            string name = ability.GetEquippableAbility().actionDescriptor.actionName.GetLocalizedString();
+            string description = ability.GetEquippableAbility().actionDescriptor.actionDescription.GetLocalizedString();
 
             thisPanel.SetName(name);
             thisPanel.SetDescription(description);
@@ -47,7 +47,7 @@ public class AbilitySelectionManager : MonoBehaviour
             }
         }
         var tempObj = Instantiate(abilityObjectPrefab, transform);
-        tempObj.GetComponent<DraggableAbility>().SetAbilityDescriptor(abilityPool[random]);
+        tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(new EquippableActionHolder(abilityPool[random], 0));
 
         return tempObj;
     }
