@@ -115,6 +115,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
             {
                 slotsAllFull = false;
                 abilitySlots[i].DisplayEmptyAnimation(0.5f);
+                abilitySlotManager.FillSlotWithBasic(i);
             }
         }
 

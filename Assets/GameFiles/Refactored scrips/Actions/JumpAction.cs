@@ -60,7 +60,7 @@ public class JumpAction : BaseEntityAction
         eulerStartRotation.z = Mathf.Round(eulerStartRotation.z);
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
 
-        ConditionalAction targetAction = modifiableActions.actionSelectionSystem.GetRandomModifiableAction().conditionalActionDescriptor.Create();
+        ConditionalAction targetAction = modifiableActions.actionSelectionSystem.GetRandomConditionalAction();
         targetAction.triggered = false;
         int index = modifiableActions.actionSelectionSystem.LastReturnedActionIndex;
         targetRotation = rotationMap[index];

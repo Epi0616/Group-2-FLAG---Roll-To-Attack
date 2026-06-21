@@ -13,7 +13,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     [SerializeField] private GameObject spriteObj;
 
-    private ModifiableActionDescriptor myAbility;
+    private EquippableActionHolder myAbility;
     public Image Image;
 
     private Vector3 scaleOrigin;
@@ -25,22 +25,22 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
         scaleOrigin = spriteObj.transform.localScale;
     }
 
-    public void SetAbilityDescriptor(ModifiableActionDescriptor newAbility)
+    public void SetEquippableAbility(EquippableActionHolder newAbility)
     {
         myAbility = newAbility;
         UpdateObject();
     }
 
-    public ModifiableActionDescriptor GetAbilityDescriptor()
+    public EquippableActionHolder GetEquippableAbility()
     {
         return myAbility;
     }
 
     private void UpdateObject()
     {
-        if (myAbility.sprite != null)
+        if (myAbility.actionDescriptor.sprite != null)
         { 
-            spriteObj.GetComponent<Image>().sprite = myAbility.sprite;
+            spriteObj.GetComponent<Image>().sprite = myAbility.actionDescriptor.sprite;
             return;
         }
         spriteObj.GetComponent<Image>().color = Color.white;
@@ -48,12 +48,12 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        LocalizedString name = myAbility.actionName;
-        LocalizedString description = myAbility.actionDescription;
+        LocalizedString name = myAbility.actionDescriptor.actionName;
+        LocalizedString description = myAbility.actionDescriptor.actionDescription;
         Sprite sprite = null;
-        if (myAbility.sprite != null)
+        if (myAbility.actionDescriptor.sprite != null)
         {
-            sprite = myAbility.sprite;
+            sprite = myAbility.actionDescriptor.sprite;
         }
 
         OnAbilityHoverStart?.Invoke(name, description, sprite);

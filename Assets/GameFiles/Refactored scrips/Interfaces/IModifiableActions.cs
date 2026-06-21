@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public interface IModifiableActions
 {
     List<ModifiableActionDescriptor> modifiableActionDescriptors { get; set; }
-    List<ModifiableActionDescriptor> modifiableActionDescriptorStorage { get; set; }
-    List<ModifiableAction> modifiableActions { get; set; }
+    List<EquippableActionHolder> equippableActionStorage { get; set; }
+    List<EquippableActionHolder> equippableActions { get; set; }
     ActionSelectionSystem actionSelectionSystem { get; set; }
-    void UnpackModifiableActions();
+    void SetUpEquippedActionsFromSO();
 }

@@ -36,11 +36,11 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IModifiableActions")]
     [SerializeField] private List <ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
-    private List<ModifiableActionDescriptor> ModifiableActionDescriptorStorage = new List<ModifiableActionDescriptor>();
-    private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
+    private List<EquippableActionHolder> EquippableActionStorage = new List<EquippableActionHolder>();
+    private List<EquippableActionHolder> EquippableActions = new List<EquippableActionHolder>();
     public List<ModifiableActionDescriptor> modifiableActionDescriptors { get => ModifiableActionDescriptors; set => ModifiableActionDescriptors = value; }
-    public List<ModifiableActionDescriptor> modifiableActionDescriptorStorage { get => ModifiableActionDescriptorStorage; set => ModifiableActionDescriptorStorage = value; }
-    public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
+    public List<EquippableActionHolder> equippableActionStorage { get => EquippableActionStorage; set => EquippableActionStorage = value; }
+    public List<EquippableActionHolder> equippableActions { get => EquippableActions; set => EquippableActions = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
 
     [Header("IUsesRigidBody")]
@@ -112,7 +112,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         UnpackConditionalActions();
         actionController.Initialize();
 
-        UnpackModifiableActions();
+        SetUpEquippedActionsFromSO();
         actionSelectionSystem = new ActionSelectionSystem(this);
 
         statList.Add(movementSpeed);
@@ -174,13 +174,13 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     }
 
     //IModifiableActions Methods
-    public void UnpackModifiableActions()
+    public void SetUpEquippedActionsFromSO()
     { 
-        modifiableActions.Clear();
+        equippableActions.Clear();
         foreach (ModifiableActionDescriptor modifiableActionDescriptor in ModifiableActionDescriptors)
         {
             //Debug.Log("added modif action ");
-            modifiableActions.Add(modifiableActionDescriptor.Create());
+            equippableActions.Add(new EquippableActionHolder(modifiableActionDescriptor, 0));
         }
     }
 

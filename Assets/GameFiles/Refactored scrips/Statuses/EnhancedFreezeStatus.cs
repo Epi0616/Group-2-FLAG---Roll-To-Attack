@@ -13,12 +13,22 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     {
         this.enhancementLevel = enhancementLevel;
         this.effectColour = Color.deepSkyBlue;
+        this.isStackable = true;
     }
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
         if (type == DamageType.Shattered) { toBeRemoved = true; return; }
+
         float extraShatteredDamage = (damage.GetBaseValue() * 0.3f) * enhancementLevel;
+
         entityRef.OnTakeDamage((int)extraShatteredDamage, Color.yellow, DamageType.Shattered);
+        entityRef.textDisplaySystem.DisplayHigherText("SHATTERED", Color.yellow, 64);
+    }
+
+    protected override void OnRemoval()
+    {
+        base.OnRemoval();
+        Debug.Log("E-Freeze Removed");
     }
 
 }

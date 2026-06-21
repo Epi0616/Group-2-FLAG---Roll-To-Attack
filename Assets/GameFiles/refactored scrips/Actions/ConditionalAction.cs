@@ -6,7 +6,7 @@ using UnityEngine;
 public class ConditionalAction
 {
     [SerializeReference, SubclassSelector]
-    public IAction action;
+    public BaseEntityAction action;
     [SerializeReference, SubclassSelector]
     public List<BaseCondition> conditions;
 
@@ -17,7 +17,7 @@ public class ConditionalAction
 
     public ConditionalAction() { }
 
-    public ConditionalAction(IAction action, List<BaseCondition> conditions, bool singleUse, bool exclusive, int priority, bool allConditionsRequired)
+    public ConditionalAction(BaseEntityAction action, List<BaseCondition> conditions, bool singleUse, bool exclusive, int priority, bool allConditionsRequired)
     {
         this.action = action;
         this.conditions = conditions;

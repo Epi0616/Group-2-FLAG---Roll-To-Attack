@@ -9,6 +9,10 @@ public class EnemyHealthSystem : EntityHealthSystem
     {
         base.OnDeath();
         isDead = true;
+        if (OwnerEntity is IActionable temp)
+        {
+            temp.actionController.InterruptAllActive();
+        }
         try
         {
             EnemyHasDied?.Invoke();

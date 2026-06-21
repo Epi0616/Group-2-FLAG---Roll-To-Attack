@@ -31,8 +31,8 @@ public class UpgradeManager : MonoBehaviour
     {
         BaseEntityAction ability1;
         BaseEntityAction ability2;
-        ModifiableActionDescriptor MAD1;
-        ModifiableActionDescriptor MAD2;
+        EquippableActionHolder EHolder1;
+        EquippableActionHolder EHolder2;
 
         if (slot1.draggableObjects.Count == 0 || slot2.draggableObjects.Count == 0) { Debug.LogWarning("Component Slot Empty"); return; }
         if (resultSlot.draggableObjects.Count != 0) { Debug.LogWarning("Result Slot Filled"); return; }
@@ -40,19 +40,23 @@ public class UpgradeManager : MonoBehaviour
         if (slot1.draggableObjects[0] is DraggableAbility DragAB1 && slot2.draggableObjects[0] is DraggableAbility DragAB2)
         {
             
-            MAD1 = DragAB1.GetAbilityDescriptor();
-            ability1 = MAD1.action.action;
-            MAD2 = DragAB2.GetAbilityDescriptor();
-            ability2 = MAD2.action.action;
-            if (ability1 == ability2)
+            EHolder1 = DragAB1.GetEquippableAbility();
+            ability1 = EHolder1.actionInstance.action;
+            EHolder2 = DragAB2.GetEquippableAbility();
+            ability2 = EHolder2.actionInstance.action;
+            //EHolder1.actionDescriptor.action.action
+            //Debug.Log(ability1.GetType().ToString());
+            //Debug.Log(ability2.GetType().ToString());
+
+            if (ability1.GetType().ToString() == ability2.GetType().ToString())
             {
-                if (ability1 is IUpgradableAbility AB1 && ability2 is IUpgradableAbility AB2)
+                if (EHolder1.actionDescriptor.action.action is IUpgradableAbility AB1 && EHolder2.actionDescriptor.action.action is IUpgradableAbility AB2)
                 {
+                    if (AB1.upgradeResult == null) { Debug.LogWarning("Combine Result null Aborting"); return; }
                     var tempObj = Instantiate(abilityObjectPrefab, transform);
                     DraggableAbility tempAB = tempObj.GetComponent<DraggableAbility>();
-                    ModifiableActionDescriptor newMAD = Instantiate(AB1.upgradeResult);
-                    //newMAD.action.EnhancedLevel = 1;
-                    tempAB.SetAbilityDescriptor(newMAD);
+                    
+                    tempAB.SetEquippableAbility(new EquippableActionHolder(AB1.upgradeResult, 1));
 
                     resultSlot.AddChild(tempAB);
                     abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
@@ -67,16 +71,13 @@ public class UpgradeManager : MonoBehaviour
                 }
                 else if (ability1 is IEnhancedAbility EAB1 && ability2 is IEnhancedAbility EAB2)
                 {
-                    if (EAB1.enhancementLevel == EAB2.enhancementLevel)
+                    if (EHolder1.EnhancementLevel == EHolder2.EnhancementLevel)
                     {
                         var tempObj = Instantiate(abilityObjectPrefab, transform);
                         DraggableAbility tempAB = tempObj.GetComponent<DraggableAbility>();
-                        ModifiableActionDescriptor newMAD = Instantiate(MAD1);
-                        //newMAD.action.EnhancedLevel = MAD1.action.EnhancedLevel + 1;
-                        //EAB1.enhancementLevel++;
-
-                        tempAB.SetAbilityDescriptor(newMAD);
-
+                        EHolder1.UpdateEnhancementLevel(EHolder1.EnhancementLevel + 1);
+                        tempAB.SetEquippableAbility(EHolder1);
+                     
                         resultSlot.AddChild(tempAB);
                         abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
@@ -85,7 +86,7 @@ public class UpgradeManager : MonoBehaviour
                         slot2.RemoveChild(DragAB2);
                         Destroy(DragAB2.gameObject);
 
-                        Debug.Log("Enhanced Ability Levelled Up to Level: " + EAB1.enhancementLevel);
+                        Debug.Log("Enhanced Ability Levelled Up to Level: " + EHolder1.EnhancementLevel);
                         return;
                     }
                     

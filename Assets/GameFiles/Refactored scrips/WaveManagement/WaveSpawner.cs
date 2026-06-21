@@ -105,7 +105,10 @@ public class WaveSpawner : MonoBehaviour
         }
 
         GameObject spawnedEntity = ObjectPoolManager.SpawnObject(obj, spawnPosFinal, Quaternion.identity);
-        spawnedEntity.GetComponent<Entity>().healthSystem.ResetSystem();
+        if (spawnedEntity.GetComponent<Entity>().healthSystem != null)
+        {
+            spawnedEntity.GetComponent<Entity>().healthSystem.ResetSystem();
+        }
         spawnedEntity.GetComponent<Entity>().textDisplaySystem.targetCamera = cameraRef;
     }
 
