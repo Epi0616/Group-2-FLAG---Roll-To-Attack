@@ -121,8 +121,16 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
 
     public override void EndAction()
     {
-        ownerEntity.StartCoroutine(BeamEnd());
-        isComplete = true;
+        if (ownerEntity.gameObject.activeSelf == true)
+        {
+            ownerEntity.StartCoroutine(BeamEnd());
+        }
+        else
+        {
+            isComplete = true;
+        }
+        
+        
         //Debug.Log("Laser Turned Off");
         
     }
@@ -141,6 +149,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
             yield return null;
         }
         laserAccess.laserVFX.enabled = false;
+        isComplete = true;
     }
 
     public override void InterruptAction()

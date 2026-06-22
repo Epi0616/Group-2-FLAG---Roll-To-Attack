@@ -20,7 +20,7 @@ public class SeekingRocket : MonoBehaviour
 
     void Update()
     {
-        if (target == null) { DestroyMe(); }
+        if (target == null) { DestroyMe(); return; }
         if (!target.activeInHierarchy)
         {
             if (targetAssigned)
