@@ -71,7 +71,12 @@ public class JumpAction : BaseEntityAction
             (targetAction.action as ISlam).slamRange.ResetModifiers();
             if (entity is IUsesEntityInput tempInput)
             {
-                (targetAction.action as ISlam).slamRange.AddMultiplierFlat(tempInput.inputManager.holdTime);
+                if (tempInput.inputManager.holdTime > 0.1f)
+                {
+                    Debug.Log("Held over 1s");
+                    (targetAction.action as ISlam).slamRange.AddMultiplierFlat(tempInput.inputManager.holdTime);
+                }
+                
             }
             else if ((jumpable.impactSpeed.GetFinalValue() > jumpable.impactSpeed.GetBaseValue()))
             {

@@ -38,6 +38,8 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
     public float mineChargeTime { get => VacuumMineDetonationTime; set => VacuumMineDetonationTime = value; }
     [SerializeField] private GameObject VacuumMineObj;
     public GameObject mineObj { get => VacuumMineObj; set => VacuumMineObj = value; }
+    [SerializeField] private GameObject EnhancedMineObj;
+    public GameObject enhancedMineObj { get => EnhancedMineObj; set => EnhancedMineObj = value; }
 
     [Header("IRocketSpawner Required Properties")]
     // IRocketSpawner intercae
