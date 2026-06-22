@@ -16,11 +16,19 @@ public class PlayerCamera : MonoBehaviour
     private void OnEnable()
     {
         JumpAction.ShakeScreen += AddScreenShake;
+
+        Initialize();
     }
 
     private void OnDisable()
     {
         JumpAction.ShakeScreen -= AddScreenShake;
+    }
+
+    private void Initialize()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        transform.position = target.position + offset;
     }
 
     void LateUpdate()

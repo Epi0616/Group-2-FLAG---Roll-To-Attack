@@ -6,6 +6,7 @@ using System;
 
 public class PauseMenu : MonoBehaviour
 {
+    public static event Action ReturnToIntro;
     public static event Action GamePaused;
     public static event Action GameUnPaused;
 
@@ -68,16 +69,16 @@ public class PauseMenu : MonoBehaviour
     {
         TogglePaused();
 
-        if (TransitionManager.instance == null)
-        {
-            SceneManager.LoadScene("Menu");
-        }
-        else
-        {
-            TransitionManager.LoadScene("Menu", 0.5f, 1f);
-        }
+        //if (TransitionManager.instance == null)
+        //{
+        //    SceneManager.LoadScene("Menu");
+        //}
+        //else
+        //{
+        //    TransitionManager.LoadScene("Menu", 0.5f, 1f);
+        //}
 
-           
+        ReturnToIntro?.Invoke();           
     }
 
     public void TogglePaused()
