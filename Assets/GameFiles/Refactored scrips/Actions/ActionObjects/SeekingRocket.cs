@@ -128,7 +128,7 @@ public class SeekingRocket : MonoBehaviour
         }
         if (newTarget == null)
         {
-            Debug.LogWarning("No New Rocket Target Located: Destroying");
+            //Debug.LogWarning("No New Rocket Target Located: Destroying");
             DestroyMe();
             return;
         }

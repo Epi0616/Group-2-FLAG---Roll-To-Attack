@@ -73,7 +73,7 @@ public class JumpAction : BaseEntityAction
             {
                 if (tempInput.inputManager.holdTime > 0.1f)
                 {
-                    Debug.Log("Held over 1s");
+                    //Debug.Log("Held over 1s");
                     (targetAction.action as ISlam).slamRange.AddMultiplierFlat(tempInput.inputManager.holdTime);
                 }
                 

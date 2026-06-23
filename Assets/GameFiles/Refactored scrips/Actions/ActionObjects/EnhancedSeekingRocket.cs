@@ -97,7 +97,7 @@ public class EnhancedSeekingRocket : SeekingRocket
         //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
         ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(CurrentAoE, 1f, 0.5f, 1f);
 
-        entity.OnTakeDamage(10 * enhancementLevel, Color.orange, DamageType.Explosive);
+        entity.OnTakeDamage(10 + enhancementLevel, Color.orange, DamageType.Explosive);
         //AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
         
     }

@@ -90,7 +90,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
 
     protected override void CastChargeUpdate()
     {
-        //TrackingTurn();        
+        TrackingTurn();        
         //if (laserAccess == null) { return; }
         //if (laserAccess.laserVFX == null) { return; }
         //if (laserAccess.laserHolder == null) { return; }
@@ -227,7 +227,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
     private void TrackingTurn()
     {
         if (ownerEntity.target == null) return;
-        if (currentPhase == CastPhase.Active) { return; }
+        //if (currentPhase == CastPhase.Active) { return; }
        
         Quaternion lookRotation = Quaternion.LookRotation(ownerEntity.target.transform.position - ownerEntity.transform.position);   
 
