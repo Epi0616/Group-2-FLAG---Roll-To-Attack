@@ -2,31 +2,56 @@ using UnityEngine;
 
 public class SeekingRocket : MonoBehaviour 
 {
-    [SerializeField] GameObject impactFieldPrefab;
+    [SerializeField] protected GameObject impactFieldPrefab;
     //[SerializeField] AudioClip[] rocketOnHitSounds;
-    private GameObject target;
-    private bool searchingForTarget = false;
-    private bool flyingTowardsTarget = false;
-    private bool targetAssigned = false;
-    private bool isDestroyed = false;
-    private float startHeight;
+    protected GameObject target;
+    protected bool searchingForTarget = false;
+    protected bool flyingTowardsTarget = false;
+    //protected bool targetAssigned = false;
+    protected bool isDestroyed = false;
+    protected float startHeight;
+    private int rocketDamage;
+    protected Entity ownerEntity;
 
-    private Entity ownerEntity;
-
-    private void Start()
+    protected void Start()
     {
         transform.rotation = Quaternion.LookRotation(Vector3.up);
     }
 
-    void Update()
+    //void Update()
+    //{
+    //    if (target == null) { DestroyMe(); return; }
+    //    if (!target.activeInHierarchy)
+    //    {
+    //        if (targetAssigned)
+    //        {
+    //            DestroyMe();
+    //        }
+    //        return;
+    //    }
+
+    //    if (!searchingForTarget)
+    //    {
+    //        FlyUp();
+    //        return;
+    //    }
+
+    //    if (!flyingTowardsTarget)
+    //    {
+    //        SearchForTarget();
+    //        return;
+    //    }
+
+    //    FlyTowardsTarget();
+
+    //}
+
+    private void Update()
     {
-        if (target == null) { DestroyMe(); return; }
+        if (target == null) { SelectNewTarget(); return; }
         if (!target.activeInHierarchy)
         {
-            if (targetAssigned)
-            {
-                DestroyMe();
-            }
+            SelectNewTarget();
             return;
         }
 
@@ -53,13 +78,15 @@ public class SeekingRocket : MonoBehaviour
         this.target = target;
         this.startHeight = startHeight;
         transform.rotation = Quaternion.LookRotation(Vector3.up);
-        targetAssigned = true;
+        //targetAssigned = true;
         searchingForTarget = false;
         flyingTowardsTarget = false;
+        this.rocketDamage = rocketDamage;
     }
 
-    private void SearchForTarget()
+    protected void SearchForTarget()
     {
+        if (target == null) { SelectNewTarget(); }
         Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 7.5f * Time.deltaTime);
 
@@ -72,7 +99,7 @@ public class SeekingRocket : MonoBehaviour
         }
     }
 
-    private void FlyTowardsTarget()
+    protected void FlyTowardsTarget()
     {
         Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
         transform.rotation = targetRotation;
@@ -80,7 +107,35 @@ public class SeekingRocket : MonoBehaviour
         transform.position += transform.forward * 100f * Time.deltaTime;
     }
 
-    private void FlyUp()
+    protected virtual void SelectNewTarget()
+    {
+        Collider[] hitColliders = new Collider[10];
+        int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
+       
+        GameObject newTarget = null;
+        if (numHit > 0)
+        {
+            for (int i = 0; i < numHit; i++)
+            {
+                if (hitColliders[i].gameObject == null) { continue; }
+                if (hitColliders[i].gameObject.CompareTag("VacuumMine"))
+                {
+                    continue;
+                }
+                newTarget = hitColliders[i].gameObject;
+            }
+            
+        }
+        if (newTarget == null)
+        {
+            Debug.LogWarning("No New Rocket Target Located: Destroying");
+            DestroyMe();
+            return;
+        }
+        target = newTarget;
+    }
+
+    protected void FlyUp()
     {
         Vector3 targetPosition = new Vector3(target.transform.position.x, startHeight + 30, target.transform.position.z);
         Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
@@ -113,16 +168,16 @@ public class SeekingRocket : MonoBehaviour
         //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
         ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
 
-        entity.OnTakeDamage(20, Color.orange, DamageType.Normal);
+        entity.OnTakeDamage(rocketDamage, Color.orange, DamageType.Explosive);
         //AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
         DestroyMe();
     }
 
-    private void DestroyMe()
+    protected void DestroyMe()
     {
         if (isDestroyed) return;
         isDestroyed = true;
-        targetAssigned = false;
+        //targetAssigned = false;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

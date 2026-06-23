@@ -48,6 +48,9 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
     [SerializeField] private GameObject RocketObj;
     public GameObject rocketObj { get => RocketObj; set => RocketObj = value; }
 
+    [SerializeField] private GameObject EnhancedRocketObj;
+    public GameObject enhancedRocketObj { get => EnhancedRocketObj; set => EnhancedRocketObj = value; }
+
 
     // IOrbitSpike Interface Methods
     public void RemoveObjectFromOrbit(BaseOrbitObject obj)
