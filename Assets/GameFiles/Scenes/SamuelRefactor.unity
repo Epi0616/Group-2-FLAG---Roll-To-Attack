@@ -8266,7 +8266,7 @@ PrefabInstance:
       objectReference: {fileID: 3002882421794928880, guid: c8ee6abd735f657439cea3c99ac68da8, type: 3}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: RocketDamage
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: SpikeDamaged
@@ -8293,6 +8293,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 113574429688223637, guid: a5b33ee770a26d84da3bc26642f27f5a, type: 3}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: EnhancedMineObj
+      value: 
+      objectReference: {fileID: 7053362368818911038, guid: f1dd84a2958409d4889901a079ddb421, type: 3}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: FieldTickDamage
       value: 8
       objectReference: {fileID: 0}
@@ -8300,6 +8304,10 @@ PrefabInstance:
       propertyPath: SlamImpactField
       value: 
       objectReference: {fileID: 2790793571632954929, guid: fcb9a081bc2e3214b8fa9e7f1f7414c1, type: 3}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: EnhancedRocketObj
+      value: 
+      objectReference: {fileID: 6260462002906680913, guid: 774d07f346d618c489f021b0fbfce0aa, type: 3}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: InitialOrbitSpeed
       value: 360
@@ -8331,11 +8339,11 @@ PrefabInstance:
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 1767bf0014bdffd4fb9d5197fc3308b5, type: 2}
+      objectReference: {fileID: 11400000, guid: 7411c24d55c9d1b409f5345eec693684, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 1767bf0014bdffd4fb9d5197fc3308b5, type: 2}
+      objectReference: {fileID: 11400000, guid: 7411c24d55c9d1b409f5345eec693684, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[2]'
       value: 
@@ -8347,11 +8355,11 @@ PrefabInstance:
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[4]'
       value: 
-      objectReference: {fileID: 11400000, guid: 1767bf0014bdffd4fb9d5197fc3308b5, type: 2}
+      objectReference: {fileID: 11400000, guid: 4626ae10d0001ba4f8d6e1066e7667ac, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[5]'
       value: 
-      objectReference: {fileID: 11400000, guid: 1767bf0014bdffd4fb9d5197fc3308b5, type: 2}
+      objectReference: {fileID: 11400000, guid: 4626ae10d0001ba4f8d6e1066e7667ac, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ConditionalActionDescriptors.Array.data[0]'
       value: 
@@ -9164,6 +9172,10 @@ PrefabInstance:
     - target: {fileID: 3117763228394331497, guid: 0b04809e79f2966499a90329e8f26c0c, type: 3}
       propertyPath: m_Name
       value: PlayerCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117763228394331497, guid: 0b04809e79f2966499a90329e8f26c0c, type: 3}
+      propertyPath: m_TagString
+      value: Player Camera
       objectReference: {fileID: 0}
     - target: {fileID: 5084825786453978103, guid: 0b04809e79f2966499a90329e8f26c0c, type: 3}
       propertyPath: m_RenderPostProcessing
@@ -14938,11 +14950,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4afc741ec1c27b649b0f8850289a76ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveBuilder
-  waves:
-  - {fileID: 11400000, guid: 907f92383aabe534eb9650acd5dce235, type: 2}
+  waves: []
   entityBlocks:
-  - {fileID: 11400000, guid: c631614515b2863409dba1666a306a1f, type: 2}
-  startingBudget: 100
+  - {fileID: 11400000, guid: 3ae282f6af794764a9b9e4cb6a4ea62e, type: 2}
+  - {fileID: 11400000, guid: dd9250d18b4418d40bfc6651e0ba320c, type: 2}
+  - {fileID: 11400000, guid: fcf460e8114e2dd4cb4c50985818d314, type: 2}
+  startingBudget: 500
   currentBudget: 0
 --- !u!114 &1810180440
 MonoBehaviour:

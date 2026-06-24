@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: -7214448203396744137}
   - component: {fileID: 315534459191703507}
   - component: {fileID: 2576632064901962220}
+  - component: {fileID: -7512685553267018096}
   m_Layer: 28
   m_Name: VacuumMine
-  m_TagString: EntitySpawnable
+  m_TagString: VacuumMine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,7 +59,7 @@ MonoBehaviour:
   healthSystem: {fileID: 2576632064901962220}
   statusSystem: {fileID: 716484508206351171}
   bodySystem: {fileID: 3840311400407514942}
-  textDisplaySystem: {fileID: 0}
+  textDisplaySystem: {fileID: -7512685553267018096}
   temporaryImpactField: {fileID: 6184929364550443990, guid: 1e5f5054e0a0d494b8745c77f9d77353, type: 3}
   rigidbBody: {fileID: -7214448203396744137}
 --- !u!114 &716484508206351171
@@ -150,6 +151,20 @@ MonoBehaviour:
   maxHealth: 0
   currentHealth: 0
   isDead: 0
+--- !u!114 &-7512685553267018096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165927085165346944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d2e1972d34b5d4fba9b2113a86edf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
+  targetCamera: {fileID: 0}
+  textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
 --- !u!1 &3668710178189902525
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,9 +6,12 @@ using System.Threading;
 using UnityEngine;
 
 [Serializable]
-public class RocketSpawnSlamAction : BaseSlamAction
+public class RocketSpawnSlamAction : BaseSlamAction , IUpgradableAbility
 {
     private IRocketSpawner rocket;
+
+    [SerializeField] private ModifiableActionDescriptor EnhancementUpgradeResult;
+    public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
 
     public int numRockets = 3;
     private float rocketInterval = 0.5f;
@@ -37,6 +40,7 @@ public class RocketSpawnSlamAction : BaseSlamAction
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
+        if (hitEntity.CompareTag("VacuumMine")) { return; }
         ownerEntity.StartCoroutine(SpawnRockets(hitEntity));
     }
 
