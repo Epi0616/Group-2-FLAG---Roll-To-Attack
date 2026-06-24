@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnhancedSeekingRocket : SeekingRocket
@@ -8,6 +9,14 @@ public class EnhancedSeekingRocket : SeekingRocket
     private float IFrameTimer = 0;
     private float BaseAoE = 1;
     private float CurrentAoE;
+    private bool isBouncing = false;
+    private HashSet<Entity> alreadyHitEntities;
+
+    protected override void Start()
+    {
+        alreadyHitEntities = new HashSet<Entity>();
+        transform.rotation = Quaternion.LookRotation(Vector3.up);
+    }
 
     public void Initialize(Entity ownerEntity, GameObject target, float startHeight, int rocketDamage, int enhancementLevel)
     {
@@ -23,6 +32,34 @@ public class EnhancedSeekingRocket : SeekingRocket
         numBouncesTotal = enhancementLevel;
         numBouncesLeft = numBouncesTotal;
         CurrentAoE = BaseAoE + (enhancementLevel / 5);
+        alreadyHitEntities = new HashSet<Entity>();
+        alreadyHitEntities.Clear();
+        isBouncing = false;
+    }
+
+    protected virtual void FlyUp()
+    {
+        Vector3 targetPosition = new Vector3(target.transform.position.x, startHeight + 30, target.transform.position.z);
+        Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
+        transform.rotation = targetRotation;
+        if (isBouncing)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, 1f * Time.deltaTime);
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, 2f * Time.deltaTime);
+        }
+
+        //transform.position += transform.forward * 65f * Time.deltaTime;
+        if (transform.position.y >= startHeight + 25 && !isBouncing)
+        {
+            searchingForTarget = true;
+        }
+        else if (transform.position.y >= startHeight + 20 && isBouncing)
+        {
+            searchingForTarget = true;
+        }
     }
 
     private void Update()
@@ -50,6 +87,163 @@ public class EnhancedSeekingRocket : SeekingRocket
         FlyTowardsTarget();
 
     }
+
+    //protected override void SelectNewTarget()
+    //{
+    //    Collider[] hitColliders = new Collider[10];
+    //    int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
+
+    //    GameObject newTarget = null;
+    //    if (numHit > 0)
+    //    {
+    //        for (int i = 0; i < numHit; i++)
+    //        {
+    //            if (hitColliders[i].gameObject == null) { continue; }
+    //            if (hitColliders[i].gameObject.CompareTag("VacuumMine") )
+    //            {
+    //                continue;
+    //            }
+    //            foreach (Entity entity in alreadyHitEntities)
+    //            {
+    //                if (entity.gameObject == hitColliders[i].gameObject)
+    //                {
+    //                    continue;
+    //                }
+    //            }
+    //            newTarget = hitColliders[i].gameObject;
+    //        }
+
+    //    }
+    //    if (newTarget == null)
+    //    {
+    //        foreach (Entity entity in alreadyHitEntities)
+    //        {
+    //            if (entity == null) { continue; }
+    //            newTarget = entity.gameObject; break;
+    //        }
+
+
+    //    }
+    //    if (newTarget == null)
+    //    {
+    //        //Debug.LogWarning("No New Rocket Target Located: Destroying");
+    //        DestroyMe();
+    //        return;
+    //    }
+    //    target = newTarget;
+    //}
+
+    //protected override void SelectNewTarget()
+    //{
+    //    Collider[] hitColliders = new Collider[10];
+    //    int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
+    //    GameObject newTarget = null;
+    //    for (int i = 0; i < numHit; i++)
+    //    {
+    //        GameObject newObj = hitColliders[i].gameObject;
+
+    //        if (newObj == null) { continue; }
+    //        if (newObj.CompareTag("VacuumMine")) { continue; }
+
+    //        bool hasBeenHit = false;
+    //        foreach (Entity entity in alreadyHitEntities)
+    //        {
+    //            if (entity != null && entity.gameObject == newObj)
+    //            {
+    //                hasBeenHit = true;
+    //                break;
+    //            }
+    //        }
+
+    //        if (!hasBeenHit)
+    //        {
+    //            newTarget = newObj;
+    //            break;
+    //        }
+
+
+    //    }
+
+    //    if (newTarget == null)
+    //    {
+    //        for (int i = 0; i < numHit; i++)
+    //        {
+    //            GameObject newObj = hitColliders[i].gameObject;
+
+    //            if (newObj == null) { continue; }
+    //            if (newObj.CompareTag("VacuumMine")) { continue; }
+
+    //            newTarget = newObj;
+    //            break;
+    //        }
+
+    //    }
+
+    //    if (newTarget == null)
+    //    {
+    //        //Debug.LogWarning("No New Rocket Target Located: Destroying");
+    //        DestroyMe();
+    //        return;
+    //    }
+    //    target = newTarget;
+    //}
+
+    protected override void SelectNewTarget()
+    {
+        Collider[] hitColliders = new Collider[10];
+        int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
+
+        Entity closestNotHit = null;
+        float closestNotHitDist = float.MaxValue;
+        Entity closestEntity = null;
+        float closestEntityDist = float.MaxValue;
+
+
+        for (int i = 0; i < numHit; i++)
+        {
+            Collider collider = hitColliders[i];
+
+            if (collider == null) { continue; }
+            if (collider.CompareTag("VacuumMine")) { continue; }
+
+            Entity newEntity = collider.GetComponent<Entity>();
+
+            if (newEntity == null) { continue; }   
+
+            float dist = (newEntity.transform.position - transform.position).magnitude;
+
+            if (dist < closestEntityDist)
+            {
+                closestEntity = newEntity;
+                closestEntityDist = dist;
+            }
+            if (!alreadyHitEntities.Contains(newEntity) && dist < closestNotHitDist)
+            {
+                closestNotHit = newEntity;
+                closestNotHitDist = dist;
+            }
+        }
+
+        Entity newTarget = null;
+
+        if (closestNotHit != null)
+        {
+            newTarget = closestNotHit;
+        }
+        else
+        {
+            newTarget = closestEntity;
+        }
+
+        if (newTarget == null)
+        {
+            //Debug.LogWarning("No New Rocket Target Located: Destroying");
+            DestroyMe();
+            return;
+        }
+        target = newTarget.gameObject;
+    }
+
 
     protected override void OnTriggerEnter(Collider other)
     {
@@ -83,6 +277,7 @@ public class EnhancedSeekingRocket : SeekingRocket
             {
                 //Debug.Log("Bouncing Up");
                 transform.rotation = Quaternion.LookRotation(Vector3.up);
+                SelectNewTarget();
                 searchingForTarget = false;
                 numBouncesLeft--;
             }
@@ -99,6 +294,7 @@ public class EnhancedSeekingRocket : SeekingRocket
 
         entity.OnTakeDamage(10 + enhancementLevel, Color.orange, DamageType.Explosive);
         //AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
-        
+        alreadyHitEntities.Add(entity);
+        isBouncing = true;
     }
 }

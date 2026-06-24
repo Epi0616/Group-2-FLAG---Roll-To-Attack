@@ -13,7 +13,7 @@ public class SeekingRocket : MonoBehaviour
     private int rocketDamage;
     protected Entity ownerEntity;
 
-    protected void Start()
+    protected virtual void Start()
     {
         transform.rotation = Quaternion.LookRotation(Vector3.up);
     }
