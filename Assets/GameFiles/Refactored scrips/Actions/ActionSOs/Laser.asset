@@ -29,7 +29,7 @@ MonoBehaviour:
     - rid: 963244051395248197
       type: {class: TrackingLaserAction, ns: , asm: Assembly-CSharp}
       data:
-        CastBoxCheckWidth: 2
+        CastBoxCheckWidth: 1
         CastRange:
           baseValue: 50
         ChargeDuration: 1.5
@@ -38,7 +38,7 @@ MonoBehaviour:
         IsCastBlockedByEnvironment: 1
         DoesActionPreventMovement: 1
         TickDamage: 1
-        ChargingBeamWidth: 0.3
+        ChargingBeamWidth: 0.5
         ActiveBeamWidth: 1.25
         ChargingBeamColour: {r: 1, g: 0, b: 0, a: 1}
         ActiveBeamColour: {r: 0.22745098, g: 0, b: 0.34901962, a: 1}
@@ -51,7 +51,7 @@ MonoBehaviour:
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        distanceThreshold: 50
+        distanceThreshold: 35
     - rid: 963244070511313001
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:

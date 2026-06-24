@@ -7,9 +7,9 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
     [SerializeField] GameObject temporaryImpactField;
     //public AudioClip[] mineSpawned;
     //public AudioClip[] mineDetonated;
-    private Entity ownerEntity;
-    private float timer = 2f, range = 10;
-    private bool detonated = false;
+    protected Entity ownerEntity;
+    protected float timer = 2f, range = 10;
+    protected bool detonated = false;
     public bool isBeingDisplaced { get; set; }
     public Stat knockbackWeightMod { get; set; }
     public Stat slammedDamageMod { get; set; }
@@ -23,7 +23,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
         
         base.Start();
         //rb = GetComponent<Rigidbody>();
-        knockbackWeightMod = new Stat(1f);
+        knockbackWeightMod = new Stat(0.5f);
         slammedDamageMod = new Stat(1f);
     }
 
@@ -34,7 +34,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
         this.ownerEntity = ownerEntity;
         this.range = range;
         timer = chargeTime;
-        this.gameObject.layer = ownerEntity.gameObject.layer;
+        this.gameObject.layer = 14;
 
         ShowRange();
         StartCoroutine(CountDown());
@@ -58,7 +58,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
         }
     }
 
-    private void OnVacuum()
+    protected virtual void OnVacuum()
     {
         List<Entity> hitEntities = GetEntitiesInRange();
 
@@ -75,7 +75,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
         DestroyMe();
     }
 
-    private List<Entity> GetEntitiesInRange()
+    protected virtual List<Entity> GetEntitiesInRange()
     {
         List<Entity> enemies = new();
         Collider[] colliders = new Collider[100];
@@ -94,13 +94,13 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
         return enemies;
     }
 
-    private void DestroyMe()
+    protected virtual void DestroyMe()
     {
         rb.linearVelocity = Vector3.zero;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
-    private void ShowRange()
+    protected void ShowRange()
     {
         //GameObject rangeDisplay = Instantiate(temporaryImpactField, transform.position, Quaternion.identity);
         GameObject rangeDisplay = ObjectPoolManager.SpawnObject(temporaryImpactField, transform.position, Quaternion.identity);
@@ -108,7 +108,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
         rangeDisplay.GetComponent<TemporaryImpactField>().adjustObject(range, 0.25f, 0.15f, timer);
     }
 
-    private IEnumerator CountDown()
+    protected IEnumerator CountDown()
     {
         bool hasPlayedSFX = false;
         while (timer > 0 && !detonated)

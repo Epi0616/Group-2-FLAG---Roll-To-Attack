@@ -1,4 +1,5 @@
 using System;
+using System.Security.Principal;
 using UnityEngine;
 
 public class OrbitingSpike : BaseOrbitObject
@@ -7,7 +8,7 @@ public class OrbitingSpike : BaseOrbitObject
     {
         GameObject target = other.gameObject;
         if (target.CompareTag("EntitySpawnable")) { return; }
-
+        if (target.CompareTag("VacuumMine")) { return; }
         if ((ownerEntity.hostileMask & (1 << target.layer)) > 0)
         {
             DamageTarget(target.GetComponent<Entity>());

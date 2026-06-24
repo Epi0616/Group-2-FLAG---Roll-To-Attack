@@ -42,6 +42,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
     {
         this.ownerEntity = ownerEntity;
         laserAccess = ownerEntity as ILaserRequirements;
+        ownerEntity.bodySystem.body.GetComponent<Animator>().speed = 0f;
         if (laserAccess == null)
         {
             Debug.LogError("ILaserRequirementsMissing");
@@ -121,10 +122,18 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
 
     public override void EndAction()
     {
-        ownerEntity.StartCoroutine(BeamEnd());
-        isComplete = true;
+        if (ownerEntity.gameObject.activeSelf == true)
+        {
+            ownerEntity.StartCoroutine(BeamEnd());
+        }
+        else
+        {
+            isComplete = true;
+        }
+        ownerEntity.bodySystem.body.GetComponent<Animator>().speed = 1f;
+
         //Debug.Log("Laser Turned Off");
-        
+
     }
 
     public IEnumerator BeamEnd()
@@ -141,6 +150,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
             yield return null;
         }
         laserAccess.laserVFX.enabled = false;
+        isComplete = true;
     }
 
     public override void InterruptAction()
@@ -217,6 +227,8 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
     private void TrackingTurn()
     {
         if (ownerEntity.target == null) return;
+        //if (currentPhase == CastPhase.Active) { return; }
+       
         Quaternion lookRotation = Quaternion.LookRotation(ownerEntity.target.transform.position - ownerEntity.transform.position);   
 
         // Determine Angle Difference between current rotation and desired rotation

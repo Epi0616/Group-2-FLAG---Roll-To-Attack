@@ -103,8 +103,11 @@ public class WaveSpawner : MonoBehaviour
             // Spawn and place the new enemy
             spawnPosFinal = PickSpawnAreaPoint();
         }
+        if (obj == null) { Debug.LogError("obj is null"); }
+        if (spawnPosFinal == null) { Debug.LogError("SpawnPos is null"); }
 
         GameObject spawnedEntity = ObjectPoolManager.SpawnObject(obj, spawnPosFinal, Quaternion.identity);
+        if (spawnedEntity == null) { Debug.LogError("Wave Spawned Entity null"); }
         if (spawnedEntity.GetComponent<Entity>().healthSystem != null)
         {
             spawnedEntity.GetComponent<Entity>().healthSystem.ResetSystem();

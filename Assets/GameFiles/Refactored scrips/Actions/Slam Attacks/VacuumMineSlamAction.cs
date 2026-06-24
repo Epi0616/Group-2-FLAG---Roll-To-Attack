@@ -2,10 +2,11 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class VacuumMineSlamAction : BaseSlamAction
+public class VacuumMineSlamAction : BaseSlamAction , IUpgradableAbility
 {
     private IVacuumSpawner vacuumAccess;
-
+    [SerializeField] private ModifiableActionDescriptor EnhancementUpgradeResult;
+    public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
     public VacuumMineSlamAction() { }
 
     public VacuumMineSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
