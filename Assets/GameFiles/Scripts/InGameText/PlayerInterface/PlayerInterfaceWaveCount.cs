@@ -13,13 +13,13 @@ public class PlayerInterfaceWaveCount : StaticText
     protected override void OnEnable()
     {
         base.OnEnable();
-        EnemyDirector.SpawnWave += NewWave;
+        WaveManager.DisplayWaveNumber += NewWave;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        EnemyDirector.SpawnWave -= NewWave;
+        WaveManager.DisplayWaveNumber -= NewWave;
     }
 
     protected override void Awake()
@@ -28,19 +28,14 @@ public class PlayerInterfaceWaveCount : StaticText
         tmpAsset.alpha = 0f;
     }
 
-    private void NewWave(List<EnemyTypes> Enemies)
+    private void NewWave(int waveNumber)
     {
-        IncrementWaveCount();
+        waveCount = waveNumber;
+        RunTimeStatTracker.waveNumber = waveCount;
         UpdateText(localizedString.GetLocalizedString());
         timer = 0;
         tmpAsset.alpha = 0;
         newWave = true;
-    }
-
-    public void IncrementWaveCount()
-    { 
-        this.waveCount++;
-        RunTimeStatTracker.waveNumber = waveCount;
     }
 
     protected override void UpdateText(string newText)

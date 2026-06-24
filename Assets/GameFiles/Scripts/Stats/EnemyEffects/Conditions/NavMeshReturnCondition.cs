@@ -6,13 +6,15 @@ public class NavMeshReturnCondition : BaseCondition
     private EnemyStateController enemy;
     private float distance = 100.0f;
 
-    public NavMeshReturnCondition(bool required, EnemyStateController enemy)
+    public NavMeshReturnCondition(EnemyStateController enemy)
     {
         this.enemy = enemy;   
-        isRequired = required;
-        name = "NavReturnCondition";
+        //isRequired = required;
     }
-
+    public override void Initialize(Entity entity)
+    {
+        //this.entity = entity;
+    }
     public override void ConditionUpdate()
     {
       
@@ -35,8 +37,12 @@ public class NavMeshReturnCondition : BaseCondition
 
     public override void ResetCondition() { }
 
-    public override bool IsExpired()
+    public override bool IsConditionMet()
     {        
         return (distance < 0.2f);
+    }
+    public override BaseCondition Clone()
+    {
+        return new NavMeshReturnCondition(enemy);
     }
 }

@@ -33,13 +33,13 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EnemyDirector.WaveOver += WaveOver;
+        WaveManager.WaveOver += WaveOver;
         AbilityPanel.AbilitySelected += AbilitySelected;
     }
 
     private void OnDisable()
     {
-        EnemyDirector.WaveOver -= WaveOver;
+        WaveManager.WaveOver -= WaveOver;
         AbilityPanel.AbilitySelected -= AbilitySelected;
     }
 
@@ -63,6 +63,8 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
         abilitySlotManager.PackAway();
         DiceFaceSelectionUI.SetActive(false);
         AbilitySelectionUI.SetActive(false);
+        //UpgradeConfirmationUI.SetActive(false);
+       
         DiceFaceSelectionOver?.Invoke(delayBetweenWaves);
     }
 
@@ -87,6 +89,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
     private void AbilitySelected(AbilityPanel abilityPanel)
     {
         DiceFaceSelectionUI.SetActive(true);
+        //UpgradeUI.SetActive(true);
         abilitySlotManager.Unpack();
 
         DraggableAbility ability = abilityPanel.GetAbility();
@@ -95,6 +98,8 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
 
         abilitySlotManager.GetCentralAbilityPoint().GetComponent<AbilitySlot>().AddChild(ability);
         AbilitySelectionUI.SetActive(false);
+
+        
 
         //EventSystem.current.SetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
         EventSystem.current.firstSelectedGameObject = abilitySlotManager.GetCentralAbilityPoint();
@@ -111,6 +116,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
             {
                 slotsAllFull = false;
                 abilitySlots[i].DisplayEmptyAnimation(0.5f);
+                abilitySlotManager.FillSlotWithBasic(i);
             }
         }
 

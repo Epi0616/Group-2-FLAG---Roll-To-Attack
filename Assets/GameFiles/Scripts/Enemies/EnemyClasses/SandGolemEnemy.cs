@@ -63,8 +63,8 @@ public class SandGolemEnemy : EnemyStateController
                     Debug.LogError("EnemyRef is NULL");
                 }
                 //enemyRef.OnTakeGolemKnockback(attackOriginTransform.position, golemKnockBackForce);
-                enemyRef.OnRecieveEffect(new ActiveStatusEffect(new GolemKnockBackEffect(attackOriginTransform.position, golemKnockBackForce),
-                new List<BaseCondition> { new GroundedCondition(true, enemyRef), new DurationCondition(true, 0.75f), new NavMeshReturnCondition(false, enemyRef) }));
+                //enemyRef.OnRecieveEffect(new ActiveStatusEffect(new GolemKnockBackEffect(attackOriginTransform.position, golemKnockBackForce),
+                //new List<BaseCondition> { new oldGroundedCondition(true, enemyRef), new DurationCondition(true, 0.75f), new NavMeshReturnCondition(false, enemyRef) }));
             }
         }
 

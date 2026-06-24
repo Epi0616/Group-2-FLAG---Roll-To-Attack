@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class AbilitySelectionManager : MonoBehaviour
 {
     public List<AbilityPanel> abilityPanels = new();
-    public List<AbilityDescriptor> abilityPool;
+    public List<ModifiableActionDescriptor> abilityPool;
     [SerializeField] private GameObject abilityObjectPrefab;
     private List<GameObject> draggableObjects = new List<GameObject>();
    
@@ -19,8 +19,8 @@ public class AbilitySelectionManager : MonoBehaviour
         {
             AbilityPanel thisPanel = abilityPanels[i];
             DraggableAbility ability = SpawnRandomNewAbility().GetComponent<DraggableAbility>();
-            string name = ability.GetAbilityDescriptor().abilityName.GetLocalizedString();
-            string description = ability.GetAbilityDescriptor().abilityDescription.GetLocalizedString();
+            string name = ability.GetEquippableAbility().actionDescriptor.actionName.GetLocalizedString();
+            string description = ability.GetEquippableAbility().actionDescriptor.actionDescription.GetLocalizedString();
 
             thisPanel.SetName(name);
             thisPanel.SetDescription(description);
@@ -46,9 +46,8 @@ public class AbilitySelectionManager : MonoBehaviour
                 foundNewIndex = true;
             }
         }
-
         var tempObj = Instantiate(abilityObjectPrefab, transform);
-        tempObj.GetComponent<DraggableAbility>().SetAbilityDescriptor(abilityPool[random]);
+        tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(new EquippableActionHolder(abilityPool[random], 0));
 
         return tempObj;
     }

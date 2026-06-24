@@ -33,14 +33,14 @@ public class DicePedestal : MonoBehaviour
     {
         DiceFaceSelectionUIManager.DiceFaceSelectionOver += HandleDiceSelectionPhaseOver;
         GameSettings.autoStart += HandleAutoStart;
-        EnemyDirector.WaveCountStart += HandleWaveCountStart;
+        OldEnemyDirector.WaveCountStart += HandleWaveCountStart;
     }
 
     private void OnDisable()
     {
         DiceFaceSelectionUIManager.DiceFaceSelectionOver -= HandleDiceSelectionPhaseOver;
         GameSettings.autoStart -= HandleAutoStart;
-        EnemyDirector.WaveCountStart -= HandleWaveCountStart;
+        OldEnemyDirector.WaveCountStart -= HandleWaveCountStart;
     }
 
     private void Awake()
@@ -54,7 +54,6 @@ public class DicePedestal : MonoBehaviour
         startRotation = diceBody.transform.localRotation;
 
         seed = Random.Range(0, 10000);
-        Debug.Log(Time.timeScale);
     }
 
     private void Update()

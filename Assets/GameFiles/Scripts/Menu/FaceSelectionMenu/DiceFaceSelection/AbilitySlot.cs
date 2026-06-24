@@ -10,7 +10,7 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
     public static event Action<AbilitySlot> selected;
     public static event Action unselected;
     public static event Action<Vector3> selectedPos;
-
+  
     private bool isSelected = false;
 
     protected override void Awake()
@@ -32,6 +32,7 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         if (draggableObjects.Count > 0)
         {
             SwapAbilities(newObject);
+            //SwapAbilitiesWithUpgrade(newObject);
             CheckForDisplayRequired();
             return;
         }
@@ -44,9 +45,11 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
 
     private void SwapAbilities(DraggableObject newObject)
     {
+       // Debug.Log("Swapped");
         AbilityDropZoneParent newObjectsParentAtStartOfDrag = newObject.GetParentAtStartOfDrag();
         if (newObjectsParentAtStartOfDrag != null)
         {
+            //Debug.Log("Option 1");
             DraggableObject myCurrentObject = draggableObjects[0];
             myCurrentObject.ResetCurrentParent();
 
@@ -58,6 +61,47 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         }
         else
         {
+            //Debug.Log("Option 2");
+            DraggableObject myCurrentObject = draggableObjects[0];
+            myCurrentObject.ResetCurrentParent();
+
+            draggableObjects.Add(newObject);
+            newObject.SetCurrentParent(this);
+            FormatChildren();
+
+            if (centralAbilitySlot != null)
+            {
+                centralAbilitySlot.GetComponent<AbilitySlot>().AddChild(myCurrentObject);
+            }
+            //myCurrentObject.GetComponent<RectTransform>().anchoredPosition = 
+        }
+    }
+
+    private void SwapAbilitiesWithUpgrade(DraggableObject newObject)
+    {
+        //Debug.Log("Swapped");
+        AbilityDropZoneParent newObjectsParentAtStartOfDrag = newObject.GetParentAtStartOfDrag();
+        if (newObjectsParentAtStartOfDrag != null)
+        {
+            //Debug.Log("Option 1");
+
+            if (UpgradeManager.Instance.AttemptToUpgradeOnSwap(this, newObject)) { return; }
+
+            DraggableObject myCurrentObject = draggableObjects[0];          
+            myCurrentObject.ResetCurrentParent();
+
+            draggableObjects.Add(newObject);
+            newObject.SetCurrentParent(this);
+            FormatChildren();
+
+            newObjectsParentAtStartOfDrag.AddChild(myCurrentObject);
+        }
+        else
+        {
+            //Debug.Log("Option 2");
+
+            if (UpgradeManager.Instance.AttemptToUpgradeOnSwap(this, newObject)) { return; }
+
             DraggableObject myCurrentObject = draggableObjects[0];
             myCurrentObject.ResetCurrentParent();
 
@@ -111,13 +155,13 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         if (draggableObjects.Count == 0) return;
         if (draggableObjects[0] == null) return;
 
-        AbilityDescriptor myAbility = (draggableObjects[0] as DraggableAbility).GetAbilityDescriptor();
-        LocalizedString name = myAbility.abilityName;
-        LocalizedString description = myAbility.abilityDescription;
+        EquippableActionHolder myAbility = (draggableObjects[0] as DraggableAbility).GetEquippableAbility();
+        LocalizedString name = myAbility.actionDescriptor.actionName;
+        LocalizedString description = myAbility.actionDescriptor.actionDescription;
         Sprite sprite = null;
-        if (myAbility.sprite != null)
+        if (myAbility.actionDescriptor.sprite != null)
         {
-            sprite = myAbility.sprite;
+            sprite = myAbility.actionDescriptor.sprite;
         }
         (draggableObjects[0] as DraggableAbility).SizeUp();
 
