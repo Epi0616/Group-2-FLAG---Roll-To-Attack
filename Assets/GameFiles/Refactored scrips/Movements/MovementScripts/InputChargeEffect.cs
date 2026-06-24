@@ -14,7 +14,7 @@ public class InputChargeEffect : BaseEntityMovement
         base.StartMovement(ownerEntity);
         playerBodySystem = ownerEntity.bodySystem as PlayerBodySystem;        
         usesEntityInput = ownerEntity as IUsesEntityInput;
-        Debug.Log("start wobble");
+        //Debug.Log("start wobble");
     }
     public override void UpdateMovement()
     {

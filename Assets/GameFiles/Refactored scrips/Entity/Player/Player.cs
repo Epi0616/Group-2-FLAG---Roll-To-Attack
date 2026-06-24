@@ -77,8 +77,10 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IRocketSpawner")]
     [SerializeField] private GameObject RocketObj;
+    [SerializeField] private GameObject EnhancedRocketObj;
     [SerializeField] private int RocketDamage = 0;
     public GameObject rocketObj { get => RocketObj; set => RocketObj = value; }
+    public GameObject enhancedRocketObj { get => EnhancedRocketObj; set => EnhancedRocketObj = value; }
     public int rocketDamage { get => RocketDamage; set => RocketDamage = value; }
 
     [Header("IOrbitSpikeSpawner")]
@@ -97,8 +99,10 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IVacuumSpawner")]
     [SerializeField] private GameObject MineObj;
+    [SerializeField] private GameObject EnhancedMineObj;
     [SerializeField] private float MineChargeTime = 0f;
     public GameObject mineObj { get => MineObj; set => MineObj = value; }
+    public GameObject enhancedMineObj { get => EnhancedMineObj; set => EnhancedMineObj = value; }
     public float mineChargeTime { get => MineChargeTime; set => MineChargeTime = value; }
 
     protected override void Start()
