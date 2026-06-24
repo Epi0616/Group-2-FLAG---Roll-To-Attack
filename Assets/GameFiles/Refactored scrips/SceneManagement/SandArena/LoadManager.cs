@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
-public class ArenaLoadManager : MonoBehaviour, IInitializeable
+public class LoadManager : MonoBehaviour, IInitializeable
 {
-    [SerializeField] private List<GameObject> arenaPrefabs = new List<GameObject>();
+    [SerializeField] private List<GameObject> prefabs = new List<GameObject>();
 
     private void Start()
     {
@@ -13,7 +13,7 @@ public class ArenaLoadManager : MonoBehaviour, IInitializeable
 
     public void Initialize()
     {
-        foreach (GameObject obj in arenaPrefabs)
+        foreach (GameObject obj in prefabs)
         {
             Instantiate(obj, transform);
         }
