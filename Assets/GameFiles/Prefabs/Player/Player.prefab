@@ -16,8 +16,9 @@ GameObject:
   - component: {fileID: 2280677556928069547}
   - component: {fileID: 1652282900201436126}
   - component: {fileID: 952986891099167980}
+  - component: {fileID: 9031661407892169178}
   m_Layer: 17
-  m_Name: player
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,19 +62,24 @@ MonoBehaviour:
   healthSystem: {fileID: 9192187836952963803}
   statusSystem: {fileID: 2280677556928069547}
   bodySystem: {fileID: 3183200901877279129}
-  textDisplaySystem: {fileID: 0}
+  textDisplaySystem: {fileID: 9031661407892169178}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
   CanMove: 1
   MovementSpeed:
     baseValue: 15
-  movementDescriptors:
+  ConditionalMovementDescriptors:
   - {fileID: 11400000, guid: 61b6851bd4f9d8448a097b34084e53a8, type: 2}
   - {fileID: 11400000, guid: 1eba1c10fc9560b4ca4cdff0d3dda29d, type: 2}
-  actionDescriptors:
+  ConditionalActionDescriptors:
   - {fileID: 11400000, guid: 08bf4a9e7422fbe45bc99be6b8584cc6, type: 2}
-  modifiableActionDescriptors:
+  ModifiableActionDescriptors:
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
   - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
   JumpHeight:
     baseValue: 3
@@ -81,7 +87,25 @@ MonoBehaviour:
     baseValue: 8
   ImpactSpeed:
     baseValue: 10
-  SlamImpactField: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
+  SlamImpactField: {fileID: 2790793571632954929, guid: fcb9a081bc2e3214b8fa9e7f1f7414c1, type: 3}
+  PedestalLayer:
+    serializedVersion: 2
+    m_Bits: 8388608
+  PoisonFieldObj: {fileID: 113574429688223637, guid: a5b33ee770a26d84da3bc26642f27f5a, type: 3}
+  EnhancedPoisonFieldObj: {fileID: 5909023556347199278, guid: dbce164930cbc1b4283ce2865942aed2, type: 3}
+  FieldLifetime: 5
+  FieldTickDamage: 6
+  RocketObj: {fileID: 1728228439590660443, guid: 797e1db8b193f6f4aac40c546528a581, type: 3}
+  EnhancedRocketObj: {fileID: 6260462002906680913, guid: 774d07f346d618c489f021b0fbfce0aa, type: 3}
+  RocketDamage: 10
+  SpikePrefab: {fileID: 3002882421794928880, guid: c8ee6abd735f657439cea3c99ac68da8, type: 3}
+  SpikeLifeSpan: 15
+  OrbitRadius: 5
+  InitialOrbitSpeed: 360
+  SpikeDamaged: 18
+  MineObj: {fileID: 165927085165346944, guid: 4cc0dd0e06ad2e64ebd77ebcd75abf90, type: 3}
+  EnhancedMineObj: {fileID: 7053362368818911038, guid: f1dd84a2958409d4889901a079ddb421, type: 3}
+  MineChargeTime: 3
 --- !u!114 &9192187836952963803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +212,20 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 3
+--- !u!114 &9031661407892169178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5290799491826399144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d2e1972d34b5d4fba9b2113a86edf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
+  targetCamera: {fileID: 0}
+  textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
 --- !u!1 &6462049583413013683
 GameObject:
   m_ObjectHideFlags: 0
