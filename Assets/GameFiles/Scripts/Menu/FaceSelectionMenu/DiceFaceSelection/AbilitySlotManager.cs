@@ -39,6 +39,7 @@ public class AbilitySlotManager : MonoBehaviour
     }
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         modifiableActions = player as IModifiableActions;
     }
 

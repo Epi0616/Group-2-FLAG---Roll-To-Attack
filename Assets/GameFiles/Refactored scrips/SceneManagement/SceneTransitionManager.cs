@@ -151,11 +151,13 @@ public class SceneTransitionManager : MonoBehaviour
                 CameraManager.instance.SetActiveCamera(camera);
             }
 
+            if (rootObject.TryGetComponent<IInitializeable>(out var initializable))
+            { 
+                yield return StartCoroutine(initializable.InitializeAsync());
+            }
             rootObject.SetActive(true);
             yield return null;
         }
-
-        yield return null;
         stopwatch.Stop();
         Debug.Log("ms elapsed on activation timeslice: " + stopwatch.ElapsedMilliseconds);
     }

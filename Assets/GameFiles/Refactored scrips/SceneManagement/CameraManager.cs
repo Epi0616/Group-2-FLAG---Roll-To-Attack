@@ -23,6 +23,10 @@ public class CameraManager : MonoBehaviour
 
     public void AddCamera(Camera camera)
     { 
+        camera.enabled = false;
+        AudioListener listener = camera.GetComponent<AudioListener>();
+        listener.enabled = false;
+
         cameras.Add(camera);
     }
 
