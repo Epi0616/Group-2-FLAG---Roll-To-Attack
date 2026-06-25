@@ -44,6 +44,8 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
 
     public IEnumerator InitializeAsync()
     {
+        Initialize(); //as only 2 objects are being instantiated i dont think its currently worth making this asynchronous
+
         yield return null;
     }
 

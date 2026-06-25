@@ -12,30 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
   m_Name: PlayerPoisonAction
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
-  variable: 1
-  action:
-    rid: 5154423907392946247
-  conditions:
-  - rid: 5154423907392946248
-  allConditionsRequired: 0
-  singleUse: 1
-  exclusive: 1
-  priority: 0
+  conditionalAction:
+    action:
+      rid: 5154424227109797982
+    conditions:
+    - rid: 5154424227109797983
+    allConditionsRequired: 0
+    singleUse: 1
+    triggered: 0
+    exclusive: 1
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5154423907392946247
+    - rid: 5154424227109797982
       type: {class: PoisonSlamAction, ns: , asm: Assembly-CSharp}
       data:
         SlamDamage: 0
-        SlamColor: {r: 0, g: 1, b: 0.013665199, a: 0}
+        SlamColor: {r: 0.1649735, g: 1, b: 0, a: 1}
         ChargeTime: 0
         SlamRange:
           baseValue: 10
         SlamPositionOffset: {x: 0, y: 0, z: 0}
         DoesActionPreventMovement: 0
         EnhancementUpgradeResult: {fileID: 11400000, guid: 669bb234dfd2695449dfb4671d0977ba, type: 2}
-    - rid: 5154423907392946248
+    - rid: 5154424227109797983
       type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0

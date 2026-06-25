@@ -30,18 +30,16 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [SerializeField] private List<ConditionalActionDescriptor> ConditionalActionDescriptors = new List<ConditionalActionDescriptor>();
     private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
     private bool CanAct = true;
-    public List<ConditionalActionDescriptor> conditionalActionDescriptors { get => ConditionalActionDescriptors; set => ConditionalActionDescriptors = value; }
     public List<ConditionalAction> conditionalActions { get => ConditionalActions; set => ConditionalActions = value; }
     public ActionController actionController { get; set; }
     public bool canAct { get => CanAct; set => CanAct = value; }
 
     [Header("IModifiableActions")]
-    [SerializeField] private List <ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
-    private List<EquippableActionHolder> EquippableActionStorage = new List<EquippableActionHolder>();
-    private List<EquippableActionHolder> EquippableActions = new List<EquippableActionHolder>();
-    public List<ModifiableActionDescriptor> modifiableActionDescriptors { get => ModifiableActionDescriptors; set => ModifiableActionDescriptors = value; }
-    public List<EquippableActionHolder> equippableActionStorage { get => EquippableActionStorage; set => EquippableActionStorage = value; }
-    public List<EquippableActionHolder> equippableActions { get => EquippableActions; set => EquippableActions = value; }
+    [SerializeField] private List<ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
+    private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
+    private List<ModifiableAction> ModifiableActionStorage = new List<ModifiableAction>();
+    public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
+    public List<ModifiableAction> modifiableActionStorage { get => ModifiableActionStorage; set => ModifiableActionStorage = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
 
     [Header("IUsesRigidBody")]
@@ -119,7 +117,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         UnpackConditionalActions();
         actionController.Initialize();
 
-        SetUpEquippedActionsFromSO();
+        UnpackModifiableActions();
         actionSelectionSystem = new ActionSelectionSystem(this);
 
         statList.Add(movementSpeed);
@@ -167,7 +165,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     }
     public void UnpackConditionalActions()
     {
-        foreach (var action in conditionalActionDescriptors)
+        foreach (var action in ConditionalActionDescriptors)
         {
             conditionalActions.Add(action.Create());
         }
@@ -181,13 +179,12 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     }
 
     //IModifiableActions Methods
-    public void SetUpEquippedActionsFromSO()
+    public void UnpackModifiableActions()
     { 
-        equippableActions.Clear();
         foreach (ModifiableActionDescriptor modifiableActionDescriptor in ModifiableActionDescriptors)
         {
-            //Debug.Log("added modif action ");
-            equippableActions.Add(new EquippableActionHolder(modifiableActionDescriptor, 0));
+            Debug.Log("added modif action " + modifiableActionDescriptor);
+            modifiableActions.Add(modifiableActionDescriptor.Create());
         }
     }
 
