@@ -49,7 +49,8 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     [SerializeField] private bool CanBeStunned = true;
     public bool canBeStunned { get => CanBeStunned; set => CanBeStunned = value; }
 
-    
+    [SerializeField] private bool IsStunned;
+    public bool isStunned { get => IsStunned; set => IsStunned = value; }
 
 
     //// ENEMY MOVEMENT AND ACTION PROPERTIES
@@ -59,7 +60,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     //public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
     //[SerializeField] private List<ConditionalAction> actions = new List<ConditionalAction>();
 
-    
+
 
     protected override void Start()
     {
@@ -161,6 +162,11 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         {
             EnableAIAgent();
         }
+    }
+
+    public void CheckForStunned()
+    {
+        isStunned = statusSystem.CheckForStunnedStatus();
     }
 
     
