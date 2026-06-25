@@ -27,6 +27,11 @@ public class ConditionalAction
         this.allConditionsRequired = allConditionsRequired;
     }
 
+    public ConditionalAction Clone()
+    {
+        return new ConditionalAction(action, conditions, singleUse, exclusive, priority, allConditionsRequired);
+    }
+
     public void UpdateConditionsAll()
     {
         foreach (BaseCondition condition in conditions)

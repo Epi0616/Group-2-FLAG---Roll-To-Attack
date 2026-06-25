@@ -1,17 +1,21 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DiceFaceSelectionUIManager : MonoBehaviour
+public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
 {
-    public bool visibleForTesting;
-    private Canvas canvas;
-    [SerializeField] private GameObject DiceFaceSelectionUI, AbilitySelectionUI;
-    [SerializeField] private AbilitySlotManager abilitySlotManager;
-    [SerializeField] private AbilitySelectionManager abilitySelectionManager;
     public static event Action DiceFaceSelectionStart;
     public static event Action<float> DiceFaceSelectionOver;
+
+    public bool visibleForTesting;
+    [SerializeField] private GameObject DiceFaceSelectionPrefab, AbilitySelectionPrefab;
+
+    private Canvas canvas;
+    private GameObject DiceFaceSelectionUI, AbilitySelectionUI;
+    private AbilitySlotManager abilitySlotManager;
+    private AbilitySelectionManager abilitySelectionManager;
     private float delayBetweenWaves; //not really needed, the original wave over from enemy director contains this float. may need to pass it into future functions??
     private float timer = 0;
     private bool setupComplete = true;
@@ -19,6 +23,30 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
     private void Awake()
     {
         canvas = GetComponentInParent<Canvas>();
+    }
+
+    public void Initialize()
+    {
+        DiceFaceSelectionUI = Instantiate(DiceFaceSelectionPrefab, transform);
+        AbilitySelectionUI = Instantiate(AbilitySelectionPrefab, transform);
+
+        abilitySlotManager = DiceFaceSelectionUI.GetComponentInChildren<AbilitySlotManager>();
+        abilitySelectionManager = AbilitySelectionUI.GetComponent<AbilitySelectionManager>();
+
+        DiceFaceSelectionUI.SetActive(false);
+        AbilitySelectionUI.SetActive(visibleForTesting);
+
+        if (visibleForTesting)
+        {
+            Setup();
+        }
+    }
+
+    public IEnumerator InitializeAsync()
+    {
+        Initialize(); //as only 2 objects are being instantiated i dont think its currently worth making this asynchronous
+
+        yield return null;
     }
 
     private void Update()
@@ -35,26 +63,17 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
     {
         WaveManager.WaveOver += WaveOver;
         AbilityPanel.AbilitySelected += AbilitySelected;
+        ContinueButton.Continue += Continue;
     }
 
     private void OnDisable()
     {
         WaveManager.WaveOver -= WaveOver;
         AbilityPanel.AbilitySelected -= AbilitySelected;
+        ContinueButton.Continue -= Continue;
     }
 
-    private void Start()
-    {
-        DiceFaceSelectionUI.SetActive(false);
-        AbilitySelectionUI.SetActive(visibleForTesting);
-
-        if (visibleForTesting)
-        {
-            Setup();
-        }
-    }
-
-    public void ContinueButton()
+    public void Continue()
     {
         //Debug.Log("continue pressed");
         if (!CheckForFullDiceSlots()) return;
@@ -64,7 +83,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
         DiceFaceSelectionUI.SetActive(false);
         AbilitySelectionUI.SetActive(false);
         //UpgradeConfirmationUI.SetActive(false);
-       
+
         DiceFaceSelectionOver?.Invoke(delayBetweenWaves);
     }
 
@@ -99,7 +118,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour
         abilitySlotManager.GetCentralAbilityPoint().GetComponent<AbilitySlot>().AddChild(ability);
         AbilitySelectionUI.SetActive(false);
 
-        
+
 
         //EventSystem.current.SetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
         EventSystem.current.firstSelectedGameObject = abilitySlotManager.GetCentralAbilityPoint();

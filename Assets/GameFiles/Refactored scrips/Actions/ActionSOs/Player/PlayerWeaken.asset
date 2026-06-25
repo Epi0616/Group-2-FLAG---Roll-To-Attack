@@ -12,29 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
   m_Name: PlayerWeaken
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
-  variable: 1
-  action:
-    rid: 5154423959924506695
-  conditions:
-  - rid: 5154423959924506696
-  allConditionsRequired: 0
-  singleUse: 1
-  exclusive: 1
-  priority: 0
+  conditionalAction:
+    action:
+      rid: 5154424227109797976
+    conditions:
+    - rid: 5154424227109797977
+    allConditionsRequired: 0
+    singleUse: 1
+    triggered: 0
+    exclusive: 1
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5154423959924506695
+    - rid: 5154424227109797976
       type: {class: WeakenSlamAction, ns: , asm: Assembly-CSharp}
       data:
         SlamDamage: 0
-        SlamColor: {r: 0.6438773, g: 0, b: 0.7169812, a: 0}
+        SlamColor: {r: 0.7058824, g: 0, b: 1, a: 1}
         ChargeTime: 0
         SlamRange:
           baseValue: 10
         SlamPositionOffset: {x: 0, y: 0, z: 0}
         DoesActionPreventMovement: 0
-        WeakenDuration: 5
+        WeakenDuration: 1
         WeakenDamageMult: 2
         weakenText:
           m_TableReference:
@@ -45,8 +46,7 @@ MonoBehaviour:
           m_FallbackState: 0
           m_WaitForCompletion: 0
           m_LocalVariables: []
-    - rid: 5154423959924506696
+    - rid: 5154424227109797977
       type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        name: Base
