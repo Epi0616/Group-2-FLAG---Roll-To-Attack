@@ -32,6 +32,9 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
     [SerializeField] private GameObject SpikePrefab;
     public GameObject spikePrefab { get => SpikePrefab; set => SpikePrefab = value; }
 
+    [SerializeField] private GameObject EnhancedSpikePrefab;
+    public GameObject enhancedSpikePrefab { get => EnhancedSpikePrefab; set =>  EnhancedSpikePrefab = value; }
+
     [Header("IVacuumSpawner Required Properties")]
     // IVacuumSpawner Interface
     [SerializeField] private float VacuumMineDetonationTime = 5;
@@ -64,6 +67,16 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
         {
             float angle = i * (360f / orbitObjects.Count);
             orbitObjects[i].UpdateAngle(angle);
+        }
+    }
+    public void RefreshSpikeAge()
+    {
+        for (int i = 0; i < orbitObjects.Count; i++)
+        {
+            if (orbitObjects[i] is OrbitingSpike temp)
+            {
+                temp.age = 0;
+            }
         }
     }
 }
