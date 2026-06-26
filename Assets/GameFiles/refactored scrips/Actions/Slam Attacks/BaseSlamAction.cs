@@ -21,14 +21,14 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
     public bool doesActionPreventMovement { get => DoesActionPreventMovement; set => DoesActionPreventMovement = value; }
 
-    protected ISlamActionRequirements slamVariablesAccess;    
-    private float chargeUpTimer = 0;
-    private bool chargeComplete = false;
+    protected ISlamActionRequirements slamVariablesAccess;
+    protected float chargeUpTimer = 0;
+    protected bool chargeComplete = false;
     protected Vector3 slamOrigin;
     protected bool attackInterrupted = false;
     protected ImpactFieldVisual impactField;
     //public GameObject slamImpactField;
-    protected EnemyBodySystem enemyBodySystem;
+
     public BaseSlamAction() { }
     public BaseSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent)
     {
@@ -43,30 +43,24 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     public override void StartAction(Entity entity)
     {
         base.StartAction(entity);
-        
-        slamVariablesAccess = entity as ISlamActionRequirements;
-        enemyBodySystem = entity.bodySystem as EnemyBodySystem;
-        if (enemyBodySystem != null)
-        {
-            enemyBodySystem.TriggerAnimatorAttackParamter();
-        }
-        preventsMovement = DoesActionPreventMovement;
+        SetupSlam();
+    }
+
+    protected virtual void SetupSlam()
+    {
+        slamVariablesAccess = ownerEntity as ISlamActionRequirements;
         chargeUpTimer = 0;
         chargeComplete = false;
         attackInterrupted = false;
-        Debug.Log("Starting Slam, DoesActionPreventMovement: " + DoesActionPreventMovement);
-        Debug.Log("Starting Slam, preventsMovement: " + preventsMovement);
-        Debug.Log("Starting Slam, doesActionPreventMovement: " + doesActionPreventMovement);
+
         //slamImpactField = slamVariablesAccess.SlamImpactField;
         // Debug.Log("SLAM STRTED");
 
-
         slamOrigin = ownerEntity.transform.position + (ownerEntity.transform.forward * slamPositionOffset.z) + (ownerEntity.transform.right * slamPositionOffset.x);
-        
+
         // + ownerEntity.transform.TransformPoint(slamVariablesAccess.slamPositionOffset);
         //EnemyAttackImpactField field = slamVariablesAccess.SPAWNTHING(slamVariablesAccess.DebugSlamObj, slamOrigin).GetComponent<EnemyAttackImpactField>();
         SpawnSlamStartVFX();
-        
     }
 
     public virtual void SpawnSlamStartVFX()
