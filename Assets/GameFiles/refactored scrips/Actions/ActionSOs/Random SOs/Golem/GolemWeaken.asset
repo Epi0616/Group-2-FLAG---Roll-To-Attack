@@ -10,38 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
-  m_Name: GolemWeakenSlam
+  m_Name: GolemWeaken
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
-  variable: 1
-  action:
-    rid: 963243957707866181
-  conditions:
-  - rid: 963243912890679379
-  - rid: 963244047682502734
-  - rid: 963244070511312999
-  allConditionsRequired: 1
-  singleUse: 0
-  exclusive: 1
-  priority: 0
+  conditionalAction:
+    action:
+      rid: 963244250863239178
+    conditions:
+    - rid: 5154424227109797973
+    - rid: 5154424227109797974
+    - rid: 5154424227109797975
+    allConditionsRequired: 1
+    singleUse: 0
+    triggered: 0
+    exclusive: 1
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 963243912890679379
-      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        distanceThreshold: 17
-    - rid: 963243957707866181
+    - rid: 963244250863239178
       type: {class: WeakenSlamAction, ns: , asm: Assembly-CSharp}
       data:
-        SlamDamage: 10
-        SlamColor: {r: 0.764151, g: 0.13336597, b: 0.7575951, a: 1}
+        SlamDamage: 25
+        SlamColor: {r: 0.5943396, g: 0.13737096, b: 0.47198722, a: 1}
         ChargeTime: 1.5
         SlamRange:
-          baseValue: 10.69
+          baseValue: 6
         SlamPositionOffset: {x: 0, y: 0, z: 10}
         DoesActionPreventMovement: 1
-        WeakenDuration: 10
+        WeakenDuration: 1
         WeakenDamageMult: 2
         weakenText:
           m_TableReference:
@@ -52,12 +48,17 @@ MonoBehaviour:
           m_FallbackState: 0
           m_WaitForCompletion: 0
           m_LocalVariables: []
-    - rid: 963244047682502734
+    - rid: 5154424227109797973
+      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        distanceThreshold: 17
+    - rid: 5154424227109797974
       type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
         lookThreshold: 15
-    - rid: 963244070511312999
+    - rid: 5154424227109797975
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
