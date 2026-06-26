@@ -53,6 +53,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         }
         else
         {
+            rb.useGravity = true;
             DropToFloor();
         }
     }
