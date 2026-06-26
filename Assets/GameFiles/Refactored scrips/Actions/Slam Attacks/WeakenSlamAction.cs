@@ -26,7 +26,7 @@ public class WeakenSlamAction : BaseSlamAction
 
     public override BaseEntityAction Clone()
     {
-        return new WeakenSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, WeakenDuration, DoesActionPreventMovement);
+        return new WeakenSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, WeakenDuration, preventsMovement);
     }
 }
 // weakenText.GetLocalizedString()

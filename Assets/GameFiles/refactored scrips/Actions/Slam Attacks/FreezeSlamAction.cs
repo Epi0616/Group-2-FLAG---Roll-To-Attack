@@ -28,7 +28,7 @@ public class FreezeSlamAction : BaseSlamAction , IUpgradableAbility
 
     public override BaseEntityAction Clone()
     {
-        return new FreezeSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, FreezeDuration, DoesActionPreventMovement);
+        return new FreezeSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, FreezeDuration, preventsMovement);
     }
 }
 // frozenText.GetLocalizedString()
