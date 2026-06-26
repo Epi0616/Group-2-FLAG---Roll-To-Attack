@@ -40,7 +40,7 @@ public class RocketSpawnSlamAction : BaseSlamAction , IUpgradableAbility
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        if (hitEntity.CompareTag("VacuumMine")) { return; }
+        if (hitEntity.CompareTag("StaticEntity") || hitEntity.CompareTag("PhysicsEntity")) { return; }
         ownerEntity.StartCoroutine(SpawnRockets(hitEntity));
     }
 

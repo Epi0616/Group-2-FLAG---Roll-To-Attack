@@ -118,7 +118,7 @@ public class SeekingRocket : MonoBehaviour
             for (int i = 0; i < numHit; i++)
             {
                 if (hitColliders[i].gameObject == null) { continue; }
-                if (hitColliders[i].gameObject.CompareTag("VacuumMine"))
+                if (hitColliders[i].CompareTag("StaticEntity") || hitColliders[i].CompareTag("PhysicsEntity"))
                 {
                     continue;
                 }

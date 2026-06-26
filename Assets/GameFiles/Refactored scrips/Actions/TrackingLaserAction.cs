@@ -197,7 +197,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
     {
         if (hit.collider == null) return;
         if (hit.collider.gameObject == ownerEntity.gameObject) { return; }
-        if (hit.collider.gameObject.CompareTag("EntitySpawnable")) { return; }
+        if (hit.collider.gameObject.CompareTag("StaticEntity") || hit.collider.gameObject.CompareTag("PhysicsEntity")) { return; }
 
         Entity hitEntity = hit.collider.gameObject.GetComponent<Entity>();
         if (hitEntity == null) { return; }

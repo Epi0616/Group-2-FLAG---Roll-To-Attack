@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 {
-    protected Entity ownerEntity;
+    public Entity ownerEntity;
     public Entity parentEntity;
     private int numHitsTotal;
     private int numHitsLeft;
@@ -83,18 +83,17 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
             statusSystem.OnRecieveEffect(statusEffect);
         }
     }
-
-    private void OnTriggerEnter(Collider other)
+  
+    private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Something Hit");
+        //Debug.Log("Something Hit");
         if (embedded) { Debug.Log("Embedded, returning"); return; }
-        GameObject hit = other.gameObject;
-        //if (hit.CompareTag("EntitySpawnable")) { return; }
-        //if (hit.CompareTag("VacuumMine")) { return; }
+        GameObject hit = collision.gameObject;
+        if (hit.CompareTag("StaticEntity") || hit.CompareTag("PhysicsEntity")) { return; }
         if ((ownerEntity.hostileMask & (1 << hit.layer)) > 0)
         {
             Debug.Log("Something Correct Hit");
-            DamageTarget(target.GetComponent<Entity>(), BaseOnHitSpikeDamage, Color.silver);
+            DamageTarget(hit.GetComponent<Entity>(), BaseOnHitSpikeDamage, Color.silver);
             numHitsLeft--;
             if (numHitsLeft <= 0)
             {
@@ -121,8 +120,12 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
     public void DropToFloor()
     {
+        if (embedded)
+        {
+            transform.parent = null;
+        }
         embedded = false;
-        transform.parent = null;
+  
         rigidbBody.useGravity = true;
     }
 }

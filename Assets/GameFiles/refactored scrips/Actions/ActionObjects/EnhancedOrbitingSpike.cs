@@ -23,8 +23,7 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
     protected override void OnTriggerEnter(Collider other)
     {
         GameObject target = other.gameObject;
-        if (target.CompareTag("EntitySpawnable")) { return; }
-        if (target.CompareTag("VacuumMine")) { return; }
+        if (target.CompareTag("StaticEntity") || target.CompareTag("PhysicsEntity")) { return; }
         if ((ownerEntity.hostileMask & (1 << target.layer)) > 0)
         {
             DamageTarget(target.GetComponent<Entity>());
