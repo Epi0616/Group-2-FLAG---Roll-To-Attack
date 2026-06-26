@@ -40,6 +40,6 @@ public class EnhancedVacuumSlamAction : BaseSlamAction , IEnhancedAbility
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedVacuumSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, DoesActionPreventMovement, enhancementLevel);
+        return new EnhancedVacuumSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, enhancementLevel);
     }
 }

@@ -4,8 +4,9 @@ using UnityEngine;
 [Serializable]
 public class BaseEntityAction : IAction
 {
+    [SerializeField] protected bool PreventsMovement;
     public bool isComplete { get; set; }
-    public bool preventsMovement { get; set; }
+    public bool preventsMovement { get => PreventsMovement; set => PreventsMovement = value; }
     protected Entity ownerEntity;
     protected IActionable actionable;
     public virtual void StartAction(Entity ownerEntity)

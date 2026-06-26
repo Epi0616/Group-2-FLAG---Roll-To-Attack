@@ -12,14 +12,12 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     [SerializeField] protected float ChargeTime;
     [SerializeField] protected Stat SlamRange = new Stat(5);
     [SerializeField] protected Vector3 SlamPositionOffset;
-    [SerializeField] protected bool DoesActionPreventMovement;
 
     public int slamDamage { get => SlamDamage; set => SlamDamage = value; }
     public Color slamColour { get => SlamColor; set => SlamColor = value; }
     public float chargeTime { get => ChargeTime; set => ChargeTime = value; }
     public Stat slamRange { get => SlamRange; set => SlamRange = value; }
     public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
-    public bool doesActionPreventMovement { get => DoesActionPreventMovement; set => DoesActionPreventMovement = value; }
 
     protected ISlamActionRequirements slamVariablesAccess;
     protected float chargeUpTimer = 0;
@@ -199,7 +197,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
 
     public override BaseEntityAction Clone()
     {
-        return new BaseSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, DoesActionPreventMovement);
+        return new BaseSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
     }
 }
 // slamVariablesAccess.defaultSlamColour

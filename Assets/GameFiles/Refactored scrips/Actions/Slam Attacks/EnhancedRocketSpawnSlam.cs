@@ -66,6 +66,6 @@ public class EnhancedRocketSpawnSlam : BaseSlamAction , IEnhancedAbility
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedRocketSpawnSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, DoesActionPreventMovement, numRockets, enhancementLevel);
+        return new EnhancedRocketSpawnSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, numRockets, enhancementLevel);
     }
 }
