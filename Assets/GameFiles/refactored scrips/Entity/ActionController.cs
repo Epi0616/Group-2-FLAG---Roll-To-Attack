@@ -196,7 +196,7 @@ public class ActionController
         bool result = false;
         for (int i = activeActions.Count - 1; i >= 0; i--)
         {
-            if (activeActions[i].action.preventsMovement) { result = true; }
+            if (activeActions[i].action.preventsMovement) { result = true; }            
         }
         return result;
     }

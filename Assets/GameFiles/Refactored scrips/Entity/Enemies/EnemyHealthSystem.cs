@@ -15,6 +15,14 @@ public class EnemyHealthSystem : EntityHealthSystem
         {
             temp.actionController.InterruptAllActive();
         }
+
+        if (OwnerEntity.bodySystem is EnemyBodySystem temp2)
+        {
+            temp2.TriggerAnimatorDeathParameter();
+        }
+
+        OwnerEntity.statusSystem.currentActiveStatusEffects.Clear();
+
         try
         {
             EnemyHasDied?.Invoke();
