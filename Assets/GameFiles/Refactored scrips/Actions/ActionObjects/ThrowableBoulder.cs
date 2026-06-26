@@ -8,8 +8,11 @@ public class ThrowableBoulder : MonoBehaviour
     private void Start()
     {
         rb.isKinematic = true;
+    }
 
-        StartCoroutine(PathToTarget(new Vector3(0,0,0), transform.position, 2));
+    public void HandlePathToTarget(Vector3 target, float durationOfTravel)
+    {
+        StartCoroutine(PathToTarget(target, transform.position, durationOfTravel));
     }
 
     private IEnumerator PathToTarget(Vector3 target, Vector3 initialPosition, float durationOfTravel)
@@ -52,11 +55,11 @@ public class ThrowableBoulder : MonoBehaviour
 
         if (distance != 0)
         {
-            peakInArc = midPoint.y + (1000 * (1 / distance));
+            peakInArc = midPoint.y + (500 * (1 / distance));
         }
         else
         {
-            peakInArc = midPoint.y + (1000 * (1 / distance));
+            peakInArc = midPoint.y + (500 * (1 / distance));
         }
 
         return peakInArc;

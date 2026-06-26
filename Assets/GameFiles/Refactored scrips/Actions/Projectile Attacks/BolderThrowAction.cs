@@ -12,6 +12,11 @@ public class BolderThrowAction : BaseSlamAction
         attackInterrupted = false;
 
         slamOrigin = ownerEntity.target.transform.position;
+
+        IBoulderThrow boulderThrow = ownerEntity as IBoulderThrow;
+        GameObject boulder = ObjectPoolManager.SpawnObject(boulderThrow.boulderObj, ownerEntity.transform.position, Quaternion.identity);
+        boulder.GetComponent<ThrowableBoulder>().HandlePathToTarget(slamOrigin, chargeTime);
+
         SpawnSlamStartVFX();
     }
 }

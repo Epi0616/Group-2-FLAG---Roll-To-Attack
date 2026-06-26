@@ -29,20 +29,20 @@ MonoBehaviour:
     - rid: 5154424246769811525
       type: {class: BolderThrowAction, ns: , asm: Assembly-CSharp}
       data:
+        PreventsMovement: 1
         SlamDamage: 20
         SlamColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
-        ChargeTime: 5
+        ChargeTime: 3
         SlamRange:
           baseValue: 5
-        SlamPositionOffset: {x: 0, y: 0, z: 0}
-        DoesActionPreventMovement: 1
+        SlamPositionOffset: {x: 0, y: 5, z: 5}
     - rid: 5154424246769811526
       type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        lookThreshold: 15
+        lookThreshold: 5
     - rid: 5154424246769811527
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
-        distanceThreshold: 15
+        distanceThreshold: 25
