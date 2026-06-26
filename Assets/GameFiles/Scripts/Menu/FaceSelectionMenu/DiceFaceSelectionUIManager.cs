@@ -10,6 +10,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     public static event Action<float> DiceFaceSelectionOver;
 
     public bool visibleForTesting;
+    public bool TestInMainBuild = false;
     [SerializeField] private GameObject DiceFaceSelectionPrefab, AbilitySelectionPrefab;
 
     private Canvas canvas;
@@ -56,6 +57,14 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         if (timer <= 0 && !setupComplete)
         {
             Setup();
+        }
+    }
+
+    private void Start()
+    {
+        if (TestInMainBuild)
+        {
+            Initialize();
         }
     }
 

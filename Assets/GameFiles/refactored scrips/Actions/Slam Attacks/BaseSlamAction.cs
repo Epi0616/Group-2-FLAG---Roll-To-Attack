@@ -22,8 +22,8 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     public bool doesActionPreventMovement { get => DoesActionPreventMovement; set => DoesActionPreventMovement = value; }
 
     protected ISlamActionRequirements slamVariablesAccess;
-    private float chargeUpTimer = 0;
-    private bool chargeComplete = false;
+    protected float chargeUpTimer = 0;
+    protected bool chargeComplete = false;
     protected Vector3 slamOrigin;
     protected bool attackInterrupted = false;
     protected ImpactFieldVisual impactField;
@@ -43,23 +43,24 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     public override void StartAction(Entity entity)
     {
         base.StartAction(entity);
-        
-        slamVariablesAccess = entity as ISlamActionRequirements;
+        SetupSlam();
+    }
+
+    protected virtual void SetupSlam()
+    {
+        slamVariablesAccess = ownerEntity as ISlamActionRequirements;
         chargeUpTimer = 0;
         chargeComplete = false;
         attackInterrupted = false;
 
-
         //slamImpactField = slamVariablesAccess.SlamImpactField;
-       // Debug.Log("SLAM STRTED");
-
+        // Debug.Log("SLAM STRTED");
 
         slamOrigin = ownerEntity.transform.position + (ownerEntity.transform.forward * slamPositionOffset.z) + (ownerEntity.transform.right * slamPositionOffset.x);
-        
+
         // + ownerEntity.transform.TransformPoint(slamVariablesAccess.slamPositionOffset);
         //EnemyAttackImpactField field = slamVariablesAccess.SPAWNTHING(slamVariablesAccess.DebugSlamObj, slamOrigin).GetComponent<EnemyAttackImpactField>();
         SpawnSlamStartVFX();
-        
     }
 
     public virtual void SpawnSlamStartVFX()

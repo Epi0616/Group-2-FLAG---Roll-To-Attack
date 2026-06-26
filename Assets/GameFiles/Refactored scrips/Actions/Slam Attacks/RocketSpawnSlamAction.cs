@@ -44,7 +44,6 @@ public class RocketSpawnSlamAction : BaseSlamAction , IUpgradableAbility
         ownerEntity.StartCoroutine(SpawnRockets(hitEntity));
     }
 
-
     public override void EndAction()
     {
         base.EndAction();
