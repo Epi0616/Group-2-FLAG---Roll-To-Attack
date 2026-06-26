@@ -12,9 +12,12 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         originalRotation = body.transform.rotation;
     }
 
+
     public virtual void Vibrate()
-    { 
-    
+    {
+        float x = Mathf.Sin(Time.time * 50) * 0.1f;
+        float z = Mathf.Sin(Time.time * 50) * 0.1f;
+        body.transform.localPosition = new Vector3(x, 0, z);
     }
 
     public virtual void Wobble(float magnitude)

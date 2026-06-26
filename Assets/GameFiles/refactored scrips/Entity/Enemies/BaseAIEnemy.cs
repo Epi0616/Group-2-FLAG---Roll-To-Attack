@@ -106,6 +106,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         CheckForCanAct();
         CheckForDisplacement();
         CheckForGrounded();
+        CheckForStunned();
     }
 
     // IGrounded Interface Methods
@@ -122,6 +123,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     {
         canMove = !(actionController.CheckForMovementBlockersAction() || statusSystem.CheckForMovementBlockersStatus());
         //canMove = !statusSystem.CheckForMovementBlockersStatus();
+        //Debug.Log(statusSystem.CheckForMovementBlockersStatus());
     }
     public void UnpackConditionalMovements()
     {

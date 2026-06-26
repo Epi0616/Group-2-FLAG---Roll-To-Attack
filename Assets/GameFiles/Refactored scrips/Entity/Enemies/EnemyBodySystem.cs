@@ -46,7 +46,7 @@ public class EnemyBodySystem : EntityBodySystem
 
     public void TriggerAnimatorAttackParamter()
     {
-        Debug.Log("Triggered");
+        //Debug.Log("Triggered");
         animator.SetTrigger("isAttacking");
     }
 
@@ -57,7 +57,7 @@ public class EnemyBodySystem : EntityBodySystem
 
     public void ForceIdleAnim()
     {
-        animator.Play("Idle");
+        //animator.Play("Idle");
     }
 
 }

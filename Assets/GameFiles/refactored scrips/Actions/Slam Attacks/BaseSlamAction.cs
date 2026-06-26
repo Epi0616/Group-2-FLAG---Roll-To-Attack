@@ -50,13 +50,15 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         {
             enemyBodySystem.TriggerAnimatorAttackParamter();
         }
+        preventsMovement = DoesActionPreventMovement;
         chargeUpTimer = 0;
         chargeComplete = false;
         attackInterrupted = false;
-
-
+        Debug.Log("Starting Slam, DoesActionPreventMovement: " + DoesActionPreventMovement);
+        Debug.Log("Starting Slam, preventsMovement: " + preventsMovement);
+        Debug.Log("Starting Slam, doesActionPreventMovement: " + doesActionPreventMovement);
         //slamImpactField = slamVariablesAccess.SlamImpactField;
-       // Debug.Log("SLAM STRTED");
+        // Debug.Log("SLAM STRTED");
 
 
         slamOrigin = ownerEntity.transform.position + (ownerEntity.transform.forward * slamPositionOffset.z) + (ownerEntity.transform.right * slamPositionOffset.x);
