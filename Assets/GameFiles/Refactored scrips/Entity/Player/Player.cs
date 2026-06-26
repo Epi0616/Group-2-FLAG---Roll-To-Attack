@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Overlays;
 using UnityEngine;
 
 public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner
@@ -84,17 +83,21 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IOrbitSpikeSpawner")]
     [SerializeField] private GameObject SpikePrefab;
+    [SerializeField] private GameObject EnhancedSpikePrefab;
     [SerializeField] private float SpikeLifeSpan = 0f;
     [SerializeField] private float OrbitRadius = 0f;
     [SerializeField] private float InitialOrbitSpeed = 0f;
     [SerializeField] private int SpikeDamaged = 0;
     private List<BaseOrbitObject> OrbitObjects = new List<BaseOrbitObject>();
+
     public GameObject spikePrefab { get => SpikePrefab; set => SpikePrefab = value; }
+    public GameObject enhancedSpikePrefab { get => EnhancedSpikePrefab; set => EnhancedSpikePrefab = value; }
     public float spikeLifeSpan { get => SpikeLifeSpan; set => SpikeLifeSpan = value; }
     public float orbitRadius { get => OrbitRadius; set => OrbitRadius = value; }
     public float initialOrbitSpeed { get => InitialOrbitSpeed; set => InitialOrbitSpeed = value; }
     public int spikeDamage { get => SpikeDamaged; set => SpikeDamaged = value; }
     public List<BaseOrbitObject> orbitObjects { get => OrbitObjects; set => OrbitObjects = value; }
+
 
     [Header("IVacuumSpawner")]
     [SerializeField] private GameObject MineObj;
@@ -200,6 +203,17 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         {
             float angle = i * (360f / orbitObjects.Count);
             orbitObjects[i].UpdateAngle(angle);
+        }
+    }
+
+    public void RefreshSpikeAge()
+    {
+        for (int i = 0; i < orbitObjects.Count; i++)
+        {
+            if (orbitObjects[i] is OrbitingSpike temp)
+            {
+                temp.age = 0;
+            }
         }
     }
 }

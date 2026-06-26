@@ -37,7 +37,7 @@ public class EnhancedSeekingRocket : SeekingRocket
         isBouncing = false;
     }
 
-    protected virtual void FlyUp()
+    protected override void FlyUp()
     {
         Vector3 targetPosition = new Vector3(target.transform.position.x, startHeight + 30, target.transform.position.z);
         Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);

@@ -1,0 +1,54 @@
+using UnityEngine;
+
+public class EnhancedOrbitingSpike : BaseOrbitObject
+{
+    private int enhancementLevel = 1;
+    [SerializeField] private GameObject SpikeEntity;
+    public void Initialize(Entity ownerEntity, GameObject anchorObj, float radius, float orbitSpeed, int objDamage, float lifetime, int enhancementLevel)
+    {
+        isDestroyed = false;
+        age = 0;
+        this.radius = radius;
+        speed = orbitSpeed;
+        this.ownerEntity = ownerEntity;
+        lifeSpan = lifetime;
+        this.anchorObj = anchorObj;
+        tempY = anchorObj.transform.position.y + 30f;
+        damage = objDamage;
+        this.enhancementLevel = enhancementLevel;
+    }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        GameObject target = other.gameObject;
+        if (target.CompareTag("EntitySpawnable")) { return; }
+        if (target.CompareTag("VacuumMine")) { return; }
+        if ((ownerEntity.hostileMask & (1 << target.layer)) > 0)
+        {
+            DamageTarget(target.GetComponent<Entity>());
+        }
+    }
+
+    protected override void DamageTarget(Entity entity)
+    {
+        //AudioManager.instance.PlayRandomSoundClip(spikeOnHitSound, new Vector3(0, 0, 0), 0.7f);
+        entity.OnTakeDamage(damage, Color.silver, DamageType.Normal);
+        if (age > 0.75f)
+        {
+            GameObject newSpike = ObjectPoolManager.SpawnObject(SpikeEntity, transform.position, Quaternion.identity);
+            newSpike.GetComponent<EnhancedSpikeEntity>().Initialize(ownerEntity, entity, true, enhancementLevel);
+            DestroyMe();
+        }
+
+    }
+    protected override void CheckForExpiration()
+    {
+        age += Time.deltaTime;
+        if (!(age >= lifeSpan) && ownerEntity != null) { return; }
+
+        GameObject newSpike = ObjectPoolManager.SpawnObject(SpikeEntity, transform.position, Quaternion.identity);
+        newSpike.GetComponent<EnhancedSpikeEntity>().Initialize(ownerEntity, null, false, enhancementLevel);
+
+        DestroyMe();
+    }
+}

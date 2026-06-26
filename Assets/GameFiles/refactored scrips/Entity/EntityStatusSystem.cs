@@ -188,4 +188,13 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
         return result;
     }
 
+    public bool CheckForStunnedStatus()
+    {
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (currentActiveStatusEffects[i].effect is BaseStunEffect) { return true; }
+        }
+        return false;
+    }
+
 }

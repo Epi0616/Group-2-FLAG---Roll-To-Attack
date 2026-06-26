@@ -36,6 +36,8 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         DiceFaceSelectionUI.SetActive(false);
         AbilitySelectionUI.SetActive(visibleForTesting);
 
+        if (AbilitySelectionUI == null) { Debug.Log("AbilitySelection null"); }
+
         if (visibleForTesting)
         {
             Setup();

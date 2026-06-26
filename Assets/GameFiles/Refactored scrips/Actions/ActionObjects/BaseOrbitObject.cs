@@ -10,7 +10,7 @@ public class BaseOrbitObject : MonoBehaviour , IOrbitObject
     protected Vector3 desiredWorldUp = new Vector3(90, 0, 0);
 
 
-    protected float age = 0;
+    public float age = 0;
     protected GameObject anchorObj;
     protected float angle;
     protected Quaternion rotation;
