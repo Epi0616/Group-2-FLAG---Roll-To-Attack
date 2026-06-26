@@ -4,6 +4,7 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
 {
     private int enhancementLevel = 1;
     [SerializeField] private GameObject SpikeEntity;
+    private bool hasSpawnedNewSpike = false;
     public void Initialize(Entity ownerEntity, GameObject anchorObj, float radius, float orbitSpeed, int objDamage, float lifetime, int enhancementLevel)
     {
         isDestroyed = false;
@@ -16,6 +17,7 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
         tempY = anchorObj.transform.position.y + 30f;
         damage = objDamage;
         this.enhancementLevel = enhancementLevel;
+        hasSpawnedNewSpike = false;
     }
 
     protected override void OnTriggerEnter(Collider other)
@@ -35,8 +37,11 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
         entity.OnTakeDamage(damage, Color.silver, DamageType.Normal);
         if (age > 0.75f)
         {
+            if (hasSpawnedNewSpike) { return; }
+            hasSpawnedNewSpike = true;
             GameObject newSpike = ObjectPoolManager.SpawnObject(SpikeEntity, transform.position, Quaternion.identity);
             newSpike.GetComponent<EnhancedSpikeEntity>().Initialize(ownerEntity, entity, true, enhancementLevel);
+
             DestroyMe();
         }
 
@@ -45,10 +50,19 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
     {
         age += Time.deltaTime;
         if (!(age >= lifeSpan) && ownerEntity != null) { return; }
-
+        if (hasSpawnedNewSpike) { return; }
+        hasSpawnedNewSpike = true;
         GameObject newSpike = ObjectPoolManager.SpawnObject(SpikeEntity, transform.position, Quaternion.identity);
         newSpike.GetComponent<EnhancedSpikeEntity>().Initialize(ownerEntity, null, false, enhancementLevel);
 
         DestroyMe();
+    }
+
+    protected override void DestroyMe()
+    {
+        if (isDestroyed) return;
+        isDestroyed = true;
+        (ownerEntity as IOrbitSpikeSpawner).RemoveObjectFromOrbit(this);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

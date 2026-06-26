@@ -23,9 +23,8 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     {
         base.Start();
         //rb = GetComponent<Rigidbody>();
-        knockbackWeightMod = new Stat(0.75f);
-        slammedDamageMod = new Stat(1f);
-        rb.useGravity = false;
+        knockbackWeightMod = new Stat(0.5f);
+        slammedDamageMod = new Stat(1f);       
     }
 
     public void Initialize(Entity ownerEntity, Entity embbeddedTarget, bool embed, int enhancementLevel)
@@ -33,13 +32,13 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
         embedded = embed;
         this.ownerEntity = ownerEntity;
-        this.gameObject.layer = 14;
+        //this.gameObject.layer = 14;
         numHitsTotal = 3 + enhancementLevel;
         numHitsLeft = numHitsTotal;
 
         if (embed)
         {
-            rb.useGravity = false;
+            rigidbBody.useGravity = false;
             parentEntity = embbeddedTarget;
             if (parentEntity != null)
             {
@@ -53,7 +52,6 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         }
         else
         {
-            rb.useGravity = true;
             DropToFloor();
         }
     }
@@ -65,9 +63,9 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         if (embeddedDamageTimer > 1.5f)
         {
             embeddedDamageTimer = 0;
-            DamageTarget(ownerEntity, BaseTickDamage + enhancementLevel, Color.darkRed);
+            DamageTarget(parentEntity, BaseTickDamage + enhancementLevel, Color.darkRed);
         }
-        if (parentEntity.healthSystem.isDead)
+        if (parentEntity.healthSystem.isDead && embedded)
         {
             DropToFloor();
         }
@@ -88,12 +86,14 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (embedded) { return; }
-        GameObject target = other.gameObject;
-        if (target.CompareTag("EntitySpawnable")) { return; }
-        if (target.CompareTag("VacuumMine")) { return; }
-        if ((ownerEntity.hostileMask & (1 << target.layer)) > 0)
+        Debug.Log("Something Hit");
+        if (embedded) { Debug.Log("Embedded, returning"); return; }
+        GameObject hit = other.gameObject;
+        //if (hit.CompareTag("EntitySpawnable")) { return; }
+        //if (hit.CompareTag("VacuumMine")) { return; }
+        if ((ownerEntity.hostileMask & (1 << hit.layer)) > 0)
         {
+            Debug.Log("Something Correct Hit");
             DamageTarget(target.GetComponent<Entity>(), BaseOnHitSpikeDamage, Color.silver);
             numHitsLeft--;
             if (numHitsLeft <= 0)
@@ -121,8 +121,8 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
     public void DropToFloor()
     {
-        transform.parent = null;
-        rb.useGravity = true;
         embedded = false;
+        transform.parent = null;
+        rigidbBody.useGravity = true;
     }
 }
