@@ -12,30 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
   m_Name: PlayerSpike
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
-  variable: 1
-  action:
-    rid: 5154423959924506699
-  conditions:
-  - rid: 5154423959924506700
-  allConditionsRequired: 0
-  singleUse: 1
-  exclusive: 1
-  priority: 0
+  conditionalAction:
+    action:
+      rid: 5154424227109797980
+    conditions:
+    - rid: 5154424227109797981
+    allConditionsRequired: 0
+    singleUse: 1
+    triggered: 0
+    exclusive: 1
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5154423959924506699
+    - rid: 5154424227109797980
       type: {class: SpikeSpawnSlamAction, ns: , asm: Assembly-CSharp}
       data:
         SlamDamage: 0
-        SlamColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 0}
+        SlamColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
         ChargeTime: 0
         SlamRange:
           baseValue: 10
         SlamPositionOffset: {x: 0, y: 0, z: 0}
         DoesActionPreventMovement: 0
-    - rid: 5154423959924506700
+    - rid: 5154424227109797981
       type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        name: Base

@@ -12,27 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b4fd156c01f3824e83f8635e0041ac4, type: 3}
   m_Name: PlayerVacuum
   m_EditorClassIdentifier: Assembly-CSharp::ModifiableActionObject
-  action: {fileID: 11400000, guid: e5e6af79f8c535b46a98aeac4e4f0ded, type: 2}
-  weighting: 100
-  actionName:
-    m_TableReference:
-      m_TableCollectionName: GUID:57d43eb725284d04c9fc8d2ebb2dbef2
-    m_TableEntryReference:
-      m_KeyId: 1380479283200
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  actionDescription:
-    m_TableReference:
-      m_TableCollectionName: GUID:399eef523e1e5a64abff7973ca19cc54
-    m_TableEntryReference:
-      m_KeyId: 1813696360448
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  sprite: {fileID: 21300000, guid: 0c0ed1c35f11f8644afddb85a391e675, type: 3}
+  modifiableAction:
+    conditionalActionDescriptor: {fileID: 11400000, guid: e5e6af79f8c535b46a98aeac4e4f0ded, type: 2}
+    conditionalAction:
+      action:
+        rid: -2
+      conditions: []
+      allConditionsRequired: 0
+      singleUse: 0
+      triggered: 0
+      exclusive: 1
+      priority: 0
+    weighting: 100
+    enhancementLevel: 0
+    actionName:
+      m_TableReference:
+        m_TableCollectionName: GUID:57d43eb725284d04c9fc8d2ebb2dbef2
+      m_TableEntryReference:
+        m_KeyId: 1380479283200
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    actionDescription:
+      m_TableReference:
+        m_TableCollectionName: GUID:399eef523e1e5a64abff7973ca19cc54
+      m_TableEntryReference:
+        m_KeyId: 1813696360448
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    sprite: {fileID: 21300000, guid: 0c0ed1c35f11f8644afddb85a391e675, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

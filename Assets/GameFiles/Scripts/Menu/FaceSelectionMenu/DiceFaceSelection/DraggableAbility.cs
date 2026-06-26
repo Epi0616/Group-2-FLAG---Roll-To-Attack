@@ -13,7 +13,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     [SerializeField] private GameObject spriteObj;
 
-    private EquippableActionHolder myAbility;
+    private ModifiableAction myAbility;
     public Image Image;
     [SerializeField] private TextMeshProUGUI LevelText;
 
@@ -26,13 +26,13 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
         scaleOrigin = spriteObj.transform.localScale;
     }
 
-    public void SetEquippableAbility(EquippableActionHolder newAbility)
+    public void SetEquippableAbility(ModifiableAction newAbility)
     {
         myAbility = newAbility;
         UpdateObject();
     }
 
-    public EquippableActionHolder GetEquippableAbility()
+    public ModifiableAction GetAbility()
     {
         return myAbility;
     }
@@ -40,9 +40,9 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
     public void UpdateObject()
     {
         //Debug.Log("Updating Object");
-        if (myAbility.actionDescriptor.sprite != null)
+        if (myAbility.sprite != null)
         { 
-            spriteObj.GetComponent<Image>().sprite = myAbility.actionDescriptor.sprite;           
+            spriteObj.GetComponent<Image>().sprite = myAbility.sprite;           
         }
         else
         {
@@ -52,7 +52,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
         if (LevelText != null)
         {
             //Debug.Log("Updating Text");
-            if (myAbility.EnhancementLevel == 0)
+            if (myAbility.enhancementLevel == 0)
             {
                 //Debug.Log("Base Form Text");
                 LevelText.text = "Base Form";
@@ -60,7 +60,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
             else
             {
                 //ebug.Log("Level Change");
-                LevelText.text = "E-Level: " + myAbility.EnhancementLevel;
+                LevelText.text = "E-Level: " + myAbility.enhancementLevel;
             }
             // Maybe add colour changes
         }
@@ -73,12 +73,12 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        LocalizedString name = myAbility.actionDescriptor.actionName;
-        LocalizedString description = myAbility.actionDescriptor.actionDescription;
+        LocalizedString name = myAbility.actionName;
+        LocalizedString description = myAbility.actionDescription;
         Sprite sprite = null;
-        if (myAbility.actionDescriptor.sprite != null)
+        if (myAbility.sprite != null)
         {
-            sprite = myAbility.actionDescriptor.sprite;
+            sprite = myAbility.sprite;
         }
 
         OnAbilityHoverStart?.Invoke(name, description, sprite);

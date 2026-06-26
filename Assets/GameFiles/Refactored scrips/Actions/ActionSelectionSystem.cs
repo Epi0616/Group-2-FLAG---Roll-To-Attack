@@ -21,19 +21,19 @@ public class ActionSelectionSystem
         int totalWeight = 0;
         LastReturnedActionIndex = 0;
 
-        foreach (var action in modifiableActions.equippableActions)
+        foreach (var action in modifiableActions.modifiableActions)
         {
-            totalWeight += action.actionDescriptor.weighting;
+            totalWeight += action.weighting;
         }
         int randomNumber = Random.Range(1, totalWeight + 1);
         int ActionWeightTally = 0;
 
-        foreach (var action in modifiableActions.equippableActions)
+        foreach (var action in modifiableActions.modifiableActions)
         {
-            ActionWeightTally += action.actionDescriptor.weighting;
+            ActionWeightTally += action.weighting;
             if (randomNumber <= ActionWeightTally)
             { 
-                return action.actionInstance;
+                return action.conditionalAction;
             }
             LastReturnedActionIndex++;
         }
