@@ -41,6 +41,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         //this.gameObject.layer = 14;
         //numHitsTotal = 1;
         //numHitsLeft = numHitsTotal;
+        this.enhancementLevel = enhancementLevel;
         hostileMask = ownerEntity.hostileMask;
         Embed(embeddedTarget, hitCollider);            
         
@@ -56,19 +57,20 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         //numHitsTotal = 3 + enhancementLevel;
         //numHitsLeft = numHitsTotal;
         hostileMask = ownerEntity.hostileMask;
+        this.enhancementLevel = enhancementLevel;
         DropToFloor();
         
     }
 
     protected override void Update()
     {
-        if (!embedded) { return; }
-        embeddedDamageTimer += Time.deltaTime;
-        if (embeddedDamageTimer > 1.5f)
-        {
-            embeddedDamageTimer = 0;
-            DamageTarget(parentEntity, BaseTickDamage + enhancementLevel, Color.darkRed);
-        }
+        //if (!embedded) { return; }
+        //embeddedDamageTimer += Time.deltaTime;
+        //if (embeddedDamageTimer > 1.5f)
+        //{
+        //    embeddedDamageTimer = 0;
+        //    DamageTarget(parentEntity, BaseTickDamage + enhancementLevel, Color.darkRed);
+        //}
         if (parentEntity != null)
         {
             if (parentEntity.healthSystem.isDead && embedded)
