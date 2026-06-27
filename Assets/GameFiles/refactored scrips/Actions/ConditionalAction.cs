@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -29,7 +30,7 @@ public class ConditionalAction
 
     public ConditionalAction Clone()
     {
-        return new ConditionalAction(action, conditions, singleUse, exclusive, priority, allConditionsRequired);
+        return new ConditionalAction(action.Clone(), conditions.Select(c => c.Clone()).ToList(), singleUse, exclusive, priority, allConditionsRequired);
     }
 
     public void UpdateConditionsAll()
