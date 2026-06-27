@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7774183476447402834}
   - component: {fileID: 7550026812927295761}
   - component: {fileID: 374567445540204964}
-  - component: {fileID: 4568080729120601996}
+  - component: {fileID: 6029661301562479260}
   m_Layer: 15
   m_Name: EnhancedSpikeEntity
   m_TagString: PhysicsEntity
@@ -62,9 +62,10 @@ MonoBehaviour:
   textDisplaySystem: {fileID: 374567445540204964}
   ownerEntity: {fileID: 0}
   parentEntity: {fileID: 0}
-  BaseOnHitSpikeDamage: 1
+  BaseOnHitSpikeDamage: 45
   BaseTickDamage: 5
-  rigidbBody: {fileID: 7774183476447402834}
+  rigidBody: {fileID: 7774183476447402834}
+  SpikeCollider: {fileID: 6029661301562479260}
 --- !u!114 &3758427050071677763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,17 +108,17 @@ Rigidbody:
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 147456
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 147456
+    m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &7550026812927295761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,14 +148,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
   targetCamera: {fileID: 0}
   textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
---- !u!135 &4568080729120601996
-SphereCollider:
+--- !u!136 &6029661301562479260
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2126951044159715107}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 4cb9973fa412fba4eb396b324d899397, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -165,9 +166,11 @@ SphereCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1.74
-  m_Center: {x: -0.06, y: -0.09, z: -0.36}
+  serializedVersion: 2
+  m_Radius: 1.7
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: -0.12, y: -0.03, z: -0.45}
 --- !u!1 &9002963271707322638
 GameObject:
   m_ObjectHideFlags: 0
