@@ -21,6 +21,7 @@ public class LookAtTargetMovement : BaseEntityMovement
         if (ownerEntity.target == null) return;
         targetDir = ownerEntity.target.transform.position - ownerEntity.transform.position;
         targetDir.y = 0f;
+        if (targetDir == Vector3.zero) { return; }
         lookRotation = Quaternion.LookRotation(targetDir);
         
         ownerEntity.transform.rotation = Quaternion.Slerp(ownerEntity.transform.rotation, lookRotation, 10f * Time.deltaTime);

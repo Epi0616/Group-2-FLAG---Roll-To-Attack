@@ -152,6 +152,7 @@ public class AbilitySlotManager : MonoBehaviour
 
     public void FillSlotWithBasic(int i)
     {
+        Debug.Log("Add New Basic");
         var tempObj = Instantiate(abilityObjectPrefab, transform);
         tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(fillAbility.Create());
         abilitySlots[i].AddChild(tempObj.GetComponent<DraggableAbility>());       

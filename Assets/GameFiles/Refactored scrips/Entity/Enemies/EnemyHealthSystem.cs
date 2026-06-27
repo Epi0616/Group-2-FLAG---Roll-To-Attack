@@ -4,6 +4,7 @@ using System;
 public class EnemyHealthSystem : EntityHealthSystem
 {
     public static event Action EnemyHasDied;
+    public event Action LocalEnemyDeathEvent;
 
     public override void OnDeath()
     {
@@ -26,7 +27,8 @@ public class EnemyHealthSystem : EntityHealthSystem
         try
         {
             EnemyHasDied?.Invoke();
-            ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject);
+            LocalEnemyDeathEvent?.Invoke();
+            ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject, 0.5f);
         }
         catch
         {
