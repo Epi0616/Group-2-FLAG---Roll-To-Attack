@@ -22,7 +22,6 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private LayerMask propsLayer;
     [SerializeField] private LayerMask groundLayer;
 
-
     public void SpawnWave(Wave currentWave)
     {
         StartCoroutine(SpawnWaveRoutine(currentWave));

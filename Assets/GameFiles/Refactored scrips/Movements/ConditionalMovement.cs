@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -22,6 +23,11 @@ public class ConditionalMovement
         this.exclusive = exclusive;
         this.priority = priority;
         this.allConditionsRequired = allConditionsRequired;
+    }
+
+    public ConditionalMovement Clone()
+    {
+        return new ConditionalMovement(movement.Clone(), conditions.Select(c => c.Clone()).ToList(), exclusive, priority, allConditionsRequired);
     }
 
     public void UpdateConditionsAll()

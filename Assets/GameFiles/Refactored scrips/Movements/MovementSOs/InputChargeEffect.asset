@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
   m_Name: InputChargeEffect
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
-  movement:
-    rid: 5154423885440745724
-  conditions:
-  - rid: 5154423885440745723
-  allConditionsRequired: 0
-  exclusive: 0
-  priority: 0
+  conditionalMovement:
+    movement:
+      rid: 5154424275354517576
+    conditions:
+    - rid: 5154424275354517577
+    allConditionsRequired: 0
+    exclusive: 0
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5154423885440745723
+    - rid: 5154424275354517576
+      type: {class: InputChargeEffect, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5154424275354517577
       type: {class: InputChargeCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        name: Base
-    - rid: 5154423885440745724
-      type: {class: InputChargeEffect, ns: , asm: Assembly-CSharp}
-      data: 

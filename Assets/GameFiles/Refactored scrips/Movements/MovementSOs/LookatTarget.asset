@@ -12,26 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
   m_Name: LookatTarget
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
-  movement:
-    rid: 963243960410046533
-  conditions:
-  - rid: 963244047682502725
-  - rid: 963244047682502726
-  allConditionsRequired: 1
-  exclusive: 0
-  priority: 0
+  conditionalMovement:
+    movement:
+      rid: 5154424275354517580
+    conditions:
+    - rid: 5154424275354517581
+    - rid: 5154424275354517582
+    allConditionsRequired: 1
+    exclusive: 0
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 963243960410046533
+    - rid: 5154424275354517580
       type: {class: LookAtTargetMovement, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 963244047682502725
+      data:
+        rotationSpeed: 10
+    - rid: 5154424275354517581
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-    - rid: 963244047682502726
+    - rid: 5154424275354517582
       type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
-        lookThreshold: 5
+        lookThreshold: 0
