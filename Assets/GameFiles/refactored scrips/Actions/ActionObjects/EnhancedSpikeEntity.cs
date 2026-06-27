@@ -2,59 +2,62 @@ using UnityEngine;
 
 public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 {
-    protected Entity ownerEntity;
+    public Entity ownerEntity;
     public Entity parentEntity;
-    private int numHitsTotal;
-    private int numHitsLeft;
+    private Transform anchorPoint;
+    private Vector3 localPosToEmbedTarget;
+    //private int numHitsTotal;
+    //private int numHitsLeft;
     private int enhancementLevel = 1;
     private bool embedded;
     [SerializeField] private int BaseOnHitSpikeDamage;
     [SerializeField] private int BaseTickDamage;
     private float embeddedDamageTimer;
-    
+    public bool isDestroyed;
     public bool isBeingDisplaced { get; set; }
     public Stat knockbackWeightMod { get; set; }
     public Stat slammedDamageMod { get; set; }
 
-    public Rigidbody rigidbBody;
-    public Rigidbody rb { get => rigidbBody; set => rigidbBody = value; }
+    public Rigidbody rigidBody;
+    public Rigidbody rb { get => rigidBody; set => rigidBody = value; }
+
+    public Collider SpikeCollider;
+    //public Collider TriggerCollider;
 
     protected override void Start()
     {
         base.Start();
         //rb = GetComponent<Rigidbody>();
-        knockbackWeightMod = new Stat(0.75f);
-        slammedDamageMod = new Stat(1f);
-        rb.useGravity = false;
+        knockbackWeightMod = new Stat(0.5f);
+        slammedDamageMod = new Stat(1f);       
     }
 
-    public void Initialize(Entity ownerEntity, Entity embbeddedTarget, bool embed, int enhancementLevel)
+    public void Initialize(Entity ownerEntity, Entity embeddedTarget, Collider hitCollider, int enhancementLevel)
     {
 
-        embedded = embed;
+        embedded = true;
         this.ownerEntity = ownerEntity;
-        this.gameObject.layer = 14;
-        numHitsTotal = 3 + enhancementLevel;
-        numHitsLeft = numHitsTotal;
+        isDestroyed = false;
+        //this.gameObject.layer = 14;
+        //numHitsTotal = 1;
+        //numHitsLeft = numHitsTotal;
+        hostileMask = ownerEntity.hostileMask;
+        Embed(embeddedTarget, hitCollider);            
+        
+    }
 
-        if (embed)
-        {
-            rb.useGravity = false;
-            parentEntity = embbeddedTarget;
-            if (parentEntity != null)
-            {
-                transform.SetParent(parentEntity.transform);
-            }
-            else
-            {
-                Debug.LogWarning("Spike Attempted to Embed with no Parent");
-                DestroyMe();
-            }
-        }
-        else
-        {
-            DropToFloor();
-        }
+    public void Initialize(Entity ownerEntity, int enhancementLevel)
+    {
+
+        embedded = false;
+        this.ownerEntity = ownerEntity;
+        isDestroyed = false;
+        //this.gameObject.layer = 14;
+        //numHitsTotal = 3 + enhancementLevel;
+        //numHitsLeft = numHitsTotal;
+        hostileMask = ownerEntity.hostileMask;
+        DropToFloor();
+        
     }
 
     protected override void Update()
@@ -64,11 +67,23 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         if (embeddedDamageTimer > 1.5f)
         {
             embeddedDamageTimer = 0;
-            DamageTarget(ownerEntity, BaseTickDamage + enhancementLevel, Color.darkRed);
+            DamageTarget(parentEntity, BaseTickDamage + enhancementLevel, Color.darkRed);
         }
-        if (parentEntity.healthSystem.isDead)
+        if (parentEntity != null)
         {
-            DropToFloor();
+            if (parentEntity.healthSystem.isDead && embedded)
+            {
+                DropToFloor();
+            }
+        }
+        
+    }
+
+    public void LateUpdate()
+    {
+        if (anchorPoint != null)
+        {
+            transform.position = anchorPoint.TransformPoint(localPosToEmbedTarget);
         }
     }
 
@@ -84,22 +99,27 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
             statusSystem.OnRecieveEffect(statusEffect);
         }
     }
-
-    private void OnTriggerEnter(Collider other)
+  
+    private void OnCollisionEnter(Collision collision)
     {
-        if (embedded) { return; }
-        GameObject target = other.gameObject;
-        if (target.CompareTag("EntitySpawnable")) { return; }
-        if (target.CompareTag("VacuumMine")) { return; }
-        if ((ownerEntity.hostileMask & (1 << target.layer)) > 0)
+
+        GameObject hit = collision.gameObject;
+        if (hit.CompareTag("StaticEntity") || hit.CompareTag("PhysicsEntity")) { return; }
+        
+        if ((hostileMask & (1 << hit.gameObject.layer)) > 0)
         {
-            DamageTarget(target.GetComponent<Entity>(), BaseOnHitSpikeDamage, Color.silver);
-            numHitsLeft--;
-            if (numHitsLeft <= 0)
-            {
-                DestroyMe();
-            }
+            //Debug.Log("Something Correct Hit Collision");
+            DamageTarget(hit.GetComponent<Entity>(), BaseOnHitSpikeDamage, Color.silver);
+
+            DestroyMe();
+
+            //numHitsLeft--;
+            //if (numHitsLeft <= 0)
+            //{
+            //    DestroyMe();
+            //}
         }
+        
     }
 
     private void DamageTarget(Entity entity, int damage, Color colour)
@@ -110,6 +130,8 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
     protected virtual void DestroyMe()
     {
+        if (isDestroyed) return;
+        isDestroyed = true;
         rb.linearVelocity = Vector3.zero;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
@@ -120,8 +142,31 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
     public void DropToFloor()
     {
-        transform.parent = null;
-        rb.useGravity = true;
         embedded = false;
+        anchorPoint = null;
+        //if (parentEntity != null) { (parentEntity.healthSystem as EnemyHealthSystem).LocalEnemyDeathEvent -= DropToFloor; }
+        parentEntity = null;
+        rigidBody.isKinematic = false;
+        SpikeCollider.enabled = true;
+    }
+
+    public void Embed(Entity newParent, Collider other)
+    {
+        if (newParent == null) { Debug.Log("Invalid Spike Embed Request"); DestroyMe(); }
+
+        embedded = true;
+
+        parentEntity = newParent;
+        //(parentEntity.healthSystem as EnemyHealthSystem).LocalEnemyDeathEvent += DropToFloor;
+
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rigidBody.isKinematic = true;
+
+        SpikeCollider.enabled = false;
+
+        anchorPoint = other.transform;
+        localPosToEmbedTarget = anchorPoint.InverseTransformPoint(transform.position);
+
     }
 }

@@ -18,7 +18,6 @@ MonoBehaviour:
     conditions:
     - rid: 5154424227109797973
     - rid: 5154424227109797974
-    - rid: 5154424227109797975
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
@@ -30,13 +29,13 @@ MonoBehaviour:
     - rid: 5154424227109797972
       type: {class: BaseSlamAction, ns: , asm: Assembly-CSharp}
       data:
-        SlamDamage: 25
+        PreventsMovement: 1
+        SlamDamage: 1
         SlamColor: {r: 0.4528302, g: 0.36852297, b: 0.15592737, a: 1}
         ChargeTime: 1.5
         SlamRange:
           baseValue: 6
         SlamPositionOffset: {x: 0, y: 0, z: 10}
-        DoesActionPreventMovement: 1
     - rid: 5154424227109797973
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
@@ -47,7 +46,3 @@ MonoBehaviour:
       data:
         inverse: 0
         lookThreshold: 15
-    - rid: 5154424227109797975
-      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 1
