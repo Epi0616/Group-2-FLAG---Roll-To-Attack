@@ -42,8 +42,15 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     {
         base.StartAction(entity);
         SetupSlam();
+        AnimateAttack();
     }
-
+    protected virtual void AnimateAttack()
+    {
+        if (ownerEntity is IAnimated animated)
+        {
+            animated.animationManager.SwitchAnimation(EnemyAnimations.Attack);
+        }
+    }
     protected virtual void SetupSlam()
     {
         slamVariablesAccess = ownerEntity as ISlamActionRequirements;
