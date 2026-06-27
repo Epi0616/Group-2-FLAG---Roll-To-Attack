@@ -6,14 +6,14 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     public Entity parentEntity;
     private Transform anchorPoint;
     private Vector3 localPosToEmbedTarget;
-    private int numHitsTotal;
-    private int numHitsLeft;
+    //private int numHitsTotal;
+    //private int numHitsLeft;
     private int enhancementLevel = 1;
     private bool embedded;
     [SerializeField] private int BaseOnHitSpikeDamage;
     [SerializeField] private int BaseTickDamage;
     private float embeddedDamageTimer;
-    
+    public bool isDestroyed;
     public bool isBeingDisplaced { get; set; }
     public Stat knockbackWeightMod { get; set; }
     public Stat slammedDamageMod { get; set; }
@@ -37,9 +37,10 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
         embedded = true;
         this.ownerEntity = ownerEntity;
+        isDestroyed = false;
         //this.gameObject.layer = 14;
-        numHitsTotal = 1;
-        numHitsLeft = numHitsTotal;
+        //numHitsTotal = 1;
+        //numHitsLeft = numHitsTotal;
         hostileMask = ownerEntity.hostileMask;
         Embed(embeddedTarget, hitCollider);            
         
@@ -50,9 +51,10 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
         embedded = false;
         this.ownerEntity = ownerEntity;
+        isDestroyed = false;
         //this.gameObject.layer = 14;
-        numHitsTotal = 3 + enhancementLevel;
-        numHitsLeft = numHitsTotal;
+        //numHitsTotal = 3 + enhancementLevel;
+        //numHitsLeft = numHitsTotal;
         hostileMask = ownerEntity.hostileMask;
         DropToFloor();
         
@@ -67,10 +69,14 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
             embeddedDamageTimer = 0;
             DamageTarget(parentEntity, BaseTickDamage + enhancementLevel, Color.darkRed);
         }
-        //if (parentEntity.healthSystem.isDead && embedded)
-        //{
-       //     DropToFloor();
-        //}
+        if (parentEntity != null)
+        {
+            if (parentEntity.healthSystem.isDead && embedded)
+            {
+                DropToFloor();
+            }
+        }
+        
     }
 
     public void LateUpdate()
@@ -104,11 +110,14 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         {
             //Debug.Log("Something Correct Hit Collision");
             DamageTarget(hit.GetComponent<Entity>(), BaseOnHitSpikeDamage, Color.silver);
-            numHitsLeft--;
-            if (numHitsLeft <= 0)
-            {
-                DestroyMe();
-            }
+
+            DestroyMe();
+
+            //numHitsLeft--;
+            //if (numHitsLeft <= 0)
+            //{
+            //    DestroyMe();
+            //}
         }
         
     }
@@ -121,6 +130,8 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
     protected virtual void DestroyMe()
     {
+        if (isDestroyed) return;
+        isDestroyed = true;
         rb.linearVelocity = Vector3.zero;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
@@ -133,7 +144,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     {
         embedded = false;
         anchorPoint = null;
-        if (parentEntity != null) { (parentEntity.healthSystem as EnemyHealthSystem).LocalEnemyDeathEvent -= DropToFloor; }
+        //if (parentEntity != null) { (parentEntity.healthSystem as EnemyHealthSystem).LocalEnemyDeathEvent -= DropToFloor; }
         parentEntity = null;
         rigidBody.isKinematic = false;
         SpikeCollider.enabled = true;
@@ -147,7 +158,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         embedded = true;
 
         parentEntity = newParent;
-        (parentEntity.healthSystem as EnemyHealthSystem).LocalEnemyDeathEvent += DropToFloor;
+        //(parentEntity.healthSystem as EnemyHealthSystem).LocalEnemyDeathEvent += DropToFloor;
 
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;

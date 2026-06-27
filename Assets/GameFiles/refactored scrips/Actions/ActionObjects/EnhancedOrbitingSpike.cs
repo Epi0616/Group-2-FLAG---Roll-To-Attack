@@ -38,6 +38,7 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
         {
             if (hasSpawnedNewSpike) { return; }
             hasSpawnedNewSpike = true;
+
             GameObject newSpike = ObjectPoolManager.SpawnObject(SpikeEntity, transform.position, Quaternion.identity);
             newSpike.GetComponent<EnhancedSpikeEntity>().Initialize(ownerEntity, entity, other, enhancementLevel);
 
@@ -51,6 +52,7 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
         if (!(age >= lifeSpan) && ownerEntity != null) { return; }
         if (hasSpawnedNewSpike) { return; }
         hasSpawnedNewSpike = true;
+
         GameObject newSpike = ObjectPoolManager.SpawnObject(SpikeEntity, transform.position, Quaternion.identity);
         newSpike.GetComponent<EnhancedSpikeEntity>().Initialize(ownerEntity, enhancementLevel);
 
