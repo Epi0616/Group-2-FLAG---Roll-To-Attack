@@ -59,11 +59,4 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
         DestroyMe();
     }
 
-    protected override void DestroyMe()
-    {
-        if (isDestroyed) return;
-        isDestroyed = true;
-        (ownerEntity as IOrbitSpikeSpawner).RemoveObjectFromOrbit(this);
-        ObjectPoolManager.ReturnObjectToPool(gameObject);
-    }
 }

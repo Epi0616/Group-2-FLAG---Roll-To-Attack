@@ -148,7 +148,6 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         parentEntity = null;
         rigidBody.isKinematic = false;
         SpikeCollider.enabled = true;
-        //TriggerCollider.enabled = true;
     }
 
     public void Embed(Entity newParent, Collider other)
@@ -165,7 +164,6 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         rigidBody.isKinematic = true;
 
         SpikeCollider.enabled = false;
-        //TriggerCollider.enabled = false;
 
         anchorPoint = other.transform;
         localPosToEmbedTarget = anchorPoint.InverseTransformPoint(transform.position);
