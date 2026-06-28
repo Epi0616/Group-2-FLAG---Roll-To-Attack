@@ -195,6 +195,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public void RemoveObjectFromOrbit(BaseOrbitObject obj)
     {
         orbitObjects.Remove(obj);
+        //UpdateOrbitObjectAngles();
     }
 
     public void UpdateOrbitObjectAngles()
@@ -204,15 +205,24 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
             float angle = i * (360f / orbitObjects.Count);
             orbitObjects[i].UpdateAngle(angle);
         }
+        //Debug.Log("There are currently: " + orbitObjects.Count + " objects in orbit");
     }
 
     public void RefreshSpikeAge()
     {
         for (int i = 0; i < orbitObjects.Count; i++)
         {
-            if (orbitObjects[i] is OrbitingSpike temp)
+            orbitObjects[i].age = 0;
+        }
+    }
+
+    public void EjectEnhancedSpikes()
+    {
+        for (int i = orbitObjects.Count - 1; i >= 0; i--)
+        {
+            if (orbitObjects[i] is EnhancedOrbitingSpike EOS)
             {
-                temp.age = 0;
+                EOS.DropOff();
             }
         }
     }

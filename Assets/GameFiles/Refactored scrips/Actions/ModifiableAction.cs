@@ -26,6 +26,7 @@ public class ModifiableAction
         this.actionName = actionName;
         this.actionDescription = actionDescription;
         this.sprite = sprite;
+        UpdateEnhancementLevel(enhancementLevel);
     }
     public ModifiableAction(ConditionalAction conditionalAction, int weighting, int enhancementLevel, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite)
     {
@@ -35,6 +36,7 @@ public class ModifiableAction
         this.actionName = actionName;
         this.actionDescription = actionDescription;
         this.sprite = sprite;
+        UpdateEnhancementLevel(enhancementLevel);
     }
 
     public ModifiableAction Clone()

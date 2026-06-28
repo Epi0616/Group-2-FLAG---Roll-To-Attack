@@ -28,7 +28,7 @@ public class EnemyHealthSystem : EntityHealthSystem
         {
             EnemyHasDied?.Invoke();
             LocalEnemyDeathEvent?.Invoke();
-            ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject, 0.5f);
+            ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject);
         }
         catch
         {

@@ -53,7 +53,7 @@ public class BaseOrbitObject : MonoBehaviour , IOrbitObject
         rotation = Quaternion.Euler(0, angle, 0);
         offset = rotation * Vector3.forward * radius;
 
-        if (anchorObj.transform.position.y < tempY) { tempY = anchorObj.transform.position.y; }
+        if (anchorObj.transform.position.y < tempY) { tempY = anchorObj.transform.position.y + 2f; }
         transform.position = new Vector3(anchorObj.transform.position.x, tempY, anchorObj.transform.position.z) + offset;
 
         Vector3 targetVector = new Vector3(anchorObj.transform.position.x, tempY, anchorObj.transform.position.z);

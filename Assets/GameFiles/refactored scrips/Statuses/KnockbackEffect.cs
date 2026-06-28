@@ -34,6 +34,7 @@ public class KnockbackEffect : BaseDisplacementEffect
     protected override void OnRemoval()
     {
         base.OnRemoval();
+        Debug.Log("KB Removed");
     }
 }
 

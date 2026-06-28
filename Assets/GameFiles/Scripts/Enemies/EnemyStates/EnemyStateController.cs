@@ -495,7 +495,7 @@ public abstract class EnemyStateController : MonoBehaviour
         //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
         GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
 
-        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
+        //damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
         float size = Mathf.Clamp(10 + (damage * 1.1f), 36f, 240f);
@@ -511,7 +511,7 @@ public abstract class EnemyStateController : MonoBehaviour
         GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
 
 
-        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
+        //damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = damage.ToString();
 
@@ -532,7 +532,7 @@ public abstract class EnemyStateController : MonoBehaviour
         //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
         GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
 
-        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
+        //damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = effectText;
     }
@@ -547,7 +547,7 @@ public abstract class EnemyStateController : MonoBehaviour
         //GameObject damageNumber = Instantiate(damageText, rb.position + randomOffset, Quaternion.identity);
         GameObject damageNumber = ObjectPoolManager.SpawnObject(damageText, rb.position + randomOffset, Quaternion.identity);
 
-        damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
+        //damageNumber.GetComponent<FloatingDamageText>().Initialize(cameraReference);
         TextMeshPro tempTMPAccess = damageNumber.GetComponent<TextMeshPro>();
         tempTMPAccess.text = effectText;
         tempTMPAccess.color = color;

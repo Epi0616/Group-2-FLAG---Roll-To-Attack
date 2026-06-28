@@ -38,7 +38,7 @@ public class PoisonSlamAction : BaseSlamAction , IUpgradableAbility
         poisonField.GetComponent<PoisonField>().Initialize(ownerEntity, slamRange.GetFinalValue(), poisonAccess.fieldLifetime, poisonAccess.fieldTickDamage, slamColour);
     }
 
-    protected override void ApplyHeavyEffect(Entity hitEntity)
+    protected override void ApplyHeavyEffectPerEntity(Entity hitEntity)
     {
 
     }
