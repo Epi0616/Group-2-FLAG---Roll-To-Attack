@@ -1,5 +1,6 @@
-using UnityEngine;
 using System;
+using System.Security.Principal;
+using UnityEngine;
 
 [Serializable]
 public class EnhancedSpikeSpawnSlam : BaseSlamAction , IEnhancedAbility
@@ -33,16 +34,25 @@ public class EnhancedSpikeSpawnSlam : BaseSlamAction , IEnhancedAbility
 
     public override void ExtraSlamEffect()
     {
+        
         for (int i = 0; i < 5; i++)
         {
             //GameObject spike = Instantiate(playerSpike);
-            GameObject newObj = ObjectPoolManager.SpawnObject(spike.enhancedSpikePrefab, new Vector3(0, -100, 0), Quaternion.identity);
+            Vector3 offset = new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 0f, UnityEngine.Random.Range(-0.5f, 0.5f));
+            Vector3 spawnPos = ownerEntity.transform.position + offset;
+            GameObject newObj = ObjectPoolManager.SpawnObject(spike.enhancedSpikePrefab, spawnPos, Quaternion.identity);
             EnhancedOrbitingSpike orbitObject = newObj.GetComponent<EnhancedOrbitingSpike>();
             spike.orbitObjects.Add(orbitObject);
             spike.UpdateOrbitObjectAngles();
             orbitObject.Initialize(ownerEntity, ownerEntity.gameObject, spike.orbitRadius, spike.initialOrbitSpeed, spike.spikeDamage, spike.spikeLifeSpan, enhancementLevel);
         }
         spike.RefreshSpikeAge();
+        
+    }
+
+    protected override void ApplyExtraHeavyEffect()
+    {
+        spike.EjectEnhancedSpikes();
     }
 
     public override BaseEntityAction Clone()

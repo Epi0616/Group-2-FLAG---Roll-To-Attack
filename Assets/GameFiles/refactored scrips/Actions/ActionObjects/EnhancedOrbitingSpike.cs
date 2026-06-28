@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnhancedOrbitingSpike : BaseOrbitObject
@@ -50,13 +51,23 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
     {
         age += Time.deltaTime;
         if (!(age >= lifeSpan) && ownerEntity != null) { return; }
-        if (hasSpawnedNewSpike) { return; }
-        hasSpawnedNewSpike = true;
 
-        GameObject newSpike = ObjectPoolManager.SpawnObject(SpikeEntity, transform.position, Quaternion.identity);
-        newSpike.GetComponent<EnhancedSpikeEntity>().Initialize(ownerEntity, enhancementLevel);
+        DropOff();
 
-        DestroyMe();
+        
     }
 
+    public void DropOff()
+    {
+        if (hasSpawnedNewSpike) { return; }
+        hasSpawnedNewSpike = true;
+        GameObject newSpike = ObjectPoolManager.SpawnObject(SpikeEntity, transform.position, Quaternion.identity);
+        EnhancedSpikeEntity spikeEntity = newSpike.GetComponent<EnhancedSpikeEntity>();
+        spikeEntity.Initialize(ownerEntity, enhancementLevel);
+        spikeEntity.OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 1.75f),
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+            true),
+            Color.red);
+        DestroyMe();
+    }
 }

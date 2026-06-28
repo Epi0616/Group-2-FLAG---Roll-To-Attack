@@ -215,4 +215,15 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
             orbitObjects[i].age = 0;
         }
     }
+
+    public void EjectEnhancedSpikes()
+    {
+        for (int i = orbitObjects.Count - 1; i >= 0; i--)
+        {
+            if (orbitObjects[i] is EnhancedOrbitingSpike EOS)
+            {
+                EOS.DropOff();
+            }
+        }
+    }
 }

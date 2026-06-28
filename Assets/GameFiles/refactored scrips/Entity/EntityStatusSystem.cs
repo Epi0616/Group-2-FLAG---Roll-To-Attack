@@ -72,7 +72,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             }
         }
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
-        
+        if (OwnerEntity == null) { Debug.Log("Owner Inside of Status System is NULL"); }
         newStatus.effect.AddEffect(OwnerEntity);
         foreach (BaseCondition condition in newStatus.conditions)
         {

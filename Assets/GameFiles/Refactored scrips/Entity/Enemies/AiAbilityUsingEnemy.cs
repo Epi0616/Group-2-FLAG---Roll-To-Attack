@@ -81,4 +81,14 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
             }
         }
     }
+    public void EjectEnhancedSpikes()
+    {
+        for (int i = orbitObjects.Count - 1; i >= 0; i--)
+        {
+            if (orbitObjects[i] is EnhancedOrbitingSpike EOS)
+            {
+                EOS.DropOff();
+            }
+        }
+    }
 }

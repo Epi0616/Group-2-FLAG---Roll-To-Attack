@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
@@ -9,7 +10,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     //private int numHitsTotal;
     //private int numHitsLeft;
     private int enhancementLevel = 1;
-    private bool embedded;
+    public bool embedded;
     [SerializeField] private int BaseOnHitSpikeDamage;
     [SerializeField] private int BaseTickDamage;
     private float embeddedDamageTimer;
@@ -23,10 +24,16 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
     public Collider SpikeCollider;
     //public Collider TriggerCollider;
+    private bool systemsSet = false;
+
+    private float age;
+    private float lifespan;
+    public float numEmbedsTotal;
+    public float numEmbedsLeft;
 
     protected override void Start()
     {
-        base.Start();
+        //base.Start();
         //rb = GetComponent<Rigidbody>();
         knockbackWeightMod = new Stat(0.5f);
         slammedDamageMod = new Stat(1f);       
@@ -39,13 +46,32 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         this.ownerEntity = ownerEntity;
         isDestroyed = false;
         //this.gameObject.layer = 14;
-        //numHitsTotal = 1;
-        //numHitsLeft = numHitsTotal;
         this.enhancementLevel = enhancementLevel;
+        SetSystems();
+        numEmbedsTotal = enhancementLevel;
+        numEmbedsLeft = numEmbedsTotal;
+        age = 0f;
+        lifespan = 10 + (enhancementLevel * 5);
         hostileMask = ownerEntity.hostileMask;
         Embed(embeddedTarget, hitCollider);            
         
     }
+
+    private void SetSystems()
+    {
+        if (!systemsSet)
+        {
+            bodySystem.InitialiseSystem(this);
+            statusSystem.InitialiseSystem(this);
+            healthSystem.InitialiseSystem(this);
+            textDisplaySystem.InitialiseSystem(this);
+            knockbackWeightMod = new Stat(0.5f);
+            slammedDamageMod = new Stat(1f);
+            systemsSet = true;
+        }
+    }
+
+    
 
     public void Initialize(Entity ownerEntity, int enhancementLevel)
     {
@@ -54,17 +80,31 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         this.ownerEntity = ownerEntity;
         isDestroyed = false;
         //this.gameObject.layer = 14;
-        //numHitsTotal = 3 + enhancementLevel;
-        //numHitsLeft = numHitsTotal;
-        hostileMask = ownerEntity.hostileMask;
         this.enhancementLevel = enhancementLevel;
+        SetSystems();
+        numEmbedsTotal = enhancementLevel;
+        numEmbedsLeft = numEmbedsTotal;
+        age = 0f;
+        lifespan = 10 + (enhancementLevel * 5);
+        hostileMask = ownerEntity.hostileMask;
         DropToFloor();
         
     }
 
     protected override void Update()
     {
-        if (!embedded) { return; }
+        base.Update();
+        CheckForDisplacement();
+        if (!embedded)
+        {
+            age += Time.deltaTime;
+            if (age >= lifespan)
+            {
+                //Debug.Log("Spike Expired");
+                DestroyMe();
+            }
+            return; 
+        }
         embeddedDamageTimer += Time.deltaTime;
         if (embeddedDamageTimer > 1.5f)
         {
@@ -110,8 +150,16 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         
         if ((hostileMask & (1 << hit.gameObject.layer)) > 0)
         {
+            Entity hitEntity = hit.GetComponent<Entity>();
             //Debug.Log("Something Correct Hit Collision");
-            DamageTarget(hit.GetComponent<Entity>(), BaseOnHitSpikeDamage, Color.silver);
+            if (numEmbedsLeft > 0 && isBeingDisplaced)
+            {
+                Embed(hitEntity, collision.GetContact(0).otherCollider); return;
+            }
+            else
+            {
+                DamageTarget(hitEntity, BaseOnHitSpikeDamage, Color.silver);
+            }              
 
             DestroyMe();
 
@@ -147,7 +195,12 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     {
         embedded = false;
         anchorPoint = null;
-        //if (parentEntity != null) { (parentEntity.healthSystem as EnemyHealthSystem).LocalEnemyDeathEvent -= DropToFloor; }
+        if (parentEntity != null) {
+            OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(parentEntity.transform.position, 1.75f),
+            new List<BaseCondition> {new GroundedCondition(), new TimeCondition(true, 0.75f) },
+            true),
+            Color.red);
+        }
         parentEntity = null;
         rigidBody.isKinematic = false;
         SpikeCollider.enabled = true;
@@ -158,6 +211,9 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         if (newParent == null) { Debug.Log("Invalid Spike Embed Request"); DestroyMe(); return; }
 
         embedded = true;
+        numEmbedsLeft--;
+        Debug.Log("Embedding");
+        age = 0;
 
         parentEntity = newParent;
         //(parentEntity.healthSystem as EnemyHealthSystem).LocalEnemyDeathEvent += DropToFloor;

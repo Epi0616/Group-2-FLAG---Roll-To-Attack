@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Principal;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -92,6 +93,10 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             chargeComplete = true;
             SpawnSlamCompleteVFX();
             ExtraSlamEffect();
+            if (slamRange.GetFinalValue() > slamRange.GetBaseValue()) //potential rework if we buff range in some way??
+            {
+                ApplyExtraHeavyEffect();
+            }
             // Debug.Log("SLAMMING");
 
             if (slamRange.GetFinalValue() > slamRange.GetBaseValue())
@@ -125,6 +130,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         {
             Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange.GetFinalValue(), ownerEntity.hostileMask);
             ProcessHits(colliders, hit);
+            
         }
     }
 
@@ -162,7 +168,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             ApplyCustomEffectPerEntity(hitEntity);
             if (slamRange.GetFinalValue() > slamRange.GetBaseValue()) //potential rework if we buff range in some way??
             {
-                ApplyHeavyEffect(hitEntity);
+                ApplyHeavyEffectPerEntity(hitEntity);
             }
 
             //Debug.Log("Processing Loop End");
@@ -185,7 +191,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         EndAction();
     }
 
-    protected virtual void ApplyHeavyEffect(Entity hitEntity)
+    protected virtual void ApplyHeavyEffectPerEntity(Entity hitEntity)
     {
         hitEntity.OnRecieveEffect(
             new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 7f),
@@ -193,6 +199,8 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             true), 
             Color.red);
     }
+
+    protected virtual void ApplyExtraHeavyEffect() { }
 
     public virtual void ApplyCustomEffectPerEntity(Entity hitEntity)
     {

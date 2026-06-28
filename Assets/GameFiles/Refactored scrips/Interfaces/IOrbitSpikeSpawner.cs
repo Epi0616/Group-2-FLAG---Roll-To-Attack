@@ -21,4 +21,5 @@ public interface IOrbitSpikeSpawner
     public void UpdateOrbitObjectAngles();
 
     public void RefreshSpikeAge();
+    public void EjectEnhancedSpikes();
 }
