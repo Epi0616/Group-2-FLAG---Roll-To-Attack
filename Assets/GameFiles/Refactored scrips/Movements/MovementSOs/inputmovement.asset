@@ -17,6 +17,7 @@ MonoBehaviour:
       rid: 5154424275354517578
     conditions:
     - rid: 5154424275354517579
+    - rid: 5154424291214753862
     allConditionsRequired: 1
     exclusive: 1
     priority: 0
@@ -30,3 +31,7 @@ MonoBehaviour:
       type: {class: InputMovementCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
+    - rid: 5154424291214753862
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1

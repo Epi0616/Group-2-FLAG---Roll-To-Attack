@@ -89,13 +89,22 @@ public class WaveSpawner : MonoBehaviour
 
     private void PlaceEntityInWorldSpace(GameObject obj)
     {
-        Vector3 spawnPosFinal;
+        Vector3 spawnPosFinal = Vector3.zero;
 
-        if (!true)//if obj is of type spawn in the floor
+        ISpawnModifier spawnModifier;
+
+        if (obj.TryGetComponent<ISpawnModifier>(out spawnModifier))//if obj is of type spawn in the floor
         {
-            //Debug.Log("Golem Spawning");
-            spawnPosFinal = PickSpawnAreaCircular();
-            spawnPosFinal.y = spawnPosFinal.y - 10f;
+            if (spawnModifier.spawnInGround)
+            {
+                spawnPosFinal = PickSpawnAreaCircular();
+                spawnPosFinal.y -= 10f;
+            }
+            else //duplicating this else feels bad but i currently am tired and cant think of a better way to do it
+            {
+                // Spawn and place the new enemy
+                spawnPosFinal = PickSpawnAreaPoint();
+            }
         }
         else
         {
@@ -106,6 +115,15 @@ public class WaveSpawner : MonoBehaviour
         if (spawnPosFinal == null) { Debug.LogError("SpawnPos is null"); }
 
         GameObject spawnedEntity = ObjectPoolManager.SpawnObject(obj, spawnPosFinal, Quaternion.identity);
+
+        if (spawnedEntity.TryGetComponent<AIDrivenEntity>(out AIDrivenEntity entity))
+        {
+            if (spawnModifier != null)
+            {
+                entity.DisableAIAgent();
+            }
+        }
+
         if (spawnedEntity == null) { Debug.LogError("Wave Spawned Entity null"); }
         if (spawnedEntity.GetComponent<Entity>().healthSystem != null)
         {
