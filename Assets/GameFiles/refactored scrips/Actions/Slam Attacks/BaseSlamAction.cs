@@ -49,7 +49,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     {
         if (ownerEntity is IAnimated animated)
         {
-            //animated.animationManager.SwitchAnimation(EnemyAnimations.Attack);
+            animated.animationManager.PlayAnimation(EnemyAnimations.Attack, 0.05f); 
         }
     }
     protected virtual void SetupSlam()

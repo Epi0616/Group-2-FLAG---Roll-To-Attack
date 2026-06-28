@@ -24,6 +24,7 @@ public class Entity : MonoBehaviour, IEntity
         statusSystem.InitialiseSystem(this);
         healthSystem.InitialiseSystem(this);
         textDisplaySystem.InitialiseSystem(this);
+
     }
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)
@@ -51,7 +52,6 @@ public class Entity : MonoBehaviour, IEntity
 
     protected virtual void FixedUpdate()
     {
-
     }
 
     public virtual void UpdateTarget()

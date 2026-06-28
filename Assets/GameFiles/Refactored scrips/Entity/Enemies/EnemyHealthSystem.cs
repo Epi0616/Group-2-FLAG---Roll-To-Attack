@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class EnemyHealthSystem : EntityHealthSystem
 {
@@ -17,18 +18,36 @@ public class EnemyHealthSystem : EntityHealthSystem
             temp.actionController.InterruptAllActive();
         }
 
-        if (OwnerEntity.bodySystem is EnemyBodySystem temp2)
-        {
-            temp2.TriggerAnimatorDeathParameter();
-        }
-
         OwnerEntity.statusSystem.currentActiveStatusEffects.Clear();
 
+        if (OwnerEntity is IAnimated animated)
+        {
+            animated.animationManager.PlayAnimation(EnemyAnimations.Death, 0.5f);
+        }
+        else 
+        {
+            EnemyDeath();
+        }
+    }
+
+    public void HandleDeathAfterAnimation(float delayTime)
+    {
+        StartCoroutine(DelayedDeath(delayTime));
+    }
+
+    private IEnumerator DelayedDeath(float delayTime)
+    { 
+        yield return new WaitForSeconds(delayTime);
+        EnemyDeath();
+    }
+
+    private void EnemyDeath()
+    {
         try
         {
             EnemyHasDied?.Invoke();
             LocalEnemyDeathEvent?.Invoke();
-            ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject);
+            ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject, 0);
         }
         catch
         {

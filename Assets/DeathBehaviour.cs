@@ -1,21 +1,18 @@
-using System.Collections;
 using UnityEngine;
 
-public class AttackBehaviour : StateMachineBehaviour
+public class DeathBehaviour : StateMachineBehaviour
 {
-    private AnimationManager animationManager;
-
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    private EnemyHealthSystem enemyHealthSystem;
+    //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (animationManager == null)
+        if (enemyHealthSystem == null)
         {
-            animationManager = animator.GetComponentInParent<AnimationManager>();
+            enemyHealthSystem = animator.GetComponentInParent<EnemyHealthSystem>();
         }
 
-        animationManager.HandleAnimationOver(stateInfo.length + 0.2f, 0.2f);
+        enemyHealthSystem.HandleDeathAfterAnimation(stateInfo.length);
     }
-
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

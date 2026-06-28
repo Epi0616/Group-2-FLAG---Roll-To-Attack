@@ -32,12 +32,10 @@ public class WaveBuilder : MonoBehaviour
 
         if (waveIndex < waves.Count)
         {
-            Debug.Log("unpacking");
             currentWave = UnpackWaveObj(waves[waveIndex]);
         }
         else
         {
-            Debug.Log("generating");
             currentWave = GenerateWave();
         }
 
