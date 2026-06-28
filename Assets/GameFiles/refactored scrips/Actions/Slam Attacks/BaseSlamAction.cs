@@ -13,7 +13,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     [SerializeField] protected float ChargeTime;
     [SerializeField] protected Stat SlamRange = new Stat(5);
     [SerializeField] protected Vector3 SlamPositionOffset;
-
+  
     public int slamDamage { get => SlamDamage; set => SlamDamage = value; }
     public Color slamColour { get => SlamColor; set => SlamColor = value; }
     public float chargeTime { get => ChargeTime; set => ChargeTime = value; }

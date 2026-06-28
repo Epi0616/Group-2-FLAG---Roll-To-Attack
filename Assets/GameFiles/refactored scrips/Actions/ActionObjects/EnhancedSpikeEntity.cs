@@ -15,7 +15,8 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     [SerializeField] private int BaseTickDamage;
     private float embeddedDamageTimer;
     public bool isDestroyed;
-    public bool isBeingDisplaced { get; set; }
+    [SerializeField] private bool IsBeingDisplaced;
+    public bool isBeingDisplaced { get => IsBeingDisplaced; set => IsBeingDisplaced = value; }
     public Stat knockbackWeightMod { get; set; }
     public Stat slammedDamageMod { get; set; }
 
@@ -183,7 +184,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     {
         if (isDestroyed) return;
         isDestroyed = true;
-        rb.linearVelocity = Vector3.zero;
+        //rb.linearVelocity = Vector3.zero;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
     public void CheckForDisplacement()
@@ -197,7 +198,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         anchorPoint = null;
         if (parentEntity != null) {
             OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(parentEntity.transform.position, 1.75f),
-            new List<BaseCondition> {new GroundedCondition(), new TimeCondition(true, 0.75f) },
+            new List<BaseCondition> {new TimeCondition(true, 0.75f) },
             true),
             Color.red);
         }
@@ -212,7 +213,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
         embedded = true;
         numEmbedsLeft--;
-        Debug.Log("Embedding");
+        //Debug.Log("Embedding");
         age = 0;
 
         parentEntity = newParent;
