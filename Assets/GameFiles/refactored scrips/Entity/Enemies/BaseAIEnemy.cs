@@ -4,7 +4,7 @@ using System.Drawing;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable
+public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, IAnimated
 {
     // IGrounded Interface Properties
     [Header("IGrounded Properties")]
@@ -52,6 +52,9 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     [SerializeField] private bool IsStunned;
     public bool isStunned { get => IsStunned; set => IsStunned = value; }
 
+    //IAnimated Properties
+    [SerializeField] private AnimationManager AnimationManager;
+    public AnimationManager animationManager { get => AnimationManager; set => AnimationManager = value; }
 
     //// ENEMY MOVEMENT AND ACTION PROPERTIES
     //public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();

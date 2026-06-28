@@ -12,22 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
   m_Name: inputmovement
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
-  variable: 1
-  movement:
-    rid: 5154423747726540870
-  conditions:
-  - rid: 5154423747726540872
-  allConditionsRequired: 1
-  exclusive: 1
-  priority: 0
+  conditionalMovement:
+    movement:
+      rid: 5154424275354517578
+    conditions:
+    - rid: 5154424275354517579
+    allConditionsRequired: 1
+    exclusive: 1
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5154423747726540870
+    - rid: 5154424275354517578
       type: {class: InputEntityMovement, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 5154423747726540872
+    - rid: 5154424275354517579
       type: {class: InputMovementCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        name: Base
