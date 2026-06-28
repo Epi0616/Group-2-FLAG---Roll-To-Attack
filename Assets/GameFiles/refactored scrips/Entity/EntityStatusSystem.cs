@@ -5,10 +5,12 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
     public List<ActiveStatusEffect> currentActiveStatusEffects = new List<ActiveStatusEffect>();
+    private Stat modifiedDamageAmount;
 
     public void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
+        modifiedDamageAmount = new Stat(1f);
     }
 
     public void ResetSystem()
@@ -70,7 +72,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             }
         }
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
-        
+        if (OwnerEntity == null) { Debug.Log("Owner Inside of Status System is NULL"); }
         newStatus.effect.AddEffect(OwnerEntity);
         foreach (BaseCondition condition in newStatus.conditions)
         {
@@ -84,7 +86,8 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
     public int ModifyDamage(int damageAmount, DamageType damageType)
     {
         //int modifiedDamageAmount = damageAmount;
-        Stat modifiedDamageAmount = new Stat(damageAmount);
+        modifiedDamageAmount.ResetModifiers();
+        modifiedDamageAmount.AddAdditive(damageAmount);
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
             currentActiveStatusEffects[i].effect.TriggerOnDamageEffects(ref modifiedDamageAmount, damageType);
