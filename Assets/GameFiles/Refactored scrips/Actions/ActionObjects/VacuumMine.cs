@@ -34,7 +34,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
         this.ownerEntity = ownerEntity;
         this.range = range;
         timer = chargeTime;
-        this.gameObject.layer = 14;
+        //this.gameObject.layer = 14;
 
         ShowRange();
         StartCoroutine(CountDown());

@@ -64,13 +64,13 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
     protected override void Update()
     {
-        //if (!embedded) { return; }
-        //embeddedDamageTimer += Time.deltaTime;
-        //if (embeddedDamageTimer > 1.5f)
-        //{
-        //    embeddedDamageTimer = 0;
-        //    DamageTarget(parentEntity, BaseTickDamage + enhancementLevel, Color.darkRed);
-        //}
+        if (!embedded) { return; }
+        embeddedDamageTimer += Time.deltaTime;
+        if (embeddedDamageTimer > 1.5f)
+        {
+            embeddedDamageTimer = 0;
+            DamageTarget(parentEntity, BaseTickDamage + enhancementLevel, Color.darkRed);
+        }
         if (parentEntity != null)
         {
             if (parentEntity.healthSystem.isDead && embedded)
@@ -78,7 +78,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
                 DropToFloor();
             }
         }
-        
+
     }
 
     public void LateUpdate()
@@ -127,6 +127,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     private void DamageTarget(Entity entity, int damage, Color colour)
     {
         //AudioManager.instance.PlayRandomSoundClip(spikeOnHitSound, new Vector3(0, 0, 0), 0.7f);
+        if (entity == null) { return; }
         entity.OnTakeDamage(damage, colour, DamageType.Normal); 
     }
 
@@ -154,7 +155,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
     public void Embed(Entity newParent, Collider other)
     {
-        if (newParent == null) { Debug.Log("Invalid Spike Embed Request"); DestroyMe(); }
+        if (newParent == null) { Debug.Log("Invalid Spike Embed Request"); DestroyMe(); return; }
 
         embedded = true;
 

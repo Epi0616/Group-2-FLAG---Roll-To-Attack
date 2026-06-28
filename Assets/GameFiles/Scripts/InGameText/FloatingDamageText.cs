@@ -9,17 +9,23 @@ public class FloatingDamageText : MonoBehaviour
     [SerializeField] private TextMeshPro tmp;
     private Camera targetCamera;
     private float lifeTime = 3f;
+    private float lifeTimer = 0;
     private Vector3 originalScale;
     //private Vector3 targetWorldUp;
     //private Vector3 targetWorldPosition;
     //private Quaternion targetCameraRotation;
 
     //set up initialize once enemy spawner is working properly
-    public void Initialize(Camera camera)
+    public void Initialize(Camera camera, string text, Color color, int fontSize)
     {
         targetCamera = camera;
         transform.localScale = originalScale;
-        StartCoroutine(DestroyRoutine());
+        lifeTimer = 0;
+        tmp.text = text;
+        color.a = 1f;
+        tmp.color = color;
+        tmp.fontSize = fontSize;
+        //StartCoroutine(DestroyRoutine());
     }
 
     private void Awake()
@@ -35,17 +41,22 @@ public class FloatingDamageText : MonoBehaviour
         if (targetCamera == null) return;
         //tmp.ForceMeshUpdate(true, true);
         //Debug.Log(tmp.mesh.bounds);
+        lifeTimer += Time.deltaTime;
         transform.rotation = targetCamera.transform.rotation;
         transform.position += Vector3.up * Time.deltaTime * 3f;
         transform.localScale *= 0.999f;
+        if (lifeTimer >= lifeTime)
+        {
+            ObjectPoolManager.ReturnObjectToPool(gameObject);
+        }
     }
 
-    private IEnumerator DestroyRoutine()
-    { 
-        yield return new WaitForSeconds(lifeTime);
+    //private IEnumerator DestroyRoutine()
+    //{ 
+    //    yield return new WaitForSeconds(lifeTime);
 
-        ObjectPoolManager.ReturnObjectToPool(gameObject);
-    }
+    //    ObjectPoolManager.ReturnObjectToPool(gameObject);
+    //}
 
     //private void LookToCamera()
     //{
