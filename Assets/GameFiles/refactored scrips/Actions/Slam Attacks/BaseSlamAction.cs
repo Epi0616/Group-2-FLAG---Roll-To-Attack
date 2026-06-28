@@ -49,7 +49,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     {
         if (ownerEntity is IAnimated animated)
         {
-            animated.animationManager.PlayAnimation(EnemyAnimations.Attack, 0.05f); 
+            animated.animationManager.PlayAnimation(EnemyAnimations.Attack, 0.05f);
         }
     }
     protected virtual void SetupSlam()
@@ -130,7 +130,6 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         {
             Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange.GetFinalValue(), ownerEntity.hostileMask);
             ProcessHits(colliders, hit);
-            
         }
     }
 

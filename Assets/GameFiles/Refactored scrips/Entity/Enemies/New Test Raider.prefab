@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 490888551852818728}
   - component: {fileID: 8039131962299146334}
   - component: {fileID: -680343257579746462}
+  - component: {fileID: 4969240601990132449}
   m_Layer: 14
   m_Name: New Test Raider
   m_TagString: Enemy
@@ -218,7 +219,7 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
-  AnimationManager: {fileID: 0}
+  AnimationManager: {fileID: 4969240601990132449}
   SpawnInGround: 0
   ImpactFieldPrefab: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
   PedestalLayer:
@@ -280,6 +281,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
   targetCamera: {fileID: 0}
   textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
+--- !u!114 &4969240601990132449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6681473244294018647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc691c0bb7c62e4d93e6adbc5e3b8ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
+  animator: {fileID: 6137333570808350507}
 --- !u!1001 &2769090250372413141
 PrefabInstance:
   m_ObjectHideFlags: 0
