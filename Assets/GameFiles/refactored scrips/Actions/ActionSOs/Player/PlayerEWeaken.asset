@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
-  m_Name: PlayerWeaken
+  m_Name: PlayerEWeaken
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   conditionalAction:
     action:
-      rid: 5154424227109797976
+      rid: 963244328538079302
     conditions:
     - rid: 5154424227109797977
     allConditionsRequired: 0
@@ -25,8 +25,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5154424227109797976
-      type: {class: WeakenSlamAction, ns: , asm: Assembly-CSharp}
+    - rid: 963244328538079302
+      type: {class: EnhancedWeakenSlam, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 0
         SlamDamage: 0
@@ -46,7 +46,6 @@ MonoBehaviour:
           m_FallbackState: 0
           m_WaitForCompletion: 0
           m_LocalVariables: []
-        EnhancementUpgradeResult: {fileID: 0}
     - rid: 5154424227109797977
       type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
       data:

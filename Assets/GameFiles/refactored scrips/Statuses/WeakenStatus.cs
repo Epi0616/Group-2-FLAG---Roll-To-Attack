@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class WeakenStatus : StatusEffect
 {
-    private float weakMultiplier;
+    protected float weakMultiplier;
 
     public WeakenStatus(float weakMultiplier, string effectText)
     {
