@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner, ITarget
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -63,6 +64,13 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public LayerMask pedestalLayer { get => PedestalLayer; set => PedestalLayer = value; }
     public GameObject slamImpactField { get => SlamImpactField; set => SlamImpactField = value; }
 
+    [Header("ITargetRequirements")]
+    [SerializeField] private int PerimeterPointsCount = 0;
+    [SerializeField] private float PerimeterRadius = 0;
+    public int perimeterPointsCount { get => PerimeterPointsCount; set => PerimeterPointsCount = value; }
+    public float perimeterRadius { get => PerimeterRadius; set => PerimeterRadius = value; }
+    public List<Vector3> perimeterPoints { get; set; }
+
     [Header("IPoisonSpawner")]
     [SerializeField] private GameObject PoisonFieldObj;
     [SerializeField] private GameObject EnhancedPoisonFieldObj;
@@ -113,6 +121,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         inputManager = GetComponent<EntityInputManager>();
         inputManager.Initialise(this);
         rb = GetComponent<Rigidbody>();
+
+        InitializePerimeterPoints();
 
         UnpackConditionalMovements();
         movementController.Initialize();
@@ -186,7 +196,6 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     { 
         foreach (ModifiableActionDescriptor modifiableActionDescriptor in ModifiableActionDescriptors)
         {
-            Debug.Log("added modif action " + modifiableActionDescriptor);
             modifiableActions.Add(modifiableActionDescriptor.Create());
         }
     }
@@ -225,5 +234,38 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
                 EOS.DropOff();
             }
         }
+    }
+
+    //ITarget methods
+    public void InitializePerimeterPoints()
+    {
+        perimeterPoints = new List<Vector3>();
+    }
+
+    public void GeneratePerimeterPoints()
+    {
+        List<Vector3> chosenPoints = new List<Vector3>();
+
+        float angleStep = 360 / perimeterPointsCount;
+
+        for (int i = 0; i < perimeterPointsCount; i++)
+        {
+            float angle = angleStep * i;
+            float angleInRad = angle * Mathf.Deg2Rad;
+            Vector3 pointToCheck = transform.position;
+            pointToCheck.x += perimeterRadius * Mathf.Cos(angleInRad);
+            pointToCheck.y = 1.7f; //hard coded to be the height of the arena for now, will adjust at some point...
+            pointToCheck.z += perimeterRadius * Mathf.Sin(angleInRad);
+
+            NavMeshHit hit;
+            NavMesh.SamplePosition(pointToCheck, out hit, 2, NavMesh.AllAreas);
+
+            if (hit.hit)
+            { 
+                chosenPoints.Add(hit.position);
+            }
+        }
+
+        perimeterPoints = chosenPoints;
     }
 }

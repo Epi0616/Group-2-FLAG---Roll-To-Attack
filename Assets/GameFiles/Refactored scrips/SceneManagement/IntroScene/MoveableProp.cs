@@ -77,6 +77,27 @@ public class MoveableProp : MonoBehaviour
         yield return ScaleToFrom(5, targetScale, startScale);
     }
 
+    public void ObjectDropped()
+    { 
+        StartCoroutine(ReturnToOriginalPosition(6f));
+    }
+
+    private IEnumerator ReturnToOriginalPosition(float waitTime)
+    {
+        while (waitTime > 0)
+        {
+            waitTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (!gameStarted)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            transform.position = startPosition;
+        }
+    }
+
     //Vector3(69.9728622,1.18526292,42.467205)
     //Vector3(8.1592865,2.78605676,11.5202789)
 

@@ -53,9 +53,13 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
 
     [SerializeField] private GameObject EnhancedRocketObj;
     public GameObject enhancedRocketObj { get => EnhancedRocketObj; set => EnhancedRocketObj = value; }
+
+    [Header("IBoulderThrow Required Properties")]
     //IBoulderThrow intrefcaaeeea
     [SerializeField] private GameObject BoulderObj;
+    [SerializeField] private Transform BoulderRootBone; 
     public GameObject boulderObj { get => BoulderObj; set => BoulderObj = value; }
+    public Transform boulderRootBone { get => BoulderRootBone; set => BoulderRootBone = value; }
 
     // IOrbitSpike Interface Methods
     public void RemoveObjectFromOrbit(BaseOrbitObject obj)

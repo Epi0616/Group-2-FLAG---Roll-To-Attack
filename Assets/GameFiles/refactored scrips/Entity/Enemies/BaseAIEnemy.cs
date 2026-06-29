@@ -5,7 +5,7 @@ using System.Drawing;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, IAnimated, ISpawnModifier
+public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, IAnimated, ISpawnModifier, IResetable
 {
     [Header("IGrounded Properties")]
     [SerializeField] private LayerMask GroundLayer;
@@ -109,6 +109,14 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         CheckForDisplacement();
         CheckForGrounded();
         CheckForStunned();
+
+        Debug.Log(agent.speed);
+    }
+
+    //IResetable
+    public void Reset()
+    {
+        
     }
 
     // IGrounded Interface Methods

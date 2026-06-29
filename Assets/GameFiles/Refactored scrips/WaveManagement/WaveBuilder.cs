@@ -16,6 +16,7 @@ public class WaveBuilder : MonoBehaviour
 
     [SerializeField] private int startingBudget;
     [SerializeField] private int currentBudget;
+    [SerializeField] private int budgetIncreasePerWave = 0;
 
     private List<EntityBlock> entityBlockPool = new();
     private List<EntityBlock> affordableEntities = new();
@@ -88,6 +89,7 @@ public class WaveBuilder : MonoBehaviour
             remainingBudget -= affordableEntities[choice].cost;
         }
 
+        currentBudget += budgetIncreasePerWave;
         return new Wave(chosenWaveGroups);
     }
 

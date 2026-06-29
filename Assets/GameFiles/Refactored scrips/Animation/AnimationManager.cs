@@ -13,7 +13,7 @@ public class AnimationManager : MonoBehaviour
 
     private void Start()
     {
-        SetBaseAction(EnemyAnimations.Waddle);
+        SetBaseAction(EnemyAnimations.Idle);
         currentAnimation = baseAnimation;
     }
 
@@ -34,7 +34,6 @@ public class AnimationManager : MonoBehaviour
         {
             if (newAnimation.priority <= currentAnimation.priority)
             {
-                Debug.Log("has priority");
                 currentAnimation = newAnimation;
                 animator.CrossFade(newAnimation.animationId, crossFadeTime);
             }
@@ -55,7 +54,7 @@ public class AnimationManager : MonoBehaviour
     public void HandleAnimationOver(float time, float crossFadeTime)
     {
         if (ownerEntity.healthSystem.isDead) return;
-        currentAnimation = new Animation(0, int.MaxValue);
+        currentAnimation = EnemyAnimations.Idle;
         StartCoroutine(DelayBaseAnimationStart(time, crossFadeTime));
     }
 
@@ -81,8 +80,10 @@ public struct Animation
 
 public static class EnemyAnimations
 {
+    public static readonly Animation Idle = new Animation(Animator.StringToHash("Idle"), int.MaxValue);
     public static readonly Animation WakeUp = new Animation(Animator.StringToHash("WakeUp"), 1);
     public static readonly Animation Waddle = new Animation(Animator.StringToHash("Waddle"), 1);
     public static readonly Animation Attack = new Animation(Animator.StringToHash("Attack"), 1);
+    public static readonly Animation RockThrow = new Animation(Animator.StringToHash("RockThrow"), 1);
     public static readonly Animation Death = new Animation(Animator.StringToHash("Death"), 0);
 }
