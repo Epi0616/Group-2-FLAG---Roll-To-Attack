@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public class WeakenSlamAction : BaseSlamAction
+public class WeakenSlamAction : BaseSlamAction, IUpgradableAbility
 {
     public float WeakenDuration = 1f;
     public float WeakenDamageMult = 2f;
     public LocalizedString weakenText;
 
+    [SerializeField] private ModifiableActionDescriptor EnhancementUpgradeResult;
+    public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
     public WeakenSlamAction() { }
 
     public WeakenSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float WeakenDuration, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
