@@ -63,6 +63,7 @@ public class PropMover : MonoBehaviour
         if (click.action.WasReleasedThisFrame())
         {
             selectedProp.RollToPosition(targetDicePoint.position);
+            selectedProp.ObjectDropped();
             selectedProp = null;
             return;
         }

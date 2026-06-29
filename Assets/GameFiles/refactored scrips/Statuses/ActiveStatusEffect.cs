@@ -67,5 +67,4 @@ public class ActiveStatusEffect
             condition.ResetCondition();
         }
     }
-
 }

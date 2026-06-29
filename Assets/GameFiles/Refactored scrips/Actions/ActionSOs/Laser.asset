@@ -18,6 +18,7 @@ MonoBehaviour:
     conditions:
     - rid: 963244250863239169
     - rid: 963244250863239170
+    - rid: 5154424323431727178
     - rid: 963244250863239171
     allConditionsRequired: 1
     singleUse: 0
@@ -58,3 +59,8 @@ MonoBehaviour:
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
+    - rid: 5154424323431727178
+      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+        distanceThreshold: 30
