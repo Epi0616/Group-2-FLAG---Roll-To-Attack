@@ -65,7 +65,7 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
         EnhancedSpikeEntity spikeEntity = newSpike.GetComponent<EnhancedSpikeEntity>();
         spikeEntity.Initialize(ownerEntity, enhancementLevel);
         spikeEntity.OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 1.75f),
-            new List<BaseCondition> { new TimeCondition(true, 0.75f) },
+            new List<BaseCondition> { new TimeCondition(true, 1f) },
             true),
             Color.red);
         DestroyMe();

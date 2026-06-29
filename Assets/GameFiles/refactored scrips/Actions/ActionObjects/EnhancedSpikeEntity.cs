@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -102,7 +103,8 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
             if (age >= lifespan)
             {
                 //Debug.Log("Spike Expired");
-                DestroyMe();
+                //DestroyMe();
+                StartCoroutine(DespawnRoutine());
             }
             return; 
         }
@@ -182,9 +184,10 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
 
     protected virtual void DestroyMe()
     {
+        if (embedded) return;
         if (isDestroyed) return;
         isDestroyed = true;
-        //rb.linearVelocity = Vector3.zero;
+        //rb.linearVelocity = Vector3.zero;       
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
     public void CheckForDisplacement()
@@ -198,7 +201,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         anchorPoint = null;
         if (parentEntity != null) {
             OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(parentEntity.transform.position, 1.75f),
-            new List<BaseCondition> {new TimeCondition(true, 0.75f) },
+            new List<BaseCondition> {new TimeCondition(true, 1f) },
             true),
             Color.red);
         }
@@ -228,5 +231,17 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         anchorPoint = other.transform;
         localPosToEmbedTarget = anchorPoint.InverseTransformPoint(transform.position);
 
+    }
+
+    public IEnumerator DespawnRoutine()
+    {
+        float despawnTimer = 0;
+        while (despawnTimer < 0.5f)
+        {
+            despawnTimer += Time.deltaTime;
+            transform.position = new Vector3(transform.position.x , transform.position.y - 0.001f , transform.position.z);   
+            yield return null;
+        }
+        DestroyMe();
     }
 }
