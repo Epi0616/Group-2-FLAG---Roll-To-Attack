@@ -122,7 +122,6 @@ public class ThrowableBoulder : MonoBehaviour
         Vector3 position; 
 
         float peakInArc = GetPeakInArc(target);
-        Debug.Log(peakInArc);
 
         while (t < 1)
         { 
