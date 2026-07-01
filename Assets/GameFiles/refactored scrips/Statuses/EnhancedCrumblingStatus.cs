@@ -33,7 +33,7 @@ public class EnhancedCrumblingStatus : CrumblingStatus , IEnhancedStatusEffect
                 if (hitEntity == entityRef) { continue; }
                 if (hitEntity == null) { continue; }
                 //Debug.Log("Weaken Burst");
-                hitEntity.OnTakeDamage(10, Color.sienna, DamageType.Explosive);
+                hitEntity.OnTakeDamage(10, Color.red, DamageType.Explosive);
             }
 
             toBeRemoved = true;
