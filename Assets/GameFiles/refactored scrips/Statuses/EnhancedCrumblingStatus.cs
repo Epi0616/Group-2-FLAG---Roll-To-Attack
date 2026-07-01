@@ -1,40 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
+public class EnhancedCrumblingStatus : CrumblingStatus , IEnhancedStatusEffect
 {
-    private bool pulseProcced;
     public int enhancementLevel { get; set; }
     private Entity applierEntity;
-    public EnhancedWeakenStatus(float weakMultiplier, string effectText, Entity EntityThatApplied, int enhancementLevel) : base(weakMultiplier, effectText)
+
+    public EnhancedCrumblingStatus(float crumbleMult, Color effectColour, Entity applierEntity, int enhancementLevel) : base(crumbleMult)
     {
-        pulseProcced = false;
-        type = StatusType.Weak;
-        this.effectColour = Color.darkViolet; 
-        applierEntity = EntityThatApplied;
         this.enhancementLevel = enhancementLevel;
-        isStackable = true;
-        
+        this.applierEntity = applierEntity;
+        this.effectColour = effectColour;
     }
-    /*
-    protected override void ApplyStatModifier()
-    {
-        enemyRef.damageTakenModifierStat.AddMultiplierFlat(weakMultiplier);
-    }
-    */
 
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
-
-        if (type == DamageType.Weaken)
+        if (type == DamageType.Slammed)
         {
-            return;
-        }
-
-        if (!pulseProcced)
-        {
-            pulseProcced = true;
-            //Debug.Log("Procced");
             Collider[] hitColliders = new Collider[100];
             int numHit = Physics.OverlapSphereNonAlloc(entityRef.transform.position, 10 + (enhancementLevel * 2), hitColliders, applierEntity.hostileMask);
             if (applierEntity is ISlamActionRequirements temp)
@@ -48,16 +30,14 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
                 if (collider == null) { return; }
                 if (collider.CompareTag("StaticEntity") || collider.CompareTag("PhysicsEntity")) { continue; }
                 Entity hitEntity = collider.gameObject.GetComponent<Entity>();
-                if ( hitEntity == entityRef) { continue; }
-                if ( hitEntity == null ) { continue; }
+                if (hitEntity == entityRef) { continue; }
+                if (hitEntity == null) { continue; }
                 //Debug.Log("Weaken Burst");
-                hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(1.2f, effectText),
-                new List<BaseCondition> { new TimeCondition(true, 5f) }, true), Color.darkMagenta);
+                hitEntity.OnTakeDamage(10, Color.sienna, DamageType.Explosive);
             }
-            
+
+            toBeRemoved = true;
+            return;
         }
-
-        entityRef.OnTakeDamage((int)(damage.GetFinalValue() * (weakMultiplier - 1)), effectColour, DamageType.Weaken);
-
     }
 }

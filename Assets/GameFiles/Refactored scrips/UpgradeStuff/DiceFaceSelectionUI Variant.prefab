@@ -129,6 +129,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -455,7 +456,7 @@ PrefabInstance:
       objectReference: {fileID: 7015976122494660179}
     - target: {fileID: 2493414200261783370, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2818190464577110972, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: m_IsActive
@@ -463,7 +464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3348097132547337457, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: abilityPool.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3348097132547337457, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: 'abilityPool.Array.data[0]'
@@ -493,18 +494,38 @@ PrefabInstance:
       propertyPath: 'abilityPool.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: 4626ae10d0001ba4f8d6e1066e7667ac, type: 2}
+    - target: {fileID: 3348097132547337457, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+      propertyPath: 'abilityPool.Array.data[7]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ab76c7681e129c4fb7e76df91c9b92a, type: 2}
     - target: {fileID: 3642446207219403683, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -10.000019
       objectReference: {fileID: 0}
     - target: {fileID: 3994452088990171394, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+      propertyPath: TestInMainBuild
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3994452088990171394, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: visibleForTesting
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3994452088990171394, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+      propertyPath: AbilitySelectionPrefab
+      value: 
+      objectReference: {fileID: 8121657239574467999}
+    - target: {fileID: 3994452088990171394, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+      propertyPath: DiceFaceSelectionPrefab
+      value: 
+      objectReference: {fileID: 4009619994374206930}
     - target: {fileID: 4296912279814399365, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: myImage
       value: 
       objectReference: {fileID: 357082549184290042}
+    - target: {fileID: 4601273950931680431, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Continue
+      objectReference: {fileID: 0}
     - target: {fileID: 4658491899368737026, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -140.00002
@@ -852,6 +873,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!1 &4009619994374206930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2493414200261783370, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+  m_PrefabInstance: {fileID: 1531060206002166424}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4212010415550566188 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3407951739781764532, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
@@ -924,6 +950,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &8121657239574467999 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7316809114450792199, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
+  m_PrefabInstance: {fileID: 1531060206002166424}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8147493119961311152 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7218952402832293160, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}

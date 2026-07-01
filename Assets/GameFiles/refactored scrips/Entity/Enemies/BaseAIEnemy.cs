@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -110,7 +109,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         CheckForGrounded();
         CheckForStunned();
 
-        Debug.Log(agent.speed);
+        //Debug.Log(agent.speed);
     }
 
     //IResetable
@@ -179,5 +178,49 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public void CheckForStunned()
     {
         isStunned = statusSystem.CheckForStunnedStatus();
+    }
+
+    protected void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("Environment") && !collision.gameObject.CompareTag("Pedestal")) { return; }
+        if (!isBeingDisplaced) { return; }
+        //if (isKnockedBackByGolem) { return; }
+
+        //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
+
+
+        //OnRecieveEffect(new ActiveStatusEffect(new BaseStunEffect(), new List<BaseCondition> { new DurationCondition(true, 0.5f), new NavMeshReturnCondition(false, this) }));
+
+        float dmgMod = Mathf.Clamp(slammedDamageMod.GetFinalValue(), 1.0f, 5.0f);
+        int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);
+
+
+
+
+        if (statusSystem.CheckForStatusByType(StatusType.Freeze))
+        {
+            //AudioManager.instance.PlayRandomSoundClip(EnemyShatteredSounds);
+            textDisplaySystem.DisplayHigherText("SHATTERED", Color.deepSkyBlue, 52);
+            OnTakeDamage(appliedDamage, Color.deepSkyBlue, DamageType.Shattered);
+            
+        }
+        else if (statusSystem.CheckForStatusByType(StatusType.Crumbling))
+        {
+            //AudioManager.instance.PlayRandomSoundClip(EnemyWallSlamSounds);
+            textDisplaySystem.DisplayHigherText("CRUSHED", Color.sienna, 52);
+            OnTakeDamage(appliedDamage, Color.sienna, DamageType.Slammed);
+        }
+        else
+        {
+            textDisplaySystem.DisplayHigherText("SLAMMED", Color.darkGoldenRod, 52);
+            OnTakeDamage(appliedDamage, Color.darkGoldenRod, DamageType.Slammed);
+        }
+            statusSystem.RemoveEffectByType(StatusType.Knockback);
+
+
+        // Eventual VFX/SFX can go here for wall slams
+        // add a check for the value of dmgMod to increase volume/size of effects
+
+
     }
 }
