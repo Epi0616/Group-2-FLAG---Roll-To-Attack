@@ -11,6 +11,30 @@ public class AnimationManager : MonoBehaviour
     private Animation currentAnimation = new();
     private Entity ownerEntity;
 
+    [SerializeField] AnimationClip Idle;
+    [SerializeField] AnimationClip WakeUp;
+    [SerializeField] AnimationClip Waddle;
+    [SerializeField] AnimationClip Charge;
+    [SerializeField] AnimationClip Attack;
+    [SerializeField] AnimationClip RockThrow;
+    [SerializeField] AnimationClip Death;
+
+    Dictionary<int, AnimationClip> animationClipReference;
+
+    private void Awake()
+    {
+        animationClipReference = new Dictionary<int, AnimationClip>()
+        {
+            {EnemyAnimations.Idle.animationId, Idle},
+            {EnemyAnimations.WakeUp.animationId, WakeUp},
+            {EnemyAnimations.Waddle.animationId, Waddle},
+            {EnemyAnimations.Charge.animationId, Charge},
+            {EnemyAnimations.Attack.animationId, Attack},
+            {EnemyAnimations.RockThrow.animationId, RockThrow},
+            {EnemyAnimations.Death.animationId, Death}
+        };
+    }
+
     private void Start()
     {
         SetBaseAction(EnemyAnimations.Idle);
@@ -53,6 +77,7 @@ public class AnimationManager : MonoBehaviour
 
     public void HandleAnimationOver(float time, float crossFadeTime)
     {
+        if (ownerEntity == null) return;
         if (ownerEntity.healthSystem.isDead) return;
         currentAnimation = EnemyAnimations.Idle;
         StartCoroutine(DelayBaseAnimationStart(time, crossFadeTime));
@@ -83,6 +108,7 @@ public static class EnemyAnimations
     public static readonly Animation Idle = new Animation(Animator.StringToHash("Idle"), int.MaxValue);
     public static readonly Animation WakeUp = new Animation(Animator.StringToHash("WakeUp"), 1);
     public static readonly Animation Waddle = new Animation(Animator.StringToHash("Waddle"), 1);
+    public static readonly Animation Charge = new Animation(Animator.StringToHash("Charge"), 1);
     public static readonly Animation Attack = new Animation(Animator.StringToHash("Attack"), 1);
     public static readonly Animation RockThrow = new Animation(Animator.StringToHash("RockThrow"), 1);
     public static readonly Animation Death = new Animation(Animator.StringToHash("Death"), 0);

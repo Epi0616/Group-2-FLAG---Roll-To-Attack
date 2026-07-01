@@ -34,6 +34,9 @@ public class NavMeshEscapeMovement : BaseEntityMovement
         {
             animated.animationManager.PlayAnimation(EnemyAnimations.Waddle);
         }
+
+        ActiveStatusEffect speedIncreaseEffect = new (new MovementSpeedStatus(0.5f), new List<BaseCondition>{ new DistanceCondition(true, 30) }, true);
+        ownerEntity.statusSystem.OnRecieveEffect(speedIncreaseEffect);
     }
 
     public override void UpdateMovement()
