@@ -109,8 +109,6 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         CheckForDisplacement();
         CheckForGrounded();
         CheckForStunned();
-
-        Debug.Log(agent.speed);
     }
 
     //IResetable
