@@ -11,7 +11,7 @@ public class KnockbackField : MonoBehaviour
     private Entity ownerEntity;
     private int enhancementLevel;
     private HashSet<Entity> alreadyHit;
-
+    private float hitTimer = 0;
 
     protected void Awake()
     {
@@ -21,6 +21,16 @@ public class KnockbackField : MonoBehaviour
     protected virtual void Start()
     {
         alreadyHit = new HashSet<Entity>();
+    }
+
+    protected void Update()
+    {
+        hitTimer += Time.deltaTime;
+        if (hitTimer > 0.25)
+        {
+            alreadyHit.Clear();
+            hitTimer = 0;
+        }
     }
 
     protected void FixedUpdate()
@@ -42,7 +52,7 @@ public class KnockbackField : MonoBehaviour
 
         if (color.a > 0)
         {
-            color.a += Time.fixedDeltaTime * -0.5f;
+            color.a += Time.fixedDeltaTime * -1f;
             return;
         }
         color.a = 0;
@@ -71,11 +81,11 @@ public class KnockbackField : MonoBehaviour
         if (hitEntity == null) return;
         hitEntity.OnRecieveEffect(
             new ActiveStatusEffect(new KnockbackEffect(transform.position, 7f),
-            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 1.25f) },
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
             true));
         hitEntity.OnRecieveEffect(
             new ActiveStatusEffect(new EnhancedCrumblingStatus(CrumblingDamageMod, slamColour, ownerEntity, enhancementLevel),
-            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 1.25f) },
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
             true));
     }
 

@@ -22,11 +22,11 @@ public class KnockbackSlamAction : BaseSlamAction , IUpgradableAbility
 
         hitEntity.OnRecieveEffect(
             new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 7f),
-            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 1.25f) },
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
             true));
         hitEntity.OnRecieveEffect(
             new ActiveStatusEffect(new CrumblingStatus(CrumblingDamageMod),
-            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 1.25f) },
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
             true));
     }
 
