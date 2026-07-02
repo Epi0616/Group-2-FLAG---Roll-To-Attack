@@ -79,6 +79,8 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
             Debug.LogError("BaseAIEnemy: Required Component not found from GetComponent");
         }
 
+        animationManager.Initialize(this);
+
         UnpackConditionalMovements();
         movementController.Initialize();
 
@@ -93,8 +95,6 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
 
         
         agent.speed = movementSpeed.GetFinalValue();
-
-        animationManager.Initialize(this);
         //EnableAIAgent();
     }
 
