@@ -12,8 +12,8 @@ public class RiseFromTheGround : BaseEntityAction
     {
         base.StartAction(ownerEntity);
         if (ownerEntity is IAnimated animated)
-        { 
-            animated.animationManager.PlayAnimationWithDelay(EnemyAnimations.WakeUp, 1f);
+        {
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.WakeUp, 1, 0.2f, 5);
         }
 
         endPosition = ownerEntity.transform.position;

@@ -48,7 +48,6 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
         {
             this.animated = animated;
         }
-        //ownerEntity.bodySystem.body.GetComponent<Animator>().speed = 0f;
         if (laserAccess == null)
         {
             Debug.LogError("ILaserRequirementsMissing");
@@ -93,7 +92,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
         laserAccess.laserVFX.enabled = true;
         //Debug.Log("Laser Started");
 
-        animated.animationManager.PlayAnimation(EnemyAnimations.Charge);
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Charge, 1);
     }
 
     protected override void CastChargeUpdate()
@@ -116,7 +115,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
         laserAccess.laserVFX.SetVector4("Beam Colour", activeVisualColour);
         laserAccess.laserVFX.enabled = true;
 
-        animated.animationManager.PlayAnimation(EnemyAnimations.Attack);
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1);
     }
 
     protected override void CastActiveUpdate()

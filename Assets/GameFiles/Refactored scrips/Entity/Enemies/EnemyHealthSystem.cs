@@ -22,7 +22,7 @@ public class EnemyHealthSystem : EntityHealthSystem
 
         if (OwnerEntity is IAnimated animated)
         {
-            animated.animationManager.PlayAnimation(EnemyAnimations.Death, 0.5f);
+            //animated.animationManager.PlayAnimation(EnemyAnimations.Death, 0.5f);
         }
         else 
         {
