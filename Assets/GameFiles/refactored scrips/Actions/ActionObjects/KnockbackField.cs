@@ -26,7 +26,7 @@ public class KnockbackField : MonoBehaviour
     protected void Update()
     {
         hitTimer += Time.deltaTime;
-        if (hitTimer > 0.25)
+        if (hitTimer > 0.15)
         {
             alreadyHit.Clear();
             hitTimer = 0;
@@ -97,6 +97,7 @@ public class KnockbackField : MonoBehaviour
         color = colour;
         slamColour = colour;
         this.lifeSpan = lifespan;
+        this.enhancementLevel = enhancementLevel;
         if (alreadyHit == null)
         {
             alreadyHit = new HashSet<Entity>();

@@ -3024,15 +3024,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5820094208623085155, guid: 1a891848fc6cbda49ab9daaf7351ca7e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.56
+      value: 16.68
       objectReference: {fileID: 0}
     - target: {fileID: 5820094208623085155, guid: 1a891848fc6cbda49ab9daaf7351ca7e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7144699
+      value: 4.2
       objectReference: {fileID: 0}
     - target: {fileID: 5820094208623085155, guid: 1a891848fc6cbda49ab9daaf7351ca7e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -22.44
+      value: -16.51
       objectReference: {fileID: 0}
     - target: {fileID: 5820094208623085155, guid: 1a891848fc6cbda49ab9daaf7351ca7e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4503,6 +4503,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
   animator: {fileID: 0}
+  Idle: {fileID: 0}
+  WakeUp: {fileID: 0}
+  Waddle: {fileID: 0}
+  Charge: {fileID: 0}
+  Attack: {fileID: 0}
+  RockThrow: {fileID: 0}
+  Death: {fileID: 0}
 --- !u!224 &433261033 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8498234113886664746, guid: b30d925bdef122c40b6eb611f1c45cbe, type: 3}
@@ -8237,6 +8244,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: PerimeterRadius
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: SlamImpactField
       value: 
       objectReference: {fileID: 2790793571632954929, guid: fcb9a081bc2e3214b8fa9e7f1f7414c1, type: 3}
@@ -8261,12 +8272,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 752101146609992161, guid: c03978c62a9c5c54f90733615d531807, type: 3}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: SlowingBubblePrefab
+      value: 
+      objectReference: {fileID: 4773814930010074401, guid: a3ab422ad0b415a4d9917487d0606148, type: 3}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: PedestalLayer.m_Bits
       value: 8388608
       objectReference: {fileID: 0}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: PerimeterPointsCount
-      value: 1
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: EnhancedPoisonFieldObj
@@ -8287,27 +8302,27 @@ PrefabInstance:
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: a4d445a5ef424d24cbba5bead3293cc6, type: 2}
+      objectReference: {fileID: 11400000, guid: 556707604a5df65469b7c364b63012f1, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: a4d445a5ef424d24cbba5bead3293cc6, type: 2}
+      objectReference: {fileID: 11400000, guid: 556707604a5df65469b7c364b63012f1, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: a4d445a5ef424d24cbba5bead3293cc6, type: 2}
+      objectReference: {fileID: 11400000, guid: 556707604a5df65469b7c364b63012f1, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: a4d445a5ef424d24cbba5bead3293cc6, type: 2}
+      objectReference: {fileID: 11400000, guid: 556707604a5df65469b7c364b63012f1, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[4]'
       value: 
-      objectReference: {fileID: 11400000, guid: a4d445a5ef424d24cbba5bead3293cc6, type: 2}
+      objectReference: {fileID: 11400000, guid: 556707604a5df65469b7c364b63012f1, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[5]'
       value: 
-      objectReference: {fileID: 11400000, guid: a4d445a5ef424d24cbba5bead3293cc6, type: 2}
+      objectReference: {fileID: 11400000, guid: 556707604a5df65469b7c364b63012f1, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ConditionalActionDescriptors.Array.data[0]'
       value: 
@@ -13837,15 +13852,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5820094208623085155, guid: 1a891848fc6cbda49ab9daaf7351ca7e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.251183
+      value: -8.49
       objectReference: {fileID: 0}
     - target: {fileID: 5820094208623085155, guid: 1a891848fc6cbda49ab9daaf7351ca7e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7144699
+      value: 4.2
       objectReference: {fileID: 0}
     - target: {fileID: 5820094208623085155, guid: 1a891848fc6cbda49ab9daaf7351ca7e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.700203
+      value: -16.7
       objectReference: {fileID: 0}
     - target: {fileID: 5820094208623085155, guid: 1a891848fc6cbda49ab9daaf7351ca7e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -14355,9 +14370,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveBuilder
   waves: []
   entityBlocks:
-  - {fileID: 11400000, guid: 3ae282f6af794764a9b9e4cb6a4ea62e, type: 2}
-  - {fileID: 11400000, guid: dd9250d18b4418d40bfc6651e0ba320c, type: 2}
-  - {fileID: 11400000, guid: fcf460e8114e2dd4cb4c50985818d314, type: 2}
+  - {fileID: 11400000, guid: 738fff7bbe8f09540bcfe39c0c86e5ef, type: 2}
+  - {fileID: 11400000, guid: b054c4d8b426b1f4ebde2878ced7ea64, type: 2}
+  - {fileID: 11400000, guid: 1c8d6a74c114cc14bbe7ec2479285be6, type: 2}
   startingBudget: 500
   currentBudget: 0
   budgetIncreasePerWave: 0
@@ -15895,6 +15910,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
   animator: {fileID: 0}
+  Idle: {fileID: 0}
+  WakeUp: {fileID: 0}
+  Waddle: {fileID: 0}
+  Charge: {fileID: 0}
+  Attack: {fileID: 0}
+  RockThrow: {fileID: 0}
+  Death: {fileID: 0}
 --- !u!1 &2033541137
 GameObject:
   m_ObjectHideFlags: 0

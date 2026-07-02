@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ITarget
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ISlowBubbleSpawner, ITarget
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -118,6 +118,11 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [Header("IKnockbackFieldSpawner")]
     [SerializeField] private GameObject KBFieldPrefab;
     public GameObject knockbackFieldPrefab { get => KBFieldPrefab; set => KBFieldPrefab = value; }
+
+    [Header("IKnockbackFieldSpawner")]
+    [SerializeField] private GameObject SlowingBubblePrefab;
+    public GameObject slowBubblePrefab { get => SlowingBubblePrefab; set => SlowingBubblePrefab = value; }
+    public EnhancedSlowingBubble currentBubbleInstance { get; set; }
     protected override void Start()
     {
         base.Start();
