@@ -69,27 +69,6 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
-    public bool GetAnimationClipFromType(AnimationType clipType, out AnimationClip outClip)
-    {
-        if (animationClips.TryGetValue(clipType, out AnimationClip clip))
-        {
-            outClip = clip;
-            return true;
-        }
-        outClip = null;
-        return false;
-    }
-    private bool GetPlayableAnimationFromType(AnimationType clipType, out AnimationClipPlayable outClip)
-    {
-        if (activatedClips.TryGetValue(clipType, out AnimationClipPlayable playableClip))
-        {
-            outClip = playableClip;
-            return true;
-        }
-        outClip = default;
-        return false;
-    }
-
     public void PlayAnimation(AnimationType animationType, int priority, float window = 0f)
     {
 
@@ -213,6 +192,27 @@ public class AnimationManager : MonoBehaviour
         if (animationType == currentType) return false;
         if (priority > currentPriority) return false;
         return true;
+    }
+
+    public bool GetAnimationClipFromType(AnimationType clipType, out AnimationClip outClip)
+    {
+        if (animationClips.TryGetValue(clipType, out AnimationClip clip))
+        {
+            outClip = clip;
+            return true;
+        }
+        outClip = null;
+        return false;
+    }
+    private bool GetPlayableAnimationFromType(AnimationType clipType, out AnimationClipPlayable outClip)
+    {
+        if (activatedClips.TryGetValue(clipType, out AnimationClipPlayable playableClip))
+        {
+            outClip = playableClip;
+            return true;
+        }
+        outClip = default;
+        return false;
     }
 
     private bool IsAnimationFinished(AnimationClipPlayable animation)
