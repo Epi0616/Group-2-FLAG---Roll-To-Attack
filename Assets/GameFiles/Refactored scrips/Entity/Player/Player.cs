@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner, ITarget
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ITarget
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -115,6 +115,9 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public GameObject enhancedMineObj { get => EnhancedMineObj; set => EnhancedMineObj = value; }
     public float mineChargeTime { get => MineChargeTime; set => MineChargeTime = value; }
 
+    [Header("IKnockbackFieldSpawner")]
+    [SerializeField] private GameObject KBFieldPrefab;
+    public GameObject knockbackFieldPrefab { get => KBFieldPrefab; set => KBFieldPrefab = value; }
     protected override void Start()
     {
         base.Start();

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnhancedWeakenStatus : WeakenStatus
+public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
 {
     private bool pulseProcced;
-    private int enhancementLevel = 1;
+    public int enhancementLevel { get; set; }
     private Entity applierEntity;
     public EnhancedWeakenStatus(float weakMultiplier, string effectText, Entity EntityThatApplied, int enhancementLevel) : base(weakMultiplier, effectText)
     {
@@ -25,6 +25,12 @@ public class EnhancedWeakenStatus : WeakenStatus
 
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
+
+        if (type == DamageType.Weaken)
+        {
+            return;
+        }
+
         if (!pulseProcced)
         {
             pulseProcced = true;
@@ -49,11 +55,6 @@ public class EnhancedWeakenStatus : WeakenStatus
                 new List<BaseCondition> { new TimeCondition(true, 5f) }, true), Color.darkMagenta);
             }
             
-        }
-        
-        if (type == DamageType.Weaken)
-        {
-            return;
         }
 
         entityRef.OnTakeDamage((int)(damage.GetFinalValue() * (weakMultiplier - 1)), effectColour, DamageType.Weaken);
