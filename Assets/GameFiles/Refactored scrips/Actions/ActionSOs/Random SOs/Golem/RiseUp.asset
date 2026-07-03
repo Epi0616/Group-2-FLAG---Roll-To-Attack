@@ -16,7 +16,7 @@ MonoBehaviour:
     action:
       rid: 5154424291214753865
     conditions:
-    - rid: 5154424291214753866
+    - rid: 5042951940236378183
     allConditionsRequired: 0
     singleUse: 1
     triggered: 0
@@ -25,11 +25,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 5042951940236378183
+      type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
     - rid: 5154424291214753865
       type: {class: RiseFromTheGround, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 1
-    - rid: 5154424291214753866
-      type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0

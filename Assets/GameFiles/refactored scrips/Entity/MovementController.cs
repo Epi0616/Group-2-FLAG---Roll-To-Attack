@@ -29,6 +29,18 @@ public class MovementController
         }
     }
 
+    public void Reset()
+    {
+        //foreach (var movement in availableMovements)
+        //{
+        //    List<BaseCondition> conditions = movement.conditions;
+        //    foreach (BaseCondition condition in conditions)
+        //    {
+        //        condition.ResetCondition();
+        //    }
+        //}
+    }
+
     public void Update()
     {
         CheckForValidMovements();
