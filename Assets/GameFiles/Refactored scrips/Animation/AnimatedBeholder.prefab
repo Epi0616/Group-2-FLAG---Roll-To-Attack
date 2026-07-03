@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1211117240376927727}
   - component: {fileID: 6404759980654416571}
   - component: {fileID: 6388073139971425162}
-  - component: {fileID: 3000700063952282058}
+  - component: {fileID: 5755641029052898903}
   m_Layer: 14
   m_Name: AnimatedBeholder
   m_TagString: Enemy
@@ -157,7 +157,7 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
-  AnimationManager: {fileID: 3000700063952282058}
+  AnimationManager: {fileID: 5755641029052898903}
   SpawnInGround: 0
   EnvironmentLayer:
     serializedVersion: 2
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
   targetCamera: {fileID: 0}
   textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
---- !u!114 &3000700063952282058
+--- !u!114 &5755641029052898903
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,10 +229,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 954633043956504798}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bc691c0bb7c62e4d93e6adbc5e3b8ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 56532081093b3874a8eca22fd3748215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
   animator: {fileID: 8405106665255638016}
+  animationClipTypes:
+  - type: 3
+    clip: {fileID: 7400000, guid: 3f5308f5d333ffe4ea3b0f6b3353d880, type: 2}
+  - type: 5
+    clip: {fileID: 7400000, guid: dba979037b7870e4aa2164b013e57ee3, type: 2}
+  - type: 4
+    clip: {fileID: 7400000, guid: af803810dc6c1634a853cd1fbc75e2e1, type: 2}
 --- !u!1001 &2827915832216000338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -329,7 +336,7 @@ Animator:
   m_GameObject: {fileID: 3170445792573729283}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5ae8fe22a14467540a84c72e25722a00, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -392,6 +399,10 @@ PrefabInstance:
     - target: {fileID: 5083317463566987490, guid: 7547b5745d9db394ca4a7760f5bf8b0a, type: 3}
       propertyPath: m_Name
       value: LaserOriginPos
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233657497617741954, guid: 7547b5745d9db394ca4a7760f5bf8b0a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

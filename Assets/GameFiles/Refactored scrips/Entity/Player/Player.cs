@@ -118,6 +118,12 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     protected override void Start()
     {
         base.Start();
+        Initialize();
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
         inputManager = GetComponent<EntityInputManager>();
         inputManager.Initialise(this);
         rb = GetComponent<Rigidbody>();

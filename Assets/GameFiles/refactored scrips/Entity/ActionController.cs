@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ActionController
+public class ActionController : IResetable
 {
     private Entity entity;
     public List<ConditionalAction> availableActions;
@@ -27,6 +27,22 @@ public class ActionController
             foreach (BaseCondition condition in conditions)
             {
                 condition.Initialize(entity);
+            }
+        }
+    }
+
+    public void Reset()
+    {
+        foreach (var action in availableActions)
+        {
+            //List<BaseCondition> conditions = action.conditions;
+            //foreach (BaseCondition condition in conditions)
+            //{
+            //    condition.ResetCondition();
+            //}
+            if (action.singleUse)
+            {
+                action.triggered = false;
             }
         }
     }

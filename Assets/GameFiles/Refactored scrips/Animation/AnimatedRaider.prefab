@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8192728123348386094}
   - component: {fileID: 4942087712279446587}
   - component: {fileID: 7582754953811408524}
-  - component: {fileID: 8802372786700271755}
+  - component: {fileID: 1502388812140804180}
   m_Layer: 14
   m_Name: AnimatedRaider
   m_TagString: Enemy
@@ -155,7 +155,7 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
-  AnimationManager: {fileID: 8802372786700271755}
+  AnimationManager: {fileID: 1502388812140804180}
   SpawnInGround: 0
   ImpactFieldPrefab: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
   PedestalLayer:
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
   targetCamera: {fileID: 0}
   textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
---- !u!114 &8802372786700271755
+--- !u!114 &1502388812140804180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,10 +226,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 112950650011681856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bc691c0bb7c62e4d93e6adbc5e3b8ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 56532081093b3874a8eca22fd3748215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
   animator: {fileID: 3651467242401909041}
+  animationClipTypes:
+  - type: 3
+    clip: {fileID: 7400000, guid: af790148c0e5f7441a4ba1e97d5f52ad, type: 2}
+  - type: 4
+    clip: {fileID: 7400000, guid: 558cd5f4ff33e5b4db292bf05278b5b3, type: 2}
 --- !u!1001 &393871773571385898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -326,7 +331,7 @@ Animator:
   m_GameObject: {fileID: 699810131777140603}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c15b5b7776a144b42959d1047ae3972f, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
