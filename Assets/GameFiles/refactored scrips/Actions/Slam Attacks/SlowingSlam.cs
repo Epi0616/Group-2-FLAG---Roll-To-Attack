@@ -25,6 +25,6 @@ public class SlowingSlam : BaseSlamAction , IUpgradableAbility
 
     public override BaseEntityAction Clone()
     {
-        return new WeakenSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, SlowDuration, preventsMovement);
+        return new SlowingSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, SlowDuration, preventsMovement);
     }
 }

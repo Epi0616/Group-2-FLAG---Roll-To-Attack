@@ -3,6 +3,8 @@ using UnityEngine;
 public class PoisonField : MonoBehaviour
 {
     protected Material material;
+    protected Material ringMaterial;
+    [SerializeField] protected MeshRenderer ringMeshRenderer;
     protected Color color;
     protected Color slamColour;
     protected float lifeSpan = 10, lifeTimer = 0;
@@ -16,6 +18,7 @@ public class PoisonField : MonoBehaviour
     protected void Awake()
     {
         material = GetComponent<MeshRenderer>().material;      
+        ringMaterial = ringMeshRenderer.material;
     }
 
     protected virtual void Start()
@@ -35,6 +38,7 @@ public class PoisonField : MonoBehaviour
 
         if (!(lifeTimer >= lifeSpan - 1)) { return; }
         material.color = color;
+        AdjustRing(color);
 
         if (color.a > 0)
         {
@@ -45,6 +49,15 @@ public class PoisonField : MonoBehaviour
 
         if (!(lifeTimer >= lifeSpan)) { return; }
         ObjectPoolManager.ReturnObjectToPool(gameObject);
+    }
+
+    protected void AdjustRing(Color color)
+    {
+        Color darkerColour = new Color(color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, color.a);
+        ringMaterial.SetColor("_RingColour", darkerColour);
+        if (color.a < 0f) { color.a = 0; }
+        else if (color.a > 1f) { color.a = 1f; }
+        ringMaterial.SetFloat("_Opacity", color.a);
     }
 
     protected virtual void TickDamage()
@@ -93,6 +106,7 @@ public class PoisonField : MonoBehaviour
         //color.a = 0.175f;
         color.a = 0.3f;
         material.color = color;
+        AdjustRing(color);
 
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;

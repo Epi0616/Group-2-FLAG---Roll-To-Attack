@@ -69,6 +69,7 @@ public class EnhancedPoisonField : PoisonField
         //color.a = 0.175f;
         color.a = 0.3f;
         material.color = color;
+        AdjustRing(color);
 
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;
