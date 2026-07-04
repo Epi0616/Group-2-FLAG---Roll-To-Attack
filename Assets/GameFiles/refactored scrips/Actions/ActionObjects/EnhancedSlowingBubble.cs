@@ -103,7 +103,7 @@ public class EnhancedSlowingBubble : MonoBehaviour
         transform.localScale = tempScale;
 
         Vector3 position = transform.position;
-        position.y -= 0.5f;
+        position.y -= 0.2f;
         transform.position = position;
     }
 
