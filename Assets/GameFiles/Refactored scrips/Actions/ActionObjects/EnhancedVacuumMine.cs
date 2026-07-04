@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EnhancedVacuumMine : VacuumMine
 {
@@ -31,6 +32,7 @@ public class EnhancedVacuumMine : VacuumMine
     public override void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
         float storeAmount = (amount / 5) / Mathf.Clamp((1 / enhancementLevel), 1, 999);
+        if (storeAmount <= 0) { storeAmount = 1; } 
         heldDamage += storeAmount;
         float size = Mathf.Clamp(10 + (storeAmount * 1.1f), 48f, 240f);
         textDisplaySystem.DisplayText(storeAmount.ToString(), color, (int)size);
@@ -46,6 +48,26 @@ public class EnhancedVacuumMine : VacuumMine
         {
             heldEffects.Add(statusEffect);
         }
+    }
+
+    protected override IEnumerator CountDown()
+    {
+        bool hasPlayedSFX = false;
+        while (timer > 0 && !detonated)
+        {
+            timer -= Time.deltaTime;
+            if (timer < 0.1f && !hasPlayedSFX)
+            {
+                healthSystem.isDead = true;
+                //AudioManager.instance.PlayRandomSoundClip(mineDetonated, new Vector3(0, 0, 0), 1f);
+                hasPlayedSFX = true;
+            }
+
+            yield return null;
+        }
+
+        OnVacuum();
+        detonated = true;
     }
 
     protected override void OnVacuum()
@@ -79,10 +101,10 @@ public class EnhancedVacuumMine : VacuumMine
 
     protected override void DestroyMe()
     {
+        healthSystem.isDead = true;
         heldDamage = 0;
         heldEffects.Clear();
         rb.linearVelocity = Vector3.zero;
-        healthSystem.isDead = true;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

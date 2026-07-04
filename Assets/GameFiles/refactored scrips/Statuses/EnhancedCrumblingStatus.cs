@@ -13,6 +13,7 @@ public class EnhancedCrumblingStatus : CrumblingStatus , IEnhancedStatusEffect
         this.enhancementLevel = enhancementLevel;
         this.applierEntity = applierEntity;
         this.effectColour = effectColour;
+        isStackable = false;
     }
 
     protected override void OnApplication()
@@ -43,7 +44,7 @@ public class EnhancedCrumblingStatus : CrumblingStatus , IEnhancedStatusEffect
             Entity hitEntity = collider.gameObject.GetComponent<Entity>();
             if (hitEntity == entityRef || alreadyHit.Contains(hitEntity)) { continue; }
             if (hitEntity == null) { continue; }
-            Debug.Log("Knockback on Entity");
+            //Debug.Log("Knockback on Entity");
             hitEntity.OnTakeDamage((int)(rb.linearVelocity.magnitude / 3), Color.white, DamageType.Explosive);
             hitEntity.OnRecieveEffect(
             new ActiveStatusEffect(new KnockbackEffect(entityRef.transform.position, rb.linearVelocity.magnitude / 20 ),
