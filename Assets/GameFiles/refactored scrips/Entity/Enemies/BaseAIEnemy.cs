@@ -65,6 +65,11 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     protected override void Start()
     {
         base.Start();
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
         target = GameObject.FindGameObjectWithTag("Player"); //needs to be moved into interface/system for finding target
         //environmentMask = LayerMask.GetMask("Ground", "Collider Props", "Pedestal");        
         //slamBaseRange = 5f;
@@ -78,22 +83,22 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
             Debug.LogError("BaseAIEnemy: Required Component not found from GetComponent");
         }
 
+        animationManager.Initialize(this);
+
         UnpackConditionalMovements();
         movementController.Initialize();
 
         UnpackConditionalActions();
         actionController.Initialize();
 
-        
+
 
         statList.Add(movementSpeed);
         statList.Add(slammedDamageMod);
         statList.Add(knockbackWeightMod);
 
-        
-        agent.speed = movementSpeed.GetFinalValue();
 
-        animationManager.Initialize(this);
+        agent.speed = movementSpeed.GetFinalValue();
         //EnableAIAgent();
     }
 
@@ -111,9 +116,11 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     }
 
     //IResetable
-    public void Reset()
+    public override void Reset()
     {
-        
+        base.Reset();
+        movementController.Reset();
+        actionController.Reset();
     }
 
     // IGrounded Interface Methods

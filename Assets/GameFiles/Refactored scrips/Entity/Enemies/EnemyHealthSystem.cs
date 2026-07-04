@@ -22,7 +22,10 @@ public class EnemyHealthSystem : EntityHealthSystem
 
         if (OwnerEntity is IAnimated animated)
         {
-            animated.animationManager.PlayAnimation(EnemyAnimations.Death, 0.5f);
+            float deathAnimationTime = 2;
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Death, 0, 0.2f, deathAnimationTime);
+            StartCoroutine(DelayedDeath(deathAnimationTime));
+
         }
         else 
         {

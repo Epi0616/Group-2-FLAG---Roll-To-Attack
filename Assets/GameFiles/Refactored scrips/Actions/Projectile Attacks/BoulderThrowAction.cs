@@ -43,7 +43,7 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
             GameObject boulder = ObjectPoolManager.SpawnObject(boulderThrow.boulderObj, ownerEntity.transform.position, Quaternion.identity);
             if (ownerEntity is IAnimated animated)
             {
-                animated.animationManager.PlayAnimation(EnemyAnimations.RockThrow);
+                animated.animationManager.PlayAnimationCrossFade(AnimationType.RockThrow, 1, 0.2f, 3.75f);
                 ownerEntity.StartCoroutine(TrackBolderToArm(boulder, boulderThrow.boulderRootBone, 2.35f));
             }
         }

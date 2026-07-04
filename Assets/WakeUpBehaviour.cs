@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class WakeUpBehaviour : StateMachineBehaviour
 {
-    private AnimationManager animationManager;
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if (animationManager == null)
-        {
-            animationManager = animator.GetComponentInParent<AnimationManager>();
-        }
+    //private AnimationManager animationManager;
+    //// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    if (animationManager == null)
+    //    {
+    //        animationManager = animator.GetComponentInParent<AnimationManager>();
+    //    }
 
-        animationManager.HandleAnimationOver(stateInfo.length + 0.2f, 0.2f);
-    }
+    //    animationManager.HandleAnimationOver(stateInfo.length + 0.2f, 0.2f);
+    //}
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
