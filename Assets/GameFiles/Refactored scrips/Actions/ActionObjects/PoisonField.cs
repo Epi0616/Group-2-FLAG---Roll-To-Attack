@@ -37,8 +37,8 @@ public class PoisonField : MonoBehaviour
         lifeTimer += Time.fixedDeltaTime;
 
         if (!(lifeTimer >= lifeSpan - 1)) { return; }
-        material.color = color;
-        AdjustRing(color);
+        
+        AdjustColours(color);
 
         if (color.a > 0)
         {
@@ -51,10 +51,12 @@ public class PoisonField : MonoBehaviour
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
-    protected void AdjustRing(Color color)
+    protected void AdjustColours(Color color)
     {
-        Color darkerColour = new Color(color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, color.a);
-        ringMaterial.SetColor("_RingColour", darkerColour);
+        Color darkerColour = new Color(color.r * 0.7f, color.g * 0.7f, color.b * 0.7f, color.a);
+        Color lighterColour = new Color(color.r * 1.2f, color.g * 1.2f, color.b * 1.2f, color.a);
+        material.color = darkerColour;
+        ringMaterial.SetColor("_RingColour", color);
         if (color.a < 0f) { color.a = 0; }
         else if (color.a > 1f) { color.a = 1f; }
         ringMaterial.SetFloat("_Opacity", color.a);
@@ -105,8 +107,7 @@ public class PoisonField : MonoBehaviour
         lifeTimer = 0;
         //color.a = 0.175f;
         color.a = 0.3f;
-        material.color = color;
-        AdjustRing(color);
+        AdjustColours(color);
 
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;

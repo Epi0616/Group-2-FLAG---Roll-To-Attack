@@ -115,17 +115,18 @@ public class ImpactFieldVisual : MonoBehaviour
     }
 
     protected void SetColor(Color color)
-    {
-        meshRenderer.GetPropertyBlock(block);
-        block.SetColor("_BaseColor", color);
-        meshRenderer.SetPropertyBlock(block);
+    { 
         ringMeshRenderer.GetPropertyBlock(block);
-        Color darkerColour = new Color(color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, color.a);
-        block.SetColor("_RingColour", darkerColour);
+        Color darkerColour = new Color(color.r * 0.7f, color.g * 0.7f, color.b * 0.7f, color.a);
+        Color lighterColour = new Color(color.r * 1.2f, color.g * 1.2f, color.b * 1.2f, color.a);
+        block.SetColor("_RingColour", lighterColour);
         if (color.a < 0f) { color.a = 0; }
         else if (color.a > 1f) { color.a = 1f; }
         block.SetFloat("_Opacity", color.a);
         ringMeshRenderer.SetPropertyBlock(block);
+        meshRenderer.GetPropertyBlock(block);
+        block.SetColor("_BaseColor", darkerColour);
+        meshRenderer.SetPropertyBlock(block);
     }
 
     public void DestroyMe()
