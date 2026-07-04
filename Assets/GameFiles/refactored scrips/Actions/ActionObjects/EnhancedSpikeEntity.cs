@@ -12,6 +12,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     //private int numHitsLeft;
     private int enhancementLevel = 1;
     public bool embedded;
+    private bool invuln = false;
     [SerializeField] private int BaseOnHitSpikeDamage;
     [SerializeField] private int BaseTickDamage;
     private float embeddedDamageTimer;
@@ -28,8 +29,8 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     //public Collider TriggerCollider;
     private bool systemsSet = false;
 
-    private float age;
-    private float lifespan;
+    [SerializeField] private float age;
+    [SerializeField] private float lifespan;
     public float numEmbedsTotal;
     public float numEmbedsLeft;
 
@@ -147,7 +148,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
   
     private void OnCollisionEnter(Collision collision)
     {
-
+        if (invuln) { return; }
         GameObject hit = collision.gameObject;
         if (hit.CompareTag("StaticEntity") || hit.CompareTag("PhysicsEntity")) { return; }
         
@@ -198,9 +199,10 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     public void DropToFloor()
     {
         embedded = false;
+        StartCoroutine(DropOffWindow());
         anchorPoint = null;
         if (parentEntity != null) {
-            OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(parentEntity.transform.position, 1.75f),
+            OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(parentEntity.transform.position, 2.75f),
             new List<BaseCondition> {new TimeCondition(true, 1f) },
             true),
             Color.red);
@@ -243,5 +245,18 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
             yield return null;
         }
         DestroyMe();
+    }
+
+    public IEnumerator DropOffWindow()
+    {
+        invuln = true;
+        float Timer = 0;
+        while (Timer < 0.2f)
+        {
+            Timer += Time.deltaTime;
+            
+            yield return null;
+        }
+        invuln = false;
     }
 }

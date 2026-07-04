@@ -56,7 +56,7 @@ public class PoisonField : MonoBehaviour
         Color darkerColour = new Color(color.r * 0.7f, color.g * 0.7f, color.b * 0.7f, color.a);
         Color lighterColour = new Color(color.r * 1.2f, color.g * 1.2f, color.b * 1.2f, color.a);
         material.color = darkerColour;
-        ringMaterial.SetColor("_RingColour", color);
+        ringMaterial.SetColor("_RingColour", lighterColour);
         if (color.a < 0f) { color.a = 0; }
         else if (color.a > 1f) { color.a = 1f; }
         ringMaterial.SetFloat("_Opacity", color.a);
