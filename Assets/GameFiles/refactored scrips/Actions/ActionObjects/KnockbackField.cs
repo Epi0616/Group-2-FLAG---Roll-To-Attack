@@ -4,6 +4,8 @@ using UnityEngine;
 public class KnockbackField : MonoBehaviour
 {
     private Material material;
+    private Material ringMaterial;
+    [SerializeField] private MeshRenderer ringRenderer;
     private Color color;
     private Color slamColour;
     private float lifeSpan = 10, lifeTimer = 0;
@@ -16,6 +18,7 @@ public class KnockbackField : MonoBehaviour
     protected void Awake()
     {
         material = GetComponent<MeshRenderer>().material;
+        ringMaterial = ringRenderer.material;
     }
 
     protected virtual void Start()
@@ -26,7 +29,7 @@ public class KnockbackField : MonoBehaviour
     protected void Update()
     {
         hitTimer += Time.deltaTime;
-        if (hitTimer > 0.25)
+        if (hitTimer > 0.15)
         {
             alreadyHit.Clear();
             hitTimer = 0;
@@ -48,7 +51,7 @@ public class KnockbackField : MonoBehaviour
         lifeTimer += Time.fixedDeltaTime;
 
         if (!(lifeTimer >= lifeSpan - 1)) { return; }
-        material.color = color;
+        AdjustColours(color);
 
         if (color.a > 0)
         {
@@ -59,6 +62,17 @@ public class KnockbackField : MonoBehaviour
 
         if (!(lifeTimer >= lifeSpan)) { return; }
         ObjectPoolManager.ReturnObjectToPool(gameObject);
+    }
+
+    protected void AdjustColours(Color color)
+    {
+        Color darkerColour = new Color(color.r * 0.7f, color.g * 0.7f, color.b * 0.7f, color.a);
+        Color lighterColour = new Color(color.r * 1.2f, color.g * 1.2f, color.b * 1.2f, color.a);
+        material.color = darkerColour;
+        ringMaterial.SetColor("_RingColour", color);
+        if (color.a < 0f) { color.a = 0; }
+        else if (color.a > 1f) { color.a = 1f; }
+        ringMaterial.SetFloat("_Opacity", color.a);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -97,6 +111,7 @@ public class KnockbackField : MonoBehaviour
         color = colour;
         slamColour = colour;
         this.lifeSpan = lifespan;
+        this.enhancementLevel = enhancementLevel;
         if (alreadyHit == null)
         {
             alreadyHit = new HashSet<Entity>();
@@ -105,7 +120,7 @@ public class KnockbackField : MonoBehaviour
 
         lifeTimer = 0;
         color.a = 0.5f;
-        material.color = color;
+        AdjustColours(color);
 
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;

@@ -68,7 +68,7 @@ public class EnhancedPoisonField : PoisonField
         lifeTimer = 0;
         //color.a = 0.175f;
         color.a = 0.3f;
-        material.color = color;
+        AdjustColours(color);
 
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;

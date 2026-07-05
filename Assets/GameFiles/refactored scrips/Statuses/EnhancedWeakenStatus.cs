@@ -13,7 +13,7 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
         this.effectColour = Color.darkViolet; 
         applierEntity = EntityThatApplied;
         this.enhancementLevel = enhancementLevel;
-        isStackable = true;
+        isStackable = false;
         
     }
     /*
