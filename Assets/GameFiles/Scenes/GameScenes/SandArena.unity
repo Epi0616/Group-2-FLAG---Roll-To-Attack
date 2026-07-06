@@ -1943,7 +1943,7 @@ PrefabInstance:
       objectReference: {fileID: 3002882421794928880, guid: c8ee6abd735f657439cea3c99ac68da8, type: 3}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: RocketDamage
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: SpikeDamaged
@@ -1957,6 +1957,10 @@ PrefabInstance:
       propertyPath: FieldLifetime
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: KBFieldPrefab
+      value: 
+      objectReference: {fileID: 2708008830951750606, guid: 63494b680cd2b884388ddd8c56310e8b, type: 3}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: SpikeLifeSpan
       value: 15
@@ -1974,16 +1978,32 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: PerimeterRadius
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: InitialOrbitSpeed
       value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: textDisplaySystem
       value: 
-      objectReference: {fileID: 1042206191}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: EnhancedSpikePrefab
+      value: 
+      objectReference: {fileID: 752101146609992161, guid: c03978c62a9c5c54f90733615d531807, type: 3}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: SlowingBubblePrefab
+      value: 
+      objectReference: {fileID: 4773814930010074401, guid: a3ab422ad0b415a4d9917487d0606148, type: 3}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: PedestalLayer.m_Bits
       value: 8388608
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: PerimeterPointsCount
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: ModifiableActionDescriptors.Array.size
@@ -2016,11 +2036,11 @@ PrefabInstance:
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[4]'
       value: 
-      objectReference: {fileID: 11400000, guid: 6adfe746f74e6524eb1ae508bd71a40b, type: 2}
+      objectReference: {fileID: 11400000, guid: 4626ae10d0001ba4f8d6e1066e7667ac, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[5]'
       value: 
-      objectReference: {fileID: 11400000, guid: 221b13df5cb0392419f0e4f4ba39c4c2, type: 2}
+      objectReference: {fileID: 11400000, guid: 5ab76c7681e129c4fb7e76df91c9b92a, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ConditionalActionDescriptors.Array.data[0]'
       value: 
@@ -2085,6 +2105,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9031661407892169178, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: targetCamera
+      value: 
+      objectReference: {fileID: 2008177460}
     m_RemovedComponents:
     - {fileID: 9192187836952963803, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
     m_RemovedGameObjects: []
@@ -2093,29 +2117,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5290799491826399144, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       insertIndex: 2
       addedObject: {fileID: 1042206192}
-    - targetCorrespondingSourceObject: {fileID: 5290799491826399144, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1042206191}
   m_SourcePrefab: {fileID: 100100000, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
 --- !u!1 &1042206190 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5290799491826399144, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
   m_PrefabInstance: {fileID: 1042206188}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1042206191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1042206190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3d2e1972d34b5d4fba9b2113a86edf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
-  targetCamera: {fileID: 0}
-  textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
 --- !u!114 &1042206192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2307,6 +2314,8 @@ MonoBehaviour:
   waves: []
   entityBlocks:
   - {fileID: 11400000, guid: b054c4d8b426b1f4ebde2878ced7ea64, type: 2}
+  - {fileID: 11400000, guid: 1c8d6a74c114cc14bbe7ec2479285be6, type: 2}
+  - {fileID: 11400000, guid: 738fff7bbe8f09540bcfe39c0c86e5ef, type: 2}
   startingBudget: 50
   currentBudget: 0
   budgetIncreasePerWave: 50
@@ -4493,6 +4502,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b04809e79f2966499a90329e8f26c0c, type: 3}
+--- !u!20 &2008177460 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5544146298599988237, guid: 0b04809e79f2966499a90329e8f26c0c, type: 3}
+  m_PrefabInstance: {fileID: 2008177459}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2046745147
 PrefabInstance:
   m_ObjectHideFlags: 0
