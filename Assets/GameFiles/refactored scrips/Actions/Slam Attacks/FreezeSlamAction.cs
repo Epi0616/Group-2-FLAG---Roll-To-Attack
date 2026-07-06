@@ -13,9 +13,10 @@ public class FreezeSlamAction : BaseSlamAction , IUpgradableAbility
     public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
     public FreezeSlamAction() { }
 
-    public FreezeSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float FreezeDuration, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public FreezeSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float FreezeDuration, bool DoesPrevent, ModifiableActionDescriptor result) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
         this.FreezeDuration = FreezeDuration;
+        upgradeResult = result;
     }
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
@@ -28,7 +29,7 @@ public class FreezeSlamAction : BaseSlamAction , IUpgradableAbility
 
     public override BaseEntityAction Clone()
     {
-        return new FreezeSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, FreezeDuration, preventsMovement);
+        return new FreezeSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, FreezeDuration, preventsMovement, upgradeResult);
     }
 }
 // frozenText.GetLocalizedString()
