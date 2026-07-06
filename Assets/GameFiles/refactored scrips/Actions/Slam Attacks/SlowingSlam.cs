@@ -13,9 +13,11 @@ public class SlowingSlam : BaseSlamAction , IUpgradableAbility
     public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
     public SlowingSlam() { }
 
-    public SlowingSlam(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float SlowDuration, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public SlowingSlam(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour,float SlowAmount, float SlowDuration, bool DoesPrevent, ModifiableActionDescriptor result) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
         this.SlowDuration = SlowDuration;
+        SlowMult = SlowAmount;
+        upgradeResult = result;
     }
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
@@ -25,6 +27,6 @@ public class SlowingSlam : BaseSlamAction , IUpgradableAbility
 
     public override BaseEntityAction Clone()
     {
-        return new SlowingSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, SlowDuration, preventsMovement);
+        return new SlowingSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, SlowMult, SlowDuration, preventsMovement, upgradeResult);
     }
 }

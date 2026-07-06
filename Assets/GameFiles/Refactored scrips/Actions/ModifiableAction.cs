@@ -21,6 +21,7 @@ public class ModifiableAction
     public ModifiableAction(ConditionalActionDescriptor conditionalActionDescriptor, int weighting, int enhancementLevel, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite)
     { 
         this.conditionalActionDescriptor = conditionalActionDescriptor;
+        this.conditionalAction = conditionalActionDescriptor.Create();
         this.weighting = weighting;
         this.enhancementLevel = enhancementLevel;
         this.actionName = actionName;
