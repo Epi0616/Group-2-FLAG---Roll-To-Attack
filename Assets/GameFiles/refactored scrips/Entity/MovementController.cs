@@ -62,6 +62,8 @@ public class MovementController
 
     public void CheckForValidMovements()
     {
+        Debug.Log(moveInterfaceAccess.canMove);
+        if (!moveInterfaceAccess.canMove) return;
 
         List<ConditionalMovement> potentialExclusiveMovements = new List<ConditionalMovement>();
 

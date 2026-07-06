@@ -91,8 +91,6 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         UnpackConditionalActions();
         actionController.Initialize();
 
-
-
         statList.Add(movementSpeed);
         statList.Add(slammedDamageMod);
         statList.Add(knockbackWeightMod);
@@ -106,13 +104,14 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     {
         base.Update();
 
-        movementController.Update();
-        actionController.Update();
         CheckForCanMove();
         CheckForCanAct();
         CheckForDisplacement();
         CheckForGrounded();
         CheckForStunned();
+
+        movementController.Update();
+        actionController.Update();
     }
 
     //IResetable
@@ -176,7 +175,10 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         }
         else
         {
-            EnableAIAgent();
+            if (canMove)
+            {
+                EnableAIAgent();
+            }
         }
     }
 
@@ -217,10 +219,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         }
             statusSystem.RemoveEffectByType(StatusType.Knockback);
 
-
         // Eventual VFX/SFX can go here for wall slams
         // add a check for the value of dmgMod to increase volume/size of effects
-
-
     }
 }

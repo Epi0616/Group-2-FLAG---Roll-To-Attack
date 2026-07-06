@@ -45,7 +45,6 @@ public class FireballAction : BaseEntityAction, ISlam
             }
 
             Vector3 direction = (ownerEntity.target.transform.position - fireball.transform.position).normalized;
-            Debug.Log(direction);
             fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 0);
         }
 

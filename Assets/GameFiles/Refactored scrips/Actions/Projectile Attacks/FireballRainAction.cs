@@ -12,7 +12,9 @@ public class FireballRainAction : BaseEntityAction, ISlam
     [SerializeField] protected Stat SlamRange = new Stat(5);
     [SerializeField] protected Vector3 SlamPositionOffset; //not needed as using offset, didnt want to use as would be a missuse of the name
 
-    [SerializeField] protected int amountOfRain;
+    [SerializeField] protected float startDelay = 0f;
+    [SerializeField] protected float actionDuration = 5f;
+    [SerializeField] protected int totalFireballs;
     [SerializeField] protected Vector3 centerPoint;
     [SerializeField] protected float radius;
     private IFireballAction fireballAction;
@@ -24,20 +26,23 @@ public class FireballRainAction : BaseEntityAction, ISlam
     public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
 
     public FireballRainAction() { }
-    public FireballRainAction(bool preventsMovement, int slamDamage, Color slamColor, float chargeTime, Stat slamRange, int amountOfRain, Vector3 centrePoint, float radius)
+    public FireballRainAction(bool preventsMovement, int slamDamage, Color slamColor, float chargeTime, Stat slamRange, float startDelay, float actionDuration, int totalFireballs, Vector3 centrePoint, float radius)
     {
         this.preventsMovement = preventsMovement;
         this.slamDamage = slamDamage;
         this.slamColour = slamColor;
         this.chargeTime = chargeTime;
         this.slamRange = slamRange;
-        this.amountOfRain = amountOfRain;
+        this.startDelay = startDelay;
+        this.actionDuration = actionDuration;
+        this.totalFireballs = totalFireballs;
         this.centerPoint = centrePoint;
         this.radius = radius;
     }
 
     public override void StartAction(Entity ownerEntity)
     {
+        Debug.Log("Starting Fireball Rain Action");
         this.ownerEntity = ownerEntity;
         actionable = ownerEntity as IActionable;
         isComplete = false;
@@ -45,17 +50,21 @@ public class FireballRainAction : BaseEntityAction, ISlam
         if (ownerEntity is IFireballAction)
         {
             fireballAction = ownerEntity as IFireballAction;
-            ownerEntity.StartCoroutine(FireballRain(amountOfRain));
+            ownerEntity.StartCoroutine(FireballRain(totalFireballs));
         }
     }
 
     private IEnumerator FireballRain(int amountOfRain)
     {
-        while (amountOfRain > 0)
+
+
+        float delayBetweenFireballs = actionDuration / amountOfRain;
+
+        while (totalFireballs > 0)
         {
             SpawnFireball();
-            amountOfRain--;
-            yield return new WaitForSeconds(0.5f);
+            totalFireballs--;
+            yield return new WaitForSeconds(delayBetweenFireballs);
         }
 
         EndAction();
@@ -89,6 +98,6 @@ public class FireballRainAction : BaseEntityAction, ISlam
     }
     public override BaseEntityAction Clone()
     {
-        return new FireballRainAction(preventsMovement, slamDamage, slamColour, chargeTime, slamRange, amountOfRain, centerPoint, radius);
+        return new FireballRainAction(preventsMovement, slamDamage, slamColour, chargeTime, slamRange, startDelay, actionDuration, totalFireballs, centerPoint, radius);
     }
 }

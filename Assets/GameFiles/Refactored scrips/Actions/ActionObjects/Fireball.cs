@@ -25,8 +25,6 @@ public class Fireball : MonoBehaviour
 
     private IEnumerator Attack()
     {
-        transform.forward = direction;
-
         while (!hitTarget)
         {
             FlyToTarget();
@@ -36,7 +34,8 @@ public class Fireball : MonoBehaviour
 
     private void FlyToTarget()
     {
-        transform.position += transform.forward * 35f * Time.deltaTime;
+        transform.forward = direction;
+        transform.position += transform.forward * 50f * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider hit)
