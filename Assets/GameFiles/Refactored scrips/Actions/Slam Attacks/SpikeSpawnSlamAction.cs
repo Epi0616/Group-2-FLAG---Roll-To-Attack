@@ -9,7 +9,10 @@ public class SpikeSpawnSlamAction : BaseSlamAction , IUpgradableAbility
     [SerializeField] private ModifiableActionDescriptor EnhancementUpgradeResult;
     public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
     public SpikeSpawnSlamAction() { }
-    public SpikeSpawnSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
+    public SpikeSpawnSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, ModifiableActionDescriptor result) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) 
+    {
+        upgradeResult = result;
+    }
 
     public override void StartAction(Entity entity)
     {
@@ -44,6 +47,6 @@ public class SpikeSpawnSlamAction : BaseSlamAction , IUpgradableAbility
 
     public override BaseEntityAction Clone()
     {
-        return new SpikeSpawnSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
+        return new SpikeSpawnSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, upgradeResult);
     }
 }
