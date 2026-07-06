@@ -4,18 +4,20 @@ using UnityEngine;
 [Serializable]
 public class HealthCondition : BaseCondition
 {
-    public int healthThreshold;
-    public Entity ownerEntity;
+    [Header("percentage 1-100")]
+    [SerializeField] protected float healthThresholdPercentage;
+    protected Entity ownerEntity;
 
     public HealthCondition() { }
-    public HealthCondition(bool inverse, int healththreshold)
+    public HealthCondition(bool inverse, float healthThresholdPercentage)
     {
         this.inverse = inverse;
-        this.healthThreshold = healththreshold;
+        this.healthThresholdPercentage = healthThresholdPercentage;
     }
     public override void Initialize(Entity entity)
     {
         ownerEntity = entity;
+        Debug.Log("current health percent: " + ownerEntity.healthSystem.currentHealth / ownerEntity.healthSystem.maxHealth);
     }
     public override void ConditionUpdate()
     {
@@ -25,12 +27,15 @@ public class HealthCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
-        //if (inverse) return ownerEntity.healthSystem.currentHealth > healthThreshold;
-        //return ownerEntity.healthSystem.currentHealth < healthThreshold;
-        return false;
+        //Debug.Log("current health percent: " + ownerEntity.healthSystem.currentHealth / ownerEntity.healthSystem.maxHealth);
+        if ((float)ownerEntity.healthSystem.currentHealth / (float)ownerEntity.healthSystem.maxHealth <= healthThresholdPercentage / 100)
+        {
+            return !inverse;
+        }
+        return inverse;
     }
     public override BaseCondition Clone()
     {
-        return new HealthCondition(inverse, healthThreshold);
+        return new HealthCondition(inverse, healthThresholdPercentage);
     }
 }

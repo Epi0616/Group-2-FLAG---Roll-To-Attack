@@ -16,13 +16,13 @@ MonoBehaviour:
     action:
       rid: 5042951995510751302
     conditions:
-    - rid: 5042951995510751303
+    - rid: 5042952014074740736
     - rid: 5042951995510751304
     allConditionsRequired: 1
-    singleUse: 0
+    singleUse: 1
     triggered: 0
     exclusive: 1
-    priority: 0
+    priority: 1
   references:
     version: 2
     RefIds:
@@ -36,15 +36,17 @@ MonoBehaviour:
         SlamRange:
           baseValue: 5
         SlamPositionOffset: {x: 0, y: 0, z: 0}
-        amountOfRain: 45
+        startDelay: 2.5
+        actionDuration: 5
+        totalFireballs: 75
         centerPoint: {x: 5, y: 45, z: 15}
         radius: 60
-    - rid: 5042951995510751303
-      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        distanceThreshold: 15
     - rid: 5042951995510751304
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
+    - rid: 5042952014074740736
+      type: {class: HealthCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        healthThresholdPercentage: 50
