@@ -44,7 +44,6 @@ public class WaveSpawner : MonoBehaviour
             //wait for group to be ready
             while (!nextGroupActive)
             {
-                
                 nextGroupActive = CheckForConditionsMet(currentConditions);
                 yield return null;
             }
