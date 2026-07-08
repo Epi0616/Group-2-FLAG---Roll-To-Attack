@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fc221f735c74524985c8e8a03a10bc0, type: 3}
-  m_Name: TimedGroup
+  m_Name: DragonGroup
   m_EditorClassIdentifier: Assembly-CSharp::WaveGroupObj
   waveGroup:
     EntityBlockObjs:
-    - {fileID: 11400000, guid: c631614515b2863409dba1666a306a1f, type: 2}
+    - {fileID: 11400000, guid: 2e5bc3ea0a49dc543bfc5921d5e5ca8a, type: 2}
     Conditions:
-    - rid: 5154423998580523083
+    - rid: 5042952063775408233
   references:
     version: 2
     RefIds:
-    - rid: 5154423998580523083
-      type: {class: TimedWaveCondition, ns: , asm: Assembly-CSharp}
-      data:
-        timer: 5
+    - rid: 5042952063775408233
+      type: {class: AlwaysTrueWaveCondition, ns: , asm: Assembly-CSharp}
+      data: 

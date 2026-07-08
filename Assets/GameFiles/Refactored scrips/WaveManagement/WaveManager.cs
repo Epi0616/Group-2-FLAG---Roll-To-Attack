@@ -59,7 +59,7 @@ public class WaveManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delayBetweenWaves);
         currentWaveIndex++;
-        Wave randomWave = waveBuilder.GetNextWave(currentWaveIndex - 1);
+        Wave randomWave = waveBuilder.GetNextWave(currentWaveIndex);
         waveSpawner.SpawnWave(randomWave);
         DisplayWaveNumber?.Invoke(currentWaveIndex);
     }
