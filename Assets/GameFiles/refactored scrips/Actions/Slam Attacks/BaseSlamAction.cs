@@ -129,7 +129,10 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         if (Physics.Raycast(ray, out hit, 200f, slamVariablesAccess.groundLayer))
         {
             Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange.GetFinalValue(), ownerEntity.hostileMask);
-            ProcessHits(colliders, hit);
+            if (colliders.Length > 0)
+            {
+                ProcessHits(colliders, hit);
+            }
         }
     }
 
