@@ -20,7 +20,7 @@ public class Entity : MonoBehaviour, IEntity, IResetable
     protected virtual void Start()
     {
         //statList = new List<Stat>();       
-        //Initialize();
+        Initialize();
     }
 
     public virtual void Initialize()

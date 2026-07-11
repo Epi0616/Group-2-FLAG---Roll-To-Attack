@@ -25,7 +25,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
 
     [Header("IActionable Properties")]
     [SerializeField] private List<ConditionalActionDescriptor> ConditionalActionDescriptors = new List<ConditionalActionDescriptor>();
-    private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
+    [SerializeField] private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
     private bool CanAct = true;
     public List<ConditionalActionDescriptor> conditionalActionDescriptors { get => ConditionalActionDescriptors; set => ConditionalActionDescriptors = value; }
     public List<ConditionalAction> conditionalActions { get => ConditionalActions; set => ConditionalActions = value; }
@@ -118,8 +118,10 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public override void Reset()
     {
         base.Reset();
-        movementController.Reset();
-        actionController.Reset();
+        if (movementController!=null)
+            movementController.Reset();
+        if (actionController != null)
+            actionController.Reset();
     }
 
     // IGrounded Interface Methods

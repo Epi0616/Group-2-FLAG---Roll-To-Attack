@@ -25,10 +25,12 @@ public class AttackCondition : BaseCondition
         float holdTime = usesEntityInput.inputManager.holdTime;
         if (usesEntityInput.inputManager.attack.action.WasPressedThisFrame())
         { 
-            conditionMet = true; 
+            conditionMet = true;
+            Debug.Log("light attack");
         }
         else if (usesEntityInput.inputManager.attack.action.WasReleasedThisFrame() && holdTime >= 0.2f)
         {
+            Debug.Log("heavy attack");
             conditionMet = true;
             jumpable.jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             jumpable.impactSpeed.AddMultiplierFlat(holdTime * 2);
@@ -40,7 +42,8 @@ public class AttackCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
-        if (ownerEntity is not IUsesEntityInput) { conditionMet = false; }
+        if (ownerEntity is not IUsesEntityInput)
+            return false;
         //if (!(ownerEntity as IGrounded).isGrounded) { conditionMet = false; }
 
         return conditionMet;
