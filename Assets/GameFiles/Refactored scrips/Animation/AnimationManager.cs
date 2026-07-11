@@ -164,7 +164,6 @@ public class AnimationManager : MonoBehaviour
             }
             else // if there is no valid curent action crossfade wont work so pass over to regular play to double check it cant be played - after testing i dont think this point ever gets reached...
             {
-                Debug.Log("Checking can be played");
                 PlayAnimation(animationType, priority);
             }
         }

@@ -118,7 +118,6 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     }
     public override void EndAction()
     {
-        Debug.Log("base slam end action");
         isComplete = true;
     }
 

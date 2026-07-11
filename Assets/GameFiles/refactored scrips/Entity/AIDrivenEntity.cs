@@ -30,7 +30,7 @@ public class AIDrivenEntity : Entity , INavAgent , IUsesRigidBody
         agent.updatePosition = true;
         agent.updateRotation = true;
 
-        agent.Warp(transform.position);
+        //agent.Warp(transform.position);
         agent.ResetPath();
         
     }
