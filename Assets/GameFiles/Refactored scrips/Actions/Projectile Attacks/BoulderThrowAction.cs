@@ -43,7 +43,9 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
             GameObject boulder = ObjectPoolManager.SpawnObject(boulderThrow.boulderObj, ownerEntity.transform.position, Quaternion.identity);
             if (ownerEntity is IAnimated animated)
             {
-                animated.animationManager.PlayAnimationCrossFade(AnimationType.RockThrow, 1, 0.2f, 3.75f);
+                float animationTime = 3.75f;
+                animated.animationManager.PlayAnimationCrossFade(AnimationType.RockThrow, 1, 0.2f, animationTime);
+                ownerEntity.StartCoroutine(EndActionDelay(animationTime));
                 ownerEntity.StartCoroutine(TrackBolderToArm(boulder, boulderThrow.boulderRootBone, 2.35f));
             }
         }
@@ -64,6 +66,11 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
         }
 
         boulder.GetComponent<ThrowableBoulder>().HandlePathToTarget(ownerEntity, ownerEntity.target.transform.position, 3, slamDamage, slamColour, slamRange.GetFinalValue());
+    }
+
+    private IEnumerator EndActionDelay(float duration)
+    { 
+        yield return new WaitForSeconds(duration);
         EndAction();
     }
 

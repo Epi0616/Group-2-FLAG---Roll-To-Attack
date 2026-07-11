@@ -1,48 +1,33 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Localization;
 using UnityEngine.UI;
 
-public class PlayerInterfaceEnemiesRemaining : StaticText
+public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
 {
     public Image progress;
 
-    private float timer = 0;
     private int enemyDeaths = 0;
     private int totalEnemyCount = 1;
-    private bool waveInProgress = false;
 
-    protected override void OnEnable()
+    private void OnEnable()
     {
-        base.OnEnable();
-        OldEnemyDirector.SpawnWave += NewWave;
+        WaveBuilder.EnemiesGenerated += HandleEnemiesGenerated;
         DicePedestal.WaveStartPedestal += StartDrainProgressBarRoutine;
         EnemyHealthSystem.EnemyHasDied += EnemyHasDied;
     }
 
-    protected override void OnDisable()
+    private void OnDisable()
     {
-        base.OnDisable();
-        OldEnemyDirector.SpawnWave -= NewWave;
+        WaveBuilder.EnemiesGenerated -= HandleEnemiesGenerated;
         DicePedestal.WaveStartPedestal -= StartDrainProgressBarRoutine;
         EnemyHealthSystem.EnemyHasDied -= EnemyHasDied;
     }
 
-    protected override void Awake()
-    {
-        base.Awake();
-        tmpAsset.alpha = 0f;
-    }
-
-    private void NewWave(List<EnemyTypes> totalEnemies)
-    {
-        totalEnemyCount = totalEnemies.Count;
+    private void HandleEnemiesGenerated(int enemyCount)
+    { 
+        totalEnemyCount = enemyCount;
         enemyDeaths = 0;
-        timer = 0;
-        tmpAsset.alpha = 0;
     }
 
     private void StartDrainProgressBarRoutine(float timeBetweenWaves)
@@ -54,40 +39,6 @@ public class PlayerInterfaceEnemiesRemaining : StaticText
     {
         enemyDeaths++;
         progress.fillAmount = (float)enemyDeaths / (float)totalEnemyCount;
-    }
-
-    protected override void UpdateText(string newText)
-    {
-        tmpAsset.text = localizedString.GetLocalizedString() + " " + enemyDeaths;
-    }
-
-    private void Update()
-    {
-        timer += Time.deltaTime;
-        if (waveInProgress)
-        {
-            FadeIn();
-            UpdateText(localizedString.GetLocalizedString());
-            FadeOut();
-        }
-    }
-
-    private void FadeIn()
-    {
-        if (!((timer <= 2) && (timer >= 1))) { return; }
-        tmpAsset.alpha = Mathf.Clamp01(tmpAsset.alpha + (1f * Time.deltaTime));
-    }
-
-    private void FadeOut()
-    {
-        if (!(enemyDeaths >= totalEnemyCount)) { return; }
-
-        tmpAsset.alpha -= 2f * Time.deltaTime;
-
-        if (tmpAsset.alpha <= 0)
-        {
-            waveInProgress = false;
-        }
     }
 
     private IEnumerator DrainProgressBarRoutine(float timeBetweenWaves)

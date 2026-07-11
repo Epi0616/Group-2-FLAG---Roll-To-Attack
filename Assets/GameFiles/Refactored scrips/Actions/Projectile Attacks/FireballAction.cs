@@ -41,7 +41,7 @@ public class FireballAction : BaseEntityAction, ISlam
             GameObject fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, ownerEntity.transform.position + offset, Quaternion.identity);
             if (ownerEntity is IAnimated animated)
             {
-
+                animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1);
             }
 
             Vector3 direction = (ownerEntity.target.transform.position - fireball.transform.position).normalized;

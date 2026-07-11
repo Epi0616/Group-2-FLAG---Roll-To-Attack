@@ -126,7 +126,7 @@ public class WaveSpawner : MonoBehaviour
         if (spawnedEntity == null) { Debug.LogError("Wave Spawned Entity null"); }
 
         Entity spawnedEntityReference = spawnedEntity.GetComponent<Entity>();
-        spawnedEntityReference.Initialize();
+        //spawnedEntityReference.Initialize();
         spawnedEntityReference.Reset();
         spawnedEntityReference.textDisplaySystem.targetCamera = cameraRef;
     }

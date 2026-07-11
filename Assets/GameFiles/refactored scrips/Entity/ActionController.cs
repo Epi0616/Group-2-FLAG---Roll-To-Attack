@@ -76,7 +76,7 @@ public class ActionController : IResetable
 
             if (action.singleUse && action.triggered)
             { 
-                availableActions.Remove(action);
+                //availableActions.Remove(action);
                 continue;
             }
 
@@ -146,7 +146,6 @@ public class ActionController : IResetable
                 return;
             }
         }
-
         ActivateExclusiveAction(potentialExclusiveActions);
     }
 
@@ -222,7 +221,7 @@ public class ActionController : IResetable
     {
         foreach (ConditionalAction action in activeActions)
         {
-            action.action.InterruptAction();
+            action.action.InterruptAction(); 
         }
     }
 }

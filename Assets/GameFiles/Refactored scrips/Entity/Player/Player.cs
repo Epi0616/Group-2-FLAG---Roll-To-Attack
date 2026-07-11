@@ -28,8 +28,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IActionable")]
     [SerializeField] private List<ConditionalActionDescriptor> ConditionalActionDescriptors = new List<ConditionalActionDescriptor>();
-    private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
-    private bool CanAct = true;
+    [SerializeField] private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
+    [SerializeField] private bool CanAct = true;
     public List<ConditionalAction> conditionalActions { get => ConditionalActions; set => ConditionalActions = value; }
     public ActionController actionController { get; set; }
     public bool canAct { get => CanAct; set => CanAct = value; }
@@ -126,7 +126,6 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     protected override void Start()
     {
         base.Start();
-        Initialize();
     }
 
     public override void Initialize()
