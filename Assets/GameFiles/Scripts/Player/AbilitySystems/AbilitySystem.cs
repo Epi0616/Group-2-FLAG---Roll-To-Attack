@@ -15,7 +15,7 @@ public class OldAbilitySystem : MonoBehaviour
     {
         CorrectPipNumbers();
         AdjustDisplaySprites();
-        playerLoadOut.WriteAbilities(playerAbilities);
+        //playerLoadOut.WriteAbilities(playerAbilities);
     }
     public AbilityDescriptor GetRandomAbility()
     {
@@ -42,7 +42,7 @@ public class OldAbilitySystem : MonoBehaviour
         playerAbilities = newAbilityList;
         CorrectPipNumbers();
         AdjustDisplaySprites();
-        playerLoadOut.WriteAbilities(newAbilityList);
+        //playerLoadOut.WriteAbilities(newAbilityList);
     }
 
     public void SetPlayerAbilityStorage(List<AbilityDescriptor> newAbilityList)

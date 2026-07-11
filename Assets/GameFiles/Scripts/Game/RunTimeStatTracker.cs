@@ -9,7 +9,6 @@ public class RunTimeStatTracker : MonoBehaviour
     public static int waveNumber { get; set; }
     public static int numberOfAttacks { get; set; }
     public static int totalEnemiesKilled { get; set; }
-    public static int totalAbilitiesEquipped { get; set; }
 
     private void Start()
     {
@@ -30,6 +29,5 @@ public class RunTimeStatTracker : MonoBehaviour
         waveNumber = 0;
         numberOfAttacks = 0;
         totalEnemiesKilled = 0;
-        totalAbilitiesEquipped = 0;
     }
 }

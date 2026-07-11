@@ -36,11 +36,13 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IModifiableActions")]
     [SerializeField] private List<ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
+    [SerializeField] private PlayerLoadOut PlayerLoadOut;
     private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
     private List<ModifiableAction> ModifiableActionStorage = new List<ModifiableAction>();
     public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
     public List<ModifiableAction> modifiableActionStorage { get => ModifiableActionStorage; set => ModifiableActionStorage = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
+    public PlayerLoadOut playerLoadOut { get => PlayerLoadOut; set => PlayerLoadOut = value; }
 
     [Header("IUsesRigidBody")]
     public Rigidbody rb { get; set; }
@@ -143,8 +145,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         UnpackConditionalActions();
         actionController.Initialize();
 
-        UnpackModifiableActions();
         actionSelectionSystem = new ActionSelectionSystem(this);
+        UnpackModifiableActions();
 
         statList.Add(movementSpeed);
     }
@@ -155,6 +157,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         movementController.Update();
         actionController.Update();
         CheckForGrounded();
+
+        RunTimeStatTracker.totalTimeSurvived += Time.deltaTime;
     }
 
     protected override void FixedUpdate()
@@ -169,7 +173,6 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     {
         Ray ray = new Ray(transform.position, Vector3.down);
         isGrounded = Physics.SphereCast(ray, 0.9f, 1, groundLayer);
-        Debug.Log(isGrounded);
     }
 
     //IMoveable Interface Methods
@@ -208,10 +211,13 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     //IModifiableActions Methods
     public void UnpackModifiableActions()
     { 
+        List<ModifiableAction> modifiableActions = new List<ModifiableAction>();
         foreach (ModifiableActionDescriptor modifiableActionDescriptor in ModifiableActionDescriptors)
         {
             modifiableActions.Add(modifiableActionDescriptor.Create());
         }
+
+        actionSelectionSystem.SetModifiableActions(modifiableActions);
     }
 
     //IOrbitSpikeSpawner Methods
