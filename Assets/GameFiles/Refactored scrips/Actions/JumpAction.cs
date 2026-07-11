@@ -25,7 +25,6 @@ public class JumpAction : BaseEntityAction
     //public JumpAction() { }
     public override void StartAction(Entity entity)
     {
-        Debug.Log("entering jump action");
         //isComplete = false;
         base.StartAction(entity);
 

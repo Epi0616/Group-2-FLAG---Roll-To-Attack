@@ -168,7 +168,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public void CheckForGrounded()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
-        isGrounded = Physics.SphereCast(ray, 0.4f, 1, groundLayer);
+        isGrounded = Physics.SphereCast(ray, 0.9f, 1, groundLayer);
+        Debug.Log(isGrounded);
     }
 
     //IMoveable Interface Methods
