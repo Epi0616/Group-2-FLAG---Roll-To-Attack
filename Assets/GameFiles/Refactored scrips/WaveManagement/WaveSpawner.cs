@@ -11,6 +11,8 @@ using Random = UnityEngine.Random;
 
 public class WaveSpawner : MonoBehaviour
 {
+    public static event Action waveFinishedSpawning;
+
     [SerializeField] private GameObject playerRef;
     [SerializeField] private Camera cameraRef;
     [SerializeField] private List<GameObject> spawnPoints;
@@ -54,8 +56,8 @@ public class WaveSpawner : MonoBehaviour
             {
                 StartCoroutine(ActivateEntityBlock(currentEntityBlocks[j]));
             }
-
         }
+        waveFinishedSpawning?.Invoke();
     }
 
     private bool CheckForConditionsMet(List<BaseWaveCondition> currentConditions)

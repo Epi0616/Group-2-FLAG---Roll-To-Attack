@@ -1,6 +1,70 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Security.Principal;
 using UnityEngine;
 
 public class EnemySpawnPoint : MonoBehaviour
 {
-    // This Script is blank as it only needs to exist as a Transform for the spawner, I guess I could've just held a list of Transforms but this felt slightly better
+    [SerializeField] private GameObject centerPos, areaBlocker;
+    [SerializeField] private LayerMask enemyMask;
+    [SerializeField] private float range = 10f;
+
+    private Vector3 areaBlockerStartPosition;
+
+    private void OnEnable()
+    {
+        WaveManager.WaveCountStart += RaiseAreaBlocker;
+        WaveSpawner.waveFinishedSpawning += HandleCloseSpawnArea;
+    }
+
+    private void OnDisable()
+    {
+        WaveManager.WaveCountStart -= RaiseAreaBlocker;
+        WaveSpawner.waveFinishedSpawning -= HandleCloseSpawnArea;
+    }
+
+    private void Start()
+    {
+        areaBlockerStartPosition = areaBlocker.transform.position;
+    }
+
+    private void HandleCloseSpawnArea()
+    {
+        StartCoroutine(CloseSpawnArea());
+    }
+
+    private IEnumerator CloseSpawnArea()
+    {
+        yield return new WaitForSeconds(0.1f);
+        ApplyKnockBackToEnemiesInSpawn(10f);
+        yield return new WaitForSeconds(0.2f);
+        LowerAreaBlocker();
+    }
+
+    private void RaiseAreaBlocker(float timeDelay)
+    {
+        areaBlocker.transform.position = areaBlockerStartPosition + new Vector3(0, 25f, 0);
+    }
+
+    private void LowerAreaBlocker()
+    { 
+        areaBlocker.transform.position = areaBlockerStartPosition;
+    }
+
+    private void ApplyKnockBackToEnemiesInSpawn(float force)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, range, enemyMask);
+
+        foreach (Collider collider in colliders)
+        {
+            Entity hitEntity = collider.gameObject.GetComponent<Entity>();
+
+            Vector3 targetPos = centerPos.transform.position;
+            targetPos.y += 10f;
+            hitEntity.OnRecieveEffect(
+                new ActiveStatusEffect(new KnockbackEffect(targetPos, -force),
+                new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+                true));
+        }
+    }
 }
