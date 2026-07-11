@@ -7,6 +7,16 @@ public class EnemyHealthSystem : EntityHealthSystem
     public static event Action EnemyHasDied;
     public event Action LocalEnemyDeathEvent;
 
+    public override void OnTakeDamage(int damageAmount)
+    {
+        currentHealth -= damageAmount;
+        RunTimeStatTracker.totalDamageDealt += damageAmount;
+        if (currentHealth <= 0)
+        {
+            OnDeath();
+        }
+    }
+
     public override void OnDeath()
     {
         base.OnDeath();

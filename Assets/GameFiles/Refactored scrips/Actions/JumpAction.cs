@@ -28,6 +28,8 @@ public class JumpAction : BaseEntityAction
         //isComplete = false;
         base.StartAction(entity);
 
+        RunTimeStatTracker.numberOfAttacks += 1;
+
         rb = (entity as IUsesRigidBody).rb;
         grounded = entity as IGrounded;
         jumpable = entity as IJumpable;

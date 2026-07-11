@@ -38,6 +38,7 @@ public class WaveManager : MonoBehaviour
     private void HandleEnemyDeath()
     { 
         enemiesLeftInWave --;
+        RunTimeStatTracker.totalEnemiesKilled += 1;
         if (enemiesLeftInWave <= 0)
         {
             WaveOver?.Invoke(delayBetweenWaves);
