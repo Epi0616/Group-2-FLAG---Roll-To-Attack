@@ -151,11 +151,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
 
     public virtual void ProcessHits(Collider[] colliders, RaycastHit hit)
     {
-        //Debug.Log("Started Processing");
-        if (ownerEntity is IJumpable wewa)
-        {
-            //Debug.Log("Impact Speed is: " + wewa.impactSpeed.GetFinalValue());
-        }
+
         foreach (var collider in colliders)
         {
             if (attackInterrupted) { break; }

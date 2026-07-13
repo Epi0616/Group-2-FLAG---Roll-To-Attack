@@ -23,7 +23,7 @@ public class GateManager : MonoBehaviour
     private void GatesUp()
     {
         float currentY = gates[0].transform.position.y;
-        StartCoroutine(MoveGates(2, currentY, gateUpY, 0.5f));
+        StartCoroutine(MoveGates(2, currentY, gateUpY, 1.5f));
     }
 
     private void GatesDown(float timer)

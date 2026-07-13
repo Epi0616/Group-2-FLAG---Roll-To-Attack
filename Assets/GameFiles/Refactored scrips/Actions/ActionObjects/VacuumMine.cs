@@ -18,11 +18,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
     public Rigidbody rb {  get => rigidbBody; set => rigidbBody = value; }
 
     protected override void Start()
-    {
-        //this entity doesnt have a health system attatched????????? idk what u wana do about it, ima just leave it for now lol :3 - matt
-        
-        base.Start();
-        //rb = GetComponent<Rigidbody>();
+    {       
         knockbackWeightMod = new Stat(0.5f);
         slammedDamageMod = new Stat(1f);
         Initialize();
@@ -30,7 +26,6 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
 
     public void Initialize(Entity ownerEntity, float range, float chargeTime)
     {
-        
         detonated = false;
         this.ownerEntity = ownerEntity;
         this.range = range;

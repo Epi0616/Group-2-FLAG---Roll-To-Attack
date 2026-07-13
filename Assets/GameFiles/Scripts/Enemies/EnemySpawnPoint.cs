@@ -9,6 +9,8 @@ public class EnemySpawnPoint : MonoBehaviour
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private float range = 10f;
 
+    private float pushInterval = 1f;
+    private float pushTimer = 0;
     private Vector3 areaBlockerStartPosition;
 
     private void OnEnable()
@@ -28,6 +30,16 @@ public class EnemySpawnPoint : MonoBehaviour
         areaBlockerStartPosition = areaBlocker.transform.position;
     }
 
+    //private void Update()
+    //{
+    //    pushTimer += Time.deltaTime;
+    //    if (pushTimer > pushInterval)
+    //    {
+    //        ApplyKnockBackToEnemiesInSpawn(5f);
+    //        pushTimer = 0;
+    //    }
+    //}
+
     private void HandleCloseSpawnArea()
     {
         StartCoroutine(CloseSpawnArea());
@@ -35,9 +47,9 @@ public class EnemySpawnPoint : MonoBehaviour
 
     private IEnumerator CloseSpawnArea()
     {
-        yield return new WaitForSeconds(0.1f);
-        ApplyKnockBackToEnemiesInSpawn(10f);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.75f);
+        ApplyKnockBackToEnemiesInSpawn(10f);     
+        yield return new WaitForSeconds(0.3f);
         LowerAreaBlocker();
     }
 
@@ -51,7 +63,7 @@ public class EnemySpawnPoint : MonoBehaviour
         areaBlocker.transform.position = areaBlockerStartPosition;
     }
 
-    private void ApplyKnockBackToEnemiesInSpawn(float force)
+    private bool ApplyKnockBackToEnemiesInSpawn(float force)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, range, enemyMask);
 
@@ -66,5 +78,6 @@ public class EnemySpawnPoint : MonoBehaviour
                 new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
                 true));
         }
+        return true;
     }
 }

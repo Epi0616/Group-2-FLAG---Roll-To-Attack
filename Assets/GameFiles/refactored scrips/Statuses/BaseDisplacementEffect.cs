@@ -16,18 +16,18 @@ public class BaseDisplacementEffect : StatusEffect
             temp.DisableAIAgent();
         }
 
-        if (knockbackInterfaceAccess == null)
-        {
-            Debug.Log("KB missing");
-        }
-        if (rbInterfaceAccess == null)
-        {
-            Debug.Log("RB missing");
-        }
-        if (entityRef == null)
-        {
-            Debug.Log("Entity Missing");
-        }
+        //if (knockbackInterfaceAccess == null)
+        //{
+        //    Debug.Log("KB missing");
+        //}
+        //if (rbInterfaceAccess == null)
+        //{
+        //    Debug.Log("RB missing");
+        //}
+        //if (entityRef == null)
+        //{
+        //    Debug.Log("Entity Missing");
+        //}
 
         if (!isActive) { toBeRemoved = true; return; }
 
