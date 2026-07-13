@@ -55,6 +55,7 @@ public class MoraleBoostSlamAction : BaseSlamAction
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
         hitEntity.OnRecieveHeal(healAmount, Color.green);
+        if (hitEntity == ownerEntity) { return; }
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new MovementSpeedStatus(speedBoost),
                 new List<BaseCondition> { new TimeCondition(true, buffDuration) }, true));
     }

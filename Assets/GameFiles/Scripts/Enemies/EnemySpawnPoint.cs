@@ -74,7 +74,7 @@ public class EnemySpawnPoint : MonoBehaviour
             Vector3 targetPos = centerPos.transform.position;
             targetPos.y += 10f;
             hitEntity.OnRecieveEffect(
-                new ActiveStatusEffect(new KnockbackEffect(targetPos, -force),
+                new ActiveStatusEffect(new SafeKBEffect(targetPos, -force),
                 new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
                 true));
         }
