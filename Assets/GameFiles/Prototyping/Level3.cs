@@ -44,7 +44,7 @@ public class BaseSlamActionLevel3 : BaseSlamAction
         //1. how can you make the player take 100 damage, with the damage number being blue?
 
         if (slamDamage == 0) { return; }
-        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
+        hitEntity.OnTakeDamage(100, Color.blue, DamageType.Normal);
     }
 
 
