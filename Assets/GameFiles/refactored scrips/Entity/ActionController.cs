@@ -2,9 +2,10 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 
-public class ActionController
+public class ActionController : IResetable
 {
     private Entity entity;
     public List<ConditionalAction> availableActions;
@@ -27,6 +28,22 @@ public class ActionController
             foreach (BaseCondition condition in conditions)
             {
                 condition.Initialize(entity);
+            }
+        }
+    }
+
+    public void Reset()
+    {
+        foreach (var action in availableActions)
+        {
+            //List<BaseCondition> conditions = action.conditions;
+            //foreach (BaseCondition condition in conditions)
+            //{
+            //    condition.ResetCondition();
+            //}
+            if (action.singleUse)
+            {
+                action.triggered = false;
             }
         }
     }
@@ -59,7 +76,7 @@ public class ActionController
 
             if (action.singleUse && action.triggered)
             { 
-                availableActions.Remove(action);
+                //availableActions.Remove(action);
                 continue;
             }
 
@@ -129,7 +146,6 @@ public class ActionController
                 return;
             }
         }
-
         ActivateExclusiveAction(potentialExclusiveActions);
     }
 
@@ -205,7 +221,7 @@ public class ActionController
     {
         foreach (ConditionalAction action in activeActions)
         {
-            action.action.InterruptAction();
+            action.action.InterruptAction(); 
         }
     }
 }

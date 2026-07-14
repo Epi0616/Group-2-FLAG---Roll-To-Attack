@@ -1,9 +1,6 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,33 +8,43 @@ public class WaveBuilder : MonoBehaviour
 {
     public static Action<int> EnemiesGenerated;
 
-    [SerializeField] private List<WaveObj> waves = new();
+    [SerializeField] private List<NumberedWave> numberedWaves = new();
     [SerializeField] private List<EntityBlockObj> entityBlocks = new();
 
     [SerializeField] private int startingBudget;
     [SerializeField] private int currentBudget;
     [SerializeField] private int budgetIncreasePerWave = 0;
 
+    private Dictionary<int, WaveObj> waves = new();
     private List<EntityBlock> entityBlockPool = new();
     private List<EntityBlock> affordableEntities = new();
 
     private void Start()
     {
+        SetUpWavesDictionary();
         entityBlockPool = entityBlocks.Select(c => c.Create()).ToList();
         currentBudget = startingBudget;
+    }
+
+    private void SetUpWavesDictionary()
+    {
+        foreach (NumberedWave numberedWave in numberedWaves)
+        {
+            waves.Add(numberedWave.waveNumber, numberedWave.waveObj);
+        }
     }
 
     public Wave GetNextWave(int waveIndex)
     {
         Wave currentWave;
 
-        if (waveIndex < waves.Count)
+        if (waves.ContainsKey(waveIndex))
         {
             currentWave = UnpackWaveObj(waves[waveIndex]);
         }
         else
         {
-            currentWave = GenerateWave();
+            currentWave = GenerateWave(waveIndex);
         }
 
         CountEnemiesInWave(currentWave);
@@ -57,17 +64,17 @@ public class WaveBuilder : MonoBehaviour
         return wave;
     }
 
-    private Wave GenerateWave()
+    private Wave GenerateWave(int waveIndex)
     {
         List<WaveGroup> chosenWaveGroups = new List<WaveGroup>();
 
-        int remainingBudget = currentBudget;
+        int remainingBudget = currentBudget + budgetIncreasePerWave * waveIndex;
         while (remainingBudget > 0)
         {
             affordableEntities.Clear();
             foreach (var block in entityBlockPool)
             {
-                if (block.cost <= remainingBudget)
+                if (block.cost <= remainingBudget && block.difficultyLevel <= waveIndex)
                 {
                     affordableEntities.Add(block);
                 }
@@ -82,14 +89,13 @@ public class WaveBuilder : MonoBehaviour
 
             WaveGroup currentWaveGroup = new WaveGroup(
                 new List<EntityBlock> { affordableEntities[choice] }, 
-                new List<BaseWaveCondition> { new AlwaysTrueWaveCondition()}
+                new List<BaseWaveCondition> { new TimedWaveCondition((1 - (float)waveIndex/100))}
                 );
 
             chosenWaveGroups.Add(currentWaveGroup);
             remainingBudget -= affordableEntities[choice].cost;
         }
 
-        currentBudget += budgetIncreasePerWave;
         return new Wave(chosenWaveGroups);
     }
 
@@ -108,5 +114,17 @@ public class WaveBuilder : MonoBehaviour
         }
 
         EnemiesGenerated?.Invoke(enemiesInCurrentWave);
+    }
+}
+
+[Serializable]
+public struct NumberedWave
+{
+    public int waveNumber;
+    public WaveObj waveObj;
+    public NumberedWave(int waveNumber, WaveObj waveObj)
+    {
+        this.waveNumber = waveNumber;
+        this.waveObj = waveObj;
     }
 }

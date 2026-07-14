@@ -2,7 +2,6 @@ using NUnit.Framework;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 
 [Serializable]
 public class NavMeshEscapeMovement : BaseEntityMovement
@@ -32,10 +31,10 @@ public class NavMeshEscapeMovement : BaseEntityMovement
 
         if (ownerEntity is IAnimated animated)
         {
-            animated.animationManager.PlayAnimation(EnemyAnimations.Waddle);
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 1);
         }
 
-        ActiveStatusEffect speedIncreaseEffect = new (new MovementSpeedStatus(0.5f), new List<BaseCondition>{ new DistanceCondition(true, 30) }, true);
+        ActiveStatusEffect speedIncreaseEffect = new (new MovementSpeedStatus(0.35f), new List<BaseCondition>{ new DistanceCondition(true, 30) }, true);
         ownerEntity.statusSystem.OnRecieveEffect(speedIncreaseEffect);
     }
 

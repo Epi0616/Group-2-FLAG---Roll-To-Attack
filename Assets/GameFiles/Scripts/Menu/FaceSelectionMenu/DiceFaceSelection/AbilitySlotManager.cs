@@ -96,7 +96,7 @@ public class AbilitySlotManager : MonoBehaviour
             }
         }
         //RunTimeStatTracker.totalAbilitiesEquipped += abilitySystem.CompareAbilitySets(currentAbilities);
-        modifiableActions.modifiableActions = currentAbilities;
+        modifiableActions.actionSelectionSystem.SetModifiableActions(currentAbilities);
        // modifiableActions.UnpackModifiableActions();
 
         List<ModifiableAction> currentAbilityStorage = new List<ModifiableAction>();
@@ -110,7 +110,7 @@ public class AbilitySlotManager : MonoBehaviour
                 currentAbilityStorage.Add(ability.GetAbility());
             }
         }
-        modifiableActions.modifiableActionStorage = currentAbilityStorage;
+        modifiableActions.actionSelectionSystem.SetModifiableActionStorage(currentAbilityStorage);
     }
 
     private void DestroyDraggableObjects()

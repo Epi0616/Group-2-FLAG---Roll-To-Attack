@@ -28,7 +28,6 @@ public class PlayerHealthSystem : EntityHealthSystem
     {
         if (isDead) return;
         isDead = true;
-        Debug.Log("Game Over");
         GameOver?.Invoke();
     }
 

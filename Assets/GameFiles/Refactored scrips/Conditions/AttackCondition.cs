@@ -25,7 +25,7 @@ public class AttackCondition : BaseCondition
         float holdTime = usesEntityInput.inputManager.holdTime;
         if (usesEntityInput.inputManager.attack.action.WasPressedThisFrame())
         { 
-            conditionMet = true; 
+            conditionMet = true;
         }
         else if (usesEntityInput.inputManager.attack.action.WasReleasedThisFrame() && holdTime >= 0.2f)
         {
@@ -40,7 +40,8 @@ public class AttackCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
-        if (ownerEntity is not IUsesEntityInput) { conditionMet = false; }
+        if (ownerEntity is not IUsesEntityInput)
+            return false;
         //if (!(ownerEntity as IGrounded).isGrounded) { conditionMet = false; }
 
         return conditionMet;

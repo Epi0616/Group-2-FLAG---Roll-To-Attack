@@ -25,6 +25,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
         //rb = GetComponent<Rigidbody>();
         knockbackWeightMod = new Stat(0.5f);
         slammedDamageMod = new Stat(1f);
+        Initialize();
     }
 
     public void Initialize(Entity ownerEntity, float range, float chargeTime)
@@ -108,7 +109,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
         rangeDisplay.GetComponent<TemporaryImpactField>().adjustObject(range, 0.25f, 0.15f, timer);
     }
 
-    protected IEnumerator CountDown()
+    protected virtual IEnumerator CountDown()
     {
         bool hasPlayedSFX = false;
         while (timer > 0 && !detonated)

@@ -1,115 +1,244 @@
-using UnityEngine;
-using System.Collections.Generic;
+using NUnit.Framework;
+using System;
 using System.Collections;
-using System.Linq.Expressions;
+using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.Playables;
+using UnityEngine.Rendering.Universal;
 
 public class AnimationManager : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-    private Animation baseAnimation = new();
-    private Animation currentAnimation = new();
+    [SerializeField] Animator animator;
+    [SerializeField] AnimationClipType[] animationClipTypes;
+
     private Entity ownerEntity;
 
-    [SerializeField] AnimationClip Idle;
-    [SerializeField] AnimationClip WakeUp;
-    [SerializeField] AnimationClip Waddle;
-    [SerializeField] AnimationClip Charge;
-    [SerializeField] AnimationClip Attack;
-    [SerializeField] AnimationClip RockThrow;
-    [SerializeField] AnimationClip Death;
+    private PlayableGraph graph;
+    private AnimationMixerPlayable mixer;
+    private AnimationPlayableOutput output;
 
-    Dictionary<int, AnimationClip> animationClipReference;
+    private AnimationType currentType;
+    private int currentPriority;
+    private Dictionary<AnimationType, AnimationClip> animationClips;
+    private Dictionary<AnimationType, AnimationClipPlayable> activatedClips;
 
-    private void Awake()
+    private void OnEnable()
     {
-        animationClipReference = new Dictionary<int, AnimationClip>()
+        SetupPlayableGraph();
+        UnpackAnimationClips();
+        currentType = AnimationType.Idle;
+        currentPriority = int.MaxValue;
+    }
+
+    private void OnDisable()
+    {
+        graph.Destroy();
+    }
+
+    public void Initialize(Entity entity)
+    {
+        ownerEntity = entity;
+    }
+
+    private void SetupPlayableGraph()
+    {
+        graph = PlayableGraph.Create("GolemAnimationGraph");
+        graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
+        mixer = AnimationMixerPlayable.Create(graph, 2);
+        output = AnimationPlayableOutput.Create(graph, "Animation", animator);
+
+        output.SetSourcePlayable(mixer);
+        graph.Play();
+    }
+
+    private void UnpackAnimationClips()
+    {
+        activatedClips = new Dictionary<AnimationType, AnimationClipPlayable>();
+        animationClips = new Dictionary<AnimationType, AnimationClip>();
+
+        foreach (AnimationClipType animationClipType in animationClipTypes)
+        { 
+            AnimationClip animation = animationClipType.clip;
+            AnimationClipPlayable playableAnimation = AnimationClipPlayable.Create(graph, animation);
+
+            animationClips.Add(animationClipType.type, animation);
+            activatedClips.Add(animationClipType.type, playableAnimation);
+        }
+    }
+
+    public void PlayAnimation(AnimationType animationType, int priority, float window = 0f)
+    {
+
+        if (CheckForCanBePlayed(priority, animationType))
         {
-            {EnemyAnimations.Idle.animationId, Idle},
-            {EnemyAnimations.WakeUp.animationId, WakeUp},
-            {EnemyAnimations.Waddle.animationId, Waddle},
-            {EnemyAnimations.Charge.animationId, Charge},
-            {EnemyAnimations.Attack.animationId, Attack},
-            {EnemyAnimations.RockThrow.animationId, RockThrow},
-            {EnemyAnimations.Death.animationId, Death}
-        };
-    }
-
-    private void Start()
-    {
-        SetBaseAction(EnemyAnimations.Idle);
-        currentAnimation = baseAnimation;
-    }
-
-    public void Initialize(Entity ownerEntity)
-    { 
-        this.ownerEntity = ownerEntity;
-    }
-
-    public void SetBaseAction(Animation newAnimation)
-    { 
-        baseAnimation.animationId = newAnimation.animationId;
-        baseAnimation.priority = int.MaxValue;
-    }
-
-    public void PlayAnimation(Animation newAnimation, float crossFadeTime = 0.2f)
-    {
-        if (currentAnimation.animationId != newAnimation.animationId)
-        {
-            if (newAnimation.priority <= currentAnimation.priority)
+            if (GetPlayableAnimationFromType(animationType, out AnimationClipPlayable newAnimation))
             {
-                currentAnimation = newAnimation;
-                animator.CrossFade(newAnimation.animationId, crossFadeTime);
+                if (mixer.GetInput(0).IsValid())
+                {
+                    graph.Disconnect(mixer, 0);
+                }
+
+                if (GetAnimationClipFromType(animationType, out AnimationClip animationClip))
+                {
+                    if (window == 0)
+                    {
+                        newAnimation.SetSpeed(1);
+                    }
+                    else
+                    {
+                        newAnimation.SetSpeed(animationClip.length / window);
+                    }
+                }
+
+                graph.Connect(newAnimation, 0, mixer, 0);
+
+                animator.speed = 1;
+                newAnimation.SetTime(0);
+                mixer.SetInputWeight(0, 1);
+
+                currentType = animationType;
+                currentPriority = priority;
             }
         }
     }
 
-    public void PlayAnimationWithDelay(Animation newAnimation, float delay, float crossFadeTime = 0.2f)
+    public void PlayAnimationCrossFade(AnimationType animationType, int priority, float crossFadeDuration = 0.2f, float window = 0f)
     {
-        StartCoroutine(DelayAnimation(newAnimation, delay, crossFadeTime));
+        if (CheckForCanBePlayed(priority, animationType))
+        {
+            StartCoroutine(CrossFade(animationType, priority, crossFadeDuration, window));
+        }
     }
 
-    private IEnumerator DelayAnimation(Animation newAnimation, float delay, float crossFadeTime = 0.2f)
-    { 
-        yield return new WaitForSeconds(delay);
-        PlayAnimation(newAnimation, crossFadeTime);
+    private IEnumerator CrossFade(AnimationType animationType, int priority, float crossFadeDuration, float window)
+    {
+        if (GetPlayableAnimationFromType(animationType, out AnimationClipPlayable newAnimation))
+        {
+            if (GetPlayableAnimationFromType(currentType, out AnimationClipPlayable currentPlayable))
+            {
+
+                if (mixer.GetInput(0).IsValid())
+                {
+                    graph.Disconnect(mixer, 0);
+                }
+                if (mixer.GetInput(1).IsValid())
+                {
+                    graph.Disconnect(mixer, 1);
+                }
+
+                if (GetAnimationClipFromType(animationType, out AnimationClip animationClip))
+                {
+                    if (window == 0)
+                    {
+                        newAnimation.SetSpeed(1);
+                    }
+                    else
+                    {
+                        newAnimation.SetSpeed(animationClip.length / window);
+                    }
+                }
+
+                graph.Connect(currentPlayable, 0, mixer, 0);
+                graph.Connect(newAnimation, 0, mixer, 1);
+
+                newAnimation.SetTime(0);
+
+                float timer = crossFadeDuration;
+                float t = 0f;
+
+                while (t < 1)
+                {
+                    timer -= Time.deltaTime;
+                    t = (crossFadeDuration - timer) / crossFadeDuration;
+
+                    mixer.SetInputWeight(0, 1f - t);
+                    mixer.SetInputWeight(1, t);
+                    yield return null;
+                }
+
+                currentType = animationType;
+                currentPriority = priority;
+                //currentClip = newAnimation;
+            }
+            else // if there is no valid curent action crossfade wont work so pass over to regular play to double check it cant be played - after testing i dont think this point ever gets reached...
+            {
+                PlayAnimation(animationType, priority);
+            }
+        }
     }
 
-    public void HandleAnimationOver(float time, float crossFadeTime)
+
+    private bool CheckForCanBePlayed(int priority, AnimationType animationType)
     {
-        if (ownerEntity == null) return;
-        if (ownerEntity.healthSystem.isDead) return;
-        currentAnimation = EnemyAnimations.Idle;
-        StartCoroutine(DelayBaseAnimationStart(time, crossFadeTime));
+        if (GetPlayableAnimationFromType(currentType, out AnimationClipPlayable playableClip))
+        {
+            if (IsAnimationFinished(playableClip))
+            {
+                if (GetAnimationClipFromType(currentType, out AnimationClip animationClip))
+                {
+                    if (!animationClip.isLooping)
+                    {
+                        currentType = AnimationType.None;
+                        currentPriority = int.MaxValue;
+                    }
+                }
+            }
+        }
+
+        if (animationType == currentType) return false;
+        if (priority > currentPriority) return false;
+        return true;
     }
 
-    private IEnumerator DelayBaseAnimationStart(float timer, float crossFadeTime)
+    public bool GetAnimationClipFromType(AnimationType clipType, out AnimationClip outClip)
     {
-        yield return new WaitForSeconds(timer);
+        if (animationClips.TryGetValue(clipType, out AnimationClip clip))
+        {
+            outClip = clip;
+            return true;
+        }
+        outClip = null;
+        return false;
+    }
+    private bool GetPlayableAnimationFromType(AnimationType clipType, out AnimationClipPlayable outClip)
+    {
+        if (activatedClips.TryGetValue(clipType, out AnimationClipPlayable playableClip))
+        {
+            outClip = playableClip;
+            return true;
+        }
+        outClip = default;
+        return false;
+    }
 
-        PlayAnimation(baseAnimation);
+    private bool IsAnimationFinished(AnimationClipPlayable animation)
+    {
+        return animation.GetTime() >= animation.GetDuration();
     }
 }
 
-public struct Animation
+[Serializable]
+public struct AnimationClipType
 {
-    public int animationId;
-    public int priority;
-
-    public Animation(int animationId, int priority)
+    public AnimationType type;
+    public AnimationClip clip;
+    public AnimationClipType(AnimationType type, AnimationClip clip)
     {
-        this.animationId = animationId;
-        this.priority = priority;
+        this.type = type;
+        this.clip = clip;
     }
 }
 
-public static class EnemyAnimations
+public enum AnimationType
 {
-    public static readonly Animation Idle = new Animation(Animator.StringToHash("Idle"), int.MaxValue);
-    public static readonly Animation WakeUp = new Animation(Animator.StringToHash("WakeUp"), 1);
-    public static readonly Animation Waddle = new Animation(Animator.StringToHash("Waddle"), 1);
-    public static readonly Animation Charge = new Animation(Animator.StringToHash("Charge"), 1);
-    public static readonly Animation Attack = new Animation(Animator.StringToHash("Attack"), 1);
-    public static readonly Animation RockThrow = new Animation(Animator.StringToHash("RockThrow"), 1);
-    public static readonly Animation Death = new Animation(Animator.StringToHash("Death"), 0);
+    None,
+    Idle,
+    WakeUp,
+    Waddle,
+    Attack,
+    Charge,
+    RockThrow,
+    Death
 }

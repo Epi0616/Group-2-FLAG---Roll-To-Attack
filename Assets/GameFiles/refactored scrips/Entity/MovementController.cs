@@ -29,6 +29,18 @@ public class MovementController
         }
     }
 
+    public void Reset()
+    {
+        //foreach (var movement in availableMovements)
+        //{
+        //    List<BaseCondition> conditions = movement.conditions;
+        //    foreach (BaseCondition condition in conditions)
+        //    {
+        //        condition.ResetCondition();
+        //    }
+        //}
+    }
+
     public void Update()
     {
         CheckForValidMovements();
@@ -50,6 +62,8 @@ public class MovementController
 
     public void CheckForValidMovements()
     {
+        if (!moveInterfaceAccess.canMove) return;
+
         List<ConditionalMovement> potentialExclusiveMovements = new List<ConditionalMovement>();
 
         for (int i = availableMovements.Count - 1; i >= 0; i--)
@@ -214,54 +228,55 @@ public class MovementController
     }
 
     public void CheckForInvalidMovements()
+    {
+
+        for (int i = activeMovements.Count - 1; i >= 0; i--)
         {
-            for (int i = activeMovements.Count - 1; i >= 0; i--)
+            ConditionalMovement movement = activeMovements[i];
+            List<BaseCondition> conditions = movement.conditions;
+            bool allRequiredConditionsMet = false;
+            bool anyNonRequiredPresent = false;
+            foreach (BaseCondition condition in conditions)
             {
-                ConditionalMovement movement = activeMovements[i];
-                List<BaseCondition> conditions = movement.conditions;
-                bool allRequiredConditionsMet = false;
-                bool anyNonRequiredPresent = false;
-                foreach (BaseCondition condition in conditions)
+                condition.ConditionUpdate();
+
+                allRequiredConditionsMet = true;
+
+                if (movement.allConditionsRequired)
                 {
-                    condition.ConditionUpdate();
 
-                    allRequiredConditionsMet = true;
-
-                    if (movement.allConditionsRequired)
+                    if (!condition.IsConditionMet())
                     {
-
-                        if (!condition.IsConditionMet())
-                        {
-                            allRequiredConditionsMet = false;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (condition.IsConditionMet())
-                        {
-                            anyNonRequiredPresent = true;
-                        }
+                        allRequiredConditionsMet = false;
+                        break;
                     }
                 }
+                else
+                {
+                    if (condition.IsConditionMet())
+                    {
+                        anyNonRequiredPresent = true;
+                    }
+                }
+            }
 
-                if (!allRequiredConditionsMet && movement.allConditionsRequired)
-                {
-                    availableMovements.Add(movement);
-                    activeMovements.Remove(movement);
-                    movement.movement.EndMovement();
-                    movement.ResetConditionsAll();
-                }
-                else if (!anyNonRequiredPresent && !movement.allConditionsRequired)
-                {
-                    availableMovements.Add(movement);
-                    activeMovements.Remove(movement);
-                    movement.movement.EndMovement();
-                    movement.ResetConditionsAll();
-                }
+            if (!allRequiredConditionsMet && movement.allConditionsRequired)
+            {
+                availableMovements.Add(movement);
+                activeMovements.Remove(movement);
+                movement.movement.EndMovement();
+                movement.ResetConditionsAll();
+            }
+            else if (!anyNonRequiredPresent && !movement.allConditionsRequired)
+            {
+                availableMovements.Add(movement);
+                activeMovements.Remove(movement);
+                movement.movement.EndMovement();
+                movement.ResetConditionsAll();
             }
         }
     }
+}
 
     // Old Version
 

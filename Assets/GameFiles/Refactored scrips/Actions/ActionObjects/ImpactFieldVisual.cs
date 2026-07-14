@@ -5,6 +5,7 @@ using System.Collections;
 public class ImpactFieldVisual : MonoBehaviour
 {
     protected MeshRenderer meshRenderer;
+    [SerializeField] protected MeshRenderer ringMeshRenderer;
     protected MaterialPropertyBlock block;
     protected Coroutine fadeRoutine;
 
@@ -45,7 +46,7 @@ public class ImpactFieldVisual : MonoBehaviour
 
     protected virtual void AdjustRadiusSize()
     {
-        transform.localScale = new Vector3(1.0f, 0.2f, 1.0f);
+        transform.localScale = new Vector3(1.0f, 0.1f, 1.0f);
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;
         tempScale.z = radius * 2;
@@ -114,9 +115,17 @@ public class ImpactFieldVisual : MonoBehaviour
     }
 
     protected void SetColor(Color color)
-    {
+    { 
+        ringMeshRenderer.GetPropertyBlock(block);
+        Color darkerColour = new Color(color.r * 0.7f, color.g * 0.7f, color.b * 0.7f, color.a);
+        Color lighterColour = new Color(color.r * 1.2f, color.g * 1.2f, color.b * 1.2f, color.a);
+        block.SetColor("_RingColour", lighterColour);
+        if (color.a < 0f) { color.a = 0; }
+        else if (color.a > 1f) { color.a = 1f; }
+        block.SetFloat("_Opacity", color.a);
+        ringMeshRenderer.SetPropertyBlock(block);
         meshRenderer.GetPropertyBlock(block);
-        block.SetColor("_BaseColor", color);
+        block.SetColor("_BaseColor", darkerColour);
         meshRenderer.SetPropertyBlock(block);
     }
 
