@@ -15,6 +15,16 @@ public class ActionSelectionSystem
         modifiableActions = entity as IModifiableActions;
     }
 
+    public void SetModifiableActions(List<ModifiableAction> newActions)
+    {
+        modifiableActions.playerLoadOut.WriteAbilities(newActions);
+        modifiableActions.modifiableActions = newActions;
+    }
+    public void SetModifiableActionStorage(List<ModifiableAction> newActions)
+    {
+        modifiableActions.modifiableActionStorage = newActions;
+    }
+
     public ConditionalAction GetRandomConditionalAction()
     {
         //List<EquippableActionHolder> weightedActions = ;

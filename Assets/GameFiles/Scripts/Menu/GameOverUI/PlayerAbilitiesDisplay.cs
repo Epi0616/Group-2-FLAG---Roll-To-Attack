@@ -12,7 +12,7 @@ public class PlayerAbilitiesDisplay : MonoBehaviour
     {
         Debug.Log("displaying abilities");
 
-        List<AbilityDescriptor> abilities = playerLoadOut.ReadAbilities();
+        List<ModifiableAction> abilities = playerLoadOut.ReadAbilities();
         if (abilities == null) return;
         if (abilities.Count == 0) return;
 

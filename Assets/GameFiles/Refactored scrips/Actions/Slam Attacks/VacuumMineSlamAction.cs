@@ -9,7 +9,10 @@ public class VacuumMineSlamAction : BaseSlamAction , IUpgradableAbility
     public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
     public VacuumMineSlamAction() { }
 
-    public VacuumMineSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
+    public VacuumMineSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, ModifiableActionDescriptor result) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    {
+        upgradeResult = result;
+    }
 
 
 
@@ -38,6 +41,6 @@ public class VacuumMineSlamAction : BaseSlamAction , IUpgradableAbility
 
     public override BaseEntityAction Clone()
     {
-        return new VacuumMineSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
+        return new VacuumMineSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, upgradeResult);
     }
 }

@@ -7,6 +7,16 @@ public class EnemyHealthSystem : EntityHealthSystem
     public static event Action EnemyHasDied;
     public event Action LocalEnemyDeathEvent;
 
+    public override void OnTakeDamage(int damageAmount)
+    {
+        currentHealth -= damageAmount;
+        RunTimeStatTracker.totalDamageDealt += damageAmount;
+        if (currentHealth <= 0)
+        {
+            OnDeath();
+        }
+    }
+
     public override void OnDeath()
     {
         base.OnDeath();
@@ -22,7 +32,10 @@ public class EnemyHealthSystem : EntityHealthSystem
 
         if (OwnerEntity is IAnimated animated)
         {
-            animated.animationManager.PlayAnimation(EnemyAnimations.Death, 0.5f);
+            float deathAnimationTime = 2;
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Death, 0, 0.2f, deathAnimationTime);
+            StartCoroutine(DelayedDeath(deathAnimationTime));
+
         }
         else 
         {

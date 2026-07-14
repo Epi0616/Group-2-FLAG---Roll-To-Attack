@@ -6,6 +6,7 @@ public class LookAtTargetMovement : BaseEntityMovement
 {
     private Vector3 targetDir;
     private Quaternion lookRotation;
+    private Quaternion startRotation;
     public float rotationSpeed = 10f;
 
     public LookAtTargetMovement() { }
@@ -19,12 +20,14 @@ public class LookAtTargetMovement : BaseEntityMovement
         //Debug.Log("Lookin");
         if (ownerEntity == null) return;
         if (ownerEntity.target == null) return;
+
         targetDir = ownerEntity.target.transform.position - ownerEntity.transform.position;
         targetDir.y = 0f;
         if (targetDir == Vector3.zero) { return; }
+
         lookRotation = Quaternion.LookRotation(targetDir);
-        
-        ownerEntity.transform.rotation = Quaternion.Slerp(ownerEntity.transform.rotation, lookRotation, 10f * Time.deltaTime);
+
+        ownerEntity.transform.rotation = Quaternion.RotateTowards(ownerEntity.transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
     }
 
     public override BaseEntityMovement Clone()

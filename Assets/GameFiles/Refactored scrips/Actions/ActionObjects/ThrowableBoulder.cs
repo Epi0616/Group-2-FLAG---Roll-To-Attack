@@ -32,8 +32,11 @@ public class ThrowableBoulder : MonoBehaviour
         this.slamColor = slamColor;
         this.slamRange = slamRange;
 
+        Vector3 randomOffset = new(UnityEngine.Random.Range(-10f, 10f), 0f, UnityEngine.Random.Range(-10f, 10f));
+        slamOrigin = target + randomOffset;
+
         SetupSlam();
-        StartCoroutine(PathToTarget(target, transform.position, durationOfTravel));
+        StartCoroutine(PathToTarget(slamOrigin, transform.position, durationOfTravel));
     }
 
     private IEnumerator LifeTime(float lifeTime)
@@ -57,8 +60,7 @@ public class ThrowableBoulder : MonoBehaviour
 
         //slamImpactField = slamVariablesAccess.SlamImpactField;
         // Debug.Log("SLAM STRTED");
-
-        slamOrigin = ownerEntity.target.transform.position;
+        
 
         StartCoroutine(PerformSlam(chargeTime));
     }

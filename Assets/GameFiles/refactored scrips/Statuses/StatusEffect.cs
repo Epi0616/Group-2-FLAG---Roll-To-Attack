@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum StatusType
 {
-    Freeze, Knockback, Weak, Slow, Stun, Poison, Speed, Crumbling
+    Freeze, Knockback, Weak, Slow, Stun, Poison, Speed, Crumbling, Shield
 }
 
 
@@ -74,8 +74,6 @@ public abstract class StatusEffect
     {
         return effectColour;
     }
-
-
 
     protected virtual void OnApplication() { }
     protected virtual void OnUpdate() { }

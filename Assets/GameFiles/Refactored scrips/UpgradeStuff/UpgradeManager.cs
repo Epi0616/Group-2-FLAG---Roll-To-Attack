@@ -126,15 +126,17 @@ public class UpgradeManager : MonoBehaviour
             action1 = modifiableAction1.conditionalAction.action;
             modifiableAction2 = DragAB2.GetAbility();
             action2 = modifiableAction2.conditionalAction.action;
-            //EHolder1.actionDescriptor.action.action
             //Debug.Log(ability1.GetType().ToString());
             //Debug.Log(ability2.GetType().ToString());
 
             if (action1.GetType().ToString() == action2.GetType().ToString())
             {
                 if (modifiableAction1.conditionalAction.action is IUpgradableAbility AB1 && modifiableAction2.conditionalAction.action is IUpgradableAbility AB2)
-                {
+                {       
+                    
+                
                     if (AB1.upgradeResult == null) { Debug.LogWarning("Combine Result null Aborting"); return; }
+                    
                     var tempObj = Instantiate(abilityObjectPrefab, transform);
                     DraggableAbility tempAB = tempObj.GetComponent<DraggableAbility>();
 

@@ -25,7 +25,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
 
     [Header("IActionable Properties")]
     [SerializeField] private List<ConditionalActionDescriptor> ConditionalActionDescriptors = new List<ConditionalActionDescriptor>();
-    private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
+    [SerializeField] private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
     private bool CanAct = true;
     public List<ConditionalActionDescriptor> conditionalActionDescriptors { get => ConditionalActionDescriptors; set => ConditionalActionDescriptors = value; }
     public List<ConditionalAction> conditionalActions { get => ConditionalActions; set => ConditionalActions = value; }
@@ -65,6 +65,11 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     protected override void Start()
     {
         base.Start();
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
         target = GameObject.FindGameObjectWithTag("Player"); //needs to be moved into interface/system for finding target
         //environmentMask = LayerMask.GetMask("Ground", "Collider Props", "Pedestal");        
         //slamBaseRange = 5f;
@@ -78,22 +83,20 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
             Debug.LogError("BaseAIEnemy: Required Component not found from GetComponent");
         }
 
+        animationManager.Initialize(this);
+
         UnpackConditionalMovements();
         movementController.Initialize();
 
         UnpackConditionalActions();
         actionController.Initialize();
 
-        
-
         statList.Add(movementSpeed);
         statList.Add(slammedDamageMod);
         statList.Add(knockbackWeightMod);
 
-        
-        agent.speed = movementSpeed.GetFinalValue();
 
-        animationManager.Initialize(this);
+        agent.speed = movementSpeed.GetFinalValue();
         //EnableAIAgent();
     }
 
@@ -101,19 +104,24 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     {
         base.Update();
 
-        movementController.Update();
-        actionController.Update();
         CheckForCanMove();
         CheckForCanAct();
         CheckForDisplacement();
         CheckForGrounded();
         CheckForStunned();
+
+        movementController.Update();
+        actionController.Update();
     }
 
     //IResetable
-    public void Reset()
+    public override void Reset()
     {
-        
+        base.Reset();
+        if (movementController!=null)
+            movementController.Reset();
+        if (actionController != null)
+            actionController.Reset();
     }
 
     // IGrounded Interface Methods
@@ -169,7 +177,10 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         }
         else
         {
-            EnableAIAgent();
+            if (canMove)
+            {
+                EnableAIAgent();
+            }
         }
     }
 
@@ -182,17 +193,12 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     {
         if (!collision.gameObject.CompareTag("Environment") && !collision.gameObject.CompareTag("Pedestal")) { return; }
         if (!isBeingDisplaced) { return; }
-        //if (isKnockedBackByGolem) { return; }
-
-        //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
-
-
-        //OnRecieveEffect(new ActiveStatusEffect(new BaseStunEffect(), new List<BaseCondition> { new DurationCondition(true, 0.5f), new NavMeshReturnCondition(false, this) }));
+        
 
         float dmgMod = Mathf.Clamp(slammedDamageMod.GetFinalValue(), 1.0f, 5.0f);
-        int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);
+        int appliedDamage = (int)((collision.impulse.magnitude / 3) * dmgMod);
 
-
+        if (appliedDamage < 25) { appliedDamage = 25; }
 
 
         if (statusSystem.CheckForStatusByType(StatusType.Freeze))
@@ -215,10 +221,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         }
             statusSystem.RemoveEffectByType(StatusType.Knockback);
 
-
         // Eventual VFX/SFX can go here for wall slams
         // add a check for the value of dmgMod to increase volume/size of effects
-
-
     }
 }

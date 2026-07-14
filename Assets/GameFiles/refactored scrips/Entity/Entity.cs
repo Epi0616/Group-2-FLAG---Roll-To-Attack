@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-public class Entity : MonoBehaviour, IEntity
+public class Entity : MonoBehaviour, IEntity, IResetable
 {
     public List<Stat> VisibleStatList = new List<Stat> ();
     public List<Stat> statList {  get => VisibleStatList;  set => VisibleStatList = value; }
@@ -20,11 +20,20 @@ public class Entity : MonoBehaviour, IEntity
     protected virtual void Start()
     {
         //statList = new List<Stat>();       
+        Initialize();
+    }
+
+    public virtual void Initialize()
+    {
         bodySystem.InitialiseSystem(this);
         statusSystem.InitialiseSystem(this);
         healthSystem.InitialiseSystem(this);
         textDisplaySystem.InitialiseSystem(this);
+    }
 
+    public virtual void Reset()
+    {
+        healthSystem.ResetSystem();
     }
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)
@@ -35,6 +44,13 @@ public class Entity : MonoBehaviour, IEntity
         //Debug.Log("DAMAGE TAKEN: " + amount);
         healthSystem.OnTakeDamage(finalDamage);
     }
+    public virtual void OnRecieveHeal(int amount, Color color)
+    {
+        float size = Mathf.Clamp(10 + (amount * 1.1f), 48f, 240f);
+        textDisplaySystem.DisplayText(amount.ToString(), color, (int)55);
+        healthSystem.OnHeal(amount);
+    }
+    
     public virtual void OnRecieveEffect(ActiveStatusEffect statusEffect, Color effectColour)
     {
         textDisplaySystem.DisplayHigherText(statusEffect.effect.GetEffectText(), effectColour, 52);

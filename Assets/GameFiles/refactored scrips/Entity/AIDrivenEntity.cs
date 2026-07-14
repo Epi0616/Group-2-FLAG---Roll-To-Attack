@@ -16,6 +16,7 @@ public class AIDrivenEntity : Entity , INavAgent , IUsesRigidBody
     {
         if (!isAIDisabled) { return; }
 
+
         rb.isKinematic = false;
         rb.linearDamping = 0f;
 
@@ -28,7 +29,7 @@ public class AIDrivenEntity : Entity , INavAgent , IUsesRigidBody
         agent.updatePosition = true;
         agent.updateRotation = true;
 
-        agent.Warp(transform.position);
+        //agent.Warp(transform.position);
         agent.ResetPath();
         
     }

@@ -11,9 +11,9 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private WaveBuilder waveBuilder;
     [SerializeField] private WaveSpawner waveSpawner;
     [SerializeField] private float delayBetweenWaves = 5f;
+    [SerializeField] private int currentWaveIndex = 0;
 
     private int enemiesLeftInWave = 0;
-    private int currentWaveIndex = 0;
 
     private void OnEnable()
     {
@@ -29,11 +29,6 @@ public class WaveManager : MonoBehaviour
         DicePedestal.WaveStartPedestal -= StartNextWave;
     }
 
-    private void Start()
-    {
-        currentWaveIndex = 0;
-    }
-
     private void HandleEnemiesGenerated(int enemiesInWave)
     {
         enemiesLeftInWave = enemiesInWave;
@@ -43,6 +38,7 @@ public class WaveManager : MonoBehaviour
     private void HandleEnemyDeath()
     { 
         enemiesLeftInWave --;
+        RunTimeStatTracker.totalEnemiesKilled += 1;
         if (enemiesLeftInWave <= 0)
         {
             WaveOver?.Invoke(delayBetweenWaves);
@@ -59,7 +55,7 @@ public class WaveManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delayBetweenWaves);
         currentWaveIndex++;
-        Wave randomWave = waveBuilder.GetNextWave(currentWaveIndex - 1);
+        Wave randomWave = waveBuilder.GetNextWave(currentWaveIndex);
         waveSpawner.SpawnWave(randomWave);
         DisplayWaveNumber?.Invoke(currentWaveIndex);
     }

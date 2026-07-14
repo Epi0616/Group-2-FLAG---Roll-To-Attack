@@ -2,8 +2,6 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Diagnostics;
-using UnityEditor.Overlays;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;

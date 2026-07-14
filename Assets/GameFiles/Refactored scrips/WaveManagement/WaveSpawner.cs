@@ -11,6 +11,8 @@ using Random = UnityEngine.Random;
 
 public class WaveSpawner : MonoBehaviour
 {
+    public static event Action waveFinishedSpawning;
+
     [SerializeField] private GameObject playerRef;
     [SerializeField] private Camera cameraRef;
     [SerializeField] private List<GameObject> spawnPoints;
@@ -44,7 +46,6 @@ public class WaveSpawner : MonoBehaviour
             //wait for group to be ready
             while (!nextGroupActive)
             {
-                
                 nextGroupActive = CheckForConditionsMet(currentConditions);
                 yield return null;
             }
@@ -55,8 +56,8 @@ public class WaveSpawner : MonoBehaviour
             {
                 StartCoroutine(ActivateEntityBlock(currentEntityBlocks[j]));
             }
-
         }
+        waveFinishedSpawning?.Invoke();
     }
 
     private bool CheckForConditionsMet(List<BaseWaveCondition> currentConditions)
@@ -125,11 +126,11 @@ public class WaveSpawner : MonoBehaviour
         }
 
         if (spawnedEntity == null) { Debug.LogError("Wave Spawned Entity null"); }
-        if (spawnedEntity.GetComponent<Entity>().healthSystem != null)
-        {
-            spawnedEntity.GetComponent<Entity>().healthSystem.ResetSystem();
-        }
-        spawnedEntity.GetComponent<Entity>().textDisplaySystem.targetCamera = cameraRef;
+
+        Entity spawnedEntityReference = spawnedEntity.GetComponent<Entity>();
+        //spawnedEntityReference.Initialize();
+        spawnedEntityReference.Reset();
+        spawnedEntityReference.textDisplaySystem.targetCamera = cameraRef;
     }
 
     private Vector3 PickSpawnAreaCircular()

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ITarget
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ISlowBubbleSpawner, ITarget
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -28,19 +28,21 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IActionable")]
     [SerializeField] private List<ConditionalActionDescriptor> ConditionalActionDescriptors = new List<ConditionalActionDescriptor>();
-    private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
-    private bool CanAct = true;
+    [SerializeField] private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
+    [SerializeField] private bool CanAct = true;
     public List<ConditionalAction> conditionalActions { get => ConditionalActions; set => ConditionalActions = value; }
     public ActionController actionController { get; set; }
     public bool canAct { get => CanAct; set => CanAct = value; }
 
     [Header("IModifiableActions")]
     [SerializeField] private List<ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
+    [SerializeField] private PlayerLoadOut PlayerLoadOut;
     private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
     private List<ModifiableAction> ModifiableActionStorage = new List<ModifiableAction>();
     public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
     public List<ModifiableAction> modifiableActionStorage { get => ModifiableActionStorage; set => ModifiableActionStorage = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
+    public PlayerLoadOut playerLoadOut { get => PlayerLoadOut; set => PlayerLoadOut = value; }
 
     [Header("IUsesRigidBody")]
     public Rigidbody rb { get; set; }
@@ -118,9 +120,19 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [Header("IKnockbackFieldSpawner")]
     [SerializeField] private GameObject KBFieldPrefab;
     public GameObject knockbackFieldPrefab { get => KBFieldPrefab; set => KBFieldPrefab = value; }
+
+    [Header("IKnockbackFieldSpawner")]
+    [SerializeField] private GameObject SlowingBubblePrefab;
+    public GameObject slowBubblePrefab { get => SlowingBubblePrefab; set => SlowingBubblePrefab = value; }
+    public EnhancedSlowingBubble currentBubbleInstance { get; set; }
     protected override void Start()
     {
         base.Start();
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
         inputManager = GetComponent<EntityInputManager>();
         inputManager.Initialise(this);
         rb = GetComponent<Rigidbody>();
@@ -133,8 +145,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         UnpackConditionalActions();
         actionController.Initialize();
 
-        UnpackModifiableActions();
         actionSelectionSystem = new ActionSelectionSystem(this);
+        UnpackModifiableActions();
 
         statList.Add(movementSpeed);
     }
@@ -145,6 +157,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         movementController.Update();
         actionController.Update();
         CheckForGrounded();
+
+        RunTimeStatTracker.totalTimeSurvived += Time.deltaTime;
     }
 
     protected override void FixedUpdate()
@@ -158,7 +172,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public void CheckForGrounded()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
-        isGrounded = Physics.SphereCast(ray, 0.4f, 1, groundLayer);
+        isGrounded = Physics.SphereCast(ray, 0.9f, 1, groundLayer);
     }
 
     //IMoveable Interface Methods
@@ -197,10 +211,13 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     //IModifiableActions Methods
     public void UnpackModifiableActions()
     { 
+        List<ModifiableAction> modifiableActions = new List<ModifiableAction>();
         foreach (ModifiableActionDescriptor modifiableActionDescriptor in ModifiableActionDescriptors)
         {
             modifiableActions.Add(modifiableActionDescriptor.Create());
         }
+
+        actionSelectionSystem.SetModifiableActions(modifiableActions);
     }
 
     //IOrbitSpikeSpawner Methods
