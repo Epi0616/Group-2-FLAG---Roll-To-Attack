@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IRocketSpawner
+public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IRocketSpawner, IBoulderThrow
 {
     // IPoisonSpawner Interface
     [Header("IPoison Required Properties")]
@@ -32,6 +32,9 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
     [SerializeField] private GameObject SpikePrefab;
     public GameObject spikePrefab { get => SpikePrefab; set => SpikePrefab = value; }
 
+    [SerializeField] private GameObject EnhancedSpikePrefab;
+    public GameObject enhancedSpikePrefab { get => EnhancedSpikePrefab; set =>  EnhancedSpikePrefab = value; }
+
     [Header("IVacuumSpawner Required Properties")]
     // IVacuumSpawner Interface
     [SerializeField] private float VacuumMineDetonationTime = 5;
@@ -51,6 +54,12 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
     [SerializeField] private GameObject EnhancedRocketObj;
     public GameObject enhancedRocketObj { get => EnhancedRocketObj; set => EnhancedRocketObj = value; }
 
+    [Header("IBoulderThrow Required Properties")]
+    //IBoulderThrow intrefcaaeeea
+    [SerializeField] private GameObject BoulderObj;
+    [SerializeField] private Transform BoulderRootBone; 
+    public GameObject boulderObj { get => BoulderObj; set => BoulderObj = value; }
+    public Transform boulderRootBone { get => BoulderRootBone; set => BoulderRootBone = value; }
 
     // IOrbitSpike Interface Methods
     public void RemoveObjectFromOrbit(BaseOrbitObject obj)
@@ -64,6 +73,26 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
         {
             float angle = i * (360f / orbitObjects.Count);
             orbitObjects[i].UpdateAngle(angle);
+        }
+    }
+    public void RefreshSpikeAge()
+    {
+        for (int i = 0; i < orbitObjects.Count; i++)
+        {
+            if (orbitObjects[i] is OrbitingSpike temp)
+            {
+                temp.age = 0;
+            }
+        }
+    }
+    public void EjectEnhancedSpikes()
+    {
+        for (int i = orbitObjects.Count - 1; i >= 0; i--)
+        {
+            if (orbitObjects[i] is EnhancedOrbitingSpike EOS)
+            {
+                EOS.DropOff();
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Principal;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -12,18 +13,16 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     [SerializeField] protected float ChargeTime;
     [SerializeField] protected Stat SlamRange = new Stat(5);
     [SerializeField] protected Vector3 SlamPositionOffset;
-    [SerializeField] protected bool DoesActionPreventMovement;
-
+  
     public int slamDamage { get => SlamDamage; set => SlamDamage = value; }
     public Color slamColour { get => SlamColor; set => SlamColor = value; }
     public float chargeTime { get => ChargeTime; set => ChargeTime = value; }
     public Stat slamRange { get => SlamRange; set => SlamRange = value; }
     public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
-    public bool doesActionPreventMovement { get => DoesActionPreventMovement; set => DoesActionPreventMovement = value; }
 
     protected ISlamActionRequirements slamVariablesAccess;
-    private float chargeUpTimer = 0;
-    private bool chargeComplete = false;
+    protected float chargeUpTimer = 0;
+    protected bool chargeComplete = false;
     protected Vector3 slamOrigin;
     protected bool attackInterrupted = false;
     protected ImpactFieldVisual impactField;
@@ -43,23 +42,31 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     public override void StartAction(Entity entity)
     {
         base.StartAction(entity);
-        
-        slamVariablesAccess = entity as ISlamActionRequirements;
+        SetupSlam();
+        AnimateAttack();
+    }
+    protected virtual void AnimateAttack()
+    {
+        if (ownerEntity is IAnimated animated)
+        {
+            animated.animationManager.PlayAnimation(EnemyAnimations.Attack, 0.05f);
+        }
+    }
+    protected virtual void SetupSlam()
+    {
+        slamVariablesAccess = ownerEntity as ISlamActionRequirements;
         chargeUpTimer = 0;
         chargeComplete = false;
         attackInterrupted = false;
 
-
         //slamImpactField = slamVariablesAccess.SlamImpactField;
-       // Debug.Log("SLAM STRTED");
-
+        // Debug.Log("SLAM STRTED");
 
         slamOrigin = ownerEntity.transform.position + (ownerEntity.transform.forward * slamPositionOffset.z) + (ownerEntity.transform.right * slamPositionOffset.x);
-        
+
         // + ownerEntity.transform.TransformPoint(slamVariablesAccess.slamPositionOffset);
         //EnemyAttackImpactField field = slamVariablesAccess.SPAWNTHING(slamVariablesAccess.DebugSlamObj, slamOrigin).GetComponent<EnemyAttackImpactField>();
         SpawnSlamStartVFX();
-        
     }
 
     public virtual void SpawnSlamStartVFX()
@@ -86,6 +93,10 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             chargeComplete = true;
             SpawnSlamCompleteVFX();
             ExtraSlamEffect();
+            if (slamRange.GetFinalValue() > slamRange.GetBaseValue()) //potential rework if we buff range in some way??
+            {
+                ApplyExtraHeavyEffect();
+            }
             // Debug.Log("SLAMMING");
 
             if (slamRange.GetFinalValue() > slamRange.GetBaseValue())
@@ -150,13 +161,13 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             if (attackInterrupted) { break; }
             if (collider == null) continue;
             if (collider.gameObject == ownerEntity.gameObject) { continue; }
-            if (collider.gameObject.CompareTag("EntitySpawnable")) { continue; }
+            if (collider.gameObject.CompareTag("StaticEntity")) { continue; }
             Entity hitEntity = collider.gameObject.GetComponent<Entity>();
             if (hitEntity == null) { continue; }
             ApplyCustomEffectPerEntity(hitEntity);
             if (slamRange.GetFinalValue() > slamRange.GetBaseValue()) //potential rework if we buff range in some way??
             {
-                ApplyHeavyEffect(hitEntity);
+                ApplyHeavyEffectPerEntity(hitEntity);
             }
 
             //Debug.Log("Processing Loop End");
@@ -179,7 +190,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         EndAction();
     }
 
-    protected virtual void ApplyHeavyEffect(Entity hitEntity)
+    protected virtual void ApplyHeavyEffectPerEntity(Entity hitEntity)
     {
         hitEntity.OnRecieveEffect(
             new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 7f),
@@ -187,6 +198,8 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             true), 
             Color.red);
     }
+
+    protected virtual void ApplyExtraHeavyEffect() { }
 
     public virtual void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
@@ -198,7 +211,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
 
     public override BaseEntityAction Clone()
     {
-        return new BaseSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, DoesActionPreventMovement);
+        return new BaseSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
     }
 }
 // slamVariablesAccess.defaultSlamColour

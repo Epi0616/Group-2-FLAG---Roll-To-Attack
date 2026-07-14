@@ -12,27 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
   m_Name: AiNavTest
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
-  movement:
-    rid: 963243912890679368
-  conditions:
-  - rid: 963243828785184856
-  - rid: 963243899525005379
-  allConditionsRequired: 1
-  exclusive: 0
-  priority: 0
+  conditionalMovement:
+    movement:
+      rid: 5154424275354517573
+    conditions:
+    - rid: 5154424275354517574
+    - rid: 5154424275354517575
+    - rid: 5154424291214753864
+    allConditionsRequired: 1
+    exclusive: 1
+    priority: 1
   references:
     version: 2
     RefIds:
-    - rid: 963243828785184856
+    - rid: 5154424275354517573
+      type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5154424275354517574
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        name: Base
-    - rid: 963243899525005379
+    - rid: 5154424275354517575
       type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        name: Base
-    - rid: 963243912890679368
-      type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: 5154424291214753864
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1

@@ -112,13 +112,6 @@ public class MovementController
 
         //if there are exlcusive actions to choose from and there are no active exclusive actions, choose one to activate.
         if (potentialExclusiveMovements.Count <= 0) return;
-        foreach (ConditionalMovement movement in activeMovements)
-        {
-            if (movement.exclusive)
-            {
-                return;
-            }
-        }
 
         ActivateExclusiveMovement(potentialExclusiveMovements);
     }
@@ -184,9 +177,40 @@ public class MovementController
             chosenMovement = lowestPriorityActiveMovements[randomIndex];
         }
 
+        ConditionalMovement currentExclusiveMovement = null;
+        if (GetCurrentExclusiveMovment(out currentExclusiveMovement))
+        {
+            if (currentExclusiveMovement.priority <= chosenMovement.priority)
+            {
+                return;
+            }
+            else 
+            {
+                availableMovements.Add(currentExclusiveMovement);
+                activeMovements.Remove(currentExclusiveMovement);
+                currentExclusiveMovement.movement.EndMovement();
+                currentExclusiveMovement.ResetConditionsAll();
+            }
+        }
+
         activeMovements.Add(chosenMovement);
         availableMovements.Remove(chosenMovement);
         chosenMovement.movement.StartMovement(entity);
+    }
+
+    private bool GetCurrentExclusiveMovment(out ConditionalMovement currentExclusive)
+    {
+        currentExclusive = null;
+        for (int i = 0; i < activeMovements.Count; i++)
+        {
+            if (activeMovements[i].exclusive)
+            { 
+                currentExclusive = activeMovements[i];
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void CheckForInvalidMovements()

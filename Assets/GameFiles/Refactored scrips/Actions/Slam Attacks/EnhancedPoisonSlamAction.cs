@@ -36,13 +36,13 @@ public class EnhancedPoisonSlamAction : BaseSlamAction , IEnhancedAbility
         poisonField.GetComponent<EnhancedPoisonField>().Initialize(ownerEntity, slamRange.GetFinalValue(), poisonAccess.fieldLifetime, poisonAccess.fieldTickDamage, slamColour, enhancementLevel);
     }
 
-    protected override void ApplyHeavyEffect(Entity hitEntity)
+    protected override void ApplyHeavyEffectPerEntity(Entity hitEntity)
     {
 
     }
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedPoisonSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, DoesActionPreventMovement, enhancementLevel);
+        return new EnhancedPoisonSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, enhancementLevel);
     }
 }

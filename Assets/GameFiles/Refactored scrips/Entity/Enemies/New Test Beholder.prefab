@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 1040010350785506287}
   - component: {fileID: 8820375695994374495}
   - component: {fileID: 7598286688831751278}
+  - component: {fileID: -3849839001096322247}
   m_Layer: 14
   m_Name: New Test Beholder
   m_TagString: Enemy
@@ -64,7 +65,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7318990544171211655}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -26.31, y: 0.7144699, z: -5.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -166,6 +167,8 @@ MonoBehaviour:
   statusSystem: {fileID: 8820375695994374495}
   bodySystem: {fileID: 8816988606077524558}
   textDisplaySystem: {fileID: 7598286688831751278}
+  Agent: {fileID: 453882264669032561}
+  Rb: {fileID: 1810772183547074061}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -175,6 +178,7 @@ MonoBehaviour:
     baseValue: 14
   ConditionalMovementDescriptors:
   - {fileID: 11400000, guid: a0c1ce3b60114a14390cfc4f649d804e, type: 2}
+  - {fileID: 11400000, guid: b4a1ed8795f65d1449cce5f21899a3bf, type: 2}
   - {fileID: 11400000, guid: fb496c70cf88b8248b8065f9f0094b81, type: 2}
   ConditionalActionDescriptors:
   - {fileID: 11400000, guid: d5d6ad1f0bfefe24eaf7cdbb820d7670, type: 2}
@@ -184,6 +188,9 @@ MonoBehaviour:
     baseValue: 1
   IsBeingDisplaced: 0
   CanBeStunned: 1
+  IsStunned: 0
+  AnimationManager: {fileID: -3849839001096322247}
+  SpawnInGround: 0
   EnvironmentLayer:
     serializedVersion: 2
     m_Bits: 3229614080
@@ -245,6 +252,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
   targetCamera: {fileID: 0}
   textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
+--- !u!114 &-3849839001096322247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7318990544171211655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc691c0bb7c62e4d93e6adbc5e3b8ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
+  animator: {fileID: 2760273949079712606}
 --- !u!1001 &1608524248749148935
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,5 +7,4 @@ public interface ISlam
     float chargeTime { get; set; }
     Stat slamRange { get; set; }
     Vector3 slamPositionOffset { get; set; }
-    bool doesActionPreventMovement { get; set; }
 }

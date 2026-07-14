@@ -24,13 +24,14 @@ public class Entity : MonoBehaviour, IEntity
         statusSystem.InitialiseSystem(this);
         healthSystem.InitialiseSystem(this);
         textDisplaySystem.InitialiseSystem(this);
+
     }
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
         int finalDamage = statusSystem.ModifyDamage(amount, damageType);
         float size = Mathf.Clamp(10 + (finalDamage * 1.1f), 48f, 240f);
-        textDisplaySystem.DisplayText(finalDamage.ToString(), color,(int) size);
+        textDisplaySystem.DisplayText(finalDamage.ToString(), color,(int) 55);
         //Debug.Log("DAMAGE TAKEN: " + amount);
         healthSystem.OnTakeDamage(finalDamage);
     }
@@ -51,7 +52,6 @@ public class Entity : MonoBehaviour, IEntity
 
     protected virtual void FixedUpdate()
     {
-
     }
 
     public virtual void UpdateTarget()

@@ -12,23 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
   m_Name: PlayerRockets
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
-  variable: 1
-  action:
-    rid: 5154423959924506697
-  conditions:
-  - rid: 5154423959924506698
-  allConditionsRequired: 0
-  singleUse: 1
-  exclusive: 1
-  priority: 0
+  conditionalAction:
+    action:
+      rid: 5154424227109797961
+    conditions:
+    - rid: 5154424227109797962
+    allConditionsRequired: 0
+    singleUse: 1
+    triggered: 0
+    exclusive: 1
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5154423959924506697
+    - rid: 5154424227109797961
       type: {class: RocketSpawnSlamAction, ns: , asm: Assembly-CSharp}
       data:
         SlamDamage: 0
-        SlamColor: {r: 1, g: 0.5294622, b: 0, a: 1}
+        SlamColor: {r: 1, g: 0.52245235, b: 0, a: 1}
         ChargeTime: 0
         SlamRange:
           baseValue: 10
@@ -36,7 +37,7 @@ MonoBehaviour:
         DoesActionPreventMovement: 0
         EnhancementUpgradeResult: {fileID: 11400000, guid: b2b01437eb4602642b2b3557d6900c82, type: 2}
         numRockets: 3
-    - rid: 5154423959924506698
+    - rid: 5154424227109797962
       type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0

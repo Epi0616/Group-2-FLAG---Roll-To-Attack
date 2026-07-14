@@ -29,6 +29,6 @@ public class EnhancedFreezeSlamAction : BaseSlamAction , IEnhancedAbility
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedFreezeSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, FreezeDuration, DoesActionPreventMovement, enhancementLevel);
+        return new EnhancedFreezeSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, FreezeDuration, preventsMovement, enhancementLevel);
     }
 }

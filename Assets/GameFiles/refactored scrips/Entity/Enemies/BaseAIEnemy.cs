@@ -1,19 +1,17 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable
+public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, IAnimated, ISpawnModifier, IResetable
 {
-    // IGrounded Interface Properties
     [Header("IGrounded Properties")]
     [SerializeField] private LayerMask GroundLayer;
     [SerializeField] private bool IsGrounded;
     public bool isGrounded { get => IsGrounded; set => IsGrounded = value; }
     public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
 
-    // IMoveable Interface Properties
     [Header("IMoveable Properties")]
     [SerializeField] private bool CanMove = true;
     [SerializeField] private Stat MovementSpeed = new Stat(5f);
@@ -25,8 +23,6 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public List<ConditionalMovement> conditionalMovements { get => ConditionalMovements; set => ConditionalMovements = value; }
     public MovementController movementController { get; set; }
 
-
-    // IActionable Interface Properties
     [Header("IActionable Properties")]
     [SerializeField] private List<ConditionalActionDescriptor> ConditionalActionDescriptors = new List<ConditionalActionDescriptor>();
     private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
@@ -36,7 +32,6 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public ActionController actionController { get; set; }
     public bool canAct { get => CanAct; set => CanAct = value; }
 
-    // IKnockbackable Interface Properties
     [Header("IKnockbackable Properties")]
     [SerializeField] private Stat WeightModifier = new Stat(1);
     [SerializeField] private Stat SlammedDMGMod = new Stat(1);
@@ -45,12 +40,20 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public Stat slammedDamageMod { get => SlammedDMGMod; set => SlammedDMGMod = value; }
     public bool isBeingDisplaced { get => IsBeingDisplaced; set => IsBeingDisplaced = value; }
 
-    // IStunable Interface Properties
+    [Header("IStunable Properties")]
     [SerializeField] private bool CanBeStunned = true;
     public bool canBeStunned { get => CanBeStunned; set => CanBeStunned = value; }
 
-    
+    [SerializeField] private bool IsStunned;
+    public bool isStunned { get => IsStunned; set => IsStunned = value; }
 
+    [Header("IAnimated Properties")]
+    [SerializeField] private AnimationManager AnimationManager;
+    public AnimationManager animationManager { get => AnimationManager; set => AnimationManager = value; }
+
+    [Header("ISpawnModifier Properties")]
+    [SerializeField] private bool SpawnInGround = false;
+    public bool spawnInGround { get => SpawnInGround; set => SpawnInGround = value; }
 
     //// ENEMY MOVEMENT AND ACTION PROPERTIES
     //public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
@@ -59,14 +62,10 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     //public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
     //[SerializeField] private List<ConditionalAction> actions = new List<ConditionalAction>();
 
-    
-
     protected override void Start()
     {
         base.Start();
         target = GameObject.FindGameObjectWithTag("Player"); //needs to be moved into interface/system for finding target
-        agent = GetComponent<NavMeshAgent>();
-        rb = GetComponent<Rigidbody>();
         //environmentMask = LayerMask.GetMask("Ground", "Collider Props", "Pedestal");        
         //slamBaseRange = 5f;
         //slamPositionOffset = Vector3.zero;
@@ -93,18 +92,28 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
 
         
         agent.speed = movementSpeed.GetFinalValue();
+
+        animationManager.Initialize(this);
         //EnableAIAgent();
     }
 
     protected override void Update()
     {
         base.Update();
+
         movementController.Update();
         actionController.Update();
         CheckForCanMove();
         CheckForCanAct();
         CheckForDisplacement();
         CheckForGrounded();
+        CheckForStunned();
+    }
+
+    //IResetable
+    public void Reset()
+    {
+        
     }
 
     // IGrounded Interface Methods
@@ -121,6 +130,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     {
         canMove = !(actionController.CheckForMovementBlockersAction() || statusSystem.CheckForMovementBlockersStatus());
         //canMove = !statusSystem.CheckForMovementBlockersStatus();
+        //Debug.Log(statusSystem.CheckForMovementBlockersStatus());
     }
     public void UnpackConditionalMovements()
     {
@@ -163,5 +173,52 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         }
     }
 
-    
+    public void CheckForStunned()
+    {
+        isStunned = statusSystem.CheckForStunnedStatus();
+    }
+
+    protected void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("Environment") && !collision.gameObject.CompareTag("Pedestal")) { return; }
+        if (!isBeingDisplaced) { return; }
+        //if (isKnockedBackByGolem) { return; }
+
+        //Debug.Log("Wall Slam Triggered with DMG Mod of: " + Mathf.Clamp(wallSlamDamageModifierStat.GetFinalValue(), 1.0f, 2.0f));
+
+
+        //OnRecieveEffect(new ActiveStatusEffect(new BaseStunEffect(), new List<BaseCondition> { new DurationCondition(true, 0.5f), new NavMeshReturnCondition(false, this) }));
+
+        float dmgMod = Mathf.Clamp(slammedDamageMod.GetFinalValue(), 1.0f, 5.0f);
+        int appliedDamage = (int)(collision.impulse.magnitude * dmgMod);
+
+
+
+
+        if (statusSystem.CheckForStatusByType(StatusType.Freeze))
+        {
+            //AudioManager.instance.PlayRandomSoundClip(EnemyShatteredSounds);
+            textDisplaySystem.DisplayHigherText("SHATTERED", Color.deepSkyBlue, 52);
+            OnTakeDamage(appliedDamage, Color.deepSkyBlue, DamageType.Shattered);
+            
+        }
+        else if (statusSystem.CheckForStatusByType(StatusType.Crumbling))
+        {
+            //AudioManager.instance.PlayRandomSoundClip(EnemyWallSlamSounds);
+            textDisplaySystem.DisplayHigherText("CRUSHED", Color.sienna, 52);
+            OnTakeDamage(appliedDamage, Color.sienna, DamageType.Slammed);
+        }
+        else
+        {
+            textDisplaySystem.DisplayHigherText("SLAMMED", Color.darkGoldenRod, 52);
+            OnTakeDamage(appliedDamage, Color.darkGoldenRod, DamageType.Slammed);
+        }
+            statusSystem.RemoveEffectByType(StatusType.Knockback);
+
+
+        // Eventual VFX/SFX can go here for wall slams
+        // add a check for the value of dmgMod to increase volume/size of effects
+
+
+    }
 }

@@ -1,9 +1,10 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.AI;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ITarget
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -29,18 +30,16 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [SerializeField] private List<ConditionalActionDescriptor> ConditionalActionDescriptors = new List<ConditionalActionDescriptor>();
     private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
     private bool CanAct = true;
-    public List<ConditionalActionDescriptor> conditionalActionDescriptors { get => ConditionalActionDescriptors; set => ConditionalActionDescriptors = value; }
     public List<ConditionalAction> conditionalActions { get => ConditionalActions; set => ConditionalActions = value; }
     public ActionController actionController { get; set; }
     public bool canAct { get => CanAct; set => CanAct = value; }
 
     [Header("IModifiableActions")]
-    [SerializeField] private List <ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
-    private List<EquippableActionHolder> EquippableActionStorage = new List<EquippableActionHolder>();
-    private List<EquippableActionHolder> EquippableActions = new List<EquippableActionHolder>();
-    public List<ModifiableActionDescriptor> modifiableActionDescriptors { get => ModifiableActionDescriptors; set => ModifiableActionDescriptors = value; }
-    public List<EquippableActionHolder> equippableActionStorage { get => EquippableActionStorage; set => EquippableActionStorage = value; }
-    public List<EquippableActionHolder> equippableActions { get => EquippableActions; set => EquippableActions = value; }
+    [SerializeField] private List<ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
+    private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
+    private List<ModifiableAction> ModifiableActionStorage = new List<ModifiableAction>();
+    public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
+    public List<ModifiableAction> modifiableActionStorage { get => ModifiableActionStorage; set => ModifiableActionStorage = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
 
     [Header("IUsesRigidBody")]
@@ -65,6 +64,13 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public LayerMask pedestalLayer { get => PedestalLayer; set => PedestalLayer = value; }
     public GameObject slamImpactField { get => SlamImpactField; set => SlamImpactField = value; }
 
+    [Header("ITargetRequirements")]
+    [SerializeField] private int PerimeterPointsCount = 0;
+    [SerializeField] private float PerimeterRadius = 0;
+    public int perimeterPointsCount { get => PerimeterPointsCount; set => PerimeterPointsCount = value; }
+    public float perimeterRadius { get => PerimeterRadius; set => PerimeterRadius = value; }
+    public List<Vector3> perimeterPoints { get; set; }
+
     [Header("IPoisonSpawner")]
     [SerializeField] private GameObject PoisonFieldObj;
     [SerializeField] private GameObject EnhancedPoisonFieldObj;
@@ -85,17 +91,21 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IOrbitSpikeSpawner")]
     [SerializeField] private GameObject SpikePrefab;
+    [SerializeField] private GameObject EnhancedSpikePrefab;
     [SerializeField] private float SpikeLifeSpan = 0f;
     [SerializeField] private float OrbitRadius = 0f;
     [SerializeField] private float InitialOrbitSpeed = 0f;
     [SerializeField] private int SpikeDamaged = 0;
     private List<BaseOrbitObject> OrbitObjects = new List<BaseOrbitObject>();
+
     public GameObject spikePrefab { get => SpikePrefab; set => SpikePrefab = value; }
+    public GameObject enhancedSpikePrefab { get => EnhancedSpikePrefab; set => EnhancedSpikePrefab = value; }
     public float spikeLifeSpan { get => SpikeLifeSpan; set => SpikeLifeSpan = value; }
     public float orbitRadius { get => OrbitRadius; set => OrbitRadius = value; }
     public float initialOrbitSpeed { get => InitialOrbitSpeed; set => InitialOrbitSpeed = value; }
     public int spikeDamage { get => SpikeDamaged; set => SpikeDamaged = value; }
     public List<BaseOrbitObject> orbitObjects { get => OrbitObjects; set => OrbitObjects = value; }
+
 
     [Header("IVacuumSpawner")]
     [SerializeField] private GameObject MineObj;
@@ -105,6 +115,9 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public GameObject enhancedMineObj { get => EnhancedMineObj; set => EnhancedMineObj = value; }
     public float mineChargeTime { get => MineChargeTime; set => MineChargeTime = value; }
 
+    [Header("IKnockbackFieldSpawner")]
+    [SerializeField] private GameObject KBFieldPrefab;
+    public GameObject knockbackFieldPrefab { get => KBFieldPrefab; set => KBFieldPrefab = value; }
     protected override void Start()
     {
         base.Start();
@@ -112,13 +125,15 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         inputManager.Initialise(this);
         rb = GetComponent<Rigidbody>();
 
+        InitializePerimeterPoints();
+
         UnpackConditionalMovements();
         movementController.Initialize();
 
         UnpackConditionalActions();
         actionController.Initialize();
 
-        SetUpEquippedActionsFromSO();
+        UnpackModifiableActions();
         actionSelectionSystem = new ActionSelectionSystem(this);
 
         statList.Add(movementSpeed);
@@ -166,7 +181,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     }
     public void UnpackConditionalActions()
     {
-        foreach (var action in conditionalActionDescriptors)
+        foreach (var action in ConditionalActionDescriptors)
         {
             conditionalActions.Add(action.Create());
         }
@@ -180,13 +195,11 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     }
 
     //IModifiableActions Methods
-    public void SetUpEquippedActionsFromSO()
+    public void UnpackModifiableActions()
     { 
-        equippableActions.Clear();
         foreach (ModifiableActionDescriptor modifiableActionDescriptor in ModifiableActionDescriptors)
         {
-            //Debug.Log("added modif action ");
-            equippableActions.Add(new EquippableActionHolder(modifiableActionDescriptor, 0));
+            modifiableActions.Add(modifiableActionDescriptor.Create());
         }
     }
 
@@ -194,6 +207,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public void RemoveObjectFromOrbit(BaseOrbitObject obj)
     {
         orbitObjects.Remove(obj);
+        //UpdateOrbitObjectAngles();
     }
 
     public void UpdateOrbitObjectAngles()
@@ -203,5 +217,58 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
             float angle = i * (360f / orbitObjects.Count);
             orbitObjects[i].UpdateAngle(angle);
         }
+        //Debug.Log("There are currently: " + orbitObjects.Count + " objects in orbit");
+    }
+
+    public void RefreshSpikeAge()
+    {
+        for (int i = 0; i < orbitObjects.Count; i++)
+        {
+            orbitObjects[i].age = 0;
+        }
+    }
+
+    public void EjectEnhancedSpikes()
+    {
+        for (int i = orbitObjects.Count - 1; i >= 0; i--)
+        {
+            if (orbitObjects[i] is EnhancedOrbitingSpike EOS)
+            {
+                EOS.DropOff();
+            }
+        }
+    }
+
+    //ITarget methods
+    public void InitializePerimeterPoints()
+    {
+        perimeterPoints = new List<Vector3>();
+    }
+
+    public void GeneratePerimeterPoints()
+    {
+        List<Vector3> chosenPoints = new List<Vector3>();
+
+        float angleStep = 360 / perimeterPointsCount;
+
+        for (int i = 0; i < perimeterPointsCount; i++)
+        {
+            float angle = angleStep * i;
+            float angleInRad = angle * Mathf.Deg2Rad;
+            Vector3 pointToCheck = transform.position;
+            pointToCheck.x += perimeterRadius * Mathf.Cos(angleInRad);
+            pointToCheck.y = 1.7f; //hard coded to be the height of the arena for now, will adjust at some point...
+            pointToCheck.z += perimeterRadius * Mathf.Sin(angleInRad);
+
+            NavMeshHit hit;
+            NavMesh.SamplePosition(pointToCheck, out hit, 2, NavMesh.AllAreas);
+
+            if (hit.hit)
+            { 
+                chosenPoints.Add(hit.position);
+            }
+        }
+
+        perimeterPoints = chosenPoints;
     }
 }

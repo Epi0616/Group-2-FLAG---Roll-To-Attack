@@ -37,7 +37,7 @@ public class EnhancedSeekingRocket : SeekingRocket
         isBouncing = false;
     }
 
-    protected virtual void FlyUp()
+    protected override void FlyUp()
     {
         Vector3 targetPosition = new Vector3(target.transform.position.x, startHeight + 30, target.transform.position.z);
         Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
@@ -204,7 +204,7 @@ public class EnhancedSeekingRocket : SeekingRocket
             Collider collider = hitColliders[i];
 
             if (collider == null) { continue; }
-            if (collider.CompareTag("VacuumMine")) { continue; }
+            if (target.CompareTag("StaticEntity") || target.CompareTag("PhysicsEntity")) { continue; }
 
             Entity newEntity = collider.GetComponent<Entity>();
 

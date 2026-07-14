@@ -5,10 +5,12 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
     public List<ActiveStatusEffect> currentActiveStatusEffects = new List<ActiveStatusEffect>();
+    private Stat modifiedDamageAmount;
 
     public void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
+        modifiedDamageAmount = new Stat(1f);
     }
 
     public void ResetSystem()
@@ -39,12 +41,16 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             }
 
             currentActiveStatusEffects[i].UpdateConditionsAll();
-
+            
             if ((currentActiveStatusEffects[i].conditions != null && (currentActiveStatusEffects[i].CheckForExpiration()) || currentActiveStatusEffects[i].effect.toBeRemoved))
             {
-               // Debug.Log("Effect Removed");
+                //Debug.Log("Before there are: " + currentActiveStatusEffects.Count + " statuses");
+                //Debug.Log("Effect Removed: " + currentActiveStatusEffects[i].effect.GetType().ToString());
+                
                 currentActiveStatusEffects[i].effect.RemoveEffect();
                 currentActiveStatusEffects.RemoveAt(i);
+                //Debug.Log("Now there are: " + currentActiveStatusEffects.Count + " statuses");
+               
             }
         }
 
@@ -70,7 +76,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             }
         }
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
-        
+        if (OwnerEntity == null) { Debug.Log("Owner Inside of Status System is NULL"); }
         newStatus.effect.AddEffect(OwnerEntity);
         foreach (BaseCondition condition in newStatus.conditions)
         {
@@ -84,7 +90,8 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
     public int ModifyDamage(int damageAmount, DamageType damageType)
     {
         //int modifiedDamageAmount = damageAmount;
-        Stat modifiedDamageAmount = new Stat(damageAmount);
+        modifiedDamageAmount.ResetModifiers();
+        modifiedDamageAmount.AddAdditive(damageAmount);
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
             currentActiveStatusEffects[i].effect.TriggerOnDamageEffects(ref modifiedDamageAmount, damageType);
@@ -123,13 +130,27 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
-            // Simply Check the StatusType Enum against the desired type removing it if found
+            // Simply Check the StatusType Enum against the desired type reseting it if found
             if (currentActiveStatusEffects[i].effect.type == type)
             {
                 currentActiveStatusEffects[i].ResetConditionsAll();
-                //Debug.Log("Status Removed: " + type.ToString());
+                //Debug.Log("Status Reset: " + type.ToString());
             }
         }
+    }
+
+    public bool CheckForStatusByType(StatusType type)
+    {
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            // Simply Check the StatusType Enum against the desired type reseting it if found
+            if (currentActiveStatusEffects[i].effect.type == type)
+            {
+                return true;
+                //Debug.Log("Status Reset: " + type.ToString());
+            }
+        }
+        return false;
     }
 
     public void RecalculateStats()
@@ -186,6 +207,15 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             if (currentActiveStatusEffects[i].effect.isDisplacing) { result = true; }
         }
         return result;
+    }
+
+    public bool CheckForStunnedStatus()
+    {
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (currentActiveStatusEffects[i].effect is BaseStunEffect) { return true; }
+        }
+        return false;
     }
 
 }

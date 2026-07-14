@@ -12,23 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
   m_Name: Laser
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
-  variable: 1
-  action:
-    rid: 963244051395248197
-  conditions:
-  - rid: 963244051395248198
-  - rid: 963244051395248209
-  - rid: 963244070511313001
-  allConditionsRequired: 1
-  singleUse: 0
-  exclusive: 1
-  priority: 0
+  conditionalAction:
+    action:
+      rid: 963244250863239168
+    conditions:
+    - rid: 963244250863239169
+    - rid: 963244250863239170
+    - rid: 5154424323431727178
+    - rid: 963244250863239171
+    allConditionsRequired: 1
+    singleUse: 0
+    triggered: 0
+    exclusive: 1
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 963244051395248197
+    - rid: 963244250863239168
       type: {class: TrackingLaserAction, ns: , asm: Assembly-CSharp}
       data:
+        PreventsMovement: 1
         CastBoxCheckWidth: 1
         CastRange:
           baseValue: 50
@@ -38,21 +41,26 @@ MonoBehaviour:
         IsCastBlockedByEnvironment: 1
         DoesActionPreventMovement: 1
         TickDamage: 1
-        ChargingBeamWidth: 0.5
+        ChargingBeamWidth: 0.25
         ActiveBeamWidth: 1.25
-        ChargingBeamColour: {r: 1, g: 0, b: 0, a: 1}
-        ActiveBeamColour: {r: 0.22745098, g: 0, b: 0.34901962, a: 1}
-    - rid: 963244051395248198
+        ChargingBeamColour: {r: 0.7830189, g: 0.025854412, b: 0.025854412, a: 1}
+        ActiveBeamColour: {r: 0.43628973, g: 0.03804734, b: 0.5377358, a: 1}
+    - rid: 963244250863239169
       type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
         lookThreshold: 10
-    - rid: 963244051395248209
+    - rid: 963244250863239170
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
         distanceThreshold: 35
-    - rid: 963244070511313001
+    - rid: 963244250863239171
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
+    - rid: 5154424323431727178
+      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+        distanceThreshold: 30

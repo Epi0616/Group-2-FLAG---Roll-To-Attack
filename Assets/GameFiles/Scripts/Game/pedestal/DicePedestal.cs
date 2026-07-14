@@ -133,7 +133,6 @@ public class DicePedestal : MonoBehaviour
 
     private IEnumerator DiceStartWaveReaction()
     {
-        Debug.Log("starting wave reaction");
         rotationWeight = 0;
         float timer = 0;
 

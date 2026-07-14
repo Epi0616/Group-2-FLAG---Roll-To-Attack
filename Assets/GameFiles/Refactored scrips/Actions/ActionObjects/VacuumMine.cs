@@ -34,7 +34,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
         this.ownerEntity = ownerEntity;
         this.range = range;
         timer = chargeTime;
-        this.gameObject.layer = 14;
+        //this.gameObject.layer = 14;
 
         ShowRange();
         StartCoroutine(CountDown());
@@ -86,7 +86,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
             if (!colliders[i].gameObject) { continue; }
             if (colliders[i].gameObject == ownerEntity.gameObject) { continue; }
             if (colliders[i].gameObject == this.gameObject) { continue; }
-            if (colliders[i].CompareTag("EntitySpawnable")) { continue; }
+            if (colliders[i].CompareTag("StaticEntity")) { continue; }
             enemies.Add(colliders[i].GetComponent<Entity>());
             
         }

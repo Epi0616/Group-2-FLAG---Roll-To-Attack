@@ -12,41 +12,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
   m_Name: PlayerFreeze
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
-  variable: 1
-  action:
-    rid: 963244116039172170
-  conditions:
-  - rid: 5154423959924506625
-  allConditionsRequired: 0
-  singleUse: 1
-  exclusive: 1
-  priority: 0
+  conditionalAction:
+    action:
+      rid: 5154424227109797984
+    conditions:
+    - rid: 5154424227109797985
+    allConditionsRequired: 0
+    singleUse: 1
+    triggered: 0
+    exclusive: 1
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 963244116039172170
+    - rid: 5154424227109797984
       type: {class: FreezeSlamAction, ns: , asm: Assembly-CSharp}
       data:
         SlamDamage: 30
-        SlamColor: {r: 0.56470275, g: 0.7748423, b: 0.8867924, a: 1}
+        SlamColor: {r: 0.6650944, g: 0.9701473, b: 1, a: 1}
         ChargeTime: 0
         SlamRange:
           baseValue: 10
         SlamPositionOffset: {x: 0, y: 0, z: 0}
         DoesActionPreventMovement: 0
-        FreezeDuration: 1
+        FreezeDuration: 2
         FragileDamageMult: 2
         frozenText:
           m_TableReference:
-            m_TableCollectionName: 
+            m_TableCollectionName: GUID:d2cfdaf00b5778148a5bbc382684a152
           m_TableEntryReference:
-            m_KeyId: 0
+            m_KeyId: 128798306304
             m_Key: 
           m_FallbackState: 0
           m_WaitForCompletion: 0
           m_LocalVariables: []
         EnhancementUpgradeResult: {fileID: 11400000, guid: bacc7194b3bbf8544bced2008319427c, type: 2}
-    - rid: 5154423959924506625
+    - rid: 5154424227109797985
       type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0

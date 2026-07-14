@@ -24,6 +24,8 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
     private float minTurnSpeedDegrees = 60f;
     private float damageTickTimer = 0;
 
+    private IAnimated animated;
+
     public TrackingLaserAction() { }
     public TrackingLaserAction(int tickDamage, float chargingVisualWidth, float activeVisualWidth, Color chargingVisualColour, Color activeVisualColour,
         float castWidth, float castRange, float chargeDuration, float activeDuration, bool isBlockedByEnvironment, bool doesActionPreventMovement) 
@@ -42,7 +44,11 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
     {
         this.ownerEntity = ownerEntity;
         laserAccess = ownerEntity as ILaserRequirements;
-        ownerEntity.bodySystem.body.GetComponent<Animator>().speed = 0f;
+        if (ownerEntity is IAnimated animated) //animation
+        {
+            this.animated = animated;
+        }
+        //ownerEntity.bodySystem.body.GetComponent<Animator>().speed = 0f;
         if (laserAccess == null)
         {
             Debug.LogError("ILaserRequirementsMissing");
@@ -86,6 +92,8 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
         laserAccess.laserVFX.SetVector4("Beam Colour", chargingVisualColour);
         laserAccess.laserVFX.enabled = true;
         //Debug.Log("Laser Started");
+
+        animated.animationManager.PlayAnimation(EnemyAnimations.Charge);
     }
 
     protected override void CastChargeUpdate()
@@ -107,6 +115,8 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
     {
         laserAccess.laserVFX.SetVector4("Beam Colour", activeVisualColour);
         laserAccess.laserVFX.enabled = true;
+
+        animated.animationManager.PlayAnimation(EnemyAnimations.Attack);
     }
 
     protected override void CastActiveUpdate()
@@ -130,7 +140,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
         {
             isComplete = true;
         }
-        ownerEntity.bodySystem.body.GetComponent<Animator>().speed = 1f;
+        //ownerEntity.bodySystem.body.GetComponent<Animator>().speed = 1f;
 
         //Debug.Log("Laser Turned Off");
 
@@ -197,7 +207,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
     {
         if (hit.collider == null) return;
         if (hit.collider.gameObject == ownerEntity.gameObject) { return; }
-        if (hit.collider.gameObject.CompareTag("EntitySpawnable")) { return; }
+        if (hit.collider.gameObject.CompareTag("StaticEntity") || hit.collider.gameObject.CompareTag("PhysicsEntity")) { return; }
 
         Entity hitEntity = hit.collider.gameObject.GetComponent<Entity>();
         if (hitEntity == null) { return; }

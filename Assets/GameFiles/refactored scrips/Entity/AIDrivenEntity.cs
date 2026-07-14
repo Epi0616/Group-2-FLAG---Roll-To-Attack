@@ -4,11 +4,13 @@ using UnityEngine.AI;
 public class AIDrivenEntity : Entity , INavAgent , IUsesRigidBody
 {
     // INavAgent Interface Properties
-    public NavMeshAgent agent {  get; set; }
+    [SerializeField] private NavMeshAgent Agent;
+    public NavMeshAgent agent {  get => Agent; set => Agent = value; }
     public bool isAIDisabled { get; set; }
 
     // IUsesRigidBody Interface Properties
-    public Rigidbody rb { get; set; }
+    [SerializeField] private Rigidbody Rb;
+    public Rigidbody rb { get => Rb; set => Rb = value; }
 
     public virtual void EnableAIAgent()
     {
@@ -44,6 +46,5 @@ public class AIDrivenEntity : Entity , INavAgent , IUsesRigidBody
         rb.useGravity = true;
         rb.isKinematic = false;
         rb.linearDamping = 3f;
-
     }
 }

@@ -30,7 +30,6 @@ public class ActiveStatusEffect
 
                 if (!condition.IsConditionMet())
                 {
-                    //Debug.Log("missing required condition");
                     return false;
                 }
                 
@@ -39,7 +38,6 @@ public class ActiveStatusEffect
             {
                 if (condition.IsConditionMet())
                 {
-                    //Debug.Log("optional condition present");
                     anyNonRequiredPresent = true;
                 }
             }           
@@ -67,5 +65,4 @@ public class ActiveStatusEffect
             condition.ResetCondition();
         }
     }
-
 }

@@ -12,41 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
   m_Name: BasicKnightSlam
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
-  variable: 1
-  action:
-    rid: 963243912890679365
-  conditions:
-  - rid: 963243912890679366
-  - rid: 963244047682502727
-  - rid: 963244070511313000
-  allConditionsRequired: 1
-  singleUse: 0
-  exclusive: 1
-  priority: 0
+  conditionalAction:
+    action:
+      rid: 963244250863239172
+    conditions:
+    - rid: 963244250863239173
+    - rid: 963244250863239174
+    allConditionsRequired: 1
+    singleUse: 0
+    triggered: 0
+    exclusive: 1
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 963243912890679365
+    - rid: 963244250863239172
       type: {class: BaseSlamAction, ns: , asm: Assembly-CSharp}
       data:
+        PreventsMovement: 1
         SlamDamage: 25
-        SlamColor: {r: 0.96469927, g: 1, b: 0, a: 1}
+        SlamColor: {r: 0.97484255, g: 1, b: 0.08018869, a: 1}
         ChargeTime: 0.5
         SlamRange:
-          baseValue: 2.3
+          baseValue: 2
         SlamPositionOffset: {x: 0, y: 0, z: 4}
-        DoesActionPreventMovement: 1
-    - rid: 963243912890679366
-      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        distanceThreshold: 6
-    - rid: 963244047682502727
+    - rid: 963244250863239173
       type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
         lookThreshold: 15
-    - rid: 963244070511313000
-      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+    - rid: 963244250863239174
+      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
-        inverse: 1
+        inverse: 0
+        distanceThreshold: 8

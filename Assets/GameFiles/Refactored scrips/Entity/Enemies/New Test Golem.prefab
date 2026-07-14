@@ -133,6 +133,8 @@ MonoBehaviour:
   statusSystem: {fileID: 7513558762892348773}
   bodySystem: {fileID: 7763164246418716471}
   textDisplaySystem: {fileID: -8321746254293056796}
+  Agent: {fileID: 2568623107282079388}
+  Rb: {fileID: 6763874971792532794}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -151,6 +153,9 @@ MonoBehaviour:
     baseValue: 1
   IsBeingDisplaced: 0
   CanBeStunned: 1
+  IsStunned: 0
+  AnimationManager: {fileID: 0}
+  SpawnInGround: 0
   ImpactFieldPrefab: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
   PedestalLayer:
     serializedVersion: 2
@@ -165,12 +170,15 @@ MonoBehaviour:
   SpikeOrbitSpeed: 360
   SpikeDamage: 5
   SpikePrefab: {fileID: 3002882421794928880, guid: c8ee6abd735f657439cea3c99ac68da8, type: 3}
+  EnhancedSpikePrefab: {fileID: 0}
   VacuumMineDetonationTime: 5
   VacuumMineObj: {fileID: 165927085165346944, guid: 4cc0dd0e06ad2e64ebd77ebcd75abf90, type: 3}
   EnhancedMineObj: {fileID: 0}
   RocketDamage: 10
   RocketObj: {fileID: 1728228439590660443, guid: 797e1db8b193f6f4aac40c546528a581, type: 3}
   EnhancedRocketObj: {fileID: 0}
+  BoulderObj: {fileID: 6204291009419590337, guid: 4f091302c00df0449a66bd729c51dca7, type: 3}
+  BoulderRootBone: {fileID: 0}
 --- !u!114 &7513558762892348773
 MonoBehaviour:
   m_ObjectHideFlags: 0

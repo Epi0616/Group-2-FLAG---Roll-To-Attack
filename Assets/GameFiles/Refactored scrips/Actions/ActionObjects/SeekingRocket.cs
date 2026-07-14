@@ -118,7 +118,7 @@ public class SeekingRocket : MonoBehaviour
             for (int i = 0; i < numHit; i++)
             {
                 if (hitColliders[i].gameObject == null) { continue; }
-                if (hitColliders[i].gameObject.CompareTag("VacuumMine"))
+                if (hitColliders[i].CompareTag("StaticEntity") || hitColliders[i].CompareTag("PhysicsEntity"))
                 {
                     continue;
                 }
@@ -135,7 +135,7 @@ public class SeekingRocket : MonoBehaviour
         target = newTarget;
     }
 
-    protected void FlyUp()
+    protected virtual void FlyUp()
     {
         Vector3 targetPosition = new Vector3(target.transform.position.x, startHeight + 30, target.transform.position.z);
         Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);

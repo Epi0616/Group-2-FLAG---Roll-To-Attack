@@ -2,10 +2,12 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class SpikeSpawnSlamAction : BaseSlamAction
+public class SpikeSpawnSlamAction : BaseSlamAction , IUpgradableAbility
 {
     private IOrbitSpikeSpawner spike;
 
+    [SerializeField] private ModifiableActionDescriptor EnhancementUpgradeResult;
+    public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
     public SpikeSpawnSlamAction() { }
     public SpikeSpawnSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) { }
 
@@ -37,10 +39,11 @@ public class SpikeSpawnSlamAction : BaseSlamAction
             spike.UpdateOrbitObjectAngles();
             orbitObject.Initialize(ownerEntity, ownerEntity.gameObject, spike.orbitRadius, spike.initialOrbitSpeed, spike.spikeDamage, spike.spikeLifeSpan);
         }
+        spike.RefreshSpikeAge();
     }
 
     public override BaseEntityAction Clone()
     {
-        return new SpikeSpawnSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, DoesActionPreventMovement);
+        return new SpikeSpawnSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
     }
 }

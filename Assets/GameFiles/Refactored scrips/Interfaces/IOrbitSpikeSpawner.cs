@@ -14,9 +14,12 @@ public interface IOrbitSpikeSpawner
     public int spikeDamage { get; set; }
 
     public GameObject spikePrefab { get; set; }
+    public GameObject enhancedSpikePrefab { get; set; }
 
     public void RemoveObjectFromOrbit(BaseOrbitObject obj);
 
     public void UpdateOrbitObjectAngles();
 
+    public void RefreshSpikeAge();
+    public void EjectEnhancedSpikes();
 }

@@ -38,13 +38,13 @@ public class PoisonSlamAction : BaseSlamAction , IUpgradableAbility
         poisonField.GetComponent<PoisonField>().Initialize(ownerEntity, slamRange.GetFinalValue(), poisonAccess.fieldLifetime, poisonAccess.fieldTickDamage, slamColour);
     }
 
-    protected override void ApplyHeavyEffect(Entity hitEntity)
+    protected override void ApplyHeavyEffectPerEntity(Entity hitEntity)
     {
 
     }
 
     public override BaseEntityAction Clone()
     {
-        return new PoisonSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, DoesActionPreventMovement);
+        return new PoisonSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
     }
 }
