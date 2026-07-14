@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class ExampleNewEnemy : BaseAISlamEnemy
+public class ExampleNewEnemy : BaseAISlamEnemy, IShieldable
 {
+    public bool shielded { get; set; } = false;
+
     public override void OnRecieveEffect(ActiveStatusEffect statusEffect)
     {
         if (statusEffect.effect.type == StatusType.Knockback)
