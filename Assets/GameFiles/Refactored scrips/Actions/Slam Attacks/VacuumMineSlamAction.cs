@@ -36,7 +36,7 @@ public class VacuumMineSlamAction : BaseSlamAction , IUpgradableAbility
     public override void ExtraSlamEffect()
     {
         GameObject vacuumMine = ObjectPoolManager.SpawnObject(vacuumAccess.mineObj, slamOrigin, Quaternion.identity);
-        vacuumMine.GetComponent<VacuumMine>().Initialize(ownerEntity, slamRange.GetFinalValue(), vacuumAccess.mineChargeTime);
+        vacuumMine.GetComponent<NewVacuumMine>().Initialize(ownerEntity, slamRange.GetFinalValue(), vacuumAccess.mineChargeTime);
     }
 
     public override BaseEntityAction Clone()

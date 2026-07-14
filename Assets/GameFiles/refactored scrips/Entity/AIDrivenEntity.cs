@@ -17,7 +17,7 @@ public class AIDrivenEntity : Entity , INavAgent , IUsesRigidBody
         if (!isAIDisabled) { return; }
 
 
-        Debug.Log("endabling agent");
+        //Debug.Log("endabling agent");
         rb.isKinematic = false;
         rb.linearDamping = 0f;
 
@@ -39,7 +39,7 @@ public class AIDrivenEntity : Entity , INavAgent , IUsesRigidBody
     {
         if (isAIDisabled) { return; }
 
-        Debug.Log("disabling agent");
+        //Debug.Log("disabling agent");
         //agent.enabled = false;
         agent.updatePosition = false;
         agent.updateRotation = false;
