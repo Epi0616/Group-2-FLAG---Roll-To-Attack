@@ -29,7 +29,7 @@ public class BaseSlamActionLevel3 : BaseSlamAction
         //2. how can you spawn this impact field on the player no matter where the attack starts from?
 
         if (attackInterrupted) { return; }
-        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
+        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, ownerEntity.target.transform.position, Quaternion.identity).GetComponent<ImpactFieldVisual>();
 
         bool flashRed = false;
         if (chargeTime > 0)
@@ -44,7 +44,8 @@ public class BaseSlamActionLevel3 : BaseSlamAction
         //1. how can you make the player take 100 damage, with the damage number being blue?
 
         if (slamDamage == 0) { return; }
-        hitEntity.OnTakeDamage(100, Color.blue, DamageType.Normal);
+        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(100f, "frozen"), new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) }, true));
+
     }
 
 
