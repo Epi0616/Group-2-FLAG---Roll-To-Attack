@@ -7,6 +7,7 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
 {
     [SerializeField] private AnimationCurve pullCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] GameObject temporaryImpactField;
+    protected ImpactFieldVisual impactfield;
     //public AudioClip[] mineSpawned;
     //public AudioClip[] mineDetonated;
     protected Entity ownerEntity;
@@ -28,14 +29,15 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         Initialize();
     }
 
-    public void Initialize(Entity ownerEntity, float range, float chargeTime)
+    public void Initialize(Entity ownerEntity, float range, float chargeTime, Color colour)
     {
         detonated = false;
         this.ownerEntity = ownerEntity;
         this.range = range;
         timer = chargeTime;
         //this.gameObject.layer = 14;
-
+        fieldColour = colour;
+        fieldColour.a = 0.1f;
         ShowRange();
         StartCoroutine(CountDown());
     }
@@ -71,9 +73,9 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         {
             if (entity != null)
             {
-                entity.OnRecieveEffect(new ActiveStatusEffect(new VacuumDisplacementEffect(transform.position, 17f),
-                new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) }, true), Color.blue);
-                entity.OnTakeDamage(20, Color.blue, DamageType.Normal);
+                entity.OnRecieveEffect(new ActiveStatusEffect(new VacuumDisplacementEffect(transform.position, 10f),
+                new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) }, true), fieldColour);
+                entity.OnTakeDamage(20, fieldColour, DamageType.Normal);
             }
         }
 
@@ -88,6 +90,7 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
 
         for (int i = 0; i < collisions; i++)
         {
+            if (colliders[i] == null) { continue; }
             if (!colliders[i].gameObject) { continue; }
             if (colliders[i].gameObject == ownerEntity.gameObject) { continue; }
             if (colliders[i].gameObject == this.gameObject) { continue; }
@@ -125,15 +128,22 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
     protected virtual void DestroyMe()
     {
         rb.linearVelocity = Vector3.zero;
+        if (impactfield != null)
+        {
+            impactfield.DestroyMe();
+        }
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     protected void ShowRange()
     {
         //GameObject rangeDisplay = Instantiate(temporaryImpactField, transform.position, Quaternion.identity);
-        GameObject rangeDisplay = ObjectPoolManager.SpawnObject(temporaryImpactField, transform.position, Quaternion.identity);
+        Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        GameObject rangeDisplay = ObjectPoolManager.SpawnObject(temporaryImpactField, spawnPos, Quaternion.identity);
+  
         rangeDisplay.transform.parent = this.transform;
-        rangeDisplay.GetComponent<TemporaryImpactField>().adjustObject(range, 0.25f, 0.15f, timer);
+        impactfield = rangeDisplay.GetComponent<ImpactFieldVisual>();
+        impactfield.PassInValuesColorRadiusChargeTimeFlash(fieldColour, range, timer, false);
     }
 
     protected virtual IEnumerator CountDown()
