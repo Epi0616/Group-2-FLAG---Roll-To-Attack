@@ -7,9 +7,11 @@ using UnityEngine.AI;
 public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, IAnimated, ISpawnModifier, IResetable
 {
     [Header("IGrounded Properties")]
+    [Tooltip("Dont Assign unless necessary")]
+    [SerializeField] private GameObject GroundCheckCastPoint;
     [SerializeField] private LayerMask GroundLayer;
-    [SerializeField] private bool IsGrounded;
-    public bool isGrounded { get => IsGrounded; set => IsGrounded = value; }
+    public GameObject groundCheckCastPoint { get => GroundCheckCastPoint; set => GroundCheckCastPoint = value; }
+    public bool isGrounded { get; set; }
     public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
 
     [Header("IMoveable Properties")]
@@ -71,13 +73,14 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     {
         base.Initialize();
         target = GameObject.FindGameObjectWithTag("Player"); //needs to be moved into interface/system for finding target
+
         //environmentMask = LayerMask.GetMask("Ground", "Collider Props", "Pedestal");        
         //slamBaseRange = 5f;
         //slamPositionOffset = Vector3.zero;
         //defaultSlamColour = Color.white;
         //slamChargeUpTime = 1.5f;
 
-
+        SetGroundedCheckPoint();
         if (rb == null || agent == null)
         {
             Debug.LogError("BaseAIEnemy: Required Component not found from GetComponent");
@@ -131,6 +134,13 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
         Ray ray = new Ray(transform.position, Vector3.down);
         isGrounded = (Physics.Raycast(ray, out hit, 1.3f, groundLayer));
         //IsGrounded = (Physics.Raycast(ray, out hit, 1.3f, environmentMask));
+    }
+    public void SetGroundedCheckPoint()
+    {
+        if (!groundCheckCastPoint)
+        {
+            groundCheckCastPoint = gameObject;
+        }
     }
 
     // IMoveable Interface Methods

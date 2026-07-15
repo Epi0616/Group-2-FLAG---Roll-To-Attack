@@ -77,6 +77,8 @@ public class PauseMenu : MonoBehaviour
         //    TransitionManager.LoadScene("Menu", 0.5f, 1f);
         //}
 
+        //ObjectPoolManager.DestroyObjectsOfType(ObjectPoolManager.PoolType.ArenaObjects);
+
         ReturnToIntro?.Invoke();           
     }
 
@@ -121,6 +123,4 @@ public class PauseMenu : MonoBehaviour
             pauseMenuButtons[i].SetActive(visible);
         }
     }
-
-
 }
