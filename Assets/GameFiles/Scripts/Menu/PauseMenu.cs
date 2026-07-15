@@ -33,7 +33,6 @@ public class PauseMenu : MonoBehaviour
         pauseGame.action.performed -= HandlePauseGame;
         backButton.action.performed -= HandleBackButton;
     }
-
     private void HandlePauseGame(InputAction.CallbackContext context)
     {
         if (EventSystem.current.currentSelectedGameObject != null)
