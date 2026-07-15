@@ -6,7 +6,7 @@ using UnityEngine.Localization;
 [Serializable]
 public class EnhancedFreezeSlamAction : BaseSlamAction , IEnhancedAbility
 {
-    public float FreezeDuration = 1f;
+    public float FreezeDuration = 5f;
     public float FragileDamageMult = 2f;
     public LocalizedString frozenText;
     //[SerializeField] private int EnhancementLevel;

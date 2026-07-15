@@ -101,6 +101,10 @@ public class KnockbackField : MonoBehaviour
             new ActiveStatusEffect(new EnhancedCrumblingStatus(CrumblingDamageMod, slamColour, ownerEntity, enhancementLevel),
             new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
             true));
+        hitEntity.OnRecieveEffect(
+            new ActiveStatusEffect(new HordeCollisionStatus(ownerEntity),
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+            true));
     }
 
     public virtual void Initialize(Entity entity, float crumblingDamageMod, float radius, float lifespan, Color colour, int enhancementLevel)

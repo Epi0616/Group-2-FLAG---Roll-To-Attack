@@ -92,16 +92,23 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
         //int modifiedDamageAmount = damageAmount;
         modifiedDamageAmount.ResetModifiers();
         modifiedDamageAmount.AddAdditive(damageAmount);
-        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
-        {
-            currentActiveStatusEffects[i].effect.TriggerOnDamageEffects(ref modifiedDamageAmount, damageType);
-            
-            // Call Status OnTakeDamage or equivelent trigger
-            // Can return either the adjusted value and immediately update modifiedDamageAmount 
-            // or return the delta and aggregate them applying it at the end to modify the dmg
-            // Depends if we want each status to apply its modification in isolation or have the previous effect modifications effect the next ones
-        }        
+        //for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        //{
+        //    if (currentActiveStatusEffects[i] == null || currentActiveStatusEffects[i].effect.toBeRemoved) { continue; }
+        //    currentActiveStatusEffects[i].effect.TriggerOnDamageEffects(ref modifiedDamageAmount, damageType);
 
+        //    // Call Status OnTakeDamage or equivelent trigger
+        //    // Can return either the adjusted value and immediately update modifiedDamageAmount 
+        //    // or return the delta and aggregate them applying it at the end to modify the dmg
+        //    // Depends if we want each status to apply its modification in isolation or have the previous effect modifications effect the next ones
+        //}
+        int i = 0;
+        while (i < currentActiveStatusEffects.Count)
+        {
+            ActiveStatusEffect wewa = currentActiveStatusEffects[i];
+            currentActiveStatusEffects[i].effect.TriggerOnDamageEffects(ref modifiedDamageAmount, damageType);
+            if (i < currentActiveStatusEffects.Count && currentActiveStatusEffects[i] == wewa) { i++; }
+        }
         return Mathf.FloorToInt(modifiedDamageAmount.GetFinalValue());
     }
 

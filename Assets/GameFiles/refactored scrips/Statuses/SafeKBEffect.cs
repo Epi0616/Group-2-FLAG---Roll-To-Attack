@@ -1,9 +1,21 @@
 using UnityEngine;
 
-public class BaseDisplacementEffect : StatusEffect
+public class SafeKBEffect : StatusEffect
 {
+    Vector3 origin;
+    float force;
     protected IKnockbackable knockbackInterfaceAccess;
     protected IUsesRigidBody rbInterfaceAccess;
+    public SafeKBEffect(Vector3 origin, float force)
+    {
+        this.origin = origin;
+        this.force = force;
+        type = StatusType.Knockback;
+        preventsMovement = true;
+        preventsAction = true;
+        isDisplacing = false;
+        isStackable = true;
+    }
 
     protected override void OnApplication()
     {
@@ -31,19 +43,21 @@ public class BaseDisplacementEffect : StatusEffect
 
         if (!isActive) { toBeRemoved = true; return; }
 
-        preventsMovement = true;
-        preventsAction = true;
-        isDisplacing = true;
-        isStackable = true;
+        rbInterfaceAccess.rb.linearVelocity = Vector3.zero;
+        Vector3 targetVector = (entityRef.transform.position - origin);
+
+        Vector3 targetDirection = targetVector.normalized;
+        targetDirection.y = 0.3f;
+        rbInterfaceAccess.rb.AddForce(targetDirection * ((force * knockbackInterfaceAccess.knockbackWeightMod.GetFinalValue()) * 10f), ForceMode.VelocityChange);
     }
 
     protected override void OnFixedUpdate()
     {
         if (isActive && rbInterfaceAccess.rb.linearVelocity.y < 0)
         {
-            
+
             rbInterfaceAccess.rb.AddForce(new Vector3(0, -2.0f, 0), ForceMode.Impulse);
-            
+
         }
     }
 

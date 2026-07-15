@@ -34,6 +34,7 @@ public class Entity : MonoBehaviour, IEntity, IResetable
     public virtual void Reset()
     {
         healthSystem.ResetSystem();
+        statusSystem.ResetSystem();
     }
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)
@@ -44,6 +45,13 @@ public class Entity : MonoBehaviour, IEntity, IResetable
         //Debug.Log("DAMAGE TAKEN: " + amount);
         healthSystem.OnTakeDamage(finalDamage);
     }
+    public virtual void OnRecieveHeal(int amount, Color color)
+    {
+        float size = Mathf.Clamp(10 + (amount * 1.1f), 48f, 240f);
+        textDisplaySystem.DisplayText(amount.ToString(), color, (int)55);
+        healthSystem.OnHeal(amount);
+    }
+    
     public virtual void OnRecieveEffect(ActiveStatusEffect statusEffect, Color effectColour)
     {
         textDisplaySystem.DisplayHigherText(statusEffect.effect.GetEffectText(), effectColour, 52);
