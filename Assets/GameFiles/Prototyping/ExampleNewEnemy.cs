@@ -11,7 +11,7 @@ public class ExampleNewEnemy : BaseAISlamEnemy
         else
         {
             OnRecieveHeal(15, Color.green);
-            textDisplaySystem.DisplayHigherText("Healed", Color.green, 52);
+            textDisplaySystem.DisplayHigherText("Absorbed", Color.green, 52);
         }
             
     }
@@ -25,7 +25,7 @@ public class ExampleNewEnemy : BaseAISlamEnemy
         else
         {
             OnRecieveHeal(15, Color.green);
-            textDisplaySystem.DisplayHigherText("Healed", Color.green, 52);
+            textDisplaySystem.DisplayHigherText("Absorbed", Color.green, 52);
         }
     }
 }

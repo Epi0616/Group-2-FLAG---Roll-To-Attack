@@ -24,11 +24,10 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     {
         if (type == DamageType.Shattered || hasProcced) { toBeRemoved = true; return; }
 
-        damageTaken += (int)damage.GetBaseValue();
+        damageTaken += (int)damage.GetFinalValue();
         if (damageTaken > shatterThreshold)
         {
-            float extraShatteredDamage = (damage.GetBaseValue() * 0.3f) * enhancementLevel;
-
+            float extraShatteredDamage = (damageTaken * 0.5f) * enhancementLevel;
             entityRef.OnTakeDamage((int)extraShatteredDamage, Color.deepSkyBlue, DamageType.Shattered);
             entityRef.textDisplaySystem.DisplayHigherText("SHATTERED", Color.deepSkyBlue, 64);
             hasProcced = true;
@@ -40,7 +39,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     protected override void OnRemoval()
     {
         base.OnRemoval();
-        Debug.Log("E-Freeze Removed");
+        //Debug.Log("E-Freeze Removed");
     }
 
 }

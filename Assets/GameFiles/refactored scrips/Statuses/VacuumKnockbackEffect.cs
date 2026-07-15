@@ -20,7 +20,7 @@ public class VacuumDisplacementEffect : BaseDisplacementEffect
     {
         base.OnApplication();
         if (!isActive) return;
-        Debug.Log("Active Vacuum Applied");
+        //Debug.Log("Active Vacuum Applied");
         rbInterfaceAccess.rb.linearVelocity = Vector3.zero;
         Vector3 targetVector = (entityRef.transform.position - origin);
 
