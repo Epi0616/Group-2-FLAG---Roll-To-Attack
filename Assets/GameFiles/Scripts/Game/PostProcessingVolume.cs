@@ -6,12 +6,12 @@ public class PostProcessing : MonoBehaviour
     [SerializeField] private Volume volume;
     private void OnEnable()
     {
-        VideoSettingUI.togglePostProcessing += TogglePostProcessing;
+        PostProcessingSetting.togglePostProcessing += TogglePostProcessing;
     }
 
     private void OnDisable()
     {
-        VideoSettingUI.togglePostProcessing -= TogglePostProcessing;
+        PostProcessingSetting.togglePostProcessing -= TogglePostProcessing;
     }
     private void TogglePostProcessing(bool isActive)
     { 

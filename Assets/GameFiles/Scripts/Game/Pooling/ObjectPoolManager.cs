@@ -14,6 +14,8 @@ public class ObjectPoolManager : MonoBehaviour
     public static Dictionary<GameObject, ObjectPool<GameObject>> objectPools;
     public static Dictionary<GameObject, GameObject> cloneToPrefabMap;
 
+    public static HashSet<GameObject> activeObjects { get; private set; }
+
     public enum PoolType
     {
         GameObjects = 0
@@ -30,6 +32,7 @@ public class ObjectPoolManager : MonoBehaviour
 
         objectPools = new Dictionary<GameObject, ObjectPool<GameObject>>();
         cloneToPrefabMap = new Dictionary<GameObject, GameObject>();
+        activeObjects = new HashSet<GameObject>();
 
         SetUpEmpties();
     }
@@ -59,6 +62,7 @@ public class ObjectPoolManager : MonoBehaviour
         }
 
         cloneToPrefabMap?.Clear();
+        activeObjects?.Clear();
     }
 
     private static void CreatePool(GameObject prefab, Vector3 position, Quaternion rotation, PoolType poolType = PoolType.GameObjects)
@@ -96,6 +100,7 @@ public class ObjectPoolManager : MonoBehaviour
     { 
         if (obj != null)
         {
+            activeObjects.Remove(obj);
             obj.SetActive(false);
         }
     }
@@ -113,11 +118,9 @@ public class ObjectPoolManager : MonoBehaviour
         switch (poolType)
         {
             case PoolType.GameObjects:
-
                 return gameObjectsEmpty;
 
             default:
-
                 return null;
         }
     }
@@ -139,6 +142,7 @@ public class ObjectPoolManager : MonoBehaviour
             }
 
             //Debug.Log($"Pools: {objectPools.Count}, Active objects tracked: {cloneToPrefabMap.Count}");
+            activeObjects.Add(obj);
 
             obj.transform.position = spawnPosition;
             obj.transform.rotation = spawnRotation;

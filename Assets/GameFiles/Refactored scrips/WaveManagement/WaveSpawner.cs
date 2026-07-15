@@ -57,6 +57,8 @@ public class WaveSpawner : MonoBehaviour
                 StartCoroutine(ActivateEntityBlock(currentEntityBlocks[j]));
             }
         }
+
+        yield return new WaitForSeconds(3f);
         waveFinishedSpawning?.Invoke();
     }
 

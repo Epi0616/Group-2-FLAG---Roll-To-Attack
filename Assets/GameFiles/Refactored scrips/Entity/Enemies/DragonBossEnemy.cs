@@ -19,6 +19,5 @@ public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable
     protected override void Start()
     {
         base.Start();
-        Initialize();
     }
 }
