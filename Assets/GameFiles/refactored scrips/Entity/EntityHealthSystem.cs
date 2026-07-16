@@ -21,7 +21,7 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
         isDead = false;
     }
 
-    public virtual void OnTakeDamage(int damageAmount)
+    public virtual void OnTakeDamage(int damageAmount, DamageType type)
     {
         currentHealth -= damageAmount;
         if (currentHealth <= 0)

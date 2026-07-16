@@ -16,25 +16,59 @@ MonoBehaviour:
   - Text: This is your Health
     pos: {x: 0, y: -440}
     usesPortrait: 1
-    pausesGame: 0
+    pausesGame: 1
+    condition:
+      rid: 8791738236100149380
   - Text: f it gets below 0 then you will die
     pos: {x: 0, y: -440}
     usesPortrait: 1
-    pausesGame: 0
+    pausesGame: 1
+    condition:
+      rid: 8791738236100149398
   - Text: This is the wave counter
     pos: {x: -922, y: 340}
     usesPortrait: 1
     pausesGame: 0
+    condition:
+      rid: 8791738236100149382
   - Text: This showcases the current wave you are on and how many waves you have
       completed
     pos: {x: -922, y: 340}
     usesPortrait: 1
     pausesGame: 0
+    condition:
+      rid: 8791738236100149383
   - Text: Lastly, this showcases the enemies remaining in the arena
     pos: {x: 443, y: 400}
     usesPortrait: 1
     pausesGame: 0
+    condition:
+      rid: 8791738236100149384
   - Text: Once all enemies have been killed, the next wave begins
     pos: {x: 0, y: 330}
     usesPortrait: 1
     pausesGame: 0
+    condition:
+      rid: 8791738236100149385
+  references:
+    version: 2
+    RefIds:
+    - rid: 8791738236100149380
+      type: {class: WaitForLeftClickCondition, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8791738236100149382
+      type: {class: WaitForLeftClickCondition, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8791738236100149383
+      type: {class: WaitForLeftClickCondition, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8791738236100149384
+      type: {class: WaitForLeftClickCondition, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8791738236100149385
+      type: {class: WaitForLeftClickCondition, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8791738236100149398
+      type: {class: WaitForTime, ns: , asm: Assembly-CSharp}
+      data:
+        duration: 3

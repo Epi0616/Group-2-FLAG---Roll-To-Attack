@@ -13,11 +13,24 @@ MonoBehaviour:
   m_Name: Test Stage 1
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStage
   TextLines:
-  - Text: Hello Dice Warrior,
+  - Text: Hello Dice Warrior, I am your Dungeon Master
     pos: {x: -780, y: -450}
     usesPortrait: 1
     pausesGame: 0
+    condition:
+      rid: 8791738236100149378
   - Text: I will be teaching you some pro tips and tricks on how to survive the arena
     pos: {x: -780, y: -450}
     usesPortrait: 1
-    pausesGame: 0
+    pausesGame: 1
+    condition:
+      rid: 8791738236100149379
+  references:
+    version: 2
+    RefIds:
+    - rid: 8791738236100149378
+      type: {class: WaitForLeftClickCondition, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8791738236100149379
+      type: {class: WaitForLeftClickCondition, ns: , asm: Assembly-CSharp}
+      data: 

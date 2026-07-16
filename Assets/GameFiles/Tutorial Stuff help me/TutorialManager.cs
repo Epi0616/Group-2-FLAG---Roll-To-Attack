@@ -10,33 +10,13 @@ public class TutorialManager : MonoBehaviour
     private RectTransform portraitRect;
     [SerializeField] private List<TutorialStage> stages = new List<TutorialStage>();
     private float boxWidth = 424f;
+    private TutorialStage currentStage;
     public void Start()
     {
         textBox = TutorialTextBoxObj.GetComponentInChildren<TutorialTextBox>();
         boxRect = TutorialTextBoxObj.GetComponent<RectTransform>();
         portraitRect = TutorialPortraitObj.GetComponent<RectTransform>();
         StartCoroutine(StartTutorialDisplay());
-    }
-
-    public void Update()
-    {
-        //timer += Time.deltaTime;
-        //if (timer > interval)
-        //{
-        //    StartStage(stages[index]);
-        //    if (index < stages.Count - 1)
-        //    {
-        //        Debug.Log(index);
-        //        index++;
-        //    }
-        //    timer = 0;
-        //}
-    }
-
-    public void StartStage(TutorialStage stage)
-    {
-        textBox.DisplayText(stage.TextLines[0].Text);
-        boxRect.anchoredPosition = stage.TextLines[0].pos;
     }
 
     public IEnumerator StartTutorialDisplay()
@@ -46,57 +26,70 @@ public class TutorialManager : MonoBehaviour
 
         foreach (TutorialStage stage in stages)
         {
-            yield return DisplayText(stage);
+            yield return StartStage(stage);
         }
         Debug.Log("Tutorial finished");
     }
 
-    public IEnumerator DisplayText(TutorialStage stage)
+    public IEnumerator StartStage(TutorialStage stage)
     {
+        currentStage = stage;
         TutorialTextBoxObj.SetActive(true);
-        foreach (TutorialText text in stage.TextLines)
+        foreach (TutorialStep step in stage.TextLines)
         {
-            textBox.DisplayText(text.Text);
-            boxRect.anchoredPosition = text.pos;
+            textBox.DisplayText(step.Text);
+            boxRect.anchoredPosition = step.pos;
 
-            if (text.usesPortrait)
+            if (step.usesPortrait)
             {
                 TutorialPortraitObj.SetActive(true);
-               // portraitRect.anchoredPosition = new Vector2(boxRect.anchoredPosition.x > 0 ? boxWidth : -boxWidth, 0);
-                Vector2 pos = Vector2.zero;
-                if (boxRect.anchoredPosition.x > 0)
+                float x = boxRect.anchoredPosition.x;
+                float dir = Mathf.Sign(x);
+                if (Mathf.Abs(x) > 800)
                 {
-                    if (boxRect.anchoredPosition.x > 800)
-                    {
-                        pos.x = -boxWidth;
-                    }
-                    else
-                    {
-                        pos.x = boxWidth;
-                    }
-                        
+                    dir *= -1;
                 }
-                else
-                {
-                    if (boxRect.anchoredPosition.x < -800)
-                    {
-                        pos.x = boxWidth;
-                    }
-                    else
-                    {
-                        pos.x = -boxWidth;
-                    }
-                        
-                }
-                portraitRect.anchoredPosition = pos;
+                portraitRect.anchoredPosition = new Vector2(dir * boxWidth, 0);
+                //Vector2 pos = Vector2.zero;
+                //if (boxRect.anchoredPosition.x > 0)
+                //{
+                //    if (boxRect.anchoredPosition.x > 800)
+                //    {
+                //        pos.x = -boxWidth;
+                //    }
+                //    else
+                //    {
+                //        pos.x = boxWidth;
+                //    }                       
+                //}
+                //else
+                //{
+                //    if (boxRect.anchoredPosition.x < -800)
+                //    {
+                //        pos.x = boxWidth;
+                //    }
+                //    else
+                //    {
+                //        pos.x = -boxWidth;
+                //    }                       
+                //}
+                //portraitRect.anchoredPosition = pos;
             }
 
-            yield return new WaitUntil(() => !Input.GetMouseButton(0));
-            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+            if (step.pausesGame)
+            {
+                //ToggleGameplayPause(true);
+                Time.timeScale = 0;
+            }
 
+            yield return step.condition.Wait(this);
+
+            //ToggleGameplayPause(false);
+            Time.timeScale = 1;
             TutorialPortraitObj.SetActive(false);
         }
         TutorialTextBoxObj.SetActive(false);
         Debug.Log("Display for Stage Finished");
     }
+
 }
