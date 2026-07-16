@@ -41,10 +41,9 @@ public class BaseSlamActionLevel3 : BaseSlamAction
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        //1. how can you make the player take 100 damage, with the damage number being blue?
 
         if (slamDamage == 0) { return; }
-        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(100f, "frozen"), new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) }, true));
+        //hitEntity.OnTakeDamage(100, new Color(0, 255, 255, 255), DamageType.Normal);
 
     }
 
