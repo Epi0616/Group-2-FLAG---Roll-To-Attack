@@ -121,6 +121,8 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public override void Reset()
     {
         base.Reset();
+        if (target == null)
+            target = GameObject.FindGameObjectWithTag("Player"); //same as in initialize, move to a interface/function responsible for finding a target
         if (movementController!=null)
             movementController.Reset();
         if (actionController != null)
@@ -131,7 +133,7 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public void CheckForGrounded()
     {
         RaycastHit hit;
-        Ray ray = new Ray(transform.position, Vector3.down);
+        Ray ray = new Ray(groundCheckCastPoint.transform.position, Vector3.down);
         isGrounded = (Physics.Raycast(ray, out hit, 1.3f, groundLayer));
         //IsGrounded = (Physics.Raycast(ray, out hit, 1.3f, environmentMask));
     }

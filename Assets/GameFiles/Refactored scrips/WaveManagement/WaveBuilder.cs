@@ -68,7 +68,8 @@ public class WaveBuilder : MonoBehaviour
     {
         List<WaveGroup> chosenWaveGroups = new List<WaveGroup>();
 
-        int remainingBudget = currentBudget + budgetIncreasePerWave * waveIndex;
+        currentBudget = startingBudget + budgetIncreasePerWave * waveIndex;
+        int remainingBudget = currentBudget;
         while (remainingBudget > 0)
         {
             affordableEntities.Clear();
