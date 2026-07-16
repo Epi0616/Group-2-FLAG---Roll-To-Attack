@@ -7,11 +7,13 @@ public class PackUpArenaManager : MonoBehaviour
 {
     private void OnEnable()
     {
-        PauseMenu.ReturnToIntro += ReturnActiveEntitiesToPool;
+        PauseMenu.PackUpScene += ReturnActiveEntitiesToPool;
+        GameOverMenu.PackUpScene += ReturnActiveEntitiesToPool;
     }
     private void OnDisable()
     {
-        PauseMenu.ReturnToIntro -= ReturnActiveEntitiesToPool;
+        PauseMenu.PackUpScene -= ReturnActiveEntitiesToPool;
+        GameOverMenu.PackUpScene -= ReturnActiveEntitiesToPool;
     }
 
     public void ReturnActiveEntitiesToPool()
@@ -22,15 +24,21 @@ public class PackUpArenaManager : MonoBehaviour
         {
             GameObject obj = activeEntities[i];
             if (obj == null) continue;
+            //if (!obj.activeSelf) continue;
             if (obj.TryGetComponent<Entity>(out Entity entity))
             {
-                if (entity is IActionable temp)
+                entity.healthSystem.isDead = true;
+                if (entity is IActionable actionable)
                 {
-                    temp.actionController.InterruptAllActive();
+                    actionable.actionController.InterruptAllActive();
                 }
+                //if (entity is IMoveable moveable)
+                //{ 
+                //    moveable.movementController.
+                //}
                 entity.statusSystem.currentActiveStatusEffects.Clear();
-            }
-            ObjectPoolManager.ReturnObjectToPool(obj);
+                ObjectPoolManager.ReturnObjectToPool(obj);
+            }  
         }
     }
 }

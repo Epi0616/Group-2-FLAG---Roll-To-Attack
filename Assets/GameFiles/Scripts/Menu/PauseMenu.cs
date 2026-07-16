@@ -6,6 +6,7 @@ using System;
 
 public class PauseMenu : MonoBehaviour
 {
+    public static event Action PackUpScene;
     public static event Action ReturnToIntro;
     public static event Action GamePaused;
     public static event Action GameUnPaused;
@@ -79,6 +80,7 @@ public class PauseMenu : MonoBehaviour
 
         //ObjectPoolManager.DestroyObjectsOfType(ObjectPoolManager.PoolType.ArenaObjects);
 
+        PackUpScene?.Invoke();
         ReturnToIntro?.Invoke();           
     }
 

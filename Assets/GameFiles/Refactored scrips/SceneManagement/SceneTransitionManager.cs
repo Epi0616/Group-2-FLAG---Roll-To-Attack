@@ -21,12 +21,14 @@ public class SceneTransitionManager : MonoBehaviour
     {
         MoveableProp.GameStart += HandleGameStart;
         PauseMenu.ReturnToIntro += HandleIntroStart;
+        GameOverMenu.ReturnToIntro += HandleIntroStart;
     }
 
     private void OnDisable()
     {
         MoveableProp.GameStart -= HandleGameStart;
         PauseMenu.ReturnToIntro -= HandleIntroStart;
+        GameOverMenu.ReturnToIntro -= HandleIntroStart;
     }
 
     void Start()
