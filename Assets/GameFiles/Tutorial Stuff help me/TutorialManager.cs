@@ -4,15 +4,17 @@ using System.Collections;
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private GameObject TutorialTextBoxObj;
-    [SerializeField] private string wewa;
+    [SerializeField] private GameObject TutorialPortraitObj;
     private TutorialTextBox textBox;
     private RectTransform boxRect;
+    private RectTransform portraitRect;
     [SerializeField] private List<TutorialStage> stages = new List<TutorialStage>();
-
+    private float boxWidth = 424f;
     public void Start()
     {
         textBox = TutorialTextBoxObj.GetComponentInChildren<TutorialTextBox>();
         boxRect = TutorialTextBoxObj.GetComponent<RectTransform>();
+        portraitRect = TutorialPortraitObj.GetComponent<RectTransform>();
         StartCoroutine(StartTutorialDisplay());
     }
 
@@ -57,8 +59,42 @@ public class TutorialManager : MonoBehaviour
             textBox.DisplayText(text.Text);
             boxRect.anchoredPosition = text.pos;
 
+            if (text.usesPortrait)
+            {
+                TutorialPortraitObj.SetActive(true);
+               // portraitRect.anchoredPosition = new Vector2(boxRect.anchoredPosition.x > 0 ? boxWidth : -boxWidth, 0);
+                Vector2 pos = Vector2.zero;
+                if (boxRect.anchoredPosition.x > 0)
+                {
+                    if (boxRect.anchoredPosition.x > 800)
+                    {
+                        pos.x = -boxWidth;
+                    }
+                    else
+                    {
+                        pos.x = boxWidth;
+                    }
+                        
+                }
+                else
+                {
+                    if (boxRect.anchoredPosition.x < -800)
+                    {
+                        pos.x = boxWidth;
+                    }
+                    else
+                    {
+                        pos.x = -boxWidth;
+                    }
+                        
+                }
+                portraitRect.anchoredPosition = pos;
+            }
+
             yield return new WaitUntil(() => !Input.GetMouseButton(0));
             yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+
+            TutorialPortraitObj.SetActive(false);
         }
         TutorialTextBoxObj.SetActive(false);
         Debug.Log("Display for Stage Finished");

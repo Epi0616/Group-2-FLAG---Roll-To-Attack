@@ -14,4 +14,6 @@ public class TutorialText
 {
     public string Text;
     public Vector2 pos;
+    public bool usesPortrait;
+    public bool pausesGame;
 }
