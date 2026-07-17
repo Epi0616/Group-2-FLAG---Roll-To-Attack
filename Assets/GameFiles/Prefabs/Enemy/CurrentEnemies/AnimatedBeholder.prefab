@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1211117240376927727}
   - component: {fileID: 6404759980654416571}
   - component: {fileID: 6388073139971425162}
-  - component: {fileID: 5755641029052898903}
+  - component: {fileID: 4219119837737092459}
   m_Layer: 14
   m_Name: AnimatedBeholder
   m_TagString: Enemy
@@ -137,10 +137,10 @@ MonoBehaviour:
   textDisplaySystem: {fileID: 6388073139971425162}
   Agent: {fileID: 6302179946272333017}
   Rb: {fileID: 4437499835030684712}
+  GroundCheckCastPoint: {fileID: 0}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
-  IsGrounded: 0
   CanMove: 1
   MovementSpeed:
     baseValue: 14
@@ -158,7 +158,7 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
-  AnimationManager: {fileID: 5755641029052898903}
+  AnimationManager: {fileID: 4219119837737092459}
   SpawnInGround: 0
   EnvironmentLayer:
     serializedVersion: 2
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
   targetCamera: {fileID: 0}
   textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
---- !u!114 &5755641029052898903
+--- !u!114 &4219119837737092459
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -233,17 +233,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 954633043956504798}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56532081093b3874a8eca22fd3748215, type: 3}
+  m_Script: {fileID: 11500000, guid: ce8f1547a0261e446883846640561a76, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationOnDemandManager
   animator: {fileID: 8405106665255638016}
   animationClipTypes:
   - type: 3
     clip: {fileID: 7400000, guid: 3f5308f5d333ffe4ea3b0f6b3353d880, type: 2}
-  - type: 5
-    clip: {fileID: 7400000, guid: dba979037b7870e4aa2164b013e57ee3, type: 2}
   - type: 4
     clip: {fileID: 7400000, guid: af803810dc6c1634a853cd1fbc75e2e1, type: 2}
+  - type: 5
+    clip: {fileID: 7400000, guid: dba979037b7870e4aa2164b013e57ee3, type: 2}
 --- !u!1001 &2827915832216000338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -406,7 +406,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8233657497617741954, guid: 7547b5745d9db394ca4a7760f5bf8b0a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

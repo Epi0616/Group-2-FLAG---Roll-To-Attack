@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1191412461925248127}
   - component: {fileID: 2596758571583556977}
   - component: {fileID: 8617361199015963139}
-  - component: {fileID: 7396641385401492555}
+  - component: {fileID: 4991405219489296263}
   m_Layer: 14
   m_Name: AnimatedGolem
   m_TagString: Enemy
@@ -136,10 +136,10 @@ MonoBehaviour:
   textDisplaySystem: {fileID: 8617361199015963139}
   Agent: {fileID: 2591835061271181653}
   Rb: {fileID: 3834883931027573630}
+  GroundCheckCastPoint: {fileID: 0}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
-  IsGrounded: 0
   CanMove: 1
   MovementSpeed:
     baseValue: 18
@@ -158,7 +158,7 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
-  AnimationManager: {fileID: 7396641385401492555}
+  AnimationManager: {fileID: 4991405219489296263}
   SpawnInGround: 1
   ImpactFieldPrefab: {fileID: 5323335566823744965, guid: 3b0f77e8dcb519342a96aca1670faa8f, type: 3}
   PedestalLayer:
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
   targetCamera: {fileID: 0}
   textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
---- !u!114 &7396641385401492555
+--- !u!114 &4991405219489296263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,9 +250,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2415085116197387622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56532081093b3874a8eca22fd3748215, type: 3}
+  m_Script: {fileID: 11500000, guid: ce8f1547a0261e446883846640561a76, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationOnDemandManager
   animator: {fileID: 7210452885897179482}
   animationClipTypes:
   - type: 1
