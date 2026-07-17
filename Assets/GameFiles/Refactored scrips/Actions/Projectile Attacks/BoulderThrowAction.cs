@@ -44,7 +44,7 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
             if (ownerEntity is IAnimated animated)
             {
                 float animationTime = 3.75f;
-                animated.animationManager.PlayAnimationCrossFade(AnimationType.RockThrow, 1, 0.2f, animationTime);
+                animated.animationManager.PlayAnimationCrossFade(AnimationType.RockThrow, 1, MixerType.main, 0.2f, animationTime);
                 ownerEntity.StartCoroutine(EndActionDelay(animationTime));
                 ownerEntity.StartCoroutine(TrackBolderToArm(boulder, boulderThrow.boulderRootBone, 2.35f));
             }

@@ -19,7 +19,7 @@ public class AnimationManager : MonoBehaviour
     private AnimationMixerPlayable mixer;
     private AnimationPlayableOutput output;
 
-    private AnimationType currentType;
+    public AnimationType currentType { get; private set; }
     private int currentPriority;
     private Dictionary<AnimationType, AnimationClip> animationClips;
     private Dictionary<AnimationType, AnimationClipPlayable> activatedClips;
@@ -44,7 +44,7 @@ public class AnimationManager : MonoBehaviour
 
     private void SetupPlayableGraph()
     {
-        graph = PlayableGraph.Create("GolemAnimationGraph");
+        graph = PlayableGraph.Create("AnimationGraph");
         graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
         mixer = AnimationMixerPlayable.Create(graph, 2);
         output = AnimationPlayableOutput.Create(graph, "Animation", animator);
@@ -215,7 +215,7 @@ public class AnimationManager : MonoBehaviour
 
     private bool IsAnimationFinished(AnimationClipPlayable animation)
     {
-        return animation.GetTime() >= animation.GetDuration();
+        return animation.GetTime() >= animation.GetAnimationClip().length;
     }
 }
 

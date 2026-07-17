@@ -33,7 +33,7 @@ public class EnemyHealthSystem : EntityHealthSystem
         if (OwnerEntity is IAnimated animated)
         {
             float deathAnimationTime = 2;
-            animated.animationManager.PlayAnimationCrossFade(AnimationType.Death, 0, 0.2f, deathAnimationTime);
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Death, 0, MixerType.main, 0.2f, deathAnimationTime);
             StartCoroutine(DelayedDeath(deathAnimationTime));
 
         }

@@ -49,7 +49,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     {
         if (ownerEntity is IAnimated animated)
         {
-            animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, 0.2f, chargeTime);
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, MixerType.main, 0.2f, chargeTime);
         }
     }
     protected virtual void SetupSlam()

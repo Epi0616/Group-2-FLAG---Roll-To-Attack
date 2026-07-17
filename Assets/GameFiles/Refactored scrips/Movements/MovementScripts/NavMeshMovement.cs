@@ -20,7 +20,8 @@ public class NavMeshMovement : BaseEntityMovement
 
         if (ownerEntity is IAnimated animated)
         {
-            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 1);
+            Debug.Log("base movement setting anim");
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main);
         }
     }
 

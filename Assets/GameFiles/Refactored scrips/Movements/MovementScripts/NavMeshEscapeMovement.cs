@@ -31,7 +31,8 @@ public class NavMeshEscapeMovement : BaseEntityMovement
 
         if (ownerEntity is IAnimated animated)
         {
-            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 1);
+            Debug.Log("escape movement setting anim");
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main);
         }
 
         ActiveStatusEffect speedIncreaseEffect = new (new MovementSpeedStatus(0.35f), new List<BaseCondition>{ new DistanceCondition(true, 30) }, true);
