@@ -17,6 +17,11 @@ public class TutorialManager : MonoBehaviour
     private Coroutine TimeScalingCO;
     public bool restartCurrentStep;
     public bool restartCurrentStage;
+    public Player player;
+    public bool hasJump, hasMovement;
+    public ConditionalActionDescriptor jumpSO;
+    public ConditionalMovementDescriptor chargeSO;
+    public ConditionalMovementDescriptor movementSO;
 
     public static event Action<int> StartIndexWave;
     public void Start()
@@ -31,11 +36,12 @@ public class TutorialManager : MonoBehaviour
     {
         yield return new WaitUntil(() => !Input.GetMouseButton(0));
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
-
-        foreach (TutorialStage stage in stages)
+        int stageIndex = 0;
+        while (stageIndex < stages.Count)
         {
-            CurrentStageCO = StartCoroutine(StartStage(stage));
+            CurrentStageCO = StartCoroutine(StartStage(stages[stageIndex]));
             yield return CurrentStageCO;
+            stageIndex++;
         }
         Debug.Log("Tutorial finished");
     }
@@ -56,6 +62,18 @@ public class TutorialManager : MonoBehaviour
             {
                 StartIndexWave?.Invoke(temp.waveIndex);
             }
+            if (stage.TextLines[stepIndex].unlocksJump && !hasJump)
+            {
+                hasJump = true;
+                player.actionController.AddNewAction(jumpSO.Create());
+                player.movementController.AddNewMovement(chargeSO.Create());
+                
+            }
+            if (stage.TextLines[stepIndex].unlocksMovement && !hasMovement)
+            {
+                player.movementController.AddNewMovement(movementSO.Create());
+            }
+            
 
             if (stage.TextLines[stepIndex].usesPortrait)
             {
@@ -70,8 +88,8 @@ public class TutorialManager : MonoBehaviour
             }
 
             if (stage.TextLines[stepIndex].pausesGame)
-            {
-                TimeScalingCO = StartCoroutine(ScaleTimeSmoothly(0f));
+            {               
+                TimeScalingCO = StartCoroutine(ScaleTimeSmoothly(0f, 1f));               
             }
 
             yield return stage.TextLines[stepIndex].condition.Wait(this);
@@ -83,25 +101,30 @@ public class TutorialManager : MonoBehaviour
             }
             restartCurrentStep = false;
             //Time.timeScale = 1;
-            TimeScalingCO = StartCoroutine(ScaleTimeSmoothly(1f));
+            TimeScalingCO = StartCoroutine(ScaleTimeSmoothly(1f, 0.25f));
             TutorialPortraitObj.SetActive(false);
         }
         TutorialTextBoxObj.SetActive(false);
         Debug.Log("Display for Stage Finished");
     }
 
-    public IEnumerator ScaleTimeSmoothly(float scale)
+    public IEnumerator ScaleTimeSmoothly(float scale, float duration)
     {
         float startScale = Time.timeScale;
         float timer = 0;
-        while (timer < 0.5f)
+        while (timer < duration)
         {
             timer += Time.unscaledDeltaTime;
-            float t = timer / 0.5f;
+            float t = timer / duration;
             t = Mathf.SmoothStep(0f, 1f, t);
-            Time.timeScale = Mathf.Lerp(startScale, scale, t);
+            Time.timeScale = Mathf.Lerp(startScale, scale, easeOutCubic(t));
             yield return null;
         }
         Time.timeScale = scale;
+    }
+
+    public float easeOutCubic(float x)
+    {
+        return 1 - Mathf.Pow(1f - x, 3f);
     }
 }

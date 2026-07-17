@@ -5301,10 +5301,16 @@ MonoBehaviour:
   TutorialTextBoxObj: {fileID: 23360768}
   TutorialPortraitObj: {fileID: 1493559301}
   stages:
-  - {fileID: 11400000, guid: 3c2aa4f86d6160140924e5303457e77a, type: 2}
+  - {fileID: 11400000, guid: ac9155c03ec57194cac641edfa30c1c2, type: 2}
   - {fileID: 11400000, guid: 70890f5ae57fcff429e344ebbb8d3326, type: 2}
   restartCurrentStep: 0
   restartCurrentStage: 0
+  player: {fileID: 937705985}
+  hasJump: 0
+  hasMovement: 0
+  jumpSO: {fileID: 11400000, guid: 08bf4a9e7422fbe45bc99be6b8584cc6, type: 2}
+  chargeSO: {fileID: 11400000, guid: 1eba1c10fc9560b4ca4cdff0d3dda29d, type: 2}
+  movementSO: {fileID: 11400000, guid: 61b6851bd4f9d8448a097b34084e53a8, type: 2}
 --- !u!4 &615646623
 Transform:
   m_ObjectHideFlags: 0
@@ -7754,37 +7760,53 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: ConditionalActionDescriptors.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: ConditionalMovementDescriptors.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+      objectReference: {fileID: 11400000, guid: 37834e8eef767cd44ba978bf8f40d090, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+      objectReference: {fileID: 11400000, guid: 37834e8eef767cd44ba978bf8f40d090, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+      objectReference: {fileID: 11400000, guid: 37834e8eef767cd44ba978bf8f40d090, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+      objectReference: {fileID: 11400000, guid: 37834e8eef767cd44ba978bf8f40d090, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[4]'
       value: 
-      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+      objectReference: {fileID: 11400000, guid: 37834e8eef767cd44ba978bf8f40d090, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ModifiableActionDescriptors.Array.data[5]'
       value: 
-      objectReference: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+      objectReference: {fileID: 11400000, guid: 37834e8eef767cd44ba978bf8f40d090, type: 2}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'ConditionalActionDescriptors.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 08bf4a9e7422fbe45bc99be6b8584cc6, type: 2}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'ConditionalMovementDescriptors.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d1679606aa75df4faffaf234602cbd6, type: 2}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'ConditionalMovementDescriptors.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 61b6851bd4f9d8448a097b34084e53a8, type: 2}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: 'ConditionalMovementDescriptors.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 7d1679606aa75df4faffaf234602cbd6, type: 2}
+      objectReference: {fileID: 11400000, guid: 1eba1c10fc9560b4ca4cdff0d3dda29d, type: 2}
     - target: {fileID: 4278695722562126143, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.24635124

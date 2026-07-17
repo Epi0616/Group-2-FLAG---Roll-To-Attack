@@ -13,28 +13,52 @@ MonoBehaviour:
   m_Name: Test Stage 3
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStage
   TextLines:
+  - Text: This is the enemy section
+    pos: {x: 0, y: -450}
+    usesPortrait: 1
+    pausesGame: 0
+    unlocksJump: 0
+    unlocksMovement: 0
+    condition:
+      rid: 8791738258573492295
+  - Text: 'You can Attack by pressing [Space]'
+    pos: {x: 0, y: -450}
+    usesPortrait: 1
+    pausesGame: 1
+    unlocksJump: 1
+    unlocksMovement: 0
+    condition:
+      rid: 8791738258573492292
   - Text: Oh No Enemies
     pos: {x: -780, y: -450}
     usesPortrait: 1
     pausesGame: 0
+    unlocksJump: 0
+    unlocksMovement: 0
     condition:
       rid: 8791738251503730795
   - Text: Oh boy
     pos: {x: -780, y: -450}
     usesPortrait: 1
     pausesGame: 0
+    unlocksJump: 0
+    unlocksMovement: 0
     condition:
       rid: 8791738251503730797
   - Text: Oh No Enemies x3
     pos: {x: -780, y: -450}
     usesPortrait: 1
     pausesGame: 0
+    unlocksJump: 0
+    unlocksMovement: 0
     condition:
       rid: 8791738251503730896
   - Text: Oh No Enemies That shouldn't end the stage please
     pos: {x: -780, y: -450}
     usesPortrait: 1
     pausesGame: 0
+    unlocksJump: 0
+    unlocksMovement: 0
     condition:
       rid: 8791738251503730798
   references:
@@ -43,7 +67,7 @@ MonoBehaviour:
     - rid: 8791738251503730795
       type: {class: DummyDeathCondition, ns: , asm: Assembly-CSharp}
       data:
-        desiredType: 0
+        desiredTypes: 00000000
         numRequired: 1
         waveIndex: 0
     - rid: 8791738251503730797
@@ -52,12 +76,19 @@ MonoBehaviour:
     - rid: 8791738251503730798
       type: {class: DummyDeathCondition, ns: , asm: Assembly-CSharp}
       data:
-        desiredType: 4
+        desiredTypes: 0600000001000000
         numRequired: 3
         waveIndex: 1
     - rid: 8791738251503730896
       type: {class: DummyDeathCondition, ns: , asm: Assembly-CSharp}
       data:
-        desiredType: 0
+        desiredTypes: 00000000
         numRequired: 3
         waveIndex: 1
+    - rid: 8791738258573492292
+      type: {class: WaitForSpaceBar, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8791738258573492295
+      type: {class: WaitForTime, ns: , asm: Assembly-CSharp}
+      data:
+        duration: 5

@@ -2,7 +2,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class ActionController : IResetable
@@ -29,6 +28,16 @@ public class ActionController : IResetable
             {
                 condition.Initialize(entity);
             }
+        }
+    }
+
+    public void AddNewAction(ConditionalAction action)
+    {
+        availableActions.Add(action);
+        List<BaseCondition> conditions = action.conditions;
+        foreach (BaseCondition condition in conditions)
+        {
+            condition.Initialize(entity);
         }
     }
 
