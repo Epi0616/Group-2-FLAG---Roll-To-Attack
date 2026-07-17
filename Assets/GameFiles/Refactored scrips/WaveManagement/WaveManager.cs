@@ -20,6 +20,7 @@ public class WaveManager : MonoBehaviour
         WaveBuilder.EnemiesGenerated += HandleEnemiesGenerated;
         EnemyHealthSystem.EnemyHasDied += HandleEnemyDeath;
         DicePedestal.WaveStartPedestal += StartNextWave;
+        TutorialManager.StartIndexWave += StartIndexedWave;
     }
 
     private void OnDisable()
@@ -27,6 +28,7 @@ public class WaveManager : MonoBehaviour
         WaveBuilder.EnemiesGenerated -= HandleEnemiesGenerated;
         EnemyHealthSystem.EnemyHasDied -= HandleEnemyDeath;
         DicePedestal.WaveStartPedestal -= StartNextWave;
+        TutorialManager.StartIndexWave -= StartIndexedWave;
     }
 
     private void HandleEnemiesGenerated(int enemiesInWave)
@@ -49,6 +51,13 @@ public class WaveManager : MonoBehaviour
     {
         WaveCountStart?.Invoke(delayBetweenWaves);
         StartCoroutine(SpawnWaveDelay());
+    }
+
+    private void StartIndexedWave(int index)
+    {
+        //Debug.Log("Spawning Indexed Wave");
+        Wave randomWave = waveBuilder.GetNextWave(index);
+        waveSpawner.SpawnWave(randomWave);
     }
 
     private IEnumerator SpawnWaveDelay()
