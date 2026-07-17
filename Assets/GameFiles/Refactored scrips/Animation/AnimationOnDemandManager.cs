@@ -24,7 +24,6 @@ public class AnimationOnDemandManager : MonoBehaviour
 
     private void OnEnable()
     {
-        UnpackAnimationClipTypes();//testing only
         SetupPlayableGraph();
         currentPriority = int.MaxValue;
     }
