@@ -28,7 +28,7 @@ public class NavMeshRunFromPlayerRandom : BaseEntityMovement
 
         if (ownerEntity is IAnimated animated)
         {
-            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 1);
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 1, MixerType.main);
         }
 
         DirectionOfApproach = (ownerEntity.transform.position - ownerEntity.target.transform.position).normalized;

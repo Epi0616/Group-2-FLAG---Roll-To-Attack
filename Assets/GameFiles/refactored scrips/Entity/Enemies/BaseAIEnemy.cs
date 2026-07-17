@@ -50,8 +50,8 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public bool isStunned { get => IsStunned; set => IsStunned = value; }
 
     [Header("IAnimated Properties")]
-    [SerializeField] private AnimationManager AnimationManager;
-    public AnimationManager animationManager { get => AnimationManager; set => AnimationManager = value; }
+    [SerializeField] private AnimationOnDemandManager AnimationManager;
+    public AnimationOnDemandManager animationManager { get => AnimationManager; set => AnimationManager = value; }
 
     [Header("ISpawnModifier Properties")]
     [SerializeField] private bool SpawnInGround = false;
