@@ -11,7 +11,9 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public bool canUseInput { get; set; }
 
     [Header("IGrounded")]
+    [SerializeField] private GameObject GroundCheckCastPoint;
     [SerializeField] private LayerMask GroundLayer;
+    public GameObject groundCheckCastPoint { get => GroundCheckCastPoint; set => GroundCheckCastPoint = value; }
     public bool isGrounded { get; set; }
     public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
 
@@ -133,9 +135,12 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public override void Initialize()
     {
         base.Initialize();
+
+        SetGroundedCheckPoint();
+        rb = GetComponent<Rigidbody>();
+
         inputManager = GetComponent<EntityInputManager>();
         inputManager.Initialise(this);
-        rb = GetComponent<Rigidbody>();
 
         InitializePerimeterPoints();
 
@@ -173,6 +178,14 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     {
         Ray ray = new Ray(transform.position, Vector3.down);
         isGrounded = Physics.SphereCast(ray, 0.9f, 1, groundLayer);
+    }
+
+    public void SetGroundedCheckPoint()
+    {
+        if (!groundCheckCastPoint)
+        {
+            groundCheckCastPoint = gameObject;
+        }
     }
 
     //IMoveable Interface Methods

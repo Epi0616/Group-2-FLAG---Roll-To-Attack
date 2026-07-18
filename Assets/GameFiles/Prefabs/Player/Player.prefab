@@ -63,6 +63,7 @@ MonoBehaviour:
   statusSystem: {fileID: 2280677556928069547}
   bodySystem: {fileID: 3183200901877279129}
   textDisplaySystem: {fileID: 9031661407892169178}
+  GroundCheckCastPoint: {fileID: 0}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -75,13 +76,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d1679606aa75df4faffaf234602cbd6, type: 2}
   ConditionalActionDescriptors:
   - {fileID: 11400000, guid: 08bf4a9e7422fbe45bc99be6b8584cc6, type: 2}
+  ConditionalActions: []
+  CanAct: 1
   ModifiableActionDescriptors:
-  - {fileID: 11400000, guid: 6adfe746f74e6524eb1ae508bd71a40b, type: 2}
-  - {fileID: 11400000, guid: 6adfe746f74e6524eb1ae508bd71a40b, type: 2}
-  - {fileID: 11400000, guid: 6adfe746f74e6524eb1ae508bd71a40b, type: 2}
-  - {fileID: 11400000, guid: 6adfe746f74e6524eb1ae508bd71a40b, type: 2}
-  - {fileID: 11400000, guid: 6adfe746f74e6524eb1ae508bd71a40b, type: 2}
-  - {fileID: 11400000, guid: 6adfe746f74e6524eb1ae508bd71a40b, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  PlayerLoadOut: {fileID: 11400000, guid: 0de65cc4b012454469ea2d6c6b89dd42, type: 2}
   JumpHeight:
     baseValue: 3
   JumpSpeed:
@@ -107,11 +111,14 @@ MonoBehaviour:
   OrbitRadius: 5
   InitialOrbitSpeed: 360
   SpikeDamaged: 18
-  MineObj: {fileID: 165927085165346944, guid: 4cc0dd0e06ad2e64ebd77ebcd75abf90, type: 3}
-  EnhancedMineObj: {fileID: 7053362368818911038, guid: f1dd84a2958409d4889901a079ddb421, type: 3}
+  MineObj: {fileID: 8279053224333563885, guid: 30a42a058cbe0284ea4fb3e06930385b, type: 3}
+  EnhancedMineObj: {fileID: 8443258686495426581, guid: 9f29fa14462fc904e99f37ea517fe5c5, type: 3}
   MineChargeTime: 3
   KBFieldPrefab: {fileID: 2708008830951750606, guid: 63494b680cd2b884388ddd8c56310e8b, type: 3}
   SlowingBubblePrefab: {fileID: 4773814930010074401, guid: a3ab422ad0b415a4d9917487d0606148, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6377955820292495775
 MonoBehaviour:
   m_ObjectHideFlags: 0

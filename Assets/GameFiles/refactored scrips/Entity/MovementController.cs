@@ -31,14 +31,25 @@ public class MovementController
 
     public void Reset()
     {
-        //foreach (var movement in availableMovements)
-        //{
-        //    List<BaseCondition> conditions = movement.conditions;
-        //    foreach (BaseCondition condition in conditions)
-        //    {
-        //        condition.ResetCondition();
-        //    }
-        //}
+        for (int i = activeMovements.Count - 1; i >= 0; i--)
+        {
+            ConditionalMovement movement = activeMovements[i];
+
+            availableMovements.Add(movement);
+            activeMovements.Remove(movement);
+            movement.movement.EndMovement();
+        }
+
+        foreach (var movement in availableMovements)
+        {
+            movement.ResetConditionsAll();
+
+            List<BaseCondition> conditions = movement.conditions;
+            foreach (BaseCondition condition in conditions)
+            {
+                condition.Initialize(entity);
+            }
+        }
     }
     public void AddNewMovement(ConditionalMovement movement)
     {

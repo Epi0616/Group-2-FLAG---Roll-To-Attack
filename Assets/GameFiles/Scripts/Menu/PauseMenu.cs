@@ -6,6 +6,7 @@ using System;
 
 public class PauseMenu : MonoBehaviour
 {
+    public static event Action PackUpScene;
     public static event Action ReturnToIntro;
     public static event Action GamePaused;
     public static event Action GameUnPaused;
@@ -33,7 +34,6 @@ public class PauseMenu : MonoBehaviour
         pauseGame.action.performed -= HandlePauseGame;
         backButton.action.performed -= HandleBackButton;
     }
-
     private void HandlePauseGame(InputAction.CallbackContext context)
     {
         if (EventSystem.current.currentSelectedGameObject != null)
@@ -78,6 +78,9 @@ public class PauseMenu : MonoBehaviour
         //    TransitionManager.LoadScene("Menu", 0.5f, 1f);
         //}
 
+        //ObjectPoolManager.DestroyObjectsOfType(ObjectPoolManager.PoolType.ArenaObjects);
+
+        PackUpScene?.Invoke();
         ReturnToIntro?.Invoke();           
     }
 
@@ -122,6 +125,4 @@ public class PauseMenu : MonoBehaviour
             pauseMenuButtons[i].SetActive(visible);
         }
     }
-
-
 }

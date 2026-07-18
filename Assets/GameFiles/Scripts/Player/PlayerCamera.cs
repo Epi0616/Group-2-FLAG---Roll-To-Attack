@@ -31,7 +31,10 @@ public class PlayerCamera : MonoBehaviour
 
     private void Initialize()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        if (!target)
+        {
+            target = GameObject.FindGameObjectWithTag("Player").transform;
+        }
         transform.position = target.position + offset;
         startingOffset = offset;
     }

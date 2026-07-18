@@ -92,7 +92,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
         laserAccess.laserVFX.enabled = true;
         //Debug.Log("Laser Started");
 
-        animated.animationManager.PlayAnimationCrossFade(AnimationType.Charge, 1);
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Charge, 1, MixerType.main);
     }
 
     protected override void CastChargeUpdate()
@@ -115,7 +115,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
         laserAccess.laserVFX.SetVector4("Beam Colour", activeVisualColour);
         laserAccess.laserVFX.enabled = true;
 
-        animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1);
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, MixerType.main);
     }
 
     protected override void CastActiveUpdate()

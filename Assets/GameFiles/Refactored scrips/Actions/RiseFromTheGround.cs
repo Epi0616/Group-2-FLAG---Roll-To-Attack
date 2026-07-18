@@ -13,7 +13,7 @@ public class RiseFromTheGround : BaseEntityAction
         base.StartAction(ownerEntity);
         if (ownerEntity is IAnimated animated)
         {
-            animated.animationManager.PlayAnimationCrossFade(AnimationType.WakeUp, 1, 0.2f, 5);
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.WakeUp, 1, MixerType.main, 0.2f, 5);
         }
 
         endPosition = ownerEntity.transform.position;
