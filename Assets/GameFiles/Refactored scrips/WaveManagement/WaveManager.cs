@@ -57,7 +57,7 @@ public class WaveManager : MonoBehaviour
     {
         //Debug.Log("Spawning Indexed Wave");
         Wave randomWave = waveBuilder.GetNextWave(index);
-        waveSpawner.SpawnWave(randomWave);
+        waveSpawner.SpawnWave(randomWave);       
     }
 
     private IEnumerator SpawnWaveDelay()

@@ -10,31 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89fb449e10842ba4396667561e6e5719, type: 3}
-  m_Name: Test Stage 1
+  m_Name: Intro - Tutorial Stage 1
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStage
-  TextLines:
+  TutorialSteps:
   - Text: Hello Dice Warrior, I am your Dungeon Master
-    pos: {x: -780, y: -450}
-    usesPortrait: 1
-    pausesGame: 0
-    unlocksJump: 0
-    unlocksMovement: 0
-    condition:
-      rid: 8791738236100149378
-  - Text: I will be teaching you some pro tips and tricks on how to survive the arena
-    pos: {x: -780, y: -450}
+    ResetText: 
+    pos: {x: -900, y: 350}
     usesPortrait: 1
     pausesGame: 0
     unlocksJump: 0
     unlocksMovement: 1
+    hasBeenReset: 0
     condition:
-      rid: 8791738236100149379
+      rid: 8791738272700957027
+  - Text: I will be teaching you some pro tips and tricks on how to survive the arena
+    ResetText: 
+    pos: {x: -900, y: 350}
+    usesPortrait: 1
+    pausesGame: 0
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957027
   references:
     version: 2
     RefIds:
-    - rid: 8791738236100149378
-      type: {class: WaitForLeftClickCondition, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 8791738236100149379
-      type: {class: WaitForLeftClickCondition, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: 8791738272700957027
+      type: {class: WaitForInputAction, ns: , asm: Assembly-CSharp}
+      data:
+        inputAction: {fileID: 2525839080095791905, guid: 052faaac586de48259a63d0c4782560b, type: 3}

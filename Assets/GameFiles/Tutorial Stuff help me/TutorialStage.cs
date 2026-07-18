@@ -3,22 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "TutorialStage", menuName = "Scriptable Objects/TutorialStage")]
 public class TutorialStage : ScriptableObject
 {
-    public List<TutorialStep> TextLines = new List<TutorialStep>();
+    public List<TutorialStep> TutorialSteps = new List<TutorialStep>();
 }
 
 [Serializable]
 public class TutorialStep
 {
     public string Text;
+    public string ResetText;
     public Vector2 pos;
     public bool usesPortrait;
     public bool pausesGame;
+    public bool blocksUIInteraction;
+    public bool bringUpSelectionUI;
+    public bool highlightElement;
+    public Vector2 HighlightPos;
+    public Vector2 HighlightScale;
     public bool unlocksJump;
     public bool unlocksMovement;
+    public bool hasBeenReset;
     [SerializeReference, SubclassSelector]
     public TutorialCondition condition;
 }
@@ -144,31 +152,77 @@ public class DummyDeathCondition : TutorialCondition
 }
 
 [Serializable]
-public class WaitForLightAttack : TutorialCondition
-{
-    public override IEnumerator Wait(TutorialManager manager)
-    {
-        // Bind to a light attack event in tutorial slam
-        yield return null;
-    }
-}
-
-[Serializable]
-public class WaitForheavyAttack : TutorialCondition
-{
-    public override IEnumerator Wait(TutorialManager manager)
-    {
-        // Bind to a heavy attack event in tutorial slam
-        yield return null;
-    }
-}
-
-[Serializable]
 public class WaitForTime : TutorialCondition
 {
     public float duration = 5f;
     public override IEnumerator Wait(TutorialManager manager)
     {
         yield return new WaitForSecondsRealtime(duration);
+    }
+}
+
+[Serializable]
+public class WaitForInputAction : TutorialCondition
+{
+    public InputActionReference inputAction;
+    private bool complete;
+    public override IEnumerator Wait(TutorialManager manager)
+    {
+        complete = false;
+        inputAction.action.performed += OnAction;
+        while (!complete)
+        {
+            if (manager.restartCurrentStep)
+            {
+                inputAction.action.performed -= OnAction;
+                yield break;
+            }
+
+            yield return null;
+        }
+        inputAction.action.performed -= OnAction;
+    }
+    private void OnAction(InputAction.CallbackContext context)
+    {
+        complete = true;
+    }
+}
+
+[Serializable]
+public class WaitForHoldTime : TutorialCondition
+{
+    public float holdThreshold = 1f;
+    public override IEnumerator Wait(TutorialManager manager)
+    {
+        while (manager.player.inputManager.holdTime < holdThreshold)
+        {
+            yield return null;
+        }
+    }
+}
+
+[Serializable]
+public class WaitForAbilitySelected : TutorialCondition
+{
+    private bool complete;
+    public override IEnumerator Wait(TutorialManager manager)
+    {
+        complete = false;
+        AbilityPanel.AbilitySelected += OnAbilitySelect;
+        while (!complete)
+        {
+            if (manager.restartCurrentStep)
+            {
+                AbilityPanel.AbilitySelected -= OnAbilitySelect;
+                yield break;
+            }
+
+            yield return null;
+        }
+        AbilityPanel.AbilitySelected -= OnAbilitySelect;
+    }
+    private void OnAbilitySelect(AbilityPanel panel)
+    {
+        complete = true;
     }
 }

@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89fb449e10842ba4396667561e6e5719, type: 3}
+  m_Name: Enemies - Tutorial Stage 3
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialStage
+  TutorialSteps:
+  - Text: When the enemies come you'll need to defend yourself
+    ResetText: 
+    pos: {x: 900, y: 350}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 0, y: 0}
+    HighlightScale: {x: 0, y: 0}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957059
+  - Text: Press [Space] to roll your dice
+    ResetText: 
+    pos: {x: 900, y: 350}
+    usesPortrait: 1
+    pausesGame: 1
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 0, y: 0}
+    HighlightScale: {x: 600, y: 600}
+    unlocksJump: 1
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957030
+  - Text: Here come some enemies, defeat them with light attacks
+    ResetText: Try Again! defeat them with light attacks
+    pos: {x: 900, y: 350}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 0, y: 0}
+    HighlightScale: {x: 0, y: 0}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957031
+  - Text: You can hold [Space] to perform a heavy attack
+    ResetText: 
+    pos: {x: 900, y: 350}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 0, y: 0}
+    HighlightScale: {x: 0, y: 0}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957084
+  - Text: Defeat these enemies with heavy attacks
+    ResetText: Try Again! defeat then with heavy attacks
+    pos: {x: 900, y: 350}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 0, y: 0}
+    HighlightScale: {x: 0, y: 0}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957033
+  references:
+    version: 2
+    RefIds:
+    - rid: 8791738272700957030
+      type: {class: WaitForInputAction, ns: , asm: Assembly-CSharp}
+      data:
+        inputAction: {fileID: -6595154157516738094, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    - rid: 8791738272700957031
+      type: {class: DummyDeathCondition, ns: , asm: Assembly-CSharp}
+      data:
+        desiredTypes: 00000000
+        numRequired: 3
+        waveIndex: 1
+    - rid: 8791738272700957033
+      type: {class: DummyDeathCondition, ns: , asm: Assembly-CSharp}
+      data:
+        desiredTypes: 0600000001000000
+        numRequired: 3
+        waveIndex: 1
+    - rid: 8791738272700957059
+      type: {class: WaitForInputAction, ns: , asm: Assembly-CSharp}
+      data:
+        inputAction: {fileID: 2525839080095791905, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    - rid: 8791738272700957084
+      type: {class: WaitForHoldTime, ns: , asm: Assembly-CSharp}
+      data:
+        holdThreshold: 1

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8710568842111942226}
   - component: {fileID: 1220472350237625906}
   - component: {fileID: 4022750619407584921}
-  - component: {fileID: 1633815379922263703}
+  - component: {fileID: -1332680834428604208}
   m_Layer: 14
   m_Name: DummyKnight
   m_TagString: Enemy
@@ -136,10 +136,10 @@ MonoBehaviour:
   textDisplaySystem: {fileID: 4022750619407584921}
   Agent: {fileID: 318692371249961514}
   Rb: {fileID: 924436043483668682}
+  GroundCheckCastPoint: {fileID: 0}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
-  IsGrounded: 0
   CanMove: 1
   MovementSpeed:
     baseValue: 20
@@ -155,7 +155,7 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
-  AnimationManager: {fileID: 1633815379922263703}
+  AnimationManager: {fileID: -1332680834428604208}
   SpawnInGround: 0
   ImpactFieldPrefab: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
   PedestalLayer:
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
   targetCamera: {fileID: 0}
   textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
---- !u!114 &1633815379922263703
+--- !u!114 &-1332680834428604208
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,9 +229,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7914758521549606964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56532081093b3874a8eca22fd3748215, type: 3}
+  m_Script: {fileID: 11500000, guid: ce8f1547a0261e446883846640561a76, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationOnDemandManager
   animator: {fileID: 8895083691649518232}
   animationClipTypes:
   - type: 3
