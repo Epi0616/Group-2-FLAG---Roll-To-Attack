@@ -23,6 +23,11 @@ public class Fireball : MonoBehaviour
         StartCoroutine(Attack());
     }
 
+    public void HandlePathToTarget()
+    { 
+        
+    }
+
     private IEnumerator Attack()
     {
         while (!hitTarget)

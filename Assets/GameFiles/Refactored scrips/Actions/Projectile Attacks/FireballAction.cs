@@ -41,15 +41,51 @@ public class FireballAction : BaseEntityAction, ISlam
             GameObject fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, ownerEntity.transform.position + offset, Quaternion.identity);
             if (ownerEntity is IAnimated animated)
             {
-                Debug.Log("attack setting anim");
-                animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, MixerType.complimentary);
+                float animationTime = 3.75f;
+                animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, MixerType.complimentary, 0.2f, animationTime);
+                ownerEntity.StartCoroutine(EndActionDelay(animationTime));
+                ownerEntity.StartCoroutine(TrackFireballToMouth(fireball, fireballAction.fireballRootBone.transform, 2.25f));
             }
+        }
+    }
 
-            Vector3 direction = (ownerEntity.target.transform.position - fireball.transform.position).normalized;
-            fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, fireballAction.fireballDamage, fireballAction.fireFieldDamage);
+    private IEnumerator TrackFireballToMouth(GameObject fireball, Transform rootBone, float duration)
+    {
+        Vector3 fireballPos = rootBone.position + rootBone.rotation * offset;
+        float startY = rootBone.position.y;
+
+        Vector3 startScale = fireball.transform.localScale;
+        Vector3 smallScale = fireball.transform.localScale / 10;
+
+        fireball.transform.localScale = smallScale;
+
+        float timer = duration;
+        float t = 0;
+        float easeOutT = 0;
+
+        while (t < 1)
+        {
+            timer -= Time.deltaTime;
+            t = (duration - timer) / duration;
+            easeOutT = 1f - Mathf.Pow(Mathf.Max(0f, 1f - t), 0.2f);
+
+            fireball.transform.localScale = Vector3.Lerp(smallScale, startScale, easeOutT);
+            //Quaternion rotation = rootBone.rotation * Quaternion.Euler(0, 180, 0);
+            fireballPos = rootBone.position;
+            fireballPos.y = startY;
+            fireball.transform.SetPositionAndRotation(fireballPos + rootBone.rotation * offset, rootBone.rotation);
+            yield return null;
         }
 
+        fireball.transform.localScale = startScale;
 
+        Vector3 direction = (ownerEntity.target.transform.position - fireball.transform.position).normalized;
+        fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 6); ;
+    }
+
+    private IEnumerator EndActionDelay(float duration)
+    {
+        yield return new WaitForSeconds(duration);
         EndAction();
     }
 

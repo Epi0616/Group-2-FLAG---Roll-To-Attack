@@ -31,7 +31,6 @@ public class NavMeshEscapeMovement : BaseEntityMovement
 
         if (ownerEntity is IAnimated animated)
         {
-            Debug.Log("escape movement setting anim");
             animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main);
         }
 

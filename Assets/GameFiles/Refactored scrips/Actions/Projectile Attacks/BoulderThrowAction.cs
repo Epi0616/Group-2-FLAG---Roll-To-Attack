@@ -34,7 +34,6 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
     public override void StartAction(Entity ownerEntity)
     {
         this.ownerEntity = ownerEntity;
-        Debug.Log(preventsMovement);
         actionable = ownerEntity as IActionable;
         isComplete = false;
 

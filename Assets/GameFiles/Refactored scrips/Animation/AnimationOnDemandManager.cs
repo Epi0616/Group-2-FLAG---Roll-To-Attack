@@ -13,7 +13,6 @@ public class AnimationOnDemandManager : MonoBehaviour
     private Entity ownerEntity;
 
     private PlayableGraph graph;
-    //private AnimationMixerPlayable mainMixer, complimentaryMixer;
     private AnimationPlayableOutput mainAnimationOutput, complimentaryAnimationOutput;
 
     private Dictionary<AnimationType, AnimationClip> animationClips;
@@ -58,14 +57,14 @@ public class AnimationOnDemandManager : MonoBehaviour
         mainMixer = new MixerContainer(
             AnimationMixerPlayable.Create(graph, 2),
             MixerType.main,
-            default,
+            AnimationType.None,
             int.MaxValue
         );
 
         complimentaryMixer = new MixerContainer(
             AnimationMixerPlayable.Create(graph, 2),
-            MixerType.main,
-            default,
+            MixerType.complimentary,
+            AnimationType.None,
             int.MaxValue
         );
 
@@ -144,6 +143,7 @@ public class AnimationOnDemandManager : MonoBehaviour
             yield return null;
         }
 
+        mixer.mixer.SetInputWeight(0, 1);
         DestroyMixerPlayable(mixer, 1);
     }
 
@@ -237,7 +237,7 @@ public class AnimationOnDemandManager : MonoBehaviour
     }
 }
 
-public struct MixerContainer
+public class MixerContainer
 {
     public AnimationMixerPlayable mixer;
 
@@ -246,7 +246,7 @@ public struct MixerContainer
     public int priority;
 
     public MixerContainer(AnimationMixerPlayable mixer, MixerType mixerType, AnimationType animationType, int priority)
-    { 
+    {
         this.mixer = mixer;
         this.mixerType = mixerType;
         this.animationType = animationType;
