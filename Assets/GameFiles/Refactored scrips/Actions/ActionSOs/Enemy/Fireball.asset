@@ -17,11 +17,12 @@ MonoBehaviour:
       rid: 5042951970589769798
     conditions:
     - rid: 5042951983914549324
+    - rid: 5042952301634912858
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
     exclusive: 1
-    priority: 1
+    priority: 2
   references:
     version: 2
     RefIds:
@@ -40,3 +41,8 @@ MonoBehaviour:
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
+    - rid: 5042952301634912858
+      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        lookThreshold: 45

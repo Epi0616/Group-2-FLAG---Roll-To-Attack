@@ -10,33 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
-  m_Name: ActivateShield
+  m_Name: ShieldBroken
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   conditionalAction:
     action:
-      rid: 5042951983914549318
+      rid: 5042952301634912648
     conditions:
     - rid: 5042951983914549319
     - rid: 5042951983914549323
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
-    exclusive: 0
-    priority: 0
+    exclusive: 1
+    priority: 1
   references:
     version: 2
     RefIds:
-    - rid: 5042951983914549318
-      type: {class: ApplyShield, ns: , asm: Assembly-CSharp}
-      data:
-        PreventsMovement: 0
-        shieldStacks: 10
     - rid: 5042951983914549319
       type: {class: ShieldCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        shieldDowntime: 7.5
     - rid: 5042951983914549323
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
+    - rid: 5042952301634912648
+      type: {class: ShieldBroken, ns: , asm: Assembly-CSharp}
+      data:
+        PreventsMovement: 1
+        shieldStacks: 10
+        stunnedTime: 2.5
+        applyTime: 5

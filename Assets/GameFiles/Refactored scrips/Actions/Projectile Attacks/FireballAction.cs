@@ -13,6 +13,9 @@ public class FireballAction : BaseEntityAction, ISlam
     [SerializeField] protected Stat SlamRange = new Stat(5);
     [SerializeField] protected Vector3 SlamPositionOffset; //not needed as using offset, didnt want to use as would be a missuse of the name
 
+    private Fireball fireball;
+    private Coroutine endActionDelayRoutine, trackFireballToMouthRoutine;
+
     public int slamDamage { get => SlamDamage; set => SlamDamage = value; }
     public Color slamColour { get => SlamColor; set => SlamColor = value; }
     public float chargeTime { get => ChargeTime; set => ChargeTime = value; }
@@ -38,13 +41,13 @@ public class FireballAction : BaseEntityAction, ISlam
 
         if (ownerEntity is IFireballAction fireballAction)
         {
-            GameObject fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, ownerEntity.transform.position + offset, Quaternion.identity);
+            fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, ownerEntity.transform.position + offset, Quaternion.identity).GetComponent<Fireball>();
             if (ownerEntity is IAnimated animated)
             {
                 float animationTime = 3.75f;
                 animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, MixerType.complimentary, 0.2f, animationTime);
-                ownerEntity.StartCoroutine(EndActionDelay(animationTime));
-                ownerEntity.StartCoroutine(TrackFireballToMouth(fireball, fireballAction.fireballRootBone.transform, 2.25f));
+                endActionDelayRoutine = ownerEntity.StartCoroutine(EndActionDelay(animationTime));
+                trackFireballToMouthRoutine = ownerEntity.StartCoroutine(TrackFireballToMouth(fireball.gameObject, fireballAction.fireballRootBone.transform, 2.25f));
             }
         }
     }
@@ -61,18 +64,18 @@ public class FireballAction : BaseEntityAction, ISlam
 
         float timer = duration;
         float t = 0;
-        float easeOutT = 0;
+        float easeInT = 0;
 
         while (t < 1)
         {
             timer -= Time.deltaTime;
             t = (duration - timer) / duration;
-            easeOutT = 1f - Mathf.Pow(Mathf.Max(0f, 1f - t), 0.2f);
+            easeInT = 1f - Mathf.Pow(Mathf.Max(0f, 1f - t), 0.2f);
 
-            fireball.transform.localScale = Vector3.Lerp(smallScale, startScale, easeOutT);
+            fireball.transform.localScale = Vector3.Lerp(smallScale, startScale, easeInT);
             //Quaternion rotation = rootBone.rotation * Quaternion.Euler(0, 180, 0);
             fireballPos = rootBone.position;
-            fireballPos.y = startY;
+            //fireballPos.y = startY;
             fireball.transform.SetPositionAndRotation(fireballPos + rootBone.rotation * offset, rootBone.rotation);
             yield return null;
         }
@@ -91,6 +94,21 @@ public class FireballAction : BaseEntityAction, ISlam
 
     public override void InterruptAction()
     {
+        if (trackFireballToMouthRoutine != null)
+        {
+            ownerEntity.StopCoroutine(trackFireballToMouthRoutine);
+        }
+        if (endActionDelayRoutine != null)
+        { 
+            ownerEntity.StopCoroutine(endActionDelayRoutine);
+        }
+
+        if (fireball.gameObject != null && fireball.active)
+        {
+            ObjectPoolManager.ReturnObjectToPool(fireball.gameObject);
+        }
+
+        EndAction();
     }
     public override void EndAction()
     {

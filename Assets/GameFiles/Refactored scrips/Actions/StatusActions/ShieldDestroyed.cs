@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,26 +7,33 @@ using UnityEngine;
 public class ShieldDestroyed : BaseEntityAction
 {
     private IShieldable shieldable;
+    [SerializeField] private float animationTime;
 
     public ShieldDestroyed() { }
-    public ShieldDestroyed(bool preventsMovement)
+    public ShieldDestroyed(bool preventsMovement, float animationTime)
     {
         this.preventsMovement = preventsMovement;
+        this.animationTime = animationTime;
     }
 
     public override void StartAction(Entity ownerEntity)
     {
         base.StartAction(ownerEntity);
         shieldable = ownerEntity as IShieldable;
-        Debug.Log(preventsMovement);
-    }
-    public override void UpdateAction()
-    {
-        if (shieldable.shielded)
+
+        if (ownerEntity is IAnimated animated)
         {
-            EndAction();
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Stunned, 1, MixerType.main, 0.2f, animationTime);
         }
+        ownerEntity.StartCoroutine(DelayEnd());
     }
+
+    private IEnumerator DelayEnd()
+    { 
+        yield return new WaitForSeconds(animationTime);
+        EndAction();
+    }
+
     public override void InterruptAction()
     {
         EndAction();
@@ -36,6 +44,6 @@ public class ShieldDestroyed : BaseEntityAction
     }
     public override BaseEntityAction Clone()
     {
-        return new ShieldDestroyed(preventsMovement);
+        return new ShieldDestroyed(preventsMovement, animationTime);
     }
 }

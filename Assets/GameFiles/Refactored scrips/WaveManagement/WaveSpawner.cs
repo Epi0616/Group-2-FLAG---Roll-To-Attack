@@ -98,15 +98,21 @@ public class WaveSpawner : MonoBehaviour
 
         if (obj.TryGetComponent<ISpawnModifier>(out spawnModifier))//if obj is of type spawn in the floor
         {
-            if (spawnModifier.spawnInGround)
-            {
-                spawnPosFinal = PickSpawnAreaCircular();
-                spawnPosFinal.y -= 10f;
-            }
-            else //duplicating this else feels bad but i currently am tired and cant think of a better way to do it
-            {
-                // Spawn and place the new enemy
-                spawnPosFinal = PickSpawnAreaPoint();
+            switch (spawnModifier.spawnModifier)
+            { 
+                case SpawnModifier.spawnInGround:
+                    spawnPosFinal = PickSpawnAreaCircular();
+                    spawnPosFinal.y -= 10f;
+                    break;
+
+                case SpawnModifier.dragonSpawnInSky:
+                    spawnPosFinal = PickSpawnAreaCircular();
+                    spawnPosFinal.y += 50f;
+                    break;
+
+                default: //duplicating this else feels bad but i currently am tired and cant think of a better way to do it
+                    spawnPosFinal = PickSpawnAreaPoint();
+                    break;
             }
         }
         else

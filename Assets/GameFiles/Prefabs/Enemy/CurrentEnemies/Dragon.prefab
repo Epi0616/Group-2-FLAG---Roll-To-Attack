@@ -77,6 +77,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.Rig
   m_Weight: 1
   m_Effectors: []
+--- !u!1 &6271799594283534160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9147723052699911993}
+  m_Layer: 0
+  m_Name: FireballPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9147723052699911993
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6271799594283534160}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.13052632, y: 0.0000000555371, z: -0.000000023604784, w: 0.9914449}
+  m_LocalPosition: {x: 0.000032153, y: 0.0030615025, z: 0.005494549}
+  m_LocalScale: {x: 0.009999997, y: 0.009999997, z: 0.009999999}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2514104452828395438}
+  m_LocalEulerAnglesHint: {x: -15, y: 0, z: 0}
 --- !u!1 &6286363926915155371
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,8 +169,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4, y: 1, z: 4}
-  m_Center: {x: 0, y: -3.75, z: 0}
+  m_Size: {x: 4, y: 4, z: 4}
+  m_Center: {x: 0, y: -2.75, z: 0}
 --- !u!54 &5358925164434332501
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -226,9 +257,7 @@ MonoBehaviour:
   ConditionalActionDescriptors:
   - {fileID: 11400000, guid: 82197dc44f06c314f946df5d7d6d15bb, type: 2}
   - {fileID: 11400000, guid: a8feeb3d580ed1f4d8ed9c5ae1c27307, type: 2}
-  - {fileID: 11400000, guid: c4465aaf65def3f4d9b8e86339d59f63, type: 2}
-  - {fileID: 11400000, guid: 12550a5899d49e34c819725233bd45be, type: 2}
-  - {fileID: 11400000, guid: c4a1be9969b533948ba2344480af9204, type: 2}
+  - {fileID: 11400000, guid: 7a820636f4b95fe49aeab4cf4f7b11d8, type: 2}
   ConditionalActions: []
   WeightModifier:
     baseValue: 1
@@ -238,13 +267,14 @@ MonoBehaviour:
   CanBeStunned: 1
   IsStunned: 0
   AnimationManager: {fileID: 2655164821236707485}
-  SpawnInGround: 0
+  SpawnModifier: 2
   ImpactFieldPrefab: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
   PedestalLayer:
     serializedVersion: 2
     m_Bits: 8388608
   slamCooldownTime: 0.5
   FireballObj: {fileID: 8075196302112617494, guid: 4bde5d9bc854ece4eb33694f2dbec6e0, type: 3}
+  FireballRootBone: {fileID: 6271799594283534160}
   FireballDamage: 15
   FireFieldDamage: 5
   TargetableLayers:
@@ -326,6 +356,10 @@ MonoBehaviour:
     clip: {fileID: 7400000, guid: 03bcc828a31f0d64982a2d791e8249c5, type: 2}
   - type: 4
     clip: {fileID: 7400000, guid: 67614cd7346dd224a97e38e1ca312bf2, type: 2}
+  - type: 7
+    clip: {fileID: 7400000, guid: 536ac98b3d0c5df4badd799047aa4a48, type: 2}
+  - type: 9
+    clip: {fileID: 7400000, guid: 383a777f76037dc4a8f9ecd069e0c723, type: 2}
 --- !u!1001 &8692017147088139984
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -348,15 +382,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.36553
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.95
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.74695
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
       propertyPath: m_LocalRotation.w
@@ -404,6 +438,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2751084901059389616}
+    - targetCorrespondingSourceObject: {fileID: 6504283247249883518, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9147723052699911993}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
       insertIndex: -1
