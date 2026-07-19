@@ -165,9 +165,11 @@ public class WaitForInputAction : TutorialCondition
 {
     public InputActionReference inputAction;
     private bool complete;
+    private TutorialManager manager;
     public override IEnumerator Wait(TutorialManager manager)
     {
         complete = false;
+        this.manager = manager;
         inputAction.action.performed += OnAction;
         while (!complete)
         {
@@ -183,6 +185,43 @@ public class WaitForInputAction : TutorialCondition
     }
     private void OnAction(InputAction.CallbackContext context)
     {
+        if (!manager.HandleConditionInput(context)) { Debug.Log("Not allowed to complete"); return; }
+        Debug.Log("Allowed to complete");
+        complete = true;
+    }
+}
+
+[Serializable]
+public class WaitForLeftClickInputAction : TutorialCondition
+{
+    public InputActionReference inputAction;
+    public static event Action InputToSkip;
+    private bool complete;
+    private TutorialManager manager;
+    public override IEnumerator Wait(TutorialManager manager)
+    {
+        complete = false;
+        this.manager = manager;
+        inputAction.action.performed += OnAction;
+        while (!complete)
+        {
+            if (manager.restartCurrentStep)
+            {
+                inputAction.action.performed -= OnAction;
+                yield break;
+            }
+
+            yield return null;
+        }
+        inputAction.action.performed -= OnAction;
+    }
+    private void OnAction(InputAction.CallbackContext context)
+    {
+        if (!manager.typingTextBox.finishedTyping)
+        {
+            InputToSkip?.Invoke();
+            return;
+        }
         complete = true;
     }
 }

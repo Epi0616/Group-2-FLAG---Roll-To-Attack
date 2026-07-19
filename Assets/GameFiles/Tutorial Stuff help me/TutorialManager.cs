@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 public class TutorialManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject TutorialDarkOverlay;
     [SerializeField] private RectTransform TutorialOverlayCutout;
     private TutorialTextBox textBox;
+    public TypedLettersTMP typingTextBox;
     private RectTransform boxRect;
     private RectTransform portraitRect;
     private Image DarkOverlayImage;
@@ -32,6 +34,9 @@ public class TutorialManager : MonoBehaviour
     private bool nextStepHighlted, isHighlighted;
     public static event Action<int> StartIndexWave;
     public static event Action DisplayDiceUI;
+    public InputActionReference skipInput;
+    private bool hasSkippedThisStep;
+    public bool inputConsumed;
     public void Start()
     {
         textBox = TutorialTextBoxObj.GetComponentInChildren<TutorialTextBox>();
@@ -40,6 +45,16 @@ public class TutorialManager : MonoBehaviour
         DarkOverlayImage = TutorialDarkOverlay.GetComponent<Image>();
         overlayColour = DarkOverlayImage.color;
         StartCoroutine(StartTutorialDisplay());
+    }
+
+    public void OnEnable()
+    {
+        skipInput.action.performed += SkipInputPressed;
+    }
+
+    public void OnDisable()
+    {
+        skipInput.action.performed -= SkipInputPressed;
     }
 
     public IEnumerator StartTutorialDisplay()
@@ -66,6 +81,7 @@ public class TutorialManager : MonoBehaviour
             Debug.Log("Starting Step " + stepIndex);
             restartCurrentStep = false;
             stepComplete = false;
+            hasSkippedThisStep = false;
 
             if (stage.TutorialSteps[stepIndex].blocksUIInteraction)
             {
@@ -75,6 +91,7 @@ public class TutorialManager : MonoBehaviour
             boxRect.anchoredPosition = stage.TutorialSteps[stepIndex].pos;
             HandleText(stage.TutorialSteps[stepIndex]);
             HandlePortrait(stage.TutorialSteps[stepIndex]);
+            HandleTypingBlocker(stage.TutorialSteps[stepIndex]);
             if (stage.TutorialSteps[stepIndex].highlightElement && stage.TutorialSteps[stepIndex + 1] != null)
             {
                 if (stage.TutorialSteps[stepIndex + 1].highlightElement)
@@ -111,8 +128,8 @@ public class TutorialManager : MonoBehaviour
 
             HandleUnlocks(stage.TutorialSteps[stepIndex]);
 
-            yield return stage.TutorialSteps[stepIndex].condition.Wait(this);
-            
+            yield return stage.TutorialSteps[stepIndex].condition.Wait(this);            
+
             if (stage.TutorialSteps[stepIndex].pausesGame)
             {
                 yield return TimeScalingCO = StartCoroutine(ScaleTimeSmoothly(1f, 0.25f));
@@ -152,6 +169,56 @@ public class TutorialManager : MonoBehaviour
         
     }
 
+    public bool HandleConditionInput(InputAction.CallbackContext context)
+    {
+        if (context.action == skipInput.action && !inputConsumed)
+        {
+            typingTextBox.Skip();
+            inputConsumed = true;
+            return false;
+        }
+        inputConsumed = false;
+        return true;
+        
+    }
+
+    public void SkipInputPressed(InputAction.CallbackContext context)
+    {
+        if (!typingTextBox.finishedTyping && !hasSkippedThisStep)
+        {
+            typingTextBox.Skip();
+            hasSkippedThisStep = true;
+        }
+        
+    }
+
+    //public bool HandleConditionInput(InputAction.CallbackContext context)
+    //{
+    //    if (context.action == typingTextBox.skipInput.action && typingTextBox.lastActionSkipped)
+    //    {
+    //        typingTextBox.lastActionSkipped = false;
+    //        return true;
+    //    }
+    //    return false;
+    //}
+
+
+    private IEnumerator HandleTypingBlocker(TutorialStep step)
+    {
+        if (!typingTextBox.finishedTyping)
+        {
+            TutorialUIBlockerObj.SetActive(true);
+        }
+        while (!typingTextBox.finishedTyping)
+        {
+            yield return null;
+        }
+        if (!step.blocksUIInteraction)
+        {
+            TutorialUIBlockerObj.SetActive(false);
+        }
+    }
+
     private void HandleUnlocks(TutorialStep step)
     {
         if (step.unlocksJump && !hasJump)
@@ -170,14 +237,17 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleText(TutorialStep step)
     {
+        Debug.Log("Displaying");
         if (step.hasBeenReset && step.ResetText != null)
         {
-            textBox.DisplayText(step.ResetText);
+            typingTextBox.SetText(step.ResetText);
+            //textBox.DisplayText(step.ResetText);
             step.hasBeenReset = false;
         }
         else
         {
-            textBox.DisplayText(step.Text);
+            typingTextBox.SetText(step.Text);
+            //textBox.DisplayText(step.Text);
         }
     }
 

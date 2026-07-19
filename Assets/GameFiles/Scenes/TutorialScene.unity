@@ -5626,6 +5626,7 @@ MonoBehaviour:
   TutorialUIBlockerObj: {fileID: 488709708}
   TutorialDarkOverlay: {fileID: 634240465}
   TutorialOverlayCutout: {fileID: 1495288915}
+  typingTextBox: {fileID: 1227641768}
   stages:
   - {fileID: 11400000, guid: ac9155c03ec57194cac641edfa30c1c2, type: 2}
   - {fileID: 11400000, guid: b5c479bf110f7cc4d88a04b72f45c85f, type: 2}
@@ -5640,6 +5641,8 @@ MonoBehaviour:
   jumpSO: {fileID: 11400000, guid: 08bf4a9e7422fbe45bc99be6b8584cc6, type: 2}
   chargeSO: {fileID: 11400000, guid: 1eba1c10fc9560b4ca4cdff0d3dda29d, type: 2}
   movementSO: {fileID: 11400000, guid: 61b6851bd4f9d8448a097b34084e53a8, type: 2}
+  skipInput: {fileID: 2525839080095791905, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  inputConsumed: 0
 --- !u!4 &615646623
 Transform:
   m_ObjectHideFlags: 0
@@ -10647,6 +10650,7 @@ GameObject:
   - component: {fileID: 1227641767}
   - component: {fileID: 1227641766}
   - component: {fileID: 1227641765}
+  - component: {fileID: 1227641768}
   m_Layer: 5
   m_Name: Tutorial Text
   m_TagString: Untagged
@@ -10786,6 +10790,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227641763}
   m_CullTransparentMesh: 1
+--- !u!114 &1227641768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227641763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b918ce52c50f3ff449f5c6a7f7c2ee1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TypedLettersTMP
+  charactersPerSecond: 10
+  isSkipping: 0
+  finishedTyping: 0
 --- !u!1 &1233216727
 GameObject:
   m_ObjectHideFlags: 0
