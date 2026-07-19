@@ -52,7 +52,7 @@ MonoBehaviour:
     pausesGame: 0
     blocksUIInteraction: 1
     bringUpSelectionUI: 0
-    highlightElement: 0
+    highlightElement: 1
     HighlightPos: {x: 0, y: 0}
     HighlightScale: {x: 0, y: 0}
     unlocksJump: 0
@@ -184,13 +184,13 @@ MonoBehaviour:
   - Text: You can use the Inventory on the right to store extra abilities for upgrades
       or safekeeping
     ResetText: 
-    pos: {x: 850, y: -500}
+    pos: {x: 900, y: -500}
     usesPortrait: 1
     pausesGame: 0
     blocksUIInteraction: 1
     bringUpSelectionUI: 0
     highlightElement: 1
-    HighlightPos: {x: 950, y: 30}
+    HighlightPos: {x: 900, y: 30}
     HighlightScale: {x: 550, y: 900}
     unlocksJump: 0
     unlocksMovement: 0
@@ -242,7 +242,22 @@ MonoBehaviour:
     unlocksMovement: 0
     hasBeenReset: 0
     condition:
-      rid: 8791738295823630539
+      rid: 8791738295823630564
+  - Text: Woo Hoo
+    ResetText: 
+    pos: {x: -850, y: -450}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 25, y: -490}
+    HighlightScale: {x: 650, y: 150}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738295823630565
   references:
     version: 2
     RefIds:
@@ -257,7 +272,10 @@ MonoBehaviour:
       type: {class: WaitForInputAction, ns: , asm: Assembly-CSharp}
       data:
         inputAction: {fileID: 2525839080095791905, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-    - rid: 8791738295823630539
+    - rid: 8791738295823630564
+      type: {class: WaitForContinuePressed, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8791738295823630565
       type: {class: WaitForTime, ns: , asm: Assembly-CSharp}
       data:
-        duration: 10
+        duration: 5

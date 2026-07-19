@@ -66,7 +66,12 @@ public class TutorialManager : MonoBehaviour
             Debug.Log("Starting Step " + stepIndex);
             restartCurrentStep = false;
             stepComplete = false;
-   
+
+            if (stage.TutorialSteps[stepIndex].blocksUIInteraction)
+            {
+                TutorialUIBlockerObj.SetActive(true);
+            }
+
             boxRect.anchoredPosition = stage.TutorialSteps[stepIndex].pos;
             HandleText(stage.TutorialSteps[stepIndex]);
             HandlePortrait(stage.TutorialSteps[stepIndex]);
@@ -103,12 +108,8 @@ public class TutorialManager : MonoBehaviour
             {
                 yield return TimeScalingCO = StartCoroutine(ScaleTimeSmoothly(0f, 1f));
             }
-            if (stage.TutorialSteps[stepIndex].blocksUIInteraction)
-            {
-                TutorialUIBlockerObj.SetActive(true);
-            }
 
-            HandleUnlocks(stage.TutorialSteps[stepIndex]);          
+            HandleUnlocks(stage.TutorialSteps[stepIndex]);
 
             yield return stage.TutorialSteps[stepIndex].condition.Wait(this);
             
@@ -119,7 +120,7 @@ public class TutorialManager : MonoBehaviour
 
             TutorialPortraitObj.SetActive(false);
             TutorialUIBlockerObj.SetActive(false);
-            StartCoroutine(RemoveHighlighting(stage.TutorialSteps[stepIndex], 0.5f));
+            yield return StartCoroutine(RemoveHighlighting(stage.TutorialSteps[stepIndex], 0.5f));
 
             if (!restartCurrentStep)
             {

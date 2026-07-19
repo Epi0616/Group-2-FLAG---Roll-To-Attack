@@ -226,3 +226,29 @@ public class WaitForAbilitySelected : TutorialCondition
         complete = true;
     }
 }
+
+[Serializable]
+public class WaitForContinuePressed : TutorialCondition
+{
+    private bool complete;
+    public override IEnumerator Wait(TutorialManager manager)
+    {
+        complete = false;
+        ContinueButton.Continue += OnContinue;
+        while (!complete)
+        {
+            if (manager.restartCurrentStep)
+            {
+                ContinueButton.Continue -= OnContinue;
+                yield break;
+            }
+
+            yield return null;
+        }
+        ContinueButton.Continue -= OnContinue;
+    }
+    private void OnContinue()
+    {
+        complete = true;
+    }
+}
