@@ -120,7 +120,7 @@ public class TutorialManager : MonoBehaviour
 
             TutorialPortraitObj.SetActive(false);
             TutorialUIBlockerObj.SetActive(false);
-            yield return StartCoroutine(RemoveHighlighting(stage.TutorialSteps[stepIndex], 0.5f));
+            StartCoroutine(RemoveHighlighting(stage.TutorialSteps[stepIndex], 0.5f));
 
             if (!restartCurrentStep)
             {

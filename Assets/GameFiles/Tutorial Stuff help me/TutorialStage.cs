@@ -130,24 +130,23 @@ public class DummyDeathCondition : TutorialCondition
                 if (currentCorrectDeaths >= numRequired)
                 {
                     complete = true;
+                    return;
                 }
                 desiredFound = true;
                 break;
             }
         }
 
-        if (!desiredFound)
+        if (totalDeaths >= numRequired)
         {
-            if (totalDeaths >= numRequired)
-            {
-                // Event to ReStart Wave & Tutorial Stage
-                //Debug.Log("Stage Reset True");
-                manager.restartCurrentStep = true;
-            }
-        }       
-       
-        //Debug.Log("total Deaths " + totalDeaths);
-        //Debug.Log("current Correct " +  currentCorrectDeaths);
+            // Event to ReStart Wave & Tutorial Stage
+            Debug.Log("Stage Reset True");
+            manager.restartCurrentStep = true;
+        }
+
+        Debug.Log("total Deaths " + totalDeaths);
+        Debug.Log("current Correct " +  currentCorrectDeaths);
+        Debug.Log("num required" + numRequired);
     }
 }
 
