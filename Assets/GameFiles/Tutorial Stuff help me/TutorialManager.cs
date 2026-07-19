@@ -70,9 +70,17 @@ public class TutorialManager : MonoBehaviour
             boxRect.anchoredPosition = stage.TutorialSteps[stepIndex].pos;
             HandleText(stage.TutorialSteps[stepIndex]);
             HandlePortrait(stage.TutorialSteps[stepIndex]);
-            if (stage.TutorialSteps[stepIndex].highlightElement && stage.TutorialSteps[stepIndex + 1].highlightElement)
+            if (stage.TutorialSteps[stepIndex].highlightElement && stage.TutorialSteps[stepIndex + 1] != null)
             {
-                nextStepHighlted = true;
+                if (stage.TutorialSteps[stepIndex + 1].highlightElement)
+                {
+                    Debug.Log("Next Step Highlighted");
+                    nextStepHighlted = true;
+                }
+                else
+                {
+                    nextStepHighlted = false;
+                }
             }
             else
             {
@@ -236,7 +244,7 @@ public class TutorialManager : MonoBehaviour
             {
                 TutorialOverlayCutout.anchoredPosition = step.HighlightPos;
                 hasMoved = true;
-                TutorialOverlayCutout.sizeDelta = step.HighlightScale * 1.75f;
+                TutorialOverlayCutout.sizeDelta = step.HighlightScale * 1.5f;
             }
             Vector2 startSize = TutorialOverlayCutout.sizeDelta;
 
@@ -283,6 +291,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (step.highlightElement && !nextStepHighlted)
         {
+            Debug.Log("Removing Overlay");
             float startAlpha = DarkOverlayImage.color.a;
             float timer = 0;
             while (timer < duration)

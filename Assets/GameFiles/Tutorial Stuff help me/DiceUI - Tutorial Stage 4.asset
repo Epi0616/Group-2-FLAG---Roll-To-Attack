@@ -15,11 +15,14 @@ MonoBehaviour:
   TutorialSteps:
   - Text: After all enemies are dead, you will get to select an ability
     ResetText: 
-    pos: {x: 0, y: -450}
+    pos: {x: 0, y: -500}
     usesPortrait: 1
     pausesGame: 0
     blocksUIInteraction: 1
     bringUpSelectionUI: 1
+    highlightElement: 1
+    HighlightPos: {x: 0, y: 125}
+    HighlightScale: {x: 1500, y: 1050}
     unlocksJump: 0
     unlocksMovement: 0
     hasBeenReset: 0
@@ -28,28 +31,218 @@ MonoBehaviour:
   - Text: One of the 2 abilities that you select will go on one of the sides of the
       dice
     ResetText: 
-    pos: {x: 0, y: -450}
+    pos: {x: 0, y: -500}
     usesPortrait: 1
     pausesGame: 0
     blocksUIInteraction: 0
     bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: 0, y: 125}
+    HighlightScale: {x: 1500, y: 1050}
     unlocksJump: 0
     unlocksMovement: 0
     hasBeenReset: 0
     condition:
       rid: 8791738272700957230
-  - Text: Welcome to dice screen my brain hurts
+  - Text: Once you've selected your new ability you'll be presented with the option
+      to adjust your dice
+    ResetText: 
+    pos: {x: -850, y: -450}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 0, y: 0}
+    HighlightScale: {x: 0, y: 0}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: Your new ability is found in the central slot
+    ResetText: 
+    pos: {x: 0, y: -200}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: 0, y: -12}
+    HighlightScale: {x: 200, y: 200}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: Any ability left here after customisation is deleted
+    ResetText: 
+    pos: {x: 0, y: -200}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: 0, y: -12}
+    HighlightScale: {x: 200, y: 200}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: Each of the six surrounding slots corrisponds to a side of your dice
+    ResetText: 
+    pos: {x: -850, y: -500}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: 0, y: 11}
+    HighlightScale: {x: 800, y: 800}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: Currently they are all filled with the basic ability you've already used
     ResetText: 
     pos: {x: 0, y: -450}
     usesPortrait: 1
     pausesGame: 0
     blocksUIInteraction: 1
     bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: 0, y: 11}
+    HighlightScale: {x: 800, y: 800}
     unlocksJump: 0
     unlocksMovement: 0
     hasBeenReset: 0
     condition:
       rid: 8791738272700957255
+  - Text: On the Left is a brief ability description, displayed when you hover over
+      an ability
+    ResetText: 
+    pos: {x: -850, y: -500}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: -785, y: 520}
+    HighlightScale: {x: 500, y: 300}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: Also On the left is the upgade area
+    ResetText: 
+    pos: {x: -850, y: -450}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: -840, y: 20}
+    HighlightScale: {x: 650, y: 700}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: 'Abilities come in both a base form an enhanced form, '
+    ResetText: 
+    pos: {x: -850, y: -450}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: -840, y: 20}
+    HighlightScale: {x: 650, y: 700}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: Combine two like abilities of the same tier to upgrade them
+    ResetText: 
+    pos: {x: -850, y: -450}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: -840, y: 20}
+    HighlightScale: {x: 650, y: 700}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: You can use the Inventory on the right to store extra abilities for upgrades
+      or safekeeping
+    ResetText: 
+    pos: {x: 850, y: -500}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: 950, y: 30}
+    HighlightScale: {x: 550, y: 900}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: Once you are happy with your loadout pres the continue button to advance
+    ResetText: 
+    pos: {x: -850, y: -450}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: 25, y: -490}
+    HighlightScale: {x: 650, y: 150}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: If you have any empty dice slots and attempt to continue they'll be filled
+      with basic abilities
+    ResetText: 
+    pos: {x: -850, y: -450}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: 25, y: -490}
+    HighlightScale: {x: 650, y: 150}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957255
+  - Text: Have a Go, you can swap abilities by dragging them over each other
+    ResetText: 
+    pos: {x: -850, y: -450}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 25, y: -490}
+    HighlightScale: {x: 650, y: 150}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738295823630539
   references:
     version: 2
     RefIds:
@@ -64,3 +257,7 @@ MonoBehaviour:
       type: {class: WaitForInputAction, ns: , asm: Assembly-CSharp}
       data:
         inputAction: {fileID: 2525839080095791905, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    - rid: 8791738295823630539
+      type: {class: WaitForTime, ns: , asm: Assembly-CSharp}
+      data:
+        duration: 10
