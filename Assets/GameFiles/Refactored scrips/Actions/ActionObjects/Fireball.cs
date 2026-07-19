@@ -4,12 +4,20 @@ using System.Collections;
 public class Fireball : MonoBehaviour
 {
     [SerializeField] protected GameObject impactFieldPrefab;
+    [SerializeField] protected Vector3 startScale;
+
     protected Vector3 direction;
     private int impactDamage;
     private int fieldDamage;
     protected Entity ownerEntity;
 
     private bool hitTarget = false;
+    public bool active = false;
+
+    private void OnEnable()
+    {
+        transform.localScale = startScale;
+    }
 
     public virtual void Initialize(Entity ownerEntity, Vector3 direction, int impactDamage, int fieldDamage)
     {
@@ -18,9 +26,15 @@ public class Fireball : MonoBehaviour
         this.impactDamage = impactDamage;
         this.fieldDamage = fieldDamage;
 
+        active = true;
         hitTarget = false;
         StopAllCoroutines();
         StartCoroutine(Attack());
+    }
+
+    public void HandlePathToTarget()
+    { 
+        
     }
 
     private IEnumerator Attack()
@@ -40,6 +54,7 @@ public class Fireball : MonoBehaviour
 
     private void OnTriggerEnter(Collider hit)
     {
+        if (!active) return;
         if (hitTarget) return;
         if (!(ownerEntity is IFireballAction fireballAction)) return;
 

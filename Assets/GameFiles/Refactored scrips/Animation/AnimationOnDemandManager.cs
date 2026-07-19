@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,12 +14,10 @@ public class AnimationOnDemandManager : MonoBehaviour
     private Entity ownerEntity;
 
     private PlayableGraph graph;
-    //private AnimationMixerPlayable mainMixer, complimentaryMixer;
     private AnimationPlayableOutput mainAnimationOutput, complimentaryAnimationOutput;
 
     private Dictionary<AnimationType, AnimationClip> animationClips;
 
-    private Coroutine crossFadeAnimation;
     MixerContainer mainMixer, complimentaryMixer;
     private int currentPriority;
 
@@ -58,14 +57,14 @@ public class AnimationOnDemandManager : MonoBehaviour
         mainMixer = new MixerContainer(
             AnimationMixerPlayable.Create(graph, 2),
             MixerType.main,
-            default,
+            AnimationType.None,
             int.MaxValue
         );
 
         complimentaryMixer = new MixerContainer(
             AnimationMixerPlayable.Create(graph, 2),
-            MixerType.main,
-            default,
+            MixerType.complimentary,
+            AnimationType.None,
             int.MaxValue
         );
 
@@ -110,7 +109,7 @@ public class AnimationOnDemandManager : MonoBehaviour
         mixer.mixer.DisconnectInput(0);
 
         SetPlayableSpeed(ref newPlayable, window);
-        crossFadeAnimation = StartCoroutine(ConnectPlayableCrossFade(newPlayable, currentPlayable, mixer, crossFadeDuration));
+        mixer.crossFadeRoutine = StartCoroutine(ConnectPlayableCrossFade(newPlayable, currentPlayable, mixer, crossFadeDuration));
 
         mixer.priority = priority;
         mixer.animationType = newAnimationType;
@@ -144,6 +143,7 @@ public class AnimationOnDemandManager : MonoBehaviour
             yield return null;
         }
 
+        mixer.mixer.SetInputWeight(0, 1);
         DestroyMixerPlayable(mixer, 1);
     }
 
@@ -161,10 +161,11 @@ public class AnimationOnDemandManager : MonoBehaviour
 
     private void CancelCurrentCrossFade(MixerContainer mixer)
     {
-        if (crossFadeAnimation != null)
+        if (mixer.crossFadeRoutine != null)
         {
-            StopCoroutine(crossFadeAnimation);
+            StopCoroutine(mixer.crossFadeRoutine);
             DestroyMixerPlayable(mixer, 1);
+            mixer.mixer.SetInputWeight(0, 1);
         }
     }
 
@@ -237,16 +238,29 @@ public class AnimationOnDemandManager : MonoBehaviour
     }
 }
 
-public struct MixerContainer
+[Serializable]
+public struct AnimationClipType
+{
+    public AnimationType type;
+    public AnimationClip clip;
+    public AnimationClipType(AnimationType type, AnimationClip clip)
+    {
+        this.type = type;
+        this.clip = clip;
+    }
+}
+
+public class MixerContainer
 {
     public AnimationMixerPlayable mixer;
 
+    public Coroutine crossFadeRoutine;
     public MixerType mixerType;
     public AnimationType animationType;
     public int priority;
 
     public MixerContainer(AnimationMixerPlayable mixer, MixerType mixerType, AnimationType animationType, int priority)
-    { 
+    {
         this.mixer = mixer;
         this.mixerType = mixerType;
         this.animationType = animationType;
@@ -258,5 +272,24 @@ public enum MixerType
 { 
     main,
     complimentary
+}
+
+public enum AnimationType
+{
+    None,
+    Idle,
+    WakeUp,
+    Waddle,
+    Attack,
+    Defend,
+    DefendCharge,
+    Charge,
+    RockThrow,
+    OnStunned,
+    Stunned,
+    StunnedOver,
+    Scream,
+    ScreamUpwards,
+    Death
 }
 

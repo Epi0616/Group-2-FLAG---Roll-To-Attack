@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using UnityEditor.Localization.Reporting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,7 +9,7 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset = new Vector3(0, 30, -30);
     [SerializeField] private float speed = 5f;
-    private Quaternion rotation;
+    private Quaternion startRotation;
 
     private float shakeDuration = 0f;
     private float shakeMagnitude = 0f;
@@ -16,6 +18,7 @@ public class PlayerCamera : MonoBehaviour
     private void OnEnable()
     {
         JumpAction.ShakeScreen += AddScreenShake;
+        FallFromTheSky.BossFallingFromSky += HandleTrackEnemy;
 
         Initialize();
     }
@@ -23,6 +26,7 @@ public class PlayerCamera : MonoBehaviour
     private void OnDisable()
     {
         JumpAction.ShakeScreen -= AddScreenShake;
+        FallFromTheSky.BossFallingFromSky -= HandleTrackEnemy;
     }
 
     private void Initialize()
@@ -31,6 +35,7 @@ public class PlayerCamera : MonoBehaviour
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
         }
+        startRotation = transform.rotation;
         transform.position = target.position + offset;
     }
 
@@ -53,5 +58,52 @@ public class PlayerCamera : MonoBehaviour
     {
         shakeDuration = magnitude / 10;
         shakeMagnitude = magnitude;
+    }
+
+    private void HandleTrackEnemy(float duration, Transform transform)
+    {
+        StartCoroutine(TrackEnemy(duration, transform));
+    }
+
+    private IEnumerator TrackEnemy(float duration, Transform EnemyTransform)
+    {
+        float fithTime = duration / 5;
+        float timer = fithTime * 2;
+        float t = 0;
+        float easeOutT = 0;
+
+        while (t < 1)
+        {
+            timer -= Time.deltaTime;
+            t = ((fithTime * 2) - timer) / (fithTime * 2);
+            easeOutT = 1 - Mathf.Pow(1 - t, 2);
+
+            Quaternion enemyRotation = Quaternion.LookRotation(EnemyTransform.position - transform.position);
+            transform.rotation = Quaternion.Lerp(startRotation, enemyRotation, easeOutT);
+            yield return null;
+        }
+
+        t = fithTime * 2;
+
+        while (t > 0)
+        { 
+            t-= Time.deltaTime;
+            Quaternion enemyRotation = Quaternion.LookRotation(EnemyTransform.position - transform.position);
+            transform.rotation = enemyRotation;
+            yield return null;
+        }
+
+        t = 0;
+        timer = fithTime;
+        Quaternion targetRotation = transform.rotation;
+
+        while (t < 1)
+        {
+            timer -= Time.deltaTime;
+            t = (fithTime - timer) / fithTime;
+
+            transform.rotation = Quaternion.Lerp(targetRotation, startRotation, t);
+            yield return null;
+        }
     }
 }
