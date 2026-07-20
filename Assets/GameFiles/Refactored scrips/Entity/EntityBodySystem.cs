@@ -50,4 +50,9 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     {
         // Reset body system state if needed
     }
+
+    public virtual void SetVisibility(bool visible)
+    {
+        body.SetActive(visible);
+    }
 }

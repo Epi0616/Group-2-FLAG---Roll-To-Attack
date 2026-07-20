@@ -1,12 +1,7 @@
-using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 using Random = UnityEngine.Random;
 
 public class WaveSpawner : MonoBehaviour
@@ -107,7 +102,7 @@ public class WaveSpawner : MonoBehaviour
 
                 case SpawnModifier.dragonSpawnInSky:
                     spawnPosFinal = PickSpawnAreaCircular();
-                    spawnPosFinal.y += 50f;
+                    spawnPosFinal.y -= 10f;//currently the action sets the correct height, this is to make sure the player doesnt breifly see the dragon body before it teleports up high, while still allowing for the nav mesh agent to be initialized
                     break;
 
                 default: //duplicating this else feels bad but i currently am tired and cant think of a better way to do it
@@ -115,11 +110,8 @@ public class WaveSpawner : MonoBehaviour
                     break;
             }
         }
-        else
-        {
-            // Spawn and place the new enemy
-            spawnPosFinal = PickSpawnAreaPoint();
-        }
+        else { Debug.LogError("BROWHERE IS THE SPAWN MOD????"); }
+
         if (obj == null) { Debug.LogError("obj is null"); }
         if (spawnPosFinal == null) { Debug.LogError("SpawnPos is null"); }
 
@@ -127,7 +119,7 @@ public class WaveSpawner : MonoBehaviour
 
         if (spawnedEntity.TryGetComponent<AIDrivenEntity>(out AIDrivenEntity entity))
         {
-            if (spawnModifier != null)
+            if (spawnModifier.spawnModifier != SpawnModifier.None)
             {
                 entity.DisableAIAgent();
             }

@@ -11,7 +11,7 @@ public class FallFromTheSky : BaseEntityAction
     [SerializeField] private int shieldStacks;
     [SerializeField] private float duration = 7.5f;
 
-    private Vector3 endPosition;
+    private Vector3 startPosition;
 
     public FallFromTheSky() { }
     public FallFromTheSky(bool preventsMovement, int shieldStacks, float duration)
@@ -24,7 +24,7 @@ public class FallFromTheSky : BaseEntityAction
     public override void StartAction(Entity ownerEntity)
     {
         base.StartAction(ownerEntity);
-        BossFallingFromSky?.Invoke(duration, ownerEntity.transform);
+        ownerEntity.bodySystem.SetVisibility(false);        
 
         ActiveStatusEffect shieldEffect = new(new ShieldedStatus(shieldStacks), new List<BaseCondition>() { new AlwaysTrueCondition(true) }, false);
         ownerEntity.statusSystem.OnRecieveEffect(shieldEffect);
@@ -34,10 +34,10 @@ public class FallFromTheSky : BaseEntityAction
             //animated.animationManager.PlayAnimationCrossFade(AnimationType.WakeUp, 1, MixerType.main, 0.2f, 5);
         }
 
-        endPosition = ownerEntity.transform.position;
-        endPosition.y -= 48f;// spawner specifies 50 in the air but model would put base plate in the floor
+        startPosition = ownerEntity.transform.position;
+        startPosition.y += 50f;
 
-        ownerEntity.StartCoroutine(FallDown(ownerEntity.transform.position, endPosition, duration));
+        ownerEntity.StartCoroutine(FallDown(startPosition, ownerEntity.transform.position, duration));
     }
 
     private IEnumerator FallDown(Vector3 start, Vector3 end, float duration)
@@ -45,6 +45,11 @@ public class FallFromTheSky : BaseEntityAction
         float timer = duration;
         float t = 0;
         float easeInT = 0;
+
+        BossFallingFromSky?.Invoke(duration, ownerEntity.transform);
+
+        ownerEntity.transform.position = start;
+        ownerEntity.bodySystem.SetVisibility(true);
 
         while (t < 1)
         {
