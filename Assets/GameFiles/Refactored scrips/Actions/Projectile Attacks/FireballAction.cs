@@ -94,6 +94,8 @@ public class FireballAction : BaseEntityAction, ISlam
 
     public override void InterruptAction()
     {
+        Debug.Log("fireball action being interrupted");
+
         if (trackFireballToMouthRoutine != null)
         {
             ownerEntity.StopCoroutine(trackFireballToMouthRoutine);
@@ -102,10 +104,9 @@ public class FireballAction : BaseEntityAction, ISlam
         { 
             ownerEntity.StopCoroutine(endActionDelayRoutine);
         }
-
-        if (fireball.gameObject != null && fireball.active)
+        if (fireball.gameObject != null && !fireball.active)
         {
-            ObjectPoolManager.ReturnObjectToPool(fireball.gameObject);
+            fireball.TryToCancel(ownerEntity);
         }
 
         EndAction();
