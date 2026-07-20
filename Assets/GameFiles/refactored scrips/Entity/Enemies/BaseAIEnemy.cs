@@ -54,8 +54,8 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     public AnimationOnDemandManager animationManager { get => AnimationManager; set => AnimationManager = value; }
 
     [Header("ISpawnModifier Properties")]
-    [SerializeField] private bool SpawnInGround = false;
-    public bool spawnInGround { get => SpawnInGround; set => SpawnInGround = value; }
+    [SerializeField] private SpawnModifier SpawnModifier;
+    public SpawnModifier spawnModifier { get => SpawnModifier; set => SpawnModifier = value; }
 
     //// ENEMY MOVEMENT AND ACTION PROPERTIES
     //public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();

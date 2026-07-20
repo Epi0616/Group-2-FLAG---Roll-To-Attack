@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor.Localization.Reporting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -9,7 +10,7 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private Transform target;
     public Vector3 offset = new Vector3(0, 30, -30);
     [SerializeField] private float speed = 5f;
-    private Quaternion rotation;
+    private Quaternion startRotation;
 
     private float shakeDuration = 0f;
     private float shakeMagnitude = 0f;
@@ -20,6 +21,7 @@ public class PlayerCamera : MonoBehaviour
     private void OnEnable()
     {
         JumpAction.ShakeScreen += AddScreenShake;
+        FallFromTheSky.BossFallingFromSky += HandleTrackEnemy;
 
         Initialize();
     }
@@ -27,6 +29,7 @@ public class PlayerCamera : MonoBehaviour
     private void OnDisable()
     {
         JumpAction.ShakeScreen -= AddScreenShake;
+        FallFromTheSky.BossFallingFromSky -= HandleTrackEnemy;
     }
 
     private void Initialize()
@@ -35,6 +38,7 @@ public class PlayerCamera : MonoBehaviour
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
         }
+        startRotation = transform.rotation;
         transform.position = target.position + offset;
         startingOffset = offset;
     }
@@ -60,37 +64,50 @@ public class PlayerCamera : MonoBehaviour
         shakeMagnitude = magnitude;
     }
 
-    public IEnumerator ZoomIn(float duration)
+    private void HandleTrackEnemy(float duration, Transform transform)
     {
-        Vector3 Start = startingOffset;
-        float timer = 0;
-        while (timer < duration)
-        {
-            timer += Time.unscaledDeltaTime;
-            float t = timer / duration;
-            t = Mathf.SmoothStep(0f, 1f, t);
-            float y = Mathf.Lerp(Start.y, zoomInOffset.y, t);
-            float z = Mathf.Lerp(Start.z, zoomInOffset.z, t);
-            offset = new Vector3(0, y, z);
-            yield return null;
-        }
-        offset = zoomInOffset;
+        StartCoroutine(TrackEnemy(duration, transform));
     }
 
-    public IEnumerator ZoomOut(float duration)
+    private IEnumerator TrackEnemy(float duration, Transform EnemyTransform)
     {
-        Vector3 Start = zoomInOffset;
-        float timer = 0;
-        while (timer < duration)
+        float fithTime = duration / 5;
+        float timer = fithTime * 2;
+        float t = 0;
+        float easeOutT = 0;
+
+        while (t < 1)
         {
-            timer += Time.unscaledDeltaTime;
-            float t = timer / duration;
-            t = Mathf.SmoothStep(0f, 1f, t);
-            float y = Mathf.Lerp(Start.y, startingOffset.y, t);
-            float z = Mathf.Lerp(Start.z, startingOffset.z, t);
-            offset = new Vector3(0, y, z);
+            timer -= Time.deltaTime;
+            t = ((fithTime * 2) - timer) / (fithTime * 2);
+            easeOutT = 1 - Mathf.Pow(1 - t, 2);
+
+            Quaternion enemyRotation = Quaternion.LookRotation(EnemyTransform.position - transform.position);
+            transform.rotation = Quaternion.Lerp(startRotation, enemyRotation, easeOutT);
             yield return null;
         }
-        offset = startingOffset;
+
+        t = fithTime * 2;
+
+        while (t > 0)
+        { 
+            t-= Time.deltaTime;
+            Quaternion enemyRotation = Quaternion.LookRotation(EnemyTransform.position - transform.position);
+            transform.rotation = enemyRotation;
+            yield return null;
+        }
+
+        t = 0;
+        timer = fithTime;
+        Quaternion targetRotation = transform.rotation;
+
+        while (t < 1)
+        {
+            timer -= Time.deltaTime;
+            t = (fithTime - timer) / fithTime;
+
+            transform.rotation = Quaternion.Lerp(targetRotation, startRotation, t);
+            yield return null;
+        }
     }
 }

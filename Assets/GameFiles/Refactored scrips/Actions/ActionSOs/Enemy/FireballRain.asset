@@ -16,10 +16,10 @@ MonoBehaviour:
     action:
       rid: 5042951995510751302
     conditions:
-    - rid: 5042952014074740736
     - rid: 5042951995510751304
+    - rid: 5042952306272763921
     allConditionsRequired: 1
-    singleUse: 1
+    singleUse: 0
     triggered: 0
     exclusive: 1
     priority: 1
@@ -45,8 +45,8 @@ MonoBehaviour:
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
-    - rid: 5042952014074740736
-      type: {class: HealthCondition, ns: , asm: Assembly-CSharp}
+    - rid: 5042952306272763921
+      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        healthThresholdPercentage: 50
+        duration: 30

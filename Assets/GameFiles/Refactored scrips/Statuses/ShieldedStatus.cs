@@ -10,7 +10,6 @@ public class ShieldedStatus : StatusEffect
 
     protected override void OnApplication()
     {
-        Debug.Log("ShieldedStatus applied to " + entityRef.name);
         base.OnApplication();
         if (entityRef is IShieldable shieldable)
         {
@@ -20,7 +19,6 @@ public class ShieldedStatus : StatusEffect
 
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
-        Debug.Log("blocking dmg through shield");
         damage.AddMultiplier(0);
         stacks--;
 

@@ -148,7 +148,13 @@ public class ActionController : IResetable
         {
             if (action.exclusive)
             {
-                return;
+                foreach (ConditionalAction potentialAction in potentialExclusiveActions)
+                {
+                    if (action.priority <= potentialAction.priority)
+                    {
+                        return;
+                    }
+                }
             }
         }
         ActivateExclusiveAction(potentialExclusiveActions);
@@ -187,6 +193,20 @@ public class ActionController : IResetable
         {
             int randomIndex = UnityEngine.Random.Range(0, lowestPriorityActiveActions.Count);
             chosenAction = lowestPriorityActiveActions[randomIndex];
+        }
+
+        for (int i = activeActions.Count - 1; i >= 0; i--) 
+        {
+            ConditionalAction action = activeActions[i];
+
+            if (action.exclusive)
+            { 
+                action.action.InterruptAction();
+                activeActions.Remove(action);
+                action.action.isComplete = false;
+                action.ResetConditionsAll();
+                availableActions.Add(action);
+            }
         }
 
         activeActions.Add(chosenAction);

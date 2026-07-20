@@ -218,27 +218,3 @@ public class AnimationManager : MonoBehaviour
         return animation.GetTime() >= animation.GetAnimationClip().length;
     }
 }
-
-[Serializable]
-public struct AnimationClipType
-{
-    public AnimationType type;
-    public AnimationClip clip;
-    public AnimationClipType(AnimationType type, AnimationClip clip)
-    {
-        this.type = type;
-        this.clip = clip;
-    }
-}
-
-public enum AnimationType
-{
-    None,
-    Idle,
-    WakeUp,
-    Waddle,
-    Attack,
-    Charge,
-    RockThrow,
-    Death
-}
