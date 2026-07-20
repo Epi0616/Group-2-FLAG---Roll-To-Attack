@@ -292,4 +292,3 @@ public enum AnimationType
     ScreamUpwards,
     Death
 }
-

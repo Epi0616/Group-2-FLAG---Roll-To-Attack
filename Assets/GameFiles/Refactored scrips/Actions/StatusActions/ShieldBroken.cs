@@ -25,7 +25,6 @@ public class ShieldBroken : BaseEntityAction
 
     public override void StartAction(Entity ownerEntity)
     {
-        Debug.Log("shields broken");
         base.StartAction(ownerEntity);
         if (ownerEntity is IAnimated animated)
         {
