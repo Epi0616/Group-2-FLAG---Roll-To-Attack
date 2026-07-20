@@ -16,7 +16,6 @@ public class AIDrivenEntity : Entity , INavAgent , IUsesRigidBody
     {
         if (!isAIDisabled) { return; }
 
-
         rb.isKinematic = false;
         rb.linearDamping = 0f;
 
