@@ -2,13 +2,13 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class NavMeshMovement : BaseEntityMovement
+public class NavMeshMovement1 : BaseEntityMovement
 {
     private INavAgent aiInterfaceAccess;
     private EnemyBodySystem enemyBodySystem;
-    private float setDestinationInterval = 0.15f;
+    private float setDestinationInterval = 1f;
     private float intervalTimer = 0;
-    public NavMeshMovement() { }
+    public NavMeshMovement1() { }
 
     public override void StartMovement(Entity ownerEntity)
     {
@@ -25,18 +25,17 @@ public class NavMeshMovement : BaseEntityMovement
     }
 
     public override void UpdateMovement()
-    {        
+    {
         if (ownerEntity == null) return;
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
 
         if (moveable.canMove == false) { EndMovement(); return; }
-      
+
 
         intervalTimer += Time.deltaTime;
         if (intervalTimer > setDestinationInterval)
         {
-
-            aiInterfaceAccess.agent.SetDestination(ownerEntity.target.transform.position);
+            aiInterfaceAccess.agent.SetDestination(new Vector3(ownerEntity.target.transform.position.x + ownerEntity.target.transform.position.z, 0, ownerEntity.target.transform.position.z + ownerEntity.target.transform.position.x));
             intervalTimer = 0;
         }
     }
@@ -53,7 +52,7 @@ public class NavMeshMovement : BaseEntityMovement
     }
     public override BaseEntityMovement Clone()
     {
-        return new NavMeshMovement();
+        return new NavMeshMovement1();
     }
 
 }

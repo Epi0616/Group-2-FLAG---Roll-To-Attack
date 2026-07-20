@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
   conditionalMovement:
     movement:
-      rid: 5154424275354517573
+      rid: 5561300571961426149
     conditions:
     - rid: 5154424275354517574
     - rid: 5154424275354517575
@@ -25,9 +25,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5154424275354517573
-      type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
-      data: 
     - rid: 5154424275354517574
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
@@ -40,3 +37,6 @@ MonoBehaviour:
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
+    - rid: 5561300571961426149
+      type: {class: NavMeshMovement1, ns: , asm: Assembly-CSharp}
+      data: 

@@ -17,8 +17,6 @@ MonoBehaviour:
       rid: 5561300504219484774
     conditions:
     - rid: 5561300504219484551
-    - rid: 5561300504219484600
-    - rid: 5561300504219484601
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
@@ -32,16 +30,6 @@ MonoBehaviour:
       data:
         inverse: 0
         duration: 1
-    - rid: 5561300504219484600
-      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 1
-        distanceThreshold: 15
-    - rid: 5561300504219484601
-      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        distanceThreshold: 25
     - rid: 5561300504219484774
       type: {class: SlowingSlam1, ns: , asm: Assembly-CSharp}
       data:
