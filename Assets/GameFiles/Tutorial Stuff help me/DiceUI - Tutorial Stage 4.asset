@@ -242,22 +242,7 @@ MonoBehaviour:
     unlocksMovement: 0
     hasBeenReset: 0
     condition:
-      rid: 8791738295823630564
-  - Text: Woo Hoo
-    ResetText: 
-    pos: {x: -850, y: -450}
-    usesPortrait: 1
-    pausesGame: 0
-    blocksUIInteraction: 0
-    bringUpSelectionUI: 0
-    highlightElement: 0
-    HighlightPos: {x: 25, y: -490}
-    HighlightScale: {x: 650, y: 150}
-    unlocksJump: 0
-    unlocksMovement: 0
-    hasBeenReset: 0
-    condition:
-      rid: 8791738295823630565
+      rid: 8791738319286305224
   references:
     version: 2
     RefIds:
@@ -272,10 +257,6 @@ MonoBehaviour:
       type: {class: WaitForInputAction, ns: , asm: Assembly-CSharp}
       data:
         inputAction: {fileID: 2525839080095791905, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-    - rid: 8791738295823630564
-      type: {class: WaitForContinuePressed, ns: , asm: Assembly-CSharp}
+    - rid: 8791738319286305224
+      type: {class: WaitForTutorialComplete, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 8791738295823630565
-      type: {class: WaitForTime, ns: , asm: Assembly-CSharp}
-      data:
-        duration: 5

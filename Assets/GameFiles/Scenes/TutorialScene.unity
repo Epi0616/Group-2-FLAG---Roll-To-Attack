@@ -1196,6 +1196,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 615646622}
+    - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2136936028}
+    - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TutorialComplete
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Continue
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: DiceFaceSelectionUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3479204375322675060, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.0064871
@@ -4788,8 +4828,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0034180172, y: 0.0008850442}
-  m_SizeDelta: {x: 2630.4, y: 1401.4}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 20000, y: 20000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &499988953 stripped
 GameObject:
@@ -4877,12 +4917,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -4900,13 +4940,13 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_VertexColorAlwaysGammaSpace: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 4
@@ -5943,8 +5983,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0036010742, y: 0.00088500977}
-  m_SizeDelta: {x: 2700, y: 1450}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 20000, y: 20000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &634240467
 MonoBehaviour:
@@ -10649,8 +10689,8 @@ GameObject:
   - component: {fileID: 1227641764}
   - component: {fileID: 1227641767}
   - component: {fileID: 1227641766}
-  - component: {fileID: 1227641765}
   - component: {fileID: 1227641768}
+  - component: {fileID: 1227641765}
   m_Layer: 5
   m_Name: Tutorial Text
   m_TagString: Untagged
@@ -10802,7 +10842,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b918ce52c50f3ff449f5c6a7f7c2ee1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TypedLettersTMP
-  charactersPerSecond: 10
+  textBox: {fileID: 1227641765}
+  charactersPerSecond: 35
   isSkipping: 0
   finishedTyping: 0
 --- !u!1 &1233216727
@@ -17157,6 +17198,17 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &2136936028 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2472562128342309786, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+  m_PrefabInstance: {fileID: 106162973}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c47be6c88f53a442a11176ee3c95c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiceFaceSelectionUIManager
 --- !u!114 &64382741089959362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17418,6 +17470,10 @@ PrefabInstance:
       propertyPath: playerRef
       value: 
       objectReference: {fileID: 555950544}
+    - target: {fileID: 964126642688001530, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: spawnPointAreaRadius
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: currentWaveIndex
       value: 10

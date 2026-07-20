@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class TypedLettersTMP : MonoBehaviour
 {
-    private TextMeshProUGUI textBox;
+    [SerializeField] private TextMeshProUGUI textBox;
 
     private int currentVisibleCharacters;
     private Coroutine typingCoroutine;
@@ -16,18 +16,17 @@ public class TypedLettersTMP : MonoBehaviour
     public bool finishedTyping;
     public void Awake()
     {
-        textBox = GetComponent<TextMeshProUGUI>();
         simpleDelay = new WaitForSecondsRealtime(1 / charactersPerSecond);
     }
 
     public void SetText(string text)
     {
         if (typingCoroutine != null) { StopCoroutine(typingCoroutine); }
-
+       // Debug.Log("Finished Set to false from SetText()");
+        finishedTyping = false;
         textBox.text = text;
         textBox.maxVisibleCharacters = 0;
-        currentVisibleCharacters = 0;
-        finishedTyping = false;
+        currentVisibleCharacters = 0;    
         isSkipping = false;
         typingCoroutine = StartCoroutine(Typing());
     }
@@ -43,20 +42,25 @@ public class TypedLettersTMP : MonoBehaviour
             yield return simpleDelay;
             currentVisibleCharacters++;
         }
-        Debug.Log("Typing complete");
+       // Debug.Log("Finished Set to true from Typing()");
         finishedTyping = true;
     }
 
     public void Skip()
     {
         if (isSkipping) { return; }
-
         isSkipping = true;
         if (typingCoroutine != null)
         {
             StopCoroutine(typingCoroutine);
         }
         textBox.maxVisibleCharacters = textBox.text.Length;
+        
+    }
+    public IEnumerator skipCompleteDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+       // Debug.Log("Finished Set to true from SkipCoroutine()");
         finishedTyping = true;
     }
 }

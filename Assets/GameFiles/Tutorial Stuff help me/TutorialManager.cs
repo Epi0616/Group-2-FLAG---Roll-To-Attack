@@ -34,6 +34,7 @@ public class TutorialManager : MonoBehaviour
     private bool nextStepHighlted, isHighlighted;
     public static event Action<int> StartIndexWave;
     public static event Action DisplayDiceUI;
+    public static event Action TutorialOver;
     public InputActionReference skipInput;
     private bool hasSkippedThisStep;
     public bool inputConsumed;
@@ -44,6 +45,8 @@ public class TutorialManager : MonoBehaviour
         portraitRect = TutorialPortraitObj.GetComponent<RectTransform>();
         DarkOverlayImage = TutorialDarkOverlay.GetComponent<Image>();
         overlayColour = DarkOverlayImage.color;
+
+        // Remove to start Tutorial from another Event
         StartCoroutine(StartTutorialDisplay());
     }
 
@@ -57,6 +60,12 @@ public class TutorialManager : MonoBehaviour
         skipInput.action.performed -= SkipInputPressed;
     }
 
+    //public void Update()
+    //{
+    //    Debug.Log(typingTextBox.finishedTyping);
+    //}
+
+    // Just call this to start Tutorial
     public IEnumerator StartTutorialDisplay()
     {
         yield return new WaitUntil(() => !Input.GetMouseButton(0));
@@ -67,8 +76,13 @@ public class TutorialManager : MonoBehaviour
             CurrentStageCO = StartCoroutine(StartStage(stages[stageIndex]));
             yield return CurrentStageCO;
             stageIndex++;
-        }
-        Debug.Log("Tutorial finished");
+        }   
+    }
+
+    // Currently bound to the Continue button
+    public void TutorialComplete()
+    {
+        TutorialOver?.Invoke();
     }
 
     public IEnumerator StartStage(TutorialStage stage)
@@ -91,12 +105,14 @@ public class TutorialManager : MonoBehaviour
             boxRect.anchoredPosition = stage.TutorialSteps[stepIndex].pos;
             HandleText(stage.TutorialSteps[stepIndex]);
             HandlePortrait(stage.TutorialSteps[stepIndex]);
-            HandleTypingBlocker(stage.TutorialSteps[stepIndex]);
+            //Debug.LogError("Bro what the fuck why is my coroutine not being called");
+            StartCoroutine(HandleTypingBlocker(stage.TutorialSteps[stepIndex]));
+            
             if (stage.TutorialSteps[stepIndex].highlightElement && stage.TutorialSteps[stepIndex + 1] != null)
             {
                 if (stage.TutorialSteps[stepIndex + 1].highlightElement)
                 {
-                    Debug.Log("Next Step Highlighted");
+                    // Debug.Log("Next Step Highlighted");
                     nextStepHighlted = true;
                 }
                 else
@@ -108,18 +124,9 @@ public class TutorialManager : MonoBehaviour
             {
                 nextStepHighlted = false;
             }
+
             StartCoroutine(HandleBetterHighlighting(stage.TutorialSteps[stepIndex], 0.5f));
-            
-
-
-            if (stage.TutorialSteps[stepIndex].condition is DummyDeathCondition temp)
-            {
-                StartIndexWave?.Invoke(temp.waveIndex);
-            }
-            else if (stage.TutorialSteps[stepIndex].bringUpSelectionUI)
-            {
-                DisplayDiceUI?.Invoke();
-            }
+            HandleEventBasedStep(stage.TutorialSteps[stepIndex]);
 
             if (stage.TutorialSteps[stepIndex].pausesGame)
             {
@@ -169,9 +176,24 @@ public class TutorialManager : MonoBehaviour
         
     }
 
+    public void HandleEventBasedStep(TutorialStep step)
+    {
+
+        if (step.condition is DummyDeathCondition temp)
+        {
+            StartIndexWave?.Invoke(temp.waveIndex);
+        }
+
+        if (step.bringUpSelectionUI)
+        {
+            DisplayDiceUI?.Invoke();
+        }
+
+    }
+
     public bool HandleConditionInput(InputAction.CallbackContext context)
     {
-        if (context.action == skipInput.action && !inputConsumed)
+        if (context.action == skipInput.action && !inputConsumed && !typingTextBox.finishedTyping)
         {
             typingTextBox.Skip();
             inputConsumed = true;
@@ -188,6 +210,7 @@ public class TutorialManager : MonoBehaviour
         {
             typingTextBox.Skip();
             hasSkippedThisStep = true;
+            StartCoroutine(typingTextBox.skipCompleteDelay());
         }
         
     }
@@ -205,17 +228,22 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator HandleTypingBlocker(TutorialStep step)
     {
+        //Debug.Log("Called please god");
+        
         if (!typingTextBox.finishedTyping)
         {
             TutorialUIBlockerObj.SetActive(true);
+           // Debug.Log("Active");
         }
         while (!typingTextBox.finishedTyping)
         {
+           // Debug.Log("Still typing");
             yield return null;
         }
         if (!step.blocksUIInteraction)
         {
             TutorialUIBlockerObj.SetActive(false);
+           // Debug.Log("Removed");
         }
     }
 
@@ -237,7 +265,7 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleText(TutorialStep step)
     {
-        Debug.Log("Displaying");
+       // Debug.Log("Displaying");
         if (step.hasBeenReset && step.ResetText != null)
         {
             typingTextBox.SetText(step.ResetText);
