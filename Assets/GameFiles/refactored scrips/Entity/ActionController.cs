@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-
-
+using UnityEngine;
 public class ActionController : IResetable
 {
     private Entity entity;
@@ -25,6 +24,16 @@ public class ActionController : IResetable
             {
                 condition.Initialize(entity);
             }
+        }
+    }
+
+    public void AddNewAction(ConditionalAction action)
+    {
+        availableActions.Add(action);
+        List<BaseCondition> conditions = action.conditions;
+        foreach (BaseCondition condition in conditions)
+        {
+            condition.Initialize(entity);
         }
     }
 

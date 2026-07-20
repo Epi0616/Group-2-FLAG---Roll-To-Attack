@@ -3,17 +3,20 @@ using System.Collections;
 using UnityEditor.Localization.Reporting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset = new Vector3(0, 30, -30);
+    public Vector3 offset = new Vector3(0, 30, -30);
     [SerializeField] private float speed = 5f;
     private Quaternion startRotation;
 
     private float shakeDuration = 0f;
     private float shakeMagnitude = 0f;
     private Vector3 desiredPosition;
+    private Vector3 startingOffset;
+    private Vector3 zoomInOffset = new Vector3(0, 15, -12);
 
     private void OnEnable()
     {
@@ -37,6 +40,7 @@ public class PlayerCamera : MonoBehaviour
         }
         startRotation = transform.rotation;
         transform.position = target.position + offset;
+        startingOffset = offset;
     }
 
     void LateUpdate()

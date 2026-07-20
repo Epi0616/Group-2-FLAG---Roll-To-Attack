@@ -73,6 +73,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     private void OnEnable()
     {
         WaveManager.WaveOver += WaveOver;
+        TutorialManager.DisplayDiceUI += WaveOver;
         AbilityPanel.AbilitySelected += AbilitySelected;
         ContinueButton.Continue += Continue;
     }
@@ -80,6 +81,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     private void OnDisable()
     {
         WaveManager.WaveOver -= WaveOver;
+        TutorialManager.DisplayDiceUI -= WaveOver;
         AbilityPanel.AbilitySelected -= AbilitySelected;
         ContinueButton.Continue -= Continue;
     }
@@ -102,6 +104,11 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     {
         this.delayBetweenWaves = delayBetweenWaves;
         timer = 1f;
+        setupComplete = false;
+    }
+
+    private void WaveOver()
+    {
         setupComplete = false;
     }
 

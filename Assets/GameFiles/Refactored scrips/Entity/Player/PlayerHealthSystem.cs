@@ -10,7 +10,7 @@ public class PlayerHealthSystem : EntityHealthSystem
 
     private float iFrameTimer = 0;
 
-    public override void OnTakeDamage(int damageAmount)
+    public override void OnTakeDamage(int damageAmount, DamageType type)
     {
         if (iFrameTimer > 0) return;
 

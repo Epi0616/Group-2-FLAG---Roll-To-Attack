@@ -51,7 +51,15 @@ public class MovementController
             }
         }
     }
-
+    public void AddNewMovement(ConditionalMovement movement)
+    {
+        availableMovements.Add(movement);
+        List<BaseCondition> conditions = movement.conditions;
+        foreach (BaseCondition condition in conditions)
+        {
+            condition.Initialize(entity);
+        }
+    }
     public void Update()
     {
         CheckForValidMovements();

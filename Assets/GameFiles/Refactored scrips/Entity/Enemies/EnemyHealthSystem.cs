@@ -5,9 +5,9 @@ using System.Collections;
 public class EnemyHealthSystem : EntityHealthSystem
 {
     public static event Action EnemyHasDied;
-    public event Action LocalEnemyDeathEvent;
+    
 
-    public override void OnTakeDamage(int damageAmount)
+    public override void OnTakeDamage(int damageAmount, DamageType type)
     {
         currentHealth -= damageAmount;
         RunTimeStatTracker.totalDamageDealt += damageAmount;
@@ -59,7 +59,6 @@ public class EnemyHealthSystem : EntityHealthSystem
         try
         {
             EnemyHasDied?.Invoke();
-            LocalEnemyDeathEvent?.Invoke();
             ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject, 0);
         }
         catch
