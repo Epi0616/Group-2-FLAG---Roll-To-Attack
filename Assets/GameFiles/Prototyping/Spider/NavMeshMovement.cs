@@ -6,7 +6,7 @@ public class NavMeshMovement1 : BaseEntityMovement
 {
     private INavAgent aiInterfaceAccess;
     private EnemyBodySystem enemyBodySystem;
-    private float setDestinationInterval = 1f;
+    private float setDestinationInterval = 2f;
     private float intervalTimer = 0;
     public NavMeshMovement1() { }
 
@@ -30,16 +30,25 @@ public class NavMeshMovement1 : BaseEntityMovement
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
 
         if (moveable.canMove == false) { EndMovement(); return; }
-
-
         intervalTimer += Time.deltaTime;
         if (intervalTimer > setDestinationInterval)
         {
-            aiInterfaceAccess.agent.SetDestination(new Vector3(ownerEntity.target.transform.position.x + ownerEntity.target.transform.position.z, 0, ownerEntity.target.transform.position.z + ownerEntity.target.transform.position.x));
+            MoveAroundObject();
             intervalTimer = 0;
+        }
+        if (intervalTimer < (setDestinationInterval / 2))
+        {
+            InterruptMovement();
         }
     }
 
+    public void MoveAroundObject()
+    {
+        Vector3 offsetObj = ownerEntity.target.transform.position - ownerEntity.transform.position;
+        Vector3 dir = Quaternion.Euler(0, 50, 0) * offsetObj;
+        dir += ownerEntity.transform.position;
+        aiInterfaceAccess.agent.SetDestination(dir);
+    }
     public override void InterruptMovement()
     {
         EndMovement();
