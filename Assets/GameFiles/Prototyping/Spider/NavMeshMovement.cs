@@ -9,7 +9,7 @@ public class NavMeshMovement1 : BaseEntityMovement
     private INavAgent aiInterfaceAccess;
     private IActionable action;
     private EnemyBodySystem enemyBodySystem;
-    private float setDestinationInterval = 3f;
+    private float setDestinationInterval;
     private float intervalTimer = 0;
     public NavMeshMovement1() { }
 
@@ -18,6 +18,7 @@ public class NavMeshMovement1 : BaseEntityMovement
         base.StartMovement(ownerEntity);
         aiInterfaceAccess = ownerEntity as INavAgent;
         action = ownerEntity as IActionable;
+        setDestinationInterval = UnityEngine.Random.Range(1f, 4f);
         enemyBodySystem = ownerEntity.bodySystem as EnemyBodySystem;
         aiInterfaceAccess.EnableAIAgent();
         aiInterfaceAccess.agent.updateRotation = false;
@@ -38,7 +39,14 @@ public class NavMeshMovement1 : BaseEntityMovement
         intervalTimer += Time.deltaTime;
         if (intervalTimer > setDestinationInterval)
         {
-            MoveAroundObject();
+            if(setDestinationInterval <= 2)
+            {
+                MoveAroundObjectClockwise();
+            }
+            if(setDestinationInterval > 2f)
+            {
+                MoveAroundObjectAnti();
+            }
             intervalTimer = 0;
         }
 
@@ -53,10 +61,17 @@ public class NavMeshMovement1 : BaseEntityMovement
             
     }
 
-    public void MoveAroundObject()
+    public void MoveAroundObjectAnti()
     {
         Vector3 offsetObj = ownerEntity.target.transform.position - ownerEntity.transform.position;
         Vector3 dir = Quaternion.Euler(0, 50, 0) * offsetObj;
+        dir += ownerEntity.transform.position;
+        aiInterfaceAccess.agent.SetDestination(dir);
+    }
+    public void MoveAroundObjectClockwise()
+    {
+        Vector3 offsetObj = ownerEntity.target.transform.position - ownerEntity.transform.position;
+        Vector3 dir = Quaternion.Euler(0, -50, 0) * offsetObj;
         dir += ownerEntity.transform.position;
         aiInterfaceAccess.agent.SetDestination(dir);
     }
