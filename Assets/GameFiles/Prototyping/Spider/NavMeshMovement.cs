@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
+using static UnityEngine.LowLevelPhysics2D.PhysicsShape;
 
 [Serializable]
 public class NavMeshMovement1 : BaseEntityMovement
 {
     private INavAgent aiInterfaceAccess;
+    private IActionable action;
     private EnemyBodySystem enemyBodySystem;
-    private float setDestinationInterval = 2f;
+    private float setDestinationInterval = 3f;
     private float intervalTimer = 0;
     public NavMeshMovement1() { }
 
@@ -14,6 +17,7 @@ public class NavMeshMovement1 : BaseEntityMovement
     {
         base.StartMovement(ownerEntity);
         aiInterfaceAccess = ownerEntity as INavAgent;
+        action = ownerEntity as IActionable;
         enemyBodySystem = ownerEntity.bodySystem as EnemyBodySystem;
         aiInterfaceAccess.EnableAIAgent();
         aiInterfaceAccess.agent.updateRotation = false;
@@ -30,16 +34,23 @@ public class NavMeshMovement1 : BaseEntityMovement
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
 
         if (moveable.canMove == false) { EndMovement(); return; }
+
         intervalTimer += Time.deltaTime;
         if (intervalTimer > setDestinationInterval)
         {
             MoveAroundObject();
             intervalTimer = 0;
         }
-        if (intervalTimer < (setDestinationInterval / 2))
+
+        if(aiInterfaceAccess.agent.velocity.magnitude <= 0)
         {
-            InterruptMovement();
+            action.canAct = true;
         }
+        if (aiInterfaceAccess.agent.velocity.magnitude > 0)
+        {
+            action.canAct = false;
+        } 
+            
     }
 
     public void MoveAroundObject()

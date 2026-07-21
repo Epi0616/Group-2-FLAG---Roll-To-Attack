@@ -16,7 +16,7 @@ MonoBehaviour:
     action:
       rid: 5561300504219484774
     conditions:
-    - rid: 5561300504219484551
+    - rid: 5561300613805638072
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
@@ -25,21 +25,21 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5561300504219484551
-      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        duration: 1
     - rid: 5561300504219484774
       type: {class: SlowingSlam1, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 0
         SlamDamage: 31
         SlamColor: {r: 1, g: 1, b: 1, a: 1}
-        ChargeTime: 0.25
+        ChargeTime: 0.5
         SlamRange:
           baseValue: 5
         SlamPositionOffset: {x: 0, y: 0, z: 0}
         SlowDuration: 1
         SlowMult: 0.25
         EnhancementUpgradeResult: {fileID: 11400000, guid: 556707604a5df65469b7c364b63012f1, type: 2}
+    - rid: 5561300613805638072
+      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        duration: 1
