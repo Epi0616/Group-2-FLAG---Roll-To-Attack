@@ -1198,7 +1198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -1207,30 +1207,30 @@ PrefabInstance:
     - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 615646622}
+      objectReference: {fileID: 106162974}
     - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2136936028}
+      objectReference: {fileID: 615646622}
     - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TutorialComplete
+      value: ContinuePressed
       objectReference: {fileID: 0}
     - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Continue
+      value: TutorialComplete
       objectReference: {fileID: 0}
     - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: TutorialManager, Assembly-CSharp
+      value: ContinueButton, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: DiceFaceSelectionUIManager, Assembly-CSharp
+      value: TutorialManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3090711116661433911, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -1293,6 +1293,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+--- !u!114 &106162974 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8992110092844130982, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
+  m_PrefabInstance: {fileID: 106162973}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae18361f4be2e3240b4387364a320e86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::faceSelection
 --- !u!1 &116007291
 GameObject:
   m_ObjectHideFlags: 0
@@ -5668,10 +5679,10 @@ MonoBehaviour:
   TutorialOverlayCutout: {fileID: 1495288915}
   typingTextBox: {fileID: 1227641768}
   stages:
+  - {fileID: 11400000, guid: dcfe39fa9e208d3498d80eb4f2e6c979, type: 2}
   - {fileID: 11400000, guid: ac9155c03ec57194cac641edfa30c1c2, type: 2}
   - {fileID: 11400000, guid: b5c479bf110f7cc4d88a04b72f45c85f, type: 2}
   - {fileID: 11400000, guid: 3fce52f48af6be44eb5e31fa164a3001, type: 2}
-  - {fileID: 11400000, guid: dcfe39fa9e208d3498d80eb4f2e6c979, type: 2}
   restartCurrentStep: 0
   restartCurrentStage: 0
   player: {fileID: 937705985}
@@ -17198,17 +17209,6 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!114 &2136936028 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2472562128342309786, guid: 4c4832532e667d0439ae0e6deb134f18, type: 3}
-  m_PrefabInstance: {fileID: 106162973}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c47be6c88f53a442a11176ee3c95c8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DiceFaceSelectionUIManager
 --- !u!114 &64382741089959362
 MonoBehaviour:
   m_ObjectHideFlags: 0
