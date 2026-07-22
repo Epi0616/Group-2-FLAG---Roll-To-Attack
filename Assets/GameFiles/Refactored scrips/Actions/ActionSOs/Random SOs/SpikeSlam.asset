@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
+  m_Name: SpikeSlam
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
+  variable: 1
+  action:
+    rid: 963243866989003069
+  conditions:
+  - rid: 963243866989003071
+  allConditionsRequired: 1
+  singleUse: 0
+  exclusive: 1
+  priority: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 963243866989003069
+      type: {class: SpikeSpawnSlamAction, ns: , asm: Assembly-CSharp}
+      data:
+        SlamDamage: 15
+        SlamColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+        ChargeTime: 0
+        SlamRange:
+          baseValue: 5
+        SlamPositionOffset: {x: 0, y: 0, z: 0}
+        DoesActionPreventMovement: 0
+    - rid: 963243866989003071
+      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        name: Base
+        duration: 3

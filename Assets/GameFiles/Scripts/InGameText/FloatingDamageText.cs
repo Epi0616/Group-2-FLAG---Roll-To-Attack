@@ -10,15 +10,16 @@ public class FloatingDamageText : MonoBehaviour
     private Camera targetCamera;
     private float lifeTime = 3f;
     private Vector3 originalScale;
-    //private Vector3 targetWorldUp;
-    //private Vector3 targetWorldPosition;
-    //private Quaternion targetCameraRotation;
 
     //set up initialize once enemy spawner is working properly
-    public void Initialize(Camera camera)
+    public void Initialize(Camera camera, string text, Color color, int fontSize)
     {
         targetCamera = camera;
         transform.localScale = originalScale;
+        tmp.text = text;
+        color.a = 1f;
+        tmp.color = color;
+        tmp.fontSize = fontSize;
         StartCoroutine(DestroyRoutine());
     }
 
@@ -33,39 +34,14 @@ public class FloatingDamageText : MonoBehaviour
     private void Update()
     {      
         if (targetCamera == null) return;
-        //tmp.ForceMeshUpdate(true, true);
-        //Debug.Log(tmp.mesh.bounds);
         transform.rotation = targetCamera.transform.rotation;
         transform.position += Vector3.up * Time.deltaTime * 3f;
         transform.localScale *= 0.999f;
     }
 
     private IEnumerator DestroyRoutine()
-    { 
-        yield return new WaitForSeconds(lifeTime);
-
-        ObjectPoolManager.ReturnObjectToPool(gameObject);
+    {
+        ObjectPoolManager.ReturnObjectToPool(gameObject, lifeTime);
+        yield return null;
     }
-
-    //private void LookToCamera()
-    //{
-    //    if (targetCamera == null) return;
-
-    //    targetCameraRotation = targetCamera.transform.rotation;
-    //    targetWorldPosition = transform.position + targetCameraRotation * Vector3.forward;
-    //    targetWorldUp = targetCameraRotation * Vector3.up;
-
-    //    transform.LookAt(targetWorldPosition, targetWorldUp);
-    //}
-
-    //private void FadeOut()
-    //{
-    //    Vector3 tempPosition = transform.position;
-    //    tempPosition.y += Time.deltaTime * 2f;
-    //    transform.position = tempPosition;
-
-    //    Vector3 tempScale = transform.localScale;
-    //    tempScale.x = tempScale.y = tempScale.x * 0.999f;
-    //    transform.localScale = tempScale;
-    //}
 }

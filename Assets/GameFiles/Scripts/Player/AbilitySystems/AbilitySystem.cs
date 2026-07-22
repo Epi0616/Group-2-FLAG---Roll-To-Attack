@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilitySystem : MonoBehaviour
+public class OldAbilitySystem : MonoBehaviour
 {
     [SerializeField] private PlayerLoadOut playerLoadOut;
     [SerializeField] private AbilityDescriptor defaultAbility;
@@ -15,7 +15,7 @@ public class AbilitySystem : MonoBehaviour
     {
         CorrectPipNumbers();
         AdjustDisplaySprites();
-        playerLoadOut.WriteAbilities(playerAbilities);
+        //playerLoadOut.WriteAbilities(playerAbilities);
     }
     public AbilityDescriptor GetRandomAbility()
     {
@@ -42,7 +42,7 @@ public class AbilitySystem : MonoBehaviour
         playerAbilities = newAbilityList;
         CorrectPipNumbers();
         AdjustDisplaySprites();
-        playerLoadOut.WriteAbilities(newAbilityList);
+        //playerLoadOut.WriteAbilities(newAbilityList);
     }
 
     public void SetPlayerAbilityStorage(List<AbilityDescriptor> newAbilityList)

@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
+  m_Name: PlayerVacuum
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
+  conditionalAction:
+    action:
+      rid: 5154424227109797978
+    conditions:
+    - rid: 5154424227109797979
+    allConditionsRequired: 0
+    singleUse: 1
+    triggered: 0
+    exclusive: 1
+    priority: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5154424227109797978
+      type: {class: VacuumMineSlamAction, ns: , asm: Assembly-CSharp}
+      data:
+        SlamDamage: 0
+        SlamColor: {r: 0, g: 0.10661459, b: 1, a: 1}
+        ChargeTime: 0
+        SlamRange:
+          baseValue: 10
+        SlamPositionOffset: {x: 0, y: 0, z: 0}
+        DoesActionPreventMovement: 0
+        EnhancementUpgradeResult: {fileID: 11400000, guid: 36cfd6ca95e50644f87a9535e57ec03c, type: 2}
+    - rid: 5154424227109797979
+      type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0

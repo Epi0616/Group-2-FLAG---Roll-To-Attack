@@ -28,8 +28,8 @@ public class A_PlayerSlowState : PlayerBaseAttackState
         EnemyStateController enemyTempScriptAccess = enemy.GetComponent<EnemyStateController>();
         enemyTempScriptAccess.OnTakeDamage(30, myColor);
         //tempControllerReference.OnRecieveEffect(new SlowEffect(5, 0.75f, player.slowedText.GetLocalizedString()), myColor);
-        enemyTempScriptAccess.OnRecieveEffect(new ActiveStatusEffect(new SlowStatus(0.3f, player.slowedText.GetLocalizedString()),
-                new List<BaseCondition> { new DurationCondition(true, 5.0f) }), myColor);
+        //enemyTempScriptAccess.OnRecieveEffect(new ActiveStatusEffect(new SlowStatus(0.3f, player.slowedText.GetLocalizedString()),
+        //        new List<BaseCondition> { new DurationCondition(true, 5.0f) }), myColor);
     }
 
     protected override void CustomDisplayAttack()

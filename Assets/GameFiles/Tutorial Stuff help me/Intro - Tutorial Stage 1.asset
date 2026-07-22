@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89fb449e10842ba4396667561e6e5719, type: 3}
+  m_Name: Intro - Tutorial Stage 1
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialStage
+  TutorialSteps:
+  - Text: Hello Dice Warrior, I am your Dungeon Master
+    ResetText: 
+    pos: {x: -900, y: 350}
+    usesPortrait: 1
+    pausesGame: 0
+    unlocksJump: 0
+    unlocksMovement: 1
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957027
+  - Text: I will be teaching you some pro tips and tricks on how to survive the arena
+    ResetText: 
+    pos: {x: -900, y: 350}
+    usesPortrait: 1
+    pausesGame: 0
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 8791738272700957027
+  references:
+    version: 2
+    RefIds:
+    - rid: 8791738272700957027
+      type: {class: WaitForInputAction, ns: , asm: Assembly-CSharp}
+      data:
+        inputAction: {fileID: 2525839080095791905, guid: 052faaac586de48259a63d0c4782560b, type: 3}

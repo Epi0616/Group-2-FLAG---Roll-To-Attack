@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
+  m_Name: GolemRocket
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
+  conditionalAction:
+    action:
+      rid: 963244250863239177
+    conditions:
+    - rid: 5154424227109797973
+    - rid: 5154424227109797974
+    - rid: 5154424227109797975
+    allConditionsRequired: 1
+    singleUse: 0
+    triggered: 0
+    exclusive: 1
+    priority: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 963244250863239177
+      type: {class: RocketSpawnSlamAction, ns: , asm: Assembly-CSharp}
+      data:
+        PreventsMovement: 1
+        SlamDamage: 25
+        SlamColor: {r: 0.6901961, g: 0.37601396, b: 0.02352939, a: 1}
+        ChargeTime: 1.5
+        SlamRange:
+          baseValue: 6
+        SlamPositionOffset: {x: 0, y: 0, z: 10}
+        EnhancementUpgradeResult: {fileID: 0}
+        numRockets: 2
+    - rid: 5154424227109797973
+      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        distanceThreshold: 17
+    - rid: 5154424227109797974
+      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        lookThreshold: 15
+    - rid: 5154424227109797975
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1

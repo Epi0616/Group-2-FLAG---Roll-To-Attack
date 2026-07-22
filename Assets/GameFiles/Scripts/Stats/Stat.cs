@@ -7,6 +7,11 @@ public class Stat
     float totalMultiplier = 1;
     float totalAdditive;
 
+    public Stat(float baseValue)
+    {
+        this.baseValue = baseValue;
+    }
+
     public void ResetModifiers()
     { 
         totalAdditive = 0;

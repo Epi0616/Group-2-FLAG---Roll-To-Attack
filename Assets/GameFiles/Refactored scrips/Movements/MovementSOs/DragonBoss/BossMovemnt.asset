@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
+  m_Name: BossMovemnt
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
+  conditionalMovement:
+    movement:
+      rid: 5042951946035265606
+    conditions:
+    - rid: 5042951946035265607
+    - rid: 5042951946035265608
+    - rid: 5042951946035265610
+    - rid: 5042951946035265609
+    allConditionsRequired: 1
+    exclusive: 1
+    priority: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5042951946035265606
+      type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5042951946035265607
+      type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+    - rid: 5042951946035265608
+      type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+    - rid: 5042951946035265609
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+    - rid: 5042951946035265610
+      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        lookThreshold: 15

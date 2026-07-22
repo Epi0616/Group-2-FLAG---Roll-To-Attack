@@ -15,9 +15,12 @@ public class AbilitySlotManager : MonoBehaviour
     public List<AbilitySlot> abilityStorage;
     [SerializeField] private GameObject centralAbilityPoint;
     [SerializeField] private GameObject abilityObjectPrefab;
-    [SerializeField] private AbilitySystem abilitySystem;
+    [SerializeField] private ModifiableActionDescriptor fillAbility;
     [SerializeField] private InputActionReference cancelSwap;
     [SerializeField] private InputActionReference quickStore;
+
+    [SerializeField] private Entity player;
+    private IModifiableActions modifiableActions;
 
     private List<GameObject> draggableObjects = new List<GameObject>();
 
@@ -34,6 +37,11 @@ public class AbilitySlotManager : MonoBehaviour
         cancelSwap.action.performed -= context => Deselect();
         quickStore.action.performed -= context => CheckForQuickStoreAction();
     }
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        modifiableActions = player as IModifiableActions;
+    }
 
     public void Unpack()
     {
@@ -48,12 +56,12 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void SetUpCurrentDiceFaces()
     {
-        List<AbilityDescriptor> abilities = abilitySystem.GetPlayerAbilities();
+        List<ModifiableAction> abilities = modifiableActions.modifiableActions;
 
         for (int i = 0; i < abilities.Count; i++)
         {
             var tempObj = Instantiate(abilityObjectPrefab, transform);
-            tempObj.GetComponent<DraggableAbility>().SetAbilityDescriptor(abilities[i]);
+            tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(abilities[i]);
             abilitySlots[i].AddChild(tempObj.GetComponent<DraggableAbility>());
             abilitySlots[i].SetCentralAbilitySlot(centralAbilityPoint);
             draggableObjects.Add(tempObj);
@@ -62,11 +70,12 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void SetUpCurrentStorage()
     {
-        List<AbilityDescriptor> abilities = abilitySystem.GetPlayerAbilityStorage();
+        List<ModifiableAction> abilities = modifiableActions.modifiableActionStorage;
+
         for (int i = 0; i < abilities.Count; i++)
         {
             var tempObj = Instantiate(abilityObjectPrefab, transform);
-            tempObj.GetComponent<DraggableAbility>().SetAbilityDescriptor(abilities[i]);
+            tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(abilities[i]);
             abilityStorage[i].AddChild(tempObj.GetComponent<DraggableAbility>());
             draggableObjects.Add(tempObj);
         }
@@ -74,7 +83,7 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void SendOffCurrentAbilities()
     {
-        List<AbilityDescriptor> currentAbilities = new List<AbilityDescriptor>();
+        List<ModifiableAction> currentAbilities = new List<ModifiableAction>();
         for (int i = 0; i < abilitySlots.Count; i++)
         {
             var draggableObject = abilitySlots[i].GetChild();
@@ -82,14 +91,15 @@ public class AbilitySlotManager : MonoBehaviour
 
             if (draggableObject is DraggableAbility ability)
             {
-                ability.GetAbilityDescriptor().pipNumber = i+1;
-                currentAbilities.Add(ability.GetAbilityDescriptor());
+                //ability.GetAbilityDescriptor().pipNumber = i+1;
+                currentAbilities.Add(ability.GetAbility());
             }
         }
-        RunTimeStatTracker.totalAbilitiesEquipped += abilitySystem.CompareAbilitySets(currentAbilities);
-        abilitySystem.SetPlayerAbilities(currentAbilities);
+        //RunTimeStatTracker.totalAbilitiesEquipped += abilitySystem.CompareAbilitySets(currentAbilities);
+        modifiableActions.actionSelectionSystem.SetModifiableActions(currentAbilities);
+       // modifiableActions.UnpackModifiableActions();
 
-        List<AbilityDescriptor> currentAbilityStorage = new List<AbilityDescriptor>();
+        List<ModifiableAction> currentAbilityStorage = new List<ModifiableAction>();
         for (int i = 0; i < abilityStorage.Count; i++)
         {
             var draggableObject = abilityStorage[i].GetChild();
@@ -97,10 +107,10 @@ public class AbilitySlotManager : MonoBehaviour
 
             if (draggableObject is DraggableAbility ability)
             {
-                currentAbilityStorage.Add(ability.GetAbilityDescriptor());
+                currentAbilityStorage.Add(ability.GetAbility());
             }
         }
-        abilitySystem.SetPlayerAbilityStorage(currentAbilityStorage);
+        modifiableActions.actionSelectionSystem.SetModifiableActionStorage(currentAbilityStorage);
     }
 
     private void DestroyDraggableObjects()
@@ -138,6 +148,15 @@ public class AbilitySlotManager : MonoBehaviour
         {
             draggableObjects.Add(newObjects[i]);
         }
+    }
+
+    public void FillSlotWithBasic(int i)
+    {
+        Debug.Log("Add New Basic");
+        var tempObj = Instantiate(abilityObjectPrefab, transform);
+        tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(fillAbility.Create());
+        abilitySlots[i].AddChild(tempObj.GetComponent<DraggableAbility>());       
+        draggableObjects.Add(tempObj);
     }
 
     public GameObject GetCentralAbilityPoint()
@@ -212,6 +231,7 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void SwapSlots()
     {
+        Debug.Log("Slots Swapped");
         AbilityDropZoneParent parent1, parent2;
         DraggableObject ability1, ability2;
 

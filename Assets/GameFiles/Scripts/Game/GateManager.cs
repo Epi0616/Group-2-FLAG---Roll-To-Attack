@@ -1,93 +1,62 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class GateManager : MonoBehaviour
 {
     public List<GameObject> gates;
-    float gatesDownY = -18;
-    float gatesUpY = 1.8f;
-    bool gateUp = true, gateDown = true;
-    float gateUpTimer, gateDownTimer;
-    float timer = 0;
+    private float gateUpY = 0;
+    private float gateDownY = -16;
 
     private void OnEnable()
     {
-        EnemyDirector.WaveOver += GatesUp;
+        WaveSpawner.waveFinishedSpawning += GatesUp;
         DicePedestal.WaveStartPedestal += GatesDown;
     }
 
     private void OnDisable()
     {
-        EnemyDirector.WaveOver -= GatesUp;
+        WaveSpawner.waveFinishedSpawning -= GatesUp;
         DicePedestal.WaveStartPedestal -= GatesDown;
     }
 
-    private void Update()
+    private void GatesUp()
     {
-        timer -= Time.deltaTime;
-        if (timer > 0) return;
-
-        if (!gateUp)
-        {
-            for (int i = 0; i < gates.Count; i++)
-            {
-                RaiseGate(gates[i]);
-            }
-        }
-
-        if (!gateDown)
-        {
-            for (int i = 0; i < gates.Count; i++)
-            {
-                LowerGate(gates[i]);
-            }
-        }
-    }
-
-    private void GatesUp(float timer)
-    {
-        gateUp = false;
+        float currentY = gates[0].transform.position.y;
+        StartCoroutine(MoveGates(2, currentY, gateUpY, 1.5f));
     }
 
     private void GatesDown(float timer)
     {
-        this.timer = timer;
-        gateDown = false;
+        float currentY = gates[0].transform.position.y;
+        StartCoroutine(MoveGates(2, currentY, gateDownY, timer));
     }
 
-    private void RaiseGate(GameObject gate)
+    private IEnumerator MoveGates(float duration, float from, float to, float delay = 0)
     {
-        if (gateUp) { return; }
+        yield return new WaitForSeconds(delay);
 
-        Vector3 tempPosition = gate.transform.position;
-        float currentHeight = gate.transform.position.y;
+        float timer = duration;
+        float t = 0;
+        while (t < 1)
+        { 
+            timer -= Time.deltaTime;
+            t = (duration - timer) / duration;
 
-        tempPosition.y += (gatesUpY - currentHeight) * Time.deltaTime * 2f;
-
-        if (currentHeight >= gatesUpY - 0.2f)
-        {
-            tempPosition.y = gatesUpY;
-            gateUp = true;
+            foreach (GameObject gate in gates)
+            {
+                Vector3 gatePos = gate.transform.position;
+                gatePos.y = Mathf.Lerp(from, to, t);
+                gate.transform.position = gatePos;
+            }
+            yield return null;
         }
 
-        gate.transform.position = tempPosition;
-    }
-
-    private void LowerGate(GameObject gate)
-    {
-        if (gateDown) { return; }
-
-        Vector3 tempPosition = gate.transform.position;
-        float currentHeight = gate.transform.position.y;
-
-        tempPosition.y += (gatesDownY - currentHeight) * Time.deltaTime * 2f;
-
-        if (currentHeight <= gatesDownY + 0.2f)
+        foreach (GameObject gate in gates)
         {
-            tempPosition.y = gatesDownY;
-            gateDown = true;
+            Vector3 gatePos = gate.transform.position;
+            gatePos.y = to;
+            gate.transform.position = gatePos;
         }
-
-        gate.transform.position = tempPosition;
     }
 }

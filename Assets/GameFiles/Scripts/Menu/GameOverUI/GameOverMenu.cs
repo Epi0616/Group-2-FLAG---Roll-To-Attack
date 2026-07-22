@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameOverMenu : MonoBehaviour
 {
+    public static event Action PackUpScene;
+    public static event Action ReturnToIntro;
+
     [SerializeField] private GameObject gameOverMenuUI;
     [SerializeField] private GameObject playAgainButton;
     [SerializeField] private GameOverStatsDisplay gameOverStatsDisplay;
@@ -12,12 +16,12 @@ public class GameOverMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        HealthSystem.GameOver += GameOver;
+        PlayerHealthSystem.GameOver += GameOver;
     }
 
     private void OnDisable()
     {
-        HealthSystem.GameOver -= GameOver;
+        PlayerHealthSystem.GameOver -= GameOver;
     }
 
     private void Start()
@@ -37,14 +41,18 @@ public class GameOverMenu : MonoBehaviour
 
     public void PlayAgain()
     {
-        Time.timeScale = 1;
+
         if (TransitionManager.instance == null)
         {
-            SceneManager.LoadScene("MainBuild");
+            PackUpScene?.Invoke();
+            Time.timeScale = 1;
+            ReturnToIntro?.Invoke();
         }
         else
         {
-            TransitionManager.LoadScene("MainBuild", 0.5f, 1f);
+            PackUpScene?.Invoke();
+            Time.timeScale = 1;
+            ReturnToIntro?.Invoke();
         }
     }
 
@@ -53,11 +61,15 @@ public class GameOverMenu : MonoBehaviour
         Time.timeScale = 1;
         if (TransitionManager.instance == null)
         {
-            SceneManager.LoadScene("Menu");
+            PackUpScene?.Invoke();
+            Time.timeScale = 1;
+            ReturnToIntro?.Invoke();
         }
         else
         {
-            TransitionManager.LoadScene("Menu", 0.5f, 1f);
+            PackUpScene?.Invoke();
+            Time.timeScale = 1;
+            ReturnToIntro?.Invoke();
         }
     }
 
