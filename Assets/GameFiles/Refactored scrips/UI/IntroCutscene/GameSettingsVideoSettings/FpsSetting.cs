@@ -8,7 +8,6 @@ public class fpsSetting : MonoBehaviour
 
     public void ToggleFPSVisibility()
     {
-        tickBox.SetActive(!tickBox.activeSelf);
         setFPSVisibility?.Invoke(tickBox.activeSelf);
     }
 }
