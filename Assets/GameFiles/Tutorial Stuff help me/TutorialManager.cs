@@ -76,10 +76,11 @@ public class TutorialManager : MonoBehaviour
             CurrentStageCO = StartCoroutine(StartStage(stages[stageIndex]));
             yield return CurrentStageCO;
             stageIndex++;
-        }   
+        }
+        TutorialComplete();
     }
 
-    // Currently bound to the Continue button
+    
     public void TutorialComplete()
     {
         TutorialOver?.Invoke();
@@ -105,14 +106,12 @@ public class TutorialManager : MonoBehaviour
             boxRect.anchoredPosition = stage.TutorialSteps[stepIndex].pos;
             HandleText(stage.TutorialSteps[stepIndex]);
             HandlePortrait(stage.TutorialSteps[stepIndex]);
-            //Debug.LogError("Bro what the fuck why is my coroutine not being called");
             StartCoroutine(HandleTypingBlocker(stage.TutorialSteps[stepIndex]));
             
             if (stage.TutorialSteps[stepIndex].highlightElement && stage.TutorialSteps[stepIndex + 1] != null)
             {
                 if (stage.TutorialSteps[stepIndex + 1].highlightElement)
                 {
-                    // Debug.Log("Next Step Highlighted");
                     nextStepHighlted = true;
                 }
                 else
@@ -299,17 +298,6 @@ public class TutorialManager : MonoBehaviour
         if (step.highlightElement)
         {
             TutorialOverlayCutout.anchoredPosition = step.HighlightPos;
-            //TutorialOverlayCutout.sizeDelta = step.HighlightScale;
-            //Vector2 startScale = new Vector2(step.HighlightScale.x * 1.2f, step.HighlightScale.y + 1.2f);
-            //float timer = 0;
-            //while (timer < duration)
-            //{
-            //    timer += Time.unscaledDeltaTime;
-            //    float t = timer / duration;
-            //    t = Mathf.SmoothStep(0f, 1f, t);
-            //    TutorialOverlayCutout.sizeDelta = Vector2.Lerp(startScale, step.HighlightScale, easeOutCubic(t));
-            //    yield return null;
-            //}
             TutorialOverlayCutout.sizeDelta = step.HighlightScale;
             if (!isHighlighted)
             {

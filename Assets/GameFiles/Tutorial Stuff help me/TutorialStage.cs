@@ -35,54 +35,54 @@ public abstract class TutorialCondition
 {
     public abstract IEnumerator Wait(TutorialManager manager);
 }
-[Serializable]
-public class WaitForLeftClickCondition : TutorialCondition
-{
-    public override IEnumerator Wait(TutorialManager manager)
-    {
-        // This needs to be changed to use a real input system once my chud ass works out how to use it
-        while (Input.GetMouseButton(0))
-        {
-            if (manager.restartCurrentStep)
-            {
-                yield break;
-            }
-            yield return null;
-        }
-        while (!Input.GetMouseButtonDown(0))
-        {
-            if (manager.restartCurrentStep)
-            {
-                yield break;
-            }
-            yield return null;
-        }
-    }
-}
-[Serializable]
-public class WaitForSpaceBar : TutorialCondition
-{
-    public override IEnumerator Wait(TutorialManager manager)
-    {
-        // This needs to be changed to use a real input system once my chud ass works out how to use it
-        while (Input.GetKey(KeyCode.Space))
-        {
-            if (manager.restartCurrentStep)
-            {
-                yield break;
-            }
-            yield return null;
-        }
-        while (!Input.GetKeyDown(KeyCode.Space))
-        {
-            if (manager.restartCurrentStep)
-            {
-                yield break;
-            }
-            yield return null;
-        }
-    }
-}
+//[Serializable]
+//public class WaitForLeftClickCondition : TutorialCondition
+//{
+//    public override IEnumerator Wait(TutorialManager manager)
+//    {
+//        // This needs to be changed to use a real input system once my chud ass works out how to use it
+//        while (Input.GetMouseButton(0))
+//        {
+//            if (manager.restartCurrentStep)
+//            {
+//                yield break;
+//            }
+//            yield return null;
+//        }
+//        while (!Input.GetMouseButtonDown(0))
+//        {
+//            if (manager.restartCurrentStep)
+//            {
+//                yield break;
+//            }
+//            yield return null;
+//        }
+//    }
+//}
+//[Serializable]
+//public class WaitForSpaceBar : TutorialCondition
+//{
+//    public override IEnumerator Wait(TutorialManager manager)
+//    {
+//        // This needs to be changed to use a real input system once my chud ass works out how to use it
+//        while (Input.GetKey(KeyCode.Space))
+//        {
+//            if (manager.restartCurrentStep)
+//            {
+//                yield break;
+//            }
+//            yield return null;
+//        }
+//        while (!Input.GetKeyDown(KeyCode.Space))
+//        {
+//            if (manager.restartCurrentStep)
+//            {
+//                yield break;
+//            }
+//            yield return null;
+//        }
+//    }
+//}
 [Serializable]
 public class DummyDeathCondition : TutorialCondition
 {
@@ -140,13 +140,13 @@ public class DummyDeathCondition : TutorialCondition
         if (totalDeaths >= numRequired)
         {
             // Event to ReStart Wave & Tutorial Stage
-            Debug.Log("Stage Reset True");
+           // Debug.Log("Stage Reset True");
             manager.restartCurrentStep = true;
         }
 
-        Debug.Log("total Deaths " + totalDeaths);
-        Debug.Log("current Correct " +  currentCorrectDeaths);
-        Debug.Log("num required" + numRequired);
+       // Debug.Log("total Deaths " + totalDeaths);
+       // Debug.Log("current Correct " +  currentCorrectDeaths);
+       // Debug.Log("num required" + numRequired);
     }
 }
 
@@ -185,43 +185,8 @@ public class WaitForInputAction : TutorialCondition
     }
     private void OnAction(InputAction.CallbackContext context)
     {
-        if (!manager.HandleConditionInput(context)) { Debug.Log("Not allowed to complete"); return; }
-        Debug.Log("Allowed to complete");
-        complete = true;
-    }
-}
-
-[Serializable]
-public class WaitForLeftClickInputAction : TutorialCondition
-{
-    public InputActionReference inputAction;
-    public static event Action InputToSkip;
-    private bool complete;
-    private TutorialManager manager;
-    public override IEnumerator Wait(TutorialManager manager)
-    {
-        complete = false;
-        this.manager = manager;
-        inputAction.action.performed += OnAction;
-        while (!complete)
-        {
-            if (manager.restartCurrentStep)
-            {
-                inputAction.action.performed -= OnAction;
-                yield break;
-            }
-
-            yield return null;
-        }
-        inputAction.action.performed -= OnAction;
-    }
-    private void OnAction(InputAction.CallbackContext context)
-    {
-        if (!manager.typingTextBox.finishedTyping)
-        {
-            InputToSkip?.Invoke();
-            return;
-        }
+        if (!manager.HandleConditionInput(context)) { return; }
+        //Debug.Log("Allowed to complete");
         complete = true;
     }
 }
@@ -272,18 +237,43 @@ public class WaitForTutorialComplete : TutorialCondition
     public override IEnumerator Wait(TutorialManager manager)
     {
         complete = false;
-        TutorialManager.TutorialOver += OnContinue;
+        TutorialManager.TutorialOver += OnComplete;
         while (!complete)
         {
             if (manager.restartCurrentStep)
             {
-                TutorialManager.TutorialOver -= OnContinue;
+                TutorialManager.TutorialOver -= OnComplete;
                 yield break;
             }
 
             yield return null;
         }
-        TutorialManager.TutorialOver -= OnContinue;
+        TutorialManager.TutorialOver -= OnComplete;
+    }
+    private void OnComplete()
+    {
+        complete = true;
+    }
+}
+[Serializable]
+public class WaitForContinuePressed : TutorialCondition
+{
+    private bool complete;
+    public override IEnumerator Wait(TutorialManager manager)
+    {
+        complete = false;
+        ContinueButton.Continue += OnContinue;
+        while (!complete)
+        {
+            if (manager.restartCurrentStep)
+            {
+                ContinueButton.Continue -= OnContinue;
+                yield break;
+            }
+
+            yield return null;
+        }
+        ContinueButton.Continue -= OnContinue;
     }
     private void OnContinue()
     {
