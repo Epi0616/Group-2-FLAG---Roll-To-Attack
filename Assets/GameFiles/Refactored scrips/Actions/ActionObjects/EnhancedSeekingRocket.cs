@@ -209,7 +209,7 @@ public class EnhancedSeekingRocket : SeekingRocket
             Entity newEntity = collider.GetComponent<Entity>();
 
             if (newEntity == null) { continue; }   
-
+            if (newEntity.healthSystem.isDead) { continue; }
             float dist = (newEntity.transform.position - transform.position).magnitude;
 
             if (dist < closestEntityDist)
