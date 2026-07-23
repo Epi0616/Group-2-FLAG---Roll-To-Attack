@@ -6,7 +6,6 @@ public class FullScreenSetting : MonoBehaviour
 
     public void ToggleFullScreen()
     {
-        tickBox.SetActive(!tickBox.activeSelf);
         Screen.fullScreen = tickBox.activeSelf;
     }
 }

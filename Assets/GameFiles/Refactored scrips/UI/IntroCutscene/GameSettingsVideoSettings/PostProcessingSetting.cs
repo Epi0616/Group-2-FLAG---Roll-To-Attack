@@ -8,7 +8,6 @@ public class PostProcessingSetting : MonoBehaviour
 
     public void TogglePostProcessing()
     {
-        tickBox.SetActive(!tickBox.activeSelf);
         togglePostProcessing?.Invoke(tickBox.activeSelf);
     }
 }

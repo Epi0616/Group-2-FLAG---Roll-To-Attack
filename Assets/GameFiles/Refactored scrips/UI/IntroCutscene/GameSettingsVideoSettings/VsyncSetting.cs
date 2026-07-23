@@ -8,7 +8,6 @@ public class VsyncSetting : MonoBehaviour
 
     public void ToggleVsync()
     {
-        tickBox.SetActive(!tickBox.activeSelf);
         toggleVSync?.Invoke(tickBox.activeSelf);
     }
 }
