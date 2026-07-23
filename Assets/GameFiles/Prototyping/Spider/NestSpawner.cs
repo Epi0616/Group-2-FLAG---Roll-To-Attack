@@ -1,22 +1,23 @@
 using UnityEngine;
 
-public class NestSpawner : BaseEntityAction, ICreatureSpawner
+public class NestSpawner : BaseEntityAction
 {
     ICreatureSpawner creatureSpawner;
-    [SerializeField] private GameObject CreaturePrefab;
-    public GameObject creaturePrefab { get => CreaturePrefab; set => CreaturePrefab = value; }
+    public NestSpawner() { }
     public override void StartAction(Entity ownerEntity)
     {
         base.StartAction(ownerEntity);
-        creatureSpawner = ownerEntity as ICreatureSpawner;
-        if (creatureSpawner != null)
-        {
-            SpawnCreatureAction(creaturePrefab);
-        }
+        creatureSpawner = ownerEntity.GetComponent<ICreatureSpawner>();
+        SpawnCreatureAction(creatureSpawner.creaturePrefab);
     }
 
     void SpawnCreatureAction(GameObject creature)
     {
-        creature = ObjectPoolManager.SpawnObject(CreaturePrefab, ownerEntity.transform.position, Quaternion.identity);
+        creature = ObjectPoolManager.SpawnObject(creature, ownerEntity.transform.position, Quaternion.identity);
+    }
+
+    public override BaseEntityAction Clone()
+    {
+         return new NestSpawner();
     }
 }
