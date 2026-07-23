@@ -5469,63 +5469,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 606139824}
   m_Mesh: {fileID: -1995865997606469156, guid: 4bcc1b35845ac894b989a9a11890d151, type: 3}
---- !u!1001 &606214172
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 578177731079872923, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_Name
-      value: Spider
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110712936581870261, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 17.05519
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110712936581870261, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.78605
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110712936581870261, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 27.07862
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110712936581870261, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110712936581870261, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110712936581870261, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110712936581870261, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110712936581870261, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110712936581870261, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110712936581870261, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
 --- !u!1001 &609065895
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17519,12 +17462,11 @@ GameObject:
   - component: {fileID: 1236269907121871504}
   - component: {fileID: 1701758763122088561}
   - component: {fileID: 2911285023083868678}
-  - component: {fileID: 7052817765646428977}
+  - component: {fileID: 8021897278467422762}
   - component: {fileID: 4401341921547713219}
   - component: {fileID: 4355295949769229958}
   - component: {fileID: 117249696313922978}
   - component: {fileID: 2798411429005757753}
-  - component: {fileID: 7833468534545987868}
   m_Layer: 14
   m_Name: Nest
   m_TagString: Enemy
@@ -20983,56 +20925,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7052817765646428977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2430112911671372039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa506203500c7c04fbb1d4d3ceed9c6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExampleNewEnemy
-  VisibleStatList: []
-  target: {fileID: 0}
-  hostileMask:
-    serializedVersion: 2
-    m_Bits: 131072
-  healthSystem: {fileID: 4401341921547713219}
-  statusSystem: {fileID: 4355295949769229958}
-  bodySystem: {fileID: 117249696313922978}
-  textDisplaySystem: {fileID: 2798411429005757753}
-  Agent: {fileID: 0}
-  Rb: {fileID: 0}
-  GroundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  IsGrounded: 0
-  CanMove: 1
-  MovementSpeed:
-    baseValue: 5
-  ConditionalMovementDescriptors: []
-  ConditionalActionDescriptors: []
-  ConditionalActions: []
-  WeightModifier:
-    baseValue: 1
-  SlammedDMGMod:
-    baseValue: 1
-  IsBeingDisplaced: 0
-  CanBeStunned: 1
-  IsStunned: 0
-  AnimationManager: {fileID: 0}
-  SpawnInGround: 0
-  ImpactFieldPrefab: {fileID: 0}
-  PedestalLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  slamCooldownTime: 0.5
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &7108801818059023367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21266,24 +21158,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7833468534545987868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2430112911671372039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56532081093b3874a8eca22fd3748215, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
-  animator: {fileID: 0}
-  animationClipTypes:
-  - type: 3
-    clip: {fileID: 7400000, guid: af790148c0e5f7441a4ba1e97d5f52ad, type: 2}
-  - type: 4
-    clip: {fileID: 7400000, guid: 558cd5f4ff33e5b4db292bf05278b5b3, type: 2}
 --- !u!4 &7862482102065557861
 Transform:
   m_ObjectHideFlags: 0
@@ -21373,13 +21247,56 @@ Transform:
   m_GameObject: {fileID: 2430112911671372039}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.8, y: 1.78606, z: 27.3}
+  m_LocalPosition: {x: 31.8, y: 2.3, z: 27.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2101554072}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8021897278467422762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430112911671372039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8e3433a9845e74e888049072a51688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Nest
+  VisibleStatList: []
+  target: {fileID: 0}
+  hostileMask:
+    serializedVersion: 2
+    m_Bits: 0
+  healthSystem: {fileID: 4401341921547713219}
+  statusSystem: {fileID: 4355295949769229958}
+  bodySystem: {fileID: 117249696313922978}
+  textDisplaySystem: {fileID: 2798411429005757753}
+  CanAct: 0
+  ConditionalActions:
+  - action:
+      rid: -2
+    conditions:
+    - rid: 5561300663966630030
+    allConditionsRequired: 0
+    singleUse: 0
+    triggered: 0
+    exclusive: 0
+    priority: 0
+  CreaturePrefab: {fileID: 578177731079872923, guid: e7df548743fb18a4bba37ff57ce9aaa0, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 5561300663966630030
+      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        duration: 1
 --- !u!222 &8040331221178449023
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21771,4 +21688,3 @@ SceneRoots:
   - {fileID: 1002218923}
   - {fileID: 934497098}
   - {fileID: 8021897278467422761}
-  - {fileID: 606214172}
