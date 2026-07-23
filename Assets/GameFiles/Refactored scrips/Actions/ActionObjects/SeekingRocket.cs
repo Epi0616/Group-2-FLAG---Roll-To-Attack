@@ -173,7 +173,7 @@ public class SeekingRocket : MonoBehaviour
         DestroyMe();
     }
 
-    protected void DestroyMe()
+    protected virtual void DestroyMe()
     {
         if (isDestroyed) return;
         isDestroyed = true;
