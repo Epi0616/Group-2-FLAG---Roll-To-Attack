@@ -1,23 +1,25 @@
+using System.Threading;
 using UnityEngine;
 
-public class NestSpawner : BaseEntityAction
+public class NestSpawner : MonoBehaviour
 {
-    ICreatureSpawner creatureSpawner;
-    public NestSpawner() { }
-    public override void StartAction(Entity ownerEntity)
+    public GameObject creaturePrefab;
+    public GameObject nest;
+    Vector3 spawnPos;
+    public float timer = 1;
+
+    private void Start()
     {
-        base.StartAction(ownerEntity);
-        creatureSpawner = ownerEntity.GetComponent<ICreatureSpawner>();
-        SpawnCreatureAction(creatureSpawner.creaturePrefab);
+        spawnPos = new Vector3(nest.transform.position.x, nest.transform.position.y, nest.transform.position.z - 5);
     }
 
-    void SpawnCreatureAction(GameObject creature)
+    void Update()
     {
-        creature = ObjectPoolManager.SpawnObject(creature, ownerEntity.transform.position, Quaternion.identity);
-    }
-
-    public override BaseEntityAction Clone()
-    {
-         return new NestSpawner();
+        timer -= Time.deltaTime;
+        if(timer < 0 )
+        {
+            ObjectPoolManager.SpawnObject(creaturePrefab, spawnPos, nest.transform.rotation);
+            timer = Random.Range(5, 10);
+        }
     }
 }
