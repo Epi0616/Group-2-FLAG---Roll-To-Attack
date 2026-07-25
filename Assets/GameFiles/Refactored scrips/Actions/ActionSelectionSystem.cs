@@ -52,4 +52,31 @@ public class ActionSelectionSystem
         ActionWeightTally = 1;
         return null;
     }
+
+    public ModifiableAction GetRandomModifiableAction()
+    {
+        int totalWeight = 0;
+        LastReturnedActionIndex = 0;
+
+        foreach (var action in modifiableActions.modifiableActions)
+        {
+            totalWeight += action.weighting;
+        }
+        int randomNumber = Random.Range(1, totalWeight + 1);
+        int ActionWeightTally = 0;
+
+        foreach (var action in modifiableActions.modifiableActions)
+        {
+            ActionWeightTally += action.weighting;
+            if (randomNumber <= ActionWeightTally)
+            {
+                return action;
+            }
+            LastReturnedActionIndex++;
+        }
+
+        Debug.LogError("NO VALID ACTIONS PRESENT BRO WTF HAPPEBNED");
+        ActionWeightTally = 1;
+        return null;
+    }
 }
