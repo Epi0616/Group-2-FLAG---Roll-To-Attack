@@ -131,7 +131,9 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
 
     [Header("IIconDisplayer")]
     [SerializeField] private GameObject DisplayPlanePrefab;
+    [SerializeField] private AbilityDisplayUI DisplayUISlot;
     public GameObject displayPlanePrefab { get => DisplayPlanePrefab; set => DisplayPlanePrefab = value; }
+    public AbilityDisplayUI displayUI { get => DisplayUISlot; set => DisplayUISlot = value; }
     protected override void Start()
     {
         base.Start();

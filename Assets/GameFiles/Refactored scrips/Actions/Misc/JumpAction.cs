@@ -67,7 +67,8 @@ public class JumpAction : BaseEntityAction
         {
             ModifiableAction targetMAction = modifiableActions.actionSelectionSystem.GetRandomModifiableAction();
             Vector3 spawnPoint = new Vector3 (ownerEntity.transform.position.x, targetHeight, ownerEntity.transform.position.z);
-            ObjectPoolManager.SpawnObject(displayer.displayPlanePrefab, spawnPoint, Quaternion.identity).GetComponent<IconImageDisplayPlane>().Initialize(targetMAction.sprite.texture, ownerEntity);
+            ObjectPoolManager.SpawnObject(displayer.displayPlanePrefab, spawnPoint, new Quaternion(0, 180, 0, 0)).GetComponent<IconImageDisplayPlane>().Initialize(targetMAction.sprite.texture, ownerEntity);
+            displayer.displayUI.StartDisplay(targetMAction.sprite);
             targetAction = targetMAction.conditionalAction;
         }
         else
