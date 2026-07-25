@@ -11,6 +11,8 @@ public class PlayerBodySystem : EntityBodySystem
     private void OnEnable()
     {
         PlayerHealthSystem.ShowIFrames += DisplayIFrames;
+        chargeCompleteEffect.Stop();
+        chargingEffect.Stop();
     }
 
     private void OnDisable()
