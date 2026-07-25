@@ -5,26 +5,44 @@ using System.Threading;
 
 public class IconImageDisplayPlane : MonoBehaviour
 {
-    [SerializeField] private Material imageMat;
+    private Material imageMat;
     private bool isDestroyed;
     private float displayTime = 1.75f;
-    public virtual void Initialize(Texture2D textureToDisplay)
+    private Entity ownerEntity;
+
+    public void Awake()
     {
-        imageMat.SetTexture("_ImageToDisplay", textureToDisplay);
+        imageMat = GetComponent<MeshRenderer>().material;
+    }
+    public virtual void Initialize(Texture2D textureToDisplay, Entity entity)
+    {
+        imageMat.SetTexture("_IconToDisplay", textureToDisplay);
         imageMat.SetFloat("_Opacity", 0);
+        transform.localScale = Vector3.one;
+        isDestroyed = false;
+        ownerEntity = entity;
+        StartCoroutine(DisplayRoutine());
+        
     }
 
     public IEnumerator DisplayRoutine()
     {
         float timer = 0;
+        float startHeight = transform.position.y;
+        float targetHeight = transform.position.y + 10;
+        Vector3 startScale = Vector3.zero;
+        Vector3 targetScale = Vector3.one;
         while (timer < displayTime)
         {
             timer += Time.deltaTime;
-            imageMat.SetFloat("_Opacity", Mathf.Lerp(0f, 1f, easeOutBack(timer / displayTime))); 
-
+            imageMat.SetFloat("_Opacity", Mathf.Lerp(0f, 1f, (timer / displayTime)));
+            transform.position = new Vector3(ownerEntity.transform.position.x, Mathf.Lerp(startHeight, targetHeight, (timer / displayTime)), ownerEntity.transform.position.z); 
+            transform.localScale = Vector3.Lerp(startScale, targetScale, (timer / displayTime));
             yield return null;
         }
         imageMat.SetFloat("_Opacity", 1);
+        transform.position = new Vector3(ownerEntity.transform.position.x, targetHeight, ownerEntity.transform.position.z);
+        transform.localScale = targetScale;
         yield return new WaitForSeconds(1f);
         DestroyMe();
     }

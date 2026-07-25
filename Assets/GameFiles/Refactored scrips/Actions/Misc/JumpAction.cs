@@ -21,6 +21,7 @@ public class JumpAction : BaseEntityAction
     IGrounded grounded;
     IJumpable jumpable;
     IModifiableActions modifiableActions;
+    IIconDisplayer iconDisplayer;
 
     //public JumpAction() { }
     public override void StartAction(Entity entity)
@@ -61,8 +62,18 @@ public class JumpAction : BaseEntityAction
         eulerStartRotation.y = Mathf.Round(eulerStartRotation.y);
         eulerStartRotation.z = Mathf.Round(eulerStartRotation.z);
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
-
-        ConditionalAction targetAction = modifiableActions.actionSelectionSystem.GetRandomConditionalAction();
+        ConditionalAction targetAction;
+        if (ownerEntity is IIconDisplayer displayer)
+        {
+            ModifiableAction targetMAction = modifiableActions.actionSelectionSystem.GetRandomModifiableAction();
+            Vector3 spawnPoint = new Vector3 (ownerEntity.transform.position.x, targetHeight, ownerEntity.transform.position.z);
+            ObjectPoolManager.SpawnObject(displayer.displayPlanePrefab, spawnPoint, Quaternion.identity).GetComponent<IconImageDisplayPlane>().Initialize(targetMAction.sprite.texture, ownerEntity);
+            targetAction = targetMAction.conditionalAction;
+        }
+        else
+        {
+            targetAction = modifiableActions.actionSelectionSystem.GetRandomConditionalAction();
+        }
         targetAction.triggered = false;
         int index = modifiableActions.actionSelectionSystem.LastReturnedActionIndex;
         targetRotation = rotationMap[index];

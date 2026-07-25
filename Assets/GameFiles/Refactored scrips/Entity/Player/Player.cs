@@ -4,7 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ISlowBubbleSpawner, ITarget
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner,
+    IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ISlowBubbleSpawner, ITarget, IIconDisplayer
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -123,10 +124,14 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [SerializeField] private GameObject KBFieldPrefab;
     public GameObject knockbackFieldPrefab { get => KBFieldPrefab; set => KBFieldPrefab = value; }
 
-    [Header("IKnockbackFieldSpawner")]
+    [Header("ISlowBubbleSpawner")]
     [SerializeField] private GameObject SlowingBubblePrefab;
     public GameObject slowBubblePrefab { get => SlowingBubblePrefab; set => SlowingBubblePrefab = value; }
     public EnhancedSlowingBubble currentBubbleInstance { get; set; }
+
+    [Header("IIconDisplayer")]
+    [SerializeField] private GameObject DisplayPlanePrefab;
+    public GameObject displayPlanePrefab { get => DisplayPlanePrefab; set => DisplayPlanePrefab = value; }
     protected override void Start()
     {
         base.Start();
