@@ -1,39 +1,61 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class InteractableTickBox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+public class InteractableTickBox : MonoBehaviour, ILoadPlayerPrefs, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] protected GameObject animatedWritingObj;
-    [SerializeField] protected bool isActive = false;
+    [SerializeField] protected GameObject targetGraphic;
+    [SerializeField] protected AnimationOnDemandManager animationManager;
+    protected Image image;
+    protected bool isActive = false;
 
-    protected Animator animator;
-
-    protected virtual void OnEnable()
+    private void OnEnable()
     {
-        isActive = animatedWritingObj.activeSelf;
-        animatedWritingObj.SetActive(isActive);
+        SetAlpha(1f);
+        TryLoadPrefs();
+    }
+
+    private void Awake()
+    {
+        animationManager.Initialize();
+        image = targetGraphic.GetComponent<Image>();
     }
 
     private void Start()
     {
-        animator = animatedWritingObj.GetComponent<Animator>();
-        isActive = animatedWritingObj.activeSelf;
+        animationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.01f);
+        TryLoadPrefs();        
     }
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        animatedWritingObj.SetActive(true);
+        SetAlpha(0.6f);
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        if (isActive) return;
-        animatedWritingObj?.SetActive(false);
+        SetAlpha(isActive? 1 : 0);
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
         isActive = !isActive;
-        animatedWritingObj.SetActive(isActive);
+
+        if (isActive)
+        {
+            animationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.2f);
+        }
+        Toggle();
+        SetAlpha(isActive ? 1 : 0);
     }
+
+    protected void SetAlpha(float alpha)
+    {
+        Color temp = image.color;
+        temp.a = alpha;
+        image.color = temp;
+    }
+
+    public virtual void Toggle() { }
+    public virtual void TryLoadPrefs() { }
 }
