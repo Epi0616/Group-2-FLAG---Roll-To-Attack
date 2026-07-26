@@ -19,10 +19,21 @@ public class ActionSelectionSystem
     {
         modifiableActions.playerLoadOut.WriteAbilities(newActions);
         modifiableActions.modifiableActions = newActions;
+        UpdateAbilityDisplay();
     }
     public void SetModifiableActionStorage(List<ModifiableAction> newActions)
     {
         modifiableActions.modifiableActionStorage = newActions;
+    }
+
+    public void UpdateAbilityDisplay()
+    {
+        List<ModifiableAction> newActions = modifiableActions.playerLoadOut.ReadAbilities();
+        for (int i = 0; i < newActions.Count; i++)
+        {
+            //Debug.Log("New Name is: " +  newActions[i].actionName.GetLocalizedString() + " at index: " + i);
+            modifiableActions.displaySlots[i].sprite = newActions[i].sprite;
+        }
     }
 
     public ConditionalAction GetRandomConditionalAction()
@@ -70,6 +81,7 @@ public class ActionSelectionSystem
             ActionWeightTally += action.weighting;
             if (randomNumber <= ActionWeightTally)
             {
+                //Debug.Log("Selected: " + action.actionName.GetLocalizedString());
                 return action;
             }
             LastReturnedActionIndex++;

@@ -7,4 +7,6 @@ public interface IModifiableActions
     List<ModifiableAction> modifiableActionStorage { get; set; }
     ActionSelectionSystem actionSelectionSystem { get; set; }
     PlayerLoadOut playerLoadOut { get; set; }
+    SpriteRenderer[] displaySlots {  get; set; }
+
 }

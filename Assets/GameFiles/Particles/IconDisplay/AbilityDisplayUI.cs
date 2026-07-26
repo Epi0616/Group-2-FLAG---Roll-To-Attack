@@ -13,7 +13,7 @@ public class AbilityDisplayUI : MonoBehaviour
 
     public IEnumerator DisplaySprite(Sprite sprite)
     {
-        Debug.Log("Displaying");
+       // Debug.Log("Displaying");
         yield return StartCoroutine(SmoothFadeOut());
         uiImage.color = new Color(255, 255, 255, 0);
         uiImage.sprite = sprite;
@@ -22,7 +22,7 @@ public class AbilityDisplayUI : MonoBehaviour
 
     public IEnumerator SmoothFadeIn()
     {
-        Debug.Log("Fade In");
+        //Debug.Log("Fade In");
         float timer = 0;
         while (timer < 0.1f)
         {
@@ -35,7 +35,7 @@ public class AbilityDisplayUI : MonoBehaviour
 
     public IEnumerator SmoothFadeOut()
     {       
-        Debug.Log("Fade Out");
+       // Debug.Log("Fade Out");
         float timer = 0;
         while (timer < 0.1f && !(uiImage.color.a == 0))
         {

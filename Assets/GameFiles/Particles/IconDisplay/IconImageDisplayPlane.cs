@@ -14,11 +14,12 @@ public class IconImageDisplayPlane : MonoBehaviour
     {
         imageMat = GetComponent<MeshRenderer>().material;
     }
-    public virtual void Initialize(Texture2D textureToDisplay, Entity entity)
+    public virtual void Initialize(Texture2D textureToDisplay, Entity entity, Camera targetCamera)
     {
+        transform.rotation = targetCamera.transform.rotation;
         imageMat.SetTexture("_IconToDisplay", textureToDisplay);
         imageMat.SetFloat("_Opacity", 0);
-        transform.localScale = Vector3.one;
+        transform.localScale = Vector3.zero;
         isDestroyed = false;
         ownerEntity = entity;
         StartCoroutine(DisplayRoutine());
@@ -27,23 +28,40 @@ public class IconImageDisplayPlane : MonoBehaviour
 
     public IEnumerator DisplayRoutine()
     {
+        //yield return new WaitForSeconds(0.25f);
         float timer = 0;
-        float startHeight = transform.position.y;
+        float startHeight = transform.position.y - 10;
         float targetHeight = transform.position.y + 5;
         Vector3 startScale = Vector3.zero;
-        Vector3 targetScale = Vector3.one * 1.25f;
+        Vector3 targetScale = Vector3.one * 10f;
         while (timer < displayTime)
         {
             timer += Time.deltaTime;
-            imageMat.SetFloat("_Opacity", Mathf.Lerp(0f, 0.75f, (timer / displayTime)));
-            transform.position = new Vector3(ownerEntity.transform.position.x, Mathf.Lerp(startHeight, targetHeight, (timer / displayTime)), ownerEntity.transform.position.z - 5f); 
+            imageMat.SetFloat("_Opacity", Mathf.Lerp(0f, 1f, (timer / displayTime)));
+            transform.position = new Vector3(ownerEntity.transform.position.x, Mathf.Lerp(startHeight, targetHeight, (timer / displayTime)), ownerEntity.transform.position.z); 
             transform.localScale = Vector3.Lerp(startScale, targetScale, (timer / displayTime));
             yield return null;
         }
-        imageMat.SetFloat("_Opacity", 0.75f);
-        transform.position = new Vector3(ownerEntity.transform.position.x, targetHeight, ownerEntity.transform.position.z - 5f);
+        imageMat.SetFloat("_Opacity", 1f);
+        transform.position = new Vector3(ownerEntity.transform.position.x, targetHeight, ownerEntity.transform.position.z);
         transform.localScale = targetScale;
-        yield return new WaitForSeconds(1f);
+        timer = 0;
+        while (timer < 0.5f)
+        {
+            timer += Time.deltaTime;
+            transform.position = new Vector3(ownerEntity.transform.position.x, targetHeight, ownerEntity.transform.position.z);
+            yield return null;
+        }
+        timer = 0;
+        while (timer < 0.25f)
+        {
+            timer += Time.deltaTime;
+            imageMat.SetFloat("_Opacity", Mathf.Lerp(1f, 0f, (timer / 0.25f)));
+            transform.position = new Vector3(ownerEntity.transform.position.x, targetHeight, ownerEntity.transform.position.z - 5f);
+            transform.position = new Vector3(ownerEntity.transform.position.x, Mathf.Lerp(targetHeight, startHeight, (timer / displayTime)), ownerEntity.transform.position.z);
+            transform.localScale = Vector3.Lerp(targetScale, startScale, (timer / displayTime));
+            yield return null;
+        }
         DestroyMe();
     }
 
@@ -66,4 +84,5 @@ public interface IIconDisplayer
 {
     public GameObject displayPlanePrefab { get; set; }
     public AbilityDisplayUI displayUI { get; set; }
+    public Camera targetCamera { get; set; }
 }

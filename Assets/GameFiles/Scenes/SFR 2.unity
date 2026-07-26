@@ -4263,6 +4263,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421088382}
   m_Mesh: {fileID: -1995865997606469156, guid: 4bcc1b35845ac894b989a9a11890d151, type: 3}
+--- !u!212 &422074090 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6079113873694063602, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+  m_PrefabInstance: {fileID: 934497098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &436462241 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2491416918391137920, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
@@ -4656,6 +4661,11 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: -13.15, z: 0}
   m_TimeToStationary: 0.5
+--- !u!212 &487036953 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6887091259713254836, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+  m_PrefabInstance: {fileID: 934497098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &499988953 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6370518407551535867, guid: 181c02dd64c75aa48a1fe338f048eb58, type: 3}
@@ -6585,6 +6595,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2378eb827606f44a34e8357340a339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonNoise
+--- !u!212 &763161298 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 9118160684360736278, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+  m_PrefabInstance: {fileID: 934497098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &767254798 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4008217286697941844, guid: 181c02dd64c75aa48a1fe338f048eb58, type: 3}
@@ -7665,6 +7680,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2960858966750313167, guid: a2f52dc9c275de04aa04a93fd723ba07, type: 3}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: PlayerCamera
+      value: 
+      objectReference: {fileID: 1506472832}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: RocketDamage
       value: 5
       objectReference: {fileID: 0}
@@ -7687,11 +7706,39 @@ PrefabInstance:
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: DisplayPlanePrefab
       value: 
-      objectReference: {fileID: 34682047649363191, guid: c158be8526bd0da46bdcf0f95f798848, type: 3}
+      objectReference: {fileID: 8598458795986946572, guid: 08a77e80759924949a2698df696da6a1, type: 3}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: hostileMask.m_Bits
       value: 49152
       objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: DiceFaceDisplaySlots.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'DiceFaceDisplaySlots.Array.data[0]'
+      value: 
+      objectReference: {fileID: 422074090}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'DiceFaceDisplaySlots.Array.data[1]'
+      value: 
+      objectReference: {fileID: 487036953}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'DiceFaceDisplaySlots.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1207234105}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'DiceFaceDisplaySlots.Array.data[3]'
+      value: 
+      objectReference: {fileID: 763161298}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'DiceFaceDisplaySlots.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1969106619}
+    - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: 'DiceFaceDisplaySlots.Array.data[5]'
+      value: 
+      objectReference: {fileID: 1985318811}
     - target: {fileID: 4151217038681569547, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: ModifiableActionDescriptors.Array.size
       value: 6
@@ -9543,6 +9590,11 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 953734861106700125, guid: b41d1f78ef232d94d9b1a9e02089d755, type: 3}
+--- !u!212 &1207234105 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8781660072945258757, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+  m_PrefabInstance: {fileID: 934497098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1209416505
 GameObject:
   m_ObjectHideFlags: 0
@@ -14599,6 +14651,16 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -3862014025099427884, guid: b41d1f78ef232d94d9b1a9e02089d755, type: 3}
+--- !u!212 &1969106619 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6615806333670586809, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+  m_PrefabInstance: {fileID: 934497098}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1985318811 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8919648914821353934, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+  m_PrefabInstance: {fileID: 934497098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1985951543 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6751446826015986691, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}

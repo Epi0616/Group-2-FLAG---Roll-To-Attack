@@ -40,12 +40,14 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [Header("IModifiableActions")]
     [SerializeField] private List<ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
     [SerializeField] private PlayerLoadOut PlayerLoadOut;
+    [SerializeField] private SpriteRenderer[] DiceFaceDisplaySlots;
     private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
     private List<ModifiableAction> ModifiableActionStorage = new List<ModifiableAction>();
     public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
     public List<ModifiableAction> modifiableActionStorage { get => ModifiableActionStorage; set => ModifiableActionStorage = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
     public PlayerLoadOut playerLoadOut { get => PlayerLoadOut; set => PlayerLoadOut = value; }
+    public SpriteRenderer[] displaySlots { get => DiceFaceDisplaySlots; set => DiceFaceDisplaySlots = value; }
 
     [Header("IUsesRigidBody")]
     public Rigidbody rb { get; set; }
@@ -132,8 +134,10 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [Header("IIconDisplayer")]
     [SerializeField] private GameObject DisplayPlanePrefab;
     [SerializeField] private AbilityDisplayUI DisplayUISlot;
+    [SerializeField] private Camera PlayerCamera;
     public GameObject displayPlanePrefab { get => DisplayPlanePrefab; set => DisplayPlanePrefab = value; }
     public AbilityDisplayUI displayUI { get => DisplayUISlot; set => DisplayUISlot = value; }
+    public Camera targetCamera { get => PlayerCamera; set => PlayerCamera = value; }
     protected override void Start()
     {
         base.Start();
