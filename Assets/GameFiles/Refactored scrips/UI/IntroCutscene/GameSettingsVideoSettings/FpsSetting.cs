@@ -1,34 +1,23 @@
 using System;
 using UnityEngine;
 
-public class fpsSetting : MonoBehaviour, ILoadPlayerPrefs
+public class fpsSetting : InteractableTickBox
 {
     public static event Action<bool> setFPSVisibility;
-    [SerializeField] GameObject tickBox;
 
-    private void OnEnable()
+    public override void Toggle()
     {
-        TryLoadPrefs();
+        setFPSVisibility?.Invoke(isActive);
+        PlayerPrefsManager.SetBool(PlayerValues.FPS, isActive);
     }
 
-    private void Start()
-    {
-        TryLoadPrefs();
-    }
-
-    public void ToggleFPSVisibility()
-    {
-        tickBox.SetActive(!tickBox.activeSelf);
-        setFPSVisibility?.Invoke(tickBox.activeSelf);
-        PlayerPrefsManager.SetBool(PlayerValues.FPS, tickBox.activeSelf);
-    }
-
-    public void TryLoadPrefs()
+    public override void TryLoadPrefs()
     {
         if (PlayerPrefsManager.GetBool(PlayerValues.FPS, out bool fps))
         {
-            tickBox.SetActive(fps);
-            setFPSVisibility?.Invoke(fps);
+            isActive = fps;
+            SetAlpha(isActive ? 1 : 0);
+            setFPSVisibility?.Invoke(isActive);
         }
     }
 }

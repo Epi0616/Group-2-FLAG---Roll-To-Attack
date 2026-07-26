@@ -1,8 +1,10 @@
+using TMPro;
 using UnityEngine;
 
 public class LanguageSettings : MonoBehaviour, ILoadPlayerPrefs
 {
     [SerializeField] private GameObject englishCheckMark, germanCheckMark, norwegianCheckMark;
+    //[SerializeField] private TextMeshProUGUI english, german, norwegian;
 
     private void OnEnable()
     {

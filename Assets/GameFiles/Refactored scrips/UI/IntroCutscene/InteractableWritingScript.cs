@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InteractableWritingScript : InteractableTickBox
+public class InteractableWritingScript : InteractableAnimation
 {
     protected override void OnEnable()
     {
-        animatedWritingObj.SetActive(isActive);
+        animatedObj.SetActive(isActive);
         IntroSceneMenuUI.settingsOpened += HandleReset;
         IntroSceneMenuUI.menuOpened += HandleReset;
     }
@@ -19,6 +19,6 @@ public class InteractableWritingScript : InteractableTickBox
     private void HandleReset(float value)
     {
         isActive = false;
-        animatedWritingObj.SetActive(isActive);
+        animatedObj.SetActive(isActive);
     }
 }
