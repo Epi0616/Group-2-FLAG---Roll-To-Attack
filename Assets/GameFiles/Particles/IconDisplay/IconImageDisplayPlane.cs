@@ -46,7 +46,7 @@ public class IconImageDisplayPlane : MonoBehaviour
         transform.position = new Vector3(ownerEntity.transform.position.x, targetHeight, ownerEntity.transform.position.z);
         transform.localScale = targetScale;
         timer = 0;
-        while (timer < 0.5f)
+        while (timer < 0.4f)
         {
             timer += Time.deltaTime;
             transform.position = new Vector3(ownerEntity.transform.position.x, targetHeight, ownerEntity.transform.position.z);
