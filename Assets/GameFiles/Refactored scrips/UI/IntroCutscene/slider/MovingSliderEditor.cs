@@ -7,12 +7,14 @@ using UnityEngine;
 public class MovingSliderEditor : SliderEditor
 {
     private SerializedProperty animationManager;
+    private SerializedProperty audioType;
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
         animationManager = serializedObject.FindProperty("animationManager");
+        audioType = serializedObject.FindProperty("audioType");
     }
 
     public override void OnInspectorGUI()
@@ -23,6 +25,7 @@ public class MovingSliderEditor : SliderEditor
 
         EditorGUILayout.Space();
         EditorGUILayout.PropertyField(animationManager);
+        EditorGUILayout.PropertyField(audioType);
         serializedObject.ApplyModifiedProperties();
     }
 }

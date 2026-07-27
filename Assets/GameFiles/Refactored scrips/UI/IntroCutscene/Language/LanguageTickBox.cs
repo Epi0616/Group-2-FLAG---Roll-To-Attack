@@ -40,12 +40,12 @@ public class LanguageTickBox : InteractableTickBox, IPointerDownHandler
     public override void Toggle()
     {
         LanguageManager.instance?.SetLanguage(language);
-        PlayerPrefsManager.SetString(PlayerValues.Language, language);
+        PlayerPrefsManager.instance?.SetString(PlayerValues.Language, language);
     }
 
     public override void TryLoadPrefs()
     {
-        string selectedLanguage = PlayerPrefsManager.GetString(PlayerValues.Language);
+        string selectedLanguage = PlayerPrefsManager.instance?.GetString(PlayerValues.Language);
         if (selectedLanguage == language)
         {
             newLanguageSelected?.Invoke();

@@ -8,12 +8,14 @@ public class fpsSetting : InteractableTickBox
     public override void Toggle()
     {
         setFPSVisibility?.Invoke(isActive);
-        PlayerPrefsManager.SetBool(PlayerValues.FPS, isActive);
+        PlayerPrefsManager.instance?.SetBool(PlayerValues.FPS, isActive);
     }
 
     public override void TryLoadPrefs()
     {
-        if (PlayerPrefsManager.GetBool(PlayerValues.FPS, out bool fps))
+        if (!PlayerPrefsManager.instance) return;
+
+        if (PlayerPrefsManager.instance.GetBool(PlayerValues.FPS, out bool fps))
         {
             isActive = fps;
             SetAlpha(isActive ? 1 : 0);

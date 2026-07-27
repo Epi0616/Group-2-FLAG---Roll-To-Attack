@@ -20,13 +20,13 @@ public class NameScript : MonoBehaviour
 
     public void UpdateName()
     {
-        PlayerPrefsManager.SetString(PlayerValues.Name, inputField.text);
+        PlayerPrefsManager.instance?.SetString(PlayerValues.Name, inputField.text);
         nameChosen?.Invoke();
     }
 
     public void TryLoadPrefs()
     {
-        string name = PlayerPrefsManager.GetString(PlayerValues.Name);
+        string name = PlayerPrefsManager.instance?.GetString(PlayerValues.Name);
         inputField.text = name;
     }
 }

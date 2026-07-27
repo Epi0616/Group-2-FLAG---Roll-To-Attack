@@ -18,7 +18,8 @@ public class DisplayPlayerPrefInt : MonoBehaviour, ILoadPlayerPrefs
 
     public void TryLoadPrefs()
     {
-        int number = PlayerPrefsManager.GetInt(value);
+        if (!PlayerPrefsManager.instance) return;
+        int number = PlayerPrefsManager.instance.GetInt(value);
         text.text = number.ToString();
     }
 }

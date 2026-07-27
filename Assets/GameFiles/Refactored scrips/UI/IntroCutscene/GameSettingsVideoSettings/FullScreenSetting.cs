@@ -5,12 +5,14 @@ public class FullScreenSetting : InteractableTickBox
     public override void Toggle()
     {
         Screen.fullScreen = isActive;
-        PlayerPrefsManager.SetBool(PlayerValues.FullScreen, targetGraphic.activeSelf);
+        PlayerPrefsManager.instance?.SetBool(PlayerValues.FullScreen, targetGraphic.activeSelf);
     }
 
     public override void TryLoadPrefs()
     {
-        if (PlayerPrefsManager.GetBool(PlayerValues.FullScreen, out bool fullScreen))
+        if (!PlayerPrefsManager.instance) return;
+
+        if (PlayerPrefsManager.instance.GetBool(PlayerValues.FullScreen, out bool fullScreen))
         {
             isActive = fullScreen;
             SetAlpha(isActive ? 1 : 0);
