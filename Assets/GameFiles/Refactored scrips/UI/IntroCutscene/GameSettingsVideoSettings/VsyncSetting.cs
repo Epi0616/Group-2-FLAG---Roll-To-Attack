@@ -1,14 +1,23 @@
 using System;
 using UnityEngine;
 
-public class VsyncSetting : MonoBehaviour
+public class VsyncSetting : InteractableTickBox
 {
     public static event Action<bool> toggleVSync;
-    [SerializeField] GameObject tickBox;
 
-    public void ToggleVsync()
+    public override void Toggle()
     {
-        tickBox.SetActive(!tickBox.activeSelf);
-        toggleVSync?.Invoke(tickBox.activeSelf);
+        toggleVSync?.Invoke(isActive);
+        PlayerPrefsManager.SetBool(PlayerValues.VSync, isActive);
+    }
+
+    public override void TryLoadPrefs()
+    {
+        if (PlayerPrefsManager.GetBool(PlayerValues.VSync, out bool vsync))
+        {
+            isActive = vsync;
+            SetAlpha(isActive ? 1 : 0);
+            toggleVSync?.Invoke(isActive);
+        }
     }
 }

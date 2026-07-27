@@ -21,6 +21,8 @@ public class AnimationOnDemandManager : MonoBehaviour
     MixerContainer mainMixer, complimentaryMixer;
     private int currentPriority;
 
+    public bool graphActive = false;
+
     private void OnEnable()
     {
         SetupPlayableGraph();
@@ -29,12 +31,12 @@ public class AnimationOnDemandManager : MonoBehaviour
 
     private void OnDisable()
     {
+        graphActive = false;
         graph.Destroy();
     }
 
-    public void Initialize(Entity entity)
+    public void Initialize()
     {
-        ownerEntity = entity;
         UnpackAnimationClipTypes();
     }
 
@@ -76,10 +78,20 @@ public class AnimationOnDemandManager : MonoBehaviour
         mainAnimationOutput.SetSourcePlayable(mainMixer.mixer);
         complimentaryAnimationOutput.SetSourcePlayable(complimentaryMixer.mixer);
         graph.Play();
+        graphActive = true;
+    }
+
+    public void EndCurrentAnimation(MixerType mixerType)
+    {
+        if (!graphActive) return;
+        if (!GetMixerContainerFromType(mixerType, out MixerContainer mixer)) return;
+        CancelCurrentCrossFade(mixer);
+        DestroyMixerPlayable(mixer, 0);
     }
 
     public void PlayAnimation(AnimationType newAnimationType, int priority, MixerType mixerType, float window = 0f)
     {
+        if (!graphActive) return;
         if (!GetMixerContainerFromType(mixerType, out MixerContainer mixer)) return;
         if (!CheckForCanBePlayed(mixer, priority, newAnimationType)) return;
         if (!GetAnimationClipFromType(newAnimationType, out AnimationClip animationClip)) return;
@@ -98,6 +110,7 @@ public class AnimationOnDemandManager : MonoBehaviour
 
     public void PlayAnimationCrossFade(AnimationType newAnimationType, int priority, MixerType mixerType, float crossFadeDuration = 0.2f, float window = 0f)
     {
+        if (!graphActive) return;
         if (!GetMixerContainerFromType(mixerType, out MixerContainer mixer)) return;
         if (!CheckForCanBePlayed(mixer, priority, newAnimationType)) return;
         if (!GetAnimationClipFromType(newAnimationType, out AnimationClip animationClip)) return;
@@ -232,6 +245,9 @@ public class AnimationOnDemandManager : MonoBehaviour
 
     private bool IsCurrentAnimationFinished(MixerContainer mixer)
     {
+        if (mixer == null) return false;
+        //if (!mixer.mixer.IsValid()) return false;
+
         AnimationClipPlayable currentPlayable = (AnimationClipPlayable)mixer.mixer.GetInput(0);
         if (!currentPlayable.IsValid()) return true;
         return currentPlayable.GetTime() >= currentPlayable.GetAnimationClip().length;

@@ -1,12 +1,20 @@
 using UnityEngine;
 
-public class FullScreenSetting : MonoBehaviour
+public class FullScreenSetting : InteractableTickBox
 {
-    [SerializeField] private GameObject tickBox;
-
-    public void ToggleFullScreen()
+    public override void Toggle()
     {
-        tickBox.SetActive(!tickBox.activeSelf);
-        Screen.fullScreen = tickBox.activeSelf;
+        Screen.fullScreen = isActive;
+        PlayerPrefsManager.SetBool(PlayerValues.FullScreen, targetGraphic.activeSelf);
+    }
+
+    public override void TryLoadPrefs()
+    {
+        if (PlayerPrefsManager.GetBool(PlayerValues.FullScreen, out bool fullScreen))
+        {
+            isActive = fullScreen;
+            SetAlpha(isActive ? 1 : 0);
+            Screen.fullScreen = isActive;
+        }
     }
 }
