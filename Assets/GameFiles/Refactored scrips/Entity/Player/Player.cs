@@ -138,6 +138,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public GameObject displayPlanePrefab { get => DisplayPlanePrefab; set => DisplayPlanePrefab = value; }
     public AbilityDisplayUI displayUI { get => DisplayUISlot; set => DisplayUISlot = value; }
     public Camera targetCamera { get => PlayerCamera; set => PlayerCamera = value; }
+    public bool displayerActive { get; set; }
     protected override void Start()
     {
         base.Start();
@@ -165,6 +166,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         UnpackModifiableActions();
 
         statList.Add(movementSpeed);
+
+        CheckDisplayerActive();
     }
 
     protected override void Update()
@@ -311,5 +314,14 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         }
 
         perimeterPoints = chosenPoints;
+    }
+
+    public void CheckDisplayerActive()
+    {
+        displayerActive = false;
+        if (displayPlanePrefab != null && displayUI != null && targetCamera != null)
+        {
+            displayerActive = true;
+        }
     }
 }

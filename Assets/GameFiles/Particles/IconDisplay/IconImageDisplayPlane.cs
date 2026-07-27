@@ -85,4 +85,6 @@ public interface IIconDisplayer
     public GameObject displayPlanePrefab { get; set; }
     public AbilityDisplayUI displayUI { get; set; }
     public Camera targetCamera { get; set; }
+    public bool displayerActive { get; set; }
+    public void CheckDisplayerActive();
 }

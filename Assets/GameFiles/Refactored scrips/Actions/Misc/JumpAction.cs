@@ -26,6 +26,7 @@ public class JumpAction : BaseEntityAction
     IGrounded grounded;
     IJumpable jumpable;
     IModifiableActions modifiableActions;
+    IIconDisplayer displayer;
 
     //public JumpAction() { }
     public override void StartAction(Entity entity)
@@ -39,6 +40,7 @@ public class JumpAction : BaseEntityAction
         grounded = entity as IGrounded;
         jumpable = entity as IJumpable;
         modifiableActions = entity as IModifiableActions;
+        displayer = entity as IIconDisplayer;
 
         jumpable.isJumping = true;
 
@@ -80,12 +82,11 @@ public class JumpAction : BaseEntityAction
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
         targetMAction = modifiableActions.actionSelectionSystem.GetRandomModifiableAction();
         targetAction = targetMAction.conditionalAction;
-        if (ownerEntity is IIconDisplayer displayer)
+        if (displayer.displayerActive)
         {
-            
-            Vector3 spawnPoint = new Vector3(ownerEntity.transform.position.x, targetHeight + 5, ownerEntity.transform.position.z);
-            ObjectPoolManager.SpawnObject(displayer.displayPlanePrefab, spawnPoint, Quaternion.identity).GetComponent<IconImageDisplayPlane>().Initialize(targetMAction.sprite.texture, ownerEntity, displayer.targetCamera);
             displayer.displayUI.StartDisplay(targetMAction.sprite);
+            Vector3 spawnPoint = new Vector3(ownerEntity.transform.position.x, targetHeight + 5, ownerEntity.transform.position.z);
+            ObjectPoolManager.SpawnObject(displayer.displayPlanePrefab, spawnPoint, Quaternion.identity).GetComponent<IconImageDisplayPlane>().Initialize(targetMAction.sprite.texture, ownerEntity, displayer.targetCamera);                                
         }
         targetAction.triggered = false;
         int index = modifiableActions.actionSelectionSystem.LastReturnedActionIndex;
@@ -233,12 +234,18 @@ public class JumpAction : BaseEntityAction
 
     private void RemoveFace()
     {
-        modifiableActions.displaySlots[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite = null;
+        if (displayer.displayerActive)
+        {
+            modifiableActions.displaySlots[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite = null;
+        }      
     }
 
     private void ShowFace()
     {
-        modifiableActions.displaySlots[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite = modifiableActions.modifiableActions[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite;
+        if (displayer.displayerActive)
+        {
+            modifiableActions.displaySlots[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite = modifiableActions.modifiableActions[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite;
+        }     
     }
 
     public override BaseEntityAction Clone()
