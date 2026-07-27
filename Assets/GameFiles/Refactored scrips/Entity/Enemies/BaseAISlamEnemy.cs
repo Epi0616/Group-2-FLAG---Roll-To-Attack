@@ -6,7 +6,7 @@ public class BaseAISlamEnemy : BaseAIEnemy , ISlamActionWithCooldown
     [Header("ISlam Required Properties")]
     [SerializeField] GameObject ImpactFieldPrefab;
     [SerializeField] LayerMask PedestalLayer;
-    [SerializeField] private float slamCooldownTime = 0.5f;
+    [SerializeField] private float slamCooldownTime = 0f;
     public float cooldownTime { get => slamCooldownTime; set => slamCooldownTime = value; }
     public GameObject slamImpactField { get => ImpactFieldPrefab; set => ImpactFieldPrefab = value; }
     public LayerMask pedestalLayer { get => PedestalLayer; set => PedestalLayer = value; }
