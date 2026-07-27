@@ -68,9 +68,9 @@ public class WaveManager : MonoBehaviour
         waveSpawner.SpawnWave(randomWave);
         DisplayWaveNumber?.Invoke(currentWaveIndex);
 
-        if (PlayerPrefsManager.GetInt(PlayerValues.HighScore) < currentWaveIndex)
+        if (PlayerPrefsManager.instance?.GetInt(PlayerValues.HighScore) < currentWaveIndex)
         {
-            PlayerPrefsManager.SetInt(PlayerValues.HighScore, currentWaveIndex);
+            PlayerPrefsManager.instance?.SetInt(PlayerValues.HighScore, currentWaveIndex);
         }
     }
 }

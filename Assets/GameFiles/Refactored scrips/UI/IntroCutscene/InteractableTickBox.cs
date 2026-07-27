@@ -9,19 +9,19 @@ public class InteractableTickBox : MonoBehaviour, ILoadPlayerPrefs, IPointerDown
     protected Image image;
     protected bool isActive = false;
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         SetAlpha(1f);
         TryLoadPrefs();
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         animationManager.Initialize();
         image = targetGraphic.GetComponent<Image>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         animationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.01f);
         TryLoadPrefs();        

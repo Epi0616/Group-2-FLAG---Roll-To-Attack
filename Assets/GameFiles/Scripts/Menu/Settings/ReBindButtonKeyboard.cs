@@ -4,21 +4,21 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization;
 
-public class ReBindButton : MonoBehaviour
+public class ReBindButton : MonoBehaviour, ILoadPlayerPrefs
 {
-    [SerializeField] private TextMeshProUGUI tmpAsset;
-    [SerializeField] private LocalizedString setKeyString;
-    [SerializeField] private InputActionReference actionReference;
-    [SerializeField] private int bindingIndex;
+    [SerializeField] protected TextMeshProUGUI tmpAsset;
+    [SerializeField] protected LocalizedString setKeyString;
+    [SerializeField] protected InputActionReference actionReference;
+    [SerializeField] protected int bindingIndex;
 
-    private InputActionRebindingExtensions.RebindingOperation rebind;
+    protected InputActionRebindingExtensions.RebindingOperation rebind;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         UpdateText(actionReference.action.bindings[bindingIndex].ToDisplayString());
     }
 
-    public void ReBind()
+    public virtual void ReBind()
     {
         Debug.Log("rebinding");
 
@@ -34,36 +34,47 @@ public class ReBindButton : MonoBehaviour
         rebind.OnComplete(operation =>
         {
             rebind.Dispose();
-            UpdateText(actionReference.action.bindings[bindingIndex].ToDisplayString());
+            PlayCompleteAnimation();
             StartCoroutine(EnableAction());
-            Debug.Log("sucess");
+
+            PlayerPrefsManager.instance?.SaveInputBindings();
         });
         rebind.OnCancel(operation =>
         {
             UpdateText(actionReference.action.bindings[bindingIndex].ToDisplayString());
             StartCoroutine(EnableAction());
             rebind.Dispose();
-            Debug.Log("failure");
         });
 
         rebind.Start();
     }
 
-    public void ResetBinding()
+    public virtual void ResetBinding()
     {
         actionReference.action.RemoveBindingOverride(bindingIndex);
         UpdateText(actionReference.action.bindings[bindingIndex].ToDisplayString());
+        PlayerPrefsManager.instance?.SaveInputBindings();
     }
 
-    private void UpdateText(string newText)
+    protected virtual void UpdateText(string newText)
     {
         tmpAsset.text = newText;
     }
 
-    private IEnumerator EnableAction()
+    protected virtual IEnumerator EnableAction()
     {
         yield return new WaitForSecondsRealtime(0.15f);
 
         actionReference.action.Enable();
+    }
+
+    protected virtual void PlayCompleteAnimation()
+    {
+        UpdateText(actionReference.action.bindings[bindingIndex].ToDisplayString());
+    }
+
+    void ILoadPlayerPrefs.TryLoadPrefs()
+    {
+        UpdateText(actionReference.action.bindings[bindingIndex].ToDisplayString());
     }
 }
