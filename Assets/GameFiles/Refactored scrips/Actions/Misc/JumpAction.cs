@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using System;
 using UnityEngine;
+using System.Collections;
 
 
 [Serializable]
@@ -16,6 +17,10 @@ public class JumpAction : BaseEntityAction
     private Quaternion[] rotationMap;
 
     private float remainingHeight;
+    private bool peakReached;
+
+    private ModifiableAction targetMAction;
+    private ConditionalAction targetAction;
 
     //interfaces to cache
     IGrounded grounded;
@@ -37,15 +42,27 @@ public class JumpAction : BaseEntityAction
 
         jumpable.isJumping = true;
 
+        // Matt peddles falsehoods and lies, this is not the correct rotation map (old player was rotated 180 on X for some reason?)
+        //rotationMap = new Quaternion[]
+        //{
+        //    Quaternion.Euler(0,0,0), //1
+        //    Quaternion.Euler(90,0,0), //2
+        //    Quaternion.Euler(0,0,90), //3
+        //    Quaternion.Euler(0,0,270), //4
+        //    Quaternion.Euler(270,0,0), //5
+        //    Quaternion.Euler(180,0,0) //6
+        //};
+
         rotationMap = new Quaternion[]
         {
-            Quaternion.Euler(0,0,0), //1
-            Quaternion.Euler(90,0,0), //2
+            Quaternion.Euler(180,0,0), //1
+            Quaternion.Euler(270,0,0), //2
             Quaternion.Euler(0,0,90), //3
             Quaternion.Euler(0,0,270), //4
-            Quaternion.Euler(270,0,0), //5
-            Quaternion.Euler(180,0,0) //6
+            Quaternion.Euler(90,0,0), //5
+            Quaternion.Euler(0,0,0) //6
         };
+
 
         jumpHeight = jumpable.jumpHeight.GetFinalValue();
         jumpSpeed = jumpable.jumpSpeed.GetFinalValue();
@@ -61,12 +78,21 @@ public class JumpAction : BaseEntityAction
         eulerStartRotation.y = Mathf.Round(eulerStartRotation.y);
         eulerStartRotation.z = Mathf.Round(eulerStartRotation.z);
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
-
-        ConditionalAction targetAction = modifiableActions.actionSelectionSystem.GetRandomConditionalAction();
+        targetMAction = modifiableActions.actionSelectionSystem.GetRandomModifiableAction();
+        targetAction = targetMAction.conditionalAction;
+        if (ownerEntity is IIconDisplayer displayer)
+        {
+            
+            Vector3 spawnPoint = new Vector3(ownerEntity.transform.position.x, targetHeight + 5, ownerEntity.transform.position.z);
+            ObjectPoolManager.SpawnObject(displayer.displayPlanePrefab, spawnPoint, Quaternion.identity).GetComponent<IconImageDisplayPlane>().Initialize(targetMAction.sprite.texture, ownerEntity, displayer.targetCamera);
+            displayer.displayUI.StartDisplay(targetMAction.sprite);
+        }
         targetAction.triggered = false;
         int index = modifiableActions.actionSelectionSystem.LastReturnedActionIndex;
+        RemoveFace();
+        //Debug.Log("Recieved Index: " +  index + " with action name: " + targetMAction.actionName.GetLocalizedString());
         targetRotation = rotationMap[index];
-        //Debug.Log(index);
+    
 
         if (targetAction.action is ISlam)
         {
@@ -99,13 +125,17 @@ public class JumpAction : BaseEntityAction
             ApplyJump();
             return;
         }
-
+        //if (!peakReached)
+        //{
+        //    peakReached = true;
+        //    //OnPeakReached();
+        //}
         if (!grounded.isGrounded)
         {
             ApplyDownwardForce();
             return;
         }
-
+        ShowFace();
         ApplyScreenShake();
         EndAction();
     }
@@ -166,6 +196,7 @@ public class JumpAction : BaseEntityAction
         Quaternion visualSpin = Quaternion.Euler(360 * t, 360 * t, 360 * t);
         ownerEntity.bodySystem.body.transform.rotation *= visualSpin;
     }
+  
 
     private void ApplyDownwardForce()
     {
@@ -180,6 +211,34 @@ public class JumpAction : BaseEntityAction
 
         float magnitude = jumpable.impactSpeed.GetFinalValue() / jumpable.impactSpeed.GetBaseValue() * 2;
         ShakeScreen?.Invoke(magnitude);
+    }
+
+    //private void OnPeakReached()
+    //{
+    //    if (ownerEntity is IIconDisplayer displayer)
+    //    {
+    //        Vector3 spawnPoint = new Vector3(ownerEntity.transform.position.x, targetHeight + 5, ownerEntity.transform.position.z);
+    //        ObjectPoolManager.SpawnObject(displayer.displayPlanePrefab, spawnPoint, Quaternion.identity).GetComponent<IconImageDisplayPlane>().Initialize(targetMAction.sprite.texture, ownerEntity, displayer.targetCamera);
+    //        displayer.displayUI.StartDisplay(targetMAction.sprite);
+    //    }
+        
+    //}
+
+    //private IEnumerator FaceDisplayCoroutine(int index)
+    //{
+    //    modifiableActions.displaySlots[index].sprite = null;
+    //    yield return new WaitForSeconds(1);
+    //    modifiableActions.displaySlots[index].sprite = modifiableActions.modifiableActions[index].sprite;
+    //}
+
+    private void RemoveFace()
+    {
+        modifiableActions.displaySlots[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite = null;
+    }
+
+    private void ShowFace()
+    {
+        modifiableActions.displaySlots[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite = modifiableActions.modifiableActions[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite;
     }
 
     public override BaseEntityAction Clone()

@@ -201,6 +201,8 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         embedded = false;
         StartCoroutine(DropOffWindow());
         anchorPoint = null;
+        rigidBody.isKinematic = false;
+        SpikeCollider.enabled = true;
         if (parentEntity != null) {
             OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(parentEntity.transform.position, 2.75f),
             new List<BaseCondition> {new TimeCondition(true, 1f) },
@@ -208,8 +210,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
             Color.red);
         }
         parentEntity = null;
-        rigidBody.isKinematic = false;
-        SpikeCollider.enabled = true;
+        
     }
 
     public void Embed(Entity newParent, Collider other)

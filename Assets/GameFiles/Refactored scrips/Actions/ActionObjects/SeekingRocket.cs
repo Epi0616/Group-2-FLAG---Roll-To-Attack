@@ -86,7 +86,7 @@ public class SeekingRocket : MonoBehaviour
 
     protected void SearchForTarget()
     {
-        if (target == null) { SelectNewTarget(); }
+        if (target == null || target.GetComponent<Entity>().healthSystem.isDead) { SelectNewTarget(); }
         Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 7.5f * Time.deltaTime);
 
@@ -107,32 +107,76 @@ public class SeekingRocket : MonoBehaviour
         transform.position += transform.forward * 100f * Time.deltaTime;
     }
 
+    //protected virtual void SelectNewTarget()
+    //{
+    //    Collider[] hitColliders = new Collider[10];
+    //    int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
+       
+    //    GameObject newTarget = null;
+    //    if (numHit > 0)
+    //    {
+    //        for (int i = 0; i < numHit; i++)
+    //        {
+    //            if (hitColliders[i].gameObject == null) { continue; }
+    //            if (hitColliders[i].CompareTag("StaticEntity") || hitColliders[i].CompareTag("PhysicsEntity"))
+    //            {
+    //                continue;
+    //            }
+    //            newTarget = hitColliders[i].gameObject;
+    //        }
+            
+    //    }
+    //    if (newTarget == null)
+    //    {
+    //        //Debug.LogWarning("No New Rocket Target Located: Destroying");
+    //        DestroyMe();
+    //        return;
+    //    }
+    //    target = newTarget;
+    //}
+
     protected virtual void SelectNewTarget()
     {
         Collider[] hitColliders = new Collider[10];
         int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
-       
-        GameObject newTarget = null;
-        if (numHit > 0)
+
+        Entity closestEntity = null;
+        float closestEntityDist = float.MaxValue;
+
+
+        for (int i = 0; i < numHit; i++)
         {
-            for (int i = 0; i < numHit; i++)
+            Collider collider = hitColliders[i];
+
+            if (collider == null) { continue; }
+            if (target.CompareTag("StaticEntity") || target.CompareTag("PhysicsEntity")) { continue; }
+
+            Entity newEntity = collider.GetComponent<Entity>();
+
+            if (newEntity == null) { continue; }
+            if (newEntity.healthSystem.isDead) { continue; }
+            float dist = (newEntity.transform.position - transform.position).magnitude;
+
+            if (dist < closestEntityDist)
             {
-                if (hitColliders[i].gameObject == null) { continue; }
-                if (hitColliders[i].CompareTag("StaticEntity") || hitColliders[i].CompareTag("PhysicsEntity"))
-                {
-                    continue;
-                }
-                newTarget = hitColliders[i].gameObject;
+                closestEntity = newEntity;
+                closestEntityDist = dist;
             }
-            
+           
         }
+
+        Entity newTarget = null;
+        
+        newTarget = closestEntity;
+        
+
         if (newTarget == null)
         {
             //Debug.LogWarning("No New Rocket Target Located: Destroying");
             DestroyMe();
             return;
         }
-        target = newTarget;
+        target = newTarget.gameObject;
     }
 
     protected virtual void FlyUp()
@@ -173,7 +217,7 @@ public class SeekingRocket : MonoBehaviour
         DestroyMe();
     }
 
-    protected void DestroyMe()
+    protected virtual void DestroyMe()
     {
         if (isDestroyed) return;
         isDestroyed = true;
