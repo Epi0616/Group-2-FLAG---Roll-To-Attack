@@ -45,4 +45,4 @@ public class EffectDictEntry
     public ParticleType type;
     public GameObject prefab;
 }
-public enum ParticleType { SimpleBurst01, WaveBurst01 }
+public enum ParticleType { SimpleBurst01, VerticalBurst01 }
