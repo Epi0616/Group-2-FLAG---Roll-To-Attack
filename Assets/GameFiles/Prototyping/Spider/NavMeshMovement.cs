@@ -4,14 +4,14 @@ using UnityEngine.AI;
 using static UnityEngine.LowLevelPhysics2D.PhysicsShape;
 
 [Serializable]
-public class NavMeshMovement1 : BaseEntityMovement
+public class NavMeshMovementSpider : BaseEntityMovement
 {
     private INavAgent aiInterfaceAccess;
     private IActionable action;
     private EnemyBodySystem enemyBodySystem;
     private float setDestinationInterval;
     private float intervalTimer = 0;
-    public NavMeshMovement1() { }
+    public NavMeshMovementSpider() { }
 
     public override void StartMovement(Entity ownerEntity)
     {
@@ -87,7 +87,7 @@ public class NavMeshMovement1 : BaseEntityMovement
     }
     public override BaseEntityMovement Clone()
     {
-        return new NavMeshMovement1();
+        return new NavMeshMovementSpider();
     }
 
 }
