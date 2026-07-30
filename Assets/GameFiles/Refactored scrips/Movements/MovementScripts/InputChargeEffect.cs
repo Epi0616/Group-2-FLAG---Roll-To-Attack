@@ -14,7 +14,7 @@ public class InputChargeEffect : BaseEntityMovement
         base.StartMovement(ownerEntity);
         playerBodySystem = ownerEntity.bodySystem as PlayerBodySystem;        
         usesEntityInput = ownerEntity as IUsesEntityInput;
-        Debug.Log($"hold time {usesEntityInput.inputManager.holdTime}");
+        //Debug.Log($"hold time {usesEntityInput.inputManager.holdTime}");
     }
     public override void UpdateMovement()
     {

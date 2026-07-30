@@ -5,13 +5,19 @@ public class ParticleEffectInstance : MonoBehaviour
     [SerializeField] private ParticleSystem particleSystem;
     private float timer;
     private ParticleSystem.MainModule main;
+    private ParticleSystemRenderer renderer;
     private bool isDestroyed;
+
+    public void Awake()
+    {
+        renderer = GetComponent<ParticleSystemRenderer>();
+    }
     public void PlayParticleEffect(EffectSettings settings)
     {
         timer = 0;
         isDestroyed = false;
         main = particleSystem.main;
-        settings.ApplySettings(particleSystem);
+        settings.ApplySettings(particleSystem, renderer);
     
         particleSystem.Play();
     }

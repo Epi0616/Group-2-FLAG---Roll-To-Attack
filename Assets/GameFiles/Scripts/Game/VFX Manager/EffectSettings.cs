@@ -10,9 +10,10 @@ public class EffectSettings
     public rangePair? overrideGravity;
     public Vector3? overrideInitialVelocity;
     public float? overrideVelocitySpeedMult;
+    public Material? overrideMaterial;
     
     public EffectSettings(Color? overrideColour = null, rangePair? overrideScale = null, rangePair? overrideLifetime = null, rangePair? overrideSpeed = null,
-        rangePair? overrideGravity = null, Vector3? overrideInitialVelocity = null, float? overrideVelocitySpeedMult = null)
+        rangePair? overrideGravity = null, Vector3? overrideInitialVelocity = null, float? overrideVelocitySpeedMult = null, Material? overrideMaterial = null)
     {
         this.overrideColour = overrideColour;
         this.overrideScale = overrideScale;      
@@ -21,30 +22,32 @@ public class EffectSettings
         this.overrideGravity = overrideGravity;
         this.overrideInitialVelocity = overrideInitialVelocity;
         this.overrideVelocitySpeedMult = overrideVelocitySpeedMult;
+        this.overrideMaterial = overrideMaterial;
     }
     
-    public void ApplySettings(ParticleSystem particleSystem)
+    public void ApplySettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
     {
         ParticleSystem.MainModule main = particleSystem.main;
         ParticleSystem.VelocityOverLifetimeModule velocity = particleSystem.velocityOverLifetime;
+        
         if (overrideColour is Color OverrideColour)
         {
-            Debug.Log("Colour Override");
+            //Debug.Log("Colour Override");
             main.startColor = OverrideColour;
         }
         if (overrideScale is rangePair OverrideScale)
         {
-            Debug.Log("Scale Override");
+            //Debug.Log("Scale Override");
             main.startSize = new ParticleSystem.MinMaxCurve(OverrideScale.min, OverrideScale.max);
         }
         if (overrideLifetime is rangePair OverrideLifetime)
         {
-            Debug.Log("LifeTime Override");
+            //Debug.Log("LifeTime Override");
             main.startLifetime = new ParticleSystem.MinMaxCurve(OverrideLifetime.min, OverrideLifetime.max);
         }
         if (overrideSpeed is rangePair OverrideSpeed)
         {
-            Debug.Log("Speed Override");
+            //Debug.Log("Speed Override");
             main.startSpeed = new ParticleSystem.MinMaxCurve(OverrideSpeed.min, OverrideSpeed.max);
         }
         if (overrideGravity is rangePair OverrideGravity)
@@ -60,6 +63,10 @@ public class EffectSettings
         if (overrideVelocitySpeedMult is float OverrideVelocitSpeedMult)
         {
             velocity.speedModifier = overrideVelocitySpeedMult.Value;
+        }
+        if (overrideMaterial is Material OverrideMaterial)
+        {
+
         }
     }
 

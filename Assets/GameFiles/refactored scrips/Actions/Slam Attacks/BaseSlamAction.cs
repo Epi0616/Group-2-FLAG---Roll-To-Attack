@@ -94,13 +94,14 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         if (slamRange.GetFinalValue() > slamRange.GetBaseValue())
         {
             float percentage = slamRange.GetFinalValue() / slamRange.GetBaseValue();
-            options.overrideLifetime = new rangePair(0.2f * percentage, 0.3f * percentage);
+           // options.overrideLifetime = new rangePair(0.2f * percentage, 0.3f * percentage);
             verticalOptions.overrideVelocitySpeedMult = 1.5f * percentage;
+            options.overrideSpeed = new rangePair(25f * percentage, 40f * percentage);
         }
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SimpleBurst01), slamOrigin, Quaternion.Euler(90, 0, 0)).
                 GetComponent<ParticleEffectInstance>().PlayParticleEffect(options);
-        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.VerticalBurst01), slamOrigin, Quaternion.Euler(0, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(verticalOptions);
+        //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.VerticalBurst01), slamOrigin, Quaternion.Euler(0, 0, 0)).
+        //        GetComponent<ParticleEffectInstance>().PlayParticleEffect(verticalOptions);
     }
 
     public override void UpdateAction()
