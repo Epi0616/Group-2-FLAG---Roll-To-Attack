@@ -1,19 +1,24 @@
 using System;
 using UnityEngine;
 
+
 [Serializable]
-public class NavMeshMovementHook : BaseEntityMovement
+public class NavMeshMovementEgg : BaseEntityMovement
 {
     private INavAgent aiInterfaceAccess;
+    private IActionable action;
     private EnemyBodySystem enemyBodySystem;
-    private float setDestinationInterval = 0.15f;
+    private float setDestinationInterval;
     private float intervalTimer = 0;
-    public NavMeshMovementHook() { }
+    public bool hitKnockedOut = false;
+    public NavMeshMovementEgg() { }
 
     public override void StartMovement(Entity ownerEntity)
     {
         base.StartMovement(ownerEntity);
         aiInterfaceAccess = ownerEntity as INavAgent;
+        action = ownerEntity as IActionable;
+        setDestinationInterval = UnityEngine.Random.Range(1f, 4f);
         enemyBodySystem = ownerEntity.bodySystem as EnemyBodySystem;
         aiInterfaceAccess.EnableAIAgent();
         aiInterfaceAccess.agent.updateRotation = false;
@@ -25,22 +30,15 @@ public class NavMeshMovementHook : BaseEntityMovement
     }
 
     public override void UpdateMovement()
-    {        
+    {
         if (ownerEntity == null) return;
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
 
         if (moveable.canMove == false) { EndMovement(); return; }
-      
 
-        intervalTimer += Time.deltaTime;
-        if (intervalTimer > setDestinationInterval)
-        {
-
-            aiInterfaceAccess.agent.SetDestination(ownerEntity.target.transform.position);
-            intervalTimer = 0;
-        }
+        aiInterfaceAccess.agent.SetDestination(ownerEntity.target.transform.position);
+        ownerEntity.transform.rotation = Quaternion.LookRotation(ownerEntity.target.transform.position - ownerEntity.transform.position);
     }
-
     public override void InterruptMovement()
     {
         EndMovement();
@@ -53,7 +51,7 @@ public class NavMeshMovementHook : BaseEntityMovement
     }
     public override BaseEntityMovement Clone()
     {
-        return new NavMeshMovementHook();
+        return new NavMeshMovementEgg();
     }
 
 }

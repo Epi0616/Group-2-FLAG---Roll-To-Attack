@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [Serializable]
-public class NavMeshMovementHook : BaseEntityMovement
+public class NavMeshMovementBat : BaseEntityMovement
 {
     private INavAgent aiInterfaceAccess;
     private IActionable action;
@@ -11,7 +11,7 @@ public class NavMeshMovementHook : BaseEntityMovement
     private float setDestinationInterval;
     private float intervalTimer = 0;
     public bool hitKnockedOut = false;
-    public NavMeshMovementHook() { }
+    public NavMeshMovementBat() { }
 
     public override void StartMovement(Entity ownerEntity)
     {
@@ -50,7 +50,7 @@ public class NavMeshMovementHook : BaseEntityMovement
     }
     public override BaseEntityMovement Clone()
     {
-        return new NavMeshMovementHook();
+        return new NavMeshMovementBat();
     }
 
 }

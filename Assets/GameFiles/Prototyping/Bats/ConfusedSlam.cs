@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class ConfusedSlam : BaseSlamAction
 {
-    public float Duration = 1f;
+    public float Duration = 2f;
     //public LocalizedString slowText;
 
     public ConfusedSlam() { }
@@ -33,7 +33,7 @@ public class ConfusedSlam : BaseSlamAction
     }
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new ConfusedStatus(Duration, "PlaceHolderSlow"),
+        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new ConfusedStatus(Duration, "PlaceHolderConfused"),
                 new List<BaseCondition> { new TimeCondition(true, Duration) }, true), slamColour);
     }
 

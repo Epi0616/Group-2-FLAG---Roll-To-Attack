@@ -9,17 +9,12 @@ public class Egg : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        rb.AddForce(Vector3.forward * 200, ForceMode.Impulse);
     }
 
 
     void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer < 0)
-        {
-            Destroy(gameObject);
-            ObjectPoolManager.SpawnObject(eggCreature, transform.position, transform.rotation);
-        }
+        
+        
     }
 }
