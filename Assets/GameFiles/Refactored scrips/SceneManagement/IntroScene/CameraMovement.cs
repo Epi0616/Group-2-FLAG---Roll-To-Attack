@@ -12,7 +12,7 @@ public class CameraMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        MoveableProp.GameStart += MoveIntoArena;
+        DiceProp.GameStart += MoveIntoArena;
         SceneTransitionManager.FadeFromArena += FadeFromArena;
         IntroSceneMenuUI.menuOpened += MoveToMainMenu;
         IntroSceneMenuUI.settingsOpened += MoveToSettings;
@@ -21,7 +21,7 @@ public class CameraMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        MoveableProp.GameStart -= MoveIntoArena;
+        DiceProp.GameStart -= MoveIntoArena;
         SceneTransitionManager.FadeFromArena -= FadeFromArena;
         IntroSceneMenuUI.menuOpened -= MoveToMainMenu;
         IntroSceneMenuUI.settingsOpened -= MoveToSettings;
