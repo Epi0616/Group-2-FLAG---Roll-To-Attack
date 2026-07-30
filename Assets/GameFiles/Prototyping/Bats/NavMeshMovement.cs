@@ -1,8 +1,6 @@
 using System;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.AI;
-using static UnityEngine.LowLevelPhysics2D.PhysicsShape;
+
 
 [Serializable]
 public class NavMeshMovementHook : BaseEntityMovement
