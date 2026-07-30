@@ -2,13 +2,21 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InteractableMovingSlider : Slider, IBeginDragHandler, IEndDragHandler
+public class InteractableMovingSlider : Slider, IBeginDragHandler, IEndDragHandler, ILoadPlayerPrefs
 {
     public AnimationOnDemandManager animationManager;
+    [SerializeField] private PlayerValues audioType;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        TryLoadPrefs();
+    }
 
     protected override void Start()
     {
         base.Start();
+        TryLoadPrefs();
         animationManager.Initialize();
         animationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.2f);
     }
@@ -26,6 +34,7 @@ public class InteractableMovingSlider : Slider, IBeginDragHandler, IEndDragHandl
     {
         AdjustTargetAlpha(1);
         animationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.35f);
+        PlayerPrefsManager.instance?.SetFloat(audioType, value);
     }
 
     public override void OnPointerDown(PointerEventData eventData)
@@ -48,5 +57,12 @@ public class InteractableMovingSlider : Slider, IBeginDragHandler, IEndDragHandl
             transparent.a = alpha;
             image.color = transparent;
         }
+    }
+
+    public void TryLoadPrefs()
+    {
+        if (!PlayerPrefsManager.instance) return;
+
+        value = PlayerPrefsManager.instance.GetFloat(audioType);
     }
 }

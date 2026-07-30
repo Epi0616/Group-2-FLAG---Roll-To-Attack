@@ -18,7 +18,7 @@ public class DisplayPlayerPrefString : MonoBehaviour, ILoadPlayerPrefs
 
     public virtual void TryLoadPrefs()
     {
-        string word = PlayerPrefsManager.GetString(value);
+        string word = PlayerPrefsManager.instance?.GetString(value);
         text.text = word;
     }
 }

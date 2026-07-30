@@ -8,12 +8,14 @@ public class PostProcessingSetting : InteractableTickBox
     public override void Toggle()
     {
         togglePostProcessing?.Invoke(isActive);
-        PlayerPrefsManager.SetBool(PlayerValues.PostProcessing, isActive);
+        PlayerPrefsManager.instance?.SetBool(PlayerValues.PostProcessing, isActive);
     }
 
     public override void TryLoadPrefs()
     {
-        if (PlayerPrefsManager.GetBool(PlayerValues.PostProcessing, out bool postProcessing))
+        if (!PlayerPrefsManager.instance) return;
+
+        if (PlayerPrefsManager.instance.GetBool(PlayerValues.PostProcessing, out bool postProcessing))
         {
             isActive = postProcessing;
             SetAlpha(isActive ? 1 : 0);

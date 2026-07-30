@@ -22,7 +22,7 @@ public class LanguageSettings : MonoBehaviour, ILoadPlayerPrefs
         englishCheckMark.SetActive(true);
         string language = "en";
         LanguageManager.instance?.SetLanguage(language);
-        PlayerPrefsManager.SetString(PlayerValues.Language, language);
+        PlayerPrefsManager.instance?.SetString(PlayerValues.Language, language);
     }
 
     public void SwapToDe()
@@ -31,7 +31,7 @@ public class LanguageSettings : MonoBehaviour, ILoadPlayerPrefs
         germanCheckMark.SetActive(true);
         string language = "de";
         LanguageManager.instance?.SetLanguage(language);
-        PlayerPrefsManager.SetString(PlayerValues.Language, language);
+        PlayerPrefsManager.instance?.SetString(PlayerValues.Language, language);
     }
 
     public void SwapToNo()
@@ -40,7 +40,7 @@ public class LanguageSettings : MonoBehaviour, ILoadPlayerPrefs
         norwegianCheckMark.SetActive(true);
         string language = "no";
         LanguageManager.instance?.SetLanguage(language);
-        PlayerPrefsManager.SetString(PlayerValues.Language, language);
+        PlayerPrefsManager.instance?.SetString(PlayerValues.Language, language);
     }
 
     private void ClearChecks()
@@ -53,7 +53,7 @@ public class LanguageSettings : MonoBehaviour, ILoadPlayerPrefs
     public void TryLoadPrefs()
     {
         string language = "";
-        language = PlayerPrefsManager.GetString(PlayerValues.Language);
+        language = PlayerPrefsManager.instance?.GetString(PlayerValues.Language);
 
         switch (language)
         { 

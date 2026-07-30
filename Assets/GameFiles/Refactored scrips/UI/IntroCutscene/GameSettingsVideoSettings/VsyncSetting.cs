@@ -8,12 +8,14 @@ public class VsyncSetting : InteractableTickBox
     public override void Toggle()
     {
         toggleVSync?.Invoke(isActive);
-        PlayerPrefsManager.SetBool(PlayerValues.VSync, isActive);
+        PlayerPrefsManager.instance?.SetBool(PlayerValues.VSync, isActive);
     }
 
     public override void TryLoadPrefs()
     {
-        if (PlayerPrefsManager.GetBool(PlayerValues.VSync, out bool vsync))
+        if (!PlayerPrefsManager.instance) return;
+
+        if (PlayerPrefsManager.instance.GetBool(PlayerValues.VSync, out bool vsync))
         {
             isActive = vsync;
             SetAlpha(isActive ? 1 : 0);
