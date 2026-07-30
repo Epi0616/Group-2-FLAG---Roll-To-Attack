@@ -8,13 +8,13 @@ public class ArenaRise : MonoBehaviour
 
     private void OnEnable()
     {
-        MoveableProp.GameStart += StartAnimation;
+        DiceProp.GameStart += StartAnimation;
         SceneTransitionManager.FadeFromArena += RevertAnimation;
     }
 
     private void OnDisable()
     {
-        MoveableProp.GameStart -= StartAnimation;
+        DiceProp.GameStart -= StartAnimation;
         SceneTransitionManager.FadeFromArena -= RevertAnimation;
     }
     private void Start()
