@@ -207,6 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityBodySystem
   body: {fileID: 699810131777140603}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  renderer: {fileID: 2080375992482313135}
 --- !u!114 &7582754953811408524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +240,7 @@ MonoBehaviour:
     clip: {fileID: 7400000, guid: af790148c0e5f7441a4ba1e97d5f52ad, type: 2}
   - type: 4
     clip: {fileID: 7400000, guid: 558cd5f4ff33e5b4db292bf05278b5b3, type: 2}
+  graphActive: 0
 --- !u!1001 &393871773571385898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -306,7 +308,7 @@ PrefabInstance:
     - target: {fileID: 1849196845669955973, guid: d346540066c932343bad1c28a4169297, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 91b482afdd77d0d4f8e5321f9fe183a0, type: 2}
+      objectReference: {fileID: 2100000, guid: ea023a73c36129a4fb93219ef3c60139, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -347,3 +349,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!137 &2080375992482313135 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1849196845669955973, guid: d346540066c932343bad1c28a4169297, type: 3}
+  m_PrefabInstance: {fileID: 393871773571385898}
+  m_PrefabAsset: {fileID: 0}

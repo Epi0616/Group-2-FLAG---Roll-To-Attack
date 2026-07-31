@@ -6,11 +6,18 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public Entity OwnerEntity { get; set; }
     public GameObject body;
     public Quaternion originalRotation;
+    public MaterialPropertyBlock block;
+    public SkinnedMeshRenderer renderer;
 
     public virtual void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
         originalRotation = body.transform.rotation;
+        block = new MaterialPropertyBlock();
+        if (renderer == null)
+        {
+            renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        }
     }
 
     public virtual void Vibrate()
@@ -44,6 +51,21 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         float y = Mathf.Sin(Time.time * 50f) * magnitude;
         float z = Mathf.Sin(Time.time * 50f) * magnitude;
         body.transform.rotation = originalRotation * Quaternion.Euler(x, y, z);
+    }
+
+    public void ApplyFreezeShader(Color iceColour)
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_IcePower", 1);
+        block.SetColor("_IceColour", iceColour);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void RemoveFreezeShader()
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_IcePower", 0);
+        renderer.SetPropertyBlock(block);
     }
 
     public virtual void ResetSystem()

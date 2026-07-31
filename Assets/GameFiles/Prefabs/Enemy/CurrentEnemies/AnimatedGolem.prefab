@@ -227,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityBodySystem
   body: {fileID: 5879003109325655028}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  renderer: {fileID: 497013752216635525}
 --- !u!114 &8617361199015963139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,6 +268,7 @@ MonoBehaviour:
     clip: {fileID: 7400000, guid: de86b8c45a9238c48b74ef10a9cdf4e5, type: 2}
   - type: 14
     clip: {fileID: 7400000, guid: c9e31a0b97a5bf541929ec676a13a967, type: 2}
+  graphActive: 0
 --- !u!1001 &6725848949783590565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -330,7 +332,7 @@ PrefabInstance:
     - target: {fileID: -2615821021834133984, guid: 520597fb5bf75c8419f2f55e8486f98e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 91b482afdd77d0d4f8e5321f9fe183a0, type: 2}
+      objectReference: {fileID: 2100000, guid: ea023a73c36129a4fb93219ef3c60139, type: 2}
     - target: {fileID: 919132149155446097, guid: 520597fb5bf75c8419f2f55e8486f98e, type: 3}
       propertyPath: m_Name
       value: Golem
@@ -343,6 +345,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7210452885897179482}
   m_SourcePrefab: {fileID: 100100000, guid: 520597fb5bf75c8419f2f55e8486f98e, type: 3}
+--- !u!137 &497013752216635525 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -2615821021834133984, guid: 520597fb5bf75c8419f2f55e8486f98e, type: 3}
+  m_PrefabInstance: {fileID: 6725848949783590565}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2021769509569291909 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4514357987277598688, guid: 520597fb5bf75c8419f2f55e8486f98e, type: 3}

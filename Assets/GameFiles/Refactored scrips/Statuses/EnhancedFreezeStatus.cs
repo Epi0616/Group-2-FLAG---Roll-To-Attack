@@ -12,7 +12,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     private int damageTaken = 0;
     private int shatterThreshold = 50;
 
-    public EnhancedFreezeStatus(float fragileMult, string effectText, int enhancementLevel) : base(fragileMult, effectText)
+    public EnhancedFreezeStatus(float fragileMult, string effectText, Color colour, int enhancementLevel) : base(fragileMult, effectText, colour)
     {
         this.enhancementLevel = enhancementLevel;
         this.effectColour = Color.deepSkyBlue;

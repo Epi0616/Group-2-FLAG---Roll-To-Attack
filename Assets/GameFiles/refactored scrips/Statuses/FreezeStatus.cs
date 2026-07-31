@@ -4,11 +4,12 @@ public class FreezeStatus : BaseStunEffect
 {
     protected float fragileMultiplier; 
 
-    public FreezeStatus(float fragileMult, string effectText)
+    public FreezeStatus(float fragileMult, string effectText, Color colour)
     {
         type = StatusType.Freeze;
         fragileMultiplier = fragileMult;
         this.effectText = effectText;
+        effectColour = colour;
         //Debug.Log("Freeze Applied, it is: " + isActive);
     }
 
@@ -25,7 +26,8 @@ public class FreezeStatus : BaseStunEffect
     protected override void OnApplication()
     {
         base.OnApplication();
-
+        entityRef.bodySystem.ApplyFreezeShader(effectColour);
+        (entityRef as IAnimated).animationManager.EndCurrentAnimation(MixerType.main);
         //  NEED BODY SYSTEM entityRef.StartVibrating();
     }
 
@@ -40,6 +42,7 @@ public class FreezeStatus : BaseStunEffect
 
         // NEED BODY SYSTEM  entityRef.StopVibrating();
         //Debug.Log("Freeze Over");
+        entityRef.bodySystem.RemoveFreezeShader();
         base.OnRemoval();
     }
 
