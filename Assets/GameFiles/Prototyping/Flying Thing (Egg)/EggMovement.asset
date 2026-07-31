@@ -14,13 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
   conditionalMovement:
     movement:
-      rid: -2
-    conditions: []
+      rid: 6342365312896466944
+    conditions:
+    - rid: 6342365312896466945
+    - rid: 6342365312896466946
     allConditionsRequired: 0
     exclusive: 0
     priority: 0
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 6342365312896466944
+      type: {class: NavMeshMovementEgg, ns: , asm: Assembly-CSharp}
+      data:
+        hitKnockedOut: 0
+    - rid: 6342365312896466945
+      type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+    - rid: 6342365312896466946
+      type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
