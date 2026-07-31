@@ -10,7 +10,6 @@ public class NavMeshMovementEgg : BaseEntityMovement
     private EnemyBodySystem enemyBodySystem;
     private float setDestinationInterval;
     private float intervalTimer = 0;
-    public bool hitKnockedOut = false;
     public NavMeshMovementEgg() { }
 
     public override void StartMovement(Entity ownerEntity)
@@ -36,8 +35,7 @@ public class NavMeshMovementEgg : BaseEntityMovement
 
         if (moveable.canMove == false) { EndMovement(); return; }
 
-        aiInterfaceAccess.agent.SetDestination(ownerEntity.target.transform.position);
-        ownerEntity.transform.rotation = Quaternion.LookRotation(ownerEntity.target.transform.position - ownerEntity.transform.position);
+        aiInterfaceAccess.agent.SetDestination(ownerEntity.target.transform.position);  
     }
     public override void InterruptMovement()
     {
@@ -48,6 +46,7 @@ public class NavMeshMovementEgg : BaseEntityMovement
     {
        // Debug.Log("Movement Ended");
         aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position);
+        
     }
     public override BaseEntityMovement Clone()
     {

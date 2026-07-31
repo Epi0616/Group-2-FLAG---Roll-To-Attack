@@ -10,33 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
-  m_Name: AiNavTest
+  m_Name: HookMovement
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
   conditionalMovement:
     movement:
-      rid: 8791738554158678016
+      rid: 6342365312942080553
     conditions:
-    - rid: 5154424275354517574
-    - rid: 5154424275354517575
-    - rid: 5154424291214753864
-    allConditionsRequired: 1
-    exclusive: 1
-    priority: 1
+    - rid: 6342365312942080554
+    - rid: 6342365312942080555
+    - rid: 6342365312942080556
+    allConditionsRequired: 0
+    exclusive: 0
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5154424275354517574
-      type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-    - rid: 5154424275354517575
+    - rid: 6342365312942080553
+      type: {class: NavMeshMovementHook, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 6342365312942080554
       type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-    - rid: 5154424291214753864
+    - rid: 6342365312942080555
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
-    - rid: 8791738554158678016
-      type: {class: NavMeshMovementSpider, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: 6342365312942080556
+      type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0

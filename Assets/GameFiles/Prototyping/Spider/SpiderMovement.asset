@@ -10,34 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
-  m_Name: AiNavEscape
+  m_Name: SpiderMovement
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
   conditionalMovement:
     movement:
-      rid: 5561300481355285306
+      rid: 8791738554158678016
     conditions:
-    - rid: 5154424323431727177
-    - rid: 5154424323431727175
-    - rid: 5154424323431727176
+    - rid: 5154424275354517574
+    - rid: 5154424275354517575
+    - rid: 5154424291214753864
     allConditionsRequired: 1
     exclusive: 1
-    priority: 0
+    priority: 1
   references:
     version: 2
     RefIds:
-    - rid: 5154424323431727175
+    - rid: 5154424275354517574
+      type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+    - rid: 5154424275354517575
       type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-    - rid: 5154424323431727176
+    - rid: 5154424291214753864
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
-    - rid: 5154424323431727177
-      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        distanceThreshold: 10
-    - rid: 5561300481355285306
-      type: {class: NavMeshEscapeMovement, ns: , asm: Assembly-CSharp}
+    - rid: 8791738554158678016
+      type: {class: NavMeshMovementSpider, ns: , asm: Assembly-CSharp}
       data: 

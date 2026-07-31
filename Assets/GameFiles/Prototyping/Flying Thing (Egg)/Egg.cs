@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class Egg : MonoBehaviour
 {
-    Rigidbody rb;
-    public float timer = 3;
-    public GameObject eggCreature;
-    void Start()
+    public float rotationSpeed;
+    public GameObject creature;
+    public GameObject egg;
+    public EnemyHealthSystem enemyHealthSystem;
+
+    void FixedUpdate()
     {
-        rb = GetComponent<Rigidbody>();
+        egg.transform.Rotate(rotationSpeed * Time.fixedDeltaTime, 0, 0);
 
-    }
-
-
-    void Update()
-    {
-        
-        
+        if(enemyHealthSystem.isDead)
+        {
+            ObjectPoolManager.SpawnObject(creature, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 }

@@ -6,7 +6,7 @@ public class NavMeshMovementHook : BaseEntityMovement
 {
     private INavAgent aiInterfaceAccess;
     private EnemyBodySystem enemyBodySystem;
-    private float setDestinationInterval = 0.15f;
+    private float setDestinationInterval = 2f;
     private float intervalTimer = 0;
     public NavMeshMovementHook() { }
 
@@ -35,7 +35,6 @@ public class NavMeshMovementHook : BaseEntityMovement
         intervalTimer += Time.deltaTime;
         if (intervalTimer > setDestinationInterval)
         {
-
             aiInterfaceAccess.agent.SetDestination(ownerEntity.target.transform.position);
             intervalTimer = 0;
         }
