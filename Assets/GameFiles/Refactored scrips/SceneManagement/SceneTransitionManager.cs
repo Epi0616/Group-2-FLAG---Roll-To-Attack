@@ -19,14 +19,14 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void OnEnable()
     {
-        MoveableProp.GameStart += HandleGameStart;
+        DiceProp.GameStart += HandleGameStart;
         PauseMenu.ReturnToIntro += HandleIntroStart;
         GameOverMenu.ReturnToIntro += HandleIntroStart;
     }
 
     private void OnDisable()
     {
-        MoveableProp.GameStart -= HandleGameStart;
+        DiceProp.GameStart -= HandleGameStart;
         PauseMenu.ReturnToIntro -= HandleIntroStart;
         GameOverMenu.ReturnToIntro -= HandleIntroStart;
     }
@@ -44,22 +44,22 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void HandleIntroStart()
     {
-        StartCoroutine(IntroStart(0));
+        StartCoroutine(IntroStart(2.5f));
     }
 
     private IEnumerator IntroStart(float transitionLength)
     {
         Coroutine load = StartCoroutine(LoadSceneAsync(introScene));
-        yield return new WaitForSeconds(transitionLength);
+        //yield return new WaitForSeconds(transitionLength / 2);
         yield return load;
 
         yield return StartCoroutine(TimeSlicedSceneActivation(introScene));
-        SetUpIntroScene();
+        SetUpIntroScene(transitionLength / 2);
 
         yield return UnloadSceneAsync(sandArena);
     }
 
-    private void SetUpIntroScene()
+    private void SetUpIntroScene(float transitionLength)
     {
         Vector3 dicePosition = Vector3.zero;
 
@@ -75,8 +75,8 @@ public class SceneTransitionManager : MonoBehaviour
                 }
             }
         }
-        DiceReturnFromArena?.Invoke(5, dicePosition, previouslySelectedDiceType);
-        FadeFromArena?.Invoke(5, dicePosition);
+        DiceReturnFromArena?.Invoke(transitionLength, dicePosition, previouslySelectedDiceType);
+        FadeFromArena?.Invoke(transitionLength, dicePosition);
     }
 
     private void HandleGameStart(GameObject dice, DiceType diceType, float transitionLength)
