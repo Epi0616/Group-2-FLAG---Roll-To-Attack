@@ -1,14 +1,16 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 [Serializable]
 public class NavMeshMovementHook : BaseEntityMovement
 {
+    
     private INavAgent aiInterfaceAccess;
     private EnemyBodySystem enemyBodySystem;
-    private float setDestinationInterval = 10f;
+    private float setDestinationInterval = 0.15f;
     private float intervalTimer = 0;
-    private bool updatePosition = true;
+    private Transform target;
     public NavMeshMovementHook() { }
 
     public override void StartMovement(Entity ownerEntity)
@@ -26,39 +28,25 @@ public class NavMeshMovementHook : BaseEntityMovement
     }
 
     public override void UpdateMovement()
-    {        
+    {
         if (ownerEntity == null) return;
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
 
         if (moveable.canMove == false) { EndMovement(); return; }
-
-        Debug.Log(updatePosition);
         //intervalTimer += Time.deltaTime;
         //if (intervalTimer > setDestinationInterval)
         //{
-        //    aiInterfaceAccess.agent.SetDestination(ownerEntity.target.transform.position);
+        //    aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position + ownerEntity.transform.forward * 100f * Time.deltaTime);
         //    intervalTimer = 0;
         //}
-        if (updatePosition)
-        {
-            updatePosition = false;
+
+        //ownerEntity.transform.position += ownerEntity.transform.forward * 10f * Time.deltaTime;
+        aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position + ownerEntity.transform.forward * 100f * Time.deltaTime);
+        NavMeshHit hit;
+        if (NavMesh.Raycast(ownerEntity.transform.position, target.position, out hit, NavMesh.AllAreas))
+        { 
+            ownerEntity.transform.Rotate(Vector3.up, 65f * Time.deltaTime);
         }
-        if (!updatePosition)
-        {
-            aiInterfaceAccess.agent.SetDestination(new Vector3(-57f, 0.714470029f, 10f));
-            aiInterfaceAccess.agent.updateRotation = true;
-            
-        }
-
-    }
-
-
-    public void MoveAroundObjectClockwise()
-    {
-        Vector3 offsetObj = ownerEntity.target.transform.position - ownerEntity.transform.position;
-        Vector3 dir = Quaternion.Euler(0, -50, 0) * offsetObj;
-        dir += ownerEntity.transform.position;
-        aiInterfaceAccess.agent.SetDestination(dir);
     }
 
     public override void InterruptMovement()
