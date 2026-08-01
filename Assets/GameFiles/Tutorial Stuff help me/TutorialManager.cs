@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Timers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -21,7 +20,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private List<TutorialStage> stages = new List<TutorialStage>();
     private float boxWidth = 424f;
     private TutorialStage currentStage;
-    private Coroutine CurrentStageCO;
+    private Coroutine CurrentStageCO = null;
     private Coroutine TimeScalingCO;
     public bool restartCurrentStep;
     public bool restartCurrentStage;
@@ -38,51 +37,62 @@ public class TutorialManager : MonoBehaviour
     public InputActionReference skipInput;
     private bool hasSkippedThisStep;
     public bool inputConsumed;
-    public void Start()
+
+    private void Awake()
     {
         textBox = TutorialTextBoxObj.GetComponentInChildren<TutorialTextBox>();
         boxRect = TutorialTextBoxObj.GetComponent<RectTransform>();
         portraitRect = TutorialPortraitObj.GetComponent<RectTransform>();
         DarkOverlayImage = TutorialDarkOverlay.GetComponent<Image>();
         overlayColour = DarkOverlayImage.color;
+        Debug.Log("tutorial maanger awake");
+    }
 
+    public void Start()
+    {
         // Remove to start Tutorial from another Event
         StartCoroutine(StartTutorialDisplay());
+        Debug.Log("starting tutorial display coroutine");
+        Debug.Log(skipInput.action.enabled);
     }
 
     public void OnEnable()
     {
+        skipInput.action.Enable();
         skipInput.action.performed += SkipInputPressed;
+        Debug.Log("enabling tutorial maanger");
     }
 
     public void OnDisable()
     {
         skipInput.action.performed -= SkipInputPressed;
+        skipInput.action.Disable();
     }
 
-    //public void Update()
-    //{
-    //    Debug.Log(typingTextBox.finishedTyping);
-    //}
+    public void Update()
+    {
+        //Debug.Log(typingTextBox.finishedTyping);
+    }
 
     // Just call this to start Tutorial
     public IEnumerator StartTutorialDisplay()
     {
-        yield return new WaitUntil(() => !Input.GetMouseButton(0));
-        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        //yield return new WaitUntil(() => !Input.GetMouseButton(0));
+        //yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
         int stageIndex = 0;
         while (stageIndex < stages.Count)
         {
             CurrentStageCO = StartCoroutine(StartStage(stages[stageIndex]));
             yield return CurrentStageCO;
+            CurrentStageCO = null;
             stageIndex++;
         }
         TutorialComplete();
     }
 
-    
     public void TutorialComplete()
     {
+        Debug.Log("tutorial complete");
         TutorialOver?.Invoke();
     }
 
@@ -172,7 +182,6 @@ public class TutorialManager : MonoBehaviour
             yield return null;
         }
         Time.timeScale = scale;
-        
     }
 
     public void HandleEventBasedStep(TutorialStep step)
@@ -205,13 +214,14 @@ public class TutorialManager : MonoBehaviour
 
     public void SkipInputPressed(InputAction.CallbackContext context)
     {
+        Debug.Log("skip pressed");
+
         if (!typingTextBox.finishedTyping && !hasSkippedThisStep)
         {
             typingTextBox.Skip();
             hasSkippedThisStep = true;
             StartCoroutine(typingTextBox.skipCompleteDelay());
         }
-        
     }
 
     //public bool HandleConditionInput(InputAction.CallbackContext context)

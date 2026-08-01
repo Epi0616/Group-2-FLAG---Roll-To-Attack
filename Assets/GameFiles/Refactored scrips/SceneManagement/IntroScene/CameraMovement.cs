@@ -53,13 +53,13 @@ public class CameraMovement : MonoBehaviour
         StartCoroutine(EaseOutRotationToFrom(transitionLength, roomOverviewRotation, transform.rotation));
     }
 
-    private void MoveIntoArena(GameObject dice, DiceType diceType, float transitionLength)
+    private void MoveIntoArena(GameObject dice, DiceType diceType)
     {
         arenaPlayPosition = dice.transform.position + offset;
 
-        StartCoroutine(FovToFrom(transitionLength, roomFov, cam.fieldOfView));
-        StartCoroutine(PositionToFrom(transitionLength, arenaPlayPosition, transform.position));
-        StartCoroutine(RotationToFrom(transitionLength, arenaPlayRotation, transform.rotation));
+        StartCoroutine(FovToFrom(SceneTransitionManager.transitionLength, roomFov, cam.fieldOfView));
+        StartCoroutine(PositionToFrom(SceneTransitionManager.transitionLength, arenaPlayPosition, transform.position));
+        StartCoroutine(RotationToFrom(SceneTransitionManager.transitionLength, arenaPlayRotation, transform.rotation));
     }
 
     private void MoveToMainMenu(float transitionLength)
