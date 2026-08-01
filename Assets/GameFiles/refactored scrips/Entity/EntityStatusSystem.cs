@@ -93,19 +93,19 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
                 }
             }
         }
-        else
+
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
-            
-            for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+            if (currentActiveStatusEffects[i].effect.type == newStatus.effect.type)
             {
-                if (currentActiveStatusEffects[i].effect.type == newStatus.effect.type)
-                {
-                    isFirst = false;
-                    break;
-                }
+                isFirst = false;
+                break;
             }
-            
         }
+
+
+
+
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
         if (OwnerEntity == null) { Debug.Log("Owner Inside of Status System is NULL"); }
         newStatus.effect.AddEffect(OwnerEntity);

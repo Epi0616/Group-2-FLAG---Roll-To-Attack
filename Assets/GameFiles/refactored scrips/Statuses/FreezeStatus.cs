@@ -25,25 +25,28 @@ public class FreezeStatus : BaseStunEffect
 
     protected override void OnApplication()
     {
-        base.OnApplication();
-        entityRef.bodySystem.ApplyFreezeShader(effectColour);
+        base.OnApplication();        
         (entityRef as IAnimated).animationManager.EndCurrentAnimation(MixerType.main);
-        //  NEED BODY SYSTEM entityRef.StartVibrating();
+    }
+
+    protected override void OnFirstStackApplication()
+    {
+        entityRef.bodySystem.ApplyFreezeShader(effectColour);
     }
 
     protected override void OnUpdate()
     {
-        //  NEED BODY SYSTEM entityRef.Vibrate();
         entityRef.bodySystem.Vibrate();
     }
 
     protected override void OnRemoval()
     {
-
-        // NEED BODY SYSTEM  entityRef.StopVibrating();
-        //Debug.Log("Freeze Over");
-        entityRef.bodySystem.RemoveFreezeShader();
         base.OnRemoval();
+    }
+
+    protected override void OnLastStackRemoval()
+    {
+        entityRef.bodySystem.RemoveFreezeShader();
     }
 
 }
