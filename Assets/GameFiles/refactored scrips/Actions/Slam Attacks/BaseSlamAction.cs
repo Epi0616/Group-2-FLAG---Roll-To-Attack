@@ -82,7 +82,27 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         impactField.PassInValuesColorRadiusChargeTimeFlash(slamColour, slamRange.GetFinalValue(), chargeTime, flashRed);
     }
 
-    public virtual void SpawnSlamCompleteVFX() { }
+    public virtual void SpawnSlamCompleteVFX()
+    {
+        EffectSettings options = new EffectSettings(
+                overrideColour: slamColour,
+                overrideScale: new rangePair(1.5f, 1.6f),
+                overrideGravity: new rangePair(-0.5f, -1.5f),
+                overrideLifetime: new rangePair(0.2f, 0.3f),
+                overrideSpeed: new rangePair(25f, 40f));
+        EffectSettings verticalOptions = new EffectSettings(overrideColour: slamColour, overrideVelocitySpeedMult: 1.5f);
+        if (slamRange.GetFinalValue() > slamRange.GetBaseValue())
+        {
+            float percentage = slamRange.GetFinalValue() / slamRange.GetBaseValue();
+           // options.overrideLifetime = new rangePair(0.2f * percentage, 0.3f * percentage);
+            verticalOptions.overrideVelocitySpeedMult = 1.5f * percentage;
+            options.overrideSpeed = new rangePair(25f * percentage, 40f * percentage);
+        }
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SimpleBurst01), slamOrigin, Quaternion.Euler(90, 0, 0)).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(options);
+        //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.VerticalBurst01), slamOrigin, Quaternion.Euler(0, 0, 0)).
+        //        GetComponent<ParticleEffectInstance>().PlayParticleEffect(verticalOptions);
+    }
 
     public override void UpdateAction()
     {       
@@ -104,6 +124,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
                 triggerPillars();
             }
             Slam();
+            
         }
     }
     public override void FixedUpdateAction()

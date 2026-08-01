@@ -6,11 +6,18 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public Entity OwnerEntity { get; set; }
     public GameObject body;
     public Quaternion originalRotation;
+    public MaterialPropertyBlock block;
+    public SkinnedMeshRenderer renderer;
 
     public virtual void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
         originalRotation = body.transform.rotation;
+        block = new MaterialPropertyBlock();
+        if (renderer == null)
+        {
+            renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        }
     }
 
     public virtual void Vibrate()
@@ -46,9 +53,55 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         body.transform.rotation = originalRotation * Quaternion.Euler(x, y, z);
     }
 
+    public void ApplyFreezeShader(Color iceColour)
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_IcePower", 1);
+        block.SetColor("_IceColour", iceColour);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void RemoveFreezeShader()
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_IcePower", 0);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void ApplyWeakenShader(Color weakenColour)
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_CrackPower", 1);
+        block.SetColor("_CrackColour", weakenColour * 3);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void RemoveWeakenShader()
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_CrackPower", 0);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void ApplyPoisonedShader(Color poisonColour)
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_PoisonPower", 1);
+        block.SetColor("_PoisonColour", poisonColour * 3);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void RemovePoisonShader()
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_PoisonPower", 0);
+        renderer.SetPropertyBlock(block);
+    }
     public virtual void ResetSystem()
     {
         // Reset body system state if needed
+        RemoveWeakenShader();
+        RemoveFreezeShader();
     }
 
     public virtual void SetVisibility(bool visible)

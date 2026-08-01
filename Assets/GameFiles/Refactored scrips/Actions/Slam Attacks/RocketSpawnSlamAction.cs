@@ -58,7 +58,8 @@ public class RocketSpawnSlamAction : BaseSlamAction , IUpgradableAbility
         while (count < numRockets && !attackInterrupted && hitEntity != null)
         {          
             count++;
-                
+            //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.VerticalBurst01), ownerEntity.transform.position, Quaternion.Euler(0, 0, 0)).
+            //    GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColour: slamColour, overrideVelocitySpeedMult: 1.5f));
             GameObject spawned = ObjectPoolManager.SpawnObject(rocket.rocketObj, ownerEntity.transform.position, Quaternion.identity);
             spawned.GetComponent<SeekingRocket>().Initialize(ownerEntity, hitEntity.gameObject, ownerEntity.transform.position.y, rocket.rocketDamage);
 

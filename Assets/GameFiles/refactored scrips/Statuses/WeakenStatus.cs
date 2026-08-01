@@ -34,20 +34,31 @@ public class WeakenStatus : StatusEffect
         
     }
 
-    /*
-    protected override void OnApplication()
-    {
-        base.OnApplication();       
-    }
-
-    protected override void OnUpdate()
-    {
+    
+    //protected override void OnApplication()
+    //{
+    //    base.OnApplication();
         
+    //}
+
+    protected override void OnFirstStackApplication()
+    {
+        entityRef.bodySystem.ApplyWeakenShader(effectColour);
     }
 
-    protected override void OnRemoval()
-    {    
-        base.OnRemoval();
+    //protected override void OnUpdate()
+    //{
+        
+    //}
+
+    //protected override void OnRemoval()
+    //{      
+    //    base.OnRemoval();
+    //}
+
+    protected override void OnLastStackRemoval()
+    {
+        entityRef.bodySystem.RemoveWeakenShader();
     }
-    */
+    
 }
