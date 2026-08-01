@@ -24,7 +24,7 @@ public class FreezeSlamAction : BaseSlamAction , IUpgradableAbility
         hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
 
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(FragileDamageMult, "Frozen", slamColour),
-                new List<BaseCondition> { new TimeCondition(true, FreezeDuration) }, true), slamColour);
+                new List<BaseCondition> { new TimeCondition(true, FreezeDuration) }, true));
     }
 
     public override BaseEntityAction Clone()

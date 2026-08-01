@@ -41,6 +41,12 @@ public abstract class StatusEffect
         OnApplication();
     }
 
+    public void FirstStackEffect()
+    {
+        Debug.Log("First Stack");
+        OnFirstStackApplication();
+    }
+
     public void UpdateEffect()
     {
         OnUpdate();
@@ -54,6 +60,12 @@ public abstract class StatusEffect
     public void RemoveEffect()
     {
         OnRemoval();
+    }
+
+    public void LastStackEffect()
+    {
+        Debug.Log("Last Stack");
+        OnLastStackRemoval();
     }
 
     public void ApplyStatModifierUpdates()
@@ -76,10 +88,12 @@ public abstract class StatusEffect
     }
 
     protected virtual void OnApplication() { }
+    protected virtual void OnFirstStackApplication() { }
     protected virtual void OnUpdate() { }
 
     protected virtual void OnFixedUpdate() { }
     protected virtual void OnRemoval() { }
+    protected virtual void OnLastStackRemoval() { }
 
     protected virtual void ApplyStatModifier() { }
     protected virtual void ApplyOnDamageEffects(ref Stat damage, DamageType type) { }

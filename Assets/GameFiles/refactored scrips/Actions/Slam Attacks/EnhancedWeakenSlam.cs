@@ -22,7 +22,7 @@ public class EnhancedWeakenSlam : BaseSlamAction, IEnhancedAbility
         //hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Weaken);
 
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new EnhancedWeakenStatus(WeakenDamageMult, "PlaceHolderWeaken", ownerEntity, enhancementLevel),
-                new List<BaseCondition> { new TimeCondition(true, WeakenDuration) }, true), slamColour);
+                new List<BaseCondition> { new TimeCondition(true, WeakenDuration) }, true));
     }
 
     public override BaseEntityAction Clone()

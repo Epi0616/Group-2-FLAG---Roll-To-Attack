@@ -68,9 +68,40 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         renderer.SetPropertyBlock(block);
     }
 
+    public void ApplyWeakenShader(Color weakenColour)
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_CrackPower", 1);
+        block.SetColor("_CrackColour", weakenColour * 3);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void RemoveWeakenShader()
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_CrackPower", 0);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void ApplyPoisonedShader(Color poisonColour)
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_PoisonPower", 1);
+        block.SetColor("_PoisonColour", poisonColour * 3);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void RemovePoisonShader()
+    {
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_PoisonPower", 0);
+        renderer.SetPropertyBlock(block);
+    }
     public virtual void ResetSystem()
     {
         // Reset body system state if needed
+        RemoveWeakenShader();
+        RemoveFreezeShader();
     }
 
     public virtual void SetVisibility(bool visible)
