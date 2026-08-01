@@ -27,9 +27,9 @@ public class ArenaRise : MonoBehaviour
         StartCoroutine(ArenaToFrom(transitionLength, startPosition, targetPosition));
     }
 
-    private void StartAnimation(GameObject dice, DiceType diceType, float transitionLength)
+    private void StartAnimation(GameObject dice, DiceType diceType)
     {
-        StartCoroutine(ArenaToFrom(transitionLength, targetPosition, startPosition));
+        StartCoroutine(ArenaToFrom(SceneTransitionManager.transitionLength, targetPosition, startPosition));
     }
 
     private IEnumerator ArenaToFrom(float duration, Vector3 to, Vector3 from)

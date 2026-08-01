@@ -5,8 +5,7 @@ using Random = UnityEngine.Random;
 
 public class DiceProp : MoveableProp, IIntroRollable
 {
-    public static event Action<GameObject, DiceType, float> GameStart;
-    public static float transitionLength = 2.5f;
+    public static event Action<GameObject, DiceType> GameStart;
 
     [SerializeField] private Vector3 startScale, targetScale;
     [SerializeField] private DiceType myDiceType;
@@ -108,10 +107,9 @@ public class DiceProp : MoveableProp, IIntroRollable
             yield return null;
         }
 
-
         //StartCoroutine(RotateToFrom(5, Quaternion.Euler(0, 0, 0), transform.localRotation));
-        GameStart?.Invoke(gameObject, myDiceType, transitionLength);
-        yield return ScaleToFrom(transitionLength, targetScale, startScale);
+        GameStart?.Invoke(gameObject, myDiceType);
+        yield return ScaleToFrom(SceneTransitionManager.transitionLength, targetScale, startScale);
     }
 
     private IEnumerator ScaleToFrom(float duration, Vector3 to, Vector3 from)

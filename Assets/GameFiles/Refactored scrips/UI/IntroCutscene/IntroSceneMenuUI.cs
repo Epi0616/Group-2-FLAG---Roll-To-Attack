@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class IntroSceneMenuUI : MonoBehaviour
 {
     public static event Action<float> settingsOpened, menuClosed, menuOpened;
+    public static event Action<SceneType> arenaTypeSelected;
 
     [SerializeField] private InputActionReference pauseGame, backButton;
 
@@ -46,7 +47,19 @@ public class IntroSceneMenuUI : MonoBehaviour
         }
     }
 
-    public void MoveToRoomOverview(float transitionLength = 0.5f)
+    public void StartGame(float transitionLength = 0.5f)
+    {
+        arenaTypeSelected?.Invoke(SceneType.SandArena);
+        MoveToRoomOverview(transitionLength);
+    }
+
+    public void StartTutorial(float transitionLength = 0.5f)
+    {
+        arenaTypeSelected?.Invoke(SceneType.TutorialArena);
+        MoveToRoomOverview(transitionLength);
+    }
+
+    private void MoveToRoomOverview(float transitionLength = 0.5f)
     {
         menuClosed?.Invoke(transitionLength);
         menuActive = false;

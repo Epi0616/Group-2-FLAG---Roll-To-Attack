@@ -87,6 +87,9 @@ public class AnimationOnDemandManager : MonoBehaviour
         if (!GetMixerContainerFromType(mixerType, out MixerContainer mixer)) return;
         CancelCurrentCrossFade(mixer);
         DestroyMixerPlayable(mixer, 0);
+
+        mixer.animationType = AnimationType.None;
+        mixer.priority = int.MaxValue;
     }
 
     public void PlayAnimation(AnimationType newAnimationType, int priority, MixerType mixerType, float window = 0f)
