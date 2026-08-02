@@ -24,7 +24,7 @@ public class WeakenSlamAction : BaseSlamAction, IUpgradableAbility
         //hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Weaken);
 
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(WeakenDamageMult, "PlaceHolderWeaken" ),
-                new List<BaseCondition> { new TimeCondition(true, WeakenDuration) }, true), slamColour);
+                new List<BaseCondition> { new TimeCondition(true, WeakenDuration) }, true));
     }
 
     public override BaseEntityAction Clone()

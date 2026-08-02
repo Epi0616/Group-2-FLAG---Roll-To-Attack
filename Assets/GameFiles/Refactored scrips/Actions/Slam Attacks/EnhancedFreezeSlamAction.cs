@@ -23,8 +23,8 @@ public class EnhancedFreezeSlamAction : BaseSlamAction , IEnhancedAbility
     {
         hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
 
-        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new EnhancedFreezeStatus(FragileDamageMult, "Frozen", enhancementLevel),
-                new List<BaseCondition> { new TimeCondition(true, FreezeDuration) }, true), slamColour);
+        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new EnhancedFreezeStatus(FragileDamageMult, "Frozen", slamColour, enhancementLevel),
+                new List<BaseCondition> { new TimeCondition(true, FreezeDuration) }, true));
     }
 
     public override BaseEntityAction Clone()

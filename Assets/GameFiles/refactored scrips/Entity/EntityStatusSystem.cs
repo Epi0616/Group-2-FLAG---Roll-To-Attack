@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,7 +47,23 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             {
                 //Debug.Log("Before there are: " + currentActiveStatusEffects.Count + " statuses");
                 //Debug.Log("Effect Removed: " + currentActiveStatusEffects[i].effect.GetType().ToString());
-                
+                bool isLast = true;
+                for (int j = currentActiveStatusEffects.Count - 1; j >= 0; j--)
+                {
+                    if (j == i)
+                        continue;
+
+                    if (currentActiveStatusEffects[j].effect.type ==
+                        currentActiveStatusEffects[i].effect.type)
+                    {
+                        isLast = false;
+                        break;
+                    }
+                }
+                if (isLast)
+                {
+                    currentActiveStatusEffects[i].effect.LastStackEffect();
+                }
                 currentActiveStatusEffects[i].effect.RemoveEffect();
                 currentActiveStatusEffects.RemoveAt(i);
                 //Debug.Log("Now there are: " + currentActiveStatusEffects.Count + " statuses");
@@ -62,6 +79,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 
     public void OnRecieveEffect(ActiveStatusEffect newStatus)
     {
+        bool isFirst = true;
         // Check if the new Status can be "stacked" if not simply reset the conditions of the current Status
         if (!newStatus.effect.isStackable)
         {
@@ -75,9 +93,22 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
                 }
             }
         }
+
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (currentActiveStatusEffects[i].effect.type == newStatus.effect.type)
+            {
+                isFirst = false;
+                break;
+            }
+        }
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
         if (OwnerEntity == null) { Debug.Log("Owner Inside of Status System is NULL"); }
         newStatus.effect.AddEffect(OwnerEntity);
+        if (isFirst)
+        {
+            newStatus.effect.FirstStackEffect();
+        }
         foreach (BaseCondition condition in newStatus.conditions)
         {
             condition.Initialize(OwnerEntity);
@@ -119,8 +150,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             // Simply Check the StatusType Enum against the desired type removing it if found
             if (currentActiveStatusEffects[i].effect.type == type)
             {
-                currentActiveStatusEffects[i].effect.RemoveEffect();
-                currentActiveStatusEffects.RemoveAt(i);
+                currentActiveStatusEffects[i].effect.toBeRemoved = true;
                 //Debug.Log("Status Removed: " + type.ToString());
             }
         }

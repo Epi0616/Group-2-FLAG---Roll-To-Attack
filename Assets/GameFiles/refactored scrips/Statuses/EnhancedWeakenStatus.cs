@@ -52,7 +52,7 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
                 if ( hitEntity == null ) { continue; }
                 //Debug.Log("Weaken Burst");
                 hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(1.2f, effectText),
-                new List<BaseCondition> { new TimeCondition(true, 5f) }, true), Color.darkMagenta);
+                new List<BaseCondition> { new TimeCondition(true, 5f) }, true));
             }
             
         }
