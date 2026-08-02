@@ -1,10 +1,14 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ISlowBubbleSpawner, ITarget
+public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, 
+    IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner, 
+    IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ISlowBubbleSpawner, ITarget, 
+    IGhostTrail
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -127,6 +131,19 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     [SerializeField] private GameObject SlowingBubblePrefab;
     public GameObject slowBubblePrefab { get => SlowingBubblePrefab; set => SlowingBubblePrefab = value; }
     public EnhancedSlowingBubble currentBubbleInstance { get; set; }
+
+    [Header("IGhostTrail")]
+    private Queue<Vector3> GhostQueue = new Queue<Vector3>();
+    private float Timer = 0f;
+    [SerializeField] private float Interval = 0.25f;
+    [SerializeField] private float MaxDelay = 2f;
+
+    public Queue<Vector3> ghostQueue { get => GhostQueue; set => GhostQueue = value; }
+    public float timer { get => Timer; set => Timer = value; }
+    public float interval { get => Interval; set => Interval = value; }
+    public float maxDelay { get => MaxDelay; set => MaxDelay = value; }
+
+
     protected override void Start()
     {
         base.Start();
@@ -164,6 +181,8 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         CheckForGrounded();
 
         RunTimeStatTracker.totalTimeSurvived += Time.deltaTime;
+
+        GenerateGhostTrail();
     }
 
     protected override void FixedUpdate()
@@ -300,5 +319,29 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
         }
 
         perimeterPoints = chosenPoints;
+    }
+
+    //IGhostTrail methods
+
+    public void GenerateGhostTrail() 
+    {
+        timer += Time.deltaTime;
+
+        if (timer > interval)
+        {
+            ghostQueue.Enqueue(transform.position);
+
+            timer = 0;
+        }
+
+        if (ghostQueue.Count > (maxDelay / interval))
+        {
+            ghostQueue.Dequeue();
+        }
+    }
+
+    public Vector3 GetGhostTrail()
+    {
+        return ghostQueue.Peek();
     }
 }

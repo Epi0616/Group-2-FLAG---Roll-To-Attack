@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class PoisonField : MonoBehaviour
+public class FireField : MonoBehaviour
 {
+    //Script copied from PoisonField then changed
+
     protected Material material;
     protected Material ringMaterial;
     [SerializeField] protected MeshRenderer ringMeshRenderer;
@@ -17,7 +19,7 @@ public class PoisonField : MonoBehaviour
 
     protected void Awake()
     {
-        material = GetComponent<MeshRenderer>().material;      
+        material = GetComponent<MeshRenderer>().material;
         ringMaterial = ringMeshRenderer.material;
     }
 
@@ -37,7 +39,7 @@ public class PoisonField : MonoBehaviour
         lifeTimer += Time.fixedDeltaTime;
 
         if (!(lifeTimer >= lifeSpan - 1)) { return; }
-        
+
         AdjustColours(color);
 
         if (color.a > 0)
@@ -83,11 +85,11 @@ public class PoisonField : MonoBehaviour
             if (!collider.gameObject) { continue; }
             if (collider.gameObject == ownerEntity) { continue; }
             //if (collider.gameObject.CompareTag("EntitySpawnable")) { continue; } 
-            
+
             //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
             collider.gameObject.GetComponent<Entity>().OnTakeDamage(poisonTickDMG, slamColour, DamageType.Normal);
             //Debug.Log("dealing damage");
-            
+
         }
     }
 
@@ -119,3 +121,4 @@ public class PoisonField : MonoBehaviour
         transform.position = position;
     }
 }
+

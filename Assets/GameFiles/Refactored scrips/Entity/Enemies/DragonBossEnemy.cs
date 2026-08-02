@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable
+public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, ISlamBlock
 {
     [Header("IFireballAction")]
     [SerializeField] private GameObject FireballObj;
@@ -15,8 +15,9 @@ public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable
     public int fireFieldDamage { get => FireFieldDamage; set => FireFieldDamage = value; }
     public LayerMask targetableLayers { get => TargetableLayers; set => TargetableLayers = value; }
 
-    //IShieldable properties
-    public bool shielded { get; set; } = false;
+    //ISlamBlock properties
+
+    public bool blockingSlam { get; set; } = false;
 
     protected override void Start()
     {

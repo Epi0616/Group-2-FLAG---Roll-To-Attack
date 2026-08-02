@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
 
 [Serializable]
 public class FireballRainAction : BaseEntityAction, ISlam
@@ -17,6 +18,11 @@ public class FireballRainAction : BaseEntityAction, ISlam
     [SerializeField] protected int totalFireballs;
     [SerializeField] protected Vector3 centerPoint;
     [SerializeField] protected float radius;
+
+    [SerializeField] private float flameRadius = 5f;
+    [SerializeField] private float flameDuration = 20f;
+    [SerializeField] private float flameSpeed = 100f;
+ 
 
     private IAnimated animated;
     private IFireballAction fireballAction;
@@ -69,12 +75,29 @@ public class FireballRainAction : BaseEntityAction, ISlam
         yield return ownerEntity.StartCoroutine(LaunchFireballsIntoSky(totalFireballs, 2.5f));
         yield return new WaitForSeconds(2.5f);
 
-        animated.animationManager.PlayAnimationCrossFade(AnimationType.Defend, 1, MixerType.main, 0.2f, 1);
-        yield return new WaitForSeconds(1);
-        animated.animationManager.PlayAnimationCrossFade(AnimationType.DefendCharge, 1, MixerType.main, 0.2f);
-
+ 
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Idle, 1, MixerType.main);
         yield return ownerEntity.StartCoroutine(FireballRain(totalFireballs));
-        yield return new WaitForSeconds(2);
+
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f); //If it works, it works
 
         EndAction();
     }
@@ -111,7 +134,7 @@ public class FireballRainAction : BaseEntityAction, ISlam
         fireball.transform.position += new Vector3(0, 2, 0);
 
         Vector3 direction = Vector3.up - Vector3.down;
-        fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 0);
+        fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 0, 0, 0, flameSpeed);
     }
 
     private void SpawnFireball()
@@ -120,7 +143,7 @@ public class FireballRainAction : BaseEntityAction, ISlam
         GameObject fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, randomPosition, Quaternion.identity);
 
         Vector3 direction = Vector3.down - Vector3.up;
-        fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 0);
+        fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 0, flameRadius, flameDuration, flameSpeed);
     }
 
     private Vector3 FindRandomPositionAboveArena()

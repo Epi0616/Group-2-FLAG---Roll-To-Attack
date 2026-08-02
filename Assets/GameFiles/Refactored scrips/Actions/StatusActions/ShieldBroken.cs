@@ -7,18 +7,20 @@ using System.Runtime.CompilerServices;
 [Serializable]
 public class ShieldBroken : BaseEntityAction
 {
-    [SerializeField] private int shieldStacks;
+    [SerializeField] private int slamStacks;
     [SerializeField] private float stunnedTime;
     [SerializeField] private float applyTime;
+    [SerializeField] private float damageMultiplier;
 
     private IAnimated animated;
     private Coroutine applyShieldsRoutine;
 
     public ShieldBroken() { }
-    public ShieldBroken(bool preventsMovement, int shieldStacks, float stunnedTime, float applyTime)
+    public ShieldBroken(bool preventsMovement, int slamStacks, float damageMultiplier, float stunnedTime, float applyTime)
     {
         this.preventsMovement = preventsMovement;
-        this.shieldStacks = shieldStacks;
+        this.slamStacks = slamStacks;
+        this.damageMultiplier = damageMultiplier;
         this.stunnedTime = stunnedTime;
         this.applyTime = applyTime;
     }
@@ -67,7 +69,7 @@ public class ShieldBroken : BaseEntityAction
 
         yield return new WaitForSeconds(2*timeFith);
 
-        ActiveStatusEffect shieldEffect = new(new ShieldedStatus(shieldStacks), new List<BaseCondition>() { new AlwaysTrueCondition(true) }, false);
+        ActiveStatusEffect shieldEffect = new(new SlamBlockedStatus(slamStacks, damageMultiplier), new List<BaseCondition>() { new AlwaysTrueCondition(true) }, false);
         ownerEntity.statusSystem.OnRecieveEffect(shieldEffect);
 
         if (animated != null)
@@ -95,6 +97,6 @@ public class ShieldBroken : BaseEntityAction
     }
     public override BaseEntityAction Clone()
     {
-        return new ShieldBroken(preventsMovement, shieldStacks, stunnedTime, applyTime);
+        return new ShieldBroken(preventsMovement, slamStacks, damageMultiplier, stunnedTime, applyTime);
     }
 }

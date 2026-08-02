@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using UnityEditor.Rendering;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Fireball : MonoBehaviour
 {
@@ -8,8 +11,12 @@ public class Fireball : MonoBehaviour
     [SerializeField] protected Vector3 startScale;
 
     protected Vector3 direction;
+
     private int impactDamage;
     private int fieldDamage;
+    private float radius;
+    private float duration;
+    private float speed;
     protected Entity ownerEntity;
 
     private bool hitTarget = false;
@@ -31,38 +38,32 @@ public class Fireball : MonoBehaviour
         StopAllCoroutines();
     }
 
-    public virtual void Initialize(Entity ownerEntity, Vector3 direction, int impactDamage, int fieldDamage)
+    public virtual void Initialize(Entity ownerEntity, Vector3 direction, int impactDamage, int fieldDamage, float radius, float duration, float speed)
     {
         Debug.Log("initializing fireball");
         this.ownerEntity = ownerEntity;
         this.direction = direction;
         this.impactDamage = impactDamage;
         this.fieldDamage = fieldDamage;
+        this.radius = radius;
+        this.duration = duration;
+        this.speed = speed;
 
         active = true;
         hitTarget = false;
         StopAllCoroutines();
-        StartCoroutine(Attack());
+        StartCoroutine(FlyToTarget());
     }
 
-    public void HandlePathToTarget()
-    { 
-        
-    }
-
-    private IEnumerator Attack()
+    private IEnumerator FlyToTarget()
     {
         while (!hitTarget)
         {
-            FlyToTarget();
+            transform.forward = direction;
+            transform.position += transform.forward * 50f * Time.deltaTime;
+
             yield return null;
         }
-    }
-
-    private void FlyToTarget()
-    {
-        transform.forward = direction;
-        transform.position += transform.forward * 150f * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider hit)
@@ -84,7 +85,7 @@ public class Fireball : MonoBehaviour
         StopAllCoroutines();
 
         GameObject field =  ObjectPoolManager.SpawnObject(impactFieldPrefab, transform.position, Quaternion.identity);
-        field.GetComponent<PoisonField>().Initialize(ownerEntity, 5f, 10f, fieldDamage, Color.orange);
+        field.GetComponent<PoisonField>().Initialize(ownerEntity, radius, duration, fieldDamage, Color.orange);
 
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }

@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public class ShieldedStatus : StatusEffect
+public class SlamBlockedStatus : StatusEffect
 {
+    //Based on ShieldedStatus
+
     private int stacks;
     private float multiplier;
 
-    public ShieldedStatus(int stacks, float multiplier)
+    public SlamBlockedStatus(int stacks, float multiplier)
     {
         this.stacks = stacks;
         this.multiplier = multiplier;
@@ -14,29 +16,33 @@ public class ShieldedStatus : StatusEffect
     protected override void OnApplication()
     {
         base.OnApplication();
-        if (entityRef is IShieldable shieldable)
+        if (entityRef is ISlamBlock slamBlock)
         {
-            shieldable.shielded = true;
+            slamBlock.blockingSlam = true;
         }
     }
 
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
         damage.AddMultiplier(multiplier);
-        stacks--;
 
-        if (stacks <= 0)
+        if (type == DamageType.Normal)
         {
-            toBeRemoved = true;
+            stacks--;
+
+            if (stacks <= 0)
+            {
+                toBeRemoved = true;
+            }
         }
     }
 
     protected override void OnRemoval()
     {
         base.OnRemoval();
-        if (entityRef is IShieldable shieldable)
-        { 
-            shieldable.shielded = false;
+        if (entityRef is ISlamBlock slamBlock)
+        {
+            slamBlock.blockingSlam = false;
         }
     }
 }

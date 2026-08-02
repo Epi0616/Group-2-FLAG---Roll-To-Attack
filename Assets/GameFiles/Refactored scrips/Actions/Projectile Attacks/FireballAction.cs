@@ -1,6 +1,7 @@
-using UnityEngine;
-using System.Collections;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class FireballAction : BaseEntityAction, ISlam
@@ -15,6 +16,13 @@ public class FireballAction : BaseEntityAction, ISlam
 
     private Fireball fireball;
     private Coroutine endActionDelayRoutine, trackFireballToMouthRoutine;
+
+    [SerializeField] private float flameRadius = 5f;
+    [SerializeField] private float flameDuration = 8f;
+    [SerializeField] private float flameSpeed = 50f;
+
+    [SerializeField] private float animationTime = 0.4f;
+    [SerializeField] private float yPosOffset = 0f;
 
     public int slamDamage { get => SlamDamage; set => SlamDamage = value; }
     public Color slamColour { get => SlamColor; set => SlamColor = value; }
@@ -44,10 +52,9 @@ public class FireballAction : BaseEntityAction, ISlam
             fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, ownerEntity.transform.position + offset, Quaternion.identity).GetComponent<Fireball>();
             if (ownerEntity is IAnimated animated)
             {
-                float animationTime = 3.75f;
                 animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, MixerType.complimentary, 0.2f, animationTime);
                 endActionDelayRoutine = ownerEntity.StartCoroutine(EndActionDelay(animationTime));
-                trackFireballToMouthRoutine = ownerEntity.StartCoroutine(TrackFireballToMouth(fireball.gameObject, fireballAction.fireballRootBone.transform, 2.25f));
+                trackFireballToMouthRoutine = ownerEntity.StartCoroutine(TrackFireballToMouth(fireball.gameObject, fireballAction.fireballRootBone.transform, 0.5f));
             }
         }
     }
@@ -82,8 +89,12 @@ public class FireballAction : BaseEntityAction, ISlam
 
         fireball.transform.localScale = startScale;
 
-        Vector3 direction = (ownerEntity.target.transform.position - fireball.transform.position).normalized;
-        fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 6); ;
+        if (ownerEntity.target.GetComponent<Player>() is IGhostTrail ghostTrail)
+        {
+            Vector3 ghostPos = ghostTrail.GetGhostTrail() + new Vector3(0, -yPosOffset, 0);
+            Vector3 direction = (ghostPos - fireball.transform.position).normalized;
+            fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 6, flameRadius, flameDuration, flameSpeed); ;
+        }
     }
 
     private IEnumerator EndActionDelay(float duration)

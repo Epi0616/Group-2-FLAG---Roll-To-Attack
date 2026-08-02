@@ -10,43 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
-  m_Name: FireballRain
+  m_Name: Fireball
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   conditionalAction:
     action:
-      rid: 5042951995510751302
+      rid: 5042951970589769798
     conditions:
-    - rid: 5042951995510751304
-    - rid: 5042952306272763921
+    - rid: 3480043893299347457
+    - rid: 5042952301634912858
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
     exclusive: 1
-    priority: 1
+    priority: 2
   references:
     version: 2
     RefIds:
-    - rid: 5042951995510751302
-      type: {class: FireballRainAction, ns: , asm: Assembly-CSharp}
+    - rid: 3480043893299347457
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
-        PreventsMovement: 1
-        SlamDamage: 10
-        SlamColor: {r: 1, g: 0.30588236, b: 0, a: 1}
+        inverse: 1
+    - rid: 5042951970589769798
+      type: {class: FireballAction, ns: , asm: Assembly-CSharp}
+      data:
+        PreventsMovement: 0
+        offset: {x: 0, y: -0.5, z: 1.5}
+        SlamDamage: 20
+        SlamColor: {r: 1, g: 0.47529268, b: 0, a: 1}
         ChargeTime: 0
         SlamRange:
           baseValue: 5
         SlamPositionOffset: {x: 0, y: 0, z: 0}
-        startDelay: 2.5
-        actionDuration: 5
-        totalFireballs: 75
-        centerPoint: {x: 5, y: 45, z: 15}
-        radius: 60
-    - rid: 5042951995510751304
-      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 1
-    - rid: 5042952306272763921
-      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
+    - rid: 5042952301634912858
+      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        duration: 30
+        lookThreshold: 45

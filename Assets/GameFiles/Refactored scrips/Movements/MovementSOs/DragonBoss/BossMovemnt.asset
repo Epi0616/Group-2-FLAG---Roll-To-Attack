@@ -18,14 +18,19 @@ MonoBehaviour:
     conditions:
     - rid: 5042951946035265607
     - rid: 5042951946035265608
-    - rid: 5042951946035265610
     - rid: 5042951946035265609
+    - rid: 3480044051366412420
     allConditionsRequired: 1
-    exclusive: 1
-    priority: 1
+    exclusive: 0
+    priority: 2
   references:
     version: 2
     RefIds:
+    - rid: 3480044051366412420
+      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+        distanceThreshold: 25
     - rid: 5042951946035265606
       type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
       data: 
@@ -41,8 +46,3 @@ MonoBehaviour:
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
-    - rid: 5042951946035265610
-      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        lookThreshold: 15

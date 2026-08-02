@@ -8,16 +8,18 @@ public class FallFromTheSky : BaseEntityAction
 {
     public static event Action<float, Transform> BossFallingFromSky;
 
-    [SerializeField] private int shieldStacks;
+    [SerializeField] private int slamStacks;
+    [SerializeField] private float damageMultiplier;
     [SerializeField] private float duration = 7.5f;
 
     private Vector3 startPosition;
 
     public FallFromTheSky() { }
-    public FallFromTheSky(bool preventsMovement, int shieldStacks, float duration)
+    public FallFromTheSky(bool preventsMovement, int slamStacks, float damageMultiplier, float duration)
     {
         this.preventsMovement = preventsMovement;
-        this.shieldStacks = shieldStacks;
+        this.slamStacks = slamStacks;
+        this.damageMultiplier = damageMultiplier;
         this.duration = duration;
     }
 
@@ -26,7 +28,7 @@ public class FallFromTheSky : BaseEntityAction
         base.StartAction(ownerEntity);
         ownerEntity.bodySystem.SetVisibility(false);        
 
-        ActiveStatusEffect shieldEffect = new(new ShieldedStatus(shieldStacks), new List<BaseCondition>() { new AlwaysTrueCondition(true) }, false);
+        ActiveStatusEffect shieldEffect = new(new SlamBlockedStatus(slamStacks, damageMultiplier), new List<BaseCondition>() { new AlwaysTrueCondition(true) }, false);
         ownerEntity.statusSystem.OnRecieveEffect(shieldEffect);
 
         if (ownerEntity is IAnimated animated)
@@ -71,6 +73,6 @@ public class FallFromTheSky : BaseEntityAction
 
     public override BaseEntityAction Clone()
     {
-        return new FallFromTheSky(preventsMovement, shieldStacks, duration);
+        return new FallFromTheSky(preventsMovement, slamStacks, damageMultiplier, duration);
     }
 }
