@@ -38,8 +38,7 @@ public class EnemyHealthSystem : EntityHealthSystem
         {
             float deathAnimationTime = 2;
             animated.animationManager.PlayAnimationCrossFade(AnimationType.Death, 0, MixerType.main, 0.2f, deathAnimationTime);
-            StartCoroutine(DelayedDeath(deathAnimationTime));
-
+            StartCoroutine(DelayedDeath(deathAnimationTime, animated));
         }
         else 
         {
@@ -47,14 +46,11 @@ public class EnemyHealthSystem : EntityHealthSystem
         }
     }
 
-    public void HandleDeathAfterAnimation(float delayTime)
-    {
-        StartCoroutine(DelayedDeath(delayTime));
-    }
-
-    private IEnumerator DelayedDeath(float delayTime)
+    private IEnumerator DelayedDeath(float delayTime, IAnimated animated)
     { 
         yield return new WaitForSeconds(delayTime);
+        //animated.animationManager.EndCurrentAnimation(MixerType.main);
+        //animated.animationManager.EndCurrentAnimation(MixerType.complimentary);
         EnemyDeath();
     }
 

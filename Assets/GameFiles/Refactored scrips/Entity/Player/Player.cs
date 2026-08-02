@@ -4,8 +4,23 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInput, IUsesRigidBody, IModifiableActions, IJumpable, ISlamActionRequirements, IPoisonSpawner, IRocketSpawner,
-    IOrbitSpikeSpawner, IVacuumSpawner, IKnockbackFieldSpawner, ISlowBubbleSpawner, ITarget, IIconDisplayer
+public class Player : Entity, 
+    IMoveable, 
+    IActionable, 
+    IGrounded, 
+    IUsesEntityInput, 
+    IUsesRigidBody, 
+    IModifiableActions, 
+    IJumpable, 
+    ISlamActionRequirements, 
+    IPoisonSpawner, 
+    IRocketSpawner,
+    IOrbitSpikeSpawner, 
+    IVacuumSpawner, 
+    IKnockbackFieldSpawner, 
+    ISlowBubbleSpawner, 
+    ITarget, 
+    IIconDisplayer
 {
     [Header("IUsesEntityInput")]
     public EntityInputManager inputManager { get; set; }
@@ -38,12 +53,16 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public bool canAct { get => CanAct; set => CanAct = value; }
 
     [Header("IModifiableActions")]
+    [SerializeField] private ModifiableActionDescriptor BaseAction;
+    [SerializeField] private int MaxActions = 6;
     [SerializeField] private List<ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
     [SerializeField] private PlayerLoadOut PlayerLoadOut;
     [SerializeField] private SpriteRenderer[] DiceFaceDisplaySlots;
-    private List<ModifiableAction> ModifiableActions = new List<ModifiableAction>();
+    private List<IndexedModifiableAction> IndexedModifiableActions = new List<IndexedModifiableAction>();
     private List<ModifiableAction> ModifiableActionStorage = new List<ModifiableAction>();
-    public List<ModifiableAction> modifiableActions { get => ModifiableActions; set => ModifiableActions = value; }
+    public ModifiableAction baseAction { get; set; }
+    public int maxActions { get => MaxActions; set => MaxActions = value; }
+    public List<IndexedModifiableAction> indexedModifiableActions { get => IndexedModifiableActions; set => IndexedModifiableActions = value; }
     public List<ModifiableAction> modifiableActionStorage { get => ModifiableActionStorage; set => ModifiableActionStorage = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
     public PlayerLoadOut playerLoadOut { get => PlayerLoadOut; set => PlayerLoadOut = value; }
@@ -238,13 +257,17 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     //IModifiableActions Methods
     public void UnpackModifiableActions()
     { 
-        List<ModifiableAction> modifiableActions = new List<ModifiableAction>();
-        foreach (ModifiableActionDescriptor modifiableActionDescriptor in ModifiableActionDescriptors)
+        baseAction = BaseAction.Create();
+
+        List<IndexedModifiableAction> indexedModifiableActions = new List<IndexedModifiableAction>();
+        for (int i = 0; i < ModifiableActionDescriptors.Count; i++)
         {
-            modifiableActions.Add(modifiableActionDescriptor.Create());
+            ModifiableAction modifiableAction = ModifiableActionDescriptors[i].Create();
+            IndexedModifiableAction indexedModifiableAction = new IndexedModifiableAction(i, modifiableAction);
+            indexedModifiableActions.Add(indexedModifiableAction);
         }
 
-        actionSelectionSystem.SetModifiableActions(modifiableActions);
+        actionSelectionSystem.SetIndexedModifiableActions(indexedModifiableActions);
     }
 
     //IOrbitSpikeSpawner Methods
@@ -319,7 +342,7 @@ public class Player : Entity, IMoveable, IActionable, IGrounded, IUsesEntityInpu
     public void CheckDisplayerActive()
     {
         displayerActive = false;
-        if (displayPlanePrefab != null && displayUI != null && targetCamera != null)
+        if (displayPlanePrefab != null && targetCamera != null) //&& displayUI != null - taken out for now
         {
             displayerActive = true;
         }

@@ -89,7 +89,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     public void Continue()
     {
         Debug.Log("continue pressed");
-        if (!CheckForFullDiceSlots()) return;
+        //if (!CheckForFullDiceSlots()) return;
         //Time.timeScale = 1;
         abilitySlotManager.AddNewObjectsToList(abilitySelectionManager.GetDraggableObjects());
         abilitySlotManager.PackAway();

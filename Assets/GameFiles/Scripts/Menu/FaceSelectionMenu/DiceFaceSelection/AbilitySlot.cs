@@ -10,13 +10,37 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
     public static event Action<AbilitySlot> selected;
     public static event Action unselected;
     public static event Action<Vector3> selectedPos;
-  
+
+    [SerializeField] private AnimationOnDemandManager upgradeEffectAnimationManager;
+    [SerializeField] private Image upgradeEffectImage;
+
     private bool isSelected = false;
 
     protected override void Awake()
     {
         base.Awake();
         objectLimit = 1;
+    }
+
+
+    protected void OnEnable()
+    {
+        DraggableAbility.OnAbilityDragStart += HandleUpgradeDisplay;
+        DraggableAbility.OnAbilityDragEnd += HandleEndUpgradeDisplay;
+    }
+
+    protected void OnDisable()
+    {
+        DraggableAbility.OnAbilityDragStart -= HandleUpgradeDisplay;
+        DraggableAbility.OnAbilityDragEnd -= HandleEndUpgradeDisplay;
+    }
+
+    private void Start()
+    {
+        upgradeEffectAnimationManager.Initialize();
+
+        SetUpgradeImageAlpha(0);
+        upgradeEffectAnimationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.01f);
     }
 
     public DraggableObject GetChild()
@@ -31,7 +55,7 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
 
         if (draggableObjects.Count > 0)
         {
-            SwapAbilities(newObject);
+            SwapAbilitiesWithUpgrade(newObject);
             //SwapAbilitiesWithUpgrade(newObject);
             CheckForDisplayRequired();
             return;
@@ -117,12 +141,41 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         }
     }
 
+    private void HandleUpgradeDisplay(ModifiableAction selectedAbility)
+    {
+        if (draggableObjects.Count <= 0) return;
+
+        if (!(draggableObjects[0] is DraggableAbility draggableAbility)) return;
+        ModifiableAction myAbility = draggableAbility.GetAbility();
+
+        if (myAbility == selectedAbility) return;
+        if (myAbility.abilityType != selectedAbility.abilityType) return;
+        if (myAbility.enhancementLevel != selectedAbility.enhancementLevel) return;
+
+        upgradeEffectAnimationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.5f);
+        SetUpgradeImageAlpha(1);
+        Debug.Log("display thingy");
+    }
+
+    private void HandleEndUpgradeDisplay()
+    {
+        Debug.Log("end display thingy");
+        SetUpgradeImageAlpha(0);
+    }
+
     public override void RemoveChild(DraggableObject objectToBeRemoved)
     {
         if (!objectToBeRemoved) { return; }
         if (!draggableObjects.Contains(objectToBeRemoved)) { return; }
         draggableObjects.Remove(objectToBeRemoved);
         FormatChildren();
+    }
+
+    private void SetUpgradeImageAlpha(float alpha)
+    {
+        Color temp = upgradeEffectImage.color;
+        temp.a = alpha;
+        upgradeEffectImage.color = temp;
     }
 
 
