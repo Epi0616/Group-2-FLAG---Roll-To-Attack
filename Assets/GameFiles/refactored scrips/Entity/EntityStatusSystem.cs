@@ -48,7 +48,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
                 //Debug.Log("Before there are: " + currentActiveStatusEffects.Count + " statuses");
                 //Debug.Log("Effect Removed: " + currentActiveStatusEffects[i].effect.GetType().ToString());
                 bool isLast = true;
-                for (int j = 0; j < currentActiveStatusEffects.Count; j++)
+                for (int j = currentActiveStatusEffects.Count - 1; j >= 0; j--)
                 {
                     if (j == i)
                         continue;
