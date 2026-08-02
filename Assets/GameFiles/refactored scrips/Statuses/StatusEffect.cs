@@ -43,7 +43,6 @@ public abstract class StatusEffect
 
     public void FirstStackEffect()
     {
-        Debug.Log("First Stack");
         OnFirstStackApplication();
     }
 
@@ -64,7 +63,6 @@ public abstract class StatusEffect
 
     public void LastStackEffect()
     {
-        Debug.Log("Last Stack");
         OnLastStackRemoval();
     }
 

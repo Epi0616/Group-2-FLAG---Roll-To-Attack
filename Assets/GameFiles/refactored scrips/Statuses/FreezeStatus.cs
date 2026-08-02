@@ -47,6 +47,7 @@ public class FreezeStatus : BaseStunEffect
     protected override void OnLastStackRemoval()
     {
         entityRef.bodySystem.RemoveFreezeShader();
+        //entityRef.bodySystem.RemoveFreezeShader();
     }
 
 }
