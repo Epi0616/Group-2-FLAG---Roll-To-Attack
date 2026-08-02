@@ -12,7 +12,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     private int damageTaken = 0;
     private int shatterThreshold = 50;
 
-    public EnhancedFreezeStatus(float fragileMult, string effectText, int enhancementLevel) : base(fragileMult, effectText)
+    public EnhancedFreezeStatus(float fragileMult, string effectText, Color colour, int enhancementLevel) : base(fragileMult, effectText, colour)
     {
         this.enhancementLevel = enhancementLevel;
         this.effectColour = Color.deepSkyBlue;
@@ -25,12 +25,12 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
         if (type == DamageType.Shattered || hasProcced) { toBeRemoved = true; return; }
 
         damageTaken += (int)damage.GetFinalValue();
-        if (damageTaken > shatterThreshold)
+        if (damageTaken > shatterThreshold && !hasProcced)
         {
+            hasProcced = true;
             float extraShatteredDamage = (damageTaken * 0.5f) * enhancementLevel;
             entityRef.OnTakeDamage((int)extraShatteredDamage, Color.deepSkyBlue, DamageType.Shattered);
             entityRef.textDisplaySystem.DisplayHigherText("SHATTERED", Color.deepSkyBlue, 64);
-            hasProcced = true;
         }
 
         

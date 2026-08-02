@@ -21,6 +21,11 @@ public class PoisonedStatus : StatusEffect
         tickTimer = 0;
     }
 
+    protected override void OnFirstStackApplication()
+    {
+        entityRef.bodySystem.ApplyPoisonedShader(effectColour);         
+    }
+
     protected override void OnUpdate()
     {
         tickTimer += Time.deltaTime;
@@ -35,5 +40,9 @@ public class PoisonedStatus : StatusEffect
     {    
         base.OnRemoval();
     }
-    
+
+    protected override void OnLastStackRemoval()
+    {
+        entityRef.bodySystem.RemovePoisonedShader();
+    }
 }

@@ -207,7 +207,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityBodySystem
   body: {fileID: 7807021796458984683}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5982393475624257759
+  renderer: {fileID: 2080375992482313135}
+--- !u!114 &7582754953811408524
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,9 +239,9 @@ MonoBehaviour:
   - type: 3
     clip: {fileID: 7400000, guid: b8ad4de7155ce8f44906c309cb94337a, type: 2}
   - type: 4
-    clip: {fileID: 7400000, guid: c3672d0c90cb0d441a5b4397a3efd545, type: 2}
+    clip: {fileID: 7400000, guid: 558cd5f4ff33e5b4db292bf05278b5b3, type: 2}
   graphActive: 0
---- !u!1001 &6960723496685423034
+--- !u!1001 &393871773571385898
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -307,7 +308,7 @@ PrefabInstance:
     - target: {fileID: 1849196845669955973, guid: 5fda7e1e1fcd1484f8e37ea66d973173, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 91b482afdd77d0d4f8e5321f9fe183a0, type: 2}
+      objectReference: {fileID: 2100000, guid: ea023a73c36129a4fb93219ef3c60139, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -348,3 +349,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!137 &2080375992482313135 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1849196845669955973, guid: d346540066c932343bad1c28a4169297, type: 3}
+  m_PrefabInstance: {fileID: 393871773571385898}
+  m_PrefabAsset: {fileID: 0}
