@@ -102,10 +102,6 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
                 break;
             }
         }
-
-
-
-
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
         if (OwnerEntity == null) { Debug.Log("Owner Inside of Status System is NULL"); }
         newStatus.effect.AddEffect(OwnerEntity);
@@ -154,8 +150,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             // Simply Check the StatusType Enum against the desired type removing it if found
             if (currentActiveStatusEffects[i].effect.type == type)
             {
-                currentActiveStatusEffects[i].effect.RemoveEffect();
-                currentActiveStatusEffects.RemoveAt(i);
+                currentActiveStatusEffects[i].effect.toBeRemoved = true;
                 //Debug.Log("Status Removed: " + type.ToString());
             }
         }

@@ -43,6 +43,6 @@ public class PoisonedStatus : StatusEffect
 
     protected override void OnLastStackRemoval()
     {
-        entityRef.bodySystem.RemovePoisonShader();
+        entityRef.bodySystem.RemovePoisonedShader();
     }
 }

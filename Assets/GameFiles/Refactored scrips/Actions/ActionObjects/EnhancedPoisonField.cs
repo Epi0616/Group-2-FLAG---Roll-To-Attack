@@ -27,7 +27,7 @@ public class EnhancedPoisonField : PoisonField
                // new List<BaseCondition> { new TimeCondition(false, 3) }, true));
                 
                 hitEntity.OnRecieveEffect(new ActiveStatusEffect(new PoisonedStatus(1 * enhancementLevel, "Poisoned"),
-                new List<BaseCondition> { new TimeCondition(true, 3) }, true), slamColour);
+                new List<BaseCondition> { new TimeCondition(true, 3) }, true));
 
             }
             currentTickCount = 0;
