@@ -12,14 +12,16 @@ public class PlayerAbilitiesDisplay : MonoBehaviour
     {
         Debug.Log("displaying abilities");
 
-        List<ModifiableAction> abilities = playerLoadOut.ReadAbilities();
+        List<IndexedModifiableAction> abilities = playerLoadOut.ReadAbilities();
         if (abilities == null) return;
         if (abilities.Count == 0) return;
 
-        for (int i = 0; i < abilityDisplayImages.Length; i++)
+        for (int i = 1; i <= abilityDisplayImages.Length; i++)
         {
-            if (abilities.Count < i) return;
-            abilityDisplayImages[i].sprite = abilities[i].sprite;
+            if (i == abilities[i].index)
+            {
+                abilityDisplayImages[i].sprite = abilities[i].modifiableAction.sprite;
+            }
         }
     }
 }

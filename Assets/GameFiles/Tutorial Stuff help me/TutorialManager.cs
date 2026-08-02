@@ -45,28 +45,23 @@ public class TutorialManager : MonoBehaviour
         portraitRect = TutorialPortraitObj.GetComponent<RectTransform>();
         DarkOverlayImage = TutorialDarkOverlay.GetComponent<Image>();
         overlayColour = DarkOverlayImage.color;
-        Debug.Log("tutorial maanger awake");
     }
 
     public void Start()
     {
         // Remove to start Tutorial from another Event
         StartCoroutine(StartTutorialDisplay());
-        Debug.Log("starting tutorial display coroutine");
         Debug.Log(skipInput.action.enabled);
     }
 
     public void OnEnable()
     {
-        skipInput.action.Enable();
         skipInput.action.performed += SkipInputPressed;
-        Debug.Log("enabling tutorial maanger");
     }
 
     public void OnDisable()
     {
         skipInput.action.performed -= SkipInputPressed;
-        skipInput.action.Disable();
     }
 
     public void Update()
@@ -77,8 +72,8 @@ public class TutorialManager : MonoBehaviour
     // Just call this to start Tutorial
     public IEnumerator StartTutorialDisplay()
     {
-        //yield return new WaitUntil(() => !Input.GetMouseButton(0));
-        //yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        yield return new WaitUntil(() => !Input.GetMouseButton(0));
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
         int stageIndex = 0;
         while (stageIndex < stages.Count)
         {
@@ -214,8 +209,6 @@ public class TutorialManager : MonoBehaviour
 
     public void SkipInputPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("skip pressed");
-
         if (!typingTextBox.finishedTyping && !hasSkippedThisStep)
         {
             typingTextBox.Skip();

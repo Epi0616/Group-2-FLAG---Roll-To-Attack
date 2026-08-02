@@ -32,6 +32,8 @@ public class AnimationOnDemandManager : MonoBehaviour
     private void OnDisable()
     {
         graphActive = false;
+        EndCurrentAnimation(MixerType.main);
+        EndCurrentAnimation(MixerType.complimentary);
         graph.Destroy();
     }
 

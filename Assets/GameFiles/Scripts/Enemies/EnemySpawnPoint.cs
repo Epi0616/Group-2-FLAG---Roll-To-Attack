@@ -48,7 +48,7 @@ public class EnemySpawnPoint : MonoBehaviour
     private IEnumerator CloseSpawnArea()
     {
         yield return new WaitForSeconds(0.75f);
-        ApplyKnockBackToEnemiesInSpawn(10f);     
+        ApplyKnockBackToEnemiesInSpawn(15f);     
         yield return new WaitForSeconds(0.3f);
         LowerAreaBlocker();
     }

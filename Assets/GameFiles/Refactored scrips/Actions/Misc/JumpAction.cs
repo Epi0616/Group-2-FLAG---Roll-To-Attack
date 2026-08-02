@@ -244,7 +244,7 @@ public class JumpAction : BaseEntityAction
     {
         if (displayer.displayerActive)
         {
-            modifiableActions.displaySlots[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite = modifiableActions.modifiableActions[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite;
+            modifiableActions.displaySlots[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].sprite = modifiableActions.indexedModifiableActions[modifiableActions.actionSelectionSystem.LastReturnedActionIndex].modifiableAction.sprite;
         }     
     }
 

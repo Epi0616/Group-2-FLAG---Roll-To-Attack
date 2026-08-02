@@ -1,7 +1,6 @@
-using NUnit.Framework;
-using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ActionSelectionSystem
 {
@@ -15,10 +14,11 @@ public class ActionSelectionSystem
         modifiableActions = entity as IModifiableActions;
     }
 
-    public void SetModifiableActions(List<ModifiableAction> newActions)
+    public void SetIndexedModifiableActions(List<IndexedModifiableAction> newIndexedActions)
     {
-        modifiableActions.playerLoadOut.WriteAbilities(newActions);
-        modifiableActions.modifiableActions = newActions;
+        modifiableActions.playerLoadOut.WriteAbilities(newIndexedActions);
+
+        modifiableActions.indexedModifiableActions = newIndexedActions;
         UpdateAbilityDisplay();
     }
     public void SetModifiableActionStorage(List<ModifiableAction> newActions)
@@ -28,33 +28,59 @@ public class ActionSelectionSystem
 
     public void UpdateAbilityDisplay()
     {
-        List<ModifiableAction> newActions = modifiableActions.playerLoadOut.ReadAbilities();
-        for (int i = 0; i < newActions.Count; i++)
+        List<IndexedModifiableAction> indexedModifiableActions = modifiableActions.playerLoadOut.ReadAbilities();
+
+        for (int i = 0; i < modifiableActions.displaySlots.Length; i++)
         {
-            //Debug.Log("New Name is: " +  newActions[i].actionName.GetLocalizedString() + " at index: " + i);
-            modifiableActions.displaySlots[i].sprite = newActions[i].sprite;
+            for (int j = 0; j < indexedModifiableActions.Count; j++)
+            {
+                if (indexedModifiableActions[j].index == i)
+                {
+                    modifiableActions.displaySlots[i].sprite = indexedModifiableActions[j].modifiableAction.sprite;
+                    //Debug.Log("New Name is: " +  newActions[i].actionName.GetLocalizedString() + " at index: " + i);
+                    break;
+                }
+                modifiableActions.displaySlots[i].sprite = null;
+            }
         }
     }
 
+    //update with modifiable action logic/for loop
     public ConditionalAction GetRandomConditionalAction()
     {
         //List<EquippableActionHolder> weightedActions = ;
         int totalWeight = 0;
         LastReturnedActionIndex = 0;
 
-        foreach (var action in modifiableActions.modifiableActions)
+        List<IndexedModifiableAction> indexedModifiableActions = modifiableActions.indexedModifiableActions;
+        for (int i = 0; i < modifiableActions.maxActions; i++)
         {
-            totalWeight += action.weighting;
+            if (indexedModifiableActions[i] != null)
+            { 
+                ModifiableAction modifiableAction = indexedModifiableActions[i].modifiableAction;
+                totalWeight += modifiableAction.weighting;
+                continue;
+            }
+
+            totalWeight += modifiableActions.baseAction.weighting;
         }
+
         int randomNumber = Random.Range(1, totalWeight + 1);
         int ActionWeightTally = 0;
 
-        foreach (var action in modifiableActions.modifiableActions)
+        for (int i = 0; i < modifiableActions.maxActions; i++)
         {
-            ActionWeightTally += action.weighting;
+            ModifiableAction modifiableAction = modifiableActions.baseAction;
+
+            if (indexedModifiableActions[i] != null)
+            {
+                modifiableAction = indexedModifiableActions[i].modifiableAction;
+            }
+
+            totalWeight += modifiableAction.weighting;
             if (randomNumber <= ActionWeightTally)
-            { 
-                return action.conditionalAction;
+            {
+                return modifiableAction.conditionalAction;
             }
             LastReturnedActionIndex++;
         }
@@ -69,26 +95,46 @@ public class ActionSelectionSystem
         int totalWeight = 0;
         LastReturnedActionIndex = 0;
 
-        foreach (var action in modifiableActions.modifiableActions)
+        List<IndexedModifiableAction> indexedModifiableActions = modifiableActions.indexedModifiableActions;
+        for (int i = 0; i < modifiableActions.maxActions; i++)
         {
-            totalWeight += action.weighting;
-        }
-        int randomNumber = Random.Range(1, totalWeight + 1);
-        int ActionWeightTally = 0;
-
-        foreach (var action in modifiableActions.modifiableActions)
-        {
-            ActionWeightTally += action.weighting;
-            if (randomNumber <= ActionWeightTally)
+            ModifiableAction modifiableAction = modifiableActions.baseAction;
+            for (int j = 0; j < indexedModifiableActions.Count; j++)
             {
-                //Debug.Log("Selected: " + action.actionName.GetLocalizedString());
-                return action;
+                if (indexedModifiableActions[j].index == i)
+                { 
+                    modifiableAction = indexedModifiableActions[j].modifiableAction;
+                }
+            }
+
+            totalWeight += modifiableAction.weighting;
+        }
+
+        int randomNumber = Random.Range(1, totalWeight + 1);
+        int actionWeightTally = 0;
+
+        for (int i = 0; i < modifiableActions.maxActions; i++)
+        {
+            ModifiableAction modifiableAction = modifiableActions.baseAction;
+
+            for (int j = 0; j < indexedModifiableActions.Count; j++)
+            {
+                if (indexedModifiableActions[j].index == i)
+                {
+                    modifiableAction = indexedModifiableActions[j].modifiableAction;
+                }
+            }
+
+            actionWeightTally += modifiableAction.weighting;
+            if (randomNumber <= actionWeightTally)
+            {
+                return modifiableAction;
             }
             LastReturnedActionIndex++;
         }
 
         Debug.LogError("NO VALID ACTIONS PRESENT BRO WTF HAPPEBNED");
-        ActionWeightTally = 1;
+        actionWeightTally = 1;
         return null;
     }
 }

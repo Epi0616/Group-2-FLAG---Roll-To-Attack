@@ -11,12 +11,12 @@ public class PropMover : MonoBehaviour
 
     private void OnEnable()
     {
-        click.action.Enable();
+        //click.action.Enable();
     }
 
     private void OnDisable()
     {
-        click.action.Disable();
+        //click.action.Disable();
     }
 
     void Update()
