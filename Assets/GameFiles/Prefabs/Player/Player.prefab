@@ -260,13 +260,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 08bf4a9e7422fbe45bc99be6b8584cc6, type: 2}
   ConditionalActions: []
   CanAct: 1
-  ModifiableActionDescriptors:
-  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
-  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
-  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
-  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
-  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
-  - {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  BaseAction: {fileID: 11400000, guid: 9ca97d12a9f570d4c9f94494501d173f, type: 2}
+  MaxActions: 6
+  ModifiableActionDescriptors: []
   PlayerLoadOut: {fileID: 11400000, guid: 0de65cc4b012454469ea2d6c6b89dd42, type: 2}
   DiceFaceDisplaySlots:
   - {fileID: 6079113873694063602}
@@ -340,6 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBodySystem
   body: {fileID: 6462049583413013683}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  renderer: {fileID: 0}
   chargeCompleteEffect: {fileID: 1774242735505605152}
   chargingEffect: {fileID: 1215330977240755590}
 --- !u!114 &356678206327975108

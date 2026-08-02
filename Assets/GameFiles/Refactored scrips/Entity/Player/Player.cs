@@ -342,7 +342,7 @@ public class Player : Entity,
     public void CheckDisplayerActive()
     {
         displayerActive = false;
-        if (displayPlanePrefab != null && displayUI != null && targetCamera != null)
+        if (displayPlanePrefab != null && targetCamera != null) //&& displayUI != null - taken out for now
         {
             displayerActive = true;
         }

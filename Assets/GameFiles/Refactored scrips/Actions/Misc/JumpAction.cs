@@ -82,15 +82,16 @@ public class JumpAction : BaseEntityAction
         startRotation = Quaternion.Euler(eulerStartRotation.x, eulerStartRotation.y, eulerStartRotation.z);
         targetMAction = modifiableActions.actionSelectionSystem.GetRandomModifiableAction();
         targetAction = targetMAction.conditionalAction;
-        if (displayer.displayerActive)
+        if (displayer.displayerActive && targetMAction.abilityType != AbilityType.Basic)
         {          
-            displayer.displayUI.StartDisplay(targetMAction.sprite);
+            //displayer.displayUI.StartDisplay(targetMAction.sprite);
             Vector3 spawnPoint = new Vector3(ownerEntity.transform.position.x, targetHeight + 5, ownerEntity.transform.position.z);
-            ObjectPoolManager.SpawnObject(displayer.displayPlanePrefab, spawnPoint, Quaternion.identity).GetComponent<IconImageDisplayPlane>().Initialize(targetMAction.sprite.texture, ownerEntity, displayer.targetCamera);                                
+            IconImageDisplayPlane displayPlane = ObjectPoolManager.SpawnObject(displayer.displayPlanePrefab, spawnPoint, Quaternion.identity).GetComponent<IconImageDisplayPlane>();
+            displayPlane.Initialize(targetMAction.sprite.texture, ownerEntity, displayer.targetCamera);
         }
         targetAction.triggered = false;
         int index = modifiableActions.actionSelectionSystem.LastReturnedActionIndex;
-        RemoveFace();
+        //RemoveFace();
         //Debug.Log("Recieved Index: " +  index + " with action name: " + targetMAction.actionName.GetLocalizedString());
         targetRotation = rotationMap[index];
     
@@ -136,7 +137,7 @@ public class JumpAction : BaseEntityAction
             ApplyDownwardForce();
             return;
         }
-        ShowFace();
+        //ShowFace();
         ApplyScreenShake();
         EndAction();
     }
