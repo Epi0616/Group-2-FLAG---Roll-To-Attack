@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EntityStatusSystem : MonoBehaviour , IEntitySystem
@@ -7,7 +8,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
     public Entity OwnerEntity { get; set; }
     public List<ActiveStatusEffect> currentActiveStatusEffects = new List<ActiveStatusEffect>();
     private Stat modifiedDamageAmount;
-
+    public int statusCount;
     public void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
@@ -15,8 +16,11 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
     }
 
     public void ResetSystem()
-    { 
-        currentActiveStatusEffects.Clear();
+    {
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            currentActiveStatusEffects[i].effect.toBeRemoved = true;           
+        }
         RecalculateStats();
         // RECALCULATE STATS
     }
@@ -43,38 +47,54 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 
             currentActiveStatusEffects[i].UpdateConditionsAll();
             
-            if ((currentActiveStatusEffects[i].conditions != null && (currentActiveStatusEffects[i].CheckForExpiration()) || currentActiveStatusEffects[i].effect.toBeRemoved))
-            {
-                //Debug.Log("Before there are: " + currentActiveStatusEffects.Count + " statuses");
-                //Debug.Log("Effect Removed: " + currentActiveStatusEffects[i].effect.GetType().ToString());
-                bool isLast = true;
-                for (int j = currentActiveStatusEffects.Count - 1; j >= 0; j--)
-                {
-                    if (j == i)
-                        continue;
+            if (currentActiveStatusEffects[i].conditions != null && (currentActiveStatusEffects[i].CheckForExpiration())) { currentActiveStatusEffects[i].effect.toBeRemoved = true; }
+            //{
+            //    //Debug.Log("Before there are: " + currentActiveStatusEffects.Count + " statuses");
+            //    //Debug.Log("Effect Removed: " + currentActiveStatusEffects[i].effect.GetType().ToString());
+            //    //bool isLast = true;
+            //    //for (int j = currentActiveStatusEffects.Count - 1; j >= 0; j--)
+            //    //{
+            //    //    if (j == i)
+            //    //        continue;
 
-                    if (currentActiveStatusEffects[j].effect.type ==
-                        currentActiveStatusEffects[i].effect.type)
-                    {
-                        isLast = false;
-                        break;
-                    }
-                }
-                if (isLast)
-                {
-                    currentActiveStatusEffects[i].effect.LastStackEffect();
-                }
-                currentActiveStatusEffects[i].effect.RemoveEffect();
-                currentActiveStatusEffects.RemoveAt(i);
-                //Debug.Log("Now there are: " + currentActiveStatusEffects.Count + " statuses");
+            //    //    if (currentActiveStatusEffects[j].effect.type == currentActiveStatusEffects[i].effect.type)
+            //    //    {
+            //    //        isLast = false;
+            //    //        break;
+            //    //    }
+            //    //}
+            //    //if (isLast)
+            //    //{
+            //    //    currentActiveStatusEffects[i].effect.LastStackEffect();
+            //    //}
+            //    //currentActiveStatusEffects[i].effect.RemoveEffect();
+            //    //currentActiveStatusEffects.RemoveAt(i);
+            //    //Debug.Log("Now there are: " + currentActiveStatusEffects.Count + " statuses");
                
-            }
+            //}
         }
 
+        RemoveStatuses();
         RecalculateStats();
 
         // RECALCULATE STATS
         //whatever form that takes eventually
+    }
+
+    public void RemoveStatuses()
+    {        
+
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (!currentActiveStatusEffects[i].effect.toBeRemoved) { continue; }
+
+            bool isLast = !currentActiveStatusEffects.Any(effect => effect != currentActiveStatusEffects[i] && effect.effect.type == currentActiveStatusEffects[i].effect.type);
+
+            if (isLast) { currentActiveStatusEffects[i].effect.LastStackEffect(); }
+
+            currentActiveStatusEffects[i].effect.RemoveEffect();
+            currentActiveStatusEffects.RemoveAt(i);
+        }
     }
 
     public void OnRecieveEffect(ActiveStatusEffect newStatus)
@@ -212,7 +232,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
         {
             ai.agent.speed = mo.movementSpeed.GetFinalValue();
         }
-
+        statusCount = currentActiveStatusEffects.Count;
     }
 
     public bool CheckForMovementBlockersStatus()

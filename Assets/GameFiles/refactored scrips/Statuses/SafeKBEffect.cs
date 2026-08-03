@@ -68,4 +68,9 @@ public class SafeKBEffect : StatusEffect
         isDisplacing = false;
         base.OnRemoval();
     }
+
+    public override StatusEffect Clone()
+    {
+        return new SafeKBEffect(origin, force);
+    }
 }

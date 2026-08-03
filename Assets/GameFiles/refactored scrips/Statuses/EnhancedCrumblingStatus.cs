@@ -74,4 +74,9 @@ public class EnhancedCrumblingStatus : CrumblingStatus , IEnhancedStatusEffect
             return;
         }
     }
+
+    public override StatusEffect Clone()
+    {
+        return new EnhancedCrumblingStatus(crumblingDamageMult, effectColour, applierEntity, enhancementLevel);
+    }
 }

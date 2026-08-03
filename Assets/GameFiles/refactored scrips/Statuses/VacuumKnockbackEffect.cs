@@ -33,4 +33,9 @@ public class VacuumDisplacementEffect : BaseDisplacementEffect
     {
         base.OnRemoval();
     }
+
+    public override StatusEffect Clone()
+    {
+        return new VacuumDisplacementEffect(origin, force);
+    }
 }

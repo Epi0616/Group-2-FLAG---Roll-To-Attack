@@ -54,4 +54,9 @@ public class BaseDisplacementEffect : StatusEffect
         isDisplacing = false;
         base.OnRemoval();
     }
+
+    public override StatusEffect Clone()
+    {
+        return new BaseDisplacementEffect();
+    }
 }

@@ -24,4 +24,9 @@ public class SlowStatus : StatusEffect
     {               
         moveInferfaceAccess.movementSpeed.AddMultiplier(slowMultiplier);               
     }
+
+    public override StatusEffect Clone()
+    {
+        return new SlowStatus(slowMultiplier, effectText);
+    }
 }

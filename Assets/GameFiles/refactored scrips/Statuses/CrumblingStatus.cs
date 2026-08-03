@@ -22,4 +22,8 @@ public class CrumblingStatus : StatusEffect
         if (type == DamageType.Slammed) { toBeRemoved = true; return; }
     }
 
+    public override StatusEffect Clone()
+    {
+        return new CrumblingStatus(crumblingDamageMult);
+    }
 }

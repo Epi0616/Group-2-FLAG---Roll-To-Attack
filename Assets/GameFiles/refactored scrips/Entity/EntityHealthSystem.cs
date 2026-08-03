@@ -35,6 +35,7 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
     }
     public virtual void OnDeath()
     {
+        OwnerEntity.bodySystem.RemoveAllShaders();
         //Debug.Log("dead");
     }
 }
