@@ -11,23 +11,26 @@ public class EnemySpawnPoint : MonoBehaviour
 
     private float pushInterval = 1f;
     private float pushTimer = 0;
-    private Vector3 areaBlockerStartPosition;
+    //private Vector3 areaBlockerStartPosition;
+
+    [SerializeField] private Vector3 blockerStartPos, blockerEndPos;
+
 
     private void OnEnable()
     {
-        WaveManager.WaveCountStart += RaiseAreaBlocker;
+        WaveManager.WaveCountStart += HandleRemoveAreaBlocker;
         WaveSpawner.waveFinishedSpawning += HandleCloseSpawnArea;
     }
 
     private void OnDisable()
     {
-        WaveManager.WaveCountStart -= RaiseAreaBlocker;
+        WaveManager.WaveCountStart -= HandleRemoveAreaBlocker;
         WaveSpawner.waveFinishedSpawning -= HandleCloseSpawnArea;
     }
 
     private void Start()
     {
-        areaBlockerStartPosition = areaBlocker.transform.position;
+        //areaBlockerStartPosition = areaBlocker.transform.position;
     }
 
     //private void Update()
@@ -48,19 +51,35 @@ public class EnemySpawnPoint : MonoBehaviour
     private IEnumerator CloseSpawnArea()
     {
         yield return new WaitForSeconds(0.75f);
-        ApplyKnockBackToEnemiesInSpawn(10f);     
+        ApplyKnockBackToEnemiesInSpawn(15f);     
         yield return new WaitForSeconds(0.3f);
-        LowerAreaBlocker();
+        HandleApplyAreaBlocker();
     }
 
-    private void RaiseAreaBlocker(float timeDelay)
+    private void HandleApplyAreaBlocker()
     {
-        areaBlocker.transform.position = areaBlockerStartPosition + new Vector3(0, 25f, 0);
+        StartCoroutine(MoveAreaBlocker(blockerEndPos, blockerStartPos, 2f));
     }
 
-    private void LowerAreaBlocker()
-    { 
-        areaBlocker.transform.position = areaBlockerStartPosition;
+    private void HandleRemoveAreaBlocker(float timeDelay)
+    {
+        StartCoroutine(MoveAreaBlocker(blockerStartPos, blockerEndPos, timeDelay));
+    }
+
+    private IEnumerator MoveAreaBlocker(Vector3 start, Vector3 end, float duration)
+    {
+        float timer = duration;
+        float t = 0;
+
+        while (t < 1)
+        {
+            timer -= Time.deltaTime;
+            t = (duration - timer) / duration;
+            areaBlocker.transform.localPosition = Vector3.Lerp(start, end, t);
+            yield return null;
+        }
+
+        areaBlocker.transform.localPosition = end;
     }
 
     private bool ApplyKnockBackToEnemiesInSpawn(float force)

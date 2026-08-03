@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -17,8 +16,9 @@ public class ModifiableAction
     public LocalizedString actionName;
     public LocalizedString actionDescription;
     public Sprite sprite;
+    public AbilityType abilityType;
 
-    public ModifiableAction(ConditionalActionDescriptor conditionalActionDescriptor, int weighting, int enhancementLevel, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite)
+    public ModifiableAction(ConditionalActionDescriptor conditionalActionDescriptor, int weighting, int enhancementLevel, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite, AbilityType abilityType)
     { 
         this.conditionalActionDescriptor = conditionalActionDescriptor;
         this.conditionalAction = conditionalActionDescriptor.Create();
@@ -27,9 +27,10 @@ public class ModifiableAction
         this.actionName = actionName;
         this.actionDescription = actionDescription;
         this.sprite = sprite;
+        this.abilityType = abilityType;
         UpdateEnhancementLevel(enhancementLevel);
     }
-    public ModifiableAction(ConditionalAction conditionalAction, int weighting, int enhancementLevel, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite)
+    public ModifiableAction(ConditionalAction conditionalAction, int weighting, int enhancementLevel, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite, AbilityType abilityType)
     {
         this.conditionalAction = conditionalAction;
         this.weighting = weighting;
@@ -37,12 +38,13 @@ public class ModifiableAction
         this.actionName = actionName;
         this.actionDescription = actionDescription;
         this.sprite = sprite;
+        this.abilityType = abilityType;
         UpdateEnhancementLevel(enhancementLevel);
     }
 
     public ModifiableAction Clone()
     {
-        ModifiableAction newAction = new ModifiableAction(conditionalActionDescriptor.Create(), weighting, enhancementLevel, actionName, actionDescription, sprite);
+        ModifiableAction newAction = new ModifiableAction(conditionalActionDescriptor.Create(), weighting, enhancementLevel, actionName, actionDescription, sprite, abilityType);
         newAction.conditionalActionDescriptor = conditionalActionDescriptor;
         return newAction;
     }
@@ -55,4 +57,17 @@ public class ModifiableAction
             temp.enhancementLevel = enhancementLevel;
         }
     }
+}
+
+public enum AbilityType
+{
+    Basic,
+    Freeze,
+    Poison,
+    Spike,
+    Knockback,
+    Rocket,
+    Slow,
+    Weaken,
+    Vacuum,
 }

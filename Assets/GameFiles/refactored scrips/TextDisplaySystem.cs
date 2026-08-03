@@ -16,6 +16,8 @@ public class TextDisplaySystem : MonoBehaviour, IEntitySystem
 
     public void DisplayText(string text, Color color, int fontSize)
     {
+        if (OwnerEntity.healthSystem.isDead) return;
+
         if (targetCamera == null)
         {
             Debug.Log("Camera Null: Manually Searching");
@@ -28,6 +30,8 @@ public class TextDisplaySystem : MonoBehaviour, IEntitySystem
 
     public void DisplayHigherText(string text, Color color, int fontSize)
     {
+        if (OwnerEntity.healthSystem.isDead) return;
+
         if (targetCamera == null)
         {
             Debug.Log("Camera Null: Manually Searching");

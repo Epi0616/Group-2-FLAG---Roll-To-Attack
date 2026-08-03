@@ -56,15 +56,20 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void SetUpCurrentDiceFaces()
     {
-        List<ModifiableAction> abilities = modifiableActions.modifiableActions;
-
-        for (int i = 0; i < abilities.Count; i++)
+        List<IndexedModifiableAction> indexedModifiableActions = modifiableActions.indexedModifiableActions;
+        for (int i = 0; i < modifiableActions.maxActions; i++)
         {
-            var tempObj = Instantiate(abilityObjectPrefab, transform);
-            tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(abilities[i]);
-            abilitySlots[i].AddChild(tempObj.GetComponent<DraggableAbility>());
-            abilitySlots[i].SetCentralAbilitySlot(centralAbilityPoint);
-            draggableObjects.Add(tempObj);
+            for (int j = 0; j < indexedModifiableActions.Count; j++)
+            {
+                if (indexedModifiableActions[j].index == i)
+                {
+                    var tempObj = Instantiate(abilityObjectPrefab, transform);
+                    tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(indexedModifiableActions[j].modifiableAction);
+                    abilitySlots[i].AddChild(tempObj.GetComponent<DraggableAbility>());
+                    abilitySlots[i].SetCentralAbilitySlot(centralAbilityPoint);
+                    draggableObjects.Add(tempObj);
+                }
+            }
         }
     }
 
@@ -83,7 +88,7 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void SendOffCurrentAbilities()
     {
-        List<ModifiableAction> currentAbilities = new List<ModifiableAction>();
+        List<IndexedModifiableAction> currentAbilities = new List<IndexedModifiableAction>();
         for (int i = 0; i < abilitySlots.Count; i++)
         {
             var draggableObject = abilitySlots[i].GetChild();
@@ -92,11 +97,12 @@ public class AbilitySlotManager : MonoBehaviour
             if (draggableObject is DraggableAbility ability)
             {
                 //ability.GetAbilityDescriptor().pipNumber = i+1;
-                currentAbilities.Add(ability.GetAbility());
+                IndexedModifiableAction indexedModifiableAction = new IndexedModifiableAction(i, ability.GetAbility());
+                currentAbilities.Add(indexedModifiableAction);
             }
         }
         //RunTimeStatTracker.totalAbilitiesEquipped += abilitySystem.CompareAbilitySets(currentAbilities);
-        modifiableActions.actionSelectionSystem.SetModifiableActions(currentAbilities);
+        modifiableActions.actionSelectionSystem.SetIndexedModifiableActions(currentAbilities);
        // modifiableActions.UnpackModifiableActions();
 
         List<ModifiableAction> currentAbilityStorage = new List<ModifiableAction>();

@@ -22,6 +22,7 @@ public class SceneTransitionManager : MonoBehaviour
         DiceProp.GameStart += HandleArenaStart;
         PauseMenu.ReturnToIntro += HandleIntroStart;
         GameOverMenu.ReturnToIntro += HandleIntroStart;
+        TutorialManager.TutorialOver += HandleIntroStart;
     }
 
     private void OnDisable()
@@ -30,6 +31,7 @@ public class SceneTransitionManager : MonoBehaviour
         DiceProp.GameStart -= HandleArenaStart;
         PauseMenu.ReturnToIntro -= HandleIntroStart;
         GameOverMenu.ReturnToIntro -= HandleIntroStart;
+        TutorialManager.TutorialOver -= HandleIntroStart;
     }
 
     void Start()
@@ -64,6 +66,8 @@ public class SceneTransitionManager : MonoBehaviour
         SetUpIntroScene(transitionLength / 2);
 
         yield return sceneLoadManager.UnloadSceneAsync(selectedArena);
+
+        selectedArena = SceneType.SandArena;
     }
 
     private void SetUpIntroScene(float transitionLength)

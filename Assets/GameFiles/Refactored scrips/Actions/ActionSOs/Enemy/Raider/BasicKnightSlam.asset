@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
-  m_Name: BoulderThrow
+  m_Name: BasicKnightSlam
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   conditionalAction:
     action:
-      rid: 5154424316264185856
+      rid: 5220711083912200263
     conditions:
-    - rid: 5154424246769811526
-    - rid: 5154424246769811527
-    - rid: 5154424316264185927
+    - rid: 963244250863239173
+    - rid: 963244250863239174
+    - rid: 3199366666437787922
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
@@ -27,29 +27,23 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5154424246769811526
+    - rid: 963244250863239173
       type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        lookThreshold: 5
-    - rid: 5154424246769811527
+        lookThreshold: 15
+    - rid: 963244250863239174
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
-        inverse: 1
-        distanceThreshold: 20
-    - rid: 5154424316264185856
-      type: {class: BoulderThrowAction, ns: , asm: Assembly-CSharp}
+        inverse: 0
+        distanceThreshold: 8
+    - rid: 5220711083912200263
+      type: {class: EnemyBaseSlam, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 1
-        offset: {x: 0, y: 5, z: -3.5}
-        SlamDamage: 15
-        SlamColor: {r: 0.8113208, g: 0.5580988, b: 0, a: 1}
-        ChargeTime: 3
+        SlamDamage: 5
+        SlamColor: {r: 0.97484255, g: 1, b: 0.08018869, a: 1}
+        ChargeTime: 0.5
         SlamRange:
-          baseValue: 5
-        SlamPositionOffset: {x: 0, y: 0, z: 0}
-    - rid: 5154424316264185927
-      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        duration: 1
+          baseValue: 2
+        SlamPositionOffset: {x: 0, y: 0, z: 4}

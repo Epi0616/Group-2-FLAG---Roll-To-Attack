@@ -19,6 +19,8 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
     public Stat slamRange { get => SlamRange; set => SlamRange = value; }
     public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
 
+    private ThrowableBoulder boulder;
+
     public BoulderThrowAction() { }
     public BoulderThrowAction(bool preventsMovement, Vector3 offset, int slamDamage, Color slamColor, float chargeTime, Stat slamRange)
     { 
@@ -39,18 +41,18 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
 
         if (ownerEntity is IBoulderThrow boulderThrow)
         {
-            GameObject boulder = ObjectPoolManager.SpawnObject(boulderThrow.boulderObj, ownerEntity.transform.position, Quaternion.identity);
+            boulder = ObjectPoolManager.SpawnObject(boulderThrow.boulderObj, ownerEntity.transform.position, Quaternion.identity).GetComponent<ThrowableBoulder>();
             if (ownerEntity is IAnimated animated)
             {
                 float animationTime = 3.75f;
                 animated.animationManager.PlayAnimationCrossFade(AnimationType.RockThrow, 1, MixerType.main, 0.2f, animationTime);
                 ownerEntity.StartCoroutine(EndActionDelay(animationTime));
-                ownerEntity.StartCoroutine(TrackBolderToArm(boulder, boulderThrow.boulderRootBone, 2.35f));
+                ownerEntity.StartCoroutine(TrackBolderToArm(boulderThrow.boulderRootBone, 2.35f));
             }
         }
     }
 
-    private IEnumerator TrackBolderToArm(GameObject boulder, Transform rootBone, float duration)
+    private IEnumerator TrackBolderToArm(Transform rootBone, float duration)
     {
         float timer = duration;
         float t = 0;
@@ -64,7 +66,7 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
             yield return null;
         }
 
-        boulder.GetComponent<ThrowableBoulder>().HandlePathToTarget(ownerEntity, ownerEntity.target.transform.position, 3, slamDamage, slamColour, slamRange.GetFinalValue());
+        boulder.HandlePathToTarget(ownerEntity, ownerEntity.target.transform.position, 3, slamDamage, slamColour, slamRange.GetFinalValue());
     }
 
     private IEnumerator EndActionDelay(float duration)
@@ -75,6 +77,8 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
 
     public override void InterruptAction()
     {
+        boulder.Interrupt();
+        EndAction();
     }
     public override void EndAction()
     {
