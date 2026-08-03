@@ -23,4 +23,9 @@ public class BaseStunEffect : StatusEffect
         preventsMovement = false;
         preventsAction = false;        
     }
+
+    public override StatusEffect Clone()
+    {
+        return new BaseStunEffect();
+    }
 }

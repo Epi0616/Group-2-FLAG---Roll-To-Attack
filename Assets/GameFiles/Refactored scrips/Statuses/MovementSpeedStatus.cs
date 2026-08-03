@@ -25,4 +25,8 @@ public class MovementSpeedStatus : StatusEffect
         moveable.movementSpeed.AddMultiplierFlat(flatMult);
     }
 
+    public override StatusEffect Clone()
+    {
+       return new MovementSpeedStatus(flatMult);
+    }
 }

@@ -60,4 +60,9 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
         entityRef.OnTakeDamage((int)(damage.GetFinalValue() * (weakMultiplier - 1)), effectColour, DamageType.Weaken);
 
     }
+
+    public override StatusEffect Clone()
+    {
+        return new EnhancedWeakenStatus(weakMultiplier, effectText, applierEntity, enhancementLevel);
+    }
 }

@@ -36,4 +36,9 @@ public class ShieldedStatus : StatusEffect
             shieldable.shielded = false;
         }
     }
+
+    public override StatusEffect Clone()
+    {
+        return new ShieldedStatus(stacks);
+    }
 }

@@ -41,5 +41,8 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
         base.OnRemoval();
         //Debug.Log("E-Freeze Removed");
     }
-
+    public override StatusEffect Clone()
+    {
+        return new EnhancedFreezeStatus(fragileMultiplier, effectText, effectColour, enhancementLevel);
+    }
 }

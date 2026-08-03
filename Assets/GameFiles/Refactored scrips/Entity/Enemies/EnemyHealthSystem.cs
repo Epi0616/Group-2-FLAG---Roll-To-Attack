@@ -28,10 +28,7 @@ public class EnemyHealthSystem : EntityHealthSystem
             temp.actionController.InterruptAllActive();
         }
 
-        for(int i = OwnerEntity.statusSystem.currentActiveStatusEffects.Count - 1; i >= 0; i--)
-        {
-            OwnerEntity.statusSystem.currentActiveStatusEffects[i].effect.toBeRemoved = true;
-        }
+        
         //OwnerEntity.statusSystem.currentActiveStatusEffects.Clear();
 
         if (OwnerEntity is IAnimated animated)
@@ -56,6 +53,7 @@ public class EnemyHealthSystem : EntityHealthSystem
 
     private void EnemyDeath()
     {
+        OwnerEntity.bodySystem.RemoveAllShaders();
         try
         {
             EnemyHasDied?.Invoke();

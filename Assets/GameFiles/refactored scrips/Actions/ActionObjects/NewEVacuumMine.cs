@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class NewEVacuumMine : NewVacuumMine
@@ -78,18 +79,7 @@ public class NewEVacuumMine : NewVacuumMine
                 entity.OnTakeDamage((int)heldDamage + 20, fieldColour, DamageType.Normal);
                 foreach (ActiveStatusEffect effect in heldEffects)
                 {
-                    entity.OnRecieveEffect(effect);
-                    //if (effect.effect.GetEffectColour() != null)
-                    //{
-                    //    //Debug.Log("Recieving Effect Pop up");
-                    //    entity.OnRecieveEffect(effect, effect.effect.GetEffectColour());
-                    //}
-                    //else
-                    //{
-                    //    //Debug.Log("Recieving Effect");
-                        
-                    //}
-
+                    entity.OnRecieveEffect(new ActiveStatusEffect(effect.effect.Clone(), effect.conditions.Select(c => c.Clone()).ToList(), effect.allConditionsRequired));                  
                 }
             }
         }

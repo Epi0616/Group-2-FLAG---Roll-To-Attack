@@ -36,6 +36,11 @@ public class KnockbackEffect : BaseDisplacementEffect
         base.OnRemoval();
         //Debug.Log("KB Removed");
     }
+
+    public override StatusEffect Clone()
+    {
+        return new KnockbackEffect(origin, force);
+    }
 }
 
 
