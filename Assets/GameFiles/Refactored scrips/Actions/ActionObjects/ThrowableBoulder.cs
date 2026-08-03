@@ -9,17 +9,17 @@ public class ThrowableBoulder : MonoBehaviour
     private Color slamColor;
     private float chargeTime;
     private float slamRange;
+    private bool active = false;
 
     private Entity ownerEntity;
     private ISlamActionRequirements slamVariablesAccess;
-    private float chargeUpTimer = 0;
-    private bool chargeComplete = false;
     private Vector3 slamOrigin;
     private bool attackInterrupted = false;
     private ImpactFieldVisual impactField;
 
     private void OnEnable()
     {
+        active = false;
         rb.isKinematic = true;
         StartCoroutine(LifeTime(10));
     }
@@ -37,6 +37,7 @@ public class ThrowableBoulder : MonoBehaviour
 
         SetupSlam();
         StartCoroutine(PathToTarget(slamOrigin, transform.position, durationOfTravel));
+        active = true;
     }
 
     private IEnumerator LifeTime(float lifeTime)
@@ -54,8 +55,6 @@ public class ThrowableBoulder : MonoBehaviour
     protected virtual void SetupSlam()
     {
         slamVariablesAccess = ownerEntity as ISlamActionRequirements;
-        chargeUpTimer = 0;
-        chargeComplete = false;
         attackInterrupted = false;
 
         //slamImpactField = slamVariablesAccess.SlamImpactField;
@@ -163,5 +162,13 @@ public class ThrowableBoulder : MonoBehaviour
         }
 
         return peakInArc;
+    }
+
+    public void Interrupt()
+    {
+        if (active) return;
+
+        StopAllCoroutines();
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }
