@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   conditionalAction:
     action:
-      rid: 963244250863239172
+      rid: 5220711083912200263
     conditions:
     - rid: 963244250863239173
     - rid: 963244250863239174
@@ -26,16 +26,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 963244250863239172
-      type: {class: BaseSlamAction, ns: , asm: Assembly-CSharp}
-      data:
-        PreventsMovement: 1
-        SlamDamage: 5
-        SlamColor: {r: 0.97484255, g: 1, b: 0.08018869, a: 1}
-        ChargeTime: 0.5
-        SlamRange:
-          baseValue: 2
-        SlamPositionOffset: {x: 0, y: 0, z: 4}
     - rid: 963244250863239173
       type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:
@@ -46,3 +36,13 @@ MonoBehaviour:
       data:
         inverse: 0
         distanceThreshold: 8
+    - rid: 5220711083912200263
+      type: {class: EnemyBaseSlam, ns: , asm: Assembly-CSharp}
+      data:
+        PreventsMovement: 1
+        SlamDamage: 5
+        SlamColor: {r: 0.97484255, g: 1, b: 0.08018869, a: 1}
+        ChargeTime: 0.5
+        SlamRange:
+          baseValue: 2
+        SlamPositionOffset: {x: 0, y: 0, z: 4}

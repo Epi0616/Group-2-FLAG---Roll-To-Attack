@@ -35,6 +35,8 @@ public class Entity : MonoBehaviour, IEntity, IResetable
     {
         healthSystem.ResetSystem();
         statusSystem.ResetSystem();
+        bodySystem.ResetSystem();
+        statusSystem.ResetSystem();
     }
 
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)

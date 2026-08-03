@@ -25,8 +25,12 @@ public class FreezeStatus : BaseStunEffect
 
     protected override void OnApplication()
     {
-        base.OnApplication();        
-        (entityRef as IAnimated).animationManager.EndCurrentAnimation(MixerType.main);
+        base.OnApplication();  
+        if (entityRef is IAnimated temp)
+        {
+            temp.animationManager.EndCurrentAnimation(MixerType.main);
+        }
+        
     }
 
     protected override void OnFirstStackApplication()

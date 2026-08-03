@@ -8,10 +8,11 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public GameObject body;
     public Quaternion originalRotation;
     public MaterialPropertyBlock block;
-    public SkinnedMeshRenderer renderer;
+    public Renderer renderer;
     public Coroutine IceCoroutine;
     public Coroutine WeakenCracksCoroutine;
     public Coroutine PoisonedCoroutine;
+   
     public virtual void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
@@ -19,8 +20,9 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         block = new MaterialPropertyBlock();
         if (renderer == null)
         {
-            renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+            renderer = GetComponentInChildren<Renderer>();
         }
+        RemoveAllShaders();
     }
 
     public virtual void Vibrate()
@@ -62,6 +64,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         {
             StopCoroutine(IceCoroutine);
         }
+
         renderer.GetPropertyBlock(block);
         block.SetFloat("_IcePower", target);
         renderer.SetPropertyBlock(block);
@@ -233,6 +236,11 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public virtual void ResetSystem()
     {
         // Reset body system state if needed
+        
+    }
+
+    public virtual void RemoveAllShaders()
+    {
         OverrideFreezeShader(0);
         OverrideWeakenShader(0);
         OverridePoisonedShader(0);

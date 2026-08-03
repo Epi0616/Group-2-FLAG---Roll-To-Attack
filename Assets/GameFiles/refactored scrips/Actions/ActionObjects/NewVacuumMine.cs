@@ -65,6 +65,14 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         }
     }
 
+    public override void OnRecieveEffect(ActiveStatusEffect statusEffect)
+    {
+        if (statusEffect.effect.type == StatusType.Knockback)
+        {
+            statusSystem.OnRecieveEffect(statusEffect);
+        }
+    }
+
     protected virtual void OnVacuum()
     {
         List<Entity> hitEntities = GetEntitiesInRange();
@@ -132,6 +140,7 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         {
             impactfield.DestroyMe();
         }
+        bodySystem.RemoveAllShaders();
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 

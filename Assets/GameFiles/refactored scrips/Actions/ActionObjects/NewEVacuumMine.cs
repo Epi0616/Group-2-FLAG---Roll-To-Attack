@@ -21,7 +21,8 @@ public class NewEVacuumMine : NewVacuumMine
         fieldColour = colour;
         // Potentially scale the duration of the mine
         timer = chargeTime;
-        //this.gameObject.layer = 14;
+        //this.gameObject.layer = 14;        
+        heldDamage = 0;
         healthSystem.isDead = false;
         ShowRange();
         StartCoroutine(CountDown());
@@ -38,12 +39,28 @@ public class NewEVacuumMine : NewVacuumMine
 
     public override void OnRecieveEffect(ActiveStatusEffect statusEffect, Color effectColour)
     {
+       // Debug.Log("Hit by Effect");
         if (statusEffect.effect.type == StatusType.Knockback)
         {
             statusSystem.OnRecieveEffect(statusEffect);
         }
         else
         {
+            //Debug.Log("StatusAbsorbed");
+            heldEffects.Add(statusEffect);
+        }
+    }
+
+    public override void OnRecieveEffect(ActiveStatusEffect statusEffect)
+    {
+        //Debug.Log("Hit by Effect");
+        if (statusEffect.effect.type == StatusType.Knockback)
+        {
+            statusSystem.OnRecieveEffect(statusEffect);
+        }
+        else
+        {
+           // Debug.Log("StatusAbsorbed");
             heldEffects.Add(statusEffect);
         }
     }
@@ -61,19 +78,35 @@ public class NewEVacuumMine : NewVacuumMine
                 entity.OnTakeDamage((int)heldDamage + 20, fieldColour, DamageType.Normal);
                 foreach (ActiveStatusEffect effect in heldEffects)
                 {
-                    if (effect.effect.GetEffectColour() != null)
-                    {
-                        entity.OnRecieveEffect(effect, effect.effect.GetEffectColour());
-                    }
-                    else
-                    {
-                        entity.OnRecieveEffect(effect);
-                    }
+                    entity.OnRecieveEffect(effect);
+                    //if (effect.effect.GetEffectColour() != null)
+                    //{
+                    //    //Debug.Log("Recieving Effect Pop up");
+                    //    entity.OnRecieveEffect(effect, effect.effect.GetEffectColour());
+                    //}
+                    //else
+                    //{
+                    //    //Debug.Log("Recieving Effect");
+                        
+                    //}
 
                 }
             }
         }
 
         DestroyMe();
+    }
+
+    protected override void DestroyMe()
+    {
+        rb.linearVelocity = Vector3.zero;
+        if (impactfield != null)
+        {
+            impactfield.DestroyMe();
+        }
+        bodySystem.RemoveAllShaders();
+        //Debug.Log("Effects Cleared");
+        heldEffects.Clear();
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }
