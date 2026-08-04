@@ -8,9 +8,10 @@ public class NavMeshMovementHook : BaseEntityMovement
     
     private INavAgent aiInterfaceAccess;
     private EnemyBodySystem enemyBodySystem;
-    private float setDestinationInterval = 0.15f;
+    private float setDestinationInterval = 5f;
     private float intervalTimer = 0;
-    private Transform target;
+    private float y;
+    private bool touched;
     public NavMeshMovementHook() { }
 
     public override void StartMovement(Entity ownerEntity)
@@ -20,6 +21,7 @@ public class NavMeshMovementHook : BaseEntityMovement
         enemyBodySystem = ownerEntity.bodySystem as EnemyBodySystem;
         aiInterfaceAccess.EnableAIAgent();
         aiInterfaceAccess.agent.updateRotation = false;
+        y = ownerEntity.transform.rotation.y;
 
         if (ownerEntity is IAnimated animated)
         {
@@ -33,19 +35,28 @@ public class NavMeshMovementHook : BaseEntityMovement
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
 
         if (moveable.canMove == false) { EndMovement(); return; }
-        //intervalTimer += Time.deltaTime;
-        //if (intervalTimer > setDestinationInterval)
-        //{
-        //    aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position + ownerEntity.transform.forward * 100f * Time.deltaTime);
-        //    intervalTimer = 0;
-        //}
-
-        //ownerEntity.transform.position += ownerEntity.transform.forward * 10f * Time.deltaTime;
-        aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position + ownerEntity.transform.forward * 100f * Time.deltaTime);
+        intervalTimer += Time.deltaTime;
+        if (intervalTimer > setDestinationInterval)
+        {
+            aiInterfaceAccess.agent.SetDestination(ownerEntity.target.transform.position);
+        }
+        if (intervalTimer < setDestinationInterval)
+        {
+            aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position + 100f * Time.deltaTime * ownerEntity.transform.forward);
+        }
+        if (intervalTimer > setDestinationInterval + 1)
+        {
+            intervalTimer = 0;
+        }
+        aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position + 100f * Time.deltaTime * ownerEntity.transform.forward);
         NavMeshHit hit;
-        if (NavMesh.Raycast(ownerEntity.transform.position, target.position, out hit, NavMesh.AllAreas))
-        { 
-            ownerEntity.transform.Rotate(Vector3.up, 65f * Time.deltaTime);
+        if (NavMesh.FindClosestEdge(ownerEntity.transform.position, out hit, NavMesh.AllAreas))
+        {
+            float distanceToEdge = hit.distance;
+            if (distanceToEdge <= 0.00001f)
+            {
+                ownerEntity.transform.rotation = Quaternion.Euler(ownerEntity.transform.rotation.x, y += 120, ownerEntity.transform.rotation.x);
+            }
         }
     }
 
