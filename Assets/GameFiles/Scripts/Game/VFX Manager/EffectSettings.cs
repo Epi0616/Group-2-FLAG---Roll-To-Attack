@@ -11,9 +11,14 @@ public class EffectSettings
     public Vector3? overrideInitialVelocity;
     public float? overrideVelocitySpeedMult;
     public Material? overrideMaterial;
-    
+    public float? overrideVelocityDampening;
+    public float? overrideShapeArc;
+    public float? overrideShapeRadius;
+
+
     public EffectSettings(Color? overrideColour = null, rangePair? overrideScale = null, rangePair? overrideLifetime = null, rangePair? overrideSpeed = null,
-        rangePair? overrideGravity = null, Vector3? overrideInitialVelocity = null, float? overrideVelocitySpeedMult = null, Material? overrideMaterial = null)
+        rangePair? overrideGravity = null, Vector3? overrideInitialVelocity = null, float? overrideVelocitySpeedMult = null, Material? overrideMaterial = null,
+        float? overrideVelocityDampening = null, float? overrideShapeArc = null, float? overrideShapeRadius = null)
     {
         this.overrideColour = overrideColour;
         this.overrideScale = overrideScale;      
@@ -23,13 +28,17 @@ public class EffectSettings
         this.overrideInitialVelocity = overrideInitialVelocity;
         this.overrideVelocitySpeedMult = overrideVelocitySpeedMult;
         this.overrideMaterial = overrideMaterial;
+        this.overrideVelocityDampening = overrideVelocityDampening;
+        this.overrideShapeArc = overrideShapeArc;
+        this.overrideShapeRadius = overrideShapeRadius;
     }
     
     public void ApplySettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
     {
         ParticleSystem.MainModule main = particleSystem.main;
         ParticleSystem.VelocityOverLifetimeModule velocity = particleSystem.velocityOverLifetime;
-        
+        ParticleSystem.LimitVelocityOverLifetimeModule limit = particleSystem.limitVelocityOverLifetime;
+        ParticleSystem.ShapeModule shape = particleSystem.shape;
         if (overrideColour is Color OverrideColour)
         {
             //Debug.Log("Colour Override");
@@ -60,13 +69,21 @@ public class EffectSettings
             velocity.y = OverrideVelocity.y;
             velocity.z = OverrideVelocity.z;
         }
-        if (overrideVelocitySpeedMult is float OverrideVelocitSpeedMult)
+        if (overrideVelocitySpeedMult is float OverrideVelocitySpeedMult)
         {
-            velocity.speedModifier = overrideVelocitySpeedMult.Value;
+            velocity.speedModifier = OverrideVelocitySpeedMult;
         }
-        if (overrideMaterial is Material OverrideMaterial)
+        if (overrideVelocityDampening is float OverrideVelocityDampening)
         {
-
+            limit.dampen = OverrideVelocityDampening;
+        }
+        if (overrideShapeArc is float OverrideShapeArc)
+        {
+            shape.arc = OverrideShapeArc;
+        }
+        if (overrideShapeRadius is float OverrideShapeRadius)
+        {
+            shape.radius = OverrideShapeRadius;
         }
     }
 

@@ -18,11 +18,18 @@ public class SlowStatus : StatusEffect
     {
         moveInferfaceAccess = entityRef as IMoveable;
         isActive = moveInferfaceAccess != null;
+        entityRef.bodySystem.ApplySlowShader();
     }
 
     protected override void ApplyStatModifier()
     {               
         moveInferfaceAccess.movementSpeed.AddMultiplier(slowMultiplier);               
+    }
+
+    protected override void OnRemoval()
+    {
+        entityRef.bodySystem.RemoveSlowShader();
+        base.OnRemoval();
     }
 
     public override StatusEffect Clone()

@@ -12,6 +12,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public Coroutine IceCoroutine;
     public Coroutine WeakenCracksCoroutine;
     public Coroutine PoisonedCoroutine;
+    public Coroutine SlowCoroutine;
    
     public virtual void InitialiseSystem(Entity entity)
     {
@@ -156,21 +157,8 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         block.SetFloat("_CrackPower", target);
         renderer.SetPropertyBlock(block);
     }
-
-    //public void ApplyWeakenShader(Color weakenColour)
-    //{
-    //    renderer.GetPropertyBlock(block);
-    //    block.SetFloat("_CrackPower", 1);
-    //    block.SetColor("_CrackColour", weakenColour * 3);
-    //    renderer.SetPropertyBlock(block);
-    //}
-
-    //public void RemoveWeakenShader()
-    //{
-    //    renderer.GetPropertyBlock(block);
-    //    block.SetFloat("_CrackPower", 0);
-    //    renderer.SetPropertyBlock(block);
-    //}
+    
+    // Poison ------------------------------------------
     public void OverridePoisonedShader(float target)
     {
         if (PoisonedCoroutine != null)
@@ -203,7 +191,6 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
 
         PoisonedCoroutine = StartCoroutine(PoisonedShaderTransition(target, duratiom));
     }
-
     public IEnumerator PoisonedShaderTransition(float target, float duration)
     {
         renderer.GetPropertyBlock(block);
@@ -219,20 +206,64 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         block.SetFloat("_PoisonPower", target);
         renderer.SetPropertyBlock(block);
     }
-    //public void ApplyPoisonedShader(Color poisonColour)
-    //{
-    //    renderer.GetPropertyBlock(block);
-    //    block.SetFloat("_PoisonPower", 1);
-    //    block.SetColor("_PoisonColour", poisonColour * 3);
-    //    renderer.SetPropertyBlock(block);
-    //}
 
-    //public void RemovePoisonShader()
-    //{
-    //    renderer.GetPropertyBlock(block);
-    //    block.SetFloat("_PoisonPower", 0);
-    //    renderer.SetPropertyBlock(block);
-    //}
+    // Slow ----------------------------------
+    
+    public void OverrideSlowShader(float target)
+    {
+        if (SlowCoroutine != null)
+        {
+            StopCoroutine(SlowCoroutine);
+        }
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_SlowPower", target);
+        renderer.SetPropertyBlock(block);
+    }
+    public void ApplySlowShader()
+    {
+        renderer.GetPropertyBlock(block);
+        StartSlowedTransition(Mathf.Clamp01(block.GetFloat("_SlowPower") + 0.34f), 0.1f);
+    }
+    public void RemoveSlowShader()
+    {
+        renderer.GetPropertyBlock(block);
+        StartSlowedTransition(Mathf.Clamp01(block.GetFloat("_SlowPower") - 0.34f), 0.1f);
+    }
+
+    public void StartSlowedTransition(float target, float duratiom)
+    {
+        if (SlowCoroutine != null)
+        {
+            StopCoroutine(SlowCoroutine);
+        }
+
+        SlowCoroutine = StartCoroutine(SlowedShaderTransition(target, duratiom));
+    }
+    public IEnumerator SlowedShaderTransition(float target, float duration)
+    {
+        renderer.GetPropertyBlock(block);
+        float timer = 0;
+        float startingPower = block.GetFloat("_SlowPower");
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            block.SetFloat("_SlowPower", Mathf.Lerp(startingPower, target, (timer / duration)));
+            renderer.SetPropertyBlock(block);
+            yield return null;
+        }
+        block.SetFloat("_SlowPower", target);
+        if (target >= 1 && target != startingPower)
+        {
+            //Vector3 pos = new Vector3(OwnerEntity.transform.position.x, OwnerEntity.transform.position.y + renderer.bounds.max.y, OwnerEntity.transform.position.z);
+            //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.VerticalBurst01), pos, Quaternion.Euler(0, 0, 0)).
+            //    GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColour: Color.darkGray, overrideVelocityDampening: 0.45f, overrideGravity: new rangePair(0, 0),
+            //    overrideScale: new rangePair(1, 2), overrideShapeArc: 0f, overrideShapeRadius: 1.5f));
+            Debug.Log("Max Slow Reached");
+        }
+       
+        renderer.SetPropertyBlock(block);
+    }
+
     public virtual void ResetSystem()
     {
         // Reset body system state if needed
