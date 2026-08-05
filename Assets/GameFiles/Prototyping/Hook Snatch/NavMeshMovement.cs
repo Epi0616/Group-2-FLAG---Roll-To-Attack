@@ -11,7 +11,6 @@ public class NavMeshMovementHook : BaseEntityMovement
     private float setDestinationInterval = 5f;
     private float intervalTimer = 0;
     private float y;
-    private bool touched;
     public NavMeshMovementHook() { }
 
     public override void StartMovement(Entity ownerEntity)
@@ -35,6 +34,7 @@ public class NavMeshMovementHook : BaseEntityMovement
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
 
         if (moveable.canMove == false) { EndMovement(); return; }
+
         intervalTimer += Time.deltaTime;
         if (intervalTimer > setDestinationInterval)
         {
@@ -48,14 +48,14 @@ public class NavMeshMovementHook : BaseEntityMovement
         {
             intervalTimer = 0;
         }
-        aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position + 100f * Time.deltaTime * ownerEntity.transform.forward);
+        //aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position + 100f * Time.deltaTime * ownerEntity.transform.forward);
         NavMeshHit hit;
         if (NavMesh.FindClosestEdge(ownerEntity.transform.position, out hit, NavMesh.AllAreas))
         {
             float distanceToEdge = hit.distance;
             if (distanceToEdge <= 0.00001f)
             {
-                ownerEntity.transform.rotation = Quaternion.Euler(ownerEntity.transform.rotation.x, y += 120, ownerEntity.transform.rotation.x);
+                ownerEntity.transform.rotation = Quaternion.Euler(ownerEntity.transform.rotation.x, y += 4, ownerEntity.transform.rotation.x);
             }
         }
     }

@@ -33,7 +33,7 @@ public class ConfusedSlam : BaseSlamAction
     }
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new ConfusedStatus(Duration, "PlaceHolderConfused"),
+        hitEntity.OnRecieveEffect(new ActiveStatusEffect(new ConfusedStatus(Duration, "Confused"),
                 new List<BaseCondition> { new TimeCondition(true, Duration) }, true), slamColour);
     }
 

@@ -22,6 +22,6 @@ public class ConfusedStatus : StatusEffect
 
     protected override void ApplyStatModifier()
     {               
-        moveInferfaceAccess.movementSpeed.AddMultiplier(-confusedMultiplier);
+        moveInferfaceAccess.movementSpeed.AddMultiplier(-1);
     }
 }
