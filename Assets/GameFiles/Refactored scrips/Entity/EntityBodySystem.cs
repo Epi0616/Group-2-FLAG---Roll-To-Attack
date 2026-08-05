@@ -9,6 +9,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public Quaternion originalRotation;
     public MaterialPropertyBlock block;
     public Renderer renderer;
+    //public Mesh mesh;
     public Coroutine IceCoroutine;
     public Coroutine WeakenCracksCoroutine;
     public Coroutine PoisonedCoroutine;
@@ -23,6 +24,10 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         {
             renderer = GetComponentInChildren<Renderer>();
         }
+        //if (mesh == null)
+        //{
+        //    mesh = GetComponentInChildren<Mesh>();
+        //}
         RemoveAllShaders();
     }
 
@@ -227,7 +232,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public void RemoveSlowShader()
     {
         renderer.GetPropertyBlock(block);
-        StartSlowedTransition(Mathf.Clamp01(block.GetFloat("_SlowPower") - 0.34f), 0.1f);
+        StartSlowedTransition(Mathf.Clamp01(block.GetFloat("_SlowPower") - 0.34f), 0.75f);
     }
 
     public void StartSlowedTransition(float target, float duratiom)
@@ -252,14 +257,14 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
             yield return null;
         }
         block.SetFloat("_SlowPower", target);
-        if (target >= 1 && target != startingPower)
-        {
-            //Vector3 pos = new Vector3(OwnerEntity.transform.position.x, OwnerEntity.transform.position.y + renderer.bounds.max.y, OwnerEntity.transform.position.z);
-            //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.VerticalBurst01), pos, Quaternion.Euler(0, 0, 0)).
-            //    GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColour: Color.darkGray, overrideVelocityDampening: 0.45f, overrideGravity: new rangePair(0, 0),
-            //    overrideScale: new rangePair(1, 2), overrideShapeArc: 0f, overrideShapeRadius: 1.5f));
-            Debug.Log("Max Slow Reached");
-        }
+        //if (target >= 1 && target != startingPower)
+        //{
+        //    Vector3 pos = new Vector3(OwnerEntity.transform.position.x, OwnerEntity.transform.position.y + mesh.bounds.max.y, OwnerEntity.transform.position.z);
+        //    ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.VerticalBurst01), pos, Quaternion.Euler(0, 0, 0)).
+        //        GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColour: Color.black, overrideVelocityDampening: 0.45f, overrideGravity: new rangePair(0, 0),
+        //        overrideScale: new rangePair(1, 2), overrideShapeArc: 0f, overrideShapeRadius: 1.5f, overrideSpeed: new rangePair(10, 14), overrideBurstCount: new rangePair(10, 15), overrideInitialVelocity: new Vector3(0, 0, 0)));
+        //    Debug.Log("Max Slow Reached");
+        //}
        
         renderer.SetPropertyBlock(block);
     }
@@ -275,6 +280,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         OverrideFreezeShader(0);
         OverrideWeakenShader(0);
         OverridePoisonedShader(0);
+        OverrideSlowShader(0);
     }
 
     public virtual void SetVisibility(bool visible)

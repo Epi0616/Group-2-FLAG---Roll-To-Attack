@@ -14,11 +14,12 @@ public class EffectSettings
     public float? overrideVelocityDampening;
     public float? overrideShapeArc;
     public float? overrideShapeRadius;
+    public rangePair? overrideBurstCount;
 
 
     public EffectSettings(Color? overrideColour = null, rangePair? overrideScale = null, rangePair? overrideLifetime = null, rangePair? overrideSpeed = null,
         rangePair? overrideGravity = null, Vector3? overrideInitialVelocity = null, float? overrideVelocitySpeedMult = null, Material? overrideMaterial = null,
-        float? overrideVelocityDampening = null, float? overrideShapeArc = null, float? overrideShapeRadius = null)
+        float? overrideVelocityDampening = null, float? overrideShapeArc = null, float? overrideShapeRadius = null, rangePair? overrideBurstCount = null)
     {
         this.overrideColour = overrideColour;
         this.overrideScale = overrideScale;      
@@ -31,6 +32,7 @@ public class EffectSettings
         this.overrideVelocityDampening = overrideVelocityDampening;
         this.overrideShapeArc = overrideShapeArc;
         this.overrideShapeRadius = overrideShapeRadius;
+        this.overrideBurstCount = overrideBurstCount;
     }
     
     public void ApplySettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
@@ -39,6 +41,7 @@ public class EffectSettings
         ParticleSystem.VelocityOverLifetimeModule velocity = particleSystem.velocityOverLifetime;
         ParticleSystem.LimitVelocityOverLifetimeModule limit = particleSystem.limitVelocityOverLifetime;
         ParticleSystem.ShapeModule shape = particleSystem.shape;
+        ParticleSystem.EmissionModule emission = particleSystem.emission;
         if (overrideColour is Color OverrideColour)
         {
             //Debug.Log("Colour Override");
@@ -79,11 +82,17 @@ public class EffectSettings
         }
         if (overrideShapeArc is float OverrideShapeArc)
         {
-            shape.arc = OverrideShapeArc;
+            shape.arcSpread = OverrideShapeArc;
         }
         if (overrideShapeRadius is float OverrideShapeRadius)
         {
             shape.radius = OverrideShapeRadius;
+        }
+        if (overrideBurstCount is rangePair OverrideBurstCount)
+        {
+            ParticleSystem.Burst burst = new ParticleSystem.Burst();
+            burst.count = new ParticleSystem.MinMaxCurve(OverrideBurstCount.min, OverrideBurstCount.max);
+            emission.SetBurst(0, burst);
         }
     }
 
