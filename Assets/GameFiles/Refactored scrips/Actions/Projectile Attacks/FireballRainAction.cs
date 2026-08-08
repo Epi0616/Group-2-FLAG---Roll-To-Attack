@@ -21,6 +21,8 @@ public class FireballRainAction : BaseEntityAction, ISlam
     private IAnimated animated;
     private IFireballAction fireballAction;
 
+    private Coroutine actionRoutine;
+
     public int slamDamage { get => SlamDamage; set => SlamDamage = value; }
     public Color slamColour { get => SlamColor; set => SlamColor = value; }
     public float chargeTime { get => ChargeTime; set => ChargeTime = value; }
@@ -59,23 +61,21 @@ public class FireballRainAction : BaseEntityAction, ISlam
             this.animated = animated;
         }
 
-        ownerEntity.StartCoroutine(ActionRoutine());
+        actionRoutine = ownerEntity.StartCoroutine(ActionRoutine());
     }
 
     private IEnumerator ActionRoutine()
     {
         animated.animationManager.PlayAnimationCrossFade(AnimationType.ScreamUpwards, 0, MixerType.complimentary, 0.5f, 6f);
         yield return new WaitForSeconds(2);
-        yield return ownerEntity.StartCoroutine(LaunchFireballsIntoSky(totalFireballs, 2.5f));
-        yield return new WaitForSeconds(2.5f);
 
-        animated.animationManager.PlayAnimationCrossFade(AnimationType.Defend, 1, MixerType.main, 0.2f, 1);
-        yield return new WaitForSeconds(1);
-        animated.animationManager.PlayAnimationCrossFade(AnimationType.DefendCharge, 1, MixerType.main, 0.2f);
+        yield return LaunchFireballsIntoSky(totalFireballs, 2.5f);
+        yield return new WaitForSeconds(3.5f);
 
-        yield return ownerEntity.StartCoroutine(FireballRain(totalFireballs));
-        yield return new WaitForSeconds(2);
+        yield return FireballRain(totalFireballs);
+        yield return new WaitForSeconds(10);
 
+        actionRoutine = null;
         EndAction();
     }
 
@@ -106,21 +106,23 @@ public class FireballRainAction : BaseEntityAction, ISlam
 
     private void SpawnFireballIntoSky()
     {
-        GameObject fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, fireballAction.fireballRootBone.transform.position, Quaternion.identity);
-        fireball.transform.localScale = Vector3.one * 0.5f;
-        fireball.transform.position += new Vector3(0, 2, 0);
+        Vector3 fireballPosition = fireballAction.fireballRootBone.transform.position + new Vector3 (0, 2, 0);
+        Quaternion fireballRotation = Quaternion.LookRotation(Vector3.up);
 
-        Vector3 direction = Vector3.up - Vector3.down;
-        fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 0);
+        GameObject fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, fireballPosition, fireballRotation);
+        fireball.transform.localScale = Vector3.one * 0.5f;
+
+        fireball.GetComponent<Fireball>().Initialize(ownerEntity, 50f, 7, 2);
     }
 
     private void SpawnFireball()
     {
         Vector3 randomPosition = FindRandomPositionAboveArena();
-        GameObject fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, randomPosition, Quaternion.identity);
+        Quaternion fireballRotation = Quaternion.LookRotation(Vector3.down);
 
-        Vector3 direction = Vector3.down - Vector3.up;
-        fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 0);
+        GameObject fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, randomPosition, fireballRotation);
+
+        fireball.GetComponent<Fireball>().Initialize(ownerEntity, 50f, 7, 2);
     }
 
     private Vector3 FindRandomPositionAboveArena()
@@ -134,6 +136,14 @@ public class FireballRainAction : BaseEntityAction, ISlam
 
     public override void InterruptAction()
     {
+        Debug.Log("Interrupting Fireball Rain Action");
+
+        if (actionRoutine != null)
+        {
+            ownerEntity.StopCoroutine(actionRoutine);
+            actionRoutine = null;
+        }
+
         EndAction();
     }
     public override void EndAction()

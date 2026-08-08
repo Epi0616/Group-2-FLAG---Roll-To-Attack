@@ -4,7 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKnockbackable, IActionable, IAnimated, ISpawnModifier, IResetable
+public class BaseAIEnemy : AIDrivenEntity,
+    IMoveable, 
+    IGrounded, 
+    IStunable, 
+    IKnockbackable, 
+    IActionable, 
+    IAnimated, 
+    ISpawnModifier, 
+    IResetable, 
+    IWaveEnemy
 {
     [Header("IGrounded Properties")]
     [Tooltip("Dont Assign unless necessary")]
@@ -56,6 +65,10 @@ public class BaseAIEnemy : AIDrivenEntity , IMoveable, IGrounded, IStunable, IKn
     [Header("ISpawnModifier Properties")]
     [SerializeField] private SpawnModifier SpawnModifier;
     public SpawnModifier spawnModifier { get => SpawnModifier; set => SpawnModifier = value; }
+
+    [Header("IWaveEnemy Properties")]
+    [SerializeField] private bool IsWaveEnemy = false;
+    public bool isWaveEnemy { get => IsWaveEnemy; set => IsWaveEnemy = value; }
 
     //// ENEMY MOVEMENT AND ACTION PROPERTIES
     //public List<ConditionalMovementDescriptor> movementDescriptors = new List<ConditionalMovementDescriptor>();
