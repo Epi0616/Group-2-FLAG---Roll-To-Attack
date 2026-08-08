@@ -56,7 +56,14 @@ public class EnemyHealthSystem : EntityHealthSystem
         OwnerEntity.bodySystem.RemoveAllShaders();
         try
         {
-            EnemyHasDied?.Invoke();
+            if (OwnerEntity is IWaveEnemy enemy)
+            {
+                if (enemy.isWaveEnemy)
+                {
+                    EnemyHasDied?.Invoke();
+                }
+            }
+            
             ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject, 0);
         }
         catch

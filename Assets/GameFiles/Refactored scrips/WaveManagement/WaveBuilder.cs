@@ -12,7 +12,6 @@ public class WaveBuilder : MonoBehaviour
     [SerializeField] private List<EntityBlockObj> entityBlocks = new();
 
     [SerializeField] private int startingBudget;
-    [SerializeField] private int currentBudget;
     [SerializeField] private int budgetIncreasePerWave = 0;
 
     private Dictionary<int, WaveObj> waves = new();
@@ -23,7 +22,6 @@ public class WaveBuilder : MonoBehaviour
     {
         SetUpWavesDictionary();
         entityBlockPool = entityBlocks.Select(c => c.Create()).ToList();
-        currentBudget = startingBudget;
     }
 
     private void SetUpWavesDictionary()
@@ -44,7 +42,8 @@ public class WaveBuilder : MonoBehaviour
         }
         else
         {
-            currentWave = GenerateWave(waveIndex);
+            int budget = startingBudget + budgetIncreasePerWave * waveIndex;
+            currentWave = GenerateWave(waveIndex, budget);
         }
 
         CountEnemiesInWave(currentWave);
@@ -64,12 +63,11 @@ public class WaveBuilder : MonoBehaviour
         return wave;
     }
 
-    private Wave GenerateWave(int waveIndex)
+    public Wave GenerateWave(int waveIndex, int budget)
     {
         List<WaveGroup> chosenWaveGroups = new List<WaveGroup>();
 
-        currentBudget = startingBudget + budgetIncreasePerWave * waveIndex;
-        int remainingBudget = currentBudget;
+        int remainingBudget = budget;
         while (remainingBudget > 0)
         {
             affordableEntities.Clear();

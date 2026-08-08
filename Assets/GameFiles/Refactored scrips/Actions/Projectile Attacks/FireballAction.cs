@@ -83,7 +83,7 @@ public class FireballAction : BaseEntityAction, ISlam
         fireball.transform.localScale = startScale;
 
         Vector3 direction = (ownerEntity.target.transform.position - fireball.transform.position).normalized;
-        fireball.GetComponent<Fireball>().Initialize(ownerEntity, direction, slamDamage, 6); ;
+        fireball.GetComponent<Fireball>().Initialize(ownerEntity, 50f, 7, 2); ;
     }
 
     private IEnumerator EndActionDelay(float duration)

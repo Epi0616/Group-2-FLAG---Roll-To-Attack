@@ -144,23 +144,12 @@ public class ActionController : IResetable
 
         //if there are exlcusive actions to choose from and there are no active exclusive actions, choose one to activate.
         if (potentialExclusiveActions.Count <= 0) return;
-        foreach (ConditionalAction action in activeActions)
-        {
-            if (action.exclusive)
-            {
-                foreach (ConditionalAction potentialAction in potentialExclusiveActions)
-                {
-                    if (action.priority <= potentialAction.priority)
-                    {
-                        return;
-                    }
-                }
-            }
-        }
-        ActivateExclusiveAction(potentialExclusiveActions);
+
+        ConditionalAction chosenAction = PickActionFromPotentials(potentialExclusiveActions);
+        TryActivateExclusiveAction(chosenAction);
     }
 
-    private void ActivateExclusiveAction(List<ConditionalAction> potentialActiveActions)
+    private ConditionalAction PickActionFromPotentials(List<ConditionalAction> potentialActiveActions)
     {
         List<ConditionalAction> lowestPriorityActiveActions = new List<ConditionalAction>();
 
@@ -180,7 +169,7 @@ public class ActionController : IResetable
             }
             //empty list and add action if its lowest priority so far
             else if (action.priority < lowestPriorityActiveActions[0].priority)
-            { 
+            {
                 lowestPriorityActiveActions.Clear();
                 lowestPriorityActiveActions.Add(action);
             }
@@ -195,24 +184,36 @@ public class ActionController : IResetable
             chosenAction = lowestPriorityActiveActions[randomIndex];
         }
 
+        return chosenAction;
+    }
+
+    private void TryActivateExclusiveAction(ConditionalAction potentialActiveAction)
+    {
+        ConditionalAction currentActiveExclusive = null;
+
         for (int i = activeActions.Count - 1; i >= 0; i--) 
         {
             ConditionalAction action = activeActions[i];
 
             if (action.exclusive)
-            { 
-                action.action.InterruptAction();
-                activeActions.Remove(action);
-                action.action.isComplete = false;
-                action.ResetConditionsAll();
-                availableActions.Add(action);
+            {
+                currentActiveExclusive = action;
+                break;
             }
         }
 
-        activeActions.Add(chosenAction);
-        availableActions.Remove(chosenAction);
-        chosenAction.triggered = true;
-        chosenAction.action.StartAction(entity);
+        if (currentActiveExclusive != null)
+        {
+            if (currentActiveExclusive.priority <= potentialActiveAction.priority) return;
+            
+            RemoveActiveAction(currentActiveExclusive, true);
+        }
+
+
+        activeActions.Add(potentialActiveAction);
+        availableActions.Remove(potentialActiveAction);
+        potentialActiveAction.triggered = true;
+        potentialActiveAction.action.StartAction(entity);
     }
 
 
@@ -224,10 +225,7 @@ public class ActionController : IResetable
 
             if (action.action.isComplete)
             {
-                activeActions.Remove(action);
-                action.action.isComplete = false;
-                action.ResetConditionsAll();
-                availableActions.Add(action);
+                RemoveActiveAction(action, false);
             }
         }
     }
@@ -244,9 +242,22 @@ public class ActionController : IResetable
 
     public void InterruptAllActive()
     {
-        foreach (ConditionalAction action in activeActions)
+        for (int i = activeActions.Count - 1; i >= 0; i--)
         {
-            action.action.InterruptAction(); 
+            RemoveActiveAction(activeActions[i], true);
         }
+    }
+
+    private void RemoveActiveAction(ConditionalAction action, bool interrupt)
+    {
+        if (interrupt)
+        { 
+            action.action.InterruptAction();
+        }
+
+        activeActions.Remove(action);
+        action.action.isComplete = false;
+        action.ResetConditionsAll();
+        availableActions.Add(action);
     }
 }

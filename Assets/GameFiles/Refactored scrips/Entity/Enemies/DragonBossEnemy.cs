@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable
+public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable, IFireWingBeat
 {
     [Header("IFireballAction")]
     [SerializeField] private GameObject FireballObj;
@@ -15,8 +15,12 @@ public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable
     public int fireFieldDamage { get => FireFieldDamage; set => FireFieldDamage = value; }
     public LayerMask targetableLayers { get => TargetableLayers; set => TargetableLayers = value; }
 
-    //IShieldable properties
+    [Header("IShieldable")]
     public bool shielded { get; set; } = false;
+
+    [Header("IFireWingBeat")]
+    [SerializeField] private GameObject FireWingBeatObj;
+    public GameObject fireWingBeatObj { get => FireWingBeatObj; set => FireWingBeatObj = value; }
 
     protected override void Start()
     {

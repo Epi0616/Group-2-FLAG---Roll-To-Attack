@@ -9,8 +9,7 @@ public class EnemySpawnPoint : MonoBehaviour
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private float range = 10f;
 
-    private float pushInterval = 1f;
-    private float pushTimer = 0;
+    private Coroutine moveBlockerRoutine;
     //private Vector3 areaBlockerStartPosition;
 
     [SerializeField] private Vector3 blockerStartPos, blockerEndPos;
@@ -19,13 +18,13 @@ public class EnemySpawnPoint : MonoBehaviour
     private void OnEnable()
     {
         WaveManager.WaveCountStart += HandleRemoveAreaBlocker;
-        WaveSpawner.waveFinishedSpawning += HandleCloseSpawnArea;
+        WaveSpawner.finishedSpawning += HandleCloseSpawnArea;
     }
 
     private void OnDisable()
     {
         WaveManager.WaveCountStart -= HandleRemoveAreaBlocker;
-        WaveSpawner.waveFinishedSpawning -= HandleCloseSpawnArea;
+        WaveSpawner.finishedSpawning -= HandleCloseSpawnArea;
     }
 
     private void Start()
@@ -45,7 +44,11 @@ public class EnemySpawnPoint : MonoBehaviour
 
     private void HandleCloseSpawnArea()
     {
-        StartCoroutine(CloseSpawnArea());
+        if (moveBlockerRoutine != null)
+        {
+            StopAllCoroutines();
+        }
+        moveBlockerRoutine = StartCoroutine(CloseSpawnArea());
     }
 
     private IEnumerator CloseSpawnArea()
@@ -63,7 +66,11 @@ public class EnemySpawnPoint : MonoBehaviour
 
     private void HandleRemoveAreaBlocker(float timeDelay)
     {
-        StartCoroutine(MoveAreaBlocker(blockerStartPos, blockerEndPos, timeDelay));
+        if (moveBlockerRoutine != null)
+        {
+            StopAllCoroutines();
+        }
+        moveBlockerRoutine = StartCoroutine(MoveAreaBlocker(blockerStartPos, blockerEndPos, timeDelay));
     }
 
     private IEnumerator MoveAreaBlocker(Vector3 start, Vector3 end, float duration)
@@ -80,6 +87,7 @@ public class EnemySpawnPoint : MonoBehaviour
         }
 
         areaBlocker.transform.localPosition = end;
+        moveBlockerRoutine = null;
     }
 
     private bool ApplyKnockBackToEnemiesInSpawn(float force)

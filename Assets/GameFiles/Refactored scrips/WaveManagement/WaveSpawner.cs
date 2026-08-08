@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public static event Action waveFinishedSpawning;
+    public static event Action finishedSpawning;
+    public static event Action waveInstanceFinishedSpawning;
 
     [SerializeField] private GameObject playerRef;
     [SerializeField] private Camera cameraRef;
@@ -19,13 +21,36 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private LayerMask propsLayer;
     [SerializeField] private LayerMask groundLayer;
 
-    public void SpawnWave(Wave currentWave)
+    private HashSet<Coroutine> activeRoutines = new HashSet<Coroutine>();
+
+    public void SpawnWave(Wave currentWave, bool isWaveEnemy)
     {
-        StartCoroutine(SpawnWaveRoutine(currentWave));
+        StartCoroutine(ActiveSpawningRoutine(currentWave, isWaveEnemy));
     }
 
-    private IEnumerator SpawnWaveRoutine(Wave currentWave)
+    private IEnumerator ActiveSpawningRoutine(Wave currentWave, bool isWaveEnemy)
     {
+        Coroutine waveSpawn = StartCoroutine(SpawnWaveRoutine(currentWave, isWaveEnemy));
+        activeRoutines.Add(waveSpawn);
+        yield return waveSpawn;
+
+        activeRoutines.Remove(waveSpawn);
+
+        CheckForFinishedSpawning();
+    }
+
+    private void CheckForFinishedSpawning()
+    {
+        if (activeRoutines.Count <= 0)
+        {
+            finishedSpawning?.Invoke();
+        }
+    }
+
+    private IEnumerator SpawnWaveRoutine(Wave currentWave, bool isWaveEnemy)
+    {
+        float longestSpawnTime = 0f;
+
         for (int i = 0; i < currentWave.waveGroups.Count; i++)
         { 
             bool nextGroupActive = false;
@@ -42,6 +67,7 @@ public class WaveSpawner : MonoBehaviour
             while (!nextGroupActive)
             {
                 nextGroupActive = CheckForConditionsMet(currentConditions);
+                longestSpawnTime -= Time.deltaTime;
                 yield return null;
             }
 
@@ -49,12 +75,17 @@ public class WaveSpawner : MonoBehaviour
             List<EntityBlock> currentEntityBlocks = currentGroup.entityBlocks;
             for (int j = 0; j < currentEntityBlocks.Count; j++)
             {
-                StartCoroutine(ActivateEntityBlock(currentEntityBlocks[j]));
+                StartCoroutine(ActivateEntityBlock(currentEntityBlocks[j], isWaveEnemy));
+
+                float currentSpawnTime = currentEntityBlocks[j].spawnDelay * currentEntityBlocks[j].count;
+                if (currentSpawnTime > longestSpawnTime)
+                {
+                    longestSpawnTime = currentSpawnTime;
+                }
             }
         }
 
-        yield return new WaitForSeconds(3f);
-        waveFinishedSpawning?.Invoke();
+        yield return new WaitForSeconds(longestSpawnTime);
     }
 
     private bool CheckForConditionsMet(List<BaseWaveCondition> currentConditions)
@@ -73,7 +104,7 @@ public class WaveSpawner : MonoBehaviour
         return allConditionsMet;
     }
 
-    private IEnumerator ActivateEntityBlock(EntityBlock entityBlock)
+    private IEnumerator ActivateEntityBlock(EntityBlock entityBlock, bool isWaveEnemy)
     {
         for (int i = 0; i < entityBlock.count; i++)
         {
@@ -81,16 +112,15 @@ public class WaveSpawner : MonoBehaviour
             yield return new WaitForSeconds(delay);
 
             GameObject entity = entityBlock.entity;
-            PlaceEntityInWorldSpace(entity);
+            PlaceEntityInWorldSpace(entity, isWaveEnemy);
         }
     }
 
-    private void PlaceEntityInWorldSpace(GameObject obj)
+    private void PlaceEntityInWorldSpace(GameObject obj, bool isWaveEnemy)
     {
         Vector3 spawnPosFinal = Vector3.zero;
 
         ISpawnModifier spawnModifier;
-
         if (obj.TryGetComponent<ISpawnModifier>(out spawnModifier))//if obj is of type spawn in the floor
         {
             switch (spawnModifier.spawnModifier)
@@ -128,6 +158,11 @@ public class WaveSpawner : MonoBehaviour
         if (spawnedEntity == null) { Debug.LogError("Wave Spawned Entity null"); }
 
         Entity spawnedEntityReference = spawnedEntity.GetComponent<Entity>();
+
+        if (spawnedEntityReference is IWaveEnemy enemy)
+        {
+            enemy.isWaveEnemy = isWaveEnemy;
+        }
         //spawnedEntityReference.Initialize();
         spawnedEntityReference.Reset();
         spawnedEntityReference.textDisplaySystem.targetCamera = cameraRef;

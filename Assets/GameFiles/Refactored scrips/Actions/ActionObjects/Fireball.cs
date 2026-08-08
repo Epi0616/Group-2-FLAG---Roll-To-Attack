@@ -7,10 +7,10 @@ public class Fireball : MonoBehaviour
     [SerializeField] protected GameObject impactFieldPrefab;
     [SerializeField] protected Vector3 startScale;
 
-    protected Vector3 direction;
     private int impactDamage;
     private int fieldDamage;
     protected Entity ownerEntity;
+    private float speed;
 
     private bool hitTarget = false;
     public bool active = false;
@@ -31,11 +31,10 @@ public class Fireball : MonoBehaviour
         StopAllCoroutines();
     }
 
-    public virtual void Initialize(Entity ownerEntity, Vector3 direction, int impactDamage, int fieldDamage)
+    public virtual void Initialize(Entity ownerEntity, float speed, int impactDamage, int fieldDamage)
     {
-        Debug.Log("initializing fireball");
         this.ownerEntity = ownerEntity;
-        this.direction = direction;
+        this.speed = speed;
         this.impactDamage = impactDamage;
         this.fieldDamage = fieldDamage;
 
@@ -61,8 +60,7 @@ public class Fireball : MonoBehaviour
 
     private void FlyToTarget()
     {
-        transform.forward = direction;
-        transform.position += transform.forward * 150f * Time.deltaTime;
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider hit)
