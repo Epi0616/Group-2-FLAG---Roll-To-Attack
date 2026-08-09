@@ -11,7 +11,7 @@ public class SpawnWaveAction : BaseEntityAction
     [SerializeField] protected int budget;
 
     private IAnimated animated;
-    private Coroutine actionRoutine;
+    private Coroutine actionRoutine = null;
 
     public SpawnWaveAction() { }
     public SpawnWaveAction(int waveIndex, int budget)
@@ -22,6 +22,7 @@ public class SpawnWaveAction : BaseEntityAction
 
     public override void StartAction(Entity ownerEntity)
     {
+        base.StartAction(ownerEntity);
         if (!(ownerEntity is IAnimated animated)) return;
         this.animated = animated;
 

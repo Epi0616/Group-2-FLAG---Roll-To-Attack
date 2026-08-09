@@ -73,7 +73,7 @@ public class ShieldBroken : BaseEntityAction
 
         if (animated != null)
         {
-            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 1, MixerType.main, 1);
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main, 1);
             animated.animationManager.PlayAnimationCrossFade(AnimationType.Scream, 1, MixerType.complimentary, 2);
         }
 

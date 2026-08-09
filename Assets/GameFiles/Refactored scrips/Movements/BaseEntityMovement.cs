@@ -6,6 +6,7 @@ public class BaseEntityMovement : IMovement
 {
     protected Entity ownerEntity;
     protected IMoveable moveable;
+
     public BaseEntityMovement() {}
     public virtual void StartMovement(Entity ownerEntity)
     {

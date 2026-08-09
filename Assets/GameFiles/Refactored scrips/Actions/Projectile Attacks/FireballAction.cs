@@ -3,34 +3,22 @@ using System.Collections;
 using System;
 
 [Serializable]
-public class FireballAction : BaseEntityAction, ISlam
+public class FireballAction : BaseEntityAction
 {
     [SerializeField] private Vector3 offset = Vector3.zero;
-
-    [SerializeField] protected int SlamDamage;
-    [SerializeField] protected Color SlamColor;
-    [SerializeField] protected float ChargeTime;
-    [SerializeField] protected Stat SlamRange = new Stat(5);
-    [SerializeField] protected Vector3 SlamPositionOffset; //not needed as using offset, didnt want to use as would be a missuse of the name
+    [SerializeField] int initialDamage = 7;
+    [SerializeField] int tickDamage = 2;
 
     private Fireball fireball;
     private Coroutine endActionDelayRoutine, trackFireballToMouthRoutine;
 
-    public int slamDamage { get => SlamDamage; set => SlamDamage = value; }
-    public Color slamColour { get => SlamColor; set => SlamColor = value; }
-    public float chargeTime { get => ChargeTime; set => ChargeTime = value; }
-    public Stat slamRange { get => SlamRange; set => SlamRange = value; }
-    public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
-
     public FireballAction() { }
-    public FireballAction(bool preventsMovement, Vector3 offset, int slamDamage, Color slamColor, float chargeTime, Stat slamRange)
+    public FireballAction(bool preventsMovement, Vector3 offset, int initialDamage, int tickDamage)
     {
         this.preventsMovement = preventsMovement;
         this.offset = offset;
-        this.slamDamage = slamDamage;
-        this.slamColour = slamColor;
-        this.chargeTime = chargeTime;
-        this.slamRange = slamRange;
+        this.initialDamage = initialDamage;
+        this.tickDamage = tickDamage;
     }
 
     public override void StartAction(Entity ownerEntity)
@@ -83,7 +71,7 @@ public class FireballAction : BaseEntityAction, ISlam
         fireball.transform.localScale = startScale;
 
         Vector3 direction = (ownerEntity.target.transform.position - fireball.transform.position).normalized;
-        fireball.GetComponent<Fireball>().Initialize(ownerEntity, 50f, 7, 2); ;
+        fireball.GetComponent<Fireball>().Initialize(ownerEntity, 50f, initialDamage, tickDamage); ;
     }
 
     private IEnumerator EndActionDelay(float duration)
@@ -117,6 +105,6 @@ public class FireballAction : BaseEntityAction, ISlam
     }
     public override BaseEntityAction Clone()
     {
-        return new FireballAction(preventsMovement, offset, slamDamage, slamColour, chargeTime, slamRange);
+        return new FireballAction(preventsMovement, offset, initialDamage, tickDamage);
     }
 }

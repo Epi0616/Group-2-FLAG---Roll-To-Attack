@@ -20,6 +20,9 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
     public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
 
     private ThrowableBoulder boulder;
+    private IBoulderThrow boulderThrow;
+    private IAnimated animated;
+    private Coroutine actionRoutine = null;
 
     public BoulderThrowAction() { }
     public BoulderThrowAction(bool preventsMovement, Vector3 offset, int slamDamage, Color slamColor, float chargeTime, Stat slamRange)
@@ -30,26 +33,31 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
         this.slamColour = slamColor;
         this.chargeTime = chargeTime;
         this.slamRange = slamRange;
-
     }
 
     public override void StartAction(Entity ownerEntity)
     {
-        this.ownerEntity = ownerEntity;
-        actionable = ownerEntity as IActionable;
-        isComplete = false;
+        base.StartAction(ownerEntity);
 
-        if (ownerEntity is IBoulderThrow boulderThrow)
-        {
-            boulder = ObjectPoolManager.SpawnObject(boulderThrow.boulderObj, ownerEntity.transform.position, Quaternion.identity).GetComponent<ThrowableBoulder>();
-            if (ownerEntity is IAnimated animated)
-            {
-                float animationTime = 3.75f;
-                animated.animationManager.PlayAnimationCrossFade(AnimationType.RockThrow, 1, MixerType.main, 0.2f, animationTime);
-                ownerEntity.StartCoroutine(EndActionDelay(animationTime));
-                ownerEntity.StartCoroutine(TrackBolderToArm(boulderThrow.boulderRootBone, 2.35f));
-            }
-        }
+        if (!(ownerEntity is IBoulderThrow boulderThrow)) return;
+        if (!(ownerEntity is IAnimated animated)) return;
+
+        this.boulderThrow = boulderThrow;
+        this.animated = animated;
+
+        actionRoutine = ownerEntity.StartCoroutine(Action());
+    }
+
+    private IEnumerator Action()
+    {
+        boulder = ObjectPoolManager.SpawnObject(boulderThrow.boulderObj, ownerEntity.transform.position, Quaternion.identity).GetComponent<ThrowableBoulder>();
+
+        float animationTime = 3.75f;
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.RockThrow, 1, MixerType.main, 0.2f, animationTime);
+        yield return TrackBolderToArm(boulderThrow.boulderRootBone, 2.35f);
+
+        actionRoutine = null;
+        EndAction();
     }
 
     private IEnumerator TrackBolderToArm(Transform rootBone, float duration)
@@ -69,14 +77,13 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
         boulder.HandlePathToTarget(ownerEntity, ownerEntity.target.transform.position, 3, slamDamage, slamColour, slamRange.GetFinalValue());
     }
 
-    private IEnumerator EndActionDelay(float duration)
-    { 
-        yield return new WaitForSeconds(duration);
-        EndAction();
-    }
-
     public override void InterruptAction()
     {
+        if (actionRoutine != null)
+        {
+            ownerEntity.StopCoroutine(actionRoutine);
+            actionRoutine = null;
+        }
         boulder.Interrupt();
         EndAction();
     }

@@ -7,8 +7,8 @@ public class Fireball : MonoBehaviour
     [SerializeField] protected GameObject impactFieldPrefab;
     [SerializeField] protected Vector3 startScale;
 
-    private int impactDamage;
-    private int fieldDamage;
+    private int initialDamage;
+    private int tickDamage;
     protected Entity ownerEntity;
     private float speed;
 
@@ -31,12 +31,12 @@ public class Fireball : MonoBehaviour
         StopAllCoroutines();
     }
 
-    public virtual void Initialize(Entity ownerEntity, float speed, int impactDamage, int fieldDamage)
+    public virtual void Initialize(Entity ownerEntity, float speed, int initialDamage, int tickDamage)
     {
         this.ownerEntity = ownerEntity;
         this.speed = speed;
-        this.impactDamage = impactDamage;
-        this.fieldDamage = fieldDamage;
+        this.initialDamage = initialDamage;
+        this.tickDamage = tickDamage;
 
         active = true;
         hitTarget = false;
@@ -82,7 +82,7 @@ public class Fireball : MonoBehaviour
         StopAllCoroutines();
 
         GameObject field =  ObjectPoolManager.SpawnObject(impactFieldPrefab, transform.position, Quaternion.identity);
-        field.GetComponent<PoisonField>().Initialize(ownerEntity, 5f, 10f, fieldDamage, Color.orange);
+        field.GetComponent<FireField>().Initialize(ownerEntity, Color.orange, 5f, initialDamage, tickDamage, 10f, 1f);
 
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }

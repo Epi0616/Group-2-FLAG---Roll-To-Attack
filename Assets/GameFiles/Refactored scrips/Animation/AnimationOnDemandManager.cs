@@ -199,6 +199,8 @@ public class AnimationOnDemandManager : MonoBehaviour
 
     private bool CheckForCanBePlayed(MixerContainer mixer, int priority, AnimationType animationType)
     {
+        //Debug.Log($"checking for type {animationType}");
+
         if (IsCurrentAnimationFinished(mixer))
         {
             if (GetAnimationClipFromType(mixer.animationType, out AnimationClip animationClip))

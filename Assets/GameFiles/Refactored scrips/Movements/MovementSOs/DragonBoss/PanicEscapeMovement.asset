@@ -10,45 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
-  m_Name: BossMovemnt
+  m_Name: PanicEscapeMovement
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
   conditionalMovement:
     movement:
-      rid: 5042951946035265606
+      rid: 3199366841193464007
     conditions:
-    - rid: 5042951946035265608
-    - rid: 5042951946035265610
-    - rid: 5042951946035265609
-    - rid: 3199366841193464126
-    - rid: 3199366841193464127
+    - rid: 3199366841193464010
+    - rid: 3199366841193464011
+    - rid: 3199366841193464085
+    - rid: 3199366849614315592
     allConditionsRequired: 1
     exclusive: 1
-    priority: 1
+    priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 3199366841193464126
+    - rid: 3199366841193464007
+      type: {class: PanicEscapeMovement, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3199366841193464010
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-    - rid: 3199366841193464127
-      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 1
-        distanceThreshold: 30
-    - rid: 5042951946035265606
-      type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 5042951946035265608
-      type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-    - rid: 5042951946035265609
+    - rid: 3199366841193464011
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
-    - rid: 5042951946035265610
-      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
+    - rid: 3199366841193464085
+      type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        lookThreshold: 15
+    - rid: 3199366849614315592
+      type: {class: DistanceFromPointWithDelay, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+        distanceThreshold: 54
+        point: {x: 4.49, y: 1.5999999, z: 15.65}
+        delay: 5
