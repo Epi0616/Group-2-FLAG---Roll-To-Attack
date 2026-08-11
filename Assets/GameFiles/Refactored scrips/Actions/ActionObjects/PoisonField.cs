@@ -14,7 +14,6 @@ public class PoisonField : MonoBehaviour
     protected int poisonTickDMG;
     //public AudioClip[] poisonTickSound;
 
-
     protected void Awake()
     {
         material = GetComponent<MeshRenderer>().material;      

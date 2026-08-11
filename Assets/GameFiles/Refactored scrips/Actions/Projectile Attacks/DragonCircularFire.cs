@@ -40,7 +40,7 @@ public class DragonCircularFire : BaseEntityAction
 
     private IEnumerator Action()
     {
-        animated.animationManager.PlayAnimationCrossFade(AnimationType.Defend, 1, MixerType.main, 0.2f, 2.5f);
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Defend, 2, MixerType.main, 0.2f, 2.5f);
 
         yield return new WaitForSeconds(1.5f);
         SpawnCircleOfWingBeats(10, 5);

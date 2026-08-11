@@ -24,11 +24,14 @@ public class TimeCondition : BaseCondition
     {
         timer -= Time.deltaTime;
         totalTimeElapsed += Time.deltaTime;
+
+        //Debug.Log($"counting down: {timer}");
     }
 
     public override void ResetCondition()
     {
         timer = duration;
+        Debug.Log("resetting condition");
     }
 
     public override bool IsConditionMet()

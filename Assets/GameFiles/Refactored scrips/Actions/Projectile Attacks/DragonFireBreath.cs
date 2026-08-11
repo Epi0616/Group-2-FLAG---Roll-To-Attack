@@ -8,15 +8,21 @@ public class DragonFireBreath : BaseEntityAction
     [SerializeField] private Vector3 fireballSpawnOffset;
     [SerializeField] private int amount = 15;
     [SerializeField] private float delay = 0.07f;
+    [SerializeField] private int initialDamage = 7;
+    [SerializeField] private int tickDamage = 2;    
 
     private IFireballAction fireballAction;
     private IAnimated animated;
     private Coroutine actionRoutine;
 
     public DragonFireBreath() { }
-    public DragonFireBreath(Vector3 fireballSpawnOffset)
+    public DragonFireBreath(Vector3 fireballSpawnOffset, int amount, float delay, int initialDamage, int tickDamage)
     { 
         this.fireballSpawnOffset = fireballSpawnOffset;
+        this.amount = amount;
+        this.delay = delay;
+        this.initialDamage = initialDamage;
+        this.tickDamage = tickDamage;
     }
 
     public override void StartAction(Entity ownerEntity)
@@ -36,10 +42,10 @@ public class DragonFireBreath : BaseEntityAction
     {
         //animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, MixerType.complimentary, 0.2f, (amount * delay) + 1);
 
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < amount; i++)
         {
             SpawnFireball();
-            yield return new WaitForSeconds(0.07f);
+            yield return new WaitForSeconds(delay);
         }
 
         yield return new WaitForSeconds(1f);
@@ -57,7 +63,7 @@ public class DragonFireBreath : BaseEntityAction
         Quaternion fireballRotation = Quaternion.LookRotation(ownerEntity.target.transform.position - fireballPosition + inaccuracy);
 
         Fireball fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, fireballPosition, fireballRotation).GetComponent<Fireball>();
-        fireball.Initialize(ownerEntity, 50f, 7, 2);
+        fireball.Initialize(ownerEntity, 50f, initialDamage, tickDamage);
     }
 
     public override void InterruptAction()
@@ -77,6 +83,6 @@ public class DragonFireBreath : BaseEntityAction
 
     public override BaseEntityAction Clone()
     {
-        return new DragonFireBreath(fireballSpawnOffset);
+        return new DragonFireBreath(fireballSpawnOffset, amount, delay, initialDamage, tickDamage);
     }
 }

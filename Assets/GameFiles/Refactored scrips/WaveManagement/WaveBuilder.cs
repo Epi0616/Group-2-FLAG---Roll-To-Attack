@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -108,11 +109,30 @@ public class WaveBuilder : MonoBehaviour
             float entityBlocksInGroup = currentWaveGroup.entityBlocks.Count();
             for (int j = 0; j < entityBlocksInGroup; j++)
             {
-                enemiesInCurrentWave += currentWaveGroup.entityBlocks[j].count;
+                enemiesInCurrentWave += CheckCountInBlock(currentWaveGroup.entityBlocks[j]);
             }
         }
 
         EnemiesGenerated?.Invoke(enemiesInCurrentWave);
+    }
+
+    private int CheckCountInBlock(EntityBlock entityBlock)
+    {
+        if (entityBlock.entity.TryGetComponent<Entity>(out Entity thisEntity))
+        {
+            if (thisEntity is ISlimeSplit slimeSplit)
+            {
+                int tally = 0;
+                for (int i = 0; i <= slimeSplit.iterationsLeft; i++)
+                {
+                    tally += (int)Mathf.Pow(slimeSplit.childrenSpawned, i);
+                }
+
+                return tally;
+            }
+        }
+
+        return entityBlock.count;
     }
 }
 

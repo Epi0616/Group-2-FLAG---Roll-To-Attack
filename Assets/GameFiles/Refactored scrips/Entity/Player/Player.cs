@@ -29,9 +29,11 @@ public class Player : Entity,
     [Header("IGrounded")]
     [SerializeField] private GameObject GroundCheckCastPoint;
     [SerializeField] private LayerMask GroundLayer;
+    [SerializeField] private float GroundCheckDistance;
     public GameObject groundCheckCastPoint { get => GroundCheckCastPoint; set => GroundCheckCastPoint = value; }
     public bool isGrounded { get; set; }
     public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
+    public float groundCheckDistance { get => GroundCheckDistance; set => GroundCheckDistance = value; }
 
     [Header("IMoveable")]
     [SerializeField] private bool CanMove = true;
@@ -210,7 +212,7 @@ public class Player : Entity,
     public void CheckForGrounded()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
-        isGrounded = Physics.SphereCast(ray, 0.9f, 1, groundLayer);
+        isGrounded = Physics.SphereCast(ray, 0.9f, groundCheckDistance, groundLayer);
     }
 
     public void SetGroundedCheckPoint()

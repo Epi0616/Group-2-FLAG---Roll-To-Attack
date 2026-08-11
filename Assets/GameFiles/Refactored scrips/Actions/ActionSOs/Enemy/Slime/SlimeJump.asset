@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
+  m_Name: SlimeJump
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
+  conditionalAction:
+    action:
+      rid: 3199366869501608330
+    conditions:
+    - rid: 3199366872854954171
+    - rid: 3199366869501608331
+    - rid: 3199366869501608333
+    - rid: 3199366872854954172
+    - rid: 3199366889705046717
+    allConditionsRequired: 1
+    singleUse: 0
+    triggered: 0
+    exclusive: 1
+    priority: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 3199366869501608330
+      type: {class: SlimeJump, ns: , asm: Assembly-CSharp}
+      data:
+        PreventsMovement: 1
+    - rid: 3199366869501608331
+      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        duration: 3
+    - rid: 3199366869501608333
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+    - rid: 3199366872854954171
+      type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+    - rid: 3199366872854954172
+      type: {class: CanActCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+    - rid: 3199366889705046717
+      type: {class: SlimeableOpsInRange, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        distanceThreshold: 7
+        interval: 0.15

@@ -16,23 +16,29 @@ MonoBehaviour:
     movement:
       rid: 5042951946035265606
     conditions:
-    - rid: 5042951946035265607
     - rid: 5042951946035265608
     - rid: 5042951946035265610
     - rid: 5042951946035265609
+    - rid: 3199366841193464126
+    - rid: 3199366841193464127
     allConditionsRequired: 1
     exclusive: 1
     priority: 1
   references:
     version: 2
     RefIds:
-    - rid: 5042951946035265606
-      type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 5042951946035265607
+    - rid: 3199366841193464126
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
+    - rid: 3199366841193464127
+      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+        distanceThreshold: 30
+    - rid: 5042951946035265606
+      type: {class: NavMeshMovement, ns: , asm: Assembly-CSharp}
+      data: 
     - rid: 5042951946035265608
       type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
       data:
