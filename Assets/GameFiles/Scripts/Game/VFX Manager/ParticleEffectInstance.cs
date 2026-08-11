@@ -18,7 +18,7 @@ public class ParticleEffectInstance : MonoBehaviour
         isDestroyed = false;
         main = particleSystem.main;
         settings.ApplySettings(particleSystem, renderer);
-    
+
         particleSystem.Play();
     }
 

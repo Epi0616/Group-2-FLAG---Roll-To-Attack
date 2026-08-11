@@ -53,7 +53,7 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
                 pos += ownerEntity.transform.forward * 5f;
                 pos.y += 1.25f;
                 ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), pos, Quaternion.Euler(90, 0, 0)).
-                        GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideBurstCount: new rangePair(25, 30), overrideSpeed: new rangePair(-15, -20), overrideShapeRadius: 10));
+                        GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColourHues: new rangePair(0.05f, 0.1f), overrideBurstCount: new rangePair(25, 30), overrideSpeed: new rangePair(-15, -20), overrideShapeRadius: 10));
             }
         }
     }
