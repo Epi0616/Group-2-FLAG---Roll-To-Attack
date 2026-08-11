@@ -8,7 +8,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
     public Entity OwnerEntity { get; set; }
     public List<ActiveStatusEffect> currentActiveStatusEffects = new List<ActiveStatusEffect>();
     private Stat modifiedDamageAmount;
-    public int statusCount;
+    //public int statusCount;
     public void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
@@ -232,7 +232,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
         {
             ai.agent.speed = mo.movementSpeed.GetFinalValue();
         }
-        statusCount = currentActiveStatusEffects.Count;
+        //statusCount = currentActiveStatusEffects.Count;
     }
 
     public bool CheckForMovementBlockersStatus()
