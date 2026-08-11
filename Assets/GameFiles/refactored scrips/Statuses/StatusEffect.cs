@@ -30,14 +30,14 @@ public abstract class StatusEffect
     public void AddEffect(Entity entity)
     {
         entityRef = entity;
-        if (entity == null)
-        {
-            Debug.Log("Passed Entity is NULL");
-        }
-        else if (entityRef == null)
-        {
-            Debug.Log("Held Reference is NULL");
-        }
+        //if (entity == null)
+        //{
+        //    Debug.Log("Passed Entity is NULL");
+        //}
+        //else if (entityRef == null)
+        //{
+        //    Debug.Log("Held Reference is NULL");
+        //}
         OnApplication();
     }
 
@@ -95,5 +95,8 @@ public abstract class StatusEffect
 
     protected virtual void ApplyStatModifier() { }
     protected virtual void ApplyOnDamageEffects(ref Stat damage, DamageType type) { }
+
+    public abstract StatusEffect Clone();
+    
 }
 

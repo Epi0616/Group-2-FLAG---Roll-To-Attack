@@ -65,6 +65,14 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         }
     }
 
+    public override void OnRecieveEffect(ActiveStatusEffect statusEffect)
+    {
+        if (statusEffect.effect.type == StatusType.Knockback)
+        {
+            statusSystem.OnRecieveEffect(statusEffect);
+        }
+    }
+
     protected virtual void OnVacuum()
     {
         List<Entity> hitEntities = GetEntitiesInRange();
@@ -95,7 +103,9 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
             if (colliders[i].gameObject == ownerEntity.gameObject) { continue; }
             if (colliders[i].gameObject == this.gameObject) { continue; }
             if (colliders[i].CompareTag("StaticEntity")) { continue; }
-            enemies.Add(colliders[i].GetComponent<Entity>());
+            Entity hitEntity = colliders[i].GetComponent<Entity>();
+            if (hitEntity.healthSystem.isDead) { continue; }
+            enemies.Add(hitEntity);
 
         }
 
@@ -132,6 +142,7 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         {
             impactfield.DestroyMe();
         }
+        bodySystem.RemoveAllShaders();
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 

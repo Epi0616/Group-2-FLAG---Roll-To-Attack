@@ -21,7 +21,7 @@ public class ThrowableBoulder : MonoBehaviour
     {
         active = false;
         rb.isKinematic = true;
-        StartCoroutine(LifeTime(10));
+        StartCoroutine(LifeTime(7));
     }
 
     public void HandlePathToTarget(Entity ownerEntity, Vector3 target, float durationOfTravel, int slamDamage, Color slamColor, float slamRange)

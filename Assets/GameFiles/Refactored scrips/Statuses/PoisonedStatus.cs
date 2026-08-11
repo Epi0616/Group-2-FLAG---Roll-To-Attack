@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PoisonedStatus : StatusEffect
@@ -44,5 +45,10 @@ public class PoisonedStatus : StatusEffect
     protected override void OnLastStackRemoval()
     {
         entityRef.bodySystem.RemovePoisonedShader();
+    }
+
+    public override StatusEffect Clone()
+    {
+        return new PoisonedStatus(tickDamage, effectText);
     }
 }

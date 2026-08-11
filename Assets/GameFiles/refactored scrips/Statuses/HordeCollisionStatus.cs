@@ -55,4 +55,11 @@ public class HordeCollisionStatus : StatusEffect
             alreadyHit.Add(hitEntity);
         }
     }
+
+    public override StatusEffect Clone()
+    {
+        HordeCollisionStatus clone = new HordeCollisionStatus(collidingLayer);
+        clone.EntityApplied = EntityApplied;
+        return clone;
+    }
 }

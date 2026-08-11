@@ -60,5 +60,9 @@ public class WeakenStatus : StatusEffect
     {
         entityRef.bodySystem.RemoveWeakenShader();
     }
-    
+
+    public override StatusEffect Clone()
+    {
+        return new WeakenStatus(weakMultiplier, effectText);
+    }
 }
