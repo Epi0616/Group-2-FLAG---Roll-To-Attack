@@ -30,7 +30,6 @@ public class NavMeshMovement : BaseEntityMovement
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
 
         if (moveable.canMove == false) { EndMovement(); return; }
-      
 
         intervalTimer += Time.deltaTime;
         if (intervalTimer > setDestinationInterval)

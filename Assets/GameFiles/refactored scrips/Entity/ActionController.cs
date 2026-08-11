@@ -180,7 +180,7 @@ public class ActionController : IResetable
         //if there are multiple actions, use one at random.
         if (lowestPriorityActiveActions.Count > 1)
         {
-            int randomIndex = UnityEngine.Random.Range(0, lowestPriorityActiveActions.Count);
+            int randomIndex = Random.Range(0, lowestPriorityActiveActions.Count);
             chosenAction = lowestPriorityActiveActions[randomIndex];
         }
 

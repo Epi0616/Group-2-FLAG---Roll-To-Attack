@@ -41,9 +41,7 @@ public class BaseDisplacementEffect : StatusEffect
     {
         if (isActive && rbInterfaceAccess.rb.linearVelocity.y < 0)
         {
-            
             rbInterfaceAccess.rb.AddForce(new Vector3(0, -2.0f, 0), ForceMode.Impulse);
-            
         }
     }
 

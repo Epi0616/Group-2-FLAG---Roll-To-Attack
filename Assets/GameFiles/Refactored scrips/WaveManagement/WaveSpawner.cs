@@ -132,7 +132,12 @@ public class WaveSpawner : MonoBehaviour
 
                 case SpawnModifier.dragonSpawnInSky:
                     spawnPosFinal = PickSpawnAreaCircular();
-                    spawnPosFinal.y -= 10f;//currently the action sets the correct height, this is to make sure the player doesnt breifly see the dragon body before it teleports up high, while still allowing for the nav mesh agent to be initialized
+                    //spawnPosFinal.y -= 10f;//currently the action sets the correct height, this is to make sure the player doesnt breifly see the dragon body before it teleports up high, while still allowing for the nav mesh agent to be initialized
+                    break;
+
+                case SpawnModifier.SlimeInSky:
+                    spawnPosFinal = PickSpawnAreaCircular();
+                    spawnPosFinal.y = 40f;
                     break;
 
                 default: //duplicating this else feels bad but i currently am tired and cant think of a better way to do it

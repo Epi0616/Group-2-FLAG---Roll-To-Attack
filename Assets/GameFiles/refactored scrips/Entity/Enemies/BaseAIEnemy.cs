@@ -19,9 +19,12 @@ public class BaseAIEnemy : AIDrivenEntity,
     [Tooltip("Dont Assign unless necessary")]
     [SerializeField] private GameObject GroundCheckCastPoint;
     [SerializeField] private LayerMask GroundLayer;
+    [SerializeField] private float GroundCheckDistance;
+    [SerializeField] private bool IsGrounded;
     public GameObject groundCheckCastPoint { get => GroundCheckCastPoint; set => GroundCheckCastPoint = value; }
-    public bool isGrounded { get; set; }
+    public bool isGrounded { get => IsGrounded; set => IsGrounded = value; }
     public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
+    public float groundCheckDistance { get => GroundCheckDistance; set => GroundCheckDistance = value; }
 
     [Header("IMoveable Properties")]
     [SerializeField] private bool CanMove = true;
@@ -37,7 +40,7 @@ public class BaseAIEnemy : AIDrivenEntity,
     [Header("IActionable Properties")]
     [SerializeField] private List<ConditionalActionDescriptor> ConditionalActionDescriptors = new List<ConditionalActionDescriptor>();
     [SerializeField] private List<ConditionalAction> ConditionalActions = new List<ConditionalAction>();
-    private bool CanAct = true;
+    [SerializeField] private bool CanAct = true;
     public List<ConditionalActionDescriptor> conditionalActionDescriptors { get => ConditionalActionDescriptors; set => ConditionalActionDescriptors = value; }
     public List<ConditionalAction> conditionalActions { get => ConditionalActions; set => ConditionalActions = value; }
     public ActionController actionController { get; set; }
@@ -136,23 +139,26 @@ public class BaseAIEnemy : AIDrivenEntity,
         base.Reset();
         if (target == null)
             target = GameObject.FindGameObjectWithTag("Player"); //same as in initialize, move to a interface/function responsible for finding a target
-        if (movementController!=null)
-            movementController.Reset();
-        if (actionController != null)
-            actionController.Reset();
+        //if (movementController!=null)
+        //    movementController.Reset();
+        //if (actionController != null)
+        //    actionController.Reset();
+
+        UnpackConditionalActions();
+        UnpackConditionalMovements();
     }
 
     // IGrounded Interface Methods
-    public void CheckForGrounded()
+    public virtual void CheckForGrounded()
     {
         RaycastHit hit;
         Ray ray = new Ray(groundCheckCastPoint.transform.position, Vector3.down);
-        isGrounded = (Physics.Raycast(ray, out hit, 1.3f, groundLayer));
+        isGrounded = (Physics.Raycast(ray, out hit, groundCheckDistance, groundLayer));
         //IsGrounded = (Physics.Raycast(ray, out hit, 1.3f, environmentMask));
     }
     public void SetGroundedCheckPoint()
     {
-        if (!groundCheckCastPoint)
+        if (groundCheckCastPoint == null)
         {
             groundCheckCastPoint = gameObject;
         }
@@ -167,6 +173,7 @@ public class BaseAIEnemy : AIDrivenEntity,
     }
     public void UnpackConditionalMovements()
     {
+        conditionalMovements.Clear();
         foreach (var movement in ConditionalMovementDescriptors)
         {
             conditionalMovements.Add(movement.Create());
@@ -185,6 +192,7 @@ public class BaseAIEnemy : AIDrivenEntity,
     }
     public void UnpackConditionalActions()
     {
+        conditionalActions.Clear();
         foreach (var action in conditionalActionDescriptors)
         {
             conditionalActions.Add(action.Create());
@@ -193,19 +201,16 @@ public class BaseAIEnemy : AIDrivenEntity,
     }
 
     // IKnockbackable Interface Methods
-    public void CheckForDisplacement()
+    public virtual void CheckForDisplacement()
     {
         isBeingDisplaced = statusSystem.CheckForDisplacementStatus();
         if (isBeingDisplaced)
         {
             DisableAIAgent();
         }
-        else
+        else if (canMove)
         {
-            if (canMove)
-            {
-                EnableAIAgent();
-            }
+            EnableAIAgent();
         }
     }
 
@@ -214,7 +219,7 @@ public class BaseAIEnemy : AIDrivenEntity,
         isStunned = statusSystem.CheckForStunnedStatus();
     }
 
-    protected void OnCollisionEnter(Collision collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Environment") && !collision.gameObject.CompareTag("Pedestal")) { return; }
         if (!isBeingDisplaced) { return; }

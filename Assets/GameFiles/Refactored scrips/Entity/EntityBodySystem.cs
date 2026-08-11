@@ -8,10 +8,11 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public GameObject body;
     public Quaternion originalRotation;
     public MaterialPropertyBlock block;
-    public SkinnedMeshRenderer renderer;
+    public Renderer renderer;
     public Coroutine IceCoroutine;
     public Coroutine WeakenCracksCoroutine;
     public Coroutine PoisonedCoroutine;
+
     public virtual void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
@@ -19,14 +20,14 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         block = new MaterialPropertyBlock();
         if (renderer == null)
         {
-            renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+            renderer = GetComponentInChildren<Renderer>();
         }
     }
 
-    public virtual void Vibrate()
+    public virtual void Vibrate(float intensity = 0.1f)//intensity base 0.1f
     {
-        float x = Mathf.Sin(Time.time * 50) * 0.1f;
-        float z = Mathf.Sin(Time.time * 50) * 0.1f;
+        float x = Mathf.Sin(Time.time * 50) * intensity;
+        float z = Mathf.Sin(Time.time * 50) * intensity;
         body.transform.localPosition = new Vector3(x, 0, z);
     }
 
