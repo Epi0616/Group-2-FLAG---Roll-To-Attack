@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class SmokeParticle : ParticleEffectInstance
 {
-    public AnimationCurve clipCurve;
+    //public AnimationCurve clipCurve;
 
     public override void PlayParticleEffect(EffectSettings settings)
     {

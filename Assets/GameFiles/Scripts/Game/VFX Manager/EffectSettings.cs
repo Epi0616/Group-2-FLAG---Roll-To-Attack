@@ -51,6 +51,7 @@ public class EffectSettings
         {
             //Debug.Log("Colour Override");
             main.startColor = OverrideColour;
+            particleRenderer.material.SetColor("_BaseColour", OverrideColour);
         }
         if (overrideScale is rangePair OverrideScale)
         {
@@ -95,7 +96,6 @@ public class EffectSettings
         }
         if (overrideBurstCount is rangePair OverrideBurstCount)
         {
-            
             burst.count = new ParticleSystem.MinMaxCurve(OverrideBurstCount.min, OverrideBurstCount.max);
             emission.SetBurst(0, burst);
         }
@@ -123,6 +123,7 @@ public class EffectSettings
                 Color newColour = particles[i].startColor;
                 float hue = UnityEngine.Random.Range(OverrideColourHues.min, OverrideColourHues.max);
                 particles[i].startColor = newColour * hue;
+                particleRenderer.material.SetColor("_BaseColour", newColour * hue);
 
             }
 
