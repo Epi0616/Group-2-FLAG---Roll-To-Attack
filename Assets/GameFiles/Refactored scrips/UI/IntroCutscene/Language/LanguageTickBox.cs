@@ -8,8 +8,9 @@ public class LanguageTickBox : InteractableTickBox, IPointerDownHandler
 
     [SerializeField] private string language;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         newLanguageSelected += HandleNewLanguage;
     }
 

@@ -154,12 +154,12 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
 
         upgradeEffectAnimationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.5f);
         SetUpgradeImageAlpha(1);
-        Debug.Log("display thingy");
+        //Debug.Log("display thingy");
     }
 
     private void HandleEndUpgradeDisplay()
     {
-        Debug.Log("end display thingy");
+        //Debug.Log("end display thingy");
         SetUpgradeImageAlpha(0);
     }
 

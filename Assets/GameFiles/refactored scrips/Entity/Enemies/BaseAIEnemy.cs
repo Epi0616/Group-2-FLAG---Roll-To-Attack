@@ -139,13 +139,13 @@ public class BaseAIEnemy : AIDrivenEntity,
         base.Reset();
         if (target == null)
             target = GameObject.FindGameObjectWithTag("Player"); //same as in initialize, move to a interface/function responsible for finding a target
-        //if (movementController!=null)
-        //    movementController.Reset();
-        //if (actionController != null)
-        //    actionController.Reset();
+        if (movementController != null)
+            movementController.Reset();
+        if (actionController != null)
+            actionController.Reset();
 
-        UnpackConditionalActions();
-        UnpackConditionalMovements();
+        //UnpackConditionalActions();
+        //UnpackConditionalMovements();
     }
 
     // IGrounded Interface Methods
