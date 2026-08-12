@@ -48,11 +48,11 @@ public class NavMeshMovement : BaseEntityMovement
     public override void EndMovement()
     {
        // Debug.Log("Movement Ended");
-        aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position);
+       aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position);
     }
+
     public override BaseEntityMovement Clone()
     {
         return new NavMeshMovement();
     }
-
 }

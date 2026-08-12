@@ -39,7 +39,6 @@ public class SlimeBoss : BaseAISlamEnemy, ISlimeTrail, IGrounded, IKnockbackable
 
         agent.Warp(transform.position);
         agent.ResetPath();
-
     }
 
     public override void DisableAIAgent()

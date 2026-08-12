@@ -31,7 +31,6 @@ public class TimeCondition : BaseCondition
     public override void ResetCondition()
     {
         timer = duration;
-        Debug.Log("resetting condition");
     }
 
     public override bool IsConditionMet()

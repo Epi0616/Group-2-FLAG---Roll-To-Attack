@@ -119,7 +119,7 @@ public class DummyDeathCondition : TutorialCondition
     private void OnDummyDeath(DamageType type)
     {
         totalDeaths++;
-        bool desiredFound = false;
+        //bool desiredFound = false;
         foreach (DamageType damageType in desiredTypes)
         {
             if (type == damageType)
@@ -132,7 +132,7 @@ public class DummyDeathCondition : TutorialCondition
                     complete = true;
                     return;
                 }
-                desiredFound = true;
+                //desiredFound = true;
                 break;
             }
         }

@@ -54,7 +54,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -151,6 +151,7 @@ MonoBehaviour:
   ConditionalActionDescriptors:
   - {fileID: 11400000, guid: 81bed18ce4bbb354ebc20379f0914b5b, type: 2}
   ConditionalActions: []
+  CanAct: 1
   WeightModifier:
     baseValue: 1
   SlammedDMGMod:
@@ -196,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d0964f6dd437745baa50d5f048165f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityStatusSystem
+  statusCount: 0
 --- !u!114 &4942087712279446587
 MonoBehaviour:
   m_ObjectHideFlags: 0
