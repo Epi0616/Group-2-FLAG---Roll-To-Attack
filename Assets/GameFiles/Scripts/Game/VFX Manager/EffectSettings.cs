@@ -99,20 +99,35 @@ public class EffectSettings
             burst.count = new ParticleSystem.MinMaxCurve(OverrideBurstCount.min, OverrideBurstCount.max);
             emission.SetBurst(0, burst);
         }
-        if (overrideColourHues  is rangePair OverrideColourHues)
+
+    }
+
+    public void ApplyLateSettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
+    {
+        ParticleSystem.MainModule main = particleSystem.main;
+        //ParticleSystem.VelocityOverLifetimeModule velocity = particleSystem.velocityOverLifetime;
+        //ParticleSystem.LimitVelocityOverLifetimeModule limit = particleSystem.limitVelocityOverLifetime;
+        //ParticleSystem.ShapeModule shape = particleSystem.shape;
+        //ParticleSystem.EmissionModule emission = particleSystem.emission;
+        //ParticleSystem.Burst burst = new ParticleSystem.Burst();
+
+        if (overrideColourHues is rangePair OverrideColourHues)
         {
-            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[(int)emission.GetBurst(0).count.constantMax];
-            particleSystem.GetParticles(particles);
-            for (int i = 0; i < particles.Length; i++) 
+            //Debug.Log("Overriding Hue");
+            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[main.maxParticles];
+            int size = particleSystem.GetParticles(particles);
+
+            //Debug.Log("Size is: " + size);
+            for (int i = 0; i < size; i++)
             {
                 Color newColour = particles[i].startColor;
-                float r = UnityEngine.Random.Range(OverrideColourHues.min, OverrideColourHues.max);
-                particles[i].startColor = Color.blue;
-            }
-            particleSystem.SetParticles(particles);
-        }
+                float hue = UnityEngine.Random.Range(OverrideColourHues.min, OverrideColourHues.max);
+                particles[i].startColor = newColour * hue;
 
-        
+            }
+
+            particleSystem.SetParticles(particles, size);
+        }
     }
 
     // amount per burst?, shape, lifetime, scale
