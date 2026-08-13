@@ -1,6 +1,7 @@
-using System.Collections;
-using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class EntityBodySystem : MonoBehaviour, IEntitySystem
 {
@@ -10,6 +11,8 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public MaterialPropertyBlock block;
     public Renderer renderer;
     //public Mesh mesh;
+    public static Dictionary<ShaderType, Coroutine> ShaderCoroutines = new();
+
     public Coroutine IceCoroutine;
     public Coroutine WeakenCracksCoroutine;
     public Coroutine PoisonedCoroutine;
@@ -63,6 +66,57 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         float z = Mathf.Sin(Time.time * 50f) * magnitude;
         body.transform.rotation = originalRotation * Quaternion.Euler(x, y, z);
     }
+
+    public IEnumerator ShaderTransitionCoroutine(float target, float duration, ShaderProperty shader)
+    {
+        renderer.GetPropertyBlock(block);
+        float timer = 0;
+        float startingPower = block.GetFloat(shader.powerRef);
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            block.SetFloat(shader.powerRef, Mathf.Lerp(startingPower, target, (timer / duration)));
+            renderer.SetPropertyBlock(block);
+            yield return null;
+        }
+        block.SetFloat(shader.powerRef, target);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void ApplyShader(Color colour, float duration, ShaderType type)
+    {
+        ShaderProperty shader = ShaderPropertyHolder.ShaderPropertyDict[type];
+        StopShaderCoroutine(type);
+        SetShaderColour(colour, shader);
+        ShaderCoroutines[type] = StartCoroutine(ShaderTransitionCoroutine(1, duration, shader));
+    }
+
+    public void RemoveShader(float duration, ShaderType type)
+    {
+        ShaderProperty shader = ShaderPropertyHolder.ShaderPropertyDict[type];
+        StopShaderCoroutine(type);
+        ShaderCoroutines[type] = StartCoroutine(ShaderTransitionCoroutine(0, duration, shader));
+    }
+
+    public void SetShaderColour(Color colour, ShaderProperty shader)
+    {
+        if (shader.colourRef == null) { return; }
+        renderer.GetPropertyBlock(block);
+        block.SetColor(shader.colourRef, colour);
+        renderer.SetPropertyBlock(block);
+    }
+
+    public void StopShaderCoroutine(ShaderType type)
+    {
+        if (ShaderCoroutines.TryGetValue(type, out Coroutine coroutine))
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+            }
+        }
+    }
+
     // Ice Shader -------------------------------------------------------------------------
     public void OverrideFreezeShader(float target)
     {
