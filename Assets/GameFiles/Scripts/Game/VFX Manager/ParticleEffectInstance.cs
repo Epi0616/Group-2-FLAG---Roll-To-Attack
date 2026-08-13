@@ -1,28 +1,42 @@
+using JetBrains.Annotations;
+using System.Collections;
 using UnityEngine;
 
 public class ParticleEffectInstance : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem particleSystem;
-    private float timer;
-    private ParticleSystem.MainModule main;
-    private ParticleSystemRenderer renderer;
-    private bool isDestroyed;
+    [SerializeField] protected ParticleSystem particleSystem;
+    protected float timer;
+    protected ParticleSystem.MainModule main;
+    protected ParticleSystemRenderer renderer;
+    protected bool isDestroyed;
 
     public void Awake()
     {
         renderer = GetComponent<ParticleSystemRenderer>();
     }
-    public void PlayParticleEffect(EffectSettings settings)
+    public virtual void PlayParticleEffect(EffectSettings settings)
     {
         timer = 0;
         isDestroyed = false;
         main = particleSystem.main;
-        settings.ApplySettings(particleSystem, renderer);
-    
-        particleSystem.Play();
+        StartCoroutine(PlayParticleSequence(settings));
+        
+        
     }
 
-    public void Update()
+    public virtual IEnumerator PlayParticleSequence(EffectSettings settings)
+    {
+
+        settings.ApplySettings(particleSystem, renderer);
+        particleSystem.Play();
+
+        yield return null;
+
+        settings.ApplyLateSettings(particleSystem, renderer);
+        
+    }
+
+    public virtual void Update()
     {
         timer += Time.deltaTime;
         if (timer > main.duration)

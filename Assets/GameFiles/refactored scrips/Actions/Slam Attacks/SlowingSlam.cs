@@ -22,7 +22,7 @@ public class SlowingSlam : BaseSlamAction , IUpgradableAbility
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new SlowStatus(SlowMult, "PlaceHolderSlow"),
-                new List<BaseCondition> { new TimeCondition(true, SlowDuration) }, true), slamColour);
+                new List<BaseCondition> { new TimeCondition(true, SlowDuration) }, true));
     }
 
     public override BaseEntityAction Clone()

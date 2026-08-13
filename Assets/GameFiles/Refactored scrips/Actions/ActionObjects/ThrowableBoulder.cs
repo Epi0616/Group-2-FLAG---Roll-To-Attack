@@ -47,8 +47,8 @@ public class ThrowableBoulder : MonoBehaviour
             lifeTime -= Time.deltaTime;
             yield return null;
         }
-
-        ObjectPoolManager.ReturnObjectToPool(gameObject);
+        StartCoroutine(FallIntoFloor());
+        //ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     //Slam
@@ -87,6 +87,15 @@ public class ThrowableBoulder : MonoBehaviour
             Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange, ownerEntity.hostileMask);
             ProcessHits(colliders, hit);
         }
+
+        Vector3 pos = slamOrigin;
+        pos.y += 1.5f;
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), pos, Quaternion.Euler(90, 0, 0)).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColourHues: new rangePair(0.6f, 1f), overrideBurstCount: new rangePair(3, 6), overrideSpeed: new rangePair(5, 10), overrideShapeRadius: slamRange));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst02), pos, Quaternion.Euler(0, 0, 0)).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColourHues: new rangePair(0.6f, 1f)));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), pos, Quaternion.Euler(90, 0, 0)).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideShapeRadius: slamRange, overrideBurstCount: new rangePair(10, 15)));
     }
 
     public virtual void ProcessHits(Collider[] colliders, RaycastHit hit)
@@ -169,6 +178,19 @@ public class ThrowableBoulder : MonoBehaviour
         if (active) return;
 
         StopAllCoroutines();
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
+    }
+
+    public IEnumerator FallIntoFloor()
+    {
+        float timer = 0;
+        while (timer < 1.5f)
+        {
+           
+            timer += Time.deltaTime;
+            transform.position = new Vector3(transform.position.x, transform.position.y - 0.03f, transform.position.z);
+            yield return null;
+        }
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

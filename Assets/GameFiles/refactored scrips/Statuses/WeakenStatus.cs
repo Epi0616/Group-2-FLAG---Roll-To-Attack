@@ -43,7 +43,8 @@ public class WeakenStatus : StatusEffect
 
     protected override void OnFirstStackApplication()
     {
-        entityRef.bodySystem.ApplyWeakenShader(effectColour);
+        //entityRef.bodySystem.ApplyWeakenShader(effectColour);
+        entityRef.bodySystem.ApplyShader(effectColour * 3, 0.5f, ShaderType.Weakened);
     }
 
     //protected override void OnUpdate()
@@ -58,7 +59,7 @@ public class WeakenStatus : StatusEffect
 
     protected override void OnLastStackRemoval()
     {
-        entityRef.bodySystem.RemoveWeakenShader();
+        entityRef.bodySystem.RemoveShader(0.25f, ShaderType.Weakened);
     }
 
     public override StatusEffect Clone()

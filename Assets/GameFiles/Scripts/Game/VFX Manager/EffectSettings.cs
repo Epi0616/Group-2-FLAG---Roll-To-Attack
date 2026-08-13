@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EffectSettings
 {
@@ -11,29 +13,45 @@ public class EffectSettings
     public Vector3? overrideInitialVelocity;
     public float? overrideVelocitySpeedMult;
     public Material? overrideMaterial;
-    
+    public float? overrideVelocityDampening;
+    public float? overrideShapeArc;
+    public float? overrideShapeRadius;
+    public rangePair? overrideBurstCount;
+    public rangePair? overrideColourHues;
+
+
     public EffectSettings(Color? overrideColour = null, rangePair? overrideScale = null, rangePair? overrideLifetime = null, rangePair? overrideSpeed = null,
-        rangePair? overrideGravity = null, Vector3? overrideInitialVelocity = null, float? overrideVelocitySpeedMult = null, Material? overrideMaterial = null)
+        rangePair? overrideGravity = null, Vector3? overrideInitialVelocity = null, float? overrideVelocitySpeedMult = null, Material? overrideMaterial = null,
+        float? overrideVelocityDampening = null, float? overrideShapeArc = null, float? overrideShapeRadius = null, rangePair? overrideBurstCount = null, rangePair? overrideColourHues = null)
     {
         this.overrideColour = overrideColour;
-        this.overrideScale = overrideScale;      
+        this.overrideScale = overrideScale;
         this.overrideLifetime = overrideLifetime;
         this.overrideSpeed = overrideSpeed;
         this.overrideGravity = overrideGravity;
         this.overrideInitialVelocity = overrideInitialVelocity;
         this.overrideVelocitySpeedMult = overrideVelocitySpeedMult;
         this.overrideMaterial = overrideMaterial;
+        this.overrideVelocityDampening = overrideVelocityDampening;
+        this.overrideShapeArc = overrideShapeArc;
+        this.overrideShapeRadius = overrideShapeRadius;
+        this.overrideBurstCount = overrideBurstCount;
+        this.overrideColourHues = overrideColourHues;
     }
-    
+
     public void ApplySettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
     {
         ParticleSystem.MainModule main = particleSystem.main;
         ParticleSystem.VelocityOverLifetimeModule velocity = particleSystem.velocityOverLifetime;
-        
+        ParticleSystem.LimitVelocityOverLifetimeModule limit = particleSystem.limitVelocityOverLifetime;
+        ParticleSystem.ShapeModule shape = particleSystem.shape;
+        ParticleSystem.EmissionModule emission = particleSystem.emission;
+        ParticleSystem.Burst burst = new ParticleSystem.Burst();
         if (overrideColour is Color OverrideColour)
         {
             //Debug.Log("Colour Override");
             main.startColor = OverrideColour;
+            particleRenderer.material.SetColor("_BaseColour", OverrideColour);
         }
         if (overrideScale is rangePair OverrideScale)
         {
@@ -60,13 +78,56 @@ public class EffectSettings
             velocity.y = OverrideVelocity.y;
             velocity.z = OverrideVelocity.z;
         }
-        if (overrideVelocitySpeedMult is float OverrideVelocitSpeedMult)
+        if (overrideVelocitySpeedMult is float OverrideVelocitySpeedMult)
         {
-            velocity.speedModifier = overrideVelocitySpeedMult.Value;
+            velocity.speedModifier = OverrideVelocitySpeedMult;
         }
-        if (overrideMaterial is Material OverrideMaterial)
+        if (overrideVelocityDampening is float OverrideVelocityDampening)
         {
+            limit.dampen = OverrideVelocityDampening;
+        }
+        if (overrideShapeArc is float OverrideShapeArc)
+        {
+            shape.arcSpread = OverrideShapeArc;
+        }
+        if (overrideShapeRadius is float OverrideShapeRadius)
+        {
+            shape.radius = OverrideShapeRadius;
+        }
+        if (overrideBurstCount is rangePair OverrideBurstCount)
+        {
+            burst.count = new ParticleSystem.MinMaxCurve(OverrideBurstCount.min, OverrideBurstCount.max);
+            emission.SetBurst(0, burst);
+        }
 
+    }
+
+    public void ApplyLateSettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
+    {
+        ParticleSystem.MainModule main = particleSystem.main;
+        //ParticleSystem.VelocityOverLifetimeModule velocity = particleSystem.velocityOverLifetime;
+        //ParticleSystem.LimitVelocityOverLifetimeModule limit = particleSystem.limitVelocityOverLifetime;
+        //ParticleSystem.ShapeModule shape = particleSystem.shape;
+        //ParticleSystem.EmissionModule emission = particleSystem.emission;
+        //ParticleSystem.Burst burst = new ParticleSystem.Burst();
+
+        if (overrideColourHues is rangePair OverrideColourHues)
+        {
+            //Debug.Log("Overriding Hue");
+            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[main.maxParticles];
+            int size = particleSystem.GetParticles(particles);
+
+            //Debug.Log("Size is: " + size);
+            for (int i = 0; i < size; i++)
+            {
+                Color newColour = particles[i].startColor;
+                float hue = UnityEngine.Random.Range(OverrideColourHues.min, OverrideColourHues.max);
+                particles[i].startColor = newColour * hue;
+                particleRenderer.material.SetColor("_BaseColour", newColour * hue);
+
+            }
+
+            particleSystem.SetParticles(particles, size);
         }
     }
 

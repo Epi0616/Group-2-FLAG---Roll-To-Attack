@@ -24,7 +24,7 @@ public class PoisonedStatus : StatusEffect
 
     protected override void OnFirstStackApplication()
     {
-        entityRef.bodySystem.ApplyPoisonedShader(effectColour);         
+        entityRef.bodySystem.ApplyShader(effectColour * 3, 0.75f, ShaderType.Poisoned);
     }
 
     protected override void OnUpdate()
@@ -44,7 +44,7 @@ public class PoisonedStatus : StatusEffect
 
     protected override void OnLastStackRemoval()
     {
-        entityRef.bodySystem.RemovePoisonedShader();
+        entityRef.bodySystem.RemoveShader(0.5f, ShaderType.Poisoned);
     }
 
     public override StatusEffect Clone()

@@ -57,7 +57,7 @@ public class EnhancedSlowingBubble : MonoBehaviour
             if (hitEntity == ownerEntity) { return; }
             effectedEntities.Add(hitEntity);
             hitEntity.OnRecieveEffect(new ActiveStatusEffect(new SlowStatus(slowMult, "PlaceHolderSlow"),
-                new List<BaseCondition> { new TimeCondition(true, 0.5f) }, true), slamColour);
+                new List<BaseCondition> { new TimeCondition(true, 0.5f) }, true));
         }
     }
 

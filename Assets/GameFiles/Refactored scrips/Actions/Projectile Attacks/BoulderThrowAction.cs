@@ -52,6 +52,12 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
     {
         boulder = ObjectPoolManager.SpawnObject(boulderThrow.boulderObj, ownerEntity.transform.position, Quaternion.identity).GetComponent<ThrowableBoulder>();
 
+        Vector3 pos = ownerEntity.transform.position;
+        pos += ownerEntity.transform.forward * 5f;
+        pos.y += 2.5f;
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), pos, Quaternion.Euler(90, 0, 0)).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColourHues: new rangePair(0.6f, 1f), overrideBurstCount: new rangePair(5, 10), overrideSpeed: new rangePair(-15, -20), overrideShapeRadius: 10));
+
         float animationTime = 3.75f;
         animated.animationManager.PlayAnimationCrossFade(AnimationType.RockThrow, 1, MixerType.main, 0.2f, animationTime);
         yield return TrackBolderToArm(boulderThrow.boulderRootBone, 2.35f);
