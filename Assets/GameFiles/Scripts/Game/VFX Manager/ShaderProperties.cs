@@ -21,7 +21,7 @@ public static class ShaderPropertyHolder
     public static Dictionary<ShaderType, ShaderProperty> ShaderPropertyDict = new Dictionary<ShaderType, ShaderProperty>
     {
         [ShaderType.Frozen] = new(colourRef: "_IceColour", powerRef: "_IcePower"),
-        [ShaderType.Weakened] = new(colourRef: "_CrackColour", powerRef: "_CrackColour"),
+        [ShaderType.Weakened] = new(colourRef: "_CrackColour", powerRef: "_CrackPower"),
         [ShaderType.Poisoned] = new(colourRef: "_PoisonColour", powerRef: "_PoisonPower"),
         [ShaderType.Slow] = new(powerRef: "_SlowPower")
     };

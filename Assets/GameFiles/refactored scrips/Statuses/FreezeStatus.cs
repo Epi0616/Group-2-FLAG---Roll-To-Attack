@@ -35,7 +35,7 @@ public class FreezeStatus : BaseStunEffect
 
     protected override void OnFirstStackApplication()
     {
-        entityRef.bodySystem.ApplyFreezeShader(effectColour);
+        entityRef.bodySystem.ApplyShader(effectColour, 0.25f, ShaderType.Frozen);
     }
 
     protected override void OnUpdate()
@@ -51,8 +51,9 @@ public class FreezeStatus : BaseStunEffect
     protected override void OnLastStackRemoval()
     {
         //Debug.Log("Final Freeze Stack For: " + entityRef.gameObject.name);
-        entityRef.bodySystem.RemoveFreezeShader();
         //entityRef.bodySystem.RemoveFreezeShader();
+        //entityRef.bodySystem.RemoveFreezeShader();
+        entityRef.bodySystem.RemoveShader(0.2f, ShaderType.Frozen);
     }
 
     public override StatusEffect Clone()
