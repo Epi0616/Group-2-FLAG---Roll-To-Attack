@@ -11,5 +11,6 @@ public enum SpawnModifier
 {
     None,
     spawnInGround,
-    dragonSpawnInSky
+    dragonSpawnInSky,
+    SlimeInSky
 }

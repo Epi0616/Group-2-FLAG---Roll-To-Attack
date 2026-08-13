@@ -30,7 +30,6 @@ public class NavMeshMovement : BaseEntityMovement
         if (aiInterfaceAccess.agent == null) { Debug.LogError("NO AGENT LOL"); }
 
         if (moveable.canMove == false) { EndMovement(); return; }
-      
 
         intervalTimer += Time.deltaTime;
         if (intervalTimer > setDestinationInterval)
@@ -49,11 +48,11 @@ public class NavMeshMovement : BaseEntityMovement
     public override void EndMovement()
     {
        // Debug.Log("Movement Ended");
-        aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position);
+       aiInterfaceAccess.agent.SetDestination(ownerEntity.transform.position);
     }
+
     public override BaseEntityMovement Clone()
     {
         return new NavMeshMovement();
     }
-
 }

@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
+  m_Name: FireballRain50
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
+  conditionalAction:
+    action:
+      rid: 5042951995510751302
+    conditions:
+    - rid: 5042951995510751304
+    - rid: 3199366818353381491
+    allConditionsRequired: 1
+    singleUse: 1
+    triggered: 0
+    exclusive: 1
+    priority: 2
+  references:
+    version: 2
+    RefIds:
+    - rid: 3199366818353381491
+      type: {class: HealthCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        healthThresholdPercentage: 50
+    - rid: 5042951995510751302
+      type: {class: FireballRainAction, ns: , asm: Assembly-CSharp}
+      data:
+        PreventsMovement: 0
+        SlamDamage: 10
+        SlamColor: {r: 1, g: 0.30588236, b: 0, a: 1}
+        ChargeTime: 0
+        SlamRange:
+          baseValue: 5
+        SlamPositionOffset: {x: 0, y: 0, z: 0}
+        startDelay: 2.5
+        actionDuration: 5
+        totalFireballs: 75
+        centerPoint: {x: 5, y: 45, z: 15}
+        radius: 60
+    - rid: 5042951995510751304
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1

@@ -79,7 +79,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     private static GameObject CreateObject(GameObject prefab, Vector3 position, Quaternion rotation, PoolType poolType = PoolType.GameObjects)
     {
-        prefab.SetActive(false);
+        //prefab.SetActive(false);
 
         GameObject obj = Instantiate(prefab, position, rotation);
 

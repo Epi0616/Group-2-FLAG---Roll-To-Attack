@@ -33,8 +33,19 @@ public class KnockbackEffect : BaseDisplacementEffect
 
     protected override void OnRemoval()
     {
+        //if (entityRef is INavAgent navAgent)
+        //{
+        //    NavMesh.SamplePosition(entityRef.transform.position, out NavMeshHit hit, 10, 1);
+        //    if (hit.position.magnitude < 1000000)
+        //    {
+        //        navAgent.agent.Warp(hit.position);
+        //    }
+
+        //}
+
+
         base.OnRemoval();
-        //Debug.Log("KB Removed");
+        Debug.Log("KB Removed");
     }
 
     public override StatusEffect Clone()

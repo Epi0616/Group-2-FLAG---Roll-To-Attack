@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
@@ -8,7 +7,6 @@ public class NavMeshEscapeMovement : BaseEntityMovement
 {
     private INavAgent aiInterfaceAccess;
     private ITarget target;
-    private EnemyBodySystem enemyBodySystem;
     private float setDestinationInterval = 0.15f;
     private float intervalTimer = 0;
 
@@ -18,9 +16,9 @@ public class NavMeshEscapeMovement : BaseEntityMovement
 
     public override void StartMovement(Entity ownerEntity)
     {
+        Debug.Log("starting escape movement");
         base.StartMovement(ownerEntity);
         aiInterfaceAccess = ownerEntity as INavAgent;
-        enemyBodySystem = ownerEntity.bodySystem as EnemyBodySystem;
         aiInterfaceAccess.EnableAIAgent();
         aiInterfaceAccess.agent.updateRotation = false;
 

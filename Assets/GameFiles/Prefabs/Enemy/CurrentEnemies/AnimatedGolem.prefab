@@ -108,7 +108,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -172,6 +172,8 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
+  GroundCheckDistance: 1.5
+  IsGrounded: 0
   CanMove: 1
   MovementSpeed:
     baseValue: 18
@@ -183,6 +185,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c322df66a962c8949934f968fcb2d86d, type: 2}
   - {fileID: 11400000, guid: a5db517584295364fa273455f3e99d61, type: 2}
   ConditionalActions: []
+  CanAct: 1
   WeightModifier:
     baseValue: 1
   SlammedDMGMod:
@@ -192,6 +195,7 @@ MonoBehaviour:
   IsStunned: 0
   AnimationManager: {fileID: 4991405219489296263}
   SpawnModifier: 1
+  IsWaveEnemy: 0
   ImpactFieldPrefab: {fileID: 5323335566823744965, guid: 3b0f77e8dcb519342a96aca1670faa8f, type: 3}
   PedestalLayer:
     serializedVersion: 2
@@ -230,6 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d0964f6dd437745baa50d5f048165f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityStatusSystem
+  statusCount: 0
 --- !u!114 &1191412461925248127
 MonoBehaviour:
   m_ObjectHideFlags: 0

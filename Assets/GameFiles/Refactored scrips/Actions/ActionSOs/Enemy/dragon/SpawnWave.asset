@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
+  m_Name: SpawnWave
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
+  conditionalAction:
+    action:
+      rid: 3199366759529578582
+    conditions:
+    - rid: 3199366759529578583
+    allConditionsRequired: 1
+    singleUse: 0
+    triggered: 0
+    exclusive: 1
+    priority: 3
+  references:
+    version: 2
+    RefIds:
+    - rid: 3199366759529578582
+      type: {class: SpawnWaveAction, ns: , asm: Assembly-CSharp}
+      data:
+        PreventsMovement: 1
+        waveIndex: 10
+        budget: 200
+    - rid: 3199366759529578583
+      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        duration: 30

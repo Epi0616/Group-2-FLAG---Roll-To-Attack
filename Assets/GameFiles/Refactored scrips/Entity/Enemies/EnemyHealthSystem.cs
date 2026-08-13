@@ -6,7 +6,6 @@ public class EnemyHealthSystem : EntityHealthSystem
 {
     public static event Action EnemyHasDied;
     
-
     public override void OnTakeDamage(int damageAmount, DamageType type)
     {
         currentHealth -= damageAmount;
@@ -44,8 +43,10 @@ public class EnemyHealthSystem : EntityHealthSystem
     }
 
     private IEnumerator DelayedDeath(float delayTime, IAnimated animated)
-    { 
+    {
         yield return new WaitForSeconds(delayTime);
+
+        //Debug.Log("wait complete");
         //animated.animationManager.EndCurrentAnimation(MixerType.main);
         //animated.animationManager.EndCurrentAnimation(MixerType.complimentary);
         EnemyDeath();
@@ -56,7 +57,14 @@ public class EnemyHealthSystem : EntityHealthSystem
         OwnerEntity.bodySystem.RemoveAllShaders();
         try
         {
-            EnemyHasDied?.Invoke();
+            if (OwnerEntity is IWaveEnemy enemy)
+            {
+                if (enemy.isWaveEnemy)
+                {
+                    EnemyHasDied?.Invoke();
+                }
+            }
+
             ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject, 0);
         }
         catch

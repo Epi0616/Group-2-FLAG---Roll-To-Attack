@@ -25,7 +25,8 @@ public class GroundedCondition : BaseCondition
     public override bool IsConditionMet()
     {
         if (groundInterfaceAccess == null) {  return true; }
-        return groundInterfaceAccess.isGrounded;
+
+        return inverse ? !groundInterfaceAccess.isGrounded : groundInterfaceAccess.isGrounded;
     }
 
     public override BaseCondition Clone()

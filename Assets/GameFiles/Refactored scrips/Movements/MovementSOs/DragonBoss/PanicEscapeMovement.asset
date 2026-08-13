@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
+  m_Name: PanicEscapeMovement
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
+  conditionalMovement:
+    movement:
+      rid: 3199366841193464007
+    conditions:
+    - rid: 3199366841193464010
+    - rid: 3199366841193464011
+    - rid: 3199366841193464085
+    - rid: 3199366849614315592
+    allConditionsRequired: 1
+    exclusive: 1
+    priority: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 3199366841193464007
+      type: {class: PanicEscapeMovement, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3199366841193464010
+      type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+    - rid: 3199366841193464011
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+    - rid: 3199366841193464085
+      type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+    - rid: 3199366849614315592
+      type: {class: DistanceFromPointWithDelay, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+        distanceThreshold: 54
+        point: {x: 4.49, y: 1.5999999, z: 15.65}
+        delay: 5

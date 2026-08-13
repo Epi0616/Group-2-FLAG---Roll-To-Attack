@@ -31,7 +31,7 @@ public class FallFromTheSky : BaseEntityAction
 
         if (ownerEntity is IAnimated animated)
         {
-            //animated.animationManager.PlayAnimationCrossFade(AnimationType.WakeUp, 1, MixerType.main, 0.2f, 5);
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main);
         }
 
         startPosition = ownerEntity.transform.position;

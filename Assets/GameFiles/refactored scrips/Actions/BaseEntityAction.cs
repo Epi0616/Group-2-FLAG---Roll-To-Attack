@@ -26,6 +26,7 @@ public class BaseEntityAction : IAction
     }
     public virtual void EndAction()
     {
+        //isComplete = true; this really should be added in but i fear the consiquences
     }
     public virtual BaseEntityAction Clone()
     { 
