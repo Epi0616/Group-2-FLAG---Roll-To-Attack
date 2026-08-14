@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class EffectSettings
 {
+    private List<EffectOverride> effectOverrides = new List<EffectOverride>();
+    private List<ILateEffectOverride> lateEffectOverrides = new List<ILateEffectOverride>();
+
     public Color? overrideColour;
     public rangePair? overrideScale;
     public rangePair? overrideLifetime;
@@ -38,6 +41,38 @@ public class EffectSettings
         this.overrideBurstCount = overrideBurstCount;
         this.overrideColourHues = overrideColourHues;
     }
+
+    public EffectSettings(List<EffectOverride> overrides)
+    {
+        effectOverrides = overrides;
+    }
+
+    public void ApplyEffectOverrides(ParticleSystem particleSystem)
+    { 
+        foreach (EffectOverride effectOverride in effectOverrides)
+        {
+            effectOverride.ApplyOverride(particleSystem);
+            if (effectOverride is ILateEffectOverride temp)
+            {
+                lateEffectOverrides.Add(temp);
+            }
+        }
+    }
+
+    public void ApplyLateEffectOverrides(ParticleSystem particleSystem)
+    {
+        foreach (ILateEffectOverride lateEffectOverride in lateEffectOverrides)
+        {
+            lateEffectOverride.ApplyLateOverride(particleSystem);
+        }
+        lateEffectOverrides.Clear();
+    }
+
+    public void AddOverride(EffectOverride effectOverride)
+    {
+        effectOverrides.Add(effectOverride);
+    }
+
 
     public void ApplySettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
     {
