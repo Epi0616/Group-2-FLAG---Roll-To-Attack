@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
+using System.Collections.Generic;
 public class ThrowableBoulder : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
@@ -91,11 +91,16 @@ public class ThrowableBoulder : MonoBehaviour
         Vector3 pos = slamOrigin;
         pos.y += 1.5f;
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), pos, Quaternion.Euler(90, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColourHues: new rangePair(0.6f, 1f), overrideBurstCount: new rangePair(3, 6), overrideSpeed: new rangePair(5, 10), overrideShapeRadius: slamRange));
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
+                    new ColourHueEffectOverride(new rangePair(0.6f, 1f)),
+                    new BurstCountEffectOverride(new rangePair(3, 6)),
+                    new StartSpeedEffectOverride(new rangePair(5, 10)),
+                    new ShapeRadiusEffectOverride(slamRange)
+                }));   
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst02), pos, Quaternion.Euler(0, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColourHues: new rangePair(0.6f, 1f)));
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourHueEffectOverride(new rangePair(0.6f, 1f)) }));
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), pos, Quaternion.Euler(90, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideShapeRadius: slamRange, overrideBurstCount: new rangePair(10, 15)));
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ShapeRadiusEffectOverride(slamRange), new BurstCountEffectOverride(new rangePair(10, 15)) }));
     }
 
     public virtual void ProcessHits(Collider[] colliders, RaycastHit hit)

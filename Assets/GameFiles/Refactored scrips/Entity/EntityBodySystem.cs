@@ -154,10 +154,6 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
 
     public virtual void RemoveAllShaders()
     {
-        //OverrideFreezeShader(0);
-        //OverrideWeakenShader(0);
-        //OverridePoisonedShader(0);
-        //OverrideSlowShader(0);
         OverrideShaderWithValue(0, ShaderType.Frozen);
         OverrideShaderWithValue(0, ShaderType.Weakened);
         OverrideShaderWithValue(0, ShaderType.Poisoned);

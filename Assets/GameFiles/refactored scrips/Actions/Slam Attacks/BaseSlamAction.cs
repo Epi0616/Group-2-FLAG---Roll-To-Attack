@@ -82,23 +82,40 @@ public class BaseSlamAction : BaseEntityAction, ISlam
 
     public virtual void SpawnSlamCompleteVFX()
     {
-        EffectSettings options = new EffectSettings(
-                overrideColour: slamColour,
-                overrideScale: new rangePair(1.5f, 1.6f),
-                overrideGravity: new rangePair(-0.5f, -1.5f),
-                overrideLifetime: new rangePair(0.2f, 0.3f),
-                overrideSpeed: new rangePair(25f, 40f));
+        //EffectSettings options = new EffectSettings(
+        //        overrideColour: slamColour,
+        //        overrideScale: new rangePair(1.5f, 1.6f),
+        //        overrideGravity: new rangePair(-0.5f, -1.5f),
+        //        overrideLifetime: new rangePair(0.2f, 0.3f),
+        //        overrideSpeed: new rangePair(25f, 40f));
+        EffectSettings newOptions = new EffectSettings(new List<EffectOverride> {
+            new ColourEffectOverride(slamColour),
+            new StartScaleEffectOverride(new rangePair(1.5f, 1.6f)),
+            new StartLifetimeEffectOverride(new rangePair(0.15f, 0.2f)),
+            new StartSpeedEffectOverride(new rangePair(40f, 60f)),
+            new GravityModEffectOverride(new rangePair(-0.5f, -1.5f)),
+            new BurstCountEffectOverride(new rangePair(30, 45))
+        });
+
         if (slamRange.GetFinalValue() > slamRange.GetBaseValue())
         {
             float percentage = slamRange.GetFinalValue() / slamRange.GetBaseValue();
-            options.overrideSpeed = new rangePair(25f * percentage, 40f * percentage);
+            //options.overrideSpeed = new rangePair(25f * percentage, 40f * percentage);
+            newOptions.AddOverride(new StartSpeedEffectOverride(new rangePair(40f * percentage, 60f * percentage)));
+            //newOptions.AddOverride(new ColourEffectOverride(slamColour * (percentage * 2)));
         }
         // Coloured Slam Particles
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SimpleBurst01), slamOrigin, Quaternion.Euler(90, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(options);
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(newOptions);
+
+
+
+
+
+
         // Smoke Under Dice
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), slamOrigin, Quaternion.Euler(90, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideBurstCount: new rangePair(15, 20)));
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new BurstCountEffectOverride(new rangePair(15, 20)) }));
         // Smoke At Slam Edge
         //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), slamOrigin, Quaternion.Euler(90, 0, 0)).
         //        GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideShapeRadius: slamRange.GetFinalValue()));
