@@ -7,8 +7,6 @@ public class SlimeCharge : BaseEntityAction
 {
     private IUsesRigidBody usesRigidBody;
     private ISlimeTrail slimeTrail;
-    private IGrounded grounded;
-    private ISlimeSplit slimeSplit;
     private Coroutine actionRoutine = null;
 
     public SlimeCharge() { }
@@ -19,12 +17,6 @@ public class SlimeCharge : BaseEntityAction
 
         if (!(ownerEntity is IUsesRigidBody usesRigidBody)) return;
         this.usesRigidBody = usesRigidBody;
-
-        if (!(ownerEntity is ISlimeSplit slimeSplit)) return;
-        this.slimeSplit = slimeSplit;
-
-        if (!(ownerEntity is IGrounded grounded)) return;
-        this.grounded = grounded;
 
         if (!(ownerEntity is ISlimeTrail slimeTrail)) return;
         this.slimeTrail = slimeTrail;

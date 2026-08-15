@@ -10,37 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
-  m_Name: RandomNoDelayWeighted
+  m_Name: RandomInRangeWeighted
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
   conditionalMovement:
     movement:
-      rid: 3199366921125888072
+      rid: 3199366959690678519
     conditions:
-    - rid: 3199366921125888073
-    - rid: 3199366921125888074
-    - rid: 3199366921125888075
+    - rid: 3199366959690678520
+    - rid: 3199366959690678521
+    - rid: 3199366959690678522
     allConditionsRequired: 1
     exclusive: 1
     priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 3199366921125888072
-      type: {class: RandomInRangeNoDelayWeighted, ns: , asm: Assembly-CSharp}
+    - rid: 3199366959690678519
+      type: {class: RandomInRangeWeighted, ns: , asm: Assembly-CSharp}
       data:
         rangeMin: 10
         rangeMax: 20
         angleVariance: 30
         chancePercentForTargettedMovement: 0.2
-    - rid: 3199366921125888073
+        delayMin: 0.25
+        delayMax: 1.25
+    - rid: 3199366959690678520
       type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-    - rid: 3199366921125888074
+    - rid: 3199366959690678521
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-    - rid: 3199366921125888075
+    - rid: 3199366959690678522
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
