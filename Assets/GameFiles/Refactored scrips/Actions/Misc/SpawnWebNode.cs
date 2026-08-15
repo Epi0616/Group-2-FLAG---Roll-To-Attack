@@ -21,12 +21,12 @@ public class SpawnWebNode : BaseEntityAction
 
     public void SpawnNode()
     {
-        Collider[] colliders = Physics.OverlapSphere(ownerEntity.transform.position, 10);
+        Collider[] colliders = Physics.OverlapSphere(ownerEntity.transform.position, 20);
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.GetComponent<SpiderWebNode>())
             {
-                Debug.Log("Node Placement Failed: Too close to other node");
+                //Debug.Log("Node Placement Failed: Too close to other node");
                 EndAction();
                 return;
             }
