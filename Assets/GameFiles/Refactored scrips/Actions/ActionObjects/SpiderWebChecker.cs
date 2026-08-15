@@ -60,7 +60,8 @@ public class SpiderWebChecker : MonoBehaviour
             spiderWebSystems.Remove(system);
             foreach (SpiderWebNode node in system.nodes)
             {
-                node.RemoveFromSystem();
+                //node.RemoveFromSystem();
+                node.RemoveFromSystem(system);
             }
         }
 
@@ -96,16 +97,48 @@ public class SpiderWebChecker : MonoBehaviour
         return affectedNodes.ToList();
     }
 
+    //public void SearchForNewWebSystems(SpiderWebNode newNode)
+    //{
+    //    if (newNode.system != null) { return; }
+
+    //    List<SpiderWebNode> potentialWebNodes = new List<SpiderWebNode>();
+
+    //    foreach (SpiderWebNode node in spiderWebNodes)
+    //    {
+    //        if (node == newNode) { continue; }
+    //        if (node.system != null) { continue; }
+
+    //        if (AreNodesInRange(newNode, node))
+    //        {
+    //            potentialWebNodes.Add(node);
+    //        }
+    //    }
+
+    //    for (int i = 0; i < potentialWebNodes.Count; i++)
+    //    {
+    //        for (int j = i + 1; j < potentialWebNodes.Count; j++)
+    //        {
+    //            SpiderWebNode nodeA = potentialWebNodes[i];
+    //            SpiderWebNode nodeB = potentialWebNodes[j];
+
+    //            if (nodeA == null  || nodeB == null) { continue; }
+
+    //            if (AreNodesInRange(nodeA, nodeB))
+    //            {
+    //                CreateNewWebSystem(newNode, nodeA, nodeB);
+    //                return;
+    //            }
+    //        }
+    //    }
+    //}
+
     public void SearchForNewWebSystems(SpiderWebNode newNode)
     {
-        if (newNode.system != null) { return; }
-
         List<SpiderWebNode> potentialWebNodes = new List<SpiderWebNode>();
 
         foreach (SpiderWebNode node in spiderWebNodes)
         {
             if (node == newNode) { continue; }
-            if (node.system != null) { continue; }
 
             if (AreNodesInRange(newNode, node))
             {
@@ -120,12 +153,12 @@ public class SpiderWebChecker : MonoBehaviour
                 SpiderWebNode nodeA = potentialWebNodes[i];
                 SpiderWebNode nodeB = potentialWebNodes[j];
 
-                if (nodeA == null  || nodeB == null) { continue; }
+                if (nodeA == null || nodeB == null) { continue; }
 
                 if (AreNodesInRange(nodeA, nodeB))
                 {
                     CreateNewWebSystem(newNode, nodeA, nodeB);
-                    return;
+                    //return;
                 }
             }
         }
@@ -134,9 +167,13 @@ public class SpiderWebChecker : MonoBehaviour
     public void CreateNewWebSystem(SpiderWebNode A, SpiderWebNode B, SpiderWebNode C)
     {
         SpiderWebSystem system = new SpiderWebSystem(A, B, C);
-        A.ClaimBySystem(system);
-        B.ClaimBySystem(system);
-        C.ClaimBySystem(system);
+        //A.ClaimBySystem(system);
+        //B.ClaimBySystem(system);
+        //C.ClaimBySystem(system);
+
+        A.AddToNewSystem(system);
+        B.AddToNewSystem(system);
+        C.AddToNewSystem(system);
 
         spiderWebSystems.Add(system);
     }
