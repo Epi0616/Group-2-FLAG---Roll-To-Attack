@@ -10,7 +10,7 @@ public class DragonCircularFire : BaseEntityAction
     [SerializeField] private float distance = 75f;
     [SerializeField] private float speed = 10f;
 
-    private IFireWingBeat fireWingBeat;
+    private IRadialProjectile radialProjectile;
     private IAnimated animated;
 
     public DragonCircularFire() { }
@@ -26,9 +26,8 @@ public class DragonCircularFire : BaseEntityAction
     public override void StartAction(Entity ownerEntity)
     {
         base.StartAction(ownerEntity);
-        if (!(ownerEntity is IFireWingBeat iFireWingBeat)) return;
-
-        fireWingBeat = iFireWingBeat;
+        if (!(ownerEntity is IRadialProjectile radialProjectile)) return;
+        this.radialProjectile = radialProjectile;
 
         if (ownerEntity is IAnimated animated)
         {
@@ -58,10 +57,10 @@ public class DragonCircularFire : BaseEntityAction
             Quaternion rotation = Quaternion.Euler(0, angle, 0);
             Vector3 offset = rotation * Vector3.forward * radius;
 
-            GameObject obj = fireWingBeat.fireWingBeatObj;
+            GameObject obj = radialProjectile.radialObj;
             Vector3 objPosition = ownerEntity.transform.position + offset + new Vector3 (0, -4.5f, 0);
 
-            FireWingBeat wingBeat = ObjectPoolManager.SpawnObject(obj, objPosition, rotation).GetComponent<FireWingBeat>();
+            RadialProjectile wingBeat = ObjectPoolManager.SpawnObject(obj, objPosition, rotation).GetComponent<RadialProjectile>();
             wingBeat.Initialize(ownerEntity, 75f, 10f);
         }
     }

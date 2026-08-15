@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireWingBeat : MonoBehaviour
+public class RadialProjectile : MonoBehaviour
 {
     private Vector3 startPos;
     private Entity ownerEntity;

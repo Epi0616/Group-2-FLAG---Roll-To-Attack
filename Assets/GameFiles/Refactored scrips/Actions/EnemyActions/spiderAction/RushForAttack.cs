@@ -31,7 +31,7 @@ public class RushForAttack : BaseSlamAction
         this.navAgent = navAgent;
         navAgent.EnableAIAgent();
 
-        ActiveStatusEffect speedIncreaseEffect = new(new MovementSpeedStatus(5f), new List<BaseCondition> { new TimeCondition(true, 1) }, true);
+        ActiveStatusEffect speedIncreaseEffect = new(new MovementSpeedStatus(4f), new List<BaseCondition> { new TimeCondition(true, 1) }, true);
         ownerEntity.statusSystem.OnRecieveEffect(speedIncreaseEffect);
 
         actionRoutine = ownerEntity.StartCoroutine(Action());
@@ -74,7 +74,7 @@ public class RushForAttack : BaseSlamAction
         yield return FaceTargetPoint(originalTarget);
         yield return Attack();
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         actionRoutine = null;
         EndAction();
     }
@@ -148,6 +148,8 @@ public class RushForAttack : BaseSlamAction
         //}
 
         //return false;
+
+        
     }
 
     private IEnumerator FaceTargetPoint(Vector3 targetPoint)

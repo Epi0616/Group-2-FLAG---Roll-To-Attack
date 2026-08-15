@@ -28,9 +28,13 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
 
     public virtual void Vibrate(float intensity = 0.1f)//intensity base 0.1f
     {
-        float x = Mathf.Sin(Time.time * 50) * intensity;
-        float z = Mathf.Sin(Time.time * 50) * intensity;
-        body.transform.localPosition = new Vector3(x, 0, z);
+        float x = body.transform.localPosition.x;
+        float y = body.transform.localPosition.y;
+        float z = body.transform.localPosition.z;
+
+        float xMod = Mathf.Sin(Time.time * 50) * intensity;
+        float zMod = Mathf.Sin(Time.time * 50) * intensity;
+        body.transform.localPosition = new Vector3(x + xMod, y, z + zMod);
     }
 
     public virtual void HandleFixedVibrateTime(float duration)
