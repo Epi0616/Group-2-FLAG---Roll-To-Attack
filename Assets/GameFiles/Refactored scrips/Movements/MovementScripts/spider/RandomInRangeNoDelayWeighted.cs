@@ -7,8 +7,8 @@ using Random = UnityEngine.Random;
 public class RandomInRangeNoDelayWeighted : BaseEntityMovement
 {
     [SerializeField] protected float rangeMin, rangeMax;
-    [SerializeField] private float angleVariance = 30f;
-    [SerializeField] private float chancePercentForTargettedMovement = 0.2f;
+    [SerializeField] protected float angleVariance = 30f;
+    [SerializeField] protected float chancePercentForTargettedMovement = 0.2f;
 
     protected INavAgent navAgent;
     private Vector3 destination;
@@ -40,7 +40,7 @@ public class RandomInRangeNoDelayWeighted : BaseEntityMovement
         PickDestination();
     }
 
-    private void PickDestination()
+    protected void PickDestination()
     {
         float random = Random.Range(0f, 1f);
 

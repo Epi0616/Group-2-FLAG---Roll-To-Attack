@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
+  m_Name: ChargeAtTarget
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
+  conditionalAction:
+    action:
+      rid: 3199366932452081736
+    conditions:
+    - rid: 3199366932452081737
+    - rid: 3199366932452081738
+    - rid: 3199366932452081739
+    - rid: 3199366932452081740
+    - rid: 3199366932452081761
+    allConditionsRequired: 1
+    singleUse: 0
+    triggered: 0
+    exclusive: 1
+    priority: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 3199366932452081736
+      type: {class: ChargeAtTarget, ns: , asm: Assembly-CSharp}
+      data:
+        PreventsMovement: 1
+        bounceMask:
+          serializedVersion: 2
+          m_Bits: 3221225480
+    - rid: 3199366932452081737
+      type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+    - rid: 3199366932452081738
+      type: {class: CanActCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+    - rid: 3199366932452081739
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+    - rid: 3199366932452081740
+      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        distanceThreshold: 20
+    - rid: 3199366932452081761
+      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        lookThreshold: 5

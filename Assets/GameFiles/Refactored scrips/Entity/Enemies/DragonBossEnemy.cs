@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable, IFireWingBeat
+public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable, IRadialProjectile
 {
     [Header("IFireballAction")]
     [SerializeField] private GameObject FireballObj;
@@ -20,7 +20,7 @@ public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable, IF
 
     [Header("IFireWingBeat")]
     [SerializeField] private GameObject FireWingBeatObj;
-    public GameObject fireWingBeatObj { get => FireWingBeatObj; set => FireWingBeatObj = value; }
+    public GameObject radialObj { get => FireWingBeatObj; set => FireWingBeatObj = value; }
 
     protected override void Start()
     {
