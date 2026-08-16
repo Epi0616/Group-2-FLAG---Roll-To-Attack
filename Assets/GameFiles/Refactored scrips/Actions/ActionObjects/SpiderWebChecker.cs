@@ -39,11 +39,11 @@ public class SpiderWebChecker : MonoBehaviour
 
     public void RemoveAllNodes(float wewa)
     {
-        Debug.Log("Remove All Nodes");
-        Debug.Log(spiderWebNodes.Count);
+        //Debug.Log("Remove All Nodes");
+        //Debug.Log(spiderWebNodes.Count);
         foreach(SpiderWebNode node in spiderWebNodes.ToList())
         {
-            Debug.Log("Hitting Node");
+            //Debug.Log("Hitting Node");
             node.OnTakeDamage(1000, Color.white, DamageType.Normal);
         }
     }
@@ -57,7 +57,7 @@ public class SpiderWebChecker : MonoBehaviour
 
     public void NodeRemoved(SpiderWebNode node)
     {
-        Debug.Log("Node Removed");
+        //Debug.Log("Node Removed");
         List<SpiderWebNode> affectedNodes = CheckForAffectedNodes(node);
         CheckForAffectedSystems(node);
         spiderWebNodes.Remove(node);
