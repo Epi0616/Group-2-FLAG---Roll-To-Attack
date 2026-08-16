@@ -46,8 +46,17 @@ public class WebSystemVisual : MonoBehaviour
         {
             newTri = new[] { 0, 2, 1 };
         }
-        mesh = new Mesh { vertices = newVertices, triangles = newTri };
-        mesh.RecalculateBounds();
+        if (mesh == null)
+        {
+            mesh = new Mesh { vertices = newVertices, triangles = newTri };
+        }
+        else
+        {
+            mesh.vertices = newVertices;
+            mesh.triangles = newTri;
+        }
+
+            mesh.RecalculateBounds();
         mesh.RecalculateNormals();
         meshFilter.mesh = mesh;
     }
@@ -56,7 +65,6 @@ public class WebSystemVisual : MonoBehaviour
     {
         if (hasBeenDestroyed) { return; }
         hasBeenDestroyed = true;
-        mesh = null;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }
