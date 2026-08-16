@@ -254,7 +254,7 @@ public class BaseAIEnemy : AIDrivenEntity,
         else
         {
             textDisplaySystem.DisplayHigherText("SLAMMED", Color.darkGoldenRod, 52);
-            textDisplaySystem.DisplayHigherText(SlammedString.GetLocalizedString(), Color.darkGoldenRod, 52);
+           // textDisplaySystem.DisplayHigherText(SlammedString.GetLocalizedString(), Color.darkGoldenRod, 52);
             OnTakeDamage(appliedDamage, Color.darkGoldenRod, DamageType.Slammed);
         }
             statusSystem.RemoveEffectByType(StatusType.Knockback);
