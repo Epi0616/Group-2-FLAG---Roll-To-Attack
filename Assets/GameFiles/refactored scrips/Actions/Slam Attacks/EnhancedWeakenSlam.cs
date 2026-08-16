@@ -19,7 +19,7 @@ public class EnhancedWeakenSlam : BaseSlamAction, IEnhancedAbility
     }
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        //hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Weaken);
+        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Weaken);
 
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new EnhancedWeakenStatus(WeakenDamageMult, "PlaceHolderWeaken", ownerEntity, enhancementLevel),
                 new List<BaseCondition> { new TimeCondition(true, WeakenDuration) }, true));

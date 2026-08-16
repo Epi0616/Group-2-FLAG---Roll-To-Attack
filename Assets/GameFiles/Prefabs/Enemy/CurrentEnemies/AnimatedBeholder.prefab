@@ -164,6 +164,33 @@ MonoBehaviour:
   AnimationManager: {fileID: 1419937092715477690}
   SpawnModifier: 0
   IsWaveEnemy: 0
+  SlammedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:d2cfdaf00b5778148a5bbc382684a152
+    m_TableEntryReference:
+      m_KeyId: 387159044096
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  ShatteredString:
+    m_TableReference:
+      m_TableCollectionName: GUID:d2cfdaf00b5778148a5bbc382684a152
+    m_TableEntryReference:
+      m_KeyId: 472588627968
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  CrushedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:d2cfdaf00b5778148a5bbc382684a152
+    m_TableEntryReference:
+      m_KeyId: 41361465520263168
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   EnvironmentLayer:
     serializedVersion: 2
     m_Bits: 3229614080
@@ -200,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029530d3f515a6f469b6e34502414c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthSystem
-  maxHealth: 90
+  maxHealth: 70
   currentHealth: 0
   isDead: 0
 --- !u!114 &7537089441086487659
@@ -215,7 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d0964f6dd437745baa50d5f048165f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityStatusSystem
-  statusCount: 0
 --- !u!114 &8476985706122223507
 MonoBehaviour:
   m_ObjectHideFlags: 0

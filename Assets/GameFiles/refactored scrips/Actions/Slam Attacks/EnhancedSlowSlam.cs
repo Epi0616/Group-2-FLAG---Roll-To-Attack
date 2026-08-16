@@ -29,7 +29,7 @@ public class EnhancedSlowSlam : BaseSlamAction
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-       // hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
+       hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
     }
 
     protected override void ApplyHeavyEffectPerEntity(Entity hitEntity)

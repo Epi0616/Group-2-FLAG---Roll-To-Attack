@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.Tables;
 
 public interface IEnhancedStatusEffect
 {
@@ -11,7 +13,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     private bool hasProcced = false;
     private int damageTaken = 0;
     private int shatterThreshold = 50;
-
+    private string shatteredText;
     public EnhancedFreezeStatus(float fragileMult, string effectText, Color colour, int enhancementLevel) : base(fragileMult, effectText, colour)
     {
         this.enhancementLevel = enhancementLevel;
@@ -19,6 +21,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
         this.isStackable = true;
         hasProcced = false;
         damageTaken = 0;
+        shatteredText = LocalizationSettings.StringDatabase.GetLocalizedString("Damage Text Lables", "damageText.shattered");
     }
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
@@ -30,7 +33,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
             hasProcced = true;
             float extraShatteredDamage = (damageTaken * 0.5f) * enhancementLevel;
             entityRef.OnTakeDamage((int)extraShatteredDamage, Color.deepSkyBlue, DamageType.Shattered);
-            entityRef.textDisplaySystem.DisplayHigherText("SHATTERED", Color.deepSkyBlue, 64);
+            entityRef.textDisplaySystem.DisplayHigherText(shatteredText, Color.deepSkyBlue, 64);
         }
 
         

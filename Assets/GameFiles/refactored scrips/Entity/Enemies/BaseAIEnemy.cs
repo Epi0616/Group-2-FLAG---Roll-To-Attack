@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Localization;
 
 public class BaseAIEnemy : AIDrivenEntity,
     IMoveable, 
@@ -79,6 +80,10 @@ public class BaseAIEnemy : AIDrivenEntity,
 
     //public List<ConditionalActionDescriptor> actionDescriptors = new List<ConditionalActionDescriptor>();
     //[SerializeField] private List<ConditionalAction> actions = new List<ConditionalAction>();
+
+    public LocalizedString SlammedString;
+    public LocalizedString ShatteredString;
+    public LocalizedString CrushedString;
 
     protected override void Start()
     {
@@ -235,6 +240,7 @@ public class BaseAIEnemy : AIDrivenEntity,
         {
             //AudioManager.instance.PlayRandomSoundClip(EnemyShatteredSounds);
             textDisplaySystem.DisplayHigherText("SHATTERED", Color.deepSkyBlue, 52);
+            //textDisplaySystem.DisplayHigherText(ShatteredString.GetLocalizedString(), Color.deepSkyBlue, 52);
             OnTakeDamage(appliedDamage, Color.deepSkyBlue, DamageType.Shattered);
             
         }
@@ -242,11 +248,13 @@ public class BaseAIEnemy : AIDrivenEntity,
         {
             //AudioManager.instance.PlayRandomSoundClip(EnemyWallSlamSounds);
             textDisplaySystem.DisplayHigherText("CRUSHED", Color.sienna, 52);
+            //textDisplaySystem.DisplayHigherText(CrushedString.GetLocalizedString(), Color.sienna, 52);
             OnTakeDamage(appliedDamage, Color.sienna, DamageType.Slammed);
         }
         else
         {
             textDisplaySystem.DisplayHigherText("SLAMMED", Color.darkGoldenRod, 52);
+           // textDisplaySystem.DisplayHigherText(SlammedString.GetLocalizedString(), Color.darkGoldenRod, 52);
             OnTakeDamage(appliedDamage, Color.darkGoldenRod, DamageType.Slammed);
         }
             statusSystem.RemoveEffectByType(StatusType.Knockback);

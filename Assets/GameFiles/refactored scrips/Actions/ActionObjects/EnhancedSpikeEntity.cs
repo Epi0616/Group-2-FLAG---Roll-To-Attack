@@ -117,7 +117,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         }
         if (parentEntity != null)
         {
-            if (parentEntity.healthSystem.isDead && embedded)
+            if ((parentEntity.healthSystem.isDead || !parentEntity.isActiveAndEnabled) && embedded)
             {
                 DropToFloor();
             }
@@ -155,10 +155,10 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
         if ((hostileMask & (1 << hit.gameObject.layer)) > 0)
         {
             Entity hitEntity = hit.GetComponent<Entity>();
-            if (hitEntity is NewEVacuumMine)
-            {
-                return;
-            }
+            //if (hitEntity is NewEVacuumMine)
+            //{
+            //    return;
+            //}
             //Debug.Log("Something Correct Hit Collision");
             if (numEmbedsLeft > 0 && isBeingDisplaced)
             {
