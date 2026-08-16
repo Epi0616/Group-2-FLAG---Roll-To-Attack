@@ -12,7 +12,7 @@ public class SpiderWebSystem
 
     public SpiderWebSystem(SpiderWebNode nodeA, SpiderWebNode nodeB, SpiderWebNode nodeC)
     {
-        Debug.Log("I AHVE BEEN CREATED WE HAVE A SYSTEM YUPPIUE");
+       // Debug.Log("I AHVE BEEN CREATED WE HAVE A SYSTEM YUPPIUE");
         nodes.Add(nodeA); nodes.Add(nodeB); nodes.Add(nodeC);
         A = new Vector2(nodeA.transform.position.x, nodeA.transform.position.z);
         B = new Vector2(nodeB.transform.position.x, nodeB.transform.position.z);
@@ -24,9 +24,9 @@ public class SpiderWebSystem
     public void UpdateSystem()
     {
         CheckForTargetsInSystem();
-        Debug.DrawLine(nodes[0].transform.position, nodes[1].transform.position, Color.red);
-        Debug.DrawLine(nodes[1].transform.position, nodes[2].transform.position, Color.red);
-        Debug.DrawLine(nodes[2].transform.position, nodes[0].transform.position, Color.red);
+        Debug.DrawLine(nodes[0].transform.position, nodes[1].transform.position, Color.white);
+        Debug.DrawLine(nodes[1].transform.position, nodes[2].transform.position, Color.white);
+        Debug.DrawLine(nodes[2].transform.position, nodes[0].transform.position, Color.white);
     }
 
     public float DetermineLongestEdge()
@@ -77,7 +77,7 @@ public class SpiderWebSystem
             }
             else
             {
-                Debug.Log("Target Within Web");
+                //Debug.Log("Target Within Web");
                 hitEntity.OnRecieveEffect(new ActiveStatusEffect(new SlowStatus(0.25f, "wewa"), new List<BaseCondition> { new TimeCondition(false, 0.1f) }, false));
             }
         }
