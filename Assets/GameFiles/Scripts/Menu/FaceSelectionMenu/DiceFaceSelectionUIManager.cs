@@ -75,6 +75,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         WaveManager.WaveOver += WaveOver;
         TutorialManager.DisplayDiceUI += WaveOver;
         AbilityPanel.AbilitySelected += AbilitySelected;
+        HealthOption.HealthChosen += HealthChosen;
         ContinueButton.Continue += Continue;
     }
 
@@ -83,6 +84,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         WaveManager.WaveOver -= WaveOver;
         TutorialManager.DisplayDiceUI -= WaveOver;
         AbilityPanel.AbilitySelected -= AbilitySelected;
+        HealthOption.HealthChosen -= HealthChosen;
         ContinueButton.Continue -= Continue;
     }
 
@@ -141,6 +143,14 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         //EventSystem.current.SetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
         EventSystem.current.firstSelectedGameObject = abilitySlotManager.GetCentralAbilityPoint();
         UISelectionManager.instance.TrySetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
+    }
+
+    private void HealthChosen(int healAmount)
+    {
+        DiceFaceSelectionUI.SetActive(true);
+        //UpgradeUI.SetActive(true);
+        abilitySlotManager.Unpack();
+        AbilitySelectionUI.SetActive(false);
     }
 
     private bool CheckForFullDiceSlots()

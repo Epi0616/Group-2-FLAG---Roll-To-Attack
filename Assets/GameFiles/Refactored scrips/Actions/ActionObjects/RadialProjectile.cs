@@ -8,6 +8,7 @@ public class RadialProjectile : MonoBehaviour
     private float distance;
     private float speed = 0;
 
+    private IRadialProjectile radialProjectile;
     private bool active = false;
 
     public void Initialize(Entity ownerEntity, float distance, float speed)
@@ -15,6 +16,9 @@ public class RadialProjectile : MonoBehaviour
         this.ownerEntity = ownerEntity;
         this.distance = distance;
         this.speed = speed;
+
+        if (!(ownerEntity is IRadialProjectile radialProjectile)) { Debug.LogError("owner entity is not of type IRadialProjectile"); return; }
+        this.radialProjectile = radialProjectile;
 
         startPos = transform.position;
         active = true;
@@ -36,9 +40,8 @@ public class RadialProjectile : MonoBehaviour
     private void OnTriggerEnter(Collider hit)
     {
         if (!active) return;
-        if (!(ownerEntity is IFireballAction fireballAction)) return;
 
-        if ((fireballAction.targetableLayers.value & (1 << hit.gameObject.layer)) != 0)
+        if ((radialProjectile.radialTargetableLayers.value & (1 << hit.gameObject.layer)) != 0)
         {
             OnHit(hit.gameObject);
         }
@@ -49,7 +52,7 @@ public class RadialProjectile : MonoBehaviour
         if (!hit.TryGetComponent<Entity>(out Entity entity)) return;
 
         entity.OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(transform.position, 5f), new List<BaseCondition>() { new AlwaysTrueCondition() }, true));
-        entity.OnTakeDamage(10, Color.red, DamageType.Normal);
+        entity.OnTakeDamage(4, Color.red, DamageType.Normal);
     }
 
     private void CheckForDistanceComplete()
@@ -61,7 +64,8 @@ public class RadialProjectile : MonoBehaviour
     }
 
     private void OnDistanceReached()
-    { 
+    {
+        radialProjectile = null;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

@@ -11,9 +11,11 @@ public class Charger : BaseAIEnemy,
     public Vector3 crashPosition { get => CrashPosition; private set => CrashPosition = value; }
     public bool hasCrashed { get; set; }
 
-    [Header("IFireWingBeat")]
+    [Header("IRadialProjectile")]
     [SerializeField] GameObject DebrisObj;
+    [SerializeField] LayerMask RadialTargetableLayers;
     public GameObject radialObj { get => DebrisObj; set => DebrisObj = value; }
+    public LayerMask radialTargetableLayers { get => RadialTargetableLayers; set => RadialTargetableLayers = value; }
 
     public override void EnableAIAgent()
     {

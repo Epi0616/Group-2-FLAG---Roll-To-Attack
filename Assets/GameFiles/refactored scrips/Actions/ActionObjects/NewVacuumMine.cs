@@ -103,10 +103,9 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
             if (colliders[i].gameObject == ownerEntity.gameObject) { continue; }
             if (colliders[i].gameObject == this.gameObject) { continue; }
             if (colliders[i].CompareTag("StaticEntity")) { continue; }
-            Entity hitEntity = colliders[i].GetComponent<Entity>();
-            if (hitEntity.healthSystem.isDead) { continue; }
-            enemies.Add(hitEntity);
-
+            if (!TryGetComponent<Entity>(out Entity entity)) { continue; }
+            if (entity.healthSystem.isDead) { continue; }
+            enemies.Add(entity);
         }
 
         return enemies;

@@ -27,7 +27,6 @@ public class EnemyHealthSystem : EntityHealthSystem
             temp.actionController.InterruptAllActive();
         }
 
-        
         //OwnerEntity.statusSystem.currentActiveStatusEffects.Clear();
 
         if (OwnerEntity is IAnimated animated)

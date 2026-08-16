@@ -63,7 +63,8 @@ public class SpiderWebSystem
             if (!collider.gameObject) { continue; }
             if (CheckTargetInTriangle(collider.gameObject.transform))
             {
-                hitEntities.Add(collider.gameObject.GetComponent<Entity>());
+                if (collider.TryGetComponent<Entity>(out Entity entity))
+                hitEntities.Add(entity);
             }
             
         }

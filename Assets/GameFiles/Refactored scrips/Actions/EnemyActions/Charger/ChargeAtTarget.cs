@@ -144,8 +144,10 @@ public class ChargeAtTarget : BaseEntityAction
         {
             if (!collider.gameObject) { continue; }
             if (collider.gameObject == ownerEntity) { continue; }
-
-            collider.gameObject.GetComponent<Entity>().OnTakeDamage(5, Color.red, DamageType.Normal);
+            if (collider.TryGetComponent<Entity>(out Entity entity))
+            { 
+                entity.OnTakeDamage(5, Color.red, DamageType.Normal);
+            }
         }
     }
 

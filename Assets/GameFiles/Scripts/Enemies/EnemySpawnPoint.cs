@@ -96,14 +96,15 @@ public class EnemySpawnPoint : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            Entity hitEntity = collider.gameObject.GetComponent<Entity>();
-
-            Vector3 targetPos = centerPos.transform.position;
-            targetPos.y += 10f;
-            hitEntity.OnRecieveEffect(
-                new ActiveStatusEffect(new SafeKBEffect(targetPos, -force),
-                new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
-                true));
+            if (TryGetComponent<Entity>(out Entity entity))
+            {
+                Vector3 targetPos = centerPos.transform.position;
+                targetPos.y += 10f;
+                entity.OnRecieveEffect(
+                    new ActiveStatusEffect(new SafeKBEffect(targetPos, -force),
+                    new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+                    true));
+            }
         }
         return true;
     }
