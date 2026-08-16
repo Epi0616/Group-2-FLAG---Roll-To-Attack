@@ -107,12 +107,6 @@ public class BaseSlamAction : BaseEntityAction, ISlam
         // Coloured Slam Particles
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SimpleBurst01), slamOrigin, Quaternion.Euler(90, 0, 0)).
                 GetComponent<ParticleEffectInstance>().PlayParticleEffect(newOptions);
-
-
-
-
-
-
         // Smoke Under Dice
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), slamOrigin, Quaternion.Euler(90, 0, 0)).
                 GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new BurstCountEffectOverride(new rangePair(15, 20)) }));
