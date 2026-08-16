@@ -21,7 +21,8 @@ public class WebSystemVisual : MonoBehaviour
 
     public void SetVisualsByPosition(Transform A, Transform B, Transform C)
     {
-        hasBeenDestroyed = false;
+        //Debug.Log("New Visual Made");
+        //hasBeenDestroyed = false;
         lr.loop = true;
         lr.positionCount = 3;
         lr.SetPosition(0, A.position);
@@ -46,25 +47,18 @@ public class WebSystemVisual : MonoBehaviour
         {
             newTri = new[] { 0, 2, 1 };
         }
-        if (mesh == null)
-        {
-            mesh = new Mesh { vertices = newVertices, triangles = newTri };
-        }
-        else
-        {
-            mesh.vertices = newVertices;
-            mesh.triangles = newTri;
-        }
 
-            mesh.RecalculateBounds();
+        mesh = new Mesh { vertices = newVertices, triangles = newTri };
+        
+        mesh.RecalculateBounds();
         mesh.RecalculateNormals();
         meshFilter.mesh = mesh;
     }
 
     public void DestroyMe()
     {
-        if (hasBeenDestroyed) { return; }
-        hasBeenDestroyed = true;
+        //if (hasBeenDestroyed) { return; }
+        //hasBeenDestroyed = true;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }
