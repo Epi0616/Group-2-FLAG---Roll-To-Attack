@@ -8,17 +8,20 @@ public class SpiderWebSystem
     public List<SpiderWebNode> nodes = new List<SpiderWebNode>();
     private Vector3 centrePoint;
     private float broadSystemRadius;
-    private List<Vector2> node2DCoords;
+    public WebSystemVisual visual;
 
-    public SpiderWebSystem(SpiderWebNode nodeA, SpiderWebNode nodeB, SpiderWebNode nodeC)
+    public SpiderWebSystem(SpiderWebNode nodeA, SpiderWebNode nodeB, SpiderWebNode nodeC, WebSystemVisual visual)
     {
-       // Debug.Log("I AHVE BEEN CREATED WE HAVE A SYSTEM YUPPIUE");
+        // Debug.Log("I AHVE BEEN CREATED WE HAVE A SYSTEM YUPPIUE");
         nodes.Add(nodeA); nodes.Add(nodeB); nodes.Add(nodeC);
         A = new Vector2(nodeA.transform.position.x, nodeA.transform.position.z);
         B = new Vector2(nodeB.transform.position.x, nodeB.transform.position.z);
         C = new Vector2(nodeC.transform.position.x, nodeC.transform.position.z);
         broadSystemRadius = DetermineLongestEdge();
         centrePoint = FindCentrePoint();
+        this.visual = visual;
+        visual.transform.position = centrePoint;
+        visual.SetVisualsByPosition(nodeA.transform, nodeB.transform, nodeC.transform);
     }
 
     public void UpdateSystem()

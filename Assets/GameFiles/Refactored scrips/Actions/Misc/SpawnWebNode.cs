@@ -21,7 +21,7 @@ public class SpawnWebNode : BaseEntityAction
 
     public void SpawnNode()
     {
-        Collider[] colliders = Physics.OverlapSphere(ownerEntity.transform.position, 20);
+        Collider[] colliders = Physics.OverlapSphere(ownerEntity.transform.position, 15);
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.GetComponent<SpiderWebNode>())

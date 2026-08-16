@@ -7,6 +7,7 @@ public class SpiderWebChecker : MonoBehaviour
     private List<SpiderWebNode> spiderWebNodes = new List<SpiderWebNode>();
     private List<SpiderWebSystem> spiderWebSystems = new List<SpiderWebSystem>();
     public float distanceThreshold = 100;
+    public GameObject webSystemVisualPrefab;
     public static SpiderWebChecker Instance;
     private void Awake()
     {
@@ -58,6 +59,7 @@ public class SpiderWebChecker : MonoBehaviour
         foreach (SpiderWebSystem system in affectedSystems)
         {
             spiderWebSystems.Remove(system);
+            system.visual.DestroyMe();
             foreach (SpiderWebNode node in system.nodes)
             {
                 //node.RemoveFromSystem();
@@ -166,7 +168,8 @@ public class SpiderWebChecker : MonoBehaviour
 
     public void CreateNewWebSystem(SpiderWebNode A, SpiderWebNode B, SpiderWebNode C)
     {
-        SpiderWebSystem system = new SpiderWebSystem(A, B, C);
+        WebSystemVisual visual = ObjectPoolManager.SpawnObject(webSystemVisualPrefab, Vector3.zero, Quaternion.identity).GetComponent<WebSystemVisual>();
+        SpiderWebSystem system = new SpiderWebSystem(A, B, C, visual);
         //A.ClaimBySystem(system);
         //B.ClaimBySystem(system);
         //C.ClaimBySystem(system);
