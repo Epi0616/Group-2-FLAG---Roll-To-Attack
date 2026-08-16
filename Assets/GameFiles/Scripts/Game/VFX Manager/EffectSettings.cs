@@ -169,6 +169,7 @@ public class EffectSettings
     // amount per burst?, shape, lifetime, scale
 }
 
+[Serializable]
 public struct rangePair
 {
     public float min;
