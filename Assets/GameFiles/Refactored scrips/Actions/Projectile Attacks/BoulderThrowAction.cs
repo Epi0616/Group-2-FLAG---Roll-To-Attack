@@ -20,7 +20,7 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
     public Stat slamRange { get => SlamRange; set => SlamRange = value; }
     public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
 
-    private ThrowableBoulder boulder;
+    private ArcingProjectile boulder;
     private IBoulderThrow boulderThrow;
     private IAnimated animated;
     private Coroutine actionRoutine = null;
@@ -51,7 +51,7 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
 
     private IEnumerator Action()
     {
-        boulder = ObjectPoolManager.SpawnObject(boulderThrow.boulderObj, ownerEntity.transform.position, Quaternion.identity).GetComponent<ThrowableBoulder>();
+        boulder = ObjectPoolManager.SpawnObject(boulderThrow.boulderObj, ownerEntity.transform.position, Quaternion.identity).GetComponent<ArcingProjectile>();
 
         Vector3 pos = ownerEntity.transform.position;
         pos += ownerEntity.transform.forward * 5f;
@@ -70,6 +70,7 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
         yield return TrackBolderToArm(boulderThrow.boulderRootBone, 2.35f);
 
         actionRoutine = null;
+        boulder = null;
         EndAction();
     }
 
@@ -97,7 +98,11 @@ public class BoulderThrowAction : BaseEntityAction, ISlam
             ownerEntity.StopCoroutine(actionRoutine);
             actionRoutine = null;
         }
-        boulder.Interrupt();
+        if (boulder != null)
+        {
+            boulder.Interrupt();
+            boulder = null;
+        }
         EndAction();
     }
     public override void EndAction()

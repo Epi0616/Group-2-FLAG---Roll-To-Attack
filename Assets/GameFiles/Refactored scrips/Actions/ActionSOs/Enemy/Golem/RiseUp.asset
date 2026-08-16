@@ -17,7 +17,8 @@ MonoBehaviour:
       rid: 5154424291214753865
     conditions:
     - rid: 5042951940236378183
-    allConditionsRequired: 0
+    - rid: 3199367010791981292
+    allConditionsRequired: 1
     singleUse: 1
     triggered: 0
     exclusive: 1
@@ -25,6 +26,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 3199367010791981292
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
     - rid: 5042951940236378183
       type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
       data:

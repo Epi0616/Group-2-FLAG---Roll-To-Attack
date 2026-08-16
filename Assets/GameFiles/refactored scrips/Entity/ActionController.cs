@@ -39,13 +39,22 @@ public class ActionController : IResetable
 
     public void Reset()
     {
+        for (int i = activeActions.Count - 1; i >= 0; i--)
+        {
+            ConditionalAction action = activeActions[i];
+
+            availableActions.Add(action);
+            activeActions.Remove(action);
+            action.action.isComplete = false;
+        }
+
         foreach (var action in availableActions)
         {
-            //List<BaseCondition> conditions = action.conditions;
-            //foreach (BaseCondition condition in conditions)
-            //{
-            //    condition.ResetCondition();
-            //}
+            List<BaseCondition> conditions = action.conditions;
+            foreach (BaseCondition condition in conditions)
+            {
+                condition.ResetCondition();
+            }
             if (action.singleUse)
             {
                 action.triggered = false;

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
-public class ThrowableBoulder : MonoBehaviour
+public class ArcingProjectile : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
 

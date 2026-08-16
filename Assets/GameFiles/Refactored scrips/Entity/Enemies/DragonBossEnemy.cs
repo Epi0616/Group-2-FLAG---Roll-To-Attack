@@ -18,9 +18,11 @@ public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable, IR
     [Header("IShieldable")]
     public bool shielded { get; set; } = false;
 
-    [Header("IFireWingBeat")]
+    [Header("IRadialProjectile")]
     [SerializeField] private GameObject FireWingBeatObj;
+    [SerializeField] private LayerMask RadialTargetableLayers;
     public GameObject radialObj { get => FireWingBeatObj; set => FireWingBeatObj = value; }
+    public LayerMask radialTargetableLayers { get => RadialTargetableLayers; set => RadialTargetableLayers = value; }
 
     protected override void Start()
     {

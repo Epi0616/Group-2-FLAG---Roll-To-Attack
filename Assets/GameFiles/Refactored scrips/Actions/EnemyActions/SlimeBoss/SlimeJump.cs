@@ -116,11 +116,13 @@ public class SlimeJump : BaseEntityAction
         {
             if (!collider.gameObject) { continue; }
             if (collider.gameObject == ownerEntity.gameObject) { continue; }
-
-            ActiveStatusEffect knockBack = new ActiveStatusEffect(new SlimeKnockback(ownerEntity.transform.position, 5f * slimeSplit.scale),
-            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
-            true);
-            collider.gameObject.GetComponent<Entity>().OnRecieveEffect(knockBack);
+            if (collider.TryGetComponent<Entity>(out Entity entity))
+            {
+                ActiveStatusEffect knockBack = new ActiveStatusEffect(new SlimeKnockback(ownerEntity.transform.position, 5f * slimeSplit.scale),
+                new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+                true);
+                entity.OnRecieveEffect(knockBack);
+            }
         }
     }
 

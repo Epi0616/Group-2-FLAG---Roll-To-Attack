@@ -149,32 +149,6 @@ public class MovementController
         ActivateExclusiveMovement(potentialExclusiveMovements);
     }
 
-
-    // Old Version
-
-    //for (int i = availableMovements.Count - 1; i >= 0; i--)
-    //    {
-    //        ConditionalMovement movement = availableMovements[i];
-    //        List<BaseCondition> conditions = movement.conditions;
-    //        bool allReleventConditionsMet = true;
-    //        foreach (BaseCondition condition in conditions)
-    //        {
-    //            condition.ConditionUpdate();
-
-    //            if (!condition.IsConditionMet() && condition.isRequired)
-    //            {
-    //                allReleventConditionsMet = false;
-    //            }
-    //        }
-
-    //        if (allReleventConditionsMet && moveInterfaceAccess.canMove)
-    //        {
-    //            activeMovements.Add(movement);
-    //            availableMovements.Remove(movement);
-    //            movement.movement.StartMovement(entity);
-    //      }
-    //}
-
     private void ActivateExclusiveMovement(List<ConditionalMovement> potentialActiveMovements)
     {
         List<ConditionalMovement> lowestPriorityActiveMovements = new List<ConditionalMovement>();
@@ -301,31 +275,5 @@ public class MovementController
     }
  
 }
-
-    // Old Version
-
-//    for (int i = activeMovements.Count - 1; i >= 0; i--)
-//    {
-//    ConditionalMovement movement = activeMovements[i];
-//    List<BaseCondition> conditions = movement.conditions;
-//    bool allReleventConditionsMet = true;
-
-//    foreach (BaseCondition condition in conditions)
-//    {
-//        condition.ConditionUpdate();
-
-//        if (!condition.IsConditionMet() && condition.isRequired)
-//        {
-//            allReleventConditionsMet = false;
-//        }
-//    }
-
-//    if (!allReleventConditionsMet)
-//    {
-//        availableMovements.Add(movement);
-//        activeMovements.Remove(movement);
-//        movement.movement.EndMovement();
-//    }
-//    }
 
 

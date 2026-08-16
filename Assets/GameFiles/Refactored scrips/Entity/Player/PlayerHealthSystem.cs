@@ -10,6 +10,16 @@ public class PlayerHealthSystem : EntityHealthSystem
 
     private float iFrameTimer = 0;
 
+    private void OnEnable()
+    {
+        HealthOption.HealthChosen += OnHeal;
+    }
+
+    private void OnDisable()
+    {
+        HealthOption.HealthChosen -= OnHeal;
+    }
+
     public override void OnTakeDamage(int damageAmount, DamageType type)
     {
         if (iFrameTimer > 0) return;
@@ -22,6 +32,12 @@ public class PlayerHealthSystem : EntityHealthSystem
         {
             OnDeath();
         }
+    }
+
+    public override void OnHeal(int healAmount)
+    {
+        base.OnHeal(healAmount);
+        UpdateHealthBar?.Invoke(currentHealth, maxHealth);
     }
 
     public override void OnDeath()

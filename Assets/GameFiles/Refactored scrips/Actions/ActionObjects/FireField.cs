@@ -80,8 +80,10 @@ public class FireField : MonoBehaviour
         {
             if (!collider.gameObject) { continue; }
             if (collider.gameObject == ownerEntity) { continue; }
-
-            collider.gameObject.GetComponent<Entity>().OnTakeDamage(tickDamage, color, DamageType.Normal);
+            if (TryGetComponent<Entity>(out Entity entity))
+            { 
+                entity.OnTakeDamage(tickDamage, color, DamageType.Normal);
+            }
         }
     }
 
