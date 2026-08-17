@@ -128,8 +128,6 @@ public class SlimeJump : BaseEntityAction
 
     public override void InterruptAction()
     {
-        Debug.Log("interrupt");
-
         if (actionRoutine != null)
         {
             ownerEntity.StopCoroutine(actionRoutine);

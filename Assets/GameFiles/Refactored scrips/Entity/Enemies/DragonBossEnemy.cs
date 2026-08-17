@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable, IRadialProjectile
+public class DragonBossEnemy : BaseAISlamEnemy, 
+    IFireballAction, 
+    IShieldable, 
+    IRadialProjectile,
+    IArcingProjectile
 {
     [Header("IFireballAction")]
     [SerializeField] private GameObject FireballObj;
@@ -23,6 +27,12 @@ public class DragonBossEnemy : BaseAISlamEnemy, IFireballAction, IShieldable, IR
     [SerializeField] private LayerMask RadialTargetableLayers;
     public GameObject radialObj { get => FireWingBeatObj; set => FireWingBeatObj = value; }
     public LayerMask radialTargetableLayers { get => RadialTargetableLayers; set => RadialTargetableLayers = value; }
+
+    [Header("IArcingProjectile")]
+    [SerializeField] private GameObject SplashFireballObj;
+    [SerializeField] private Transform MouthRootBone;
+    public GameObject arcingProjectileObj { get => SplashFireballObj; set => SplashFireballObj = value; }
+    public Transform arcingProjectileRootBone { get => MouthRootBone; set => MouthRootBone = value; }
 
     protected override void Start()
     {

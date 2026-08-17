@@ -19,6 +19,7 @@ public class SplitOnDeath : BaseEntityAction
 
     public override void StartAction(Entity ownerEntity)
     {
+        Debug.Log("splitting on death");
         base.StartAction(ownerEntity);
 
         if (!(ownerEntity is ISlimeSplit slimeSplit)) return;
@@ -26,6 +27,7 @@ public class SplitOnDeath : BaseEntityAction
 
         if (slimeSplit.iterationsLeft > 0)
         {
+            Debug.Log("starting coroutine");
             actionRoutine = ownerEntity.StartCoroutine(Action());
         }
     }
@@ -33,6 +35,7 @@ public class SplitOnDeath : BaseEntityAction
     private IEnumerator Action()
     { 
         yield return new WaitForSeconds(deathDelay);
+        Debug.Log("spawning children");
         SpawnChildren();
 
         actionRoutine = null;
@@ -56,6 +59,7 @@ public class SplitOnDeath : BaseEntityAction
 
     public override void InterruptAction()
     {
+        Debug.Log("interrupted split on death");
         if (actionRoutine != null)
         {
             ownerEntity.StopCoroutine(actionRoutine);

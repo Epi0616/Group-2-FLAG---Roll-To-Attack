@@ -27,8 +27,6 @@ public class SlimeVariableTimeCondition : VariableTimeCondition
     {
         float variation = Random.Range(-variance, variance);
         timer = (duration + variation) * slimeSplit.scale;
-
-        Debug.Log($"timer set to {timer}");
     }
 
     public override BaseCondition Clone()

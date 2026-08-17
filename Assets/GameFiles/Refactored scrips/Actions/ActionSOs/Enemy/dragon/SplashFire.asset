@@ -10,50 +10,51 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488973e4a44e1994a840b5a4cd84b5ea, type: 3}
-  m_Name: WebSpit
+  m_Name: SplashFire
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   conditionalAction:
     action:
-      rid: 3199367000231247952
+      rid: 3199367028011434057
     conditions:
-    - rid: 3199367000231247954
-    - rid: 3199367000231247955
-    - rid: 3199367000231247953
-    - rid: 3199367000231247960
-    - rid: 3199367000231247961
+    - rid: 3199367028011434062
+    - rid: 3199367028011434058
+    - rid: 3199367028011434059
+    - rid: 3199367028011434060
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
     exclusive: 1
     interruptOnDeath: 1
-    priority: 0
+    priority: 1
   references:
     version: 2
     RefIds:
-    - rid: 3199367000231247952
-      type: {class: WebSpit, ns: , asm: Assembly-CSharp}
+    - rid: 3199367028011434057
+      type: {class: SplashFireballAction, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 0
-    - rid: 3199367000231247953
-      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        duration: 2
-    - rid: 3199367000231247954
-      type: {class: CanActCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-    - rid: 3199367000231247955
-      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 1
-    - rid: 3199367000231247960
+        offset: {x: 0, y: 0, z: 0}
+        SlamDamage: 0
+        SlamColor: {r: 1, g: 0.39305994, b: 0, a: 1}
+        ChargeTime: 3
+        SlamRange:
+          baseValue: 5
+        SlamPositionOffset: {x: 0, y: 0, z: 0}
+    - rid: 3199367028011434058
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
-        distanceThreshold: 17.5
-    - rid: 3199367000231247961
-      type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
+        distanceThreshold: 15
+    - rid: 3199367028011434059
+      type: {class: CanActCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        lookThreshold: 1
+    - rid: 3199367028011434060
+      type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+    - rid: 3199367028011434062
+      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
+        duration: 3

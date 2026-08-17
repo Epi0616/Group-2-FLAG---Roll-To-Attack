@@ -25,6 +25,7 @@ MonoBehaviour:
     singleUse: 0
     triggered: 0
     exclusive: 1
+    interruptOnDeath: 1
     priority: 0
   references:
     version: 2
@@ -36,6 +37,11 @@ MonoBehaviour:
         bounceMask:
           serializedVersion: 2
           m_Bits: 3221225480
+        debrisSpawned: 6
+        debrisDistance: 40
+        debrisSpeed: 25
+        chargeTime: 1
+        crashDownTime: 2.5
     - rid: 3199366932452081737
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
@@ -52,7 +58,7 @@ MonoBehaviour:
       type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-        distanceThreshold: 20
+        distanceThreshold: 30
     - rid: 3199366932452081761
       type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:

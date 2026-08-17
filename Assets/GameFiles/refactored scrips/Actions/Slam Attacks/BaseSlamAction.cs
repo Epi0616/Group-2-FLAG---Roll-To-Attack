@@ -191,12 +191,12 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             if (collider == null) continue;
             if (collider.gameObject == ownerEntity.gameObject) { continue; }
             if (collider.gameObject.CompareTag("StaticEntity")) { continue; }
-            Entity hitEntity = collider.gameObject.GetComponent<Entity>();
-            if (hitEntity == null) { continue; }
-            ApplyCustomEffectPerEntity(hitEntity);
+            if (!collider.TryGetComponent<Entity>(out Entity entity)) { continue; }
+            if (entity == null) { continue; }
+            ApplyCustomEffectPerEntity(entity);
             if (slamRange.GetFinalValue() > slamRange.GetBaseValue()) //potential rework if we buff range in some way??
             {
-                ApplyHeavyEffectPerEntity(hitEntity);
+                ApplyHeavyEffectPerEntity(entity);
             }
 
             //Debug.Log("Processing Loop End");
@@ -233,7 +233,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     public virtual void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
         if (slamDamage == 0) { return; }
-       hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
+        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
     }
 
     public virtual void ExtraSlamEffect() { }

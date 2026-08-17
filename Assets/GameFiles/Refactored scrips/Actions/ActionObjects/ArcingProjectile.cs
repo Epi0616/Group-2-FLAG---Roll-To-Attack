@@ -11,7 +11,7 @@ public class ArcingProjectile : MonoBehaviour
     private float slamRange;
     private bool active = false;
 
-    private Entity ownerEntity;
+    protected Entity ownerEntity;
     private ISlamActionRequirements slamVariablesAccess;
     private Vector3 slamOrigin;
     private bool attackInterrupted = false;
@@ -40,7 +40,7 @@ public class ArcingProjectile : MonoBehaviour
         active = true;
     }
 
-    private IEnumerator LifeTime(float lifeTime)
+    protected virtual IEnumerator LifeTime(float lifeTime)
     {
         while (lifeTime > 0)
         {
@@ -86,6 +86,7 @@ public class ArcingProjectile : MonoBehaviour
         {
             Collider[] colliders = Physics.OverlapSphere(hit.point, slamRange, ownerEntity.hostileMask);
             ProcessHits(colliders, hit);
+            OnHitEffect();
         }
 
         Vector3 pos = slamOrigin;
@@ -122,6 +123,7 @@ public class ArcingProjectile : MonoBehaviour
         }
 
     }
+    public virtual void OnHitEffect() { }
     public virtual void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
         if (slamDamage == 0) { return; }
@@ -129,7 +131,7 @@ public class ArcingProjectile : MonoBehaviour
     }
 
     //Pathing
-    private IEnumerator PathToTarget(Vector3 target, Vector3 initialPosition, float durationOfTravel)
+    protected virtual IEnumerator PathToTarget(Vector3 target, Vector3 initialPosition, float durationOfTravel)
     {
         float timer = durationOfTravel;
         float t = 0;
@@ -153,12 +155,12 @@ public class ArcingProjectile : MonoBehaviour
         transform.position = target;
     }
 
-    private float ArcY(Vector3 target, Vector3 initialPosition, float peakInArc, float t)
+    protected float ArcY(Vector3 target, Vector3 initialPosition, float peakInArc, float t)
     {
         return peakInArc * 6 * t * (1 - t);
     }
 
-    private float GetPeakInArc(Vector3 target)
+    protected float GetPeakInArc(Vector3 target)
     {
         Vector3 direction = target - transform.position;
         float distance = direction.magnitude;

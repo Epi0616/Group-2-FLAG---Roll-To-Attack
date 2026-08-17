@@ -23,6 +23,7 @@ MonoBehaviour:
     singleUse: 1
     triggered: 0
     exclusive: 1
+    interruptOnDeath: 1
     priority: 2
   references:
     version: 2
@@ -40,6 +41,7 @@ MonoBehaviour:
       type: {class: FireballRainAction, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 0
+        fireballRainEnemies: {fileID: 11400000, guid: 380a26e1553c6c241ba0e26726b4c9a3, type: 2}
         SlamDamage: 10
         SlamColor: {r: 1, g: 0.30588236, b: 0, a: 1}
         ChargeTime: 0

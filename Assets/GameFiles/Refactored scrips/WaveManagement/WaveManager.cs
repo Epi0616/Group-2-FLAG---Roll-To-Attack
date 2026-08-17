@@ -19,6 +19,7 @@ public class WaveManager : MonoBehaviour
     private void OnEnable()
     {
         SpawnWaveAction.SpawnWaveRequest += SpawnWaveWithBudget;
+        FireballRainAction.SpawnWaveRequest += SpawnWave;
         WaveBuilder.EnemiesGenerated += HandleEnemiesGenerated;
         EnemyHealthSystem.EnemyHasDied += HandleEnemyDeath;
         DicePedestal.WaveStartPedestal += StartNextWave;
@@ -30,6 +31,7 @@ public class WaveManager : MonoBehaviour
     private void OnDisable()
     {
         SpawnWaveAction.SpawnWaveRequest -= SpawnWaveWithBudget;
+        FireballRainAction.SpawnWaveRequest -= SpawnWave;
         WaveBuilder.EnemiesGenerated -= HandleEnemiesGenerated;
         EnemyHealthSystem.EnemyHasDied -= HandleEnemyDeath;
         DicePedestal.WaveStartPedestal -= StartNextWave;
@@ -100,6 +102,18 @@ public class WaveManager : MonoBehaviour
         }
 
         Wave newWave = waveBuilder.GenerateWave(wave, budget);
+        waveSpawner.SpawnWave(newWave, false);
+    }
+
+    public void SpawnWave(WaveObj waveObj)
+    {
+        if (!spawningWave)
+        {
+            WaveCountStart?.Invoke(0);
+            spawningWave = true;
+        }
+
+        Wave newWave = waveObj.Create();
         waveSpawner.SpawnWave(newWave, false);
     }
 }
