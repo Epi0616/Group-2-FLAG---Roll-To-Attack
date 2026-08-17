@@ -20,6 +20,7 @@ MonoBehaviour:
     - rid: 5154424246769811526
     - rid: 5154424246769811527
     - rid: 5154424316264185927
+    - rid: 3199367024894017741
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
@@ -32,6 +33,10 @@ MonoBehaviour:
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
+    - rid: 3199367024894017741
+      type: {class: CanActCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
     - rid: 5154424246769811526
       type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:
