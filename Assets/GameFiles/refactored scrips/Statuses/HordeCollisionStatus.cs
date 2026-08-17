@@ -12,12 +12,14 @@ public class HordeCollisionStatus : StatusEffect
         collidingLayer = layer;   
         isStackable = false;
         EntityApplied = false;
+        type = StatusType.Crumbling;
     }
     public HordeCollisionStatus(Entity applierEntity)
     {
         collidingLayer = applierEntity.hostileMask;
         isStackable = false;
         EntityApplied = true;
+        type = StatusType.Crumbling;
     }
 
     protected override void OnApplication()
