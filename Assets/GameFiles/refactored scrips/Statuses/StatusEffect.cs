@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum StatusType
 {
-    Freeze, Knockback, Weak, Slow, Stun, Poison, Speed, Crumbling, Shield
+    Default, Freeze, Knockback, Weak, Slow, Stun, Poison, Speed, Crumbling, Shield
 }
 
 
@@ -23,7 +23,7 @@ public abstract class StatusEffect
 
     public bool toBeRemoved = false;
 
-    public StatusType type;
+    public StatusType type = StatusType.Default;
 
     public Entity entityRef;
 

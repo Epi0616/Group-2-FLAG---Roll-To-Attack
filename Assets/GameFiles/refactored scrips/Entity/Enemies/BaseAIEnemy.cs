@@ -238,6 +238,7 @@ public class BaseAIEnemy : AIDrivenEntity,
 
         if (statusSystem.CheckForStatusByType(StatusType.Freeze))
         {
+            //Debug.Log("Shattered " + statusSystem.CheckForStatusByType(StatusType.Freeze));
             //AudioManager.instance.PlayRandomSoundClip(EnemyShatteredSounds);
             textDisplaySystem.DisplayHigherText("SHATTERED", Color.deepSkyBlue, 52);
             //textDisplaySystem.DisplayHigherText(ShatteredString.GetLocalizedString(), Color.deepSkyBlue, 52);
@@ -246,6 +247,7 @@ public class BaseAIEnemy : AIDrivenEntity,
         }
         else if (statusSystem.CheckForStatusByType(StatusType.Crumbling))
         {
+            //Debug.Log("Crushed " + statusSystem.CheckForStatusByType(StatusType.Crumbling));
             //AudioManager.instance.PlayRandomSoundClip(EnemyWallSlamSounds);
             textDisplaySystem.DisplayHigherText("CRUSHED", Color.sienna, 52);
             //textDisplaySystem.DisplayHigherText(CrushedString.GetLocalizedString(), Color.sienna, 52);
@@ -253,11 +255,12 @@ public class BaseAIEnemy : AIDrivenEntity,
         }
         else
         {
+            //Debug.Log("Slammed");
             textDisplaySystem.DisplayHigherText("SLAMMED", Color.darkGoldenRod, 52);
            // textDisplaySystem.DisplayHigherText(SlammedString.GetLocalizedString(), Color.darkGoldenRod, 52);
             OnTakeDamage(appliedDamage, Color.darkGoldenRod, DamageType.Slammed);
         }
-            statusSystem.RemoveEffectByType(StatusType.Knockback);
+        statusSystem.RemoveEffectByType(StatusType.Knockback);
 
         // Eventual VFX/SFX can go here for wall slams
         // add a check for the value of dmgMod to increase volume/size of effects
