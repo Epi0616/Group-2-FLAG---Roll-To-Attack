@@ -96,7 +96,7 @@ public class EnemySpawnPoint : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            if (TryGetComponent<Entity>(out Entity entity))
+            if (collider.TryGetComponent<Entity>(out Entity entity))
             {
                 Vector3 targetPos = centerPos.transform.position;
                 targetPos.y += 10f;
