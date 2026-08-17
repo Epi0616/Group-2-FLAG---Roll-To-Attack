@@ -27,9 +27,9 @@ public class SpiderWebSystem
     public void UpdateSystem()
     {
         CheckForTargetsInSystem();
-        Debug.DrawLine(nodes[0].transform.position, nodes[1].transform.position, Color.white);
-        Debug.DrawLine(nodes[1].transform.position, nodes[2].transform.position, Color.white);
-        Debug.DrawLine(nodes[2].transform.position, nodes[0].transform.position, Color.white);
+        //Debug.DrawLine(nodes[0].transform.position, nodes[1].transform.position, Color.white);
+        //Debug.DrawLine(nodes[1].transform.position, nodes[2].transform.position, Color.white);
+        //Debug.DrawLine(nodes[2].transform.position, nodes[0].transform.position, Color.white);
     }
 
     public float DetermineLongestEdge()
