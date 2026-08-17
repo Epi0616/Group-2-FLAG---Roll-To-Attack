@@ -29,7 +29,7 @@ public class SlimeCharge : BaseEntityAction
     {
         Rigidbody rb = usesRigidBody.rb;
 
-        yield return Vibrate(1f, 0.3f);
+        yield return Vibrate(1f, 0.03f);
 
         slimeTrail.isCharging = true;
         ChargeTowardsTarget();

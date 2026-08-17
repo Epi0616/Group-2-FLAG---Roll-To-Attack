@@ -118,16 +118,15 @@ public class WaveBuilder : MonoBehaviour
 
     private int CheckCountInBlock(EntityBlock entityBlock)
     {
-        if (entityBlock.entity.TryGetComponent<Entity>(out Entity thisEntity))
+        if (entityBlock.entity.TryGetComponent<Entity>(out Entity entity))
         {
-            if (thisEntity is ISlimeSplit slimeSplit)
+            if (entity is ISlimeSplit slimeSplit)
             {
                 int tally = 0;
                 for (int i = 0; i <= slimeSplit.iterationsLeft; i++)
                 {
                     tally += (int)Mathf.Pow(slimeSplit.childrenSpawned, i);
                 }
-
                 return tally;
             }
         }

@@ -264,7 +264,7 @@ public class EnhancedSeekingRocket : SeekingRocket
                 if (!collider.gameObject) { continue; }
                 if (collider.gameObject == ownerEntity) { continue; }
                 if (collider.gameObject.CompareTag("EntitySpawnable")) { continue; }
-                if (TryGetComponent<Entity>(out Entity entity))
+                if (collider.TryGetComponent<Entity>(out Entity entity))
                 {
                     //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
                     DamageTarget(entity);

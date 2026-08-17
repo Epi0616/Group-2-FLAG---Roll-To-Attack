@@ -35,7 +35,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         RemoveAllShaders();
     }
 
-    public virtual void Vibrate(float intensity = 0.1f)//intensity base 0.1f
+    public virtual void Vibrate(float intensity = 0.02f)//intensity base 0.01
     {
         float x = body.transform.localPosition.x;
         float y = body.transform.localPosition.y;
