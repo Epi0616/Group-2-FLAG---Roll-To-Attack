@@ -26,10 +26,10 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
     {
         knockbackWeightMod = new Stat(0.5f);
         slammedDamageMod = new Stat(1f);
-        Initialize();
+        //Initialize();
     }
 
-    public void Initialize(Entity ownerEntity, float range, float chargeTime, Color colour)
+    public void InitializeMine(Entity ownerEntity, float range, float chargeTime, Color colour)
     {
         detonated = false;
         this.ownerEntity = ownerEntity;

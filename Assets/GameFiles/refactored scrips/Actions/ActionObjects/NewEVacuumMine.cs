@@ -13,8 +13,9 @@ public class NewEVacuumMine : NewVacuumMine
         base.Start();
         heldEffects = new List<ActiveStatusEffect>();
     }
-    public void Initialize(Entity ownerEntity, float range, float chargeTime, Color colour, int enhancementLevel)
+    public void InitializeMine(Entity ownerEntity, float range, float chargeTime, Color colour, int enhancementLevel)
     {
+        base.Initialize();
         detonated = false;
         this.ownerEntity = ownerEntity;
         this.enhancementLevel = enhancementLevel;
