@@ -18,6 +18,7 @@ MonoBehaviour:
     conditions:
     - rid: 3199366804742078580
     - rid: 3199366804742078585
+    - rid: 3199367024894017733
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
@@ -33,6 +34,8 @@ MonoBehaviour:
         fireballSpawnOffset: {x: 0, y: -0.5, z: 1.5}
         amount: 15
         delay: 0.07
+        initialDamage: 7
+        tickDamage: 2
     - rid: 3199366804742078580
       type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
       data:
@@ -43,3 +46,7 @@ MonoBehaviour:
       data:
         inverse: 0
         lookThreshold: 45
+    - rid: 3199367024894017733
+      type: {class: CanActCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0

@@ -18,6 +18,7 @@ MonoBehaviour:
     conditions:
     - rid: 5042951983914549324
     - rid: 5042952301634912858
+    - rid: 3199367024894017747
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
@@ -26,17 +27,17 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 3199367024894017747
+      type: {class: CanActCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 0
     - rid: 5042951970589769798
       type: {class: FireballAction, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 0
         offset: {x: 0, y: -0.5, z: 1.5}
-        SlamDamage: 20
-        SlamColor: {r: 1, g: 0.47529268, b: 0, a: 1}
-        ChargeTime: 0
-        SlamRange:
-          baseValue: 5
-        SlamPositionOffset: {x: 0, y: 0, z: 0}
+        initialDamage: 7
+        tickDamage: 2
     - rid: 5042951983914549324
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
