@@ -95,7 +95,7 @@ public class NewEVacuumMine : NewVacuumMine
         {
             impactfield.DestroyMe();
         }
-        bodySystem.RemoveAllShaders();
+    
         //Debug.Log("Effects Cleared");
         heldEffects.Clear();
         ObjectPoolManager.ReturnObjectToPool(gameObject);

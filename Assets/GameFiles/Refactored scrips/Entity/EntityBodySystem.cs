@@ -92,6 +92,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
 
     public void ApplyShader(Color colour, float duration, ShaderType type)
     {
+        if (OwnerEntity.healthSystem.isDead) { return; }
         ShaderProperty shader = ShaderPropertyHolder.ShaderPropertyDict[type];
         StopShaderCoroutine(type);
         SetShaderColour(colour, shader);
@@ -100,6 +101,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
 
     public void ApplyShaderPowerIncrement(Color colour,float increment, float duration, ShaderType type)
     {
+        if (OwnerEntity.healthSystem.isDead) { return; }
         ShaderProperty shader = ShaderPropertyHolder.ShaderPropertyDict[type];
         renderer.GetPropertyBlock(block);
         StopShaderCoroutine(type);
@@ -143,8 +145,10 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
 
     public void OverrideShaderWithValue(float value, ShaderType type)
     {
-        ShaderProperty shader = ShaderPropertyHolder.ShaderPropertyDict[type];
-        StopShaderCoroutine(type);
+        ShaderProperty shader = ShaderPropertyHolder.ShaderPropertyDict[type];    
+        
+        StopShaderCoroutine(type);    
+        
         renderer.GetPropertyBlock(block);
         block.SetFloat(shader.powerRef, value);
         renderer.SetPropertyBlock(block);

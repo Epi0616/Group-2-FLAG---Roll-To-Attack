@@ -140,8 +140,7 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         if (impactfield != null)
         {
             impactfield.DestroyMe();
-        }
-        bodySystem.RemoveAllShaders();
+        }       
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
