@@ -8,6 +8,9 @@ public class NewEVacuumMine : NewVacuumMine
     private int enhancementLevel = 1;
     private List<ActiveStatusEffect> heldEffects;
     private float heldDamage;
+
+    private bool isSetup = false;
+
     protected override void Start()
     {
         base.Start();

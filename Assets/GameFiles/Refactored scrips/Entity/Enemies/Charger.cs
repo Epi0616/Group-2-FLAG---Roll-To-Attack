@@ -5,8 +5,11 @@ public class Charger : BaseAIEnemy,
     IRadialProjectile
 {
     [Header("ICrashCollider")]
+    [SerializeField] LayerMask CrashLayerMask;
     [SerializeField] Collider CrashCollider;
     private Vector3 CrashPosition = Vector3.zero;
+
+    public LayerMask crashLayerMask { get => CrashLayerMask; private set => CrashLayerMask = value; }
     public Collider crashCollider { get => CrashCollider; private set => CrashCollider = value; }
     public Vector3 crashPosition { get => CrashPosition; private set => CrashPosition = value; }
     public bool hasCrashed { get; set; }
@@ -65,12 +68,16 @@ public class Charger : BaseAIEnemy,
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider hit)
     {
-        if (hasCrashed == false)
+        if ((crashLayerMask.value & (1 << hit.gameObject.layer)) != 0)
         {
-            crashPosition = other.ClosestPoint(transform.position);
+            if (hasCrashed == false)
+            {
+                crashPosition = hit.ClosestPoint(transform.position);
+                Debug.Log($"collided with {hit.name}");
+            }
+            hasCrashed = true;
         }
-        hasCrashed = true;
     }
 }

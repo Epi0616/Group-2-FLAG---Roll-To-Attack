@@ -22,7 +22,6 @@ public class PlayerHealthSystem : EntityHealthSystem
 
     public override void OnTakeDamage(int damageAmount, DamageType type)
     {
-        Debug.Log("on take daamge player");
         if (iFrameTimer > 0) return;
 
         currentHealth -= damageAmount;

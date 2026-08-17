@@ -6,6 +6,10 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class FireballRainAction : BaseEntityAction, ISlam
 {
+    public static event Action<WaveObj> SpawnWaveRequest;
+
+    [SerializeField] private WaveObj fireballRainEnemies;
+
     [SerializeField] protected int SlamDamage;
     [SerializeField] protected Color SlamColor;
     [SerializeField] protected float ChargeTime;
@@ -30,9 +34,10 @@ public class FireballRainAction : BaseEntityAction, ISlam
     public Vector3 slamPositionOffset { get => SlamPositionOffset; set => SlamPositionOffset = value; }
 
     public FireballRainAction() { }
-    public FireballRainAction(bool preventsMovement, int slamDamage, Color slamColor, float chargeTime, Stat slamRange, float startDelay, float actionDuration, int totalFireballs, Vector3 centrePoint, float radius)
+    public FireballRainAction(bool preventsMovement, WaveObj fireballRainEnemies, int slamDamage, Color slamColor, float chargeTime, Stat slamRange, float startDelay, float actionDuration, int totalFireballs, Vector3 centrePoint, float radius)
     {
         this.preventsMovement = preventsMovement;
+        this.fireballRainEnemies = fireballRainEnemies;
         this.slamDamage = slamDamage;
         this.slamColour = slamColor;
         this.chargeTime = chargeTime;
@@ -73,6 +78,7 @@ public class FireballRainAction : BaseEntityAction, ISlam
         yield return new WaitForSeconds(3.5f);
 
         yield return FireballRain(totalFireballs);
+        SpawnWaveRequest?.Invoke(fireballRainEnemies);
         yield return new WaitForSeconds(10);
 
         actionRoutine = null;
@@ -152,6 +158,6 @@ public class FireballRainAction : BaseEntityAction, ISlam
     }
     public override BaseEntityAction Clone()
     {
-        return new FireballRainAction(preventsMovement, slamDamage, slamColour, chargeTime, slamRange, startDelay, actionDuration, totalFireballs, centerPoint, radius);
+        return new FireballRainAction(preventsMovement, fireballRainEnemies, slamDamage, slamColour, chargeTime, slamRange, startDelay, actionDuration, totalFireballs, centerPoint, radius);
     }
 }

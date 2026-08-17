@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IRocketSpawner, IBoulderThrow
+public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeSpawner, IVacuumSpawner, IRocketSpawner, IArcingProjectile
 {
     // IPoisonSpawner Interface
     [Header("IPoison Required Properties")]
@@ -54,12 +54,11 @@ public class AiAbilityUsingEnemy : BaseAISlamEnemy, IPoisonSpawner, IOrbitSpikeS
     [SerializeField] private GameObject EnhancedRocketObj;
     public GameObject enhancedRocketObj { get => EnhancedRocketObj; set => EnhancedRocketObj = value; }
 
-    [Header("IBoulderThrow Required Properties")]
-    //IBoulderThrow intrefcaaeeea
+    [Header("IArcingProjectile Required Properties")]
     [SerializeField] private GameObject BoulderObj;
     [SerializeField] private Transform BoulderRootBone; 
-    public GameObject boulderObj { get => BoulderObj; set => BoulderObj = value; }
-    public Transform boulderRootBone { get => BoulderRootBone; set => BoulderRootBone = value; }
+    public GameObject arcingProjectileObj { get => BoulderObj; set => BoulderObj = value; }
+    public Transform arcingProjectileRootBone { get => BoulderRootBone; set => BoulderRootBone = value; }
 
     // IOrbitSpike Interface Methods
     public void RemoveObjectFromOrbit(BaseOrbitObject obj)

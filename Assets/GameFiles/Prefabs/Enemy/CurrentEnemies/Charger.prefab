@@ -123,7 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8913848140634662655}
   - component: {fileID: 1365490059700267366}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: CrashCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ MonoBehaviour:
   IsGrounded: 0
   CanMove: 1
   MovementSpeed:
-    baseValue: 5
+    baseValue: 7.5
   ConditionalMovementDescriptors:
   - {fileID: 11400000, guid: fb496c70cf88b8248b8065f9f0094b81, type: 2}
   - {fileID: 11400000, guid: f51ae670fdca6b34f9421e630c0ebccf, type: 2}
@@ -286,6 +286,9 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  CrashLayerMask:
+    serializedVersion: 2
+    m_Bits: 3221225480
   CrashCollider: {fileID: 1365490059700267366}
   DebrisObj: {fileID: 6429506452782870572, guid: f4c181bfffd9d3d41836f76056ce951b, type: 3}
   RadialTargetableLayers:

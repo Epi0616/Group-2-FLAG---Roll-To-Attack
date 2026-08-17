@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalActionObject
   conditionalAction:
     action:
-      rid: 5154424316264185856
+      rid: 3199367028011434056
     conditions:
     - rid: 3199367010791981293
     - rid: 5154424246769811526
@@ -25,6 +25,7 @@ MonoBehaviour:
     singleUse: 0
     triggered: 0
     exclusive: 1
+    interruptOnDeath: 1
     priority: 1
   references:
     version: 2
@@ -37,6 +38,17 @@ MonoBehaviour:
       type: {class: CanActCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
+    - rid: 3199367028011434056
+      type: {class: ArcingProjectileThrowAction, ns: , asm: Assembly-CSharp}
+      data:
+        PreventsMovement: 1
+        offset: {x: 0, y: 5, z: -3.5}
+        SlamDamage: 15
+        SlamColor: {r: 0.8117647, g: 0.5568628, b: 0, a: 1}
+        ChargeTime: 3
+        SlamRange:
+          baseValue: 5
+        SlamPositionOffset: {x: 0, y: 0, z: 0}
     - rid: 5154424246769811526
       type: {class: FacingTargetCondition, ns: , asm: Assembly-CSharp}
       data:
@@ -47,17 +59,6 @@ MonoBehaviour:
       data:
         inverse: 1
         distanceThreshold: 20
-    - rid: 5154424316264185856
-      type: {class: BoulderThrowAction, ns: , asm: Assembly-CSharp}
-      data:
-        PreventsMovement: 1
-        offset: {x: 0, y: 5, z: -3.5}
-        SlamDamage: 15
-        SlamColor: {r: 0.8113208, g: 0.5580988, b: 0, a: 1}
-        ChargeTime: 3
-        SlamRange:
-          baseValue: 5
-        SlamPositionOffset: {x: 0, y: 0, z: 0}
     - rid: 5154424316264185927
       type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
       data:

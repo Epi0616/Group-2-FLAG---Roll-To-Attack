@@ -121,7 +121,7 @@ public class ActionController : IResetable
                 }
             }          
 
-            if (allRequiredConditionsMet && actionable.canAct)
+            if (allRequiredConditionsMet) //&& actionable.canAct
             {
                 if (action.exclusive)
                 {
@@ -135,7 +135,7 @@ public class ActionController : IResetable
                     action.action.StartAction(entity);
                 }
             }
-            else if (anyNonRequiredPresent && !action.allConditionsRequired && actionable.canAct)
+            else if (anyNonRequiredPresent && !action.allConditionsRequired) //&& actionable.canAct
             {
                 if (action.exclusive)
                 {
@@ -253,6 +253,15 @@ public class ActionController : IResetable
     {
         for (int i = activeActions.Count - 1; i >= 0; i--)
         {
+            RemoveActiveAction(activeActions[i], true);
+        }
+    }
+
+    public void InterruptOnDeath()
+    {
+        for (int i = activeActions.Count - 1; i >= 0; i--)
+        {
+            if (!activeActions[i].interruptOnDeath) { Debug.Log("not interrupting as contains ondeath condition"); continue; }
             RemoveActiveAction(activeActions[i], true);
         }
     }
