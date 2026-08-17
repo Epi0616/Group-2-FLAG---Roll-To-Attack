@@ -204,7 +204,7 @@ public class EnhancedSeekingRocket : SeekingRocket
             Collider collider = hitColliders[i];
 
             if (collider == null) { continue; }
-            if (target.CompareTag("StaticEntity") || target.CompareTag("PhysicsEntity")) { continue; }
+            if (collider.gameObject.CompareTag("StaticEntity") || collider.gameObject.CompareTag("PhysicsEntity")) { continue; }
 
             Entity newEntity = collider.GetComponent<Entity>();
 
