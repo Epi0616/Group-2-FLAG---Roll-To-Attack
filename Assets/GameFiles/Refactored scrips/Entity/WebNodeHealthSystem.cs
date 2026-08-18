@@ -7,8 +7,12 @@ public class WebNodeHealthSystem : EntityHealthSystem
     {
         OwnerNode = entity as SpiderWebNode;
     }
+    // Notify The Manager of a Node's deletion
     public override void OnDeath()
     {
+        OwnerNode.connections.Clear();
+        OwnerNode.systems.Clear();
+
         SpiderWebChecker.Instance.NodeRemoved(OwnerNode);
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
