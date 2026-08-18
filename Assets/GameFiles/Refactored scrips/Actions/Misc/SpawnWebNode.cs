@@ -21,17 +21,18 @@ public class SpawnWebNode : BaseEntityAction
 
     public void SpawnNode()
     {
+        // Minimum distance between web nodes
         Collider[] colliders = Physics.OverlapSphere(ownerEntity.transform.position, 15);
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.GetComponent<SpiderWebNode>())
             {
-                //Debug.Log("Node Placement Failed: Too close to other node");
                 EndAction();
                 return;
             }
         }
 
+        // Spawn and Setup a new node whilst informing the manager
         SpiderWebNode newNode = ObjectPoolManager.SpawnObject(webSpawner.webNodePrefab, ownerEntity.transform.position, Quaternion.identity).GetComponent<SpiderWebNode>();
         newNode.hostileMask = ownerEntity.hostileMask;
         SpiderWebChecker.Instance.NewWebNodeAdded(newNode);

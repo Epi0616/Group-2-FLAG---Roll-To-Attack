@@ -3,44 +3,24 @@ using UnityEngine;
 
 public class SpiderWebNode : Entity
 {
-    public SpiderWebSystem system;
     public List<SpiderWebSystem> systems = new List<SpiderWebSystem>();
-   // bool isClaimed = false;
+    public List<SpiderWebConnection> connections = new List<SpiderWebConnection>();
 
-    public override void OnRecieveEffect(ActiveStatusEffect statusEffect)
-    {
-        
-    }
-    public override void OnRecieveEffect(ActiveStatusEffect statusEffect, Color effectColour)
-    {
-        
-    }
-
+    // Normal no-status overrides
+    public override void OnRecieveEffect(ActiveStatusEffect statusEffect) { }
+    
+    public override void OnRecieveEffect(ActiveStatusEffect statusEffect, Color effectColour) { }
+   
+    // Don't need to display damage done to nodes or modify it so this is overloaded
     public override void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
-        //Debug.Log("Node Hit");
         healthSystem.OnTakeDamage(amount, damageType);
     }
 
-    public void ClaimBySystem(SpiderWebSystem system)
-    {
-        this.system = system;
-     //   isClaimed = true;
-    }
-
-    public void AddToNewSystem(SpiderWebSystem system)
-    {
-        systems.Add(system);
-    }
-
-    public void RemoveFromSystem()
-    {
-        system = null;
-     //   isClaimed = false;
-    }
-
-    public void RemoveFromSystem(SpiderWebSystem system)
-    {
-        systems.Remove(system);
-    }
+    // Manage particpating Systems and Connections - (Currently neither is really used, but you could check for something being an "end" by checking for connections.count < 2 for example)
+    public void AddToNewSystem(SpiderWebSystem system) { systems.Add(system); }
+    public void RemoveFromSystem(SpiderWebSystem system) { systems.Remove(system); }
+    
+    public void AddedToConnection(SpiderWebConnection connection) { connections.Add(connection); }
+    public void RemovedFromConnection(SpiderWebConnection connection) { connections.Remove(connection); }
 }
