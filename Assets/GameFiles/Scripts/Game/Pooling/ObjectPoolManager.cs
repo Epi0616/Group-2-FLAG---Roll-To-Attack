@@ -22,7 +22,6 @@ public class ObjectPoolManager : MonoBehaviour
     }
     public static PoolType poolingType;
 
-
     private void Awake()
     {
         if (instance == null)
@@ -79,7 +78,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     private static GameObject CreateObject(GameObject prefab, Vector3 position, Quaternion rotation, PoolType poolType = PoolType.GameObjects)
     {
-        //prefab.SetActive(false);
+        prefab.SetActive(false);
 
         GameObject obj = Instantiate(prefab, position, rotation);
 

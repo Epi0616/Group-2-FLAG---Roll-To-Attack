@@ -24,7 +24,7 @@ public class EnemyHealthSystem : EntityHealthSystem
         
         if (OwnerEntity is IActionable temp)
         {
-            temp.actionController.InterruptOnDeath();
+            temp.actionController.InterruptInterruptableActions();
         }
 
         //OwnerEntity.statusSystem.currentActiveStatusEffects.Clear();

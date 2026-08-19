@@ -21,7 +21,8 @@ public class SlowingSlam : BaseSlamAction , IUpgradableAbility
     }
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
+        base.ApplyCustomEffectPerEntity(hitEntity);
+
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new SlowStatus(SlowMult, "PlaceHolderSlow"),
                 new List<BaseCondition> { new TimeCondition(true, SlowDuration) }, true));
     }

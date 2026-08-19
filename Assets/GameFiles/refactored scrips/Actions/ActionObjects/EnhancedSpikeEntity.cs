@@ -184,7 +184,7 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
     {
         //AudioManager.instance.PlayRandomSoundClip(spikeOnHitSound, new Vector3(0, 0, 0), 0.7f);
         if (entity == null) { return; }
-        entity.OnTakeDamage(damage, colour, DamageType.Normal); 
+        entity.OnTakeDamage(damage, colour, DamageType.Spell); 
     }
 
     protected virtual void DestroyMe()

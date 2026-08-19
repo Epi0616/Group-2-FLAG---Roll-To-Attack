@@ -22,7 +22,7 @@ MonoBehaviour:
     singleUse: 0
     triggered: 0
     exclusive: 1
-    interruptOnDeath: 1
+    interruptable: 1
     priority: 1
   references:
     version: 2
@@ -39,6 +39,6 @@ MonoBehaviour:
       type: {class: ShieldBroken, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 1
-        shieldStacks: 35
+        shieldStacks: 10
         stunnedTime: 2.5
         applyTime: 5

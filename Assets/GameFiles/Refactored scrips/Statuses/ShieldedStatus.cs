@@ -20,7 +20,10 @@ public class ShieldedStatus : StatusEffect
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
         damage.AddMultiplier(0);
-        stacks--;
+        if (type == DamageType.Normal)
+        {
+            stacks--;
+        }
 
         if (stacks <= 0)
         {

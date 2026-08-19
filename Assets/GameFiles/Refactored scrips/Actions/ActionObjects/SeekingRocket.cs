@@ -107,34 +107,6 @@ public class SeekingRocket : MonoBehaviour
         transform.position += transform.forward * 100f * Time.deltaTime;
     }
 
-    //protected virtual void SelectNewTarget()
-    //{
-    //    Collider[] hitColliders = new Collider[10];
-    //    int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
-       
-    //    GameObject newTarget = null;
-    //    if (numHit > 0)
-    //    {
-    //        for (int i = 0; i < numHit; i++)
-    //        {
-    //            if (hitColliders[i].gameObject == null) { continue; }
-    //            if (hitColliders[i].CompareTag("StaticEntity") || hitColliders[i].CompareTag("PhysicsEntity"))
-    //            {
-    //                continue;
-    //            }
-    //            newTarget = hitColliders[i].gameObject;
-    //        }
-            
-    //    }
-    //    if (newTarget == null)
-    //    {
-    //        //Debug.LogWarning("No New Rocket Target Located: Destroying");
-    //        DestroyMe();
-    //        return;
-    //    }
-    //    target = newTarget;
-    //}
-
     protected virtual void SelectNewTarget()
     {
         Collider[] hitColliders = new Collider[10];
