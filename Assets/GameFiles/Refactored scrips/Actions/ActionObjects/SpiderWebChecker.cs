@@ -310,8 +310,8 @@ public class SpiderWebChecker : MonoBehaviour
                 return connection;
             }
         }
-        WebConnectionVisual visual = ObjectPoolManager.SpawnObject(webConnectionVisualPrefab, Vector3.zero, Quaternion.identity).GetComponent<WebConnectionVisual>();
-        SpiderWebConnection newConnection = new SpiderWebConnection(A, B, visual);
+        //WebConnectionVisual visual = ObjectPoolManager.SpawnObject(webConnectionVisualPrefab, Vector3.zero, Quaternion.identity).GetComponent<WebConnectionVisual>();
+        SpiderWebConnection newConnection = new SpiderWebConnection(A, B);
         spiderWebConnections.Add(newConnection);
         A.AddedToConnection(newConnection);
         B.AddedToConnection(newConnection);

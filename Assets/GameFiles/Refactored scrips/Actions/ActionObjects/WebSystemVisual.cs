@@ -9,10 +9,10 @@ public class WebSystemVisual : MonoBehaviour
 
     public void Awake()
     {
-        //if (lr == null)
-        //{
-        //    lr = GetComponent<LineRenderer>();
-        //}
+        if (lr == null)
+        {
+            lr = GetComponent<LineRenderer>();
+        }
         if (meshFilter == null)
         {
             meshFilter = GetComponent<MeshFilter>();
@@ -26,11 +26,11 @@ public class WebSystemVisual : MonoBehaviour
     {
         //Debug.Log("New Visual Made");
         hasBeenDestroyed = false;
-        //lr.loop = true;
-        //lr.positionCount = 3;
-        //lr.SetPosition(0, A.position);
-        //lr.SetPosition(1, B.position);
-        //lr.SetPosition(2, C.position);
+        lr.loop = true;
+        lr.positionCount = 3;
+        lr.SetPosition(0, A.position);
+        lr.SetPosition(1, B.position);
+        lr.SetPosition(2, C.position);
 
         // Convert into 2D positions
         Vector3 AA = new Vector3(A.position.x, A.position.y - 0.5f, A.position.z);
