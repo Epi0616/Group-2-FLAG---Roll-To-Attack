@@ -4,7 +4,8 @@ public class DragonBossEnemy : BaseAISlamEnemy,
     IFireballAction, 
     IShieldable, 
     IRadialProjectile,
-    IArcingProjectile
+    IArcingProjectile,
+    IInvulnerable
 {
     [Header("IFireballAction")]
     [SerializeField] private GameObject FireballObj;
@@ -34,8 +35,30 @@ public class DragonBossEnemy : BaseAISlamEnemy,
     public GameObject arcingProjectileObj { get => SplashFireballObj; set => SplashFireballObj = value; }
     public Transform arcingProjectileRootBone { get => MouthRootBone; set => MouthRootBone = value; }
 
+    [Header("IInvulnerable")]
+    [SerializeField] private bool IsInvulnerable = false;
+    public bool isInvulnerable { get => IsInvulnerable; set => IsInvulnerable = value; }
+
     protected override void Start()
     {
         base.Start();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        CheckForInvulnerable();
+    }
+
+    public override void OnTakeDamage(int amount, Color color, DamageType damageType)
+    {
+        if (isInvulnerable) return;
+        base.OnTakeDamage(amount, color, damageType);
+    }
+
+    public void CheckForInvulnerable()
+    {
+        isInvulnerable = statusSystem.CheckForInvulnerable();
     }
 }

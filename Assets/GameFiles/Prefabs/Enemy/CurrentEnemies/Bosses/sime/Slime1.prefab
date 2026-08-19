@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 4298615099605571278}
   - component: {fileID: 2871270401631601225}
   m_Layer: 14
-  m_Name: Slime
+  m_Name: Slime1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -279,6 +279,33 @@ MonoBehaviour:
   AnimationManager: {fileID: 2871270401631601225}
   SpawnModifier: 2
   IsWaveEnemy: 0
+  SlammedString:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  ShatteredString:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  CrushedString:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   ImpactFieldPrefab: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
   PedestalLayer:
     serializedVersion: 2
@@ -289,7 +316,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 147456
   IsCharging: 0
-  ChildObj: {fileID: 5362364407267928275}
+  ChildObj: {fileID: 5362364407267928275, guid: 37f32a5c14d6998488528c815b534852, type: 3}
   ChildrenSpawned: 4
   IterationsLeft: 2
   Scale: 1
@@ -323,7 +350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d0964f6dd437745baa50d5f048165f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityStatusSystem
-  statusCount: 0
 --- !u!114 &7423834583475190670
 MonoBehaviour:
   m_ObjectHideFlags: 0

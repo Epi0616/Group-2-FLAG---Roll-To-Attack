@@ -80,7 +80,7 @@ public class NewEVacuumMine : NewVacuumMine
             {
                 entity.OnRecieveEffect(new ActiveStatusEffect(new VacuumDisplacementEffect(transform.position, 10f),
                 new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) }, true), fieldColour);
-                entity.OnTakeDamage((int)heldDamage + 20, fieldColour, DamageType.Normal);
+                entity.OnTakeDamage((int)heldDamage + 20, fieldColour, DamageType.Spell);
                 foreach (ActiveStatusEffect effect in heldEffects)
                 {
                     entity.OnRecieveEffect(new ActiveStatusEffect(effect.effect.Clone(), effect.conditions.Select(c => c.Clone()).ToList(), effect.allConditionsRequired));                  

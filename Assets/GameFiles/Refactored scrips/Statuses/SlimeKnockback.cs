@@ -31,8 +31,6 @@ public class SlimeKnockback : SlimeDisplacement
 
     protected override void OnRemoval()
     {
-
         base.OnRemoval();
-        Debug.Log("Slime KB Removed");
     }
 }

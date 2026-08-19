@@ -88,7 +88,7 @@ public class ActionController : IResetable
         {
             ConditionalAction action = availableActions[i];
 
-            if (action.singleUse && action.triggered)
+            if (action.singleUse && action.triggered) //by not removing single use actions the player may have an ever increasing list of its actions?
             { 
                 //availableActions.Remove(action);
                 continue;
@@ -257,11 +257,11 @@ public class ActionController : IResetable
         }
     }
 
-    public void InterruptOnDeath()
+    public void InterruptInterruptableActions()
     {
         for (int i = activeActions.Count - 1; i >= 0; i--)
         {
-            if (!activeActions[i].interruptOnDeath) { Debug.Log("not interrupting as contains ondeath condition"); continue; }
+            if (!activeActions[i].interruptable) continue;
             RemoveActiveAction(activeActions[i], true);
         }
     }

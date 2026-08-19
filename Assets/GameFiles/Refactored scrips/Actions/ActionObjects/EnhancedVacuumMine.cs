@@ -79,7 +79,7 @@ public class EnhancedVacuumMine : VacuumMine
             {
                 entity.OnRecieveEffect(new ActiveStatusEffect(new VacuumDisplacementEffect(transform.position, -17f),
                 new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) }, true), Color.blue);
-                entity.OnTakeDamage((int)heldDamage + 20, Color.blue, DamageType.Normal);
+                entity.OnTakeDamage((int)heldDamage + 20, Color.blue, DamageType.Spell);
                 foreach (ActiveStatusEffect effect in heldEffects)
                 {
                     if (effect.effect.GetEffectColour() != null)

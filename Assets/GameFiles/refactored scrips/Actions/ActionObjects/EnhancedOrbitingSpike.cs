@@ -34,7 +34,7 @@ public class EnhancedOrbitingSpike : BaseOrbitObject
     protected void DamageTarget(Entity entity, Collider other)
     {
         //AudioManager.instance.PlayRandomSoundClip(spikeOnHitSound, new Vector3(0, 0, 0), 0.7f);
-        entity.OnTakeDamage(damage, Color.silver, DamageType.Normal);
+        entity.OnTakeDamage(damage, Color.silver, DamageType.Spell);
         if (age > 0.75f)
         {
             if (hasSpawnedNewSpike) { return; }

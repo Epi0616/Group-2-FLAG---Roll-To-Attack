@@ -113,7 +113,7 @@ public class WaveManager : MonoBehaviour
             spawningWave = true;
         }
 
-        Wave newWave = waveObj.Create();
+        Wave newWave = waveBuilder.UnpackWaveObj(waveObj);
         waveSpawner.SpawnWave(newWave, false);
     }
 }

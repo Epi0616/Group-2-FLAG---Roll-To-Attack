@@ -192,7 +192,7 @@ public class BaseAIEnemy : AIDrivenEntity,
         canAct = !statusSystem.CheckForActionBlockersStatus();
         if (!canAct)
         {
-            actionController.InterruptAllActive();
+            actionController.InterruptInterruptableActions(); //was originally interrupt all, im guessing this is undesireable as some actions like split on death for the slime NEED to happen?
         }
     }
     public void UnpackConditionalActions()

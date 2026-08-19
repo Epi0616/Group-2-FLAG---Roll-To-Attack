@@ -16,7 +16,6 @@ public class NavMeshEscapeMovement : BaseEntityMovement
 
     public override void StartMovement(Entity ownerEntity)
     {
-        Debug.Log("starting escape movement");
         base.StartMovement(ownerEntity);
         aiInterfaceAccess = ownerEntity as INavAgent;
         aiInterfaceAccess.EnableAIAgent();

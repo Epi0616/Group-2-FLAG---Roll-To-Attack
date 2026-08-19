@@ -109,7 +109,6 @@ public class SlimeJump : BaseEntityAction
 
     private void HandleImpact()
     {
-        Debug.Log("handle Impact");
         Collider[] colliders = Physics.OverlapSphere(ownerEntity.transform.position, 20 * slimeSplit.scale, slimeTrail.slimeableMask);
 
         foreach (var collider in colliders)

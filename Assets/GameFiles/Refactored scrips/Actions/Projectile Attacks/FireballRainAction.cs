@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -60,7 +61,6 @@ public class FireballRainAction : BaseEntityAction, ISlam
         {
             this.fireballAction = fireballAction;
         }
-
         if (ownerEntity is IAnimated animated)
         { 
             this.animated = animated;
@@ -71,22 +71,33 @@ public class FireballRainAction : BaseEntityAction, ISlam
 
     private IEnumerator ActionRoutine()
     {
+        BecomeInvulnerable();
         animated.animationManager.PlayAnimationCrossFade(AnimationType.ScreamUpwards, 0, MixerType.complimentary, 0.5f, 6f);
         yield return new WaitForSeconds(2);
 
         yield return LaunchFireballsIntoSky(totalFireballs, 2.5f);
         yield return new WaitForSeconds(3.5f);
 
+        //SpawnWaveRequest?.Invoke(fireballRainEnemies);
         yield return FireballRain(totalFireballs);
-        SpawnWaveRequest?.Invoke(fireballRainEnemies);
+
         yield return new WaitForSeconds(10);
 
         actionRoutine = null;
         EndAction();
     }
 
+    private void BecomeInvulnerable()
+    {
+        Debug.Log("Become inculnsnvsn triggered");
+        ActiveStatusEffect invulnerableEffect = new(new BaseInvulnerableEffect(), new List<BaseCondition>() { new TimeCondition(true, 6) }, true);
+        ownerEntity.OnRecieveEffect(invulnerableEffect);
+    }
+
     private IEnumerator LaunchFireballsIntoSky(int amountOfRain, float duration)
     {
+        Debug.Log("launching into sky");
+
         amountOfRain /= 2;
         float delay = (duration / amountOfRain);
 
@@ -100,11 +111,12 @@ public class FireballRainAction : BaseEntityAction, ISlam
 
     private IEnumerator FireballRain(int amountOfRain)
     {
+        Debug.Log("raining down");
         float delayBetweenFireballs = actionDuration / amountOfRain;
 
         while (amountOfRain > 0)
         {
-            SpawnFireball();
+            SpawnFireballRain();
             amountOfRain--;
             yield return new WaitForSeconds(delayBetweenFireballs);
         }
@@ -113,20 +125,24 @@ public class FireballRainAction : BaseEntityAction, ISlam
     private void SpawnFireballIntoSky()
     {
         Vector3 fireballPosition = fireballAction.fireballRootBone.transform.position + new Vector3 (0, 2, 0);
-        Quaternion fireballRotation = Quaternion.LookRotation(Vector3.up);
+        Quaternion fireballRotation = Quaternion.LookRotation(Vector3.up, Vector3.up);
 
         GameObject fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, fireballPosition, fireballRotation);
-        fireball.transform.localScale = Vector3.one * 0.5f;
+        fireball.transform.rotation = fireballRotation;
+        fireball.transform.position = fireballPosition;
+        //fireball.transform.localScale = Vector3.one * 0.5f;
 
         fireball.GetComponent<Fireball>().Initialize(ownerEntity, 50f, 7, 2);
     }
 
-    private void SpawnFireball()
+    private void SpawnFireballRain()
     {
         Vector3 randomPosition = FindRandomPositionAboveArena();
-        Quaternion fireballRotation = Quaternion.LookRotation(Vector3.down);
+        Quaternion fireballRotation = Quaternion.LookRotation(Vector3.down, Vector3.up);
 
         GameObject fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, randomPosition, fireballRotation);
+        fireball.transform.rotation = fireballRotation;
+        fireball.transform.position = randomPosition;
 
         fireball.GetComponent<Fireball>().Initialize(ownerEntity, 50f, 7, 2);
     }

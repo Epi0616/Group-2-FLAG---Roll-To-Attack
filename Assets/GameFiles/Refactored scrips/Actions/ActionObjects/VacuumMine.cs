@@ -64,7 +64,7 @@ public class VacuumMine : Entity , IKnockbackable, IUsesRigidBody
             {               
                 entity.OnRecieveEffect(new ActiveStatusEffect(new VacuumDisplacementEffect(transform.position, -17f),
                 new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) }, true), Color.blue);
-                entity.OnTakeDamage(20, Color.blue, DamageType.Normal);
+                entity.OnTakeDamage(20, Color.blue, DamageType.Spell);
             }
         }
 
