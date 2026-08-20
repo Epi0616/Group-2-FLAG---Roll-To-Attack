@@ -1,7 +1,8 @@
 using System.Collections;
-using UnityEngine;
 using System.Collections.Generic;
-public class ArcingProjectile : MonoBehaviour
+using UnityEngine;
+using UnityEngine.Rendering.Universal;
+public class ArcingProjectile : MonoBehaviour, IDecalShadowCast
 {
     [SerializeField] private Rigidbody rb;
 
@@ -16,6 +17,13 @@ public class ArcingProjectile : MonoBehaviour
     private Vector3 slamOrigin;
     private bool attackInterrupted = false;
     private ImpactFieldVisual impactField;
+
+    protected bool hasPeaked;
+
+    public ShadowDecal currentShadowDecal { get; set; }
+    [SerializeField] private GameObject ShadowDecalPrefab;
+    public GameObject shadowDecalPrefab { get => ShadowDecalPrefab; set => ShadowDecalPrefab = value; }
+
 
     private void OnEnable()
     {
@@ -66,8 +74,8 @@ public class ArcingProjectile : MonoBehaviour
 
     private IEnumerator PerformSlam(float chargeTime)
     {
-        impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
-        impactField.PassInValuesColorRadiusChargeTimeFlash(slamColor, slamRange, chargeTime, true);
+        //impactField = ObjectPoolManager.SpawnObject(slamVariablesAccess.slamImpactField, slamOrigin, Quaternion.identity).GetComponent<ImpactFieldVisual>();
+        //impactField.PassInValuesColorRadiusChargeTimeFlash(slamColor, slamRange, chargeTime, true);
 
         while (chargeTime > 0)
         { 
@@ -97,11 +105,11 @@ public class ArcingProjectile : MonoBehaviour
                     new BurstCountEffectOverride(new rangePair(3, 6)),
                     new StartSpeedEffectOverride(new rangePair(5, 10)),
                     new ShapeRadiusEffectOverride(slamRange)
-                }));   
-        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst02), pos, Quaternion.Euler(0, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourHueEffectOverride(new rangePair(0.6f, 1f)) }));
+                }));
+        //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst02), pos, Quaternion.Euler(0, 0, 0)).
+        //        GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { }));
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), pos, Quaternion.Euler(90, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ShapeRadiusEffectOverride(slamRange), new BurstCountEffectOverride(new rangePair(10, 15)) }));
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ShapeRadiusEffectOverride(slamRange), new BurstCountEffectOverride(new rangePair(1, 1)) }));
     }
 
     public virtual void ProcessHits(Collider[] colliders, RaycastHit hit)
@@ -133,21 +141,24 @@ public class ArcingProjectile : MonoBehaviour
     //Pathing
     protected virtual IEnumerator PathToTarget(Vector3 target, Vector3 initialPosition, float durationOfTravel)
     {
+        hasPeaked = false;
         float timer = durationOfTravel;
         float t = 0;
 
         Vector3 position; 
 
         float peakInArc = GetPeakInArc(target);
-
+        if(currentShadowDecal != null)
+        {
+            currentShadowDecal.StartGrowAndShrink(0.5f, durationOfTravel);
+        }
         while (t < 1)
         { 
             timer -= Time.deltaTime;
             t = (durationOfTravel - timer) / durationOfTravel;
 
             position = Vector3.Lerp(initialPosition, target, t);
-            position.y += ArcY(target, initialPosition, peakInArc, t);
-
+            position.y += ArcY(target, initialPosition, peakInArc, t);           
             transform.position = position;
 
             yield return null;
@@ -185,11 +196,13 @@ public class ArcingProjectile : MonoBehaviour
         if (active) return;
 
         StopAllCoroutines();
+        currentShadowDecal.DestroyMe();
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     public IEnumerator FallIntoFloor()
     {
+        currentShadowDecal.DestroyMe();
         float timer = 0;
         while (timer < 1.5f)
         {
@@ -198,6 +211,8 @@ public class ArcingProjectile : MonoBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y - 0.03f, transform.position.z);
             yield return null;
         }
+       
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
+    
 }

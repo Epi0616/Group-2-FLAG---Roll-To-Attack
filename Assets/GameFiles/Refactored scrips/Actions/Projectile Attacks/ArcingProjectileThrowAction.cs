@@ -52,7 +52,14 @@ public class ArcingProjectileThrowAction : BaseEntityAction, ISlam
     protected virtual IEnumerator Action()
     {
         projectile = ObjectPoolManager.SpawnObject(arcingProjectile.arcingProjectileObj, ownerEntity.transform.position, Quaternion.identity).GetComponent<ArcingProjectile>();
-
+        if (projectile is IDecalShadowCast shadow)
+        {
+            shadow.currentShadowDecal = ObjectPoolManager.SpawnObject(shadow.shadowDecalPrefab, projectile.transform.position, new Quaternion(1, 0, 0, 1)).GetComponent<ShadowDecal>();
+            shadow.currentShadowDecal.SetupProjector(new Vector2(7, 7), new Quaternion(1, 0, 0, 1), new Vector3(0, 5, 0), true, false, projectile.gameObject);
+            shadow.currentShadowDecal.SetNewOffset(new Vector3(0, -3, 0), true, 2);
+        }
+        //projectile.currentShadowDecal = ObjectPoolManager.SpawnObject(projectile.shadowDecalPrefab, projectile.transform.position, Quaternion.identity).GetComponent<ShadowDecal>();
+        //projectile.currentShadowDecal.SetupProjector(new Vector2(8, 8), new Quaternion(0, 0, 0, 0), new Vector3(0, 0, -5f), true, false, projectile.transform);
         Vector3 pos = ownerEntity.transform.position;
         pos += ownerEntity.transform.forward * 5f;
         pos.y += 2.5f;
@@ -60,8 +67,7 @@ public class ArcingProjectileThrowAction : BaseEntityAction, ISlam
         //        GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColourHues: new rangePair(0.6f, 1f), overrideBurstCount: new rangePair(5, 10), overrideSpeed: new rangePair(-15, -20), overrideShapeRadius: 10));
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), pos, Quaternion.Euler(90, 0, 0)).
                 GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
-                    new ColourHueEffectOverride(new rangePair(0.6f, 1f)),
-                    new BurstCountEffectOverride(new rangePair(5, 10)),
+                    new BurstCountEffectOverride(new rangePair(3, 7)),
                     new StartSpeedEffectOverride(new rangePair(-15, -20)),
                     new ShapeRadiusEffectOverride(10)
                 }));
