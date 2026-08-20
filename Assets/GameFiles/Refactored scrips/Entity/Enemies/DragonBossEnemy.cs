@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DragonBossEnemy : BaseAISlamEnemy, 
@@ -50,11 +51,27 @@ public class DragonBossEnemy : BaseAISlamEnemy,
 
         CheckForInvulnerable();
     }
-
+ 
     public override void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
         if (isInvulnerable) return;
-        base.OnTakeDamage(amount, color, damageType);
+
+        int finalDamage = statusSystem.ModifyDamage(amount, damageType);
+        float size = Mathf.Clamp(10 + (finalDamage * 1.1f), 48f, 240f);
+
+        if (shielded)
+        {
+            if (damageType == DamageType.Normal)
+            {
+                textDisplaySystem.DisplayText(finalDamage.ToString(), color, (int)size);
+            }
+        }
+        else 
+        {
+            textDisplaySystem.DisplayText(finalDamage.ToString(), color, (int)size);
+        }
+
+        healthSystem.OnTakeDamage(finalDamage, damageType);
     }
 
     public void CheckForInvulnerable()

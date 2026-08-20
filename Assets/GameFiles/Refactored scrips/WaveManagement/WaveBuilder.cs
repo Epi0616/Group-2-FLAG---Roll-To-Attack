@@ -96,7 +96,7 @@ public class WaveBuilder : MonoBehaviour
             remainingBudget -= affordableEntities[choice].cost;
         }
 
-        return new Wave(chosenWaveGroups);
+        return new Wave(chosenWaveGroups, WaveType.normal);
     }
 
     private void CountEnemiesInWave(Wave wave)

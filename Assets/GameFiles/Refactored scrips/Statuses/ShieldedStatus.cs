@@ -5,6 +5,7 @@ public class ShieldedStatus : StatusEffect
     private int stacks;
     public ShieldedStatus(int stacks)
     {
+        type = StatusType.Shield;
         this.stacks = stacks;
     }
 

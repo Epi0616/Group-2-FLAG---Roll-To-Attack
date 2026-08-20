@@ -2,16 +2,19 @@ using UnityEngine;
 
 public class BaseInvulnerableEffect : StatusEffect
 {
+    public BaseInvulnerableEffect() 
+    {
+        type = StatusType.Invulnerable;
+    }
+
     protected override void OnApplication()
     {
-        Debug.Log("applying invulnerable");
         isInvulnerable = true;
     }
 
     protected override void OnRemoval()
     {
         base.OnRemoval();
-        Debug.Log("removing invulnerable");
     }
 
     public override StatusEffect Clone()
