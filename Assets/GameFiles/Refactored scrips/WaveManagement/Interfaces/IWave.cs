@@ -6,4 +6,5 @@ public interface IWave
 {
     List<WaveGroupObj> waveGroupObjs { get; }
     List<WaveGroup> waveGroups { get; set; }
+    WaveType waveType { get; set; }
 }

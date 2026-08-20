@@ -89,15 +89,12 @@ public class FireballRainAction : BaseEntityAction, ISlam
 
     private void BecomeInvulnerable()
     {
-        Debug.Log("Become inculnsnvsn triggered");
-        ActiveStatusEffect invulnerableEffect = new(new BaseInvulnerableEffect(), new List<BaseCondition>() { new TimeCondition(true, 6) }, true);
+        ActiveStatusEffect invulnerableEffect = new(new BaseInvulnerableEffect(), new List<BaseCondition>() { new TimeCondition(true, 6)}, false);
         ownerEntity.OnRecieveEffect(invulnerableEffect);
     }
 
     private IEnumerator LaunchFireballsIntoSky(int amountOfRain, float duration)
     {
-        Debug.Log("launching into sky");
-
         amountOfRain /= 2;
         float delay = (duration / amountOfRain);
 
@@ -111,7 +108,6 @@ public class FireballRainAction : BaseEntityAction, ISlam
 
     private IEnumerator FireballRain(int amountOfRain)
     {
-        Debug.Log("raining down");
         float delayBetweenFireballs = actionDuration / amountOfRain;
 
         while (amountOfRain > 0)
