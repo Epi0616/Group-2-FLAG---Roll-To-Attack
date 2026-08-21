@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class EnhancedSlowingBubble : MonoBehaviour
 {
     private HashSet<Entity> effectedEntities;
+    private HashSet<RadialProjectile> effectedProjectiles;
 
     private Material material;
     private Color color;
@@ -24,6 +26,7 @@ public class EnhancedSlowingBubble : MonoBehaviour
     protected virtual void Start()
     {
         effectedEntities = new HashSet<Entity>();
+        effectedProjectiles = new HashSet<RadialProjectile>();
         originalScale = transform.localScale;
     }
 
@@ -44,6 +47,22 @@ public class EnhancedSlowingBubble : MonoBehaviour
         {
             entity.statusSystem.ResetStatusByType(StatusType.Slow);
         }
+        if (!isDestroyed)
+        {
+            foreach (RadialProjectile projectile in effectedProjectiles.ToList())
+            {
+                if (projectile.gameObject.activeInHierarchy)
+                {
+                    projectile.speed.SetMultiplier(0.25f);
+                }
+                else
+                {
+                    effectedProjectiles.Remove(projectile);
+                }
+                
+            }
+        }
+        
     }
 
     public void OnTriggerEnter(Collider other)
@@ -59,7 +78,13 @@ public class EnhancedSlowingBubble : MonoBehaviour
             hitEntity.OnRecieveEffect(new ActiveStatusEffect(new SlowStatus(slowMult, "PlaceHolderSlow"),
                 new List<BaseCondition> { new TimeCondition(true, 0.5f) }, true));
         }
+        else if (hit.TryGetComponent<RadialProjectile>(out RadialProjectile projectile))
+        {
+            effectedProjectiles.Add(projectile);
+        }   
+        
     }
+
 
     public void OnTriggerExit(Collider other)
     {
@@ -74,6 +99,11 @@ public class EnhancedSlowingBubble : MonoBehaviour
             {
                 effectedEntities.Remove(hitEntity);
             }
+        }
+        else if (hit.TryGetComponent<RadialProjectile>(out RadialProjectile projectile))
+        {
+            effectedProjectiles.Remove(projectile);
+            projectile.speed.ResetModifiers();
         }
     }
 
@@ -91,6 +121,11 @@ public class EnhancedSlowingBubble : MonoBehaviour
             effectedEntities = new HashSet<Entity>();
         }
         effectedEntities.Clear();
+        if (effectedProjectiles == null)
+        {
+            effectedProjectiles = new HashSet<RadialProjectile>();
+        }
+        effectedProjectiles.Clear();
 
         lifeTimer = 0;
         color.a = 0.5f;
@@ -116,6 +151,11 @@ public class EnhancedSlowingBubble : MonoBehaviour
             color.a += Time.fixedDeltaTime * -0.2f;
         }
         color.a = 0f;
+        foreach (RadialProjectile projectile in effectedProjectiles)
+        {
+            projectile.speed.ResetModifiers();
+        }
+        effectedProjectiles.Clear();
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

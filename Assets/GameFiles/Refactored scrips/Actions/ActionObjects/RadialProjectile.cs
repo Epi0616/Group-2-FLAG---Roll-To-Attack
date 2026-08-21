@@ -6,16 +6,17 @@ public class RadialProjectile : MonoBehaviour
     private Vector3 startPos;
     private Entity ownerEntity;
     private float distance;
-    private float speed = 0;
+    public Stat speed;
 
     private IRadialProjectile radialProjectile;
     private bool active = false;
 
     public void Initialize(Entity ownerEntity, float distance, float speed)
     {
+        this.speed.ResetModifiers();
         this.ownerEntity = ownerEntity;
         this.distance = distance;
-        this.speed = speed;
+        this.speed = new Stat(speed);
 
         if (!(ownerEntity is IRadialProjectile radialProjectile)) { Debug.LogError("owner entity is not of type IRadialProjectile"); return; }
         this.radialProjectile = radialProjectile;
@@ -34,7 +35,7 @@ public class RadialProjectile : MonoBehaviour
 
     private void FlyToTarget()
     {
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.position += transform.forward * speed.GetFinalValue() * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider hit)
@@ -66,6 +67,7 @@ public class RadialProjectile : MonoBehaviour
     private void OnDistanceReached()
     {
         radialProjectile = null;
+        speed.ResetModifiers();
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }
