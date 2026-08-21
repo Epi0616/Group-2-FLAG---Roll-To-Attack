@@ -92,9 +92,9 @@ public class FireballAction : BaseEntityAction
         { 
             ownerEntity.StopCoroutine(endActionDelayRoutine);
         }
-        if (fireball.gameObject != null && !fireball.active)
+        if (fireball.gameObject != null)
         {
-            fireball.TryToCancel(ownerEntity);
+            fireball.Interrupt();
         }
 
         EndAction();

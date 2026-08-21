@@ -52,7 +52,7 @@ public class RadialProjectile : MonoBehaviour
         if (!hit.TryGetComponent<Entity>(out Entity entity)) return;
 
         entity.OnRecieveEffect(new ActiveStatusEffect(new KnockbackEffect(transform.position, 5f), new List<BaseCondition>() { new AlwaysTrueCondition() }, true));
-        entity.OnTakeDamage(4, Color.red, DamageType.Normal);
+        entity.OnTakeDamage(4, Color.red, DamageType.Spell);
     }
 
     private void CheckForDistanceComplete()

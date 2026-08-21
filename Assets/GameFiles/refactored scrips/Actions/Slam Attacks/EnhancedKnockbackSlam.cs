@@ -28,11 +28,6 @@ public class EnhancedKnockbackSlam : BaseSlamAction , IEnhancedAbility
         
     }
 
-    public override void ApplyCustomEffectPerEntity(Entity hitEntity)
-    {
-        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
-    }
-
     public override void ExtraSlamEffect()
     {
         KnockbackField KBField = (ObjectPoolManager.SpawnObject(IKBFS.knockbackFieldPrefab, slamOrigin, Quaternion.identity)).GetComponent<KnockbackField>();

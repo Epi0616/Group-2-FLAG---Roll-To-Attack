@@ -51,7 +51,7 @@ public class WaveBuilder : MonoBehaviour
         return currentWave;
     }
 
-    private Wave UnpackWaveObj(WaveObj waveObj)
+    public Wave UnpackWaveObj(WaveObj waveObj)
     {
         Wave wave = waveObj.Create();
         wave.waveGroups = wave.waveGroupObjs.Select(c => c.Create()).ToList();
@@ -96,7 +96,7 @@ public class WaveBuilder : MonoBehaviour
             remainingBudget -= affordableEntities[choice].cost;
         }
 
-        return new Wave(chosenWaveGroups);
+        return new Wave(chosenWaveGroups, WaveType.normal);
     }
 
     private void CountEnemiesInWave(Wave wave)

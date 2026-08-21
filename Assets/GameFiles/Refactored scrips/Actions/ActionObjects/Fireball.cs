@@ -5,31 +5,14 @@ using UnityEditor.Rendering;
 public class Fireball : MonoBehaviour
 {
     [SerializeField] protected GameObject impactFieldPrefab;
-    [SerializeField] protected Vector3 startScale;
 
     private int initialDamage;
     private int tickDamage;
     protected Entity ownerEntity;
     private float speed;
 
-    private bool hitTarget = false;
-    public bool active = false;
-
-    private void OnEnable()
-    {
-        active = false;
-        hitTarget = false;
-        transform.localScale = startScale;
-    }
-
-    private void OnDisable()
-    {
-        active = false;
-        hitTarget = true;
-        ownerEntity = null;
-
-        StopAllCoroutines();
-    }
+    private Coroutine attackRoutine, lifeTimeRoutine;
+    private bool hitTarget;
 
     public virtual void Initialize(Entity ownerEntity, float speed, int initialDamage, int tickDamage)
     {
@@ -38,15 +21,9 @@ public class Fireball : MonoBehaviour
         this.initialDamage = initialDamage;
         this.tickDamage = tickDamage;
 
-        active = true;
         hitTarget = false;
-        StopAllCoroutines();
-        StartCoroutine(Attack());
-    }
-
-    public void HandlePathToTarget()
-    { 
-        
+        lifeTimeRoutine = StartCoroutine(lifeTime(10));
+        attackRoutine = StartCoroutine(Attack());
     }
 
     private IEnumerator Attack()
@@ -56,6 +33,17 @@ public class Fireball : MonoBehaviour
             FlyToTarget();
             yield return null;
         }
+
+        attackRoutine = null;
+        OnHit();
+    }
+
+    private IEnumerator lifeTime(float lifetime)
+    {
+        yield return new WaitForSeconds(lifetime);
+
+        lifeTimeRoutine = null;
+        Interrupt();
     }
 
     private void FlyToTarget()
@@ -65,41 +53,37 @@ public class Fireball : MonoBehaviour
 
     private void OnTriggerEnter(Collider hit)
     {
-        if (!active) return;
         if (hitTarget) return;
         if (!(ownerEntity is IFireballAction fireballAction)) return;
 
         if ((fireballAction.targetableLayers.value & (1 << hit.gameObject.layer)) != 0)
         {
             hitTarget = true;
-            OnHit();
         }
     }
 
     private void OnHit()
     {
-        active = false;
-        StopAllCoroutines();
-
         GameObject field =  ObjectPoolManager.SpawnObject(impactFieldPrefab, transform.position, Quaternion.identity);
         field.GetComponent<FireField>().Initialize(ownerEntity, Color.orange, 5f, initialDamage, tickDamage, 10f, 1f);
 
-        ObjectPoolManager.ReturnObjectToPool(gameObject);
+        Interrupt();
     }
 
-    public void TryToCancel(Entity potentialOwner)
+    public void Interrupt()
     {
-        Debug.Log("trying to cancel fb");
-        Debug.Log($"ownerEntity {ownerEntity}");
-        Debug.Log($"potential owner {potentialOwner}");
-        if (!active || potentialOwner != ownerEntity) return;
+        if (attackRoutine != null)
+        { 
+            StopCoroutine(attackRoutine);
+            attackRoutine = null;
+        }
 
-        Debug.Log("cancelling");
+        if (lifeTimeRoutine != null)
+        {
+            StopCoroutine(lifeTimeRoutine);
+            lifeTimeRoutine = null;
+        }
 
-        active = false;
-        hitTarget = true;
-
-        StopAllCoroutines();
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

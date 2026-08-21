@@ -1,40 +1,43 @@
+using System.Buffers;
 using UnityEngine;
 
 public class ShieldedStatus : StatusEffect
 {
+    private IShieldable shieldable;
     private int stacks;
     public ShieldedStatus(int stacks)
     {
+        type = StatusType.Shield;
         this.stacks = stacks;
     }
 
     protected override void OnApplication()
     {
-        base.OnApplication();
-        if (entityRef is IShieldable shieldable)
-        {
-            shieldable.shielded = true;
-        }
+        if (!(entityRef is IShieldable shieldable)) { Debug.Log("owner entity is not of type IShieldable"); return; }       
+        this.shieldable = shieldable;
+        shieldable.initialShieldStacks = stacks;
+        shieldable.currentShieldStacks = stacks;
+        shieldable.HandleUpdateShieldStacks();
     }
 
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
         damage.AddMultiplier(0);
-        stacks--;
+        if (type == DamageType.Normal)
+        {
+            shieldable.currentShieldStacks--;
+        }
 
-        if (stacks <= 0)
+        if (shieldable.currentShieldStacks <= 0)
         {
             toBeRemoved = true;
         }
+        shieldable.HandleUpdateShieldStacks();
     }
 
     protected override void OnRemoval()
     {
         base.OnRemoval();
-        if (entityRef is IShieldable shieldable)
-        { 
-            shieldable.shielded = false;
-        }
     }
 
     public override StatusEffect Clone()

@@ -21,7 +21,7 @@ public class FreezeSlamAction : BaseSlamAction , IUpgradableAbility
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
+        base.ApplyCustomEffectPerEntity(hitEntity);
 
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new FreezeStatus(FragileDamageMult, "Frozen", slamColour),
                 new List<BaseCondition> { new TimeCondition(true, FreezeDuration) }, true));

@@ -14,25 +14,25 @@ public class ConditionalAction
     public bool allConditionsRequired = false;
     public bool singleUse = false, triggered = false;
     public bool exclusive = true;
-    public bool interruptOnDeath = true;
+    public bool interruptable = true;
     public int priority = 0;
 
     public ConditionalAction() { }
 
-    public ConditionalAction(BaseEntityAction action, List<BaseCondition> conditions, bool singleUse, bool exclusive, bool interruptOnDeath, int priority, bool allConditionsRequired)
+    public ConditionalAction(BaseEntityAction action, List<BaseCondition> conditions, bool singleUse, bool exclusive, bool interruptable, int priority, bool allConditionsRequired)
     {
         this.action = action;
         this.conditions = conditions;
         this.singleUse = singleUse;
         this.exclusive = exclusive;
-        this.interruptOnDeath = interruptOnDeath;
+        this.interruptable = interruptable;
         this.priority = priority;
         this.allConditionsRequired = allConditionsRequired;
     }
 
     public ConditionalAction Clone()
     {
-        return new ConditionalAction(action.Clone(), conditions.Select(c => c.Clone()).ToList(), singleUse, exclusive, interruptOnDeath, priority, allConditionsRequired);
+        return new ConditionalAction(action.Clone(), conditions.Select(c => c.Clone()).ToList(), singleUse, exclusive, interruptable, priority, allConditionsRequired);
     }
 
     public void UpdateConditionsAll()

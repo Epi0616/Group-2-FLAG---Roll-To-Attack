@@ -23,7 +23,7 @@ public class ShieldsDown : BaseCondition
     }
     public override bool IsConditionMet()
     {
-        return !shieldable.shielded;
+        return !(shieldable.currentShieldStacks > 0);
     }
     public override BaseCondition Clone()
     {

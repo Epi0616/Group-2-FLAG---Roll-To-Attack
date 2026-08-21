@@ -12,14 +12,14 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
     public void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
-        modifiedDamageAmount = new Stat(1f);
+        modifiedDamageAmount = new Stat(0);
     }
 
     public void ResetSystem()
     {
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
-            currentActiveStatusEffects[i].effect.toBeRemoved = true;           
+            currentActiveStatusEffects[i].effect.toBeRemoved = true;
         }
         RecalculateStats();
         // RECALCULATE STATS
@@ -48,30 +48,6 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             currentActiveStatusEffects[i].UpdateConditionsAll();
             
             if (currentActiveStatusEffects[i].conditions != null && (currentActiveStatusEffects[i].CheckForExpiration())) { currentActiveStatusEffects[i].effect.toBeRemoved = true; }
-            //{
-            //    //Debug.Log("Before there are: " + currentActiveStatusEffects.Count + " statuses");
-            //    //Debug.Log("Effect Removed: " + currentActiveStatusEffects[i].effect.GetType().ToString());
-            //    //bool isLast = true;
-            //    //for (int j = currentActiveStatusEffects.Count - 1; j >= 0; j--)
-            //    //{
-            //    //    if (j == i)
-            //    //        continue;
-
-            //    //    if (currentActiveStatusEffects[j].effect.type == currentActiveStatusEffects[i].effect.type)
-            //    //    {
-            //    //        isLast = false;
-            //    //        break;
-            //    //    }
-            //    //}
-            //    //if (isLast)
-            //    //{
-            //    //    currentActiveStatusEffects[i].effect.LastStackEffect();
-            //    //}
-            //    //currentActiveStatusEffects[i].effect.RemoveEffect();
-            //    //currentActiveStatusEffects.RemoveAt(i);
-            //    //Debug.Log("Now there are: " + currentActiveStatusEffects.Count + " statuses");
-               
-            //}
         }
 
         RemoveStatuses();
@@ -107,7 +83,6 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             {
                 if (currentActiveStatusEffects[i].effect.type == newStatus.effect.type)
                 {
-                    //Debug.Log("Non Stackable Effect Found, Reseting Condition");
                     currentActiveStatusEffects[i].ResetConditionsAll();
                     return;
                 }
@@ -123,7 +98,6 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             }
         }
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
-        //if (OwnerEntity == null) { Debug.Log("Owner Inside of Status System is NULL"); }
         newStatus.effect.AddEffect(OwnerEntity);
         if (isFirst)
         {
@@ -140,19 +114,9 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 
     public int ModifyDamage(int damageAmount, DamageType damageType)
     {
-        //int modifiedDamageAmount = damageAmount;
         modifiedDamageAmount.ResetModifiers();
         modifiedDamageAmount.AddAdditive(damageAmount);
-        //for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
-        //{
-        //    if (currentActiveStatusEffects[i] == null || currentActiveStatusEffects[i].effect.toBeRemoved) { continue; }
-        //    currentActiveStatusEffects[i].effect.TriggerOnDamageEffects(ref modifiedDamageAmount, damageType);
 
-        //    // Call Status OnTakeDamage or equivelent trigger
-        //    // Can return either the adjusted value and immediately update modifiedDamageAmount 
-        //    // or return the delta and aggregate them applying it at the end to modify the dmg
-        //    // Depends if we want each status to apply its modification in isolation or have the previous effect modifications effect the next ones
-        //}
         int i = 0;
         while (i < currentActiveStatusEffects.Count)
         {
@@ -171,7 +135,6 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             if (currentActiveStatusEffects[i].effect.type == type)
             {
                 currentActiveStatusEffects[i].effect.toBeRemoved = true;
-                //Debug.Log("Status Removed: " + type.ToString());
             }
         }
 
@@ -191,7 +154,6 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             if (currentActiveStatusEffects[i].effect.type == type)
             {
                 currentActiveStatusEffects[i].ResetConditionsAll();
-                //Debug.Log("Status Reset: " + type.ToString());
             }
         }
     }
@@ -204,7 +166,6 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             if (currentActiveStatusEffects[i].effect.type == type)
             {
                 return true;
-                //Debug.Log("Status Reset: " + type.ToString());
             }
         }
         return false;
@@ -232,17 +193,25 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
         {
             ai.agent.speed = mo.movementSpeed.GetFinalValue();
         }
-        //statusCount = currentActiveStatusEffects.Count;
     }
 
     public bool CheckForMovementBlockersStatus()
     {
-       // bool result = false;
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
         {
             if (currentActiveStatusEffects[i].effect.preventsMovement) { return true; }
         }
         
+        return false;
+    }
+
+    public bool CheckForInvulnerable()
+    {
+        for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)
+        {
+            if (currentActiveStatusEffects[i].effect.isInvulnerable) { return true; }
+        }
+
         return false;
     }
 

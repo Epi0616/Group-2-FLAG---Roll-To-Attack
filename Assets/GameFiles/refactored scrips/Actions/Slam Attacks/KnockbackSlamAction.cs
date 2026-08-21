@@ -19,7 +19,7 @@ public class KnockbackSlamAction : BaseSlamAction , IUpgradableAbility
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
+        base.ApplyCustomEffectPerEntity(hitEntity);
 
         hitEntity.OnRecieveEffect(
             new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 7f),

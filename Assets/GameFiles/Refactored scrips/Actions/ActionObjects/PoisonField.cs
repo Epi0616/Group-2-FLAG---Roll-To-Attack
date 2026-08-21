@@ -83,7 +83,7 @@ public class PoisonField : MonoBehaviour
             if (collider.gameObject == ownerEntity) { continue; }
             if (collider.TryGetComponent<Entity>(out Entity entity))
             { 
-                entity.OnTakeDamage(poisonTickDMG, slamColour, DamageType.Normal);
+                entity.OnTakeDamage(poisonTickDMG, slamColour, DamageType.Poison);
 
                 //if (collider.gameObject.CompareTag("EntitySpawnable")) { continue; } 
 

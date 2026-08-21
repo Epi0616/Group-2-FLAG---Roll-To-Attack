@@ -2,20 +2,20 @@ using UnityEngine;
 
 public enum StatusType
 {
-    Default, Freeze, Knockback, Weak, Slow, Stun, Poison, Speed, Crumbling, Shield
+    Default, Freeze, Knockback, Weak, Slow, Stun, Poison, Speed, Crumbling, Shield, Invulnerable
 }
 
 
 //currently only works with enemy, however this can be changed by making a parent class for enemy and player and then using that reference in the ApplyStatModifier() function
 public abstract class StatusEffect
 {
-
     protected string effectText;
     protected Color effectColour;
 
     public bool isDisplacing;
     public bool preventsMovement;
     public bool preventsAction;
+    public bool isInvulnerable;
 
     public bool isStackable = false; // if true new instances can be added if not the duration of a current instance resets
     public bool isActive = true;

@@ -8,7 +8,7 @@ public class OrbitalEscapeMovement : BaseEntityMovement
     [SerializeField] private rangePair radiusBounds = new rangePair(20,35);
     [SerializeField] private rangePair angleBounds = new rangePair (30,50);
     [SerializeField] private rangePair intervalBounds = new rangePair(1, 2);
-    [Tooltip("percentage change between 0-1")]
+    [Tooltip("percentage chance between 0-1")]
     [SerializeField] private float reverseChancePercentage = 0.2f;
 
     private INavAgent navAgent;
@@ -30,7 +30,6 @@ public class OrbitalEscapeMovement : BaseEntityMovement
 
     public override void StartMovement(Entity ownerEntity)
     {
-        Debug.Log("escape movement");
         base.StartMovement(ownerEntity);
 
         if (!(ownerEntity is INavAgent navAgent)) { Debug.LogError("ownerEntity is not of type INavAgent"); return; }

@@ -30,7 +30,6 @@ public class OrbitalMovement : BaseEntityMovement
 
     public override void StartMovement(Entity ownerEntity)
     {
-        Debug.Log("orb movement");
         base.StartMovement(ownerEntity);
 
         if (!(ownerEntity is INavAgent navAgent)) { Debug.LogError("ownerEntity is not of type INavAgent"); return; }

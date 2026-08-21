@@ -135,7 +135,7 @@ public class ArcingProjectile : MonoBehaviour, IDecalShadowCast
     public virtual void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
         if (slamDamage == 0) { return; }
-        hitEntity.OnTakeDamage(slamDamage, slamColor, DamageType.Normal);
+        hitEntity.OnTakeDamage(slamDamage, slamColor, DamageType.Spell);
     }
 
     //Pathing

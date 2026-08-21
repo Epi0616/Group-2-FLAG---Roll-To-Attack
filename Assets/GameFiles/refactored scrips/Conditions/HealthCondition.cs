@@ -17,7 +17,6 @@ public class HealthCondition : BaseCondition
     public override void Initialize(Entity entity)
     {
         ownerEntity = entity;
-        Debug.Log("current health percent: " + (float)ownerEntity.healthSystem.currentHealth / (float)ownerEntity.healthSystem.maxHealth);
     }
     public override void ConditionUpdate()
     {

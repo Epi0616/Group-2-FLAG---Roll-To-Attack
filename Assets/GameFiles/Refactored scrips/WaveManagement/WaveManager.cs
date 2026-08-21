@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    public static event Action<WaveType> UpdateWaveBar;
     public static event Action<float> WaveOver;
     public static event Action<float> WaveCountStart;
     public static event Action<int> DisplayWaveNumber;
@@ -85,6 +86,7 @@ public class WaveManager : MonoBehaviour
         currentWaveIndex++;
         Wave randomWave = waveBuilder.GetNextWave(currentWaveIndex);
         waveSpawner.SpawnWave(randomWave, true);
+        UpdateWaveBar?.Invoke(randomWave.waveType);
         DisplayWaveNumber?.Invoke(currentWaveIndex);
 
         if (PlayerPrefsManager.instance?.GetInt(PlayerValues.HighScore) < currentWaveIndex)
@@ -113,7 +115,7 @@ public class WaveManager : MonoBehaviour
             spawningWave = true;
         }
 
-        Wave newWave = waveObj.Create();
+        Wave newWave = waveBuilder.UnpackWaveObj(waveObj);
         waveSpawner.SpawnWave(newWave, false);
     }
 }

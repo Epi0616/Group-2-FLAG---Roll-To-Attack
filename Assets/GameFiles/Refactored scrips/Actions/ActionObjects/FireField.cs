@@ -82,7 +82,7 @@ public class FireField : MonoBehaviour
             if (collider.gameObject == ownerEntity) { continue; }
             if (collider.TryGetComponent<Entity>(out Entity entity))
             {
-                entity.OnTakeDamage(tickDamage, color, DamageType.Normal);
+                entity.OnTakeDamage(tickDamage, color, DamageType.Spell);
             }
         }
     }
@@ -101,7 +101,7 @@ public class FireField : MonoBehaviour
 
     private void OnInitialHit(Entity hitEntity)
     {
-        hitEntity.OnTakeDamage(initialDamage, color, DamageType.Normal);
+        hitEntity.OnTakeDamage(initialDamage, color, DamageType.Spell);
     }
 
     private void AdjustColors()

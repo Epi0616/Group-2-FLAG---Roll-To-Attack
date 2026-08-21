@@ -21,7 +21,7 @@ public class WeakenSlamAction : BaseSlamAction, IUpgradableAbility
     }
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Weaken);
+        base.ApplyCustomEffectPerEntity(hitEntity);
 
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(WeakenDamageMult, "PlaceHolderWeaken" ),
                 new List<BaseCondition> { new TimeCondition(true, WeakenDuration) }, true));
