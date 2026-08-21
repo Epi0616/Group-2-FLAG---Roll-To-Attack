@@ -22,7 +22,7 @@ public class ShieldedStatus : StatusEffect
 
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
-        damage.AddMultiplier(0);
+        //damage.AddMultiplier(0);
         if (type == DamageType.Normal)
         {
             shieldable.currentShieldStacks--;

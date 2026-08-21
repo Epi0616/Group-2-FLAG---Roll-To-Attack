@@ -5,6 +5,8 @@ using System.Collections.Generic;
 [Serializable]
 public class NavMeshEscapeMovement : BaseEntityMovement
 {
+    [SerializeField] private float speedUp = 0f;
+
     private INavAgent aiInterfaceAccess;
     private ITarget target;
     private float setDestinationInterval = 0.15f;
@@ -13,6 +15,10 @@ public class NavMeshEscapeMovement : BaseEntityMovement
     private float initialSpeed = 0f;
 
     public NavMeshEscapeMovement() { }
+    public NavMeshEscapeMovement(float speedUp)
+    { 
+        this.speedUp = speedUp;
+    }
 
     public override void StartMovement(Entity ownerEntity)
     {
@@ -31,7 +37,7 @@ public class NavMeshEscapeMovement : BaseEntityMovement
             animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main);
         }
 
-        ActiveStatusEffect speedIncreaseEffect = new (new MovementSpeedStatus(0.35f), new List<BaseCondition>{ new DistanceCondition(true, 30) }, true);
+        ActiveStatusEffect speedIncreaseEffect = new (new MovementSpeedStatus(speedUp), new List<BaseCondition>{ new DistanceCondition(true, 30) }, true);
         ownerEntity.statusSystem.OnRecieveEffect(speedIncreaseEffect);
     }
 
@@ -85,6 +91,6 @@ public class NavMeshEscapeMovement : BaseEntityMovement
     }
     public override BaseEntityMovement Clone()
     {
-        return new NavMeshEscapeMovement();
+        return new NavMeshEscapeMovement(speedUp);
     }
 }

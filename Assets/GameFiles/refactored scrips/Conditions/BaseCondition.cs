@@ -6,7 +6,7 @@ public abstract class BaseCondition : ICondition
 {
     public bool inverse = false;
 
-    public abstract void Initialize(Entity entity);
+    public abstract void Initialize(Entity ownerEntity);
     public abstract void ConditionUpdate();
 
     public abstract void ResetCondition();
