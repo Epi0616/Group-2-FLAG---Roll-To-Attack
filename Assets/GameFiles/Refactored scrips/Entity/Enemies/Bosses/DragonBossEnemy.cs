@@ -1,9 +1,8 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class DragonBossEnemy : BaseAISlamEnemy, 
+public class DragonBossEnemy : BaseBossEnemy, 
     IFireballAction, 
-    IShieldable, 
     IRadialProjectile,
     IArcingProjectile,
     IInvulnerable
@@ -20,9 +19,6 @@ public class DragonBossEnemy : BaseAISlamEnemy,
     public int fireballDamage { get => FireballDamage; set => FireballDamage = value; }
     public int fireFieldDamage { get => FireFieldDamage; set => FireFieldDamage = value; }
     public LayerMask targetableLayers { get => TargetableLayers; set => TargetableLayers = value; }
-
-    [Header("IShieldable")]
-    public bool shielded { get; set; } = false;
 
     [Header("IRadialProjectile")]
     [SerializeField] private GameObject FireWingBeatObj;
@@ -59,7 +55,7 @@ public class DragonBossEnemy : BaseAISlamEnemy,
         int finalDamage = statusSystem.ModifyDamage(amount, damageType);
         float size = Mathf.Clamp(10 + (finalDamage * 1.1f), 48f, 240f);
 
-        if (shielded)
+        if (currentShieldStacks > 0)
         {
             if (damageType == DamageType.Normal)
             {

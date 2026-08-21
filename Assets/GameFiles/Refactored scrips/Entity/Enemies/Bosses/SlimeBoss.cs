@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public class SlimeBoss : BaseAISlamEnemy, ISlimeTrail, IGrounded, IKnockbackable, ISlimeSplit
+public class SlimeBoss : BaseBossEnemy, 
+    ISlimeTrail, 
+    IGrounded, 
+    IKnockbackable, 
+    ISlimeSplit
 {
     [Header("ISlimeTrail")]
     [SerializeField] private GameObject SlimeFieldObj;

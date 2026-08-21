@@ -2,5 +2,8 @@ using UnityEngine;
 
 public interface IShieldable
 {
-    bool shielded { get; set; }
+    int initialShieldStacks { get; set; }
+    int currentShieldStacks { get; set; }
+
+    void HandleUpdateShieldStacks();
 }
