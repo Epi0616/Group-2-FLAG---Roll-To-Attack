@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
   conditionalMovement:
     movement:
-      rid: 3199367000231247946
+      rid: 3199367122547113986
     conditions:
     - rid: 3199367000231247947
     - rid: 3199367000231247948
@@ -25,19 +25,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3199367000231247946
-      type: {class: OrbitalMovement, ns: , asm: Assembly-CSharp}
-      data:
-        radiusBounds:
-          min: 20
-          max: 30
-        angleBounds:
-          min: 25
-          max: 50
-        delayBounds:
-          min: 0.1
-          max: 0.35
-        reverseChancePercentage: 0.2
     - rid: 3199367000231247947
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
@@ -50,3 +37,16 @@ MonoBehaviour:
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
+    - rid: 3199367122547113986
+      type: {class: OrbitalDestinationMovement, ns: , asm: Assembly-CSharp}
+      data:
+        radiusBounds:
+          min: 20
+          max: 35
+        angleBounds:
+          min: 30
+          max: 50
+        delayBounds:
+          min: 0
+          max: 0.5
+        reverseChancePercentage: 0.2

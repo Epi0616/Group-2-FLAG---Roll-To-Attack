@@ -18,13 +18,12 @@ MonoBehaviour:
     conditions:
     - rid: 3199367024894017737
     - rid: 5042951995510751304
-    - rid: 3199367045536285127
     - rid: 3199367092199227505
     allConditionsRequired: 1
     singleUse: 0
     triggered: 0
     exclusive: 1
-    interruptable: 1
+    interruptable: 0
     priority: 2
   references:
     version: 2
@@ -33,11 +32,6 @@ MonoBehaviour:
       type: {class: CanActCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-    - rid: 3199367045536285127
-      type: {class: TimeCondition, ns: , asm: Assembly-CSharp}
-      data:
-        inverse: 0
-        duration: 4
     - rid: 3199367092199227505
       type: {class: HealthIntervalCondition, ns: , asm: Assembly-CSharp}
       data:

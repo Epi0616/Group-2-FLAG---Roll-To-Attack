@@ -1,31 +1,33 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 [Serializable]
-public class OrbitalEscapeMovement : BaseEntityMovement
+public class OrbitalDestinationMovement : BaseEntityMovement
 {
-    [SerializeField] private rangePair radiusBounds = new rangePair(20,35);
-    [SerializeField] private rangePair angleBounds = new rangePair (30,50);
-    [SerializeField] private rangePair intervalBounds = new rangePair(1, 2);
-    [Tooltip("percentage chance between 0-1")]
+    [SerializeField] protected rangePair radiusBounds = new rangePair(20,35);
+    [SerializeField] protected rangePair angleBounds = new rangePair (30,50);
+    [SerializeField] protected rangePair delayBounds = new rangePair (0, 0.5f);
+    [Tooltip("percentage change between 0-1")]
     [SerializeField] private float reverseChancePercentage = 0.2f;
 
+    private IAnimated animated;
     private INavAgent navAgent;
     private int reverse = 1;
     private float timer = 0;
 
-    public OrbitalEscapeMovement() { }
+    public OrbitalDestinationMovement() { }
 
-    public OrbitalEscapeMovement(float radiusMin, float radiusMax, float angleMin, float angleMax, float intervalMin, float intervalMax, float reverseChancePercentage)
+    public OrbitalDestinationMovement(float radiusMin, float radiusMax, float angleMin, float angleMax, float delayMin, float delayMax, float reverseChancePercentage)
     { 
         radiusBounds.min = radiusMin;
         radiusBounds.max = radiusMax;
         angleBounds.min = angleMin;
         angleBounds.max = angleMax;
-        intervalBounds.min = intervalMin;
-        intervalBounds.max = intervalMax;
         this.reverseChancePercentage = reverseChancePercentage;
+        delayBounds.min = delayMin;
+        delayBounds.max = delayMax;
     }
 
     public override void StartMovement(Entity ownerEntity)
@@ -34,11 +36,22 @@ public class OrbitalEscapeMovement : BaseEntityMovement
 
         if (!(ownerEntity is INavAgent navAgent)) { Debug.LogError("ownerEntity is not of type INavAgent"); return; }
         this.navAgent = navAgent;
+
+        if (ownerEntity is not IAnimated animated) { Debug.LogError("ownerEntity is not of type IAnimated"); return; }
+        this.animated = animated;
+
+
+        Debug.Log("starting base movement");
         navAgent.agent.updateRotation = false;
+        PickDestination();
     }
 
     public override void UpdateMovement()
     {
+        if (navAgent.agent.pathPending) return;
+        if (navAgent.agent.remainingDistance > navAgent.agent.stoppingDistance) return;
+        if (navAgent.agent.velocity.sqrMagnitude > 0) return;
+
         timer -= Time.deltaTime;
         if (timer > 0)
         {
@@ -59,11 +72,17 @@ public class OrbitalEscapeMovement : BaseEntityMovement
         Vector3 rotatedVector = Quaternion.Euler(0, angle, 0) * directionToTarget;
 
         Vector3 desiredPosition = ownerEntity.target.transform.position + (rotatedVector * radius);
-        navAgent.agent.SetDestination(desiredPosition);
+        if (NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, 10, -1))
+        {
+            Debug.Log("picking destination");
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main);
+            navAgent.agent.SetDestination(desiredPosition);
+        }
     }
 
     private void CheckForReverseMovement()
     {
+        Debug.Log("checking for reverse");
         if (Random.Range(0f, 1f) < reverseChancePercentage)
         {
             reverse *= -1;
@@ -72,21 +91,21 @@ public class OrbitalEscapeMovement : BaseEntityMovement
 
     private void SetTimer()
     {
-        timer = Random.Range(intervalBounds.min, intervalBounds.max);
+        timer = Random.Range(delayBounds.min, delayBounds.max);
     }
 
     public override void InterruptMovement()
     {
-        
+        EndMovement();
     }
 
     public override void EndMovement()
     {
-
+        navAgent.agent.SetDestination(ownerEntity.transform.position);
     }
 
     public override BaseEntityMovement Clone()
     {
-        return new OrbitalEscapeMovement(radiusBounds.min, radiusBounds.max, angleBounds.min, angleBounds.max, intervalBounds.min, intervalBounds.max, reverseChancePercentage);
+        return new OrbitalDestinationMovement(radiusBounds.min, radiusBounds.max, angleBounds.min, angleBounds.max, delayBounds.min, delayBounds.max, reverseChancePercentage);
     }
 }

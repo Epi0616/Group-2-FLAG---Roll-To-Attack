@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class DistanceCondition : BaseCondition
 {
-    private Entity entity;
+    protected Entity ownerEntity;
     public float distanceThreshold;
 
     public DistanceCondition() { }
@@ -16,7 +16,7 @@ public class DistanceCondition : BaseCondition
     }
     public override void Initialize(Entity entity) 
     {
-        this.entity = entity;
+        this.ownerEntity = entity;
     }
     public override void ConditionUpdate()
     {
@@ -26,8 +26,8 @@ public class DistanceCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
-        if (inverse) return !((entity.target.transform.position - entity.transform.position).magnitude < distanceThreshold);
-        return (entity.target.transform.position - entity.transform.position).magnitude < distanceThreshold;
+        if (inverse) return !((ownerEntity.target.transform.position - ownerEntity.transform.position).magnitude < distanceThreshold);
+        return (ownerEntity.target.transform.position - ownerEntity.transform.position).magnitude < distanceThreshold;
     }
     public override BaseCondition Clone()
     {
