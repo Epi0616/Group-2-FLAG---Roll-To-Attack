@@ -18,8 +18,8 @@ public class EnemyHealthSystem : EntityHealthSystem
 
     public override void OnDeath()
     {
-        base.OnDeath();
         if (isDead) { return; }
+        base.OnDeath();        
         isDead = true;
         
         if (OwnerEntity is IActionable temp)

@@ -28,7 +28,6 @@ public class HealthIntervalCondition : BaseCondition
     public override void ResetCondition()
     {
         currentHealthGate = GetCurrentHealthGate();
-        Debug.Log($"resetting health percentage to next gate ({currentHealthGate})");
     }
     public override bool IsConditionMet()
     {
@@ -45,7 +44,6 @@ public class HealthIntervalCondition : BaseCondition
 
     private float GetCurrentHealthGate()
     {
-        Debug.Log($"current health percentage {GetCurrentHealthPercentage()}");
         int intervals = Mathf.CeilToInt(GetCurrentHealthPercentage() / healthIntervalPercentage) - 1;
         float currentHealthGate = intervals * healthIntervalPercentage;
 

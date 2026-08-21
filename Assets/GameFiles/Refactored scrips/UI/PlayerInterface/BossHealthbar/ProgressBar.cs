@@ -1,10 +1,11 @@
+using Unity.VisualScripting;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
+public class ProgressBar : MonoBehaviour
 {
-    public Image progress;
+    public Image background, progressBar;
 
     private int enemyDeaths = 0;
     private int totalEnemyCount = 1;
@@ -24,7 +25,7 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
     }
 
     private void HandleEnemiesGenerated(int enemyCount)
-    { 
+    {
         totalEnemyCount = enemyCount;
         enemyDeaths = 0;
     }
@@ -37,7 +38,7 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
     private void EnemyHasDied()
     {
         enemyDeaths++;
-        progress.fillAmount = (float)enemyDeaths / (float)totalEnemyCount;
+        progressBar.fillAmount = (float)enemyDeaths / (float)totalEnemyCount;
     }
 
     private IEnumerator DrainProgressBarRoutine(float timeBetweenWaves)
@@ -47,11 +48,17 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
         while (timer >= 0)
         {
             float fillAmount = timer / timeBetweenWaves;
-            progress.fillAmount = fillAmount;
+            progressBar.fillAmount = fillAmount;
             yield return new WaitForSeconds(0.01f);
             timer -= 0.01f;
         }
 
         yield return null;
+    }
+
+    private void ToggleVisibilty(bool visible)
+    { 
+        progressBar.gameObject.SetActive(visible);
+        background.gameObject.SetActive(visible);
     }
 }
