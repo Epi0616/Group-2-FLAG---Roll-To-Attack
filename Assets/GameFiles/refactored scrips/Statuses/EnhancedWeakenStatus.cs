@@ -56,8 +56,12 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
             }
             
         }
-
-        entityRef.OnTakeDamage((int)(damage.GetFinalValue() * (weakMultiplier - 1)), effectColour, DamageType.Weaken);
+        int appliedDamage = (int)(damage.GetFinalValue() * (weakMultiplier - 1));
+        if (appliedDamage < 1)
+        {
+            appliedDamage = 1;
+        }
+        entityRef.OnTakeDamage(1, effectColour, DamageType.Weaken);
 
     }
 
