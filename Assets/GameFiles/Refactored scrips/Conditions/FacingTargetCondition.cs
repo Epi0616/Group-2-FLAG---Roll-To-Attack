@@ -4,7 +4,7 @@ using System;
 [Serializable]
 public class FacingTargetCondition : BaseCondition
 {
-    private Entity entity;
+    protected Entity ownerEntity;
     public float lookThreshold;
 
     public FacingTargetCondition() { }
@@ -17,7 +17,7 @@ public class FacingTargetCondition : BaseCondition
     }
     public override void Initialize(Entity entity)
     {
-        this.entity = entity;
+        this.ownerEntity = entity;
     }
     public override void ConditionUpdate()
     {
@@ -27,10 +27,10 @@ public class FacingTargetCondition : BaseCondition
     }
     public override bool IsConditionMet()
     {
-        Vector3 dir = entity.target.transform.position - entity.transform.position;
+        Vector3 dir = ownerEntity.target.transform.position - ownerEntity.transform.position;
         dir.y = 0f;
 
-        float result = Vector3.Angle(entity.transform.forward, dir);
+        float result = Vector3.Angle(ownerEntity.transform.forward, dir);
 
 
         if (inverse) return result > lookThreshold;

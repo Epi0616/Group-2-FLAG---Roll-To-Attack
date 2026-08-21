@@ -10,39 +10,49 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81d438bd1eb2e784f94398bb733e7b05, type: 3}
-  m_Name: RandomInRangeWeighted
+  m_Name: DragonStandardMovement
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalMovementObject
   conditionalMovement:
     movement:
-      rid: 3199366959690678519
+      rid: 3199367122547114064
     conditions:
-    - rid: 3199366959690678520
-    - rid: 3199366959690678521
-    - rid: 3199366959690678522
+    - rid: 3199367122547114065
+    - rid: 3199367122547114066
+    - rid: 3199367122547114067
+    - rid: 3199367122547114068
     allConditionsRequired: 1
     exclusive: 1
-    priority: 0
+    priority: 2
   references:
     version: 2
     RefIds:
-    - rid: 3199366959690678519
-      type: {class: RandomInRangeWeighted, ns: , asm: Assembly-CSharp}
+    - rid: 3199367122547114064
+      type: {class: OrbitalDestinationMovement, ns: , asm: Assembly-CSharp}
       data:
-        rangeMin: 10
-        rangeMax: 20
-        angleVariance: 30
-        chancePercentForTargettedMovement: 0.5
-        delayMin: 0.25
-        delayMax: 1.25
-    - rid: 3199366959690678520
+        radiusBounds:
+          min: 30
+          max: 40
+        angleBounds:
+          min: 60
+          max: 90
+        delayBounds:
+          min: 0.1
+          max: 0.1
+        reverseChancePercentage: 0.2
+    - rid: 3199367122547114065
       type: {class: OnNavMeshCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-    - rid: 3199366959690678521
+    - rid: 3199367122547114066
       type: {class: CanMoveCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 0
-    - rid: 3199366959690678522
+    - rid: 3199367122547114067
       type: {class: isDeadCondition, ns: , asm: Assembly-CSharp}
       data:
         inverse: 1
+    - rid: 3199367122547114068
+      type: {class: DistanceCondition, ns: , asm: Assembly-CSharp}
+      data:
+        inverse: 1
+        distanceThreshold: 20

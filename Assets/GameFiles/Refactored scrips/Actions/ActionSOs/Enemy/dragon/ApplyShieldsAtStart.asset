@@ -22,6 +22,7 @@ MonoBehaviour:
     singleUse: 1
     triggered: 0
     exclusive: 1
+    interruptable: 1
     priority: 0
   references:
     version: 2
@@ -30,7 +31,7 @@ MonoBehaviour:
       type: {class: ApplyShields, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 0
-        shieldStacks: 10
+        shieldStacks: 20
     - rid: 3199366818353381493
       type: {class: AlwaysTrueCondition, ns: , asm: Assembly-CSharp}
       data:
