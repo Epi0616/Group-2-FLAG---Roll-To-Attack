@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
@@ -14,6 +15,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     private int damageTaken = 0;
     private int shatterThreshold = 50;
     private string shatteredText;
+    private bool canBeShattered = true;
     public EnhancedFreezeStatus(float fragileMult, string effectText, Color colour, int enhancementLevel) : base(fragileMult, effectText, colour)
     {
         this.enhancementLevel = enhancementLevel;
@@ -21,22 +23,38 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
         this.isStackable = true;
         hasProcced = false;
         damageTaken = 0;
+        if (entityRef is IBoss)
+        {
+            canBeShattered = false;
+        }
         shatteredText = LocalizationSettings.StringDatabase.GetLocalizedString("Damage Text Lables", "damageText.shattered");
     }
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
         if (type == DamageType.Shattered || hasProcced) { toBeRemoved = true; return; }
 
-        damageTaken += (int)damage.GetFinalValue();
-        if (damageTaken > shatterThreshold && !hasProcced)
+        if ((entityRef.healthSystem.currentHealth - damage.GetFinalValue()) < (entityRef.healthSystem.maxHealth * 0.3f))
         {
-            hasProcced = true;
-            float extraShatteredDamage = (damageTaken * 0.5f) * enhancementLevel;
-            entityRef.OnTakeDamage((int)extraShatteredDamage, Color.deepSkyBlue, DamageType.Shattered);
-            entityRef.textDisplaySystem.DisplayHigherText(shatteredText, Color.deepSkyBlue, 64);
+            if (canBeShattered && !hasProcced)
+            {
+                hasProcced = true;
+                entityRef.textDisplaySystem.DisplayHigherText(shatteredText, Color.deepSkyBlue * 10, 64);
+                entityRef.OnTakeDamage(entityRef.healthSystem.currentHealth, Color.deepSkyBlue, DamageType.Shattered);
+                
+            }
+            
         }
 
-        
+        //damageTaken += (int)damage.GetFinalValue();
+        //if (damageTaken > shatterThreshold && !hasProcced)
+        //{
+        //    hasProcced = true;
+        //    float extraShatteredDamage = (damageTaken * 0.5f) * enhancementLevel;
+        //    entityRef.OnTakeDamage((int)extraShatteredDamage, Color.deepSkyBlue, DamageType.Shattered);
+        //    entityRef.textDisplaySystem.DisplayHigherText(shatteredText, Color.deepSkyBlue, 64);
+        //}
+
+
     }
 
     protected override void OnRemoval()
