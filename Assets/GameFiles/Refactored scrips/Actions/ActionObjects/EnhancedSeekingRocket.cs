@@ -150,7 +150,7 @@ public class EnhancedSeekingRocket : SeekingRocket
         GameObject target = other.gameObject;
         if (target == this.gameObject) return;
         if (target == ownerEntity.gameObject) return;
-
+        Vector3 hitPos = other.ClosestPoint(transform.position);
         if ((ownerEntity.hostileMask & (1 << target.layer)) > 0)
         {
             //Debug.Log("IFrame Prevented");
@@ -168,6 +168,7 @@ public class EnhancedSeekingRocket : SeekingRocket
                 {
                     //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
                     DamageTarget(entity);
+                    SpawnHitVFX(hitPos, entity);
                     //Debug.Log("dealing damage");
                 }
             }
@@ -193,9 +194,24 @@ public class EnhancedSeekingRocket : SeekingRocket
         //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
         ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(CurrentAoE, 1f, 0.5f, 1f);
 
+
+
+
         entity.OnTakeDamage(10 + enhancementLevel, Color.orange, DamageType.Explosive);
         //AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
         alreadyHitEntities.Add(entity);
         isBouncing = true;
+    }
+
+    protected override void SpawnHitVFX(Vector3 hitPos, Entity hitEntity)
+    {
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.Impact01), hitPos, Quaternion.Euler(90, 0, 0)).
+       GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.antiqueWhite) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.Sparks01), hitPos, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.sienna) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact01), hitPos, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.sienna) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact02), hitPos, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.sienna) }));
     }
 }
