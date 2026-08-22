@@ -35,6 +35,9 @@ public class RushForAttack : BaseSlamAction
         ownerEntity.statusSystem.OnRecieveEffect(speedIncreaseEffect);
 
         actionRoutine = ownerEntity.StartCoroutine(Action());
+
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), ownerEntity.transform.position, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new BurstCountEffectOverride(new rangePair(15, 20)) }));
     }
 
     private IEnumerator Action()
@@ -104,6 +107,11 @@ public class RushForAttack : BaseSlamAction
             triggerPillars();
         }
         Slam();
+    }
+
+    public override void SpawnSlamCompleteVFX()
+    {
+        
     }
 
     public override void ProcessHits(Collider[] colliders, RaycastHit hit)

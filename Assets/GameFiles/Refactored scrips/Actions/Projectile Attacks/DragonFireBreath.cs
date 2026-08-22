@@ -63,6 +63,13 @@ public class DragonFireBreath : BaseEntityAction
         Quaternion fireballRotation = Quaternion.LookRotation(ownerEntity.target.transform.position - fireballPosition + inaccuracy);
 
         Fireball fireball = ObjectPoolManager.SpawnObject(fireballAction.fireballObj, fireballPosition, fireballRotation).GetComponent<Fireball>();
+
+        if (fireball is IDecalShadowCast shadow)
+        {
+            shadow.currentShadowDecal = ObjectPoolManager.SpawnObject(shadow.shadowDecalPrefab, fireball.transform.position, new Quaternion(1, 0, 0, 1)).GetComponent<ShadowDecal>();
+            shadow.currentShadowDecal.SetupProjector(new Vector2(2.5f, 2.5f), new Quaternion(1, 0, 0, 1), new Vector3(0, 0, 0), true, false, fireball.gameObject);
+        }
+
         fireball.Initialize(ownerEntity, 50f, initialDamage, tickDamage);
     }
 

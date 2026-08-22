@@ -23,7 +23,10 @@ public class SplashFireball : ArcingProjectile
         Vector3 position;
 
         float peakInArc = GetPeakInArc(target);
-
+        if (currentShadowDecal != null)
+        {
+            currentShadowDecal.StartGrowAndShrink(0.6f, durationOfTravel);
+        }
         while (t < 1)
         {
             timer -= Time.deltaTime;
@@ -53,6 +56,7 @@ public class SplashFireball : ArcingProjectile
     public override void Slam()
     {
         base.Slam();
+        currentShadowDecal.DestroyMe();
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
@@ -70,6 +74,13 @@ public class SplashFireball : ArcingProjectile
 
             GameObject projectile = radialObj;
             RadialProjectile wingbeat = ObjectPoolManager.SpawnObject(projectile, spawnPosition, projectileRotation).GetComponent<RadialProjectile>();
+
+            //if (wingbeat is IDecalShadowCast shadow)
+            //{
+            //    shadow.currentShadowDecal = ObjectPoolManager.SpawnObject(shadow.shadowDecalPrefab, wingbeat.transform.position, new Quaternion(1, 0, 0, 1)).GetComponent<ShadowDecal>();
+            //    shadow.currentShadowDecal.SetupProjector(new Vector2(3f, 3f), new Quaternion(1, 0, 0, 1), new Vector3(0, 0, 0), true, false, wingbeat.gameObject);
+            //}
+
             wingbeat.Initialize(ownerEntity, debrisDistance, debrisSpeed);
         }
     }

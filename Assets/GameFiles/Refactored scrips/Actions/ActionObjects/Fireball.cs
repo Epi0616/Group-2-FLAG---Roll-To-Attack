@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections;
-using UnityEditor.Rendering;
 
-public class Fireball : MonoBehaviour
+public class Fireball : MonoBehaviour, IDecalShadowCast
 {
     [SerializeField] protected GameObject impactFieldPrefab;
 
@@ -13,6 +12,10 @@ public class Fireball : MonoBehaviour
 
     private Coroutine attackRoutine, lifeTimeRoutine;
     private bool hitTarget;
+
+    public ShadowDecal currentShadowDecal { get; set; }
+    [SerializeField] private GameObject ShadowDecalPrefab;
+    public GameObject shadowDecalPrefab { get => ShadowDecalPrefab; set => ShadowDecalPrefab = value; }
 
     public virtual void Initialize(Entity ownerEntity, float speed, int initialDamage, int tickDamage)
     {
@@ -65,7 +68,7 @@ public class Fireball : MonoBehaviour
     private void OnHit()
     {
         GameObject field =  ObjectPoolManager.SpawnObject(impactFieldPrefab, transform.position, Quaternion.identity);
-        field.GetComponent<FireField>().Initialize(ownerEntity, Color.orange, 5f, initialDamage, tickDamage, 10f, 1f);
+        field.GetComponent<FireField>().Initialize(ownerEntity, Color.orange, 3.5f, initialDamage, tickDamage, 10f, 1f);
 
         Interrupt();
     }
@@ -83,7 +86,12 @@ public class Fireball : MonoBehaviour
             StopCoroutine(lifeTimeRoutine);
             lifeTimeRoutine = null;
         }
-
+        if (currentShadowDecal != null)
+        {
+            currentShadowDecal.DestroyMe();
+            currentShadowDecal = null;
+        }
+        
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

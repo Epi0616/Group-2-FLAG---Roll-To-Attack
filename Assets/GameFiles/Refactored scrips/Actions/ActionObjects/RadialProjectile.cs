@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RadialProjectile : MonoBehaviour
+public class RadialProjectile : MonoBehaviour, IDecalShadowCast
 {
     private Vector3 startPos;
     private Entity ownerEntity;
@@ -10,6 +10,10 @@ public class RadialProjectile : MonoBehaviour
 
     private IRadialProjectile radialProjectile;
     private bool active = false;
+
+    public ShadowDecal currentShadowDecal { get; set; }
+    [SerializeField] private GameObject ShadowDecalPrefab;
+    public GameObject shadowDecalPrefab { get => ShadowDecalPrefab; set => ShadowDecalPrefab = value; }
 
     public void Initialize(Entity ownerEntity, float distance, float speed)
     {
@@ -68,6 +72,19 @@ public class RadialProjectile : MonoBehaviour
     {
         radialProjectile = null;
         speed.ResetModifiers();
+        if (currentShadowDecal  != null)
+        {
+            currentShadowDecal.DestroyMe();
+            currentShadowDecal = null;
+        }
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), transform.position, Quaternion.Euler(90, 0, 0)).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
+                    new BurstCountEffectOverride(new rangePair(3, 5)),
+                    new StartLifetimeEffectOverride(new rangePair(0.3f, 0.5f)),
+                    new StartSpeedEffectOverride(new rangePair(5, 7)),
+                    new ShapeRadiusEffectOverride(2),
+                    new ColourEffectOverride(Color.red),
+                }));
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

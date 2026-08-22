@@ -90,6 +90,47 @@ public class ShadowDecal : MonoBehaviour
 
     }
 
+    public void SetNewWidthHeight(Vector2 newWidthHeight, bool lerp, float duration = 0)
+    {
+        if (GrowAndShrinkRoutine != null)
+        {
+            StopCoroutine(GrowAndShrinkRoutine);
+        }
+        if (lerp)
+        {
+            StartCoroutine(LerpToNewWidthHeight(newWidthHeight, duration));
+        }
+        else
+        {
+            Vector3 newSize = new Vector3(newWidthHeight.x, newWidthHeight.y, projector.size.z);
+        }
+    }
+
+    private IEnumerator LerpToNewWidthHeight(Vector2 newWidthHeight, float duration)
+    {
+        float timer = 0;
+        Vector3 currentStartingDimensions = projector.size;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+
+            float t = Mathf.Clamp01(timer / duration);
+            Vector3 newSize = Vector3.Lerp(currentStartingDimensions, newWidthHeight, easeOutQuart(t));
+            newSize.z = currentStartingDimensions.z;
+            projector.size = newSize;
+            yield return null;
+        }
+        projector.size = newWidthHeight;
+    }
+
+    public void SetProjectorDepth(float depth)
+    {
+        Vector3 newSize = new Vector3(projector.size.x, projector.size.y, depth);
+        projector.pivot = new Vector3(0, 0, depth / 2);
+        projector.size = newSize;
+
+    }
+
     public void SetNewOffset(Vector3 newOffset, bool lerp, float duration = 0)
     {
         if (lerp)

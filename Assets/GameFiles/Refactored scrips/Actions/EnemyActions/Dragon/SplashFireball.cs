@@ -21,7 +21,11 @@ public class SplashFireballAction : ArcingProjectileThrowAction
     protected override IEnumerator Action()
     {
         projectile = ObjectPoolManager.SpawnObject(arcingProjectile.arcingProjectileObj, ownerEntity.transform.position, Quaternion.identity).GetComponent<ArcingProjectile>();
-
+        if (projectile is IDecalShadowCast shadow)
+        {
+            shadow.currentShadowDecal = ObjectPoolManager.SpawnObject(shadow.shadowDecalPrefab, projectile.transform.position, new Quaternion(1, 0, 0, 1)).GetComponent<ShadowDecal>();
+            shadow.currentShadowDecal.SetupProjector(new Vector2(5, 5), new Quaternion(1, 0, 0, 1), new Vector3(0, 0, 0), true, false, projectile.gameObject);
+        }
         projectile.HandlePathToTarget(ownerEntity, PickRandomAreaOnNavMesh(), 3, slamDamage, slamColour, slamRange.GetFinalValue());
 
         yield return new WaitForSeconds(1);

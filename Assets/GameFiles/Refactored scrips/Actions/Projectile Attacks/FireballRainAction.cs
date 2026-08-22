@@ -140,7 +140,19 @@ public class FireballRainAction : BaseEntityAction, ISlam
         fireball.transform.rotation = fireballRotation;
         fireball.transform.position = randomPosition;
 
-        fireball.GetComponent<Fireball>().Initialize(ownerEntity, 50f, 7, 2);
+        Fireball fireballComp = fireball.GetComponent<Fireball>();
+
+        if (fireballComp is IDecalShadowCast shadow)
+        {
+            shadow.currentShadowDecal = ObjectPoolManager.SpawnObject(shadow.shadowDecalPrefab, fireball.transform.position, new Quaternion(1, 0, 0, 1)).GetComponent<ShadowDecal>();
+            shadow.currentShadowDecal.SetupProjector(new Vector2(1, 1), new Quaternion(1, 0, 0, 1), new Vector3(0, 0, 0), true, false, fireball.gameObject);
+            shadow.currentShadowDecal.SetProjectorDepth(150);
+            shadow.currentShadowDecal.SetNewWidthHeight(new Vector2(4, 4), true, 3);
+        }
+
+        fireballComp.Initialize(ownerEntity, 50f, 7, 2);
+
+        
     }
 
     private Vector3 FindRandomPositionAboveArena()
