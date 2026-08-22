@@ -99,7 +99,8 @@ public class ImpactFieldVisual : MonoBehaviour
 
         while (timeElapsed < 0.4f)
         {
-            float fadeA = Mathf.Lerp(1f, 0f, timeElapsed / 0.4f);
+            float t = Mathf.Clamp01(timeElapsed / 0.4f);
+            float fadeA = Mathf.Lerp(1f, 0f, t);
 
             Color color = this.color;
 

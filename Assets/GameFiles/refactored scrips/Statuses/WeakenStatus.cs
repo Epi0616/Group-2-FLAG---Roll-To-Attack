@@ -28,9 +28,14 @@ public class WeakenStatus : StatusEffect
            // Debug.Log("Damage Type is Weaken");
             return;
         }
- 
-       // Debug.Log("New Weaken OnTakeDamage");
-        entityRef.OnTakeDamage((int)(damage.GetFinalValue() * (weakMultiplier - 1)), effectColour, DamageType.Weaken);
+
+        // Debug.Log("New Weaken OnTakeDamage");
+        int appliedDamage = (int)(damage.GetFinalValue() * (weakMultiplier - 1));
+        if (appliedDamage < 1)
+        {
+            appliedDamage = 1;
+        }
+        entityRef.OnTakeDamage(1, effectColour, DamageType.Weaken);
         
     }
 

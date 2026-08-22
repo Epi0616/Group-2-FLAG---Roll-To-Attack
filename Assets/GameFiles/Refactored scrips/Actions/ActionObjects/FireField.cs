@@ -59,7 +59,7 @@ public class FireField : MonoBehaviour
     {
         while (color.a > 0)
         {
-            color.a -= Time.deltaTime * 0.5f;
+            color.a = Mathf.Clamp01(color.a -= Time.deltaTime * 0.5f);
             AdjustColors();
             yield return null;
         }
@@ -112,7 +112,7 @@ public class FireField : MonoBehaviour
         Color lighterColour = new Color(color.r * 1.2f, color.g * 1.2f, color.b * 1.2f, color.a);
 
         material.color = darkerColour;
-        ringMaterial.SetColor("_RingColour", lighterColour);
+        ringMaterial.SetColor("_RingColour", lighterColour * 3);
         ringMaterial.SetFloat("_Opacity", color.a);
     }
 

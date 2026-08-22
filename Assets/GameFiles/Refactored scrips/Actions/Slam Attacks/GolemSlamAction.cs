@@ -15,24 +15,18 @@ public class GolemSlamAction : BaseSlamAction
     {
         Vector3 pos = slamOrigin;
         pos.y += 1.5f;
-        //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), pos, Quaternion.Euler(90, 0, 0)).
-        //        GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColourHues: new rangePair(0.6f, 1f), overrideBurstCount: new rangePair(3, 10), overrideSpeed: new rangePair(15, 20), overrideShapeRadius: slamRange.GetFinalValue()));
-        //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst02), pos, Quaternion.Euler(0, 0, 0)).
-        //        GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideColourHues: new rangePair(0.6f, 1f)));
-        //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), pos, Quaternion.Euler(90, 0, 0)).
-        //        GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(overrideShapeRadius: slamRange.GetFinalValue()));
+     
 
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), pos, Quaternion.Euler(90, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
-                    new ColourHueEffectOverride(new rangePair(0.6f, 1f)),
-                    new BurstCountEffectOverride(new rangePair(3, 10)),
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {                  
+                    new BurstCountEffectOverride(new rangePair(3, 5)),
                     new StartSpeedEffectOverride(new rangePair(15, 20)),
                     new ShapeRadiusEffectOverride(slamRange.GetFinalValue())
                 }));
-        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst02), pos, Quaternion.Euler(0, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourHueEffectOverride(new rangePair(0.6f, 1f)) }));
+        //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst02), pos, Quaternion.Euler(0, 0, 0)).
+        //        GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { }));
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), pos, Quaternion.Euler(90, 0, 0)).
-                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ShapeRadiusEffectOverride(slamRange.GetFinalValue()), new BurstCountEffectOverride(new rangePair(10, 15)) }));
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ShapeRadiusEffectOverride(slamRange.GetFinalValue()), new BurstCountEffectOverride(new rangePair(2, 3)) }));
     }
 
     public override BaseEntityAction Clone()

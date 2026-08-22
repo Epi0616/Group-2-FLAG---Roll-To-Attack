@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -79,6 +80,9 @@ public class ChargeAtTarget : BaseEntityAction
         force.y = 0;
         force *= 50;
 
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), ownerEntity.transform.position + (ownerEntity.transform.forward * 3), Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new BurstCountEffectOverride(new rangePair(15, 20)) }));
+
         while (!crashCollider.hasCrashed)
         { 
             usesRigidBody.rb.AddForce(force, ForceMode.Acceleration);
@@ -99,6 +103,17 @@ public class ChargeAtTarget : BaseEntityAction
     private IEnumerator Crash()
     {
         yield return new WaitForSeconds(0.05f);
+        Vector3 normal = (ownerEntity.transform.position - crashCollider.crashPosition).normalized;
+        Quaternion rot = Quaternion.LookRotation(normal);
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), crashCollider.crashPosition, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new BurstCountEffectOverride(new rangePair(15, 20)) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), crashCollider.crashPosition, rot).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
+                    new BurstCountEffectOverride(new rangePair(10, 12)),
+                    new StartSpeedEffectOverride(new rangePair(7, 10)),
+                    new StartLifetimeEffectOverride(new rangePair(1.5f, 2)),
+                    new ShapeRadiusEffectOverride(3)
+                }));
         SpawnDebris(debrisSpawned, 0);
     }
 

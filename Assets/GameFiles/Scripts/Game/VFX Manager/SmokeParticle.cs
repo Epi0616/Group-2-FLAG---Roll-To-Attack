@@ -12,8 +12,6 @@ public class SmokeParticle : ParticleEffectInstance
         isDestroyed = false;
         main = particleSystem.main;
         StartCoroutine(PlayParticleSequence(settings));
-
-
     }
 
     public override IEnumerator PlayParticleSequence(EffectSettings settings)
@@ -37,12 +35,15 @@ public class SmokeParticle : ParticleEffectInstance
 
     public IEnumerator HandleSmokeFade()
     {
+        
         float fadeTimer = 0;
         float duration = main.startLifetime.constantMax;
         while (fadeTimer < duration)
         {
+            renderer.GetPropertyBlock(block);
             fadeTimer += Time.deltaTime;
-            renderer.material.SetFloat("_AlphaClip", Mathf.Clamp01(Mathf.Lerp(0, 1, (fadeTimer / duration))));
+            block.SetFloat("_AlphaClip", Mathf.Clamp01(Mathf.Lerp(0, 1, (fadeTimer / duration))));
+            renderer.SetPropertyBlock(block);
             yield return null;
         }
     }

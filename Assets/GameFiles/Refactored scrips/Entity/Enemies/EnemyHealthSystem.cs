@@ -53,7 +53,7 @@ public class EnemyHealthSystem : EntityHealthSystem
 
     private void EnemyDeath()
     {
-        OwnerEntity.bodySystem.RemoveAllShaders();
+        
         try
         {
             if (OwnerEntity is IWaveEnemy enemy)
@@ -63,12 +63,14 @@ public class EnemyHealthSystem : EntityHealthSystem
                     EnemyHasDied?.Invoke();
                 }
             }
-
+            OwnerEntity.bodySystem.RemoveAllShaders();
             ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject, 0);
         }
         catch
         {
+            OwnerEntity.bodySystem.RemoveAllShaders();
             Destroy(OwnerEntity.gameObject);
         }
+
     }
 }

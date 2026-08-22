@@ -10,10 +10,12 @@ public class ParticleEffectInstance : MonoBehaviour
     protected ParticleSystemRenderer renderer;
     protected EffectStateHolder defaultState;
     protected bool isDestroyed;
+    protected MaterialPropertyBlock block;
 
     public void Awake()
     {
         renderer = GetComponent<ParticleSystemRenderer>();
+        block = new MaterialPropertyBlock();
         defaultState = EffectStateHolder.FetchCurrentState(particleSystem);
     }
 
