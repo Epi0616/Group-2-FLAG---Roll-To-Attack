@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
@@ -38,9 +39,20 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
             if (canBeShattered && !hasProcced)
             {
                 hasProcced = true;
+                Vector3 newPos = entityRef.transform.position;
+                newPos.y += 5;
+                ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), newPos, Quaternion.Euler(90, 0, 0)).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
+                    new BurstCountEffectOverride(new rangePair(3, 5)),
+                    new StartLifetimeEffectOverride(new rangePair(1f, 1.5f)),
+                    new StartSpeedEffectOverride(new rangePair(5, 7)),
+                    new ShapeRadiusEffectOverride(2),
+                    new IceMeshEffectOverride()
+                }));
                 entityRef.textDisplaySystem.DisplayHigherText(shatteredText, Color.deepSkyBlue * 10, 64);
                 entityRef.OnTakeDamage(entityRef.healthSystem.currentHealth, Color.deepSkyBlue, DamageType.Shattered);
-                
+               
+
             }
             
         }

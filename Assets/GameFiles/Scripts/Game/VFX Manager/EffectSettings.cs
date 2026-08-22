@@ -68,103 +68,114 @@ public class EffectSettings
         lateEffectOverrides.Clear();
     }
 
+    public void RemoveOverrides(ParticleSystem particleSystem)
+    {
+        foreach (EffectOverride effectOverride in effectOverrides)
+        {
+            if (effectOverride is IRemoveEffectOverride temp)
+            {
+                temp.RemoveOverride(particleSystem);
+            }
+        }
+    }
+
     public void AddOverride(EffectOverride effectOverride)
     {
         effectOverrides.Add(effectOverride);
     }
 
 
-    public void ApplySettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
-    {
-        ParticleSystem.MainModule main = particleSystem.main;
-        ParticleSystem.VelocityOverLifetimeModule velocity = particleSystem.velocityOverLifetime;
-        ParticleSystem.LimitVelocityOverLifetimeModule limit = particleSystem.limitVelocityOverLifetime;
-        ParticleSystem.ShapeModule shape = particleSystem.shape;
-        ParticleSystem.EmissionModule emission = particleSystem.emission;
-        ParticleSystem.Burst burst = new ParticleSystem.Burst();
-        if (overrideColour is Color OverrideColour)
-        {
-            //Debug.Log("Colour Override");
-            main.startColor = OverrideColour;
-            particleRenderer.material.SetColor("_BaseColour", OverrideColour);
-        }
-        if (overrideScale is rangePair OverrideScale)
-        {
-            //Debug.Log("Scale Override");
-            main.startSize = new ParticleSystem.MinMaxCurve(OverrideScale.min, OverrideScale.max);
-        }
-        if (overrideLifetime is rangePair OverrideLifetime)
-        {
-            //Debug.Log("LifeTime Override");
-            main.startLifetime = new ParticleSystem.MinMaxCurve(OverrideLifetime.min, OverrideLifetime.max);
-        }
-        if (overrideSpeed is rangePair OverrideSpeed)
-        {
-            //Debug.Log("Speed Override");
-            main.startSpeed = new ParticleSystem.MinMaxCurve(OverrideSpeed.min, OverrideSpeed.max);
-        }
-        if (overrideGravity is rangePair OverrideGravity)
-        {
-            main.gravityModifier = new ParticleSystem.MinMaxCurve(OverrideGravity.min, OverrideGravity.max);
-        }
-        if (overrideInitialVelocity is Vector3 OverrideVelocity)
-        {
-            velocity.x = OverrideVelocity.x;
-            velocity.y = OverrideVelocity.y;
-            velocity.z = OverrideVelocity.z;
-        }
-        if (overrideVelocitySpeedMult is float OverrideVelocitySpeedMult)
-        {
-            velocity.speedModifier = OverrideVelocitySpeedMult;
-        }
-        if (overrideVelocityDampening is float OverrideVelocityDampening)
-        {
-            limit.dampen = OverrideVelocityDampening;
-        }
-        if (overrideShapeArc is float OverrideShapeArc)
-        {
-            shape.arcSpread = OverrideShapeArc;
-        }
-        if (overrideShapeRadius is float OverrideShapeRadius)
-        {
-            shape.radius = OverrideShapeRadius;
-        }
-        if (overrideBurstCount is rangePair OverrideBurstCount)
-        {
-            burst.count = new ParticleSystem.MinMaxCurve(OverrideBurstCount.min, OverrideBurstCount.max);
-            emission.SetBurst(0, burst);
-        }
+    //public void ApplySettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
+    //{
+    //    ParticleSystem.MainModule main = particleSystem.main;
+    //    ParticleSystem.VelocityOverLifetimeModule velocity = particleSystem.velocityOverLifetime;
+    //    ParticleSystem.LimitVelocityOverLifetimeModule limit = particleSystem.limitVelocityOverLifetime;
+    //    ParticleSystem.ShapeModule shape = particleSystem.shape;
+    //    ParticleSystem.EmissionModule emission = particleSystem.emission;
+    //    ParticleSystem.Burst burst = new ParticleSystem.Burst();
+    //    if (overrideColour is Color OverrideColour)
+    //    {
+    //        //Debug.Log("Colour Override");
+    //        main.startColor = OverrideColour;
+    //        particleRenderer.material.SetColor("_BaseColour", OverrideColour);
+    //    }
+    //    if (overrideScale is rangePair OverrideScale)
+    //    {
+    //        //Debug.Log("Scale Override");
+    //        main.startSize = new ParticleSystem.MinMaxCurve(OverrideScale.min, OverrideScale.max);
+    //    }
+    //    if (overrideLifetime is rangePair OverrideLifetime)
+    //    {
+    //        //Debug.Log("LifeTime Override");
+    //        main.startLifetime = new ParticleSystem.MinMaxCurve(OverrideLifetime.min, OverrideLifetime.max);
+    //    }
+    //    if (overrideSpeed is rangePair OverrideSpeed)
+    //    {
+    //        //Debug.Log("Speed Override");
+    //        main.startSpeed = new ParticleSystem.MinMaxCurve(OverrideSpeed.min, OverrideSpeed.max);
+    //    }
+    //    if (overrideGravity is rangePair OverrideGravity)
+    //    {
+    //        main.gravityModifier = new ParticleSystem.MinMaxCurve(OverrideGravity.min, OverrideGravity.max);
+    //    }
+    //    if (overrideInitialVelocity is Vector3 OverrideVelocity)
+    //    {
+    //        velocity.x = OverrideVelocity.x;
+    //        velocity.y = OverrideVelocity.y;
+    //        velocity.z = OverrideVelocity.z;
+    //    }
+    //    if (overrideVelocitySpeedMult is float OverrideVelocitySpeedMult)
+    //    {
+    //        velocity.speedModifier = OverrideVelocitySpeedMult;
+    //    }
+    //    if (overrideVelocityDampening is float OverrideVelocityDampening)
+    //    {
+    //        limit.dampen = OverrideVelocityDampening;
+    //    }
+    //    if (overrideShapeArc is float OverrideShapeArc)
+    //    {
+    //        shape.arcSpread = OverrideShapeArc;
+    //    }
+    //    if (overrideShapeRadius is float OverrideShapeRadius)
+    //    {
+    //        shape.radius = OverrideShapeRadius;
+    //    }
+    //    if (overrideBurstCount is rangePair OverrideBurstCount)
+    //    {
+    //        burst.count = new ParticleSystem.MinMaxCurve(OverrideBurstCount.min, OverrideBurstCount.max);
+    //        emission.SetBurst(0, burst);
+    //    }
 
-    }
+    //}
 
-    public void ApplyLateSettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
-    {
-        ParticleSystem.MainModule main = particleSystem.main;
-        //ParticleSystem.VelocityOverLifetimeModule velocity = particleSystem.velocityOverLifetime;
-        //ParticleSystem.LimitVelocityOverLifetimeModule limit = particleSystem.limitVelocityOverLifetime;
-        //ParticleSystem.ShapeModule shape = particleSystem.shape;
-        //ParticleSystem.EmissionModule emission = particleSystem.emission;
-        //ParticleSystem.Burst burst = new ParticleSystem.Burst();
+    //public void ApplyLateSettings(ParticleSystem particleSystem, ParticleSystemRenderer particleRenderer)
+    //{
+    //    ParticleSystem.MainModule main = particleSystem.main;
+    //    //ParticleSystem.VelocityOverLifetimeModule velocity = particleSystem.velocityOverLifetime;
+    //    //ParticleSystem.LimitVelocityOverLifetimeModule limit = particleSystem.limitVelocityOverLifetime;
+    //    //ParticleSystem.ShapeModule shape = particleSystem.shape;
+    //    //ParticleSystem.EmissionModule emission = particleSystem.emission;
+    //    //ParticleSystem.Burst burst = new ParticleSystem.Burst();
 
-        if (overrideColourHues is rangePair OverrideColourHues)
-        {
-            //Debug.Log("Overriding Hue");
-            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[main.maxParticles];
-            int size = particleSystem.GetParticles(particles);
+    //    if (overrideColourHues is rangePair OverrideColourHues)
+    //    {
+    //        //Debug.Log("Overriding Hue");
+    //        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[main.maxParticles];
+    //        int size = particleSystem.GetParticles(particles);
 
-            //Debug.Log("Size is: " + size);
-            for (int i = 0; i < size; i++)
-            {
-                Color newColour = particles[i].startColor;
-                float hue = UnityEngine.Random.Range(OverrideColourHues.min, OverrideColourHues.max);
-                particles[i].startColor = newColour * hue;
-                particleRenderer.material.SetColor("_BaseColour", newColour * hue);
+    //        //Debug.Log("Size is: " + size);
+    //        for (int i = 0; i < size; i++)
+    //        {
+    //            Color newColour = particles[i].startColor;
+    //            float hue = UnityEngine.Random.Range(OverrideColourHues.min, OverrideColourHues.max);
+    //            particles[i].startColor = newColour * hue;
+    //            particleRenderer.material.SetColor("_BaseColour", newColour * hue);
 
-            }
+    //        }
 
-            particleSystem.SetParticles(particles, size);
-        }
-    }
+    //        particleSystem.SetParticles(particles, size);
+    //    }
+    //}
 
     // amount per burst?, shape, lifetime, scale
 }

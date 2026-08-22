@@ -11,6 +11,7 @@ public class ParticleEffectInstance : MonoBehaviour
     protected EffectStateHolder defaultState;
     protected bool isDestroyed;
     protected MaterialPropertyBlock block;
+    protected EffectSettings settings;
 
     public void Awake()
     {
@@ -26,18 +27,20 @@ public class ParticleEffectInstance : MonoBehaviour
 
     public virtual void PlayParticleEffect(EffectSettings settings)
     {
+
+        this.settings = settings;
         timer = 0;
         isDestroyed = false;
         main = particleSystem.main;
 
         ResetParticleToDefault();
 
-        StartCoroutine(PlayParticleSequence(settings));
+        StartCoroutine(PlayParticleSequence());
         
         
     }
 
-    public virtual IEnumerator PlayParticleSequence(EffectSettings settings)
+    public virtual IEnumerator PlayParticleSequence()
     {
 
         settings.ApplyEffectOverrides(particleSystem);
@@ -58,10 +61,17 @@ public class ParticleEffectInstance : MonoBehaviour
         }
     }
 
+    private IEnumerator DestroySequence()
+    {
+        settings.RemoveOverrides(particleSystem);
+        yield return null;
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
+    }
+
     public void DestroyMe()
     {
         if (isDestroyed) { return; }
         isDestroyed = true;
-        ObjectPoolManager.ReturnObjectToPool(gameObject);
+        StartCoroutine(DestroySequence());
     }
 }
