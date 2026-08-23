@@ -40,8 +40,6 @@ public class OrbitalDestinationMovement : BaseEntityMovement
         if (ownerEntity is not IAnimated animated) { Debug.LogError("ownerEntity is not of type IAnimated"); return; }
         this.animated = animated;
 
-
-        Debug.Log("starting base movement");
         navAgent.agent.updateRotation = false;
         PickDestination();
     }
@@ -74,7 +72,6 @@ public class OrbitalDestinationMovement : BaseEntityMovement
         Vector3 desiredPosition = ownerEntity.target.transform.position + (rotatedVector * radius);
         if (NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, 10, -1))
         {
-            Debug.Log("picking destination");
             animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main);
             navAgent.agent.SetDestination(desiredPosition);
         }
@@ -82,7 +79,6 @@ public class OrbitalDestinationMovement : BaseEntityMovement
 
     private void CheckForReverseMovement()
     {
-        Debug.Log("checking for reverse");
         if (Random.Range(0f, 1f) < reverseChancePercentage)
         {
             reverse *= -1;

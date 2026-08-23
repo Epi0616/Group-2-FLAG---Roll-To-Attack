@@ -121,8 +121,8 @@ GameObject:
   - component: {fileID: 5358925164434332501}
   - component: {fileID: 7368190682906019533}
   - component: {fileID: 8954741942547990196}
-  - component: {fileID: 5972223107732533113}
-  - component: {fileID: 7404142816588123683}
+  - component: {fileID: 9093378896159288347}
+  - component: {fileID: 8838589004462229166}
   - component: {fileID: 7929531433057963340}
   - component: {fileID: 1041424116168178060}
   - component: {fileID: 2655164821236707485}
@@ -196,8 +196,8 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Constraints: 112
+  m_CollisionDetection: 3
 --- !u!195 &7368190682906019533
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -237,8 +237,8 @@ MonoBehaviour:
   hostileMask:
     serializedVersion: 2
     m_Bits: 131072
-  healthSystem: {fileID: 5972223107732533113}
-  statusSystem: {fileID: 7404142816588123683}
+  healthSystem: {fileID: 9093378896159288347}
+  statusSystem: {fileID: 8838589004462229166}
   bodySystem: {fileID: 7929531433057963340}
   textDisplaySystem: {fileID: 1041424116168178060}
   Agent: {fileID: 7368190682906019533}
@@ -253,25 +253,29 @@ MonoBehaviour:
   MovementSpeed:
     baseValue: 6
   ConditionalMovementDescriptors:
-  - {fileID: 11400000, guid: 4fd14cc1bc8bdca4a9fbd264761900fe, type: 2}
+  - {fileID: 11400000, guid: fa5ca3389b14cbd449b6f7b106d8d8f4, type: 2}
   - {fileID: 11400000, guid: f51ae670fdca6b34f9421e630c0ebccf, type: 2}
-  - {fileID: 11400000, guid: f5b9b459e2f12c445abb4bf2ad9ba01f, type: 2}
+  - {fileID: 11400000, guid: 4b8df3e017a2ae04cb8c1af48e579492, type: 2}
+  - {fileID: 11400000, guid: 0d105879b73ff164dafb26d2870f2047, type: 2}
+  - {fileID: 11400000, guid: 62c276574534d934e955c51e29e65dc0, type: 2}
   ConditionalActionDescriptors:
   - {fileID: 11400000, guid: 2e439f720ddffb244a12009cbcb49f61, type: 2}
   - {fileID: 11400000, guid: a8feeb3d580ed1f4d8ed9c5ae1c27307, type: 2}
-  - {fileID: 11400000, guid: 5e7fd7d980fb4fc40a094592360713f7, type: 2}
   - {fileID: 11400000, guid: 283fb3c46444aac479dbfcd441e090f5, type: 2}
   - {fileID: 11400000, guid: 428eb8aae1ddf644db210ccd8f979a99, type: 2}
   - {fileID: 11400000, guid: 77c2893cf89e97e4a8b693d65a05504f, type: 2}
+  - {fileID: 11400000, guid: 5e7fd7d980fb4fc40a094592360713f7, type: 2}
   ConditionalActions: []
   CanAct: 1
   WeightModifier:
-    baseValue: 1
+    baseValue: 0.6
   SlammedDMGMod:
     baseValue: 1
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
+  StunInterval: 15
+  CurrentStunInterval: 0
   AnimationManager: {fileID: 2655164821236707485}
   SpawnModifier: 2
   IsWaveEnemy: 0
@@ -307,6 +311,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8388608
   slamCooldownTime: 0.5
+  Milestones:
+  - {fileID: 11400000, guid: f96067ddcb18e5b4d946abe63a676742, type: 2}
+  - {fileID: 11400000, guid: b337f7791c72b93499fdfba7d02e0b66, type: 2}
+  - {fileID: 11400000, guid: ce436e2cdc532f643ba5487d5b1948b7, type: 2}
   FireballObj: {fileID: 8075196302112617494, guid: 4bde5d9bc854ece4eb33694f2dbec6e0, type: 3}
   FireballRootBone: {fileID: 6271799594283534160}
   FireballDamage: 15
@@ -324,7 +332,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
---- !u!114 &5972223107732533113
+--- !u!114 &9093378896159288347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -333,13 +341,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6286363926915155371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 029530d3f515a6f469b6e34502414c9b, type: 3}
+  m_Script: {fileID: 11500000, guid: cb7e7d15ae8a7734c9b6db084d33ac8e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthSystem
-  maxHealth: 1000
+  m_EditorClassIdentifier: Assembly-CSharp::BossHealthSystem
+  maxHealth: 5000
   currentHealth: 0
   isDead: 0
---- !u!114 &7404142816588123683
+--- !u!114 &8838589004462229166
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -348,9 +356,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6286363926915155371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33d0964f6dd437745baa50d5f048165f, type: 3}
+  m_Script: {fileID: 11500000, guid: 1af4b567a4ad0b349b2534a697a956d9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EntityStatusSystem
+  m_EditorClassIdentifier: Assembly-CSharp::DragonStatusSystem
 --- !u!114 &7929531433057963340
 MonoBehaviour:
   m_ObjectHideFlags: 0

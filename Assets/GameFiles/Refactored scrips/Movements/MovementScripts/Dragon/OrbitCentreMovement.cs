@@ -67,11 +67,8 @@ public class OrbitCentreMovement : OrbitalIntervalMovement
 
         Vector3 desiredPosition = centrePoint + (rotatedVector * radius);
 
-        Debug.Log("centre picking desination");
-        Debug.Log($"desired position {desiredPosition}");
         if (NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, 10, -1))
         {
-            Debug.Log("destination set");
             animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main);
             navAgent.agent.SetDestination(desiredPosition);
         }

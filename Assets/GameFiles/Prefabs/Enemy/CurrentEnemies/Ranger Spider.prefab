@@ -72,7 +72,7 @@ MonoBehaviour:
   IsGrounded: 0
   CanMove: 1
   MovementSpeed:
-    baseValue: 50
+    baseValue: 35
   ConditionalMovementDescriptors:
   - {fileID: 11400000, guid: 462262d48d6c88941a0764e89746fc99, type: 2}
   - {fileID: 11400000, guid: 85f42350d7eb42747a48f23211c2643f, type: 2}
@@ -88,6 +88,8 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
+  StunInterval: 0
+  CurrentStunInterval: 0
   AnimationManager: {fileID: 3914747202766677759}
   SpawnModifier: 0
   IsWaveEnemy: 0

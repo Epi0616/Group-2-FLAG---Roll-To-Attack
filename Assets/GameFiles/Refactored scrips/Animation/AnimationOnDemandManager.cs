@@ -40,6 +40,10 @@ public class AnimationOnDemandManager : MonoBehaviour
     public void Initialize()
     {
         UnpackAnimationClipTypes();
+        if (animationClips.Count <= 0)
+        {
+            graphActive = false;
+        }
     }
 
     private void UnpackAnimationClipTypes()
@@ -62,14 +66,16 @@ public class AnimationOnDemandManager : MonoBehaviour
             AnimationMixerPlayable.Create(graph, 2),
             MixerType.main,
             AnimationType.None,
-            int.MaxValue
+            int.MaxValue,
+            0
         );
 
         complimentaryMixer = new MixerContainer(
             AnimationMixerPlayable.Create(graph, 2),
             MixerType.complimentary,
             AnimationType.None,
-            int.MaxValue
+            int.MaxValue,
+            0
         );
 
         mainAnimationOutput = AnimationPlayableOutput.Create(graph, "mainAnimation", animator);
@@ -94,6 +100,28 @@ public class AnimationOnDemandManager : MonoBehaviour
         mixer.priority = int.MaxValue;
     }
 
+    public void PauseCurrentAnimation(MixerType mixerType)
+    {
+        if (!graphActive) return;
+        if (!GetMixerContainerFromType(mixerType, out MixerContainer mixer)) return;
+
+        Playable tempPlayable = mixer.mixer.GetInput(0);
+        if (!tempPlayable.IsValid()) return;
+
+        tempPlayable.SetSpeed(0);
+    }
+
+    public void ResumeCurrentAnimation(MixerType mixerType)
+    {
+        if (!graphActive) return;
+        if (!GetMixerContainerFromType(mixerType, out MixerContainer mixer)) return;
+
+        Playable tempPlayable = mixer.mixer.GetInput(0);
+        if (!tempPlayable.IsValid()) return;
+
+        tempPlayable.SetSpeed(mixer.currentAnimationSpeed);
+    }
+
     public void PlayAnimation(AnimationType newAnimationType, int priority, MixerType mixerType, float window = 0f)
     {
         if (!graphActive) return;
@@ -106,7 +134,7 @@ public class AnimationOnDemandManager : MonoBehaviour
         CancelCurrentCrossFade(mixer);
         DestroyMixerPlayable(mixer, 0);
 
-        SetPlayableSpeed(ref newPlayable, window);
+        SetPlayableSpeed(mixer, ref newPlayable, window);
         ConnectPlayable(newPlayable, mixer);
 
         mixer.animationType = newAnimationType;
@@ -126,7 +154,7 @@ public class AnimationOnDemandManager : MonoBehaviour
         Playable currentPlayable = mixer.mixer.GetInput(0);
         mixer.mixer.DisconnectInput(0);
 
-        SetPlayableSpeed(ref newPlayable, window);
+        SetPlayableSpeed(mixer, ref newPlayable, window);
         mixer.crossFadeRoutine = StartCoroutine(ConnectPlayableCrossFade(newPlayable, currentPlayable, mixer, crossFadeDuration));
 
         mixer.priority = priority;
@@ -165,16 +193,16 @@ public class AnimationOnDemandManager : MonoBehaviour
         DestroyMixerPlayable(mixer, 1);
     }
 
-    private void SetPlayableSpeed(ref AnimationClipPlayable newPlayable, float window)
+    private void SetPlayableSpeed(MixerContainer mixer, ref AnimationClipPlayable newPlayable, float window)
     {
-        if (window == 0)
+        float speed = 1;
+        if (window != 0)
         {
-            newPlayable.SetSpeed(1);
+            speed = newPlayable.GetAnimationClip().length / window;
         }
-        else
-        {
-            newPlayable.SetSpeed(newPlayable.GetAnimationClip().length / window);
-        }
+
+        newPlayable.SetSpeed(speed);
+        mixer.currentAnimationSpeed = speed;
     }
 
     private void CancelCurrentCrossFade(MixerContainer mixer)
@@ -281,13 +309,15 @@ public class MixerContainer
     public MixerType mixerType;
     public AnimationType animationType;
     public int priority;
+    public float currentAnimationSpeed;
 
-    public MixerContainer(AnimationMixerPlayable mixer, MixerType mixerType, AnimationType animationType, int priority)
+    public MixerContainer(AnimationMixerPlayable mixer, MixerType mixerType, AnimationType animationType, int priority, float currentAnimationSpeed)
     {
         this.mixer = mixer;
         this.mixerType = mixerType;
         this.animationType = animationType;
         this.priority = priority;
+        this.currentAnimationSpeed = currentAnimationSpeed;
     }
 }
 

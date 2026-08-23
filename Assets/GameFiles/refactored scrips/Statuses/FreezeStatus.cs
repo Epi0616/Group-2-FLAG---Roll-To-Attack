@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FreezeStatus : BaseStunEffect
 {
-    protected float fragileMultiplier; 
+    protected float fragileMultiplier;
 
     public FreezeStatus(float fragileMult, string effectText, Color colour)
     {
@@ -16,25 +16,30 @@ public class FreezeStatus : BaseStunEffect
 
     protected override void ApplyStatModifier()
     {       
-        (entityRef as IKnockbackable).slammedDamageMod.AddMultiplierFlat(fragileMultiplier);       
+        if (!stunInterfaceAccess.canBeStunned) return;
+        (entityRef as IKnockbackable).slammedDamageMod.AddMultiplierFlat(fragileMultiplier);
     }
 
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
+        if (!stunInterfaceAccess.canBeStunned) return;
         if (type == DamageType.Shattered) { toBeRemoved = true; return; }
     }
 
     protected override void OnApplication()
     {
-        base.OnApplication();  
+        base.OnApplication();
         if (entityRef is IAnimated temp)
         {
-            temp.animationManager.EndCurrentAnimation(MixerType.main);
+            temp.animationManager.PauseCurrentAnimation(MixerType.main);
+            temp.animationManager.PauseCurrentAnimation(MixerType.complimentary);
         }
     }
 
     protected override void OnFirstStackApplication()
     {
+
+        if (!stunInterfaceAccess.canBeStunned) return;
         entityRef.bodySystem.ApplyShader(effectColour, 0.25f, ShaderType.Frozen);
     }
 
@@ -54,6 +59,11 @@ public class FreezeStatus : BaseStunEffect
         //entityRef.bodySystem.RemoveFreezeShader();
         //entityRef.bodySystem.RemoveFreezeShader();
         entityRef.bodySystem.RemoveShader(0.2f, ShaderType.Frozen);
+        if (entityRef is IAnimated temp)
+        {
+            temp.animationManager.ResumeCurrentAnimation(MixerType.main);
+            temp.animationManager.ResumeCurrentAnimation(MixerType.complimentary);
+        }
     }
 
     public override StatusEffect Clone()
