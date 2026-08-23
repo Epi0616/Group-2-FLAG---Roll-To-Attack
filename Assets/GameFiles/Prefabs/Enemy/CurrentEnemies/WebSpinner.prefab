@@ -74,7 +74,7 @@ MonoBehaviour:
   MovementSpeed:
     baseValue: 50
   ConditionalMovementDescriptors:
-  - {fileID: 11400000, guid: b9cc5058259658b478b53ecc3a3bbff1, type: 2}
+  - {fileID: 11400000, guid: e5e12cac69ca55e40a2bd8d7c9b3e7b1, type: 2}
   ConditionalActionDescriptors:
   - {fileID: 11400000, guid: 31a4b9588df46aa408786fd98c85efd5, type: 2}
   ConditionalActions: []
@@ -86,6 +86,8 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
+  StunInterval: 0
+  CurrentStunInterval: 0
   AnimationManager: {fileID: 7760443347887636580}
   SpawnModifier: 0
   IsWaveEnemy: 0
@@ -123,6 +125,9 @@ MonoBehaviour:
   slamCooldownTime: 0.5
   WebNodePrefab: {fileID: 5290315805401821204, guid: 18eb336251154314c90f16fb2be0f244, type: 3}
   WebSpitObj: {fileID: 0}
+  RadialTargetableLayers:
+    serializedVersion: 2
+    m_Bits: 0
   references:
     version: 2
     RefIds: []

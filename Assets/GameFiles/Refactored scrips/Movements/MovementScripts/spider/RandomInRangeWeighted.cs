@@ -11,7 +11,7 @@ public class RandomInRangeWeighted : RandomInRangeNoDelayWeighted
     private float timer = 0;
 
     public RandomInRangeWeighted() : base() { }
-    public RandomInRangeWeighted(float rangeMin, float rangeMax, float angleVariance, float delayMin, float delayMax) : base(rangeMin, rangeMax, angleVariance) 
+    public RandomInRangeWeighted(float rangeMin, float rangeMax, float angleVariance, float delayMin, float delayMax, float chancePercentForTargettedMovement) : base(rangeMin, rangeMax, angleVariance, chancePercentForTargettedMovement) 
     {
         this.rangeMin = rangeMin;
         this.rangeMax = rangeMax;
@@ -43,6 +43,6 @@ public class RandomInRangeWeighted : RandomInRangeNoDelayWeighted
 
     public override BaseEntityMovement Clone()
     {
-        return new RandomInRangeWeighted(rangeMin, rangeMax, angleVariance, delayMin, delayMax);
+        return new RandomInRangeWeighted(rangeMin, rangeMax, angleVariance, delayMin, delayMax, chancePercentForTargettedMovement);
     }
 }

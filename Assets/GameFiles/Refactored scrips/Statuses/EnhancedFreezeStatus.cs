@@ -24,7 +24,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
         this.isStackable = true;
         hasProcced = false;
         damageTaken = 0;
-        if (entityRef is IBoss)
+        if (entityRef is BaseBossEnemy)
         {
             canBeShattered = false;
         }
@@ -34,7 +34,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     {
         if (type == DamageType.Shattered || hasProcced) { toBeRemoved = true; return; }
 
-        if ((entityRef.healthSystem.currentHealth - damage.GetFinalValue()) < (entityRef.healthSystem.maxHealth * 0.3f))
+        if ((entityRef.healthSystem.currentHealth - damage.GetFinalValue()) < (entityRef.healthSystem.maxHealth * (0.3f + (enhancementLevel / 10))))
         {
             if (canBeShattered && !hasProcced)
             {
@@ -44,7 +44,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
                 ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), newPos, Quaternion.Euler(90, 0, 0)).
                 GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
                     new BurstCountEffectOverride(new rangePair(3, 5)),
-                    new StartLifetimeEffectOverride(new rangePair(1f, 1.5f)),
+                    new StartLifetimeEffectOverride(new rangePair(2f, 2.5f)),
                     new StartSpeedEffectOverride(new rangePair(5, 7)),
                     new ShapeRadiusEffectOverride(2),
                     new IceMeshEffectOverride()

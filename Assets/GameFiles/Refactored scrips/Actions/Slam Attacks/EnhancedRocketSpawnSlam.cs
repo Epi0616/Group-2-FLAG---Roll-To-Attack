@@ -40,7 +40,7 @@ public class EnhancedRocketSpawnSlam : BaseSlamAction , IEnhancedAbility
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        base.ApplyCustomEffectPerEntity(hitEntity);
+        hitEntity.OnTakeDamage(slamDamage, Color.lightGray, DamageType.Normal);
 
         if (hitEntity.CompareTag("StaticEntity") || hitEntity.CompareTag("PhysicsEntity")) { return; }
         ownerEntity.StartCoroutine(SpawnRockets(hitEntity));

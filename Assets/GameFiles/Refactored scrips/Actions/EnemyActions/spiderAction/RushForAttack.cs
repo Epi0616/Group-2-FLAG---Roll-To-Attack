@@ -137,7 +137,7 @@ public class RushForAttack : BaseSlamAction
         base.ApplyCustomEffectPerEntity(hitEntity);
 
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new SlowStatus(0.75f, "PlaceHolderSlow"),
-        new List<BaseCondition> { new TimeCondition(true, 5f) }, true));
+        new List<BaseCondition> { new TimeCondition(true, 2f) }, true));
     }
 
     public override IEnumerator slamCD(float amount) { yield break; }

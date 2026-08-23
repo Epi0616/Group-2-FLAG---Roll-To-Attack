@@ -61,7 +61,7 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
         {
             appliedDamage = 1;
         }
-        entityRef.OnTakeDamage(1, effectColour, DamageType.Weaken);
+        entityRef.OnTakeDamage(appliedDamage, effectColour, DamageType.Weaken);
 
     }
 

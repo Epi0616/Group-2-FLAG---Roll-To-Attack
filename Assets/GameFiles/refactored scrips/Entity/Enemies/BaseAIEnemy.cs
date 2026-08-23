@@ -246,7 +246,7 @@ public class BaseAIEnemy : AIDrivenEntity,
     {
         if (!collision.gameObject.CompareTag("Environment") && !collision.gameObject.CompareTag("Pedestal")) { return; }
         if (!isBeingDisplaced) { return; }
-        if (!(rb.linearVelocity.magnitude > 10)) return;
+        //if (!(rb.linearVelocity.magnitude > 2)) return;
 
         float dmgMod = Mathf.Clamp(slammedDamageMod.GetFinalValue(), 1.0f, 5.0f);
         int appliedDamage = (int)((collision.impulse.magnitude / 3) * dmgMod);

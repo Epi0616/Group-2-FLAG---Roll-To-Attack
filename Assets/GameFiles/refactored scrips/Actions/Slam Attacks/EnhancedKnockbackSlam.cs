@@ -23,10 +23,13 @@ public class EnhancedKnockbackSlam : BaseSlamAction , IEnhancedAbility
         IKBFS = ownerEntity as IKnockbackFieldSpawner;
     }
 
-    public override void SpawnSlamStartVFX()
-    {
+    //public override void SpawnSlamStartVFX()
+    //{
         
-    }
+    //}
+
+
+
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
         base.ApplyCustomEffectPerEntity(hitEntity);

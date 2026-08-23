@@ -110,7 +110,7 @@ public class SeekingRocket : MonoBehaviour
 
     protected virtual void SelectNewTarget()
     {
-        Collider[] hitColliders = new Collider[10];
+        Collider[] hitColliders = new Collider[40];
         int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
 
         Entity closestEntity = null;
@@ -145,7 +145,7 @@ public class SeekingRocket : MonoBehaviour
 
         if (newTarget == null)
         {
-            //Debug.LogWarning("No New Rocket Target Located: Destroying");
+            Debug.LogWarning("No New Rocket Target Located: Destroying");
             DestroyMe();
             return;
         }

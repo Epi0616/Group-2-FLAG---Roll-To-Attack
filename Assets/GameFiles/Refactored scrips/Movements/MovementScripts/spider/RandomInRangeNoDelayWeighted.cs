@@ -7,18 +7,19 @@ using Random = UnityEngine.Random;
 public class RandomInRangeNoDelayWeighted : BaseEntityMovement
 {
     [SerializeField] protected float rangeMin, rangeMax;
-    [SerializeField] protected float angleVariance = 30f;
-    [SerializeField] protected float chancePercentForTargettedMovement = 0.2f;
+    [SerializeField] protected float angleVariance;
+    [SerializeField] protected float chancePercentForTargettedMovement;
 
     protected INavAgent navAgent;
     private Vector3 destination;
 
     public RandomInRangeNoDelayWeighted() { }
-    public RandomInRangeNoDelayWeighted(float rangeMin, float rangeMax, float angleVariance)
+    public RandomInRangeNoDelayWeighted(float rangeMin, float rangeMax, float angleVariance, float chancePercentForTargettedMovement)
     {
         this.rangeMin = rangeMin;
         this.rangeMax = rangeMax;
         this.angleVariance = angleVariance;
+        this.chancePercentForTargettedMovement = chancePercentForTargettedMovement;
     }
 
     public override void StartMovement(Entity ownerEntity)
@@ -128,6 +129,6 @@ public class RandomInRangeNoDelayWeighted : BaseEntityMovement
 
     public override BaseEntityMovement Clone()
     {
-        return new RandomInRangeNoDelayWeighted(rangeMin, rangeMax, angleVariance);
+        return new RandomInRangeNoDelayWeighted(rangeMin, rangeMax, angleVariance, chancePercentForTargettedMovement);
     }
 }
