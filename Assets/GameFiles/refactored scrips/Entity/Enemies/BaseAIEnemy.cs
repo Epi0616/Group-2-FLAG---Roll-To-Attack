@@ -57,10 +57,13 @@ public class BaseAIEnemy : AIDrivenEntity,
 
     [Header("IStunable Properties")]
     [SerializeField] private bool CanBeStunned = true;
-    public bool canBeStunned { get => CanBeStunned; set => CanBeStunned = value; }
-
     [SerializeField] private bool IsStunned;
+    [SerializeField] private float StunInterval = 0;
+    [SerializeField] private float CurrentStunInterval = 0;
+    public bool canBeStunned { get => CanBeStunned; set => CanBeStunned = value; }
     public bool isStunned { get => IsStunned; set => IsStunned = value; }
+    public float stunInterval { get => StunInterval; set => StunInterval = value; }
+    public float currentStunInterval { get => CurrentStunInterval; set => CurrentStunInterval = value; }
 
     [Header("IAnimated Properties")]
     [SerializeField] private AnimationOnDemandManager AnimationManager;
@@ -187,7 +190,7 @@ public class BaseAIEnemy : AIDrivenEntity,
     }
 
     // IActionable Interface Methods
-    public void CheckForCanAct()
+    public virtual void CheckForCanAct()
     {
         canAct = !statusSystem.CheckForActionBlockersStatus();
         if (!canAct)
@@ -219,16 +222,31 @@ public class BaseAIEnemy : AIDrivenEntity,
         }
     }
 
+    //IStunable Interface Methods
     public void CheckForStunned()
     {
         isStunned = statusSystem.CheckForStunnedStatus();
+        currentStunInterval -= Time.deltaTime;
+
+        if (currentStunInterval > 0)
+        {
+            canBeStunned = false;
+            return;
+        }
+
+        canBeStunned = true;
+    }
+
+    public void ResetStunInterval()
+    {
+        currentStunInterval = stunInterval;
     }
 
     protected virtual void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Environment") && !collision.gameObject.CompareTag("Pedestal")) { return; }
         if (!isBeingDisplaced) { return; }
-        
+        if (!(rb.linearVelocity.magnitude > 10)) return;
 
         float dmgMod = Mathf.Clamp(slammedDamageMod.GetFinalValue(), 1.0f, 5.0f);
         int appliedDamage = (int)((collision.impulse.magnitude / 3) * dmgMod);
@@ -260,7 +278,7 @@ public class BaseAIEnemy : AIDrivenEntity,
            // textDisplaySystem.DisplayHigherText(SlammedString.GetLocalizedString(), Color.darkGoldenRod, 52);
             OnTakeDamage(appliedDamage, Color.darkGoldenRod, DamageType.Slammed);
         }
-        statusSystem.RemoveEffectByType(StatusType.Knockback);
+        //statusSystem.RemoveEffectByType(StatusType.Knockback);
 
         // Eventual VFX/SFX can go here for wall slams
         // add a check for the value of dmgMod to increase volume/size of effects

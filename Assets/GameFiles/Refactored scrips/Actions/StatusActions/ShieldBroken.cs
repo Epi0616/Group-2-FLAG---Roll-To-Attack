@@ -11,7 +11,7 @@ public class ShieldBroken : BaseEntityAction
     [SerializeField] private float applyTime;
 
     private IAnimated animated;
-    private Coroutine applyShieldsRoutine;
+    private Coroutine shieldsRoutine;
 
     public ShieldBroken() { }
     public ShieldBroken(bool preventsMovement, int shieldStacks, float stunnedTime, float applyTime)
@@ -30,15 +30,14 @@ public class ShieldBroken : BaseEntityAction
             this.animated = animated;
         }
 
-        ownerEntity.StartCoroutine(ShieldsBrokenRoutine());
+        shieldsRoutine = ownerEntity.StartCoroutine(ShieldsBrokenRoutine());
     }
 
     private IEnumerator ShieldsBrokenRoutine()
     {
         yield return ownerEntity.StartCoroutine(Stunned());
 
-        applyShieldsRoutine = ownerEntity.StartCoroutine(ApplyShields());
-        yield return applyShieldsRoutine;
+        yield return ApplyShields();
 
         EndAction();
     }
@@ -81,10 +80,11 @@ public class ShieldBroken : BaseEntityAction
 
     public override void InterruptAction()
     {
-        //if (applyShieldsRoutine != null)
-        //{
-        //    ownerEntity.StopCoroutine(applyShieldsRoutine);
-        //}
+        if (shieldsRoutine != null)
+        {
+            ownerEntity.StopCoroutine(shieldsRoutine);
+            shieldsRoutine = null;
+        }
 
         EndAction();
     }

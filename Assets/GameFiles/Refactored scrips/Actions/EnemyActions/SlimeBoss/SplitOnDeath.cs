@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -54,6 +55,12 @@ public class SplitOnDeath : BaseEntityAction
             childSlimeSplit.scale = slimeSplit.scale * 0.75f;
             childSlimeSplit.iterationsLeft = slimeSplit.iterationsLeft - 1;
             child.gameObject.transform.localScale = Vector3.one * childSlimeSplit.scale; //potentially replace Vector3.one with the original starting scale
+
+            IMoveable moveable = child as IMoveable;
+            if (moveable != null)
+            {
+                moveable.movementSpeed.SetBaseValue(moveable.movementSpeed.GetBaseValue() / childSlimeSplit.scale);
+            }
         }
     }
 

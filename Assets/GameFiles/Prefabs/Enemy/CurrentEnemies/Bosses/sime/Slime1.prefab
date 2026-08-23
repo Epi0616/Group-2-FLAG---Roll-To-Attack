@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2201899067608143915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1078508757241874065}
+  - component: {fileID: 5320175809256000487}
+  m_Layer: 0
+  m_Name: DamageCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1078508757241874065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2201899067608143915}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9222000812110184709}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5320175809256000487
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2201899067608143915}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8, y: 10, z: 8}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3532214043159620029
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,6 +205,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5835587433101746566}
+  - {fileID: 1078508757241874065}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2798674128702806622
@@ -185,9 +239,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5362364407267928275}
   serializedVersion: 5
-  m_Mass: 1000
+  m_Mass: 1
   m_LinearDamping: 2
-  m_AngularDamping: 1
+  m_AngularDamping: 5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -202,7 +256,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 3
 --- !u!195 &702054484192071093
 NavMeshAgent:
@@ -253,11 +307,11 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
-  GroundCheckDistance: 0.5
+  GroundCheckDistance: 1.5
   IsGrounded: 0
   CanMove: 1
   MovementSpeed:
-    baseValue: 1
+    baseValue: 5
   ConditionalMovementDescriptors:
   - {fileID: 11400000, guid: 1fd42d8d6787e8f48bcf9c491dc4b281, type: 2}
   ConditionalActionDescriptors:
@@ -276,9 +330,11 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
+  StunInterval: 0
+  CurrentStunInterval: 0
   AnimationManager: {fileID: 2871270401631601225}
   SpawnModifier: 2
-  IsWaveEnemy: 0
+  IsWaveEnemy: 1
   SlammedString:
     m_TableReference:
       m_TableCollectionName: 
@@ -311,12 +367,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   slamCooldownTime: 0.5
+  Milestones: []
   SlimeFieldObj: {fileID: 113574429688223637, guid: 835d5a03ed0331748a06b595af5feb64, type: 3}
   SlimeableMask:
     serializedVersion: 2
     m_Bits: 147456
   IsCharging: 0
-  ChildObj: {fileID: 5362364407267928275, guid: 37f32a5c14d6998488528c815b534852, type: 3}
+  ChildObj: {fileID: 5362364407267928275, guid: 16d13f83b4faf554ab116557b6890376, type: 3}
   ChildrenSpawned: 4
   IterationsLeft: 2
   Scale: 1

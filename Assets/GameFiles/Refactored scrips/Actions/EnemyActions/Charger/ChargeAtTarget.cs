@@ -78,14 +78,14 @@ public class ChargeAtTarget : BaseEntityAction
     {
         Vector3 force = (ownerEntity.transform.forward).normalized;
         force.y = 0;
-        force *= 50;
+        force *= 10000;
 
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), ownerEntity.transform.position + (ownerEntity.transform.forward * 3), Quaternion.Euler(90, 0, 0)).
                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new BurstCountEffectOverride(new rangePair(15, 20)) }));
 
         while (!crashCollider.hasCrashed)
-        { 
-            usesRigidBody.rb.AddForce(force, ForceMode.Acceleration);
+        {
+            usesRigidBody.rb.AddForce(force * Time.fixedDeltaTime, ForceMode.Acceleration);
             yield return new WaitForFixedUpdate();
         }
     }
