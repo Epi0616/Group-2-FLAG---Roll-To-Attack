@@ -90,7 +90,7 @@ public class EnhancedSeekingRocket : SeekingRocket
 
     protected override void SelectNewTarget()
     {
-        Collider[] hitColliders = new Collider[10];
+        Collider[] hitColliders = new Collider[40];
         int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
 
         Entity closestNotHit = null;
@@ -150,13 +150,13 @@ public class EnhancedSeekingRocket : SeekingRocket
         GameObject target = other.gameObject;
         if (target == this.gameObject) return;
         if (target == ownerEntity.gameObject) return;
-
+        Vector3 hitPos = other.ClosestPoint(transform.position);
         if ((ownerEntity.hostileMask & (1 << target.layer)) > 0)
         {
             //Debug.Log("IFrame Prevented");
-            if (IFrameTimer < 0.05f) {  return; }
+            if (IFrameTimer < 0.2f) {  return; }
             // Debug.Log("Target Hit");
-            DamageTarget(target.GetComponent<Entity>());
+            //DamageTarget(target.GetComponent<Entity>());
             Collider[] colliders = Physics.OverlapSphere(transform.position, CurrentAoE, ownerEntity.hostileMask);
             //Debug.Log(colliders.Length);
             foreach (var collider in colliders)
@@ -167,7 +167,9 @@ public class EnhancedSeekingRocket : SeekingRocket
                 if (collider.TryGetComponent<Entity>(out Entity entity))
                 {
                     //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
+                    
                     DamageTarget(entity);
+                    SpawnHitVFX(hitPos, entity);
                     //Debug.Log("dealing damage");
                 }
             }
@@ -193,9 +195,24 @@ public class EnhancedSeekingRocket : SeekingRocket
         //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
         ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(CurrentAoE, 1f, 0.5f, 1f);
 
-        entity.OnTakeDamage(10 + enhancementLevel, Color.orange, DamageType.Explosive);
+
+
+
+        entity.OnTakeDamage(9 + enhancementLevel, Color.lightGray, DamageType.Explosive);
         //AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
         alreadyHitEntities.Add(entity);
         isBouncing = true;
+    }
+
+    protected override void SpawnHitVFX(Vector3 hitPos, Entity hitEntity)
+    {
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.Impact01), hitPos, Quaternion.Euler(90, 0, 0)).
+       GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.antiqueWhite) }));
+        //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.Sparks01), hitPos, Quaternion.Euler(90, 0, 0)).
+        //       GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.sienna) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact01), hitPos, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.black) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact02), hitPos, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.black) }));
     }
 }

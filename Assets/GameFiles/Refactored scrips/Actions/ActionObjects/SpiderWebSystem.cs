@@ -15,6 +15,8 @@ public class SpiderWebSystem
     private float broadSystemRadius;
     public WebSystemVisual visual;
 
+    LayerMask mask = (1 << 14);
+
     public SpiderWebSystem(SpiderWebNode nodeA, SpiderWebNode nodeB, SpiderWebNode nodeC, SpiderWebConnection newAB, SpiderWebConnection newBC, SpiderWebConnection newCA, WebSystemVisual visual)
     {
         // Debug.Log("I AHVE BEEN CREATED WE HAVE A SYSTEM YUPPIUE");
@@ -45,7 +47,7 @@ public class SpiderWebSystem
     public void UpdateSystem()
     {
         CheckForTargetsInSystem();
-
+        CheckForAlliesInSystem();
         // Re-Enable for Debug Drawing
         //Debug.DrawLine(nodes[0].transform.position, nodes[1].transform.position, Color.white);
         //Debug.DrawLine(nodes[1].transform.position, nodes[2].transform.position, Color.white);
@@ -90,6 +92,47 @@ public class SpiderWebSystem
         }
         ProcessHitTargetsInSystem(hitEntities);
     }
+
+    public void CheckForAlliesInSystem()
+    {
+        
+        Collider[] colliders = Physics.OverlapSphere(centrePoint, broadSystemRadius, mask);
+        List<Entity> hitEntities = new List<Entity>();
+        foreach (Collider collider in colliders)
+        {
+            if (!collider.gameObject) { continue; }
+            if (CheckTargetInTriangle(collider.gameObject.transform.position))
+            {
+                
+                if (collider.TryGetComponent<Entity>(out Entity entity))
+                {
+                    //Debug.Log("Ally Added");
+                    hitEntities.Add(entity);
+                }
+                    
+            }
+
+        }
+        ProcessHitAlliesInSystem(hitEntities);
+    }
+
+    public void ProcessHitAlliesInSystem(List<Entity> hitEntities) 
+    {
+       // Debug.Log("Allies Found");
+        foreach (Entity hitEntity in hitEntities)
+        {
+            if (hitEntity.statusSystem.CheckForStatusByType(StatusType.Speed))
+            {
+                hitEntity.statusSystem.ResetStatusByType(StatusType.Speed);
+            }
+            else
+            {
+                //Debug.Log("Target Within Web");
+                hitEntity.OnRecieveEffect(new ActiveStatusEffect(new MovementSpeedStatus(1.75f), new List<BaseCondition> { new TimeCondition(false, 0.5f) }, false));
+            }
+        }
+    }
+
     // If the target is already afflicted by slow, refresh its duration, if not apply a new slow
     public void ProcessHitTargetsInSystem(List<Entity> hitEntities)
     {

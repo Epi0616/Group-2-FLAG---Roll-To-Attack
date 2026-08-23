@@ -1,8 +1,9 @@
 using UnityEngine;
 using System;
+using UnityEngine.ResourceManagement;
 
 [Serializable]
-public class EnhancedSlowSlam : BaseSlamAction
+public class EnhancedSlowSlam : BaseSlamAction, IEnhancedAbility
 {
     public float SlowMult = 1.4f;
     private ISlowBubbleSpawner ISBS;

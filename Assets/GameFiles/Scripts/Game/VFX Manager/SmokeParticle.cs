@@ -8,23 +8,24 @@ public class SmokeParticle : ParticleEffectInstance
 
     public override void PlayParticleEffect(EffectSettings settings)
     {
+        this.settings = settings;
         timer = 0;
         isDestroyed = false;
         main = particleSystem.main;
-        StartCoroutine(PlayParticleSequence(settings));
+        StartCoroutine(PlayParticleSequence());
     }
 
-    public override IEnumerator PlayParticleSequence(EffectSettings settings)
+    public override IEnumerator PlayParticleSequence()
     {
 
-        settings.ApplySettings(particleSystem, renderer);
+        settings.ApplyEffectOverrides(particleSystem);
         particleSystem.Play();
 
         StartCoroutine(HandleSmokeFade());
 
         yield return null;
        
-        settings.ApplyLateSettings(particleSystem, renderer);
+        settings.ApplyLateEffectOverrides(particleSystem);
 
     }
 

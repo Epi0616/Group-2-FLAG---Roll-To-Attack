@@ -35,7 +35,7 @@ public class WeakenStatus : StatusEffect
         {
             appliedDamage = 1;
         }
-        entityRef.OnTakeDamage(1, effectColour, DamageType.Weaken);
+        entityRef.OnTakeDamage(appliedDamage, effectColour, DamageType.Weaken);
         
     }
 

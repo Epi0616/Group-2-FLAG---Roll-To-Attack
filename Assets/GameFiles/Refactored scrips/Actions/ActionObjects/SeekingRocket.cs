@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SeekingRocket : MonoBehaviour 
@@ -109,7 +110,7 @@ public class SeekingRocket : MonoBehaviour
 
     protected virtual void SelectNewTarget()
     {
-        Collider[] hitColliders = new Collider[10];
+        Collider[] hitColliders = new Collider[40];
         int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
 
         Entity closestEntity = null;
@@ -144,7 +145,7 @@ public class SeekingRocket : MonoBehaviour
 
         if (newTarget == null)
         {
-            //Debug.LogWarning("No New Rocket Target Located: Destroying");
+            Debug.LogWarning("No New Rocket Target Located: Destroying");
             DestroyMe();
             return;
         }
@@ -169,14 +170,19 @@ public class SeekingRocket : MonoBehaviour
         GameObject target = other.gameObject;
         if (target == this.gameObject) return;
         if (target == ownerEntity.gameObject) return;
-
+        Vector3 hitPos = other.ClosestPoint(transform.position);
         if ((ownerEntity.hostileMask & (1 << target.layer)) > 0)
         {
-           // Debug.Log("Target Hit");
-            DamageTarget(target.GetComponent<Entity>());
+            // Debug.Log("Target Hit");
+            if (other.TryGetComponent<Entity>(out Entity entity))
+            {
+                //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
+                DamageTarget(entity);
+                SpawnHitVFX(hitPos, entity);
+
+            }
         }
     }
-
     protected virtual void DamageTarget(Entity entity)
     {
         Vector3 groundedPosition = new(transform.position.x, entity.transform.position.y, transform.position.z); // needs adjusting if enemies can ever reach an elevated position.
@@ -184,9 +190,23 @@ public class SeekingRocket : MonoBehaviour
         //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
         ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
 
+
         entity.OnTakeDamage(rocketDamage, Color.orange, DamageType.Explosive);
         //AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
         DestroyMe();
+    }
+
+    protected virtual void SpawnHitVFX(Vector3 hitPos, Entity hitEntity)
+    {
+        
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.Impact01), transform.position, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.antiqueWhite) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.Sparks01), transform.position, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.orange) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact01), transform.position, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.orange) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact02), transform.position, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.orange) }));
     }
 
     protected virtual void DestroyMe()

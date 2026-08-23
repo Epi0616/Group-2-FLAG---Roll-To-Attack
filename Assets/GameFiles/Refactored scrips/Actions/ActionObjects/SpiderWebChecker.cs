@@ -120,7 +120,7 @@ public class SpiderWebChecker : MonoBehaviour
             spiderWebConnections.Remove(connection);
             connection.NodeA.RemovedFromConnection(connection);
             connection.NodeB.RemovedFromConnection(connection);
-            connection.visual.DestroyMe();
+            //connection.visual.DestroyMe();
         }
     }
 

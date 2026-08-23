@@ -23,11 +23,39 @@ public class EnhancedKnockbackSlam : BaseSlamAction , IEnhancedAbility
         IKBFS = ownerEntity as IKnockbackFieldSpawner;
     }
 
-    public override void SpawnSlamStartVFX()
-    {
+    //public override void SpawnSlamStartVFX()
+    //{
         
+    //}
+
+
+
+    public override void ApplyCustomEffectPerEntity(Entity hitEntity)
+    {
+        base.ApplyCustomEffectPerEntity(hitEntity);
+        if (!(slamRange.GetFinalValue() > slamRange.GetBaseValue()))
+        {
+            hitEntity.OnRecieveEffect(
+            new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 7f),
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+            true));
+        }
+
+        hitEntity.OnRecieveEffect(
+            new ActiveStatusEffect(new CrumblingStatus(CrumblingDamageMod),
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+            true));
     }
 
+    protected override void ApplyHeavyEffectPerEntity(Entity hitEntity)
+    {
+        float percentage = slamRange.GetFinalValue() / slamRange.GetBaseValue();
+        hitEntity.OnRecieveEffect(
+            new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 7f * percentage),
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+            true),
+            Color.red);
+    }
     public override void ExtraSlamEffect()
     {
         KnockbackField KBField = (ObjectPoolManager.SpawnObject(IKBFS.knockbackFieldPrefab, slamOrigin, Quaternion.identity)).GetComponent<KnockbackField>();

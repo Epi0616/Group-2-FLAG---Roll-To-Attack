@@ -9,6 +9,10 @@ public interface ILateEffectOverride
 {
     void ApplyLateOverride(ParticleSystem particleSystem);
 }
+public interface IRemoveEffectOverride
+{
+    void RemoveOverride(ParticleSystem particleSystem);
+}
 
 // Main Module Properties -----------------------------------------------------------
 public class ColourEffectOverride : EffectOverride
@@ -46,6 +50,27 @@ public class ColourHueEffectOverride : EffectOverride, ILateEffectOverride
         }
 
         particleSystem.SetParticles(particles, size);
+    }
+}
+
+public class IceMeshEffectOverride : EffectOverride, IRemoveEffectOverride
+{
+    public IceMeshEffectOverride() { }
+    public override void ApplyOverride(ParticleSystem particleSystem)
+    {
+        ParticleSystemRenderer renderer = particleSystem.gameObject.GetComponent<ParticleSystemRenderer>();
+        MaterialPropertyBlock block = new MaterialPropertyBlock();
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_IcePower", 1);
+        renderer.SetPropertyBlock(block);
+    }
+    public void RemoveOverride(ParticleSystem particleSystem)
+    {
+        ParticleSystemRenderer renderer = particleSystem.gameObject.GetComponent<ParticleSystemRenderer>();
+        MaterialPropertyBlock block = new MaterialPropertyBlock();
+        renderer.GetPropertyBlock(block);
+        block.SetFloat("_IcePower", 0);
+        renderer.SetPropertyBlock(block);
     }
 }
 

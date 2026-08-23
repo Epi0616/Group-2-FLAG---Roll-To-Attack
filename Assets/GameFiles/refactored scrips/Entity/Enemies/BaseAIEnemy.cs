@@ -246,13 +246,14 @@ public class BaseAIEnemy : AIDrivenEntity,
     {
         if (!collision.gameObject.CompareTag("Environment") && !collision.gameObject.CompareTag("Pedestal")) { return; }
         if (!isBeingDisplaced) { return; }
-        if (!(rb.linearVelocity.magnitude > 10)) return;
+        //if (!(rb.linearVelocity.magnitude > 2)) return;
 
         float dmgMod = Mathf.Clamp(slammedDamageMod.GetFinalValue(), 1.0f, 5.0f);
         int appliedDamage = (int)((collision.impulse.magnitude / 3) * dmgMod);
 
         if (appliedDamage < 25) { appliedDamage = 25; }
-
+        Vector3 hitPoint = collision.contacts[0].point;
+        Quaternion rot = Quaternion.LookRotation((transform.position - hitPoint).normalized);
 
         if (statusSystem.CheckForStatusByType(StatusType.Freeze))
         {
@@ -261,7 +262,18 @@ public class BaseAIEnemy : AIDrivenEntity,
             textDisplaySystem.DisplayHigherText("SHATTERED", Color.deepSkyBlue, 52);
             //textDisplaySystem.DisplayHigherText(ShatteredString.GetLocalizedString(), Color.deepSkyBlue, 52);
             OnTakeDamage(appliedDamage, Color.deepSkyBlue, DamageType.Shattered);
-            
+            Vector3 newPos = transform.position;
+            newPos.y += 5;
+            ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), newPos, rot).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
+                    new BurstCountEffectOverride(new rangePair(4, 7)),
+                    new StartSpeedEffectOverride(new rangePair(7, 10)),
+                    new StartLifetimeEffectOverride(new rangePair(1.5f, 2)),
+                    new InitialVelocityEffectOverride(new rangePair(0, 0), new rangePair(20, 30), new rangePair(0, 0)),
+                    new ShapeRadiusEffectOverride(3),
+                    new IceMeshEffectOverride()
+                }));
+
         }
         else if (statusSystem.CheckForStatusByType(StatusType.Crumbling))
         {
@@ -270,6 +282,15 @@ public class BaseAIEnemy : AIDrivenEntity,
             textDisplaySystem.DisplayHigherText("CRUSHED", Color.sienna, 52);
             //textDisplaySystem.DisplayHigherText(CrushedString.GetLocalizedString(), Color.sienna, 52);
             OnTakeDamage(appliedDamage, Color.sienna, DamageType.Slammed);
+            ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), hitPoint, rot).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
+                    new BurstCountEffectOverride(new rangePair(4, 6)),
+                    new StartSpeedEffectOverride(new rangePair(15, 20)),
+                    new StartLifetimeEffectOverride(new rangePair(0.75f, 1)),
+                    new InitialVelocityEffectOverride(new rangePair(0, 0), new rangePair(20, 30), new rangePair(0, 0)),
+                    new ShapeRadiusEffectOverride(3),
+                    new ColourEffectOverride(Color.sienna)
+                }));
         }
         else
         {
@@ -277,6 +298,14 @@ public class BaseAIEnemy : AIDrivenEntity,
             textDisplaySystem.DisplayHigherText("SLAMMED", Color.darkGoldenRod, 52);
            // textDisplaySystem.DisplayHigherText(SlammedString.GetLocalizedString(), Color.darkGoldenRod, 52);
             OnTakeDamage(appliedDamage, Color.darkGoldenRod, DamageType.Slammed);
+            ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), hitPoint, rot).
+                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
+                    new BurstCountEffectOverride(new rangePair(4, 6)),
+                    new StartSpeedEffectOverride(new rangePair(4, 7)),
+                    new StartLifetimeEffectOverride(new rangePair(1.5f, 2)),
+                    new InitialVelocityEffectOverride(new rangePair(0, 0), new rangePair(20, 30), new rangePair(0, 0)),
+                    new ShapeRadiusEffectOverride(3)
+                }));
         }
         //statusSystem.RemoveEffectByType(StatusType.Knockback);
 
