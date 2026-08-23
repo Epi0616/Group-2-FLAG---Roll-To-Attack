@@ -27,6 +27,11 @@ public class Stat
         return baseValue;
     }
 
+    public void SetBaseValue(float value)
+    { 
+        baseValue = value;
+    }
+
     public void AddAdditive(float additive)
     { 
         totalAdditive += additive;

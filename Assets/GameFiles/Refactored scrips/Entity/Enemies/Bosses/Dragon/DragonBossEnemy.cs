@@ -55,18 +55,7 @@ public class DragonBossEnemy : BaseBossEnemy,
         int finalDamage = statusSystem.ModifyDamage(amount, damageType);
         float size = Mathf.Clamp(10 + (finalDamage * 1.1f), 48f, 240f);
 
-        if (currentShieldStacks > 0)
-        {
-            if (damageType == DamageType.Normal)
-            {
-                textDisplaySystem.DisplayText(finalDamage.ToString(), color, (int)size);
-            }
-        }
-        else 
-        {
-            textDisplaySystem.DisplayText(finalDamage.ToString(), color, (int)size);
-        }
-
+        textDisplaySystem.DisplayText(finalDamage.ToString(), color, (int)size);
         healthSystem.OnTakeDamage(finalDamage, damageType);
     }
 

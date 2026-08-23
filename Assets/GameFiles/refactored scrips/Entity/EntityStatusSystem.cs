@@ -215,7 +215,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
         return false;
     }
 
-    public bool CheckForActionBlockersStatus()
+    public virtual bool CheckForActionBlockersStatus()
     {
         
         for (int i = currentActiveStatusEffects.Count - 1; i >= 0; i--)

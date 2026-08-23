@@ -79,8 +79,12 @@ public class SlimeBoss : BaseBossEnemy,
         }
     }
 
-    protected override void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider hit)
     {
-        
+        if ((hostileMask & (1 << hit.gameObject.layer)) != 0)
+        {
+            if (!(hit.gameObject.TryGetComponent<Entity>(out Entity hitEntity))) return;
+            hitEntity.OnTakeDamage(5, Color.pink, DamageType.Heavy);
+        }
     }
 }

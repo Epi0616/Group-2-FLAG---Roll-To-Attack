@@ -26,7 +26,7 @@ public class SlimeVariableTimeCondition : VariableTimeCondition
     protected override void SetTimer()
     {
         float variation = Random.Range(-variance, variance);
-        timer = (duration + variation) * slimeSplit.scale;
+        timer = (duration + variation) * MathF.Pow(slimeSplit.scale,2);
     }
 
     public override BaseCondition Clone()
