@@ -102,7 +102,7 @@ public class KnockbackField : MonoBehaviour
     {
         if (hitEntity == null) return;
         hitEntity.OnRecieveEffect(
-            new ActiveStatusEffect(new KnockbackEffect(transform.position, 7f),
+            new ActiveStatusEffect(new KnockbackEffect(transform.position, 7f + enhancementLevel),
             new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
             true));
         hitEntity.OnRecieveEffect(
