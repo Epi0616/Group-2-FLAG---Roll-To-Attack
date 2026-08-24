@@ -14,6 +14,7 @@ public class KnockbackField : MonoBehaviour
     private int enhancementLevel;
     private HashSet<Entity> alreadyHit;
     private float hitTimer = 0;
+    private bool isDestroyed;
 
     protected void Awake()
     {
@@ -61,6 +62,13 @@ public class KnockbackField : MonoBehaviour
         color.a = 0;
 
         if (!(lifeTimer >= lifeSpan)) { return; }
+        DestroyMe();
+    }
+
+    public void DestroyMe()
+    {
+        if (isDestroyed) return;
+        isDestroyed = true;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
@@ -94,7 +102,7 @@ public class KnockbackField : MonoBehaviour
     {
         if (hitEntity == null) return;
         hitEntity.OnRecieveEffect(
-            new ActiveStatusEffect(new KnockbackEffect(transform.position, 7f),
+            new ActiveStatusEffect(new KnockbackEffect(transform.position, 7f + enhancementLevel),
             new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
             true));
         hitEntity.OnRecieveEffect(
@@ -110,6 +118,7 @@ public class KnockbackField : MonoBehaviour
     public virtual void Initialize(Entity entity, float crumblingDamageMod, float radius, float lifespan, Color colour, int enhancementLevel)
     {
         ownerEntity = entity;
+        isDestroyed = false;
         //this.gameObject.layer = ownerEntity.gameObject.layer;
         CrumblingDamageMod = crumblingDamageMod;
         color = colour;

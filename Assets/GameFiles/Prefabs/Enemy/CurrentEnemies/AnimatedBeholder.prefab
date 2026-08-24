@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4309054869029375175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1151009879051223691}
+  m_Layer: 0
+  m_Name: HeadPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1151009879051223691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4309054869029375175}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 11.31, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2261890235792691884}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6362620640985674823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3484476272507531305}
+  m_Layer: 0
+  m_Name: BasePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3484476272507531305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6362620640985674823}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2261890235792691884}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7644048195314328716
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +223,8 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
+  StunInterval: 0
+  CurrentStunInterval: 0
   AnimationManager: {fileID: 1419937092715477690}
   SpawnModifier: 0
   IsWaveEnemy: 0
@@ -213,6 +277,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityBodySystem
   body: {fileID: 1452421341896067094}
+  headTransform: {fileID: 1151009879051223691}
+  baseplateTransform: {fileID: 3484476272507531305}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
   renderer: {fileID: 5788718072660252866}
 --- !u!114 &5074823791163469045
@@ -353,7 +419,13 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ea023a73c36129a4fb93219ef3c60139, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: dc5999a12a8475e429aaf3f6987d8087, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1151009879051223691}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: dc5999a12a8475e429aaf3f6987d8087, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3484476272507531305}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc5999a12a8475e429aaf3f6987d8087, type: 3}
       insertIndex: -1

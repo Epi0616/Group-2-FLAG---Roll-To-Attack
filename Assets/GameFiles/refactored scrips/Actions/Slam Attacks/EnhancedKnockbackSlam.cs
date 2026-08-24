@@ -58,8 +58,15 @@ public class EnhancedKnockbackSlam : BaseSlamAction , IEnhancedAbility
     }
     public override void ExtraSlamEffect()
     {
-        KnockbackField KBField = (ObjectPoolManager.SpawnObject(IKBFS.knockbackFieldPrefab, slamOrigin, Quaternion.identity)).GetComponent<KnockbackField>();
-        KBField.Initialize(ownerEntity, CrumblingDamageMod, slamRange.GetBaseValue() / 2, 5f, slamColour, enhancementLevel);
+        if (IKBFS.currentField != null)
+        {
+            IKBFS.currentField.DestroyMe();
+            IKBFS.currentField = null;
+        }
+
+        IKBFS.currentField = (ObjectPoolManager.SpawnObject(IKBFS.knockbackFieldPrefab, slamOrigin, Quaternion.identity)).GetComponent<KnockbackField>();
+        IKBFS.currentField.Initialize(ownerEntity, CrumblingDamageMod, slamRange.GetBaseValue() / 2, 5f, slamColour, enhancementLevel);
+
     }
 
     public override BaseEntityAction Clone()

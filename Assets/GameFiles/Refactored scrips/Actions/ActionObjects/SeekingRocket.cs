@@ -198,15 +198,17 @@ public class SeekingRocket : MonoBehaviour
 
     protected virtual void SpawnHitVFX(Vector3 hitPos, Entity hitEntity)
     {
-        
-        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.Impact01), transform.position, Quaternion.Euler(90, 0, 0)).
-               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.antiqueWhite) }));
-        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.Sparks01), transform.position, Quaternion.Euler(90, 0, 0)).
-               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.orange) }));
-        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact01), transform.position, Quaternion.Euler(90, 0, 0)).
-               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.orange) }));
-        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact02), transform.position, Quaternion.Euler(90, 0, 0)).
-               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.orange) }));
+        float hueMult = Random.Range(1, 1.5f);
+        Vector3 Pos = hitPos;
+        if (hitEntity.bodySystem.headTransform != null) { Pos = hitEntity.bodySystem.headTransform.position; }
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.Impact01), Pos, Quaternion.Euler(90, 0, 0)).
+       GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.antiqueWhite) }));
+        //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.Sparks01), hitPos, Quaternion.Euler(90, 0, 0)).
+        //       GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.sienna) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact01), Pos, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.orange * hueMult) }));
+        ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact02), Pos, Quaternion.Euler(90, 0, 0)).
+               GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.orange / hueMult) }));
     }
 
     protected virtual void DestroyMe()

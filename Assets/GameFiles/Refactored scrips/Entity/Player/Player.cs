@@ -146,6 +146,7 @@ public class Player : Entity,
     [Header("IKnockbackFieldSpawner")]
     [SerializeField] private GameObject KBFieldPrefab;
     public GameObject knockbackFieldPrefab { get => KBFieldPrefab; set => KBFieldPrefab = value; }
+    public KnockbackField currentField { get; set; }
 
     [Header("ISlowBubbleSpawner")]
     [SerializeField] private GameObject SlowingBubblePrefab;
