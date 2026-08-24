@@ -10,8 +10,8 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 {
     public static event Action<LocalizedString, LocalizedString, Sprite> OnAbilityHoverStart;
     public static event Action OnAbilityHoverEnd;
-    public static event Action<ModifiableAction> OnAbilityDragStart;
-    public static event Action OnAbilityDragEnd;
+    public static event Action<DraggableAbility> OnAbilityDragStart;
+    public static event Action<DraggableAbility> OnAbilityDragEnd;
 
     [SerializeField] private GameObject spriteObj;
 
@@ -95,7 +95,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        OnAbilityDragStart?.Invoke(myAbility);
+        OnAbilityDragStart?.Invoke(this);
 
         if (sizeShiftRoutine != null) StopCoroutine(sizeShiftRoutine);
         sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(scaleOrigin * 0.8f));
@@ -103,7 +103,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
     {
-        OnAbilityDragEnd?.Invoke();
+        OnAbilityDragEnd?.Invoke(this);
         if (sizeShiftRoutine != null) StopCoroutine(sizeShiftRoutine);
         sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(scaleOrigin * 1.2f));
     }
@@ -119,7 +119,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
     protected override void OnEndDrag(PointerEventData eventData)
     {
         base.OnEndDrag(eventData);
-        OnAbilityDragEnd?.Invoke();
+        OnAbilityDragEnd?.Invoke(this);
 
         if (sizeShiftRoutine != null) StopCoroutine(sizeShiftRoutine);
         sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(scaleOrigin * 1.2f));

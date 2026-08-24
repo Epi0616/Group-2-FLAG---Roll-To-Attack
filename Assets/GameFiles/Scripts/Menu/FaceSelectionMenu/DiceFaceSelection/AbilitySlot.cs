@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,34 +14,35 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
     public static event Action<Vector3> selectedPos;
 
     [SerializeField] private AnimationOnDemandManager upgradeEffectAnimationManager;
-    [SerializeField] private Image upgradeEffectImage;
+    [SerializeField] private Image upgradeEffectImage, ActivatedSlotImage;
 
+    private Coroutine glowRoutine;
     private bool isSelected = false;
 
     protected override void Awake()
     {
         base.Awake();
         objectLimit = 1;
+        SetImageAlpha(ActivatedSlotImage, 0.15f);
+        SetImageAlpha(upgradeEffectImage, 0);
     }
-
 
     protected void OnEnable()
     {
-        DraggableAbility.OnAbilityDragStart += HandleUpgradeDisplay;
-        DraggableAbility.OnAbilityDragEnd += HandleEndUpgradeDisplay;
+        DraggableAbility.OnAbilityDragStart += HandleAbilityStartDrag;
+        DraggableAbility.OnAbilityDragEnd += HandleAbilityEndDrag;
     }
 
     protected void OnDisable()
     {
-        DraggableAbility.OnAbilityDragStart -= HandleUpgradeDisplay;
-        DraggableAbility.OnAbilityDragEnd -= HandleEndUpgradeDisplay;
+        DraggableAbility.OnAbilityDragStart -= HandleAbilityStartDrag;
+        DraggableAbility.OnAbilityDragEnd -= HandleAbilityEndDrag;
     }
 
     private void Start()
     {
         upgradeEffectAnimationManager.Initialize();
 
-        SetUpgradeImageAlpha(0);
         upgradeEffectAnimationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.01f);
     }
 
@@ -65,40 +68,7 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         newObject.SetCurrentParent(this);
         FormatChildren();
         CheckForDisplayRequired();
-    }
-
-    private void SwapAbilities(DraggableObject newObject)
-    {
-       // Debug.Log("Swapped");
-        AbilityDropZoneParent newObjectsParentAtStartOfDrag = newObject.GetParentAtStartOfDrag();
-        if (newObjectsParentAtStartOfDrag != null)
-        {
-            //Debug.Log("Option 1");
-            DraggableObject myCurrentObject = draggableObjects[0];
-            myCurrentObject.ResetCurrentParent();
-
-            draggableObjects.Add(newObject);
-            newObject.SetCurrentParent(this);
-            FormatChildren();
-
-            newObjectsParentAtStartOfDrag.AddChild(myCurrentObject);
-        }
-        else
-        {
-            //Debug.Log("Option 2");
-            DraggableObject myCurrentObject = draggableObjects[0];
-            myCurrentObject.ResetCurrentParent();
-
-            draggableObjects.Add(newObject);
-            newObject.SetCurrentParent(this);
-            FormatChildren();
-
-            if (centralAbilitySlot != null)
-            {
-                centralAbilitySlot.GetComponent<AbilitySlot>().AddChild(myCurrentObject);
-            }
-            //myCurrentObject.GetComponent<RectTransform>().anchoredPosition = 
-        }
+        GlowTo(1, 0.2f);
     }
 
     private void SwapAbilitiesWithUpgrade(DraggableObject newObject)
@@ -116,6 +86,7 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
 
             draggableObjects.Add(newObject);
             newObject.SetCurrentParent(this);
+            GlowTo(1, 0.2f);
             FormatChildren();
 
             newObjectsParentAtStartOfDrag.AddChild(myCurrentObject);
@@ -131,6 +102,7 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
 
             draggableObjects.Add(newObject);
             newObject.SetCurrentParent(this);
+            GlowTo(1, 0.2f);
             FormatChildren();
 
             if (centralAbilitySlot != null)
@@ -139,6 +111,12 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
             }
             //myCurrentObject.GetComponent<RectTransform>().anchoredPosition = 
         }
+    }
+
+    private void HandleAbilityStartDrag(DraggableAbility ability)
+    {
+        HandleUpgradeDisplay(ability.GetAbility());
+        HandleDragGlow(ability, 0.15f);
     }
 
     private void HandleUpgradeDisplay(ModifiableAction selectedAbility)
@@ -153,14 +131,30 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         if (myAbility.enhancementLevel != selectedAbility.enhancementLevel) return;
 
         upgradeEffectAnimationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.5f);
-        SetUpgradeImageAlpha(1);
+        SetImageAlpha(upgradeEffectImage, 1);
         //Debug.Log("display thingy");
+    }
+
+    private void HandleAbilityEndDrag(DraggableAbility ability)
+    {
+        HandleEndUpgradeDisplay();
+        HandleDragGlow(ability, 1);
     }
 
     private void HandleEndUpgradeDisplay()
     {
         //Debug.Log("end display thingy");
-        SetUpgradeImageAlpha(0);
+        SetImageAlpha(upgradeEffectImage, 0);
+    }
+
+    private void HandleDragGlow(DraggableAbility ability, float to)
+    {
+        if (draggableObjects.Count <= 0) return;
+
+        if (ability == draggableObjects[0])
+        {
+            GlowTo(to, 0.2f);
+        }
     }
 
     public override void RemoveChild(DraggableObject objectToBeRemoved)
@@ -168,14 +162,47 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         if (!objectToBeRemoved) { return; }
         if (!draggableObjects.Contains(objectToBeRemoved)) { return; }
         draggableObjects.Remove(objectToBeRemoved);
+        GlowTo(0.15f, 0.2f);
         FormatChildren();
     }
 
-    private void SetUpgradeImageAlpha(float alpha)
+    private void SetImageAlpha(Image image, float alpha)
     {
-        Color temp = upgradeEffectImage.color;
+        if (image == null) return;
+
+        Color temp = image.color;
         temp.a = alpha;
-        upgradeEffectImage.color = temp;
+        image.color = temp;
+    }
+
+    public void GlowTo(float to, float duration)
+    {
+        if (ActivatedSlotImage == null) return;
+
+        if (glowRoutine != null)
+        { 
+            StopCoroutine(glowRoutine);
+        }
+
+        float from = ActivatedSlotImage.color.a;
+        glowRoutine = StartCoroutine(GlowRoutine(to, from, duration));
+    }
+
+    private IEnumerator GlowRoutine(float to, float from, float duration)
+    {
+        float timer = 0;
+        float t = 0;
+        while (timer < duration)
+        { 
+            timer += Time.deltaTime;
+            t = timer / duration;
+
+            float alpha = Mathf.Lerp(from, to, t);
+            SetImageAlpha(ActivatedSlotImage, alpha);
+            yield return null;
+        }
+
+        SetImageAlpha(ActivatedSlotImage, to);
     }
 
 

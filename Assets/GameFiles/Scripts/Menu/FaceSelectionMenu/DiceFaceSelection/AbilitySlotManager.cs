@@ -1,18 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using Random = UnityEngine.Random;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
-
 
 public class AbilitySlotManager : MonoBehaviour
 {
     //public List<AbilityDescriptor> abilityPool;
 
     public List<AbilitySlot> abilitySlots = new List<AbilitySlot>();
-    public List<AbilitySlot> abilityStorage;
+    public List<AbilitySlot> abilityStorage = new List<AbilitySlot>();
+    [SerializeField] private int storageSlotCount = 0;
     [SerializeField] private GameObject centralAbilityPoint;
     [SerializeField] private GameObject abilityObjectPrefab;
     [SerializeField] private ModifiableActionDescriptor fillAbility;
@@ -20,6 +18,8 @@ public class AbilitySlotManager : MonoBehaviour
     [SerializeField] private InputActionReference quickStore;
 
     [SerializeField] private Entity player;
+
+
     private IModifiableActions modifiableActions;
 
     private List<GameObject> draggableObjects = new List<GameObject>();
