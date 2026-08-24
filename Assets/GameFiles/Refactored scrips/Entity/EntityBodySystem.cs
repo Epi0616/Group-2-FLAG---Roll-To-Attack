@@ -8,6 +8,8 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
     public GameObject body;
+    public Transform headTransform;
+    public Transform baseplateTransform;
     public Quaternion originalRotation;
     public MaterialPropertyBlock block;
     public Renderer renderer;
