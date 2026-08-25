@@ -42,8 +42,8 @@ public class SceneTransitionManager : MonoBehaviour
 
     private IEnumerator LoadIntroFromMainScene()
     {
-        yield return StartCoroutine(sceneLoadManager.LoadSceneAsync(SceneType.IntroCutscene));
-        yield return StartCoroutine(sceneLoadManager.TimeSlicedSceneActivation(SceneType.IntroCutscene));
+        yield return StartCoroutine(sceneLoadManager.LoadSceneAsync(SceneType.IntroScene));
+        yield return StartCoroutine(sceneLoadManager.TimeSlicedSceneActivation(SceneType.IntroScene));
     }
 
     private void HandleArenaTypeChange(SceneType sceneType)
@@ -58,11 +58,11 @@ public class SceneTransitionManager : MonoBehaviour
 
     private IEnumerator IntroStart(float transitionLength)
     {
-        Coroutine load = StartCoroutine(sceneLoadManager.LoadSceneAsync(SceneType.IntroCutscene));
+        Coroutine load = StartCoroutine(sceneLoadManager.LoadSceneAsync(SceneType.IntroScene));
         //yield return new WaitForSeconds(transitionLength / 2);
         yield return load;
 
-        yield return StartCoroutine(sceneLoadManager.TimeSlicedSceneActivation(SceneType.IntroCutscene));
+        yield return StartCoroutine(sceneLoadManager.TimeSlicedSceneActivation(SceneType.IntroScene));
         SetUpIntroScene(transitionLength / 2);
 
         yield return sceneLoadManager.UnloadSceneAsync(selectedArena);
@@ -105,7 +105,7 @@ public class SceneTransitionManager : MonoBehaviour
         SetUpArena(dice.transform.position, selectedArena);
         yield return StartCoroutine(sceneLoadManager.TimeSlicedSceneActivation(selectedArena));
 
-        yield return sceneLoadManager.UnloadSceneAsync(SceneType.IntroCutscene);
+        yield return sceneLoadManager.UnloadSceneAsync(SceneType.IntroScene);
     }
 
     private void SetUpArena(Vector3 dicePosition, SceneType arenaType)
@@ -123,7 +123,7 @@ public class SceneTransitionManager : MonoBehaviour
 
 public enum SceneType
 { 
-    IntroCutscene,
+    IntroScene,
     TutorialArena,
     SandArena
 }
