@@ -29,7 +29,7 @@ public class BaseAIEnemy : AIDrivenEntity,
 
     [Header("IMoveable Properties")]
     [SerializeField] private bool CanMove = true;
-    [SerializeField] private Stat MovementSpeed = new Stat(5f);
+    [SerializeField] private Stat MovementSpeed = new Stat(5f, new rangePair(0.2f, 99999));
     [SerializeField] private List<ConditionalMovementDescriptor> ConditionalMovementDescriptors = new List<ConditionalMovementDescriptor>();
     private List<ConditionalMovement> ConditionalMovements = new List<ConditionalMovement>();
     public bool canMove { get => CanMove; set => CanMove = value; }

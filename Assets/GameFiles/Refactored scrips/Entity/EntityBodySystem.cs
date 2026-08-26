@@ -84,7 +84,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            block.SetFloat(shader.powerRef, Mathf.Lerp(startingPower, target, (timer / duration)));
+            block.SetFloat(shader.powerRef, Mathf.Clamp01(Mathf.Lerp(startingPower, target, (timer / duration))));
             renderer.SetPropertyBlock(block);
             yield return null;
         }
