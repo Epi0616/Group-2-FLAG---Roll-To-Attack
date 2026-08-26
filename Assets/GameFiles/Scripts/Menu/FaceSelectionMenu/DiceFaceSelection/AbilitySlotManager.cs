@@ -14,8 +14,6 @@ public class AbilitySlotManager : MonoBehaviour
     [SerializeField] private GameObject centralAbilityPoint;
     [SerializeField] private GameObject abilityObjectPrefab;
     [SerializeField] private ModifiableActionDescriptor fillAbility;
-    [SerializeField] private InputActionReference cancelSwap;
-    [SerializeField] private InputActionReference quickStore;
 
     [SerializeField] private Entity player;
 
@@ -27,15 +25,11 @@ public class AbilitySlotManager : MonoBehaviour
     private void OnEnable()
     {
         AbilitySlot.selected += RecieveSelectedSlot;
-        cancelSwap.action.performed += context => Deselect();
-        quickStore.action.performed += context => CheckForQuickStoreAction();
     }
 
     private void OnDisable()
     {
         AbilitySlot.selected -= RecieveSelectedSlot;
-        cancelSwap.action.performed -= context => Deselect();
-        quickStore.action.performed -= context => CheckForQuickStoreAction();
     }
     private void Awake()
     {
@@ -213,12 +207,7 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void Deselect()
     {
-        for (int i = 0; i < slotPair.Count; i++)
-        {
-            slotPair[i].Unselected();
-        }
         slotPair.Clear();
-
         SlotDeselected?.Invoke();
     }
 

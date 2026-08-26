@@ -9,7 +9,8 @@ public class ChargedAttackDescriptor : StaticText
         base.OnEnable();
         //DiceFaceSelectionUIManager.DiceFaceSelectionOver += HandleSelectionPhaseOver;
         DicePedestal.ChargeTextAppear += HandleTextAppear;
-        DicePedestal.WaveStartPedestal += HandleWaveStart;
+        DicePedestal.WaveAutoStartPedestal += HandleWaveStart;
+        DicePedestal.WaveHeavyStartPedestal += HandleWaveStart;
     }
 
     protected override void OnDisable()
@@ -17,7 +18,8 @@ public class ChargedAttackDescriptor : StaticText
         base.OnDisable();
         //DiceFaceSelectionUIManager.DiceFaceSelectionOver -= HandleSelectionPhaseOver;
         DicePedestal.ChargeTextAppear -= HandleTextAppear;
-        DicePedestal.WaveStartPedestal -= HandleWaveStart;
+        DicePedestal.WaveAutoStartPedestal += HandleWaveStart;
+        DicePedestal.WaveHeavyStartPedestal -= HandleWaveStart;
     }
 
     protected override void Awake()

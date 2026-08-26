@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class PlayerInterfaceWaveBreakTime : StaticText
@@ -11,13 +9,13 @@ public class PlayerInterfaceWaveBreakTime : StaticText
     protected override void OnEnable()
     {
         base.OnEnable();
-        DicePedestal.WaveStartPedestal += WaitForNextWave;
+        DicePedestal.WaveHeavyStartPedestal += WaitForNextWave;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        DicePedestal.WaveStartPedestal -= WaitForNextWave;
+        DicePedestal.WaveHeavyStartPedestal -= WaitForNextWave;
     }
 
     protected override void Awake()

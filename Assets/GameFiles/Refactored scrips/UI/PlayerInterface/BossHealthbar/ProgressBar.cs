@@ -13,14 +13,16 @@ public class ProgressBar : MonoBehaviour
     private void OnEnable()
     {
         WaveBuilder.EnemiesGenerated += HandleEnemiesGenerated;
-        DicePedestal.WaveStartPedestal += StartDrainProgressBarRoutine;
+        DicePedestal.WaveAutoStartPedestal += StartDrainProgressBarRoutine;
+        DicePedestal.WaveHeavyStartPedestal += StartDrainProgressBarRoutine;
         EnemyHealthSystem.EnemyHasDied += EnemyHasDied;
     }
 
     private void OnDisable()
     {
         WaveBuilder.EnemiesGenerated -= HandleEnemiesGenerated;
-        DicePedestal.WaveStartPedestal -= StartDrainProgressBarRoutine;
+        DicePedestal.WaveAutoStartPedestal -= StartDrainProgressBarRoutine;
+        DicePedestal.WaveHeavyStartPedestal += StartDrainProgressBarRoutine;
         EnemyHealthSystem.EnemyHasDied -= EnemyHasDied;
     }
 

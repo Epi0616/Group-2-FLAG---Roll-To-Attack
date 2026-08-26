@@ -11,7 +11,7 @@ public class PauseMenu : MonoBehaviour
     public static event Action GamePaused;
     public static event Action GameUnPaused;
 
-    [SerializeField] private InputActionReference pauseGame, backButton;
+    [SerializeField] private InputActionReference pauseGame;
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private SettingsUIManager settingsManager;
     [SerializeField] private GameObject[] pauseMenuButtons;
@@ -24,7 +24,6 @@ public class PauseMenu : MonoBehaviour
         PlayerHealthSystem.GameOver += GameOver;
         SettingsUIManager.settingsClosed += SetPauseButtonsVisibility;
         pauseGame.action.performed += HandlePauseGame;
-        backButton.action.performed += HandleBackButton;
     }
 
     private void OnDisable()
@@ -32,7 +31,6 @@ public class PauseMenu : MonoBehaviour
         PlayerHealthSystem.GameOver -= GameOver;
         SettingsUIManager.settingsClosed -= SetPauseButtonsVisibility;
         pauseGame.action.performed -= HandlePauseGame;
-        backButton.action.performed -= HandleBackButton;
     }
     private void HandlePauseGame(InputAction.CallbackContext context)
     {
@@ -41,12 +39,6 @@ public class PauseMenu : MonoBehaviour
             previousUiSelection = EventSystem.current.currentSelectedGameObject;
         }
         TogglePaused();
-    }
-
-    private void HandleBackButton(InputAction.CallbackContext context)
-    {
-        //if (!isGamePaused) return;
-        //TogglePaused();
     }
 
     public void GameOver()

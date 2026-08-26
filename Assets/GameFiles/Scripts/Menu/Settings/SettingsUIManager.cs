@@ -26,16 +26,6 @@ public class SettingsUIManager : MonoBehaviour
     private GameObject currentSettingsScreen;
     private bool settingsOpen = false;
 
-    private void OnEnable()
-    {
-        backButtonAction.action.performed += HandleBackButton;
-    }
-
-    private void OnDisable()
-    {
-        backButtonAction.action.performed -= HandleBackButton;
-    }
-
     private void Start()
     {
         ClearSettingsScreen();
