@@ -100,7 +100,7 @@ public class SeekingRocket : MonoBehaviour
         }
     }
 
-    protected void FlyTowardsTarget()
+    protected virtual void FlyTowardsTarget()
     {
         Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
         transform.rotation = targetRotation;
@@ -188,7 +188,7 @@ public class SeekingRocket : MonoBehaviour
         Vector3 groundedPosition = new(transform.position.x, entity.transform.position.y, transform.position.z); // needs adjusting if enemies can ever reach an elevated position.
 
         //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
-        ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
+        //ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
 
 
         entity.OnTakeDamage(rocketDamage, Color.orange, DamageType.Explosive);

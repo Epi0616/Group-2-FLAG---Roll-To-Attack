@@ -28,7 +28,15 @@ public class KnockbackEffect : BaseDisplacementEffect
 
         Vector3 targetDirection = targetVector.normalized;
         targetDirection.y = 0.3f;
-        rbInterfaceAccess.rb.AddForce(targetDirection * ((force * knockbackInterfaceAccess.knockbackWeightMod.GetFinalValue()) * 10f), ForceMode.VelocityChange);
+        if (knockbackInterfaceAccess != null && knockbackInterfaceAccess.knockbackWeightMod != null)
+        {
+            rbInterfaceAccess.rb.AddForce(targetDirection * ((force * knockbackInterfaceAccess.knockbackWeightMod.GetFinalValue()) * 10f), ForceMode.VelocityChange);
+        }
+        else
+        {
+            rbInterfaceAccess.rb.AddForce(targetDirection * (force * 10f), ForceMode.VelocityChange);
+        }
+        
     } 
 
     protected override void OnRemoval()

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BaseStunEffect : StatusEffect
 {
-    protected IStunable stunable;
+    protected IStunable stunInterfaceAccess;
 
     public BaseStunEffect()
     {
@@ -11,22 +11,21 @@ public class BaseStunEffect : StatusEffect
 
     protected override void OnApplication()
     {
-        if (entityRef is not IStunable stunable) { toBeRemoved = true; return; } 
-        this.stunable = stunable;
-
-        if (!stunable.canBeStunned)
+        stunInterfaceAccess = entityRef as IStunable;
+        if (stunInterfaceAccess == null) { toBeRemoved = true; return; }
+        if (!stunInterfaceAccess.canBeStunned)
         {
             entityRef.textDisplaySystem.DisplayText("Resisted", effectColour, 64);
             toBeRemoved = true;
             return;
         }
 
-        isActive = stunable != null;
+        isActive = stunInterfaceAccess != null;
 
         preventsMovement = true;
         preventsAction = true;       
 
-        stunable.ResetStunInterval();
+        stunInterfaceAccess.ResetStunInterval();
     }
 
     protected override void OnRemoval()
