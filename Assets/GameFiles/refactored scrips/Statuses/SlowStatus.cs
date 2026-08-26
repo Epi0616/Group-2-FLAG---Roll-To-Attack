@@ -14,6 +14,14 @@ public class SlowStatus : StatusEffect
         isStackable = true;
     }
 
+    public SlowStatus(float slowMultiplier, bool wewa)
+    {
+        type = StatusType.BubbleSlow;
+        this.slowMultiplier = slowMultiplier;
+        this.effectColour = Color.white;
+        isStackable = true;
+    }
+
     protected override void OnApplication()
     {
         moveInferfaceAccess = entityRef as IMoveable;

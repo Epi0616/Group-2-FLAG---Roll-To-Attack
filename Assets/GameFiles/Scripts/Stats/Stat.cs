@@ -6,10 +6,19 @@ public class Stat
     [SerializeField] private float baseValue;
     float totalMultiplier = 1;
     float totalAdditive;
+    rangePair clampValues;
+    bool isClamped = false;
 
     public Stat(float baseValue)
     {
         this.baseValue = baseValue;
+        isClamped = false;
+    }
+    public Stat(float baseValue, rangePair clampValues)
+    {
+        this.baseValue = baseValue;
+        this.clampValues = clampValues;
+        isClamped = true;
     }
 
     public void ResetModifiers()
@@ -20,6 +29,7 @@ public class Stat
 
     public float GetFinalValue()
     { 
+        if (isClamped) { return Mathf.Clamp(((baseValue + totalAdditive) * totalMultiplier), baseValue * clampValues.min, baseValue * clampValues.max); }
         return (baseValue + totalAdditive) * totalMultiplier;
     }
     public float GetBaseValue()

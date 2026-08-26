@@ -145,6 +145,15 @@ public class EnhancedSpikeEntity : Entity , IUsesRigidBody, IKnockbackable
             statusSystem.OnRecieveEffect(statusEffect);
         }
     }
+
+    public override void OnRecieveEffect(ActiveStatusEffect statusEffect)
+    {
+        if (statusEffect.effect.type == StatusType.Knockback && !embedded)
+        {
+            statusSystem.OnRecieveEffect(statusEffect);
+        }
+
+    }
   
     private void OnCollisionEnter(Collision collision)
     {

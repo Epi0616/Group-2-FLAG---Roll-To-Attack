@@ -20,6 +20,7 @@ public class RocketSpawnSlamAction : BaseSlamAction , IUpgradableAbility
     public RocketSpawnSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int numRockets, ModifiableActionDescriptor result) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) 
     {
         upgradeResult = result;
+        this.numRockets = numRockets;
     }
 
     public override void StartAction(Entity entity)

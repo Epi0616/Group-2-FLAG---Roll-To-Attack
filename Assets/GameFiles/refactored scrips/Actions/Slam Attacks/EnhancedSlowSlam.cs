@@ -43,7 +43,7 @@ public class EnhancedSlowSlam : BaseSlamAction, IEnhancedAbility
         //ISBS.currentBubbleInstance = (ObjectPoolManager.SpawnObject(ISBS.slowBubblePrefab, slamOrigin, Quaternion.identity)).GetComponent<EnhancedSlowingBubble>();
         //ISBS.currentBubbleInstance.Initialize(ownerEntity, SlowMult, slamRange.GetFinalValue(), 20f, slamColour, enhancementLevel);
         EnhancedSlowingBubble bubble = (ObjectPoolManager.SpawnObject(ISBS.slowBubblePrefab, slamOrigin, Quaternion.identity)).GetComponent<EnhancedSlowingBubble>();
-        bubble.Initialize(ownerEntity, SlowMult, slamRange.GetFinalValue(), 10f, slamColour, enhancementLevel);
+        bubble.Initialize(ownerEntity, SlowMult, slamRange.GetFinalValue(), 5f, slamColour, enhancementLevel);
     }
 
     public override BaseEntityAction Clone()

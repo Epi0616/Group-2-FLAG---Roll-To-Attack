@@ -12,7 +12,7 @@ public class BaseStunEffect : StatusEffect
     protected override void OnApplication()
     {
         stunInterfaceAccess = entityRef as IStunable;
-
+        if (stunInterfaceAccess == null) { toBeRemoved = true; return; }
         if (!stunInterfaceAccess.canBeStunned)
         {
             entityRef.textDisplaySystem.DisplayText("Resisted", effectColour, 64);
