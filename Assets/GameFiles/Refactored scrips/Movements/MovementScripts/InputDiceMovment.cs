@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 [Serializable]
 public class InputDiceMovment : InputEntityMovement
 {
     private Coroutine rotationCorrectionRoutine;
+    private float landedFreezeTime = 0.15f;
+    private float landedTimer = 0;
 
     public InputDiceMovment() { }
     public override void FixedUpdateMovement()
@@ -21,6 +22,7 @@ public class InputDiceMovment : InputEntityMovement
 
         if (!grounded.isGrounded)
         {
+            landedTimer = 0;
             if (ownerEntity is IJumpable)
             {
                 if (!(jumpable).isJumping)
@@ -36,6 +38,9 @@ public class InputDiceMovment : InputEntityMovement
 
     private void RotateBody(Vector3 velocity)
     {
+        landedTimer += Time.fixedDeltaTime;
+        if (landedTimer < landedFreezeTime) return;
+
         Transform bodyTransform = ownerEntity.bodySystem.body.transform;
 
         if (velocity.magnitude <= 0)
@@ -61,9 +66,9 @@ public class InputDiceMovment : InputEntityMovement
 
         Vector3 currentRotation = transform.localEulerAngles;
 
-        float correctedX = currentRotation.x + RotationToTheNearest90(currentRotation.x);
-        float correctedY = currentRotation.y + RotationToTheNearest90(currentRotation.y);
-        float correctedZ = currentRotation.z + RotationToTheNearest90(currentRotation.z);
+        float correctedX = currentRotation.x + FloatToTheNearest90(currentRotation.x);
+        float correctedY = currentRotation.y + FloatToTheNearest90(currentRotation.y);
+        float correctedZ = currentRotation.z + FloatToTheNearest90(currentRotation.z);
 
         Vector3 correctedRotation = new Vector3(correctedX, correctedY, correctedZ);
         rotationCorrectionRoutine = ownerEntity.StartCoroutine(CorrectRotation(transform, correctedRotation, 0.25f));
@@ -89,7 +94,7 @@ public class InputDiceMovment : InputEntityMovement
         rotationCorrectionRoutine = null;
     }
 
-    private float RotationToTheNearest90(float value)
+    private float FloatToTheNearest90(float value)
     { 
         float remainder = value % 90f;
         float difference = (90f - remainder);
