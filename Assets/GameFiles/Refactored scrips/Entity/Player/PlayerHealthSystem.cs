@@ -25,7 +25,7 @@ public class PlayerHealthSystem : EntityHealthSystem
         if (iFrameTimer > 0) return;
 
         currentHealth -= damageAmount;
-        UpdateHealthBar?.Invoke(currentHealth, maxHealth);
+        UpdateHealthBar?.Invoke(currentHealth, (int)maxHealth.GetFinalValue());
         IFrames();
 
         if (currentHealth <= 0)
@@ -37,7 +37,7 @@ public class PlayerHealthSystem : EntityHealthSystem
     public override void OnHeal(int healAmount)
     {
         base.OnHeal(healAmount);
-        UpdateHealthBar?.Invoke(currentHealth, maxHealth);
+        UpdateHealthBar?.Invoke(currentHealth, (int)maxHealth.GetFinalValue());
     }
 
     public override void OnDeath()

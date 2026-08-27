@@ -75,7 +75,6 @@ public class Charger : BaseAIEnemy,
             if (hasCrashed == false)
             {
                 crashPosition = hit.ClosestPoint(transform.position);
-                Debug.Log($"collided with {hit.name}");
             }
             hasCrashed = true;
         }

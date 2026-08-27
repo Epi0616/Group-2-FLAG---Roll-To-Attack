@@ -572,6 +572,7 @@ GameObject:
   - component: {fileID: 902356768}
   - component: {fileID: 902356767}
   - component: {fileID: 902356766}
+  - component: {fileID: 902356769}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -688,6 +689,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 78376256}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &902356769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902356765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 007296c158df5d249a043fc4b61e84e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmbientLight
+  pointLight: {fileID: 902356767}
+  lightVariance: 5000
+  rangeVariance: 50
 --- !u!4 &918110000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6575770766816998000, guid: 4f748a788427b524cbe88953118ae0fd, type: 3}

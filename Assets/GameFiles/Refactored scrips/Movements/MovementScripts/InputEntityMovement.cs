@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 [Serializable]
 public class InputEntityMovement : BaseEntityMovement
 {
-    private IUsesEntityInput usesEntityInput;
-    private IGrounded grounded;
-    private IJumpable jumpable;
-    private Rigidbody rb;
+    protected IUsesEntityInput usesEntityInput;
+    protected IGrounded grounded;
+    protected IJumpable jumpable;
+    protected Rigidbody rb;
     public InputEntityMovement() { }
     public override void StartMovement(Entity ownerEntity)
     {

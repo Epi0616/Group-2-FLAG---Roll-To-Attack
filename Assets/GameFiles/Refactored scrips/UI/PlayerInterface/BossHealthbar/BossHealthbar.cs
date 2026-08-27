@@ -67,7 +67,7 @@ public class BossHealthbar : MonoBehaviour
 
     private void HandleHealthUpdate()
     {
-        float healthPercentage = (float)boss.healthSystem.currentHealth / (float)boss.healthSystem.maxHealth;
+        float healthPercentage = (float)boss.healthSystem.currentHealth / (float)boss.healthSystem.maxHealth.GetFinalValue();
         healthBar.fillAmount = healthPercentage;
         UpdateMilestones(healthPercentage);
     }

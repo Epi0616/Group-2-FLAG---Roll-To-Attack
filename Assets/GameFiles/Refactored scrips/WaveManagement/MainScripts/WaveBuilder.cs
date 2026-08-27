@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,14 +14,27 @@ public class WaveBuilder : MonoBehaviour
     [SerializeField] private int startingBudget;
     [SerializeField] private int budgetIncreasePerWave = 0;
 
+    [Header("wave spice ;)")]
+    [SerializeField] private int regularWaveWeight = 100;
+    [SerializeField] private int smartWaveWeight = 50;
+    [SerializeField] private int hoardWaveWeight = 10;
+
+    [SerializeField] private List<WavePoolObj> smartWavePoolObjs = new();
+    [SerializeField] private List<WavePoolObj> hoardWavePoolObjs = new();
+
     private Dictionary<int, WaveObj> waves = new();
     private List<EntityBlock> entityBlockPool = new();
+    private List<WavePool> smartWavePools = new();
+    private List<WavePool> hoardWavePools = new();
+
     private List<EntityBlock> affordableEntities = new();
 
     private void Start()
     {
         SetUpWavesDictionary();
         entityBlockPool = entityBlocks.Select(c => c.Create()).ToList();
+        smartWavePools = smartWavePoolObjs.Select(c => c.Create()).ToList();
+        hoardWavePools = hoardWavePoolObjs.Select(c => c.Create()).ToList();
     }
 
     private void SetUpWavesDictionary()
@@ -65,6 +77,27 @@ public class WaveBuilder : MonoBehaviour
     }
 
     public Wave GenerateWave(int waveIndex, int budget)
+    { 
+        int weightTotal = regularWaveWeight + smartWaveWeight + hoardWaveWeight;
+        int weightTally = 0;
+        int random = Random.Range(0, weightTotal);
+
+        weightTally += regularWaveWeight;
+        if (random < weightTally)
+        {
+            return GenerateWaveFromBlocks(waveIndex, budget);
+        }
+
+        weightTally += smartWaveWeight;
+        if (random < weightTally)
+        {
+            return GenerateWaveFromPool(smartWavePools, waveIndex, budget);
+        }
+
+        return GenerateWaveFromPool(hoardWavePools, waveIndex, budget);
+    }
+
+    public Wave GenerateWaveFromBlocks(int waveIndex, int budget)
     {
         List<WaveGroup> chosenWaveGroups = new List<WaveGroup>();
 
@@ -97,6 +130,65 @@ public class WaveBuilder : MonoBehaviour
         }
 
         return new Wave(chosenWaveGroups, WaveType.normal);
+    }
+
+    public Wave GenerateWaveFromPool(List<WavePool> pools, int waveIndex, int budget)
+    {
+        if (!SelectEligableWave(pools, waveIndex, out WavePool selectedPool)) return GenerateWaveFromBlocks(waveIndex, budget);
+
+        List<WaveGroup> chosenWaveGroups = new();
+        List<EntityBlock> pooledEntityBlocks = selectedPool.entityBlockObjs.Select(c => c.Create()).ToList();
+
+        int remainingBudget = budget;
+        while (remainingBudget > 0)
+        {
+            affordableEntities.Clear();
+            foreach (var block in pooledEntityBlocks)
+            {
+                if (block.cost <= remainingBudget)
+                {
+                    affordableEntities.Add(block);
+                }
+            }
+
+            if (affordableEntities.Count == 0)
+            {
+                break;
+            }
+            // Select from affordable enemies
+            int choice = Random.Range(0, affordableEntities.Count);
+
+            WaveGroup currentWaveGroup = new WaveGroup(
+                new List<EntityBlock> { affordableEntities[choice] },
+                new List<BaseWaveCondition> { new TimedWaveCondition((1 - (float)waveIndex / 100)) }
+                );
+
+            chosenWaveGroups.Add(currentWaveGroup);
+            remainingBudget -= affordableEntities[choice].cost;
+        }
+
+        return new Wave(chosenWaveGroups, WaveType.normal);
+    }
+
+    private bool SelectEligableWave(List<WavePool> wavePools, int waveIndex, out WavePool selectedPool)
+    {
+        List<WavePool> eligablePools = new();
+        selectedPool = null;
+        
+
+        foreach (WavePool wavePool in wavePools)
+        {
+            if (wavePool.waveRestriction <= waveIndex)
+            { 
+                eligablePools.Add(wavePool);
+            }
+        }
+
+        if (eligablePools.Count == 0) return false;
+
+        int random = Random.Range(0, eligablePools.Count);
+        selectedPool = eligablePools[random];
+        return true;
     }
 
     private void CountEnemiesInWave(Wave wave)

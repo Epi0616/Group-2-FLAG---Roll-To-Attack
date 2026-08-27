@@ -15,14 +15,16 @@ public class FreezeStatus : BaseStunEffect
     }
 
     protected override void ApplyStatModifier()
-    {       
-        if (!stunInterfaceAccess.canBeStunned) return;
+    {
+        if (stunable == null) return;
+        if (!stunable.canBeStunned) return;
         (entityRef as IKnockbackable).slammedDamageMod.AddMultiplierFlat(fragileMultiplier);
     }
 
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
-        if (!stunInterfaceAccess.canBeStunned) return;
+        if (stunable == null) return;
+        if (!stunable.canBeStunned) return;
         if (type == DamageType.Shattered) { toBeRemoved = true; return; }
     }
 
@@ -38,8 +40,8 @@ public class FreezeStatus : BaseStunEffect
 
     protected override void OnFirstStackApplication()
     {
-
-        if (!stunInterfaceAccess.canBeStunned) return;
+        if (stunable == null) return;
+        if (!stunable.canBeStunned) return;
         entityRef.bodySystem.ApplyShader(effectColour, 0.25f, ShaderType.Frozen);
     }
 

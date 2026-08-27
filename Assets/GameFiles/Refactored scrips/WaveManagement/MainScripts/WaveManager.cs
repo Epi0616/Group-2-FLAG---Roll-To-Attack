@@ -9,9 +9,15 @@ public class WaveManager : MonoBehaviour
     public static event Action<float> WaveCountStart;
     public static event Action<int> DisplayWaveNumber;
 
+
+    [SerializeField] private float enemyScalingFactor = 1.5f;
+    [SerializeField] private int enemyScalingIntervalIndex = 10;
+    [SerializeField] private int enemyScalingStartWaveIndex = 20;
+
+    [Header("Setup")]
     [SerializeField] private WaveBuilder waveBuilder;
     [SerializeField] private WaveSpawner waveSpawner;
-    [SerializeField] private float delayBetweenWaves = 5f;
+    [SerializeField] private WaveScaling waveScaling;
     [SerializeField] private int currentWaveIndex = 0;
 
     private int enemiesLeftInWave = 0;
@@ -23,7 +29,8 @@ public class WaveManager : MonoBehaviour
         FireballRainAction.SpawnWaveRequest += SpawnWave;
         WaveBuilder.EnemiesGenerated += HandleEnemiesGenerated;
         EnemyHealthSystem.EnemyHasDied += HandleEnemyDeath;
-        DicePedestal.WaveStartPedestal += StartNextWave;
+        DicePedestal.WaveAutoStartPedestal += StartNextWave;
+        DicePedestal.WaveHeavyStartPedestal += StartNextWave;
         TutorialManager.StartIndexWave += StartIndexedWave;
 
         WaveSpawner.finishedSpawning += HandleFinishedSpawning;
@@ -35,7 +42,8 @@ public class WaveManager : MonoBehaviour
         FireballRainAction.SpawnWaveRequest -= SpawnWave;
         WaveBuilder.EnemiesGenerated -= HandleEnemiesGenerated;
         EnemyHealthSystem.EnemyHasDied -= HandleEnemyDeath;
-        DicePedestal.WaveStartPedestal -= StartNextWave;
+        DicePedestal.WaveAutoStartPedestal += StartNextWave;
+        DicePedestal.WaveHeavyStartPedestal -= StartNextWave;
         TutorialManager.StartIndexWave -= StartIndexedWave;
 
         WaveSpawner.finishedSpawning -= HandleFinishedSpawning;
@@ -58,7 +66,7 @@ public class WaveManager : MonoBehaviour
         RunTimeStatTracker.totalEnemiesKilled += 1;
         if (enemiesLeftInWave <= 0)
         {
-            WaveOver?.Invoke(delayBetweenWaves);
+            WaveOver?.Invoke(2);
         }
     }
 
@@ -69,7 +77,7 @@ public class WaveManager : MonoBehaviour
             WaveCountStart?.Invoke(delayBetweenWaves);
             spawningWave = true;
         }
-        StartCoroutine(SpawnWaveDelay());
+        StartCoroutine(SpawnWaveDelay(delayBetweenWaves));
     }
 
     private void StartIndexedWave(int index)
@@ -79,13 +87,18 @@ public class WaveManager : MonoBehaviour
         waveSpawner.SpawnWave(randomWave, true);       
     }
 
-    private IEnumerator SpawnWaveDelay()
+    private IEnumerator SpawnWaveDelay(float delayBetweenWaves)
     {
         yield return new WaitForSeconds(delayBetweenWaves);
+
         spawningWave = true;
         currentWaveIndex++;
+
         Wave randomWave = waveBuilder.GetNextWave(currentWaveIndex);
+
+        waveScaling.UpdateScaling(currentWaveIndex);
         waveSpawner.SpawnWave(randomWave, true);
+
         UpdateWaveBar?.Invoke(randomWave.waveType);
         DisplayWaveNumber?.Invoke(currentWaveIndex);
 
