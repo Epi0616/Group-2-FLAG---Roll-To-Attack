@@ -15863,7 +15863,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: currentWaveIndex
-      value: 4
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: delayBetweenWaves
@@ -16050,6 +16050,18 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: hoardWaveWeight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: smartWaveWeight
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: regularWaveWeight
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: budgetIncreasePerWave
       value: 50
       objectReference: {fileID: 0}
@@ -16089,6 +16101,46 @@ PrefabInstance:
       propertyPath: 'entityBlocks.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: 6de0166af823ae747a7f5182070d9a16, type: 2}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: hoardWavePoolObjs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: smartWavePoolObjs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: 'hoardWavePoolObjs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 084e61720e414f94dba7d47891f6b0b5, type: 2}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: 'hoardWavePoolObjs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 39a6298646ef58b42a934fdca9824aa6, type: 2}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: 'hoardWavePoolObjs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 83df646eefaba0f40886a15bb64544c3, type: 2}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: 'hoardWavePoolObjs.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4472726b73de795499d0423016704fa4, type: 2}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: 'smartWavePoolObjs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 01a8f4ddbe41d2248888dcdfdf4c6e69, type: 2}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: 'smartWavePoolObjs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cdf434a34ff8ca458824ca95aef2e01, type: 2}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: 'smartWavePoolObjs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 284214344f81e2541bc0b0a91a2db57f, type: 2}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: 'smartWavePoolObjs.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 58b4ba00da6ff574e8eb111c00a54786, type: 2}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: numberedWaves.Array.data[0].waveObj
       value: 
@@ -16172,8 +16224,30 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6996267424616970339, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1209416506}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3557841906107032068, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 612453873528901311}
   m_SourcePrefab: {fileID: 100100000, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+--- !u!1 &612453873528901310 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3557841906107032068, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+  m_PrefabInstance: {fileID: 612453873528901309}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &612453873528901311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612453873528901310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970d830b8b5b17841a2a0123d289bcbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveScaling
+  scalingIncreaseWaveInterval: 10
+  scalingIncreaseWaveRestriction: 10
 --- !u!222 &626060522036405879
 CanvasRenderer:
   m_ObjectHideFlags: 0

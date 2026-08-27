@@ -17,7 +17,6 @@ public class AbilitySlotManager : MonoBehaviour
 
     [SerializeField] private Entity player;
 
-
     private IModifiableActions modifiableActions;
 
     private List<GameObject> draggableObjects = new List<GameObject>();

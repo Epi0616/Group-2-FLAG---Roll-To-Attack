@@ -27,7 +27,7 @@ public class HealthCondition : BaseCondition
     public override bool IsConditionMet()
     {
         //Debug.Log("current health percent: " + ownerEntity.healthSystem.currentHealth / ownerEntity.healthSystem.maxHealth);
-        if ((float)ownerEntity.healthSystem.currentHealth / (float)ownerEntity.healthSystem.maxHealth <= healthThresholdPercentage / 100)
+        if ((float)ownerEntity.healthSystem.currentHealth / (float)ownerEntity.healthSystem.maxHealth.GetFinalValue() <= healthThresholdPercentage / 100)
         {
             return !inverse;
         }

@@ -9,8 +9,15 @@ public class WaveManager : MonoBehaviour
     public static event Action<float> WaveCountStart;
     public static event Action<int> DisplayWaveNumber;
 
+
+    [SerializeField] private float enemyScalingFactor = 1.5f;
+    [SerializeField] private int enemyScalingIntervalIndex = 10;
+    [SerializeField] private int enemyScalingStartWaveIndex = 20;
+
+    [Header("Setup")]
     [SerializeField] private WaveBuilder waveBuilder;
     [SerializeField] private WaveSpawner waveSpawner;
+    [SerializeField] private WaveScaling waveScaling;
     [SerializeField] private int currentWaveIndex = 0;
 
     private int enemiesLeftInWave = 0;
@@ -83,10 +90,15 @@ public class WaveManager : MonoBehaviour
     private IEnumerator SpawnWaveDelay(float delayBetweenWaves)
     {
         yield return new WaitForSeconds(delayBetweenWaves);
+
         spawningWave = true;
         currentWaveIndex++;
+
         Wave randomWave = waveBuilder.GetNextWave(currentWaveIndex);
+
+        waveScaling.UpdateScaling(currentWaveIndex);
         waveSpawner.SpawnWave(randomWave, true);
+
         UpdateWaveBar?.Invoke(randomWave.waveType);
         DisplayWaveNumber?.Invoke(currentWaveIndex);
 
