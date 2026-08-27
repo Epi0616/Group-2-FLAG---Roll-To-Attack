@@ -27,7 +27,7 @@ public class UpgradeManager : MonoBehaviour
     //private void OnEnable()
     //{
     //    ContinueButton.Hide += ReturnAbilitiesToInventory
-    //}
+    //} 
 
     private void Awake()
     {

@@ -8,13 +8,12 @@ public class WaveScaling : MonoBehaviour
     [SerializeField] private int scalingIncreaseWaveInterval = 10;
     [SerializeField] private int scalingIncreaseWaveRestriction = 10;
 
-
     public void UpdateScaling(int waveNumber)
     {
-        int wavesPastRestriction = scalingIncreaseWaveRestriction - waveNumber;
+        int wavesPastRestriction = waveNumber - scalingIncreaseWaveRestriction;
         if (wavesPastRestriction < 0) return;
         
-        int iterations = (waveNumber / scalingIncreaseWaveRestriction);
+        int iterations = (wavesPastRestriction / scalingIncreaseWaveRestriction);
 
         setScaling?.Invoke(iterations);
     }

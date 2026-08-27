@@ -143,7 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029530d3f515a6f469b6e34502414c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthSystem
-  maxHealth: 25
+  maxHealth:
+    baseValue: 25
   currentHealth: 0
   isDead: 0
 --- !u!114 &3840680901230752233
@@ -171,6 +172,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBodySystem
   body: {fileID: 6555235209813466978}
+  headTransform: {fileID: 0}
+  baseplateTransform: {fileID: 0}
   originalRotation: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
   renderer: {fileID: 8138109656826541111}
 --- !u!114 &1160243537980672906

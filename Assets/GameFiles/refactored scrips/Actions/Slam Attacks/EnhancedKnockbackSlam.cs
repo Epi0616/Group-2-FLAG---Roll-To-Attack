@@ -21,6 +21,7 @@ public class EnhancedKnockbackSlam : BaseSlamAction , IEnhancedAbility
     {
         base.StartAction(entity);
         IKBFS = ownerEntity as IKnockbackFieldSpawner;
+        Debug.Log($"enhancement level {enhancementLevel}");
     }
 
     //public override void SpawnSlamStartVFX()
