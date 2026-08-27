@@ -73,6 +73,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     private void OnEnable()
     {
         WaveManager.WaveOver += WaveOver;
+        WaveScaling.setScaling += SetAbilityScaling;
         TutorialManager.DisplayDiceUI += WaveOver;
         AbilityPanel.AbilitySelected += AbilitySelected;
         HealthOption.HealthChosen += HealthChosen;
@@ -82,6 +83,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     private void OnDisable()
     {
         WaveManager.WaveOver -= WaveOver;
+        WaveScaling.setScaling -= SetAbilityScaling;
         TutorialManager.DisplayDiceUI -= WaveOver;
         AbilityPanel.AbilitySelected -= AbilitySelected;
         HealthOption.HealthChosen -= HealthChosen;
@@ -153,22 +155,8 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         AbilitySelectionUI.SetActive(false);
     }
 
-    private bool CheckForFullDiceSlots()
-    {
-        Debug.Log("Checking For Full");
-        bool slotsAllFull = true;
-        List<AbilitySlot> abilitySlots = abilitySlotManager.abilitySlots;
-        for (int i = 0; i < abilitySlots.Count; i++)
-        {
-            if (!abilitySlots[i].IsFull())
-            {
-                slotsAllFull = false;
-                abilitySlots[i].DisplayEmptyAnimation(0.5f);
-                abilitySlotManager.FillSlotWithBasic(i);
-            }
-        }
-
-        if (!slotsAllFull) return false;
-        return true;
+    private void SetAbilityScaling(int iterations)
+    { 
+        abilitySelectionManager.SetAbilityLevelChance(iterations);
     }
 }

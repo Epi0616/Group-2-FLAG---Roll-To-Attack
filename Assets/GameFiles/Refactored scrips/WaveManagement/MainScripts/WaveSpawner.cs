@@ -9,6 +9,7 @@ public class WaveSpawner : MonoBehaviour
     public static event Action finishedSpawning;
     public static event Action waveInstanceFinishedSpawning;
 
+    [SerializeField] private float healthScaleIncrement;
     public Stat enemyHealthScale { get; private set; }
 
     [Header("Setup")]
@@ -24,6 +25,16 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 
     private HashSet<Coroutine> activeRoutines = new HashSet<Coroutine>();
+
+    private void OnEnable()
+    {
+        WaveScaling.setScaling += SetScaling;
+    }
+
+    private void OnDisable()
+    {
+        WaveScaling.setScaling -= SetScaling;
+    }
 
     private void Awake()
     {
@@ -181,7 +192,7 @@ public class WaveSpawner : MonoBehaviour
             enemy.isWaveEnemy = isWaveEnemy;
         }
         //spawnedEntityReference.Initialize();
-        spawnedEntityReference.healthSystem.maxHealth.AddMultiplier(enemyHealthScale.GetFinalValue());
+        spawnedEntityReference.healthSystem.maxHealth.SetMultiplier(enemyHealthScale.GetFinalValue());
         spawnedEntityReference.textDisplaySystem.targetCamera = cameraRef;
 
         spawnedEntityReference.Reset();        
@@ -231,5 +242,10 @@ public class WaveSpawner : MonoBehaviour
         Vector2 spawnCentreArea = new Vector2(chosenPoint.x, chosenPoint.z);
         Vector2 randomArea = spawnCentreArea + Random.insideUnitCircle * spawnPointAreaRadius;
         return new Vector3(randomArea.x, chosenPoint.y, randomArea.y);
+    }
+
+    private void SetScaling(int iterations)
+    {
+        enemyHealthScale.SetMultiplier(MathF.Pow(healthScaleIncrement, iterations));
     }
 }

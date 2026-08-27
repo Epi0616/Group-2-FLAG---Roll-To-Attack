@@ -8088,6 +8088,10 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6377955820292495775, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
+      propertyPath: maxHealth.baseValue
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6615806333670586809, guid: d00d79534cfe7eb4397a3e730ed720e9, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -15842,6 +15846,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 555950544}
     - target: {fileID: 964126642688001530, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: healthScaleIncrement
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 964126642688001530, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: spawnPoints.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -15862,8 +15870,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: waveScaling
+      value: 
+      objectReference: {fileID: 612453873528901311}
+    - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: currentWaveIndex
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: delayBetweenWaves
@@ -16055,11 +16067,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: smartWaveWeight
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: regularWaveWeight
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: budgetIncreasePerWave
@@ -16103,7 +16115,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 6de0166af823ae747a7f5182070d9a16, type: 2}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: hoardWavePoolObjs.Array.size
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: smartWavePoolObjs.Array.size
@@ -16112,7 +16124,7 @@ PrefabInstance:
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: 'hoardWavePoolObjs.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 084e61720e414f94dba7d47891f6b0b5, type: 2}
+      objectReference: {fileID: 11400000, guid: 4472726b73de795499d0423016704fa4, type: 2}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: 'hoardWavePoolObjs.Array.data[1]'
       value: 
@@ -18991,7 +19003,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3994452088990171394, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: visibleForTesting
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3994452088990171394, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: AbilitySelectionPrefab

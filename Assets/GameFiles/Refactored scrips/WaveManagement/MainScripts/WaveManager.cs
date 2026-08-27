@@ -9,11 +9,6 @@ public class WaveManager : MonoBehaviour
     public static event Action<float> WaveCountStart;
     public static event Action<int> DisplayWaveNumber;
 
-
-    [SerializeField] private float enemyScalingFactor = 1.5f;
-    [SerializeField] private int enemyScalingIntervalIndex = 10;
-    [SerializeField] private int enemyScalingStartWaveIndex = 20;
-
     [Header("Setup")]
     [SerializeField] private WaveBuilder waveBuilder;
     [SerializeField] private WaveSpawner waveSpawner;

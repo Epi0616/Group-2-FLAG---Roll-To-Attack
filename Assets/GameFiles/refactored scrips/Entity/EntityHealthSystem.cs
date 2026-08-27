@@ -5,7 +5,7 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
 
-    public Stat maxHealth;
+    public Stat maxHealth = new(100);
     public int currentHealth;
     public bool isDead;
 
