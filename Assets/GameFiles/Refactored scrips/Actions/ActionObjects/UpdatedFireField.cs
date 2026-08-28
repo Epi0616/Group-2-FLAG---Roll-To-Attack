@@ -23,7 +23,14 @@ public class UpdatedFireField : FireField
         //this.color.a = 0.3f;
        // AdjustColors();
         AdjustScale(radius);
-        
+
+        foreach (MeshRenderer r in VFXRenderers)
+        {
+            r.GetPropertyBlock(block);
+            block.SetFloat("_Opacity", 1);
+            r.SetPropertyBlock(block);
+        }
+
         StartCoroutine(TickDamage(lifespan, tickRate, tickDamage));
     }
 
@@ -53,14 +60,21 @@ public class UpdatedFireField : FireField
 
     protected override IEnumerator FadeAway()
     {
-        //while (color.a > 0)
-        //{
-        //    color.a = Mathf.Clamp01(color.a -= Time.deltaTime * 0.5f);
-        //    AdjustColors();
-        //    yield return null;
-        //}
-
-        //color.a = 0;
-        yield return null;
+        float timer = 0;
+        float a = 1;
+        // Add fade for Ring mat got from the ring renderer
+        while (timer < 0.5f)
+        {
+            //Debug.Log("Fadomg");
+            timer += Time.deltaTime;
+            a = Mathf.Clamp01(Mathf.Lerp(1f, 0, timer / 0.5f));
+            foreach (MeshRenderer r in VFXRenderers)
+            {
+                r.GetPropertyBlock(block);
+                block.SetFloat("_Opacity", a);
+                r.SetPropertyBlock(block);
+            }
+            yield return null;
+        }
     }
 }

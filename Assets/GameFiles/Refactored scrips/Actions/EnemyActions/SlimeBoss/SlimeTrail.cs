@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class SlimeTrail : BaseEntityAction
@@ -63,7 +64,9 @@ public class SlimeTrail : BaseEntityAction
 
         if (Physics.Raycast(ray, out RaycastHit hit, 10, grounded.groundLayer))
         {
-            FireField slimeField = ObjectPoolManager.SpawnObject(slimeTrail.slimeFieldObj, hit.point, Quaternion.identity).GetComponent<FireField>();
+            Vector3 fieldPos = hit.point;
+            fieldPos.y += Random.Range(-0.5f, 0.5f);
+            FireField slimeField = ObjectPoolManager.SpawnObject(slimeTrail.slimeFieldObj, fieldPos, Quaternion.identity).GetComponent<FireField>();
             slimeField.Initialize(ownerEntity, Color.pink, radius * slimeSplit.scale, initialDamage, tickDamage, duration, tickRate);
         }
     }
