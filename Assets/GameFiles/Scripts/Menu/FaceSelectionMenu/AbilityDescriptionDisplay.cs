@@ -14,8 +14,6 @@ public class AbilityDescriptionDisplay : MonoBehaviour
     {
         DraggableAbility.OnAbilityHoverStart += UpdateCurrentDisplay;
         DraggableAbility.OnAbilityHoverEnd += HideDisplay;
-        AbilitySlot.OnSlotHoverStart += UpdateCurrentDisplay;
-        AbilitySlot.OnSlotHoverEnd += HideDisplay;
 
         abilityNameText.StringChanged += UpdateName;
         abilityDescriptionText.StringChanged += UpdateDescription;
@@ -25,8 +23,6 @@ public class AbilityDescriptionDisplay : MonoBehaviour
     {
         DraggableAbility.OnAbilityHoverStart -= UpdateCurrentDisplay;
         DraggableAbility.OnAbilityHoverEnd -= HideDisplay;
-        AbilitySlot.OnSlotHoverStart -= UpdateCurrentDisplay;
-        AbilitySlot.OnSlotHoverEnd -= HideDisplay;
 
         abilityNameText.StringChanged -= UpdateName;
         abilityDescriptionText.StringChanged -= UpdateDescription;

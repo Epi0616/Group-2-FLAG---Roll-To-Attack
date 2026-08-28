@@ -10,6 +10,8 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private Vector3 offset;
     [SerializeField] private Camera cam;
 
+    private Coroutine breathingRoutine;
+
     private void OnEnable()
     {
         DiceProp.GameStart += MoveIntoArena;
@@ -44,6 +46,7 @@ public class CameraMovement : MonoBehaviour
         StartCoroutine(FovToFrom(transitionLength, roomFov, cam.fieldOfView));
         StartCoroutine(PositionToFrom(transitionLength, roomOverviewPosition, transform.position));
         StartCoroutine(RotationToFrom(transitionLength, roomOverviewRotation, transform.rotation));
+        breathingRoutine = StartCoroutine(StartBreathingRoutine(transitionLength));
     }
 
     private void MoveToRoomOverview(float transitionLength)
@@ -51,6 +54,7 @@ public class CameraMovement : MonoBehaviour
         StartCoroutine(FovToFrom(transitionLength, roomFov, cam.fieldOfView));
         StartCoroutine(EaseOutPositionToFrom(transitionLength, roomOverviewPosition, transform.position));
         StartCoroutine(EaseOutRotationToFrom(transitionLength, roomOverviewRotation, transform.rotation));
+        breathingRoutine = StartCoroutine(StartBreathingRoutine(transitionLength));
     }
 
     private void MoveIntoArena(GameObject dice, DiceType diceType)
@@ -60,6 +64,7 @@ public class CameraMovement : MonoBehaviour
         StartCoroutine(FovToFrom(SceneTransitionManager.transitionLength, roomFov, cam.fieldOfView));
         StartCoroutine(PositionToFrom(SceneTransitionManager.transitionLength, arenaPlayPosition, transform.position));
         StartCoroutine(RotationToFrom(SceneTransitionManager.transitionLength, arenaPlayRotation, transform.rotation));
+        EndBreathingRoutine();
     }
 
     private void MoveToMainMenu(float transitionLength)
@@ -67,6 +72,7 @@ public class CameraMovement : MonoBehaviour
         StartCoroutine(FovToFrom(transitionLength, menuFov, cam.fieldOfView));
         StartCoroutine(EaseOutPositionToFrom(transitionLength, mainMenuPosition, transform.position));
         StartCoroutine(EaseOutRotationToFrom(transitionLength, menuRotation, transform.rotation));
+        EndBreathingRoutine();
     }
 
     private void MoveToSettings(float transitionLength)
@@ -74,6 +80,7 @@ public class CameraMovement : MonoBehaviour
         StartCoroutine(FovToFrom(transitionLength, menuFov, cam.fieldOfView));
         StartCoroutine(EaseOutPositionToFrom(transitionLength, settingsPosition, transform.position));
         StartCoroutine(EaseOutRotationToFrom(transitionLength, menuRotation, transform.rotation));
+        EndBreathingRoutine();
     }
 
     private IEnumerator PositionToFrom(float duration, Vector3 to, Vector3 from)
@@ -157,6 +164,40 @@ public class CameraMovement : MonoBehaviour
 
             cam.fieldOfView = Mathf.Lerp(from, to, easeOutT);
             yield return null;
+        }
+    }
+
+    private void EndBreathingRoutine()
+    {
+        if (breathingRoutine != null)
+        {
+            StopCoroutine(breathingRoutine);
+            breathingRoutine = null;
+        }
+    }
+
+    private IEnumerator StartBreathingRoutine(float delay)
+    {
+        EndBreathingRoutine();
+        yield return new WaitForSeconds(delay);
+        yield return BreathingRoutine();
+    }
+
+    private IEnumerator BreathingRoutine()
+    {
+        Vector3 startPosition = transform.position;
+        Vector3 topBreath = startPosition + new Vector3(0, 1f, 0);
+        Vector3 bottomBreath = startPosition + new Vector3(0, -1, 0);
+
+        yield return new WaitForSeconds(1);
+        yield return PositionToFrom(2.5f, topBreath, startPosition);
+
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            yield return PositionToFrom(5, bottomBreath, topBreath);
+            yield return new WaitForSeconds(1);
+            yield return PositionToFrom(5, topBreath, bottomBreath);
         }
     }
 }

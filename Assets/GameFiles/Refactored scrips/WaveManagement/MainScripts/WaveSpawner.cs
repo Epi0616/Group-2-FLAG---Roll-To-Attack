@@ -9,6 +9,10 @@ public class WaveSpawner : MonoBehaviour
     public static event Action finishedSpawning;
     public static event Action waveInstanceFinishedSpawning;
 
+    [SerializeField] private float healthScaleIncrement;
+    public Stat enemyHealthScale { get; private set; }
+
+    [Header("Setup")]
     [SerializeField] private GameObject playerRef;
     [SerializeField] private Camera cameraRef;
     [SerializeField] private List<GameObject> spawnPoints;
@@ -21,6 +25,21 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 
     private HashSet<Coroutine> activeRoutines = new HashSet<Coroutine>();
+
+    private void OnEnable()
+    {
+        WaveScaling.setScaling += SetScaling;
+    }
+
+    private void OnDisable()
+    {
+        WaveScaling.setScaling -= SetScaling;
+    }
+
+    private void Awake()
+    {
+        enemyHealthScale = new Stat(1);
+    }
 
     public void SpawnWave(Wave currentWave, bool isWaveEnemy)
     {
@@ -151,6 +170,11 @@ public class WaveSpawner : MonoBehaviour
 
         GameObject spawnedEntity = ObjectPoolManager.SpawnObject(obj, spawnPosFinal, Quaternion.identity);
 
+        EnemySetup(spawnedEntity, spawnModifier, isWaveEnemy);
+    }
+
+    private void EnemySetup(GameObject spawnedEntity, ISpawnModifier spawnModifier, bool isWaveEnemy)
+    {
         if (spawnedEntity.TryGetComponent<AIDrivenEntity>(out AIDrivenEntity entity))
         {
             if (spawnModifier.spawnModifier != SpawnModifier.None)
@@ -168,8 +192,10 @@ public class WaveSpawner : MonoBehaviour
             enemy.isWaveEnemy = isWaveEnemy;
         }
         //spawnedEntityReference.Initialize();
-        spawnedEntityReference.Reset();
+        spawnedEntityReference.healthSystem.maxHealth.SetMultiplier(enemyHealthScale.GetFinalValue());
         spawnedEntityReference.textDisplaySystem.targetCamera = cameraRef;
+
+        spawnedEntityReference.Reset();        
     }
 
     private Vector3 PickSpawnAreaCircular()
@@ -216,5 +242,10 @@ public class WaveSpawner : MonoBehaviour
         Vector2 spawnCentreArea = new Vector2(chosenPoint.x, chosenPoint.z);
         Vector2 randomArea = spawnCentreArea + Random.insideUnitCircle * spawnPointAreaRadius;
         return new Vector3(randomArea.x, chosenPoint.y, randomArea.y);
+    }
+
+    private void SetScaling(int iterations)
+    {
+        enemyHealthScale.SetMultiplier(MathF.Pow(healthScaleIncrement, iterations));
     }
 }

@@ -7,14 +7,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.Localization;
 using UnityEngine.UI;
 
-public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandler
+public class AbilitySlot : AbilityDropZoneParent
 {
     public static event Action<AbilitySlot> selected;
     public static event Action unselected;
     public static event Action<Vector3> selectedPos;
 
-    [SerializeField] private AnimationOnDemandManager upgradeEffectAnimationManager;
-    [SerializeField] private Image upgradeEffectImage, ActivatedSlotImage;
+    [SerializeField] private Image SlotGlow;
+    [SerializeField] bool diceSlot;
+    [SerializeField] float baseGlow = 0;
+    [SerializeField] Color baseColor, upgradeColor;
 
     private Coroutine glowRoutine;
     private bool isSelected = false;
@@ -23,8 +25,7 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
     {
         base.Awake();
         objectLimit = 1;
-        SetImageAlpha(ActivatedSlotImage, 0.15f);
-        SetImageAlpha(upgradeEffectImage, 0);
+        SetImageAlpha(SlotGlow, baseColor, baseGlow);
     }
 
     protected void OnEnable()
@@ -37,13 +38,6 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
     {
         DraggableAbility.OnAbilityDragStart -= HandleAbilityStartDrag;
         DraggableAbility.OnAbilityDragEnd -= HandleAbilityEndDrag;
-    }
-
-    private void Start()
-    {
-        upgradeEffectAnimationManager.Initialize();
-
-        upgradeEffectAnimationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.01f);
     }
 
     public DraggableObject GetChild()
@@ -60,15 +54,16 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         {
             SwapAbilitiesWithUpgrade(newObject);
             //SwapAbilitiesWithUpgrade(newObject);
-            CheckForDisplayRequired();
             return;
         }
 
         draggableObjects.Add(newObject);
         newObject.SetCurrentParent(this);
         FormatChildren();
-        CheckForDisplayRequired();
-        GlowTo(1, 0.2f);
+        if (diceSlot)
+        {
+            GlowTo(1, baseColor, 0.2f, false);
+        }
     }
 
     private void SwapAbilitiesWithUpgrade(DraggableObject newObject)
@@ -86,7 +81,10 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
 
             draggableObjects.Add(newObject);
             newObject.SetCurrentParent(this);
-            GlowTo(1, 0.2f);
+            if (diceSlot)
+            {
+                GlowTo(1, baseColor, 0.2f, false);
+            }
             FormatChildren();
 
             newObjectsParentAtStartOfDrag.AddChild(myCurrentObject);
@@ -102,7 +100,10 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
 
             draggableObjects.Add(newObject);
             newObject.SetCurrentParent(this);
-            GlowTo(1, 0.2f);
+            if (diceSlot)
+            {
+                GlowTo(1, baseColor, 0.2f, false);
+            }
             FormatChildren();
 
             if (centralAbilitySlot != null)
@@ -115,8 +116,9 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
 
     private void HandleAbilityStartDrag(DraggableAbility ability)
     {
+        //GlowTo(baseGlow, baseColor, 0.2f, false);
+        HandleDragGlow(baseGlow, ability);
         HandleUpgradeDisplay(ability.GetAbility());
-        HandleDragGlow(ability, 0.15f);
     }
 
     private void HandleUpgradeDisplay(ModifiableAction selectedAbility)
@@ -130,30 +132,29 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         if (myAbility.abilityType != selectedAbility.abilityType) return;
         if (myAbility.enhancementLevel != selectedAbility.enhancementLevel) return;
 
-        upgradeEffectAnimationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.5f);
-        SetImageAlpha(upgradeEffectImage, 1);
-        //Debug.Log("display thingy");
+        GlowTo(1, upgradeColor, 0.2f, false);
+        Debug.Log("display thingy");
     }
 
     private void HandleAbilityEndDrag(DraggableAbility ability)
     {
-        HandleEndUpgradeDisplay();
-        HandleDragGlow(ability, 1);
+        if (draggableObjects.Count <= 0) return;
+        if (diceSlot)
+        {
+            GlowTo(1, baseColor, 0.2f, false);
+            return;
+        }
+
+        GlowTo(baseGlow, baseColor, 0.2f, true);
     }
 
-    private void HandleEndUpgradeDisplay()
-    {
-        //Debug.Log("end display thingy");
-        SetImageAlpha(upgradeEffectImage, 0);
-    }
-
-    private void HandleDragGlow(DraggableAbility ability, float to)
+    private void HandleDragGlow(float to, DraggableAbility ability)
     {
         if (draggableObjects.Count <= 0) return;
 
         if (ability == draggableObjects[0])
         {
-            GlowTo(to, 0.2f);
+            GlowTo(to, baseColor, 0.2f, false);
         }
     }
 
@@ -162,8 +163,17 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         if (!objectToBeRemoved) { return; }
         if (!draggableObjects.Contains(objectToBeRemoved)) { return; }
         draggableObjects.Remove(objectToBeRemoved);
-        GlowTo(0.15f, 0.2f);
+        GlowTo(baseGlow, baseColor, 0.2f, false);
         FormatChildren();
+    }
+
+    private void SetImageAlpha(Image image, Color color, float alpha)
+    {
+        if (image == null) return;
+
+        Color temp = color;
+        temp.a = alpha;
+        image.color = temp;
     }
 
     private void SetImageAlpha(Image image, float alpha)
@@ -175,20 +185,26 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
         image.color = temp;
     }
 
-    public void GlowTo(float to, float duration)
+    public void GlowTo(float to, Color color, float duration, bool colorAfter)
     {
-        if (ActivatedSlotImage == null) return;
+        if (SlotGlow == null) return;
 
         if (glowRoutine != null)
         { 
             StopCoroutine(glowRoutine);
         }
 
-        float from = ActivatedSlotImage.color.a;
-        glowRoutine = StartCoroutine(GlowRoutine(to, from, duration));
+        float from = SlotGlow.color.a;
+
+        if (colorAfter)
+        {
+            glowRoutine = StartCoroutine(GlowRoutineColorAfter(to, from, color, duration));
+            return;
+        }
+        glowRoutine = StartCoroutine(GlowRoutine(to, from, color, duration));
     }
 
-    private IEnumerator GlowRoutine(float to, float from, float duration)
+    private IEnumerator GlowRoutine(float to, float from, Color color, float duration)
     {
         float timer = 0;
         float t = 0;
@@ -198,80 +214,27 @@ public class AbilitySlot : AbilityDropZoneParent, ISelectHandler, IDeselectHandl
             t = timer / duration;
 
             float alpha = Mathf.Lerp(from, to, t);
-            SetImageAlpha(ActivatedSlotImage, alpha);
+            SetImageAlpha(SlotGlow, color, alpha);
             yield return null;
         }
 
-        SetImageAlpha(ActivatedSlotImage, to);
+        SetImageAlpha(SlotGlow, color, to);
     }
 
-
-    //controller functions
-    [SerializeField] private Button button;
-    [SerializeField] private Image image;
-    public static event Action<LocalizedString, LocalizedString, Sprite> OnSlotHoverStart;
-    public static event Action OnSlotHoverEnd;
-
-    void ISelectHandler.OnSelect(BaseEventData eventData)
+    private IEnumerator GlowRoutineColorAfter(float to, float from, Color color, float duration)
     {
-        OnHoverStart();
-        selectedPos?.Invoke(transform.position);
-    }
-
-    void IDeselectHandler.OnDeselect(BaseEventData eventData)
-    {
-        onHoverEnd();
-        unselected?.Invoke();
-    }
-
-    private void CheckForDisplayRequired()
-    {
-        if (!(EventSystem.current.currentSelectedGameObject == this)) return;
-        OnHoverStart();
-    }
-
-    public void OnHoverStart()
-    {
-        if (draggableObjects.Count == 0) return;
-        if (draggableObjects[0] == null) return;
-
-        ModifiableAction myAbility = (draggableObjects[0] as DraggableAbility).GetAbility();
-        LocalizedString name = myAbility.actionName;
-        LocalizedString description = myAbility.actionDescription;
-        Sprite sprite = null;
-        if (myAbility.sprite != null)
+        float timer = 0;
+        float t = 0;
+        while (timer < duration)
         {
-            sprite = myAbility.sprite;
+            timer += Time.deltaTime;
+            t = timer / duration;
+
+            float alpha = Mathf.Lerp(from, to, t);
+            SetImageAlpha(SlotGlow, alpha);
+            yield return null;
         }
-        (draggableObjects[0] as DraggableAbility).SizeUp();
 
-        OnSlotHoverStart?.Invoke(name, description, sprite);
-    }
-
-    public void onHoverEnd()
-    {
-        if (draggableObjects.Count == 0) return;
-        if (draggableObjects[0] == null) return;
-
-        OnSlotHoverEnd?.Invoke();
-        if (isSelected == false)
-        {
-            image.color = button.colors.normalColor;
-        }
-        (draggableObjects[0] as DraggableAbility).SizeDown();
-    }
-
-    public void Selected()
-    {
-        image.color = button.colors.selectedColor;
-        selected?.Invoke(this);
-        isSelected = true;
-    }
-
-    public void Unselected()
-    {
-        unselected?.Invoke();
-        image.color = button.colors.normalColor;
-        isSelected = false;
+        SetImageAlpha(SlotGlow, color, to);
     }
 }

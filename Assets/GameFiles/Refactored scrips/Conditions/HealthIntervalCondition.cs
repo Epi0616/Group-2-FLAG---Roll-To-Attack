@@ -39,7 +39,7 @@ public class HealthIntervalCondition : BaseCondition
 
     private float GetCurrentHealthPercentage()
     { 
-        return (float)ownerEntity.healthSystem.currentHealth / (float)ownerEntity.healthSystem.maxHealth;
+        return (float)ownerEntity.healthSystem.currentHealth / (float)ownerEntity.healthSystem.maxHealth.GetFinalValue();
     }
 
     private float GetCurrentHealthGate()

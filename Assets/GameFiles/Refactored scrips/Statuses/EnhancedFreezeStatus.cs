@@ -34,7 +34,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     {
         if (type == DamageType.Shattered || hasProcced) { toBeRemoved = true; return; }
 
-        if ((entityRef.healthSystem.currentHealth - damage.GetFinalValue()) < (entityRef.healthSystem.maxHealth * (0.3f + (enhancementLevel / 10))))
+        if ((entityRef.healthSystem.currentHealth - damage.GetFinalValue()) < ((int)entityRef.healthSystem.maxHealth.GetFinalValue() * (0.3f + (enhancementLevel / 10))))
         {
             if (canBeShattered && !hasProcced)
             {

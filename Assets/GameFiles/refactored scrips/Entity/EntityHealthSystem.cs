@@ -5,19 +5,24 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
 {
     public Entity OwnerEntity { get; set; }
 
-    public int maxHealth;
+    public Stat maxHealth = new(100);
     public int currentHealth;
     public bool isDead;
+
+    private void Awake()
+    {
+        
+    }
 
     public virtual void InitialiseSystem(Entity entity)
     {
         OwnerEntity = entity;
-        currentHealth = maxHealth;
+        currentHealth = (int)maxHealth.GetFinalValue();
     }
 
     public virtual void ResetSystem()
     {
-        currentHealth = maxHealth;
+        currentHealth = (int)maxHealth.GetFinalValue();
         isDead = false;
     }
 
@@ -31,7 +36,7 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
     }
     public virtual void OnHeal(int healAmount)
     {
-        currentHealth = Mathf.Clamp(currentHealth + healAmount, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth + healAmount, 0, (int)maxHealth.GetFinalValue());
     }
     public virtual void OnDeath()
     {

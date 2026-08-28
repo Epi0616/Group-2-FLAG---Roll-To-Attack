@@ -256,6 +256,8 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
+  StunInterval: 0
+  CurrentStunInterval: 0
   AnimationManager: {fileID: 2298960490839970875}
   SpawnModifier: 0
   IsWaveEnemy: 0
@@ -309,7 +311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029530d3f515a6f469b6e34502414c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthSystem
-  maxHealth: 100
+  maxHealth:
+    baseValue: 100
   currentHealth: 0
   isDead: 0
 --- !u!114 &5079572872254600485
@@ -337,6 +340,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBodySystem
   body: {fileID: 2635858875289474904}
+  headTransform: {fileID: 0}
+  baseplateTransform: {fileID: 0}
   originalRotation: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
   renderer: {fileID: 7129364120025532715}
 --- !u!114 &8997692379943264303

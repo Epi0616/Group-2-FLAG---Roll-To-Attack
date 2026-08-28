@@ -109,14 +109,10 @@ public class PlayerBaseAttackState : PlayerMovementState
         for (int i = 0; i < collisions; i++)
         {
             if (colliders[i] == null) { continue; }
-            if (colliders[i].gameObject.CompareTag("Pedestal"))
-            {
-                if (player.impactSpeed.GetFinalValue() > player.impactSpeed.GetBaseValue())
-                {
-                    colliders[i].gameObject.GetComponent<DicePedestal>().ActivatePedestalWithHeavy();
-                }
-                colliders[i].gameObject.GetComponent<DicePedestal>().ActivatePedestal();
-            }
+            if (!colliders[i].gameObject.CompareTag("Pedestal")) continue;
+            if (player.impactSpeed.GetFinalValue() <= player.impactSpeed.GetBaseValue()) continue;
+            
+            colliders[i].gameObject.GetComponent<DicePedestal>().ActivatePedestalWithHeavy();
         }
     }
 

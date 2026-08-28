@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.Rendering;
 
 public class GateManager : MonoBehaviour
 {
@@ -23,12 +24,13 @@ public class GateManager : MonoBehaviour
 
     private void GatesUp()
     {
+        Debug.Log("Gates up");
         if (moveGatesRoutine != null)
         {
             StopCoroutine(moveGatesRoutine);
         }
         float currentY = gates[0].transform.position.y;
-        moveGatesRoutine = StartCoroutine(MoveGates(2, currentY, gateUpY, 1.5f));
+        moveGatesRoutine = StartCoroutine(MoveGates(2, currentY, gateUpY));
     }
 
     private void GatesDown(float timer)
@@ -38,19 +40,25 @@ public class GateManager : MonoBehaviour
             StopCoroutine(moveGatesRoutine);
         }
         float currentY = gates[0].transform.position.y;
-        moveGatesRoutine = StartCoroutine(MoveGates(2, currentY, gateDownY, timer));
+        Debug.Log("gates down");
+        Debug.Log($"{timer}");
+        moveGatesRoutine = StartCoroutine(MoveGates(timer, currentY, gateDownY));
     }
 
-    private IEnumerator MoveGates(float duration, float from, float to, float delay = 0)
+    private IEnumerator MoveGates(float duration, float from, float to)
     {
-        yield return new WaitForSeconds(delay);
-
-        float timer = duration;
+        float timer = 0;
         float t = 0;
+
+        if (duration <= 0)
+        {
+            duration = 0.5f;
+        }
+
         while (t < 1)
-        { 
-            timer -= Time.deltaTime;
-            t = (duration - timer) / duration;
+        {
+            timer += Time.deltaTime;
+            t = timer / duration;
 
             foreach (GameObject gate in gates)
             {
@@ -60,11 +68,12 @@ public class GateManager : MonoBehaviour
             }
             yield return null;
         }
-
+        
         foreach (GameObject gate in gates)
         {
             Vector3 gatePos = gate.transform.position;
             gatePos.y = to;
+            Debug.Log($"gate pos {gatePos}");
             gate.transform.position = gatePos;
         }
 

@@ -122,7 +122,6 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
     {
         damageTickTimer += Time.deltaTime;
         
-        
         PerformActivePiercingBoxCast(castLayer);
         
         // don't rotate on active
