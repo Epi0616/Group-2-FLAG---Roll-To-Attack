@@ -20,7 +20,6 @@ public class HealthIntervalCondition : BaseCondition
     {
         this.ownerEntity = ownerEntity;
         currentHealthGate = GetCurrentHealthGate();
-        Debug.Log($"resetting health percentage to next gate ({currentHealthGate})");
     }
     public override void ConditionUpdate()
     {

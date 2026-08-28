@@ -8,7 +8,7 @@ public class AbilitySelectionManager : MonoBehaviour
     public List<ModifiableActionDescriptor> abilityPool;
 
     [SerializeField] private float AbilityLevelScaleFactor = 1.5f;
-    [SerializeField] private float AbilityLevelBaseChance = 1.1f;
+    [SerializeField] private float AbilityLevelBaseChance = 0.7f;
     public Stat abilityLevelChance { get; set; }
 
     [SerializeField] private GameObject abilityObjectPrefab;
@@ -77,10 +77,11 @@ public class AbilitySelectionManager : MonoBehaviour
         float minimumLevelChance = maximumLevelChance - (maximumLevelChance / 2);
 
         int iterations = Mathf.CeilToInt(Random.Range(minimumLevelChance, maximumLevelChance)) - 1;
-
-        Debug.Log($"minimum level chance {minimumLevelChance}");
-        Debug.Log($"maximum level chance {maximumLevelChance}");
+        Debug.Log($"abilitylevelChance {abilityLevelChance.GetFinalValue()}");
+        Debug.Log($"minimumLevelChance {minimumLevelChance}");
+        Debug.Log($"maximumLevelChance {maximumLevelChance}");
         Debug.Log($"iterations {iterations}");
+
         if (iterations <= 0) return ability;
         ModifiableAction upgradedAbility = upgradableAbility.upgradeResult.Create();
         upgradedAbility.UpdateEnhancementLevel(iterations);

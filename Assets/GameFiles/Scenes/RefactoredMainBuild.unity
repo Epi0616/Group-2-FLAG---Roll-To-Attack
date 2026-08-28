@@ -15874,8 +15874,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 612453873528901311}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: spawningWave
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: currentWaveIndex
-      value: 50
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: delayBetweenWaves
@@ -16067,11 +16071,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: smartWaveWeight
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: regularWaveWeight
-      value: 0
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: budgetIncreasePerWave
@@ -16115,7 +16119,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 6de0166af823ae747a7f5182070d9a16, type: 2}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: hoardWavePoolObjs.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: smartWavePoolObjs.Array.size
@@ -16128,15 +16132,15 @@ PrefabInstance:
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: 'hoardWavePoolObjs.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 39a6298646ef58b42a934fdca9824aa6, type: 2}
+      objectReference: {fileID: 11400000, guid: 084e61720e414f94dba7d47891f6b0b5, type: 2}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: 'hoardWavePoolObjs.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 83df646eefaba0f40886a15bb64544c3, type: 2}
+      objectReference: {fileID: 11400000, guid: 39a6298646ef58b42a934fdca9824aa6, type: 2}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: 'hoardWavePoolObjs.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 4472726b73de795499d0423016704fa4, type: 2}
+      objectReference: {fileID: 11400000, guid: 83df646eefaba0f40886a15bb64544c3, type: 2}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: 'smartWavePoolObjs.Array.data[0]'
       value: 
@@ -16165,6 +16169,22 @@ PrefabInstance:
       propertyPath: numberedWaves.Array.data[2].waveObj
       value: 
       objectReference: {fileID: 11400000, guid: 380a26e1553c6c241ba0e26726b4c9a3, type: 2}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: numberedWaves.Array.data[0].interval
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: numberedWaves.Array.data[1].interval
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: numberedWaves.Array.data[0].recurring
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: numberedWaves.Array.data[1].recurring
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: numberedWaves.Array.data[0].waveNumber
       value: 10
