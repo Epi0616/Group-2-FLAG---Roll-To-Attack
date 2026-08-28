@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityBodySystem
   body: {fileID: 5290315805401821204}
+  headTransform: {fileID: 0}
+  baseplateTransform: {fileID: 0}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
   renderer: {fileID: 482169486239698908}
 --- !u!114 &8366025312657523221
@@ -177,7 +179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29275813349dbde4a92eae3facfe53fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WebNodeHealthSystem
-  maxHealth: 15
+  maxHealth:
+    baseValue: 0
   currentHealth: 0
   isDead: 0
 --- !u!114 &2387870648587469242

@@ -22,7 +22,6 @@ public class WaveBuilder : MonoBehaviour
     [SerializeField] private List<WavePoolObj> smartWavePoolObjs = new();
     [SerializeField] private List<WavePoolObj> hoardWavePoolObjs = new();
 
-    private Dictionary<int, WaveObj> waves = new();
     private List<EntityBlock> entityBlockPool = new();
     private List<WavePool> smartWavePools = new();
     private List<WavePool> hoardWavePools = new();
@@ -31,27 +30,18 @@ public class WaveBuilder : MonoBehaviour
 
     private void Start()
     {
-        SetUpWavesDictionary();
         entityBlockPool = entityBlocks.Select(c => c.Create()).ToList();
         smartWavePools = smartWavePoolObjs.Select(c => c.Create()).ToList();
         hoardWavePools = hoardWavePoolObjs.Select(c => c.Create()).ToList();
-    }
-
-    private void SetUpWavesDictionary()
-    {
-        foreach (NumberedWave numberedWave in numberedWaves)
-        {
-            waves.Add(numberedWave.waveNumber, numberedWave.waveObj);
-        }
     }
 
     public Wave GetNextWave(int waveIndex)
     {
         Wave currentWave;
 
-        if (waves.ContainsKey(waveIndex))
+        if (CheckForIndexedWave(waveIndex, out WaveObj chosenIndexedWaveObj))
         {
-            currentWave = UnpackWaveObj(waves[waveIndex]);
+            currentWave = UnpackWaveObj(chosenIndexedWaveObj);
         }
         else
         {
@@ -61,6 +51,55 @@ public class WaveBuilder : MonoBehaviour
 
         CountEnemiesInWave(currentWave);
         return currentWave;
+    }
+
+    private bool CheckForIndexedWave(int waveIndex, out WaveObj waveObj)
+    {
+        waveObj = null;
+        List<NumberedWave> potentialWaves = new();
+
+        foreach (NumberedWave numberedWave in numberedWaves)
+        {
+            if (numberedWave.waveNumber == waveIndex)
+            {
+                potentialWaves.Add(numberedWave);
+                continue;
+            }
+
+            int wavesAferNumber = waveIndex - numberedWave.waveNumber;
+            if (wavesAferNumber <= 0) continue;
+            if (wavesAferNumber % numberedWave.interval != 0) continue;
+
+            potentialWaves.Add(numberedWave);
+        }
+
+        if (potentialWaves.Count == 0) return false;
+
+        waveObj = SelectNumberedWaveFromPriority(potentialWaves);
+        return true;
+    }
+
+    private WaveObj SelectNumberedWaveFromPriority(List<NumberedWave> numberedWaves)
+    {
+        List<NumberedWave> highestPriorityWaves = new(); //the lower the number the higher the priority
+        int highestPriority = int.MaxValue;
+
+        foreach (NumberedWave numberedWave in numberedWaves)
+        {
+            if (numberedWave.priority < highestPriority)
+            {
+                highestPriorityWaves.Clear();
+                highestPriority = numberedWave.priority;
+            }
+
+            if (numberedWave.priority == highestPriority)
+            { 
+                highestPriorityWaves.Add(numberedWave); //this accounts for the newly selected lowest priority wave as well
+            }
+        }
+
+        int random = Random.Range(0, highestPriorityWaves.Count);
+        return highestPriorityWaves[random].waveObj;
     }
 
     public Wave UnpackWaveObj(WaveObj waveObj)
@@ -77,7 +116,7 @@ public class WaveBuilder : MonoBehaviour
     }
 
     public Wave GenerateWave(int waveIndex, int budget)
-    { 
+    {
         int weightTotal = regularWaveWeight + smartWaveWeight + hoardWaveWeight;
         int weightTally = 0;
         int random = Random.Range(0, weightTotal);
@@ -232,9 +271,16 @@ public struct NumberedWave
 {
     public int waveNumber;
     public WaveObj waveObj;
-    public NumberedWave(int waveNumber, WaveObj waveObj)
+    public bool recurring;
+    public int interval;
+    public int priority;
+
+    public NumberedWave(int waveNumber, WaveObj waveObj, bool recurring = false, int interval = -1, int priority = int.MaxValue)
     {
         this.waveNumber = waveNumber;
         this.waveObj = waveObj;
+        this.recurring = recurring;
+        this.interval = interval;
+        this.priority = priority;
     }
 }

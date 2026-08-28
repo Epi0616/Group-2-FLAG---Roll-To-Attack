@@ -24,7 +24,6 @@ public class GateManager : MonoBehaviour
 
     private void GatesUp()
     {
-        Debug.Log("Gates up");
         if (moveGatesRoutine != null)
         {
             StopCoroutine(moveGatesRoutine);
@@ -40,8 +39,6 @@ public class GateManager : MonoBehaviour
             StopCoroutine(moveGatesRoutine);
         }
         float currentY = gates[0].transform.position.y;
-        Debug.Log("gates down");
-        Debug.Log($"{timer}");
         moveGatesRoutine = StartCoroutine(MoveGates(timer, currentY, gateDownY));
     }
 
@@ -73,7 +70,6 @@ public class GateManager : MonoBehaviour
         {
             Vector3 gatePos = gate.transform.position;
             gatePos.y = to;
-            Debug.Log($"gate pos {gatePos}");
             gate.transform.position = gatePos;
         }
 

@@ -52,7 +52,6 @@ public class WaveManager : MonoBehaviour
     private void HandleEnemiesGenerated(int enemiesInWave)
     {
         enemiesLeftInWave = enemiesInWave;
-        Debug.Log(enemiesLeftInWave + " enemies in this wave");
     }
 
     private void HandleEnemyDeath()
