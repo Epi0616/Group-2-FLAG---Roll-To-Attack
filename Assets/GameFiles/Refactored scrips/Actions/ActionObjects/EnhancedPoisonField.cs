@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Rendering.Universal;
 public class EnhancedPoisonField : PoisonField
 {
     public int enhancementLevel;
@@ -52,6 +52,7 @@ public class EnhancedPoisonField : PoisonField
 
     public void Initialize(Entity entity, float radius, float lifespan, int tickDamage, Color colour, int enhancementLevel)
     {
+        //SetTiling();
         ownerEntity = entity;
         //Debug.Log("Base Radius is: " + radius);
         this.radius = radius + (enhancementLevel / 3f);
@@ -69,12 +70,21 @@ public class EnhancedPoisonField : PoisonField
         lifeTimer = 0;
         //color.a = 0.175f;
         color.a = 0.3f;
-        AdjustColours(color);
+        //AdjustColours(color, 1);
+        AdjustDecalOpacity();
 
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;
         tempScale.z = radius * 2;
         transform.localScale = tempScale;
+
+        //foreach (DecalProjector p in VFXProjectors)
+        //{
+        //    p.size = new Vector3(radius * 2, radius * 2, p.size.z);
+        //}
+        VFXProjectors[0].size = new Vector3(radius * 2, radius * 2, VFXProjectors[0].size.z);
+        VFXProjectors[1].size = new Vector3((radius * 2) + 5, (radius * 2) + 5, VFXProjectors[1].size.z);
+        VFXProjectors[2].size = new Vector3(radius * 2, radius * 2, VFXProjectors[2].size.z);
 
         Vector3 position = transform.position;
         position.y -= 0.5f;
