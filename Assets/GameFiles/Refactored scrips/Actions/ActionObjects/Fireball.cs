@@ -12,6 +12,7 @@ public class Fireball : MonoBehaviour, IDecalShadowCast
 
     private Coroutine attackRoutine, lifeTimeRoutine;
     private bool hitTarget;
+    [SerializeField] private LayerMask groundLayer;
 
     public ShadowDecal currentShadowDecal { get; set; }
     [SerializeField] private GameObject ShadowDecalPrefab;
@@ -67,7 +68,12 @@ public class Fireball : MonoBehaviour, IDecalShadowCast
 
     private void OnHit()
     {
-        GameObject field =  ObjectPoolManager.SpawnObject(impactFieldPrefab, transform.position, Quaternion.identity);
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, Vector3.down);
+        Physics.Raycast(ray, out hit, 50, groundLayer);
+        Vector3 fieldPos = hit.point;
+        fieldPos.y += Random.Range(-0.2f, 0.2f);
+        GameObject field =  ObjectPoolManager.SpawnObject(impactFieldPrefab, fieldPos, Quaternion.identity);
         field.GetComponent<FireField>().Initialize(ownerEntity, Color.orange, 3.5f, initialDamage, tickDamage, 10f, 1f);
 
         Interrupt();

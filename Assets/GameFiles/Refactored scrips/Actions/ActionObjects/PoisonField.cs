@@ -1,10 +1,13 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.VFX;
 
 public class PoisonField : MonoBehaviour
 {
-    protected Material material;
-    protected Material ringMaterial;
-    [SerializeField] protected MeshRenderer ringMeshRenderer;
+    //protected Material material;
+    //protected Material ringMaterial;
+    //[SerializeField] protected MeshRenderer ringMeshRenderer;
     protected Color color;
     protected Color slamColour;
     protected float lifeSpan = 10, lifeTimer = 0;
@@ -14,10 +17,13 @@ public class PoisonField : MonoBehaviour
     protected int poisonTickDMG;
     //public AudioClip[] poisonTickSound;
 
+    private MaterialPropertyBlock block;
+    [SerializeField] private MeshRenderer[] VFXRenderers;
+    [SerializeField] protected DecalProjector[] VFXProjectors;
+
     protected void Awake()
     {
-        material = GetComponent<MeshRenderer>().material;      
-        ringMaterial = ringMeshRenderer.material;
+        block = new MaterialPropertyBlock();
     }
 
     protected virtual void Start()
@@ -36,29 +42,101 @@ public class PoisonField : MonoBehaviour
         lifeTimer += Time.fixedDeltaTime;
 
         if (!(lifeTimer >= lifeSpan - 1)) { return; }
+
+        StartCoroutine(FadeAway());
         
-        AdjustColours(color);
-
-        if (color.a > 0)
-        {
-            color.a += Time.fixedDeltaTime * -0.5f;
-            return;
-        }
-        color.a = 0;
-
-        if (!(lifeTimer >= lifeSpan)) { return; }
-        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
-    protected void AdjustColours(Color color)
+    protected void SetTiling()
     {
-        Color darkerColour = new Color(color.r * 0.7f, color.g * 0.7f, color.b * 0.7f, color.a);
-        Color lighterColour = new Color(color.r * 1.2f, color.g * 1.2f, color.b * 1.2f, color.a);
-        material.color = darkerColour;
-        ringMaterial.SetColor("_RingColour", lighterColour);
-        if (color.a < 0f) { color.a = 0; }
-        else if (color.a > 1f) { color.a = 1f; }
-        ringMaterial.SetFloat("_Opacity", color.a);
+        foreach (MeshRenderer r in VFXRenderers)
+        {
+            float x = Random.Range(0f, 1f);
+            float y = Random.Range(0f, 1f);
+            r.GetPropertyBlock(block);
+            block.SetVector("_Offset", new Vector4(x, y, 0, 0));
+            r.SetPropertyBlock(block);
+        }
+    }
+    protected void SetDecalTiling()
+    {
+        foreach (DecalProjector r in VFXProjectors)
+        {
+            float x = Random.Range(0f, 1f);
+            float y = Random.Range(0f, 1f);
+            r.material.SetVector("_Offset", new Vector4(x, y, 0, 0));
+        }
+    }
+
+
+    protected void AdjustColours(Color color, float alpha)
+    {
+        //Mathf.Clamp01(color.a);
+
+        //Color darkerColour = new Color(color.r * 0.8f, color.g * 0.8f, color.b * 0.8f, alpha);
+        //Color lighterColour = new Color(color.r * 0.9f, color.g * 0.9f, color.b * 0.9f, alpha);
+
+        VFXRenderers[0].GetPropertyBlock(block);
+        block.SetFloat("_Opacity", 0.5f);
+        VFXRenderers[0].SetPropertyBlock(block);
+        VFXRenderers[1].GetPropertyBlock(block);
+        block.SetFloat("_Opacity", 0.6f);
+        VFXRenderers[1].SetPropertyBlock(block);
+        VFXRenderers[2].GetPropertyBlock(block);
+        block.SetFloat("_Opacity", 0.3f);
+        VFXRenderers[2].SetPropertyBlock(block);
+
+        //foreach (MeshRenderer r in VFXRenderers)
+        //{
+        //    r.GetPropertyBlock(block);
+        //    //block.SetColor("_BaseColour", color * Random.Range(0.8f, 0.9f));
+        //    block.SetFloat("_Opacity", alpha);
+        //    r.SetPropertyBlock(block);
+        //}
+
+
+        //material.color = darkerColour;
+        //ringMaterial.SetColor("_RingColour", lighterColour * 3);
+        //ringMaterial.SetFloat("_Opacity", color.a);
+    }
+
+    protected void AdjustDecalOpacity()
+    {
+        //VFXProjectors[0].fadeFactor = 0.5f;
+        //VFXProjectors[1].fadeFactor = 0.6f;
+        //VFXProjectors[2].fadeFactor = 0.3f;
+        foreach (DecalProjector p in VFXProjectors)
+        {
+            p.fadeFactor = 1f;
+        }
+    }
+
+    protected IEnumerator FadeAway()
+    {
+        float timer = 0;
+        float a = 1;
+        // Add fade for Ring mat got from the ring renderer
+        while (timer < 0.5f)
+        {
+            //Debug.Log("Fadomg");
+            timer += Time.deltaTime;
+            
+            //foreach (MeshRenderer r in VFXRenderers)
+            //{
+            //    r.GetPropertyBlock(block);
+            //    a = Mathf.Clamp01(Mathf.Lerp(block.GetFloat("_Opacity"), 0, timer));
+            //    block.SetFloat("_Opacity", a);
+            //    r.SetPropertyBlock(block);
+            //}
+
+            foreach (DecalProjector p in VFXProjectors)
+            {               
+                p.fadeFactor = Mathf.Clamp01(Mathf.Lerp(1, 0, (timer / 0.5f)));
+                
+            }
+            yield return null;
+        }
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     protected virtual void TickDamage()
@@ -97,6 +175,7 @@ public class PoisonField : MonoBehaviour
     public virtual void Initialize(Entity entity, float radius, float lifespan, int tickDamage, Color colour)
     {
         ownerEntity = entity;
+        //SetTiling();
 
         this.radius = radius;
         damageTickTimer = 0;
@@ -108,14 +187,18 @@ public class PoisonField : MonoBehaviour
         this.lifeSpan = lifespan;
 
         lifeTimer = 0;
-        //color.a = 0.175f;
-        color.a = 0.3f;
-        AdjustColours(color);
+        //AdjustColours(color, 1);
+        AdjustDecalOpacity();
 
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;
         tempScale.z = radius * 2;
         transform.localScale = tempScale;
+
+        VFXProjectors[0].size = new Vector3(radius * 2, radius * 2, VFXProjectors[0].size.z);
+        VFXProjectors[1].size = new Vector3((radius * 2) + 5, (radius * 2) + 5, VFXProjectors[1].size.z);
+        VFXProjectors[2].size = new Vector3(radius * 2, radius * 2, VFXProjectors[2].size.z);
+
 
         Vector3 position = transform.position;
         position.y -= 0.5f;

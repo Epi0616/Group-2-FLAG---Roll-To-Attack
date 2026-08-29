@@ -13,7 +13,7 @@ public class FireField : MonoBehaviour
     protected float radius = 0;
     protected int initialDamage;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         material = GetComponent<MeshRenderer>().material;
         ringMaterial = ringMeshRenderer.material;
@@ -33,7 +33,7 @@ public class FireField : MonoBehaviour
         StartCoroutine(TickDamage(lifespan, tickRate, tickDamage));
     }
 
-    private IEnumerator TickDamage(float lifespan, float tickRate, int tickDamage)
+    protected IEnumerator TickDamage(float lifespan, float tickRate, int tickDamage)
     {
         float tickTimer = tickRate;
 
@@ -55,7 +55,7 @@ public class FireField : MonoBehaviour
         OnEnd();
     }
 
-    private IEnumerator FadeAway()
+    protected virtual IEnumerator FadeAway()
     {
         while (color.a > 0)
         {
@@ -67,12 +67,12 @@ public class FireField : MonoBehaviour
         color.a = 0;
     }
 
-    private void OnEnd()
+    protected void OnEnd()
     { 
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
-    private void OnTickDamage(int tickDamage)
+    protected void OnTickDamage(int tickDamage)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius, ownerEntity.hostileMask);
 
@@ -87,7 +87,7 @@ public class FireField : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider hit)
+    protected void OnTriggerEnter(Collider hit)
     {
         if (ownerEntity == null) return;
         if (!(ownerEntity is IFireballAction fireballAction)) return;
@@ -104,7 +104,7 @@ public class FireField : MonoBehaviour
         hitEntity.OnTakeDamage(initialDamage, color, DamageType.Spell);
     }
 
-    private void AdjustColors()
+    protected virtual void AdjustColors()
     {
         Mathf.Clamp01(color.a);
 
@@ -116,7 +116,7 @@ public class FireField : MonoBehaviour
         ringMaterial.SetFloat("_Opacity", color.a);
     }
 
-    private void AdjustScale(float radius)
+    protected virtual void AdjustScale(float radius)
     {
         Vector3 tempScale = transform.localScale;
         tempScale.x = radius * 2;
