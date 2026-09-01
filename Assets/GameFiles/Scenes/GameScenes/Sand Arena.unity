@@ -333,6 +333,9 @@ MonoBehaviour:
   rotationAmount: {x: 20, y: 20, z: 20}
   rotationSpeed: 0.4
   maxSpinSpeed: 300
+  startPosition: {x: 0, y: 0, z: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  timeBetweenWaves: 2
 --- !u!1 &59982920
 GameObject:
   m_ObjectHideFlags: 0
@@ -1270,6 +1273,9 @@ MonoBehaviour:
   rotationAmount: {x: 20, y: 20, z: 20}
   rotationSpeed: 0.4
   maxSpinSpeed: 300
+  startPosition: {x: 0, y: 0, z: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  timeBetweenWaves: 2
 --- !u!1 &559503824
 GameObject:
   m_ObjectHideFlags: 0
@@ -2301,6 +2307,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 100, z: 75}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1138651333 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3557841906107032068, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+  m_PrefabInstance: {fileID: 1584064890}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1138651334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138651333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970d830b8b5b17841a2a0123d289bcbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveScaling
+  scalingIncreaseWaveInterval: 10
+  scalingIncreaseWaveRestriction: 10
 --- !u!1 &1147534260
 GameObject:
   m_ObjectHideFlags: 0
@@ -2473,6 +2498,9 @@ MonoBehaviour:
   rotationAmount: {x: 20, y: 20, z: 20}
   rotationSpeed: 0.4
   maxSpinSpeed: 300
+  startPosition: {x: 0, y: 0, z: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  timeBetweenWaves: 2
 --- !u!1 &1339493414
 GameObject:
   m_ObjectHideFlags: 0
@@ -2961,6 +2989,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: waveScaling
+      value: 
+      objectReference: {fileID: 1138651334}
+    - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: currentWaveIndex
       value: 0
       objectReference: {fileID: 0}
@@ -3275,7 +3307,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6996267424616970339, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1147534262}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3557841906107032068, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1138651334}
   m_SourcePrefab: {fileID: 100100000, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
 --- !u!1 &1584064891 stripped
 GameObject:
@@ -3932,6 +3967,9 @@ MonoBehaviour:
   rotationAmount: {x: 20, y: 20, z: 20}
   rotationSpeed: 0.4
   maxSpinSpeed: 300
+  startPosition: {x: 0, y: 0, z: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  timeBetweenWaves: 2
 --- !u!1001 &1838634783
 PrefabInstance:
   m_ObjectHideFlags: 0

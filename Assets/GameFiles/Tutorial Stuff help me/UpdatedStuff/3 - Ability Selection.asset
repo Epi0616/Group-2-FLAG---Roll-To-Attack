@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89fb449e10842ba4396667561e6e5719, type: 3}
+  m_Name: 3 - Ability Selection
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialStage
+  TutorialSteps:
+  - Text:
+      m_TableReference:
+        m_TableCollectionName: GUID:a92d78ffa075bab41a641bcab300661e
+      m_TableEntryReference:
+        m_KeyId: 1351261720576
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    ResetText:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    pos: {x: 0, y: 0}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    bringUpSelectionUI: 1
+    highlightElement: 1
+    HighlightPos: {x: 0, y: 125}
+    HighlightScale: {x: 1500, y: 1050}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 5310669780602060896
+  - Text:
+      m_TableReference:
+        m_TableCollectionName: GUID:a92d78ffa075bab41a641bcab300661e
+      m_TableEntryReference:
+        m_KeyId: 4818030137344
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    ResetText:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    pos: {x: 0, y: 0}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 1
+    HighlightPos: {x: 0, y: 125}
+    HighlightScale: {x: 1500, y: 1050}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 5310669780602060897
+  references:
+    version: 2
+    RefIds:
+    - rid: 5310669780602060896
+      type: {class: WaitForInputAction, ns: , asm: Assembly-CSharp}
+      data:
+        inputAction: {fileID: 2525839080095791905, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    - rid: 5310669780602060897
+      type: {class: WaitForAbilitySelected, ns: , asm: Assembly-CSharp}
+      data: 

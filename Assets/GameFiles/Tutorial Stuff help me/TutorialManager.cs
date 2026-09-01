@@ -18,7 +18,7 @@ public class TutorialManager : MonoBehaviour
     private Image DarkOverlayImage;
     private Color overlayColour;
     [SerializeField] private List<TutorialStage> stages = new List<TutorialStage>();
-    private float boxWidth = 424f;
+    private float boxWidth = 470;
     private TutorialStage currentStage;
     private Coroutine CurrentStageCO = null;
     private Coroutine TimeScalingCO;
@@ -45,12 +45,13 @@ public class TutorialManager : MonoBehaviour
         portraitRect = TutorialPortraitObj.GetComponent<RectTransform>();
         DarkOverlayImage = TutorialDarkOverlay.GetComponent<Image>();
         overlayColour = DarkOverlayImage.color;
+        StartCoroutine(StartTutorialDisplay());
     }
 
     public void Start()
     {
         // Remove to start Tutorial from another Event
-        StartCoroutine(StartTutorialDisplay());
+        
         Debug.Log(skipInput.action.enabled);
     }
 
@@ -270,13 +271,13 @@ public class TutorialManager : MonoBehaviour
        // Debug.Log("Displaying");
         if (step.hasBeenReset && step.ResetText != null)
         {
-            typingTextBox.SetText(step.ResetText);
+            typingTextBox.SetText(step.ResetText.GetLocalizedString());
             //textBox.DisplayText(step.ResetText);
             step.hasBeenReset = false;
         }
         else
         {
-            typingTextBox.SetText(step.Text);
+            typingTextBox.SetText(step.Text.GetLocalizedString());
             //textBox.DisplayText(step.Text);
         }
     }

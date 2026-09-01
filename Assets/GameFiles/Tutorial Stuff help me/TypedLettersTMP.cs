@@ -12,17 +12,19 @@ public class TypedLettersTMP : MonoBehaviour
     private Coroutine typingCoroutine;
     private WaitForSecondsRealtime simpleDelay;
     [SerializeField] private float charactersPerSecond = 10f;
+    [SerializeField] private float fixedTypingDuration = 1.5f;
     public bool isSkipping;
     public bool finishedTyping;
     public void Awake()
     {
-        simpleDelay = new WaitForSecondsRealtime(1 / charactersPerSecond);
+        //simpleDelay = new WaitForSecondsRealtime(1 / charactersPerSecond);
     }
 
     public void SetText(string text)
     {
         if (typingCoroutine != null) { StopCoroutine(typingCoroutine); }
        // Debug.Log("Finished Set to false from SetText()");
+        simpleDelay = new WaitForSecondsRealtime((fixedTypingDuration / text.Length));
         finishedTyping = false;
         textBox.text = text;
         textBox.maxVisibleCharacters = 0;

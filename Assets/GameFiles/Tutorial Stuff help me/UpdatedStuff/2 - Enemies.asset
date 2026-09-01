@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89fb449e10842ba4396667561e6e5719, type: 3}
+  m_Name: 2 - Enemies
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialStage
+  TutorialSteps:
+  - Text:
+      m_TableReference:
+        m_TableCollectionName: GUID:a92d78ffa075bab41a641bcab300661e
+      m_TableEntryReference:
+        m_KeyId: 452195880960
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    ResetText:
+      m_TableReference:
+        m_TableCollectionName: GUID:a92d78ffa075bab41a641bcab300661e
+      m_TableEntryReference:
+        m_KeyId: 452195880960
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    pos: {x: -600, y: 350}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 0, y: 0}
+    HighlightScale: {x: 0, y: 0}
+    unlocksJump: 1
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 5310669780602060890
+  - Text:
+      m_TableReference:
+        m_TableCollectionName: GUID:a92d78ffa075bab41a641bcab300661e
+      m_TableEntryReference:
+        m_KeyId: 587197943808
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    ResetText:
+      m_TableReference:
+        m_TableCollectionName: GUID:a92d78ffa075bab41a641bcab300661e
+      m_TableEntryReference:
+        m_KeyId: 5755012485120
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    pos: {x: -600, y: 350}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 0, y: 0}
+    HighlightScale: {x: 0, y: 0}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 5310669780602060899
+  - Text:
+      m_TableReference:
+        m_TableCollectionName: GUID:a92d78ffa075bab41a641bcab300661e
+      m_TableEntryReference:
+        m_KeyId: 824327114752
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    ResetText:
+      m_TableReference:
+        m_TableCollectionName: GUID:a92d78ffa075bab41a641bcab300661e
+      m_TableEntryReference:
+        m_KeyId: 824327114752
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    pos: {x: -600, y: 350}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 0
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 0, y: 0}
+    HighlightScale: {x: 0, y: 0}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 5310669780602060892
+  references:
+    version: 2
+    RefIds:
+    - rid: 5310669780602060890
+      type: {class: DummyDeathCondition, ns: , asm: Assembly-CSharp}
+      data:
+        desiredTypes: 070000000200000000000000
+        numRequired: 3
+        waveIndex: 0
+    - rid: 5310669780602060892
+      type: {class: WaitForInputAction, ns: , asm: Assembly-CSharp}
+      data:
+        inputAction: {fileID: 2525839080095791905, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    - rid: 5310669780602060899
+      type: {class: DummyDeathCondition, ns: , asm: Assembly-CSharp}
+      data:
+        desiredTypes: 0200000007000000
+        numRequired: 3
+        waveIndex: 1

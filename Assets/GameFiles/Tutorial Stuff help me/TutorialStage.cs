@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Localization;
 
 [CreateAssetMenu(fileName = "TutorialStage", menuName = "Scriptable Objects/TutorialStage")]
 public class TutorialStage : ScriptableObject
@@ -14,8 +15,10 @@ public class TutorialStage : ScriptableObject
 [Serializable]
 public class TutorialStep
 {
-    public string Text;
-    public string ResetText;
+    //public string Text;
+    //public string ResetText;
+    public LocalizedString Text;
+    public LocalizedString ResetText;
     public Vector2 pos;
     public bool usesPortrait;
     public bool pausesGame;
