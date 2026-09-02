@@ -23,6 +23,7 @@ public class TutorialStep
     public bool usesPortrait;
     public bool pausesGame;
     public bool blocksUIInteraction;
+    public List<string> allowedAreas;
     public bool bringUpSelectionUI;
     public bool highlightElement;
     public Vector2 HighlightPos;

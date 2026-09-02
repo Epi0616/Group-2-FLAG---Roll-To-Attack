@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject TutorialTextBoxObj;
     [SerializeField] private GameObject TutorialPortraitObj;
     [SerializeField] private GameObject TutorialUIBlockerObj;
+    [SerializeField] private TutorialUIFilter UIFilter;
     [SerializeField] private GameObject TutorialDarkOverlay;
     [SerializeField] private RectTransform TutorialOverlayCutout;
     private TutorialTextBox textBox;
@@ -38,14 +40,33 @@ public class TutorialManager : MonoBehaviour
     private bool hasSkippedThisStep;
     public bool inputConsumed;
 
+    public static TutorialManager Instance;
+    private Dictionary<string, RectTransform> uiElements = new Dictionary<string, RectTransform>();
+
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         textBox = TutorialTextBoxObj.GetComponentInChildren<TutorialTextBox>();
         boxRect = TutorialTextBoxObj.GetComponent<RectTransform>();
         portraitRect = TutorialPortraitObj.GetComponent<RectTransform>();
         DarkOverlayImage = TutorialDarkOverlay.GetComponent<Image>();
         overlayColour = DarkOverlayImage.color;
         StartCoroutine(StartTutorialDisplay());
+    }
+
+    public void RegisterUIElement(string ID, RectTransform rect)
+    {
+        uiElements[ID] = rect;
+    }
+    public void UnregisterUIElement(string ID)
+    {
+        uiElements.Remove(ID);
     }
 
     public void Start()
@@ -99,13 +120,24 @@ public class TutorialManager : MonoBehaviour
         int stepIndex = 0;
         while (stepIndex < stage.TutorialSteps.Count)
         {
-            Debug.Log("Starting Step " + stepIndex);
+            //Debug.Log("Starting Step " + stepIndex);
             restartCurrentStep = false;
             stepComplete = false;
             hasSkippedThisStep = false;
-
+            
             if (stage.TutorialSteps[stepIndex].blocksUIInteraction)
             {
+                if (stage.TutorialSteps[stepIndex].allowedAreas.Count > 0)
+                {
+                    foreach (string id in stage.TutorialSteps[stepIndex].allowedAreas)
+                    {
+                        if (uiElements.TryGetValue(id, out RectTransform rect))
+                        {
+                            UIFilter.allowedAreas.Add(rect);
+                        }
+                    }
+                    
+                }
                 TutorialUIBlockerObj.SetActive(true);
             }
 
@@ -149,6 +181,7 @@ public class TutorialManager : MonoBehaviour
 
             TutorialPortraitObj.SetActive(false);
             TutorialUIBlockerObj.SetActive(false);
+            UIFilter.allowedAreas.Clear();
             StartCoroutine(RemoveHighlighting(stage.TutorialSteps[stepIndex], 0.5f));
 
             if (!restartCurrentStep)

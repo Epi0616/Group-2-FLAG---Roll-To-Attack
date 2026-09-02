@@ -12,7 +12,7 @@ public class TypedLettersTMP : MonoBehaviour
     private Coroutine typingCoroutine;
     private WaitForSecondsRealtime simpleDelay;
     [SerializeField] private float charactersPerSecond = 10f;
-    [SerializeField] private float fixedTypingDuration = 1.5f;
+    [SerializeField] private float fixedTypingDuration = 2.0f;
     public bool isSkipping;
     public bool finishedTyping;
     public void Awake()
