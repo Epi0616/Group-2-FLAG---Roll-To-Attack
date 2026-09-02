@@ -825,8 +825,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 314.43704, y: -111.709915}
-  m_SizeDelta: {x: 528.874, y: 203.42}
+  m_AnchoredPosition: {x: 314.43704, y: -72.286995}
+  m_SizeDelta: {x: 528.874, y: 124.574066}
   m_Pivot: {x: 0.50000006, y: 0.5000004}
 --- !u!114 &418901287
 MonoBehaviour:
@@ -875,8 +875,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.4
-  m_fontSizeBase: 67.4
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1589,7 +1589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b1f6cd07c9c174394014c82ad1d625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
-  TutorialTextBoxObj: {fileID: 418901285}
+  TutorialTextBoxObj: {fileID: 943485040}
   TutorialPortraitObj: {fileID: 532475302}
   TutorialUIBlockerObj: {fileID: 946336155}
   UIFilter: {fileID: 946336159}
@@ -3092,7 +3092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &943485041
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3112,8 +3112,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 375}
-  m_SizeDelta: {x: 628.874, y: 223.42}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 628.874, y: 144.57407}
   m_Pivot: {x: 0.49999973, y: 0.49999997}
 --- !u!114 &943485042
 MonoBehaviour:
@@ -3139,7 +3139,7 @@ MonoBehaviour:
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
 --- !u!114 &943485043
 MonoBehaviour:
@@ -3272,14 +3272,14 @@ RectTransform:
   m_GameObject: {fileID: 948286897}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.98232, y: 1.2137424, z: 0.98232}
+  m_LocalScale: {x: 0.98232, y: 1.7648572, z: 0.98232}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 943485041}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00012207031, y: 4}
+  m_AnchoredPosition: {x: -0.00012207031, y: 6}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &948286899
@@ -4441,15 +4441,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 800571826889423390, guid: a78ed5e783db9064bb188e7ce8bddb57, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.85856
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 800571826889423390, guid: a78ed5e783db9064bb188e7ce8bddb57, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.85856
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 800571826889423390, guid: a78ed5e783db9064bb188e7ce8bddb57, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.85856
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3355791162813347737, guid: a78ed5e783db9064bb188e7ce8bddb57, type: 3}
       propertyPath: m_Name
@@ -4460,20 +4460,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4056286559421983379, guid: a78ed5e783db9064bb188e7ce8bddb57, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4056286559421983379, guid: a78ed5e783db9064bb188e7ce8bddb57, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -515
       objectReference: {fileID: 0}
     - target: {fileID: 4741234400355927552, guid: a78ed5e783db9064bb188e7ce8bddb57, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.85856
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4741234400355927552, guid: a78ed5e783db9064bb188e7ce8bddb57, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.85856
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4741234400355927552, guid: a78ed5e783db9064bb188e7ce8bddb57, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.85856
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5463040444062614150, guid: a78ed5e783db9064bb188e7ce8bddb57, type: 3}
       propertyPath: abilityPool.Array.size

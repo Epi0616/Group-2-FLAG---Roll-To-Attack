@@ -31,7 +31,7 @@ MonoBehaviour:
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-    pos: {x: 90, y: 500}
+    pos: {x: -10, y: 500}
     usesPortrait: 1
     pausesGame: 0
     blocksUIInteraction: 1
@@ -45,6 +45,38 @@ MonoBehaviour:
     hasBeenReset: 0
     condition:
       rid: 5310669780602060896
+  - Text:
+      m_TableReference:
+        m_TableCollectionName: GUID:a92d78ffa075bab41a641bcab300661e
+      m_TableEntryReference:
+        m_KeyId: 390706157424640
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    ResetText:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    pos: {x: -10, y: 500}
+    usesPortrait: 1
+    pausesGame: 0
+    blocksUIInteraction: 1
+    allowedAreas: []
+    bringUpSelectionUI: 0
+    highlightElement: 0
+    HighlightPos: {x: 0, y: 125}
+    HighlightScale: {x: 1500, y: 1050}
+    unlocksJump: 0
+    unlocksMovement: 0
+    hasBeenReset: 0
+    condition:
+      rid: 5310669804113494089
   - Text:
       m_TableReference:
         m_TableCollectionName: GUID:a92d78ffa075bab41a641bcab300661e
@@ -63,7 +95,7 @@ MonoBehaviour:
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-    pos: {x: 0, y: 0}
+    pos: {x: 300, y: -50}
     usesPortrait: 1
     pausesGame: 0
     blocksUIInteraction: 1
@@ -124,3 +156,7 @@ MonoBehaviour:
       type: {class: WaitForTime, ns: , asm: Assembly-CSharp}
       data:
         duration: 5
+    - rid: 5310669804113494089
+      type: {class: WaitForInputAction, ns: , asm: Assembly-CSharp}
+      data:
+        inputAction: {fileID: 2525839080095791905, guid: 052faaac586de48259a63d0c4782560b, type: 3}
