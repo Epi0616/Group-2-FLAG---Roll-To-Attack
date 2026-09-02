@@ -14,10 +14,10 @@ public class A_PlayerSpikeState : PlayerBaseAttackState
         if (player.impactSpeed.GetFinalValue() > player.impactSpeed.GetBaseValue())
         {
             //float volumePercent = Mathf.Clamp01(player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue() - 1);
-            AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
+            //AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
         }
 
-        AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.7f);
+        //AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.7f);
     }
 
     protected override void CustomAttack(GameObject Enemy)

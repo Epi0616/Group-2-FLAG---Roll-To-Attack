@@ -36,7 +36,7 @@ public class SimpleRaiderEnemy : EnemyStateController
         Ray ray = new Ray(attackOriginTransform.position, Vector3.down);
         bool wewa = (Physics.Raycast(ray, out hit, 10f, environmentLayer));
         Collider[] colliders = Physics.OverlapSphere(hit.point, meleeAttackRadius, playerLayer);
-        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.2f);
+        //AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.2f);
         foreach (var collider in colliders)
         {
             if (collider.gameObject == gameObject) { continue; }
@@ -62,7 +62,7 @@ public class SimpleRaiderEnemy : EnemyStateController
 
     private IEnumerator ChargeTime()
     {
-        AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
+        //AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
         yield return new WaitForSeconds(meleeAttackChargeTime);
 
         if (attackInterrupted)

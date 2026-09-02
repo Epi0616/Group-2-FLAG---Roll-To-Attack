@@ -69,17 +69,17 @@ public class PlayerBaseAttackState : PlayerMovementState
         if (player.impactSpeed.GetFinalValue() > player.impactSpeed.GetBaseValue())
         {
             //float volumePercent = Mathf.Clamp01(player.impactSpeed.GetFinalValue() / player.impactSpeed.GetBaseValue() - 1);
-            AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
+            //AudioManager.instance.PlayRandomSoundClip(player.playerHeavyAttackSounds, new Vector3(0, 0, 0), 0.2f);
         }
         else 
         {
-            AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
+            //AudioManager.instance.PlayRandomSoundClip(impactSounds, new Vector3(0, 0, 0), 0.4f);
         }
     }
 
     protected virtual void PlayEnemyHitSound()
     {
-        AudioManager.instance.PlayRandomSoundClip(hitSounds, new Vector3(0, 0, 0), 1f);
+        //AudioManager.instance.PlayRandomSoundClip(hitSounds, new Vector3(0, 0, 0), 1f);
     }
 
     protected virtual void Attack(Collider[] colliders, int collisions)

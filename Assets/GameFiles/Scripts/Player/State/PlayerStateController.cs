@@ -158,7 +158,7 @@ public class PlayerStateController : MonoBehaviour
 
         if (attack.action.WasPressedThisFrame())
         {
-            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
+            //AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
             SwitchState(new PlayerJumpState());
             CancelChargeEffect();
         }
@@ -172,15 +172,15 @@ public class PlayerStateController : MonoBehaviour
             {
                 if (isGrounded)
                 {
-                    AudioManager.instance.PlaySingleLoopingClip(playerChargeSound);
+                    //AudioManager.instance.PlaySingleLoopingClip(playerChargeSound);
                 }
             }
         }
 
         if (attack.action.WasReleasedThisFrame() && holdTime > 0.2f)
         {
-            AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
-            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
+            //AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+            //AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
             jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             impactSpeed.AddMultiplierFlat(holdTime * 2);
             baseRadiusSize.AddMultiplierFlat(holdTime);
@@ -197,7 +197,7 @@ public class PlayerStateController : MonoBehaviour
 
         if (attack.action.WasPressedThisFrame())
         {
-            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
+            //AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
             SwitchState(new PlayerJumpState());
             CancelChargeEffect();
             return;
@@ -213,14 +213,14 @@ public class PlayerStateController : MonoBehaviour
             {
                 if (isGrounded)
                 {
-                    AudioManager.instance.PlaySingleLoopingClip(playerChargeSound);
+                    //AudioManager.instance.PlaySingleLoopingClip(playerChargeSound);
                 }
             }
         }
 
         if (controllerChargeAttack.action.WasReleasedThisFrame() && holdTime <= 0.2)
         {
-            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
+            //AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
             SwitchState(new PlayerJumpState());
             CancelChargeEffect();
             return;
@@ -228,8 +228,8 @@ public class PlayerStateController : MonoBehaviour
 
         else if (controllerChargeAttack.action.WasReleasedThisFrame() && holdTime > 0.2)
         {
-            AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
-            AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
+            //AudioManager.instance.StopSingleLoopingClip(playerChargeSound);
+            //AudioManager.instance.PlayRandomSoundClip(playerLightJumpSounds, default, 0.4f);
             jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             impactSpeed.AddMultiplierFlat(holdTime * 2);
             baseRadiusSize.AddMultiplierFlat(holdTime);

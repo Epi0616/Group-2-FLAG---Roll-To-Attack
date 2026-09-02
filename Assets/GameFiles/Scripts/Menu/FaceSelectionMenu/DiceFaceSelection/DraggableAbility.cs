@@ -14,6 +14,7 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
     public static event Action<DraggableAbility> OnAbilityDragEnd;
 
     [SerializeField] private GameObject spriteObj;
+    [SerializeField] private GameObject levelsSprite;
 
     private ModifiableAction myAbility;
     public Image Image;
@@ -21,10 +22,12 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     private Vector3 scaleOrigin;
     private Coroutine sizeShiftRoutine;
+    private Coroutine levelSizeShiftRoutine;
 
     protected override void Awake()
     {
         base.Awake();
+        levelsSprite.SetActive(false);
         scaleOrigin = spriteObj.transform.localScale;
     }
 
@@ -41,7 +44,6 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
 
     public void UpdateObject()
     {
-        //Debug.Log("Updating Object");
         if (myAbility.sprite != null)
         { 
             spriteObj.GetComponent<Image>().sprite = myAbility.sprite;           
@@ -50,19 +52,17 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
         {
             spriteObj.GetComponent<Image>().color = Color.white;
         }
-
+        
         if (LevelText != null)
         {
-            //Debug.Log("Updating Text");
             if (myAbility.enhancementLevel == 0)
             {
-                //Debug.Log("Base Form Text");
-                LevelText.text = "Base Form";
+                levelsSprite.SetActive(false);
             }
-            else
+            else if (myAbility.enhancementLevel > 1)
             {
-                //ebug.Log("Level Change");
-                LevelText.text = "E-Level: " + myAbility.enhancementLevel;
+                levelsSprite.SetActive(true);
+                LevelText.text = myAbility.enhancementLevel.ToString();
             }
             // Maybe add colour changes
         }
@@ -98,14 +98,14 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
         OnAbilityDragStart?.Invoke(this);
 
         if (sizeShiftRoutine != null) StopCoroutine(sizeShiftRoutine);
-        sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(scaleOrigin * 0.8f));
+        sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(spriteObj, scaleOrigin * 0.8f, 1));
     }
 
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
     {
         OnAbilityDragEnd?.Invoke(this);
         if (sizeShiftRoutine != null) StopCoroutine(sizeShiftRoutine);
-        sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(scaleOrigin * 1.2f));
+        sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(spriteObj, scaleOrigin * 1.2f, 1));
     }
 
     protected override void OnBeginDrag(PointerEventData eventData)
@@ -122,32 +122,56 @@ public class DraggableAbility : DraggableObject, IPointerEnterHandler, IPointerE
         OnAbilityDragEnd?.Invoke(this);
 
         if (sizeShiftRoutine != null) StopCoroutine(sizeShiftRoutine);
-        sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(scaleOrigin * 1.2f));
+        sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(spriteObj, scaleOrigin * 1.2f, 1));
     }
 
     public void SizeUp()
     {
         //Debug.Log("sizeup called");
         if (sizeShiftRoutine != null) StopCoroutine(sizeShiftRoutine);
-        sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(scaleOrigin * 1.2f));
+        sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(spriteObj, scaleOrigin * 1.2f, 1));
     }
 
     public void SizeDown()
     {
         if (sizeShiftRoutine != null) StopCoroutine(sizeShiftRoutine);
-        sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(scaleOrigin));
+        sizeShiftRoutine = StartCoroutine(SizeShiftRoutine(spriteObj, scaleOrigin, 1));
     }
 
-    private IEnumerator SizeShiftRoutine(Vector3 targetScale)
+    private IEnumerator SizeShiftRoutine(GameObject obj, Vector3 targetScale, float duration)
     { 
-        float timer = 1f;
-        while (timer > 0)
+        float timer = 0;
+        float t = 0;
+        while (t < 1)
         {
-            timer -= Time.deltaTime;
-            spriteObj.transform.localScale = Vector3.Lerp(spriteObj.transform.localScale, targetScale, 1 - timer);
+            timer += Time.deltaTime;
+            t = timer / duration;
+            obj.transform.localScale = Vector3.Lerp(spriteObj.transform.localScale, targetScale, t);
             yield return null;
         }
 
-        spriteObj.transform.localScale = targetScale;
+        obj.transform.localScale = targetScale;
     }
+
+    //private void HandleLevelShizeSift()
+    //{
+    //    if (levelSizeShiftRoutine != null)
+    //    { 
+    //        StopCoroutine(levelSizeShiftRoutine);
+    //    }
+    //    levelSizeShiftRoutine = StartCoroutine(ShiftLevelSymbolIntoView());
+    //}
+
+    //private IEnumerator ShiftLevelSymbolIntoView()
+    //{
+    //    Vector3 startScale = Vector3.one;
+    //    Vector3 popScale = startScale * 1.2f;
+    //    levelsSprite.transform.localScale = Vector3.zero;
+
+    //    levelsSprite.SetActive(true);
+
+    //    yield return StartCoroutine(SizeShiftRoutine(levelsSprite, popScale, 0.05f));
+    //    yield return StartCoroutine(SizeShiftRoutine(levelsSprite, startScale, 0.025f));
+    //    levelSizeShiftRoutine = null;
+    //}
 }

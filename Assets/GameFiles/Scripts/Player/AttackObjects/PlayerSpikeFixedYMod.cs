@@ -57,7 +57,7 @@ public class PlayerSpikeFixedYMod : MonoBehaviour
 
     private void DamageEnemy(GameObject Enemy)
     {
-        AudioManager.instance.PlayRandomSoundClip(spikeOnHitSound, new Vector3(0, 0, 0), 0.7f);
+        //AudioManager.instance.PlayRandomSoundClip(spikeOnHitSound, new Vector3(0, 0, 0), 0.7f);
         Enemy.GetComponent<EnemyStateController>().OnTakeDamage(18, Color.silver);
         if (age > 0.75f)
         {

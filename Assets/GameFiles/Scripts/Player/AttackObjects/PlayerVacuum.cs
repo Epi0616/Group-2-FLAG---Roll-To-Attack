@@ -18,7 +18,7 @@ public class PlayerVacuum : MonoBehaviour
         this.range = range;
         this.timer = timer;
         ShowRange();
-        AudioManager.instance.PlayRandomSoundClip(mineSpawned, new Vector3(0, 0, 0), 1.0f);
+        //AudioManager.instance.PlayRandomSoundClip(mineSpawned, new Vector3(0, 0, 0), 1.0f);
         StartCoroutine(CountDown());
     }
 
@@ -82,7 +82,7 @@ public class PlayerVacuum : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer < 0.055f && !hasPlayedSFX)
             {
-                AudioManager.instance.PlayRandomSoundClip(mineDetonated, new Vector3(0, 0, 0), 1f);
+                //AudioManager.instance.PlayRandomSoundClip(mineDetonated, new Vector3(0, 0, 0), 1f);
                 hasPlayedSFX = true;
             }
 

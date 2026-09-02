@@ -101,6 +101,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         AbilitySelectionUI.SetActive(false);
         //UpgradeConfirmationUI.SetActive(false);
 
+        MusicPlayer.instance.UndampenMusic();
         DiceFaceSelectionOver?.Invoke(delayBetweenWaves);
     }
 
@@ -119,6 +120,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     private void Setup()
     {
         DiceFaceSelectionStart?.Invoke();
+        MusicPlayer.instance.DampenMusic();
         AbilitySelectionUI.SetActive(true);
 
         //DiceFaceSelectionUI.GetComponent<CanvasGroup>().alpha = 0;
