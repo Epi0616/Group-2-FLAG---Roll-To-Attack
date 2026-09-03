@@ -13,7 +13,6 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     protected virtual void Awake()
     {
         canvas = GetComponentInParent<Canvas>();
-        SearchForDropZones();
     }
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
@@ -44,6 +43,8 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         //Debug.Log("end drag");
         //ResetCurrentParent();
         currentParent.RemoveChild(this);
+
+        SearchForDropZones();
         foreach (var zone in dropZones)
         {
             if (IsOverlapping(rectTransform, zone.GetComponent<RectTransform>()))

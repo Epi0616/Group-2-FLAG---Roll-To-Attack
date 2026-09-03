@@ -106,7 +106,7 @@ public class PlayerRocket : MonoBehaviour
         ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
 
         Enemy.GetComponent<EnemyStateController>().OnTakeDamage(20, Color.orange);
-        AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
+        //AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
         DestroyMe();
     }
 

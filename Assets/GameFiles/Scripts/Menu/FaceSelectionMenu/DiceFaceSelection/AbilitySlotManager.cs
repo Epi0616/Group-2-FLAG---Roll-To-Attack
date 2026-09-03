@@ -10,10 +10,13 @@ public class AbilitySlotManager : MonoBehaviour
 
     public List<AbilitySlot> abilitySlots = new List<AbilitySlot>();
     public List<AbilitySlot> abilityStorage = new List<AbilitySlot>();
-    [SerializeField] private int storageSlotCount = 0;
     [SerializeField] private GameObject centralAbilityPoint;
     [SerializeField] private GameObject abilityObjectPrefab;
     [SerializeField] private ModifiableActionDescriptor fillAbility;
+
+    [SerializeField] private GameObject AbilityStorageLayoutObj;
+    [SerializeField] private GameObject abilitySlotPrefab;
+    [SerializeField] private int storageSlotCount = 0;
 
     [SerializeField] private Entity player;
 
@@ -36,6 +39,11 @@ public class AbilitySlotManager : MonoBehaviour
         modifiableActions = player as IModifiableActions;
     }
 
+    private void Start()
+    {
+        CreateStorageSlots();
+    }
+
     public void Unpack()
     {
         SetUpCurrentDiceFaces();
@@ -45,6 +53,16 @@ public class AbilitySlotManager : MonoBehaviour
     {
         SendOffCurrentAbilities();
         DestroyDraggableObjects();
+    }
+
+    private void CreateStorageSlots()
+    {
+        for (int i = 0; i < storageSlotCount; i++)
+        {
+            GameObject currentSlotObj = Instantiate(abilitySlotPrefab, AbilityStorageLayoutObj.transform);
+            AbilitySlot currentSlot = currentSlotObj.GetComponent<AbilitySlot>();
+            abilityStorage.Add(currentSlot);
+        }
     }
 
     private void SetUpCurrentDiceFaces()
@@ -151,7 +169,6 @@ public class AbilitySlotManager : MonoBehaviour
 
     public void FillSlotWithBasic(int i)
     {
-        Debug.Log("Add New Basic");
         var tempObj = Instantiate(abilityObjectPrefab, transform);
         tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(fillAbility.Create());
         abilitySlots[i].AddChild(tempObj.GetComponent<DraggableAbility>());       
@@ -225,7 +242,6 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void SwapSlots()
     {
-        Debug.Log("Slots Swapped");
         AbilityDropZoneParent parent1, parent2;
         DraggableObject ability1, ability2;
 

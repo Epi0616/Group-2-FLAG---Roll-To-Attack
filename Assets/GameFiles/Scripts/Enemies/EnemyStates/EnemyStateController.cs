@@ -134,11 +134,11 @@ public abstract class EnemyStateController : MonoBehaviour
         playerController = playerReference.GetComponent<PlayerStateController>();
         if (this is RangedRaiderEnemy)
         {
-            AudioManager.instance.PlayRandomSoundClip(EnemySpawnSounds, default, 0.3f);
+            //AudioManager.instance.PlayRandomSoundClip(EnemySpawnSounds, default, 0.3f);
         }
         else
         {
-            AudioManager.instance.PlayRandomSoundClip(EnemySpawnSounds, default, 0.6f);
+            //AudioManager.instance.PlayRandomSoundClip(EnemySpawnSounds, default, 0.6f);
         }
 
 
@@ -196,7 +196,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
         RunTimeStatTracker.totalDamageDealt += finalDamage;
 
-        AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
+        //AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
         ShowDamage(finalDamage);
 
         if (currentHealth <= 0)
@@ -212,7 +212,7 @@ public abstract class EnemyStateController : MonoBehaviour
 
         RunTimeStatTracker.totalDamageDealt += finalDamage;
 
-        AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds, default, 0.4f);
+        //AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds, default, 0.4f);
 
         ShowDamage(finalDamage, color);
 
@@ -571,7 +571,7 @@ public abstract class EnemyStateController : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        AudioManager.instance.PlayRandomSoundClip(EnemyDeathSounds, new Vector3(0, 0, 0), 1f);
+        //AudioManager.instance.PlayRandomSoundClip(EnemyDeathSounds, new Vector3(0, 0, 0), 1f);
 
         currentState?.ExitState();
         //StopVibrating();
@@ -616,14 +616,14 @@ public abstract class EnemyStateController : MonoBehaviour
         if (appliedDamage < 10) { return; }
         if (wallSlamDamageModifierStat.GetFinalValue() > 1.1f)
         {
-            AudioManager.instance.PlayRandomSoundClip(EnemyShatteredSounds);
+            //AudioManager.instance.PlayRandomSoundClip(EnemyShatteredSounds);
             ShowEffect(shatteredText.GetLocalizedString(), Color.deepSkyBlue);
             OnTakeDamage(appliedDamage, Color.deepSkyBlue);
             RemoveEffectByType(StatusType.Freeze);
         }
         else
         {
-            AudioManager.instance.PlayRandomSoundClip(EnemyWallSlamSounds);
+            //AudioManager.instance.PlayRandomSoundClip(EnemyWallSlamSounds);
             ShowEffect(slammedText.GetLocalizedString(), Color.darkGoldenRod);
             OnTakeDamage(appliedDamage, Color.darkGoldenRod);
         }
