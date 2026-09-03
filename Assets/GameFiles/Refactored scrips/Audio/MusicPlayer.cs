@@ -57,7 +57,6 @@ public class MusicPlayer : MonoBehaviour
     public void DampenMusic()
     {
         dampenRequests++;
-        Debug.Log($"dampening music with {dampenRequests} requests");
         if (dampenRequests > 1) return;
         if (dampenRoutine != null)
         {
@@ -69,7 +68,6 @@ public class MusicPlayer : MonoBehaviour
     public void UndampenMusic()
     {
         dampenRequests--;
-        Debug.Log($"undampening music with {dampenRequests} requests");
         if (dampenRequests > 0) return;
         if (dampenRoutine != null)
         {
@@ -107,6 +105,7 @@ public class MusicPlayer : MonoBehaviour
         ConnectPlayable(newPlayable, mainMixer);
 
         mainMixer.currentType = audioPackage.musicType;
+        source.volume = audioPackage.volume;
     }
 
     public void PlayMusicWithFade(MusicPackage audioPackage, float crossFadeDuration = 0.2f, float window = 0f)
@@ -123,6 +122,7 @@ public class MusicPlayer : MonoBehaviour
         mainMixer.crossFadeRoutine = StartCoroutine(ConnectPlayableCrossFade(newPlayable, currentPlayable, mainMixer, crossFadeDuration));
 
         mainMixer.currentType = audioPackage.musicType;
+        source.volume = audioPackage.volume;
     }
 
     private void ConnectPlayable(AudioClipPlayable newPlayable, AudioMixerContainer mixer)
