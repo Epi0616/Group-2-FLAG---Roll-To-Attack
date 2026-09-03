@@ -83,6 +83,7 @@ public class PauseMenu : MonoBehaviour
         if (!isGamePaused)
         {
             pauseMenuUI.SetActive(true);
+            MusicPlayer.instance.DampenMusic();
             EventSystem.current.firstSelectedGameObject = pauseMenuButtons[0];
             UISelectionManager.instance.TrySetSelectedGameObject(pauseMenuButtons[0]);
             //EventSystem.current.SetSelectedGameObject(pauseMenuButtons[0]);
@@ -94,6 +95,7 @@ public class PauseMenu : MonoBehaviour
             settingsManager.ClearSettingsScreen();
             SetPauseButtonsVisibility(true);
             pauseMenuUI.SetActive(false);
+            MusicPlayer.instance.UndampenMusic();
 
             if (previousUiSelection != null)
             {

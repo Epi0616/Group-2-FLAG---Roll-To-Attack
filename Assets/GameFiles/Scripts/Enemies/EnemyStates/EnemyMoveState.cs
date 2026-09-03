@@ -44,7 +44,7 @@ public class EnemyMoveState : EnemyBaseState
 
         if (footStepTimer > 1f)
         {
-            AudioManager.instance.PlayRandomSoundClip(enemy.EnemyWalkSounds);
+            //AudioManager.instance.PlayRandomSoundClip(enemy.EnemyWalkSounds);
             footStepTimer = 0f;
         }
 

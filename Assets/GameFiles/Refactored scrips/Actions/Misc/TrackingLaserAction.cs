@@ -8,6 +8,9 @@ using System.Collections;
 [Serializable]
 public class TrackingLaserAction : BaseBoxCastAction , ILaser
 {
+    [SerializeField] AudioPackage chargeSound;
+    [SerializeField] AudioPackage laserSound;
+
     [SerializeField] private int TickDamage = 2;
     public int tickDamage { get => TickDamage; set => TickDamage = value; }
     [SerializeField] private float ChargingBeamWidth = 4f;
@@ -28,7 +31,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
 
     public TrackingLaserAction() { }
     public TrackingLaserAction(int tickDamage, float chargingVisualWidth, float activeVisualWidth, Color chargingVisualColour, Color activeVisualColour,
-        float castWidth, float castRange, float chargeDuration, float activeDuration, bool isBlockedByEnvironment, bool doesActionPreventMovement) 
+        float castWidth, float castRange, float chargeDuration, float activeDuration, bool isBlockedByEnvironment, bool doesActionPreventMovement, AudioPackage chargeSound, AudioPackage laserSound) 
         : base (castWidth, castRange, chargeDuration, activeDuration, isBlockedByEnvironment, doesActionPreventMovement)
     {
         this.tickDamage = tickDamage;
@@ -36,6 +39,8 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
         this.activeVisualWidth = activeVisualWidth;
         this.chargingVisualColour = chargingVisualColour;
         this.activeVisualColour = activeVisualColour;
+        this.chargeSound = chargeSound;
+        this.laserSound = laserSound;
     }
 
 
@@ -86,6 +91,7 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
     //chargeDuration + activeDuration + 1.5f
     protected override void CastChargeStarted()
     {
+        AudioManager.instance.PlaySound(laserSound);
         laserAccess.laserVFX.Reinit();
         laserAccess.laserVFX.SetFloat("Duration", 20f);
         laserAccess.laserVFX.SetVector4("Beam Colour", chargingVisualColour);
@@ -112,6 +118,8 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
 
     protected override void CastActiveStarted()
     {
+        //AudioManager.instance.PlaySound(laserSound);
+
         laserAccess.laserVFX.SetVector4("Beam Colour", activeVisualColour);
         laserAccess.laserVFX.enabled = true;
 
@@ -254,6 +262,6 @@ public class TrackingLaserAction : BaseBoxCastAction , ILaser
 
     public override BaseEntityAction Clone()
     {
-        return new TrackingLaserAction(tickDamage, chargingVisualWidth, activeVisualWidth, chargingVisualColour, activeVisualColour, castWidth, castRange.GetFinalValue(), chargeDuration, activeDuration, isBlockedByEnvironment, doesActionPreventMovement);
+        return new TrackingLaserAction(tickDamage, chargingVisualWidth, activeVisualWidth, chargingVisualColour, activeVisualColour, castWidth, castRange.GetFinalValue(), chargeDuration, activeDuration, isBlockedByEnvironment, doesActionPreventMovement, chargeSound, laserSound);
     }
 }

@@ -42,7 +42,7 @@ public class SandGolemEnemy : EnemyStateController
         Ray ray = new Ray(attackOriginTransform.position, Vector3.down);
         bool wewa = (Physics.Raycast(ray, out hit, 20f, environmentLayer));
         Collider [] colliders = Physics.OverlapSphere(hit.point, meleeAttackRadius, canBeKnockedBackByGolem);
-        AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);
+        //AudioManager.instance.PlayRandomSoundClip(EnemyActiveAttackSounds, default, 0.5f);
         foreach (var collider in colliders)
         {
             if (collider.gameObject == gameObject) { continue; }
@@ -78,7 +78,7 @@ public class SandGolemEnemy : EnemyStateController
 
     private IEnumerator ChargeTime()
     {
-        AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
+        //AudioManager.instance.PlayRandomSoundClip(EnemyAttackChargeUpSounds);
         yield return new WaitForSeconds(meleeAttackChargeTime);
         if (attackInterrupted)
         {

@@ -70,7 +70,7 @@ public class PoisionImpactField : MonoBehaviour
 
             if (collider.gameObject.CompareTag("Enemy"))
             {
-                AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
+                //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
                 collider.gameObject.GetComponent<EnemyStateController>().OnTakeDamage(8, Color.green);
                 //Debug.Log("dealing damage");
             }
