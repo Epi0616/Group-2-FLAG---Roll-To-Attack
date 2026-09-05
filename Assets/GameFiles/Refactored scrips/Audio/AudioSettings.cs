@@ -10,7 +10,7 @@ public class AudioSettings : MonoBehaviour
     public AudioMixerGroup sfxMixerGroup;
     public AudioMixerGroup musicMixerGroup;
 
-    [SerializeField] InteractableMovingSlider master, sfx, music;
+    [SerializeField] Slider master, sfx, music;
 
     public void AdjustMasterVolume()
     {

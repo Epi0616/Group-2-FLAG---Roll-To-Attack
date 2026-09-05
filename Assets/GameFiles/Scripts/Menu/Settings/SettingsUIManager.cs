@@ -15,7 +15,6 @@ public class SettingsUIManager : MonoBehaviour
     [SerializeField] private GameObject audioSettingsUI;
     [SerializeField] private GameObject videoSettingsUI;
     [SerializeField] private GameObject KeysBindUI;
-    [SerializeField] private GameObject background;
 
     [SerializeField] private GameObject previousMenuSelection;
     [SerializeField] private GameObject mainSettingsFirstSelected;
@@ -40,7 +39,6 @@ public class SettingsUIManager : MonoBehaviour
     { 
         settingsOpen = true;
         ClearSettingsScreen();
-        background.SetActive(true);
         mainSettingsUI.SetActive(true);
         EventSystem.current.firstSelectedGameObject = mainSettingsFirstSelected;
         UISelectionManager.instance.TrySetSelectedGameObject(mainSettingsFirstSelected);
@@ -52,7 +50,6 @@ public class SettingsUIManager : MonoBehaviour
     {
         ClearSettingsScreen();
         gameSettingsUI.SetActive(true);
-        background.SetActive(true);
         EventSystem.current.firstSelectedGameObject = gameSettingsFirstSelected;
         UISelectionManager.instance.TrySetSelectedGameObject(gameSettingsFirstSelected);
         //EventSystem.current.SetSelectedGameObject(gameSettingsFirstSelected);
@@ -63,7 +60,6 @@ public class SettingsUIManager : MonoBehaviour
     {
         ClearSettingsScreen();
         audioSettingsUI.SetActive(true);
-        background.SetActive(true);
         EventSystem.current.firstSelectedGameObject = audioSettingsFirstSelected;
         UISelectionManager.instance.TrySetSelectedGameObject(audioSettingsFirstSelected);
         //EventSystem.current.SetSelectedGameObject(audioSettingsFirstSelected);
@@ -74,7 +70,6 @@ public class SettingsUIManager : MonoBehaviour
     {
         ClearSettingsScreen();
         videoSettingsUI.SetActive(true);
-        background.SetActive(true);
         EventSystem.current.firstSelectedGameObject = videoSettingsFirstSelected;
         UISelectionManager.instance.TrySetSelectedGameObject(videoSettingsFirstSelected);
         //EventSystem.current.SetSelectedGameObject(videoSettingsFirstSelected);
@@ -85,7 +80,6 @@ public class SettingsUIManager : MonoBehaviour
     { 
         ClearSettingsScreen();
         KeysBindUI.SetActive(true);
-        background.SetActive(true);
         //EventSystem.current.SetSelectedGameObject(keysBindFirstSelected);
         currentSettingsScreen = KeysBindUI;
         keyBindUIOpened?.Invoke();
@@ -114,7 +108,6 @@ public class SettingsUIManager : MonoBehaviour
         }
 
         settingsClosed?.Invoke(true);
-        background.SetActive(false);
         settingsOpen = false;
         EventSystem.current.firstSelectedGameObject = previousMenuSelection;
         UISelectionManager.instance.TrySetSelectedGameObject(previousMenuSelection);
@@ -127,11 +120,7 @@ public class SettingsUIManager : MonoBehaviour
     {
         settingsCleared?.Invoke();
 
-        background.SetActive(false);
         mainSettingsUI.SetActive(false);
-        gameSettingsUI.SetActive(false);
-        audioSettingsUI.SetActive(false);
-        videoSettingsUI.SetActive(false);
         KeysBindUI.SetActive(false);
     }
 }

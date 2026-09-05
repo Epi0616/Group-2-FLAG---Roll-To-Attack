@@ -14,18 +14,18 @@ public class VideoSettingUI : MonoBehaviour
     public void ToggleFPSVisibility()
     {
         fpsCounterCheckMark.SetActive(!fpsCounterCheckMark.activeSelf);
-        toggleFPSVisibility.Invoke();
+        toggleFPSVisibility?.Invoke();
     }
 
     public void ToggleVsync()
     {
         vSyncCheckMark.SetActive(!vSyncCheckMark.activeSelf);
-        toggleVSync.Invoke(vSyncCheckMark.activeSelf);
+        toggleVSync?.Invoke(vSyncCheckMark.activeSelf);
     }
 
     public void TogglePostProcessing()
     {
         postProcessingCheckMark.SetActive(!postProcessingCheckMark.activeSelf);
-        togglePostProcessing.Invoke(postProcessingCheckMark.activeSelf);
+        togglePostProcessing?.Invoke(postProcessingCheckMark.activeSelf);
     }
 }

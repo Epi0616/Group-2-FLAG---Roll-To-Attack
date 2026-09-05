@@ -75,7 +75,7 @@ public class InteractableSizeScript : MonoBehaviour, IPointerEnterHandler, IPoin
 
         while (t < 1)
         {
-            timer -= Time.deltaTime;
+            timer -= Time.unscaledDeltaTime;
             t = (duration - timer) / duration;
 
             rectTransform.localScale = Vector3.Lerp(from, to, t);

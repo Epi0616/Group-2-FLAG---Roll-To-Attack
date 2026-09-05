@@ -7,11 +7,13 @@ public class PostProcessing : MonoBehaviour
     private void OnEnable()
     {
         PostProcessingSetting.togglePostProcessing += TogglePostProcessing;
+        VideoSettingUI.togglePostProcessing += TogglePostProcessing;
     }
 
     private void OnDisable()
     {
         PostProcessingSetting.togglePostProcessing -= TogglePostProcessing;
+        VideoSettingUI.togglePostProcessing -= TogglePostProcessing;
     }
     private void TogglePostProcessing(bool isActive)
     { 
