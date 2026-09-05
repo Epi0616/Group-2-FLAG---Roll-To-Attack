@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using System;
 
 public interface IUpgradableAbility
 {
@@ -14,6 +15,7 @@ public interface IEnhancedAbility
 
 public class UpgradeManager : MonoBehaviour
 {
+    public static event Action AbilityUpgraded;
     public static UpgradeManager Instance { get; private set; }
 
     [SerializeField] private AbilitySlot UpgradeUIslot1;
@@ -78,6 +80,8 @@ public class UpgradeManager : MonoBehaviour
                     slot1.AddChild(tempAB);
                     abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
+                    AbilityUpgraded?.Invoke();
+
                     Debug.Log("Basic Ability Upgrade to Enhanced");
                     return true;                   
                 }
@@ -99,6 +103,8 @@ public class UpgradeManager : MonoBehaviour
                         abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
                         Debug.Log("Enhanced Ability Levelled Up to Level: " + modifiableAction1.enhancementLevel);
+                        AbilityUpgraded?.Invoke();
+
                         return true;
                     }
                     
@@ -153,6 +159,7 @@ public class UpgradeManager : MonoBehaviour
                     Destroy(DragAB2.gameObject);
 
                     //Debug.Log("Basic Ability Upgrade to Enhanced");
+                    AbilityUpgraded?.Invoke();
                     return;
                 }
                 else if (action1 is IEnhancedAbility EAB1 && action2 is IEnhancedAbility EAB2)
@@ -174,6 +181,7 @@ public class UpgradeManager : MonoBehaviour
                         Destroy(DragAB2.gameObject);
 
                         //Debug.Log("Enhanced Ability Levelled Up to Level: " + EHolder1.EnhancementLevel);
+                        AbilityUpgraded?.Invoke();
                         return;
                     }
 

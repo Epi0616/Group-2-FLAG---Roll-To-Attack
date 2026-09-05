@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -229,6 +230,32 @@ public class WaitForAbilitySelected : TutorialCondition
         AbilityPanel.AbilitySelected -= OnAbilitySelect;
     }
     private void OnAbilitySelect(AbilityPanel panel)
+    {
+        complete = true;
+    }
+}
+
+[Serializable]
+public class WaitForAbilityUpgraded : TutorialCondition
+{
+    private bool complete;
+    public override IEnumerator Wait(TutorialManager manager)
+    {
+        complete = false;
+        UpgradeManager.AbilityUpgraded += OnUpgrade;
+        while (!complete)
+        {
+            if (manager.restartCurrentStep)
+            {
+                UpgradeManager.AbilityUpgraded -= OnUpgrade;
+                yield break;
+            }
+
+            yield return null;
+        }
+        UpgradeManager.AbilityUpgraded -= OnUpgrade;
+    }
+    private void OnUpgrade()
     {
         complete = true;
     }

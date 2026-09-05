@@ -39,6 +39,7 @@ public class TutorialManager : MonoBehaviour
     public InputActionReference skipInput;
     private bool hasSkippedThisStep;
     public bool inputConsumed;
+    public List<ModifiableActionDescriptor> storageActions = new();
 
     public static TutorialManager Instance;
     private Dictionary<string, RectTransform> uiElements = new Dictionary<string, RectTransform>();
@@ -94,8 +95,17 @@ public class TutorialManager : MonoBehaviour
     // Just call this to start Tutorial
     public IEnumerator StartTutorialDisplay()
     {
-        yield return new WaitUntil(() => !Input.GetMouseButton(0));
-        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        //yield return new WaitUntil(() => !Input.GetMouseButton(0));
+        //yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+
+        yield return new WaitForSecondsRealtime(1.5f);
+
+        foreach (ModifiableActionDescriptor mod in storageActions)
+        {
+            player.modifiableActionStorage.Add(mod.Create());
+        }
+
+
         int stageIndex = 0;
         while (stageIndex < stages.Count)
         {
