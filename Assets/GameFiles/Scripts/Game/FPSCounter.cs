@@ -31,10 +31,9 @@ public class FPSCounter : MonoBehaviour
         }
     }
 
-    private void SetTextVisibility()
+    private void SetTextVisibility(bool visible)
     {
-        isVisible = !isVisible;
-        if (isVisible)
+        if (visible)
         {
             fpsText.alpha = 1;
             return;
