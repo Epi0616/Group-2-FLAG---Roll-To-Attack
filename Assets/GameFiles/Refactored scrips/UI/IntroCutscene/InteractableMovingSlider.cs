@@ -17,8 +17,8 @@ public class InteractableMovingSlider : Slider, IBeginDragHandler, IEndDragHandl
     {
         base.Start();
         TryLoadPrefs();
-        animationManager.Initialize();
-        animationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.2f);
+        animationManager?.Initialize();
+        animationManager?.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.2f);
     }
 
     public override void OnDrag(PointerEventData eventData)
@@ -28,12 +28,12 @@ public class InteractableMovingSlider : Slider, IBeginDragHandler, IEndDragHandl
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        animationManager.EndCurrentAnimation(MixerType.main);
+        animationManager?.EndCurrentAnimation(MixerType.main);
     }
     public void OnEndDrag(PointerEventData eventData)
     {
         AdjustTargetAlpha(1);
-        animationManager.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.35f);
+        animationManager?.PlayAnimation(AnimationType.WakeUp, 1, MixerType.main, 0.35f);
         PlayerPrefsManager.instance?.SetFloat(audioType, value);
     }
 

@@ -1,27 +1,35 @@
 using UnityEngine;
 using System;
 
-public class GameSettings : MonoBehaviour
+public class GameSettings : MonoBehaviour, ILoadPlayerPrefs
 {
-    //public static event Action<bool> toggleFullScreen;
-    public static Action<bool> autoStart;
+    [SerializeField] private GameObject fullScreenCheckMark;
 
-    [SerializeField] private GameObject languageNote;
-    [SerializeField] private GameObject fullScreenCheckMark, autoStartCheckMark;
-    public void ToggleLanguageNoteVisibility()
+    private void OnEnable()
     {
-        languageNote.SetActive(!languageNote.activeSelf);
+        TryLoadPrefs();
+    }
+
+    private void Start()
+    {
+        TryLoadPrefs();
     }
 
     public void ToggleFullScreen()
     { 
         fullScreenCheckMark.SetActive(!fullScreenCheckMark.activeSelf);
         Screen.fullScreen = fullScreenCheckMark.activeSelf;
+        PlayerPrefsManager.instance?.SetBool(PlayerValues.FullScreen, fullScreenCheckMark.activeSelf);
     }
 
-    public void ToggleAutoStart()
+    public void TryLoadPrefs()
     {
-        autoStartCheckMark.SetActive(!autoStartCheckMark.activeSelf);
-        autoStart?.Invoke(autoStartCheckMark.activeSelf);
+        if (!PlayerPrefsManager.instance) return;
+
+        if (PlayerPrefsManager.instance.GetBool(PlayerValues.FullScreen, out bool fullScreen))
+        {
+            fullScreenCheckMark.SetActive(fullScreen);
+            Screen.fullScreen = fullScreen;
+        }
     }
 }
