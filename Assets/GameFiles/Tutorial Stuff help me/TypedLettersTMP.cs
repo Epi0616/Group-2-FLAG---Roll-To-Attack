@@ -40,9 +40,10 @@ public class TypedLettersTMP : MonoBehaviour
         while (currentVisibleCharacters < textBox.text.Length)
         {
             char character = textInfo.characterInfo[currentVisibleCharacters].character;
-            textBox.maxVisibleCharacters++;
+            if (!PauseMenu.isGamePaused) { textBox.maxVisibleCharacters++; }
             yield return simpleDelay;
-            currentVisibleCharacters++;
+            if (!PauseMenu.isGamePaused) { currentVisibleCharacters++; }
+            
         }
        // Debug.Log("Finished Set to true from Typing()");
         finishedTyping = true;
@@ -51,6 +52,7 @@ public class TypedLettersTMP : MonoBehaviour
     public void Skip()
     {
         if (isSkipping) { return; }
+        if (PauseMenu.isGamePaused) { return; }
         isSkipping = true;
         if (typingCoroutine != null)
         {

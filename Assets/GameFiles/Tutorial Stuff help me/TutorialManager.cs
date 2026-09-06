@@ -241,6 +241,8 @@ public class TutorialManager : MonoBehaviour
 
     public bool HandleConditionInput(InputAction.CallbackContext context)
     {
+        if (PauseMenu.isGamePaused) { return false; }
+
         if (context.action == skipInput.action && !inputConsumed && !typingTextBox.finishedTyping)
         {
             typingTextBox.Skip();
