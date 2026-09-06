@@ -1,9 +1,11 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Localization;
 
 [CreateAssetMenu(fileName = "TutorialStage", menuName = "Scriptable Objects/TutorialStage")]
 public class TutorialStage : ScriptableObject
@@ -14,12 +16,15 @@ public class TutorialStage : ScriptableObject
 [Serializable]
 public class TutorialStep
 {
-    public string Text;
-    public string ResetText;
+    //public string Text;
+    //public string ResetText;
+    public LocalizedString Text;
+    public LocalizedString ResetText;
     public Vector2 pos;
     public bool usesPortrait;
     public bool pausesGame;
     public bool blocksUIInteraction;
+    public List<string> allowedAreas;
     public bool bringUpSelectionUI;
     public bool highlightElement;
     public Vector2 HighlightPos;
@@ -228,6 +233,60 @@ public class WaitForAbilitySelected : TutorialCondition
     {
         complete = true;
     }
+}
+
+[Serializable]
+public class WaitForAbilityUpgraded : TutorialCondition
+{
+    private bool complete;
+    public override IEnumerator Wait(TutorialManager manager)
+    {
+        complete = false;
+        UpgradeManager.AbilityUpgraded += OnUpgrade;
+        while (!complete)
+        {
+            if (manager.restartCurrentStep)
+            {
+                UpgradeManager.AbilityUpgraded -= OnUpgrade;
+                yield break;
+            }
+
+            yield return null;
+        }
+        UpgradeManager.AbilityUpgraded -= OnUpgrade;
+    }
+    private void OnUpgrade()
+    {
+        complete = true;
+    }
+}
+
+[Serializable]
+public class WaitForAbilityDrag : TutorialCondition
+{
+    private bool complete;
+
+    public override IEnumerator Wait(TutorialManager manager)
+    {
+        complete = false;
+        DraggableAbility.OnAbilityDragStart += OnComplete;
+        while (!complete)
+        {
+            if (manager.restartCurrentStep)
+            {
+                DraggableAbility.OnAbilityDragStart -= OnComplete;
+                yield break;
+            }
+
+            yield return null;
+        }
+        DraggableAbility.OnAbilityDragStart -= OnComplete;
+    }
+    private void OnComplete(DraggableAbility wewa)
+    {
+        complete = true;
+    }
+    
 }
 
 [Serializable]

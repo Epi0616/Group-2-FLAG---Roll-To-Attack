@@ -140,6 +140,8 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
+  GroundCheckDistance: 0
+  IsGrounded: 0
   CanMove: 1
   MovementSpeed:
     baseValue: 20
@@ -148,6 +150,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a0c1ce3b60114a14390cfc4f649d804e, type: 2}
   ConditionalActionDescriptors: []
   ConditionalActions: []
+  CanAct: 1
   WeightModifier:
     baseValue: 1
   SlammedDMGMod:
@@ -155,8 +158,38 @@ MonoBehaviour:
   IsBeingDisplaced: 0
   CanBeStunned: 1
   IsStunned: 0
+  StunInterval: 0
+  CurrentStunInterval: 0
   AnimationManager: {fileID: -1332680834428604208}
   SpawnModifier: 0
+  IsWaveEnemy: 0
+  SlammedString:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  ShatteredString:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  CrushedString:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   ImpactFieldPrefab: {fileID: 6664735643434216668, guid: 15fc9c6f94914af4ca880e24f0cf9b45, type: 3}
   PedestalLayer:
     serializedVersion: 2
@@ -177,7 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415480002693d3b4786c1aec93250f47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DummyHealthSystem
-  maxHealth: 80
+  maxHealth:
+    baseValue: 0
   currentHealth: 0
   isDead: 0
 --- !u!114 &8710568842111942226
@@ -205,7 +239,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityBodySystem
   body: {fileID: 1520880690934357989}
+  headTransform: {fileID: 0}
+  baseplateTransform: {fileID: 0}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  renderer: {fileID: 0}
 --- !u!114 &4022750619407584921
 MonoBehaviour:
   m_ObjectHideFlags: 0

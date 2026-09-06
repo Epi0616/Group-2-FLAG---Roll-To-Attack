@@ -8,7 +8,7 @@ public class FloatingDamageText : MonoBehaviour
     [SerializeField] private Renderer myRenderer;
     [SerializeField] private TextMeshPro tmp;
     private Camera targetCamera;
-    private float lifeTime = 3f;
+    private float lifeTime = 2f;
     private Vector3 originalScale;
 
     //set up initialize once enemy spawner is working properly

@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject TutorialTextBoxObj;
     [SerializeField] private GameObject TutorialPortraitObj;
     [SerializeField] private GameObject TutorialUIBlockerObj;
+    [SerializeField] private TutorialUIFilter UIFilter;
     [SerializeField] private GameObject TutorialDarkOverlay;
     [SerializeField] private RectTransform TutorialOverlayCutout;
     private TutorialTextBox textBox;
@@ -18,7 +20,7 @@ public class TutorialManager : MonoBehaviour
     private Image DarkOverlayImage;
     private Color overlayColour;
     [SerializeField] private List<TutorialStage> stages = new List<TutorialStage>();
-    private float boxWidth = 424f;
+    private float boxWidth = 470;
     private TutorialStage currentStage;
     private Coroutine CurrentStageCO = null;
     private Coroutine TimeScalingCO;
@@ -37,20 +39,41 @@ public class TutorialManager : MonoBehaviour
     public InputActionReference skipInput;
     private bool hasSkippedThisStep;
     public bool inputConsumed;
+    public List<ModifiableActionDescriptor> storageActions = new();
+
+    public static TutorialManager Instance;
+    private Dictionary<string, RectTransform> uiElements = new Dictionary<string, RectTransform>();
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         textBox = TutorialTextBoxObj.GetComponentInChildren<TutorialTextBox>();
         boxRect = TutorialTextBoxObj.GetComponent<RectTransform>();
         portraitRect = TutorialPortraitObj.GetComponent<RectTransform>();
         DarkOverlayImage = TutorialDarkOverlay.GetComponent<Image>();
         overlayColour = DarkOverlayImage.color;
+        StartCoroutine(StartTutorialDisplay());
+    }
+
+    public void RegisterUIElement(string ID, RectTransform rect)
+    {
+        uiElements[ID] = rect;
+    }
+    public void UnregisterUIElement(string ID)
+    {
+        uiElements.Remove(ID);
     }
 
     public void Start()
     {
         // Remove to start Tutorial from another Event
-        StartCoroutine(StartTutorialDisplay());
+        
         Debug.Log(skipInput.action.enabled);
     }
 
@@ -72,8 +95,17 @@ public class TutorialManager : MonoBehaviour
     // Just call this to start Tutorial
     public IEnumerator StartTutorialDisplay()
     {
-        yield return new WaitUntil(() => !Input.GetMouseButton(0));
-        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        //yield return new WaitUntil(() => !Input.GetMouseButton(0));
+        //yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+
+        yield return new WaitForSecondsRealtime(1.5f);
+
+        foreach (ModifiableActionDescriptor mod in storageActions)
+        {
+            player.modifiableActionStorage.Add(mod.Create());
+        }
+
+
         int stageIndex = 0;
         while (stageIndex < stages.Count)
         {
@@ -98,13 +130,24 @@ public class TutorialManager : MonoBehaviour
         int stepIndex = 0;
         while (stepIndex < stage.TutorialSteps.Count)
         {
-            Debug.Log("Starting Step " + stepIndex);
+            //Debug.Log("Starting Step " + stepIndex);
             restartCurrentStep = false;
             stepComplete = false;
             hasSkippedThisStep = false;
-
+            
             if (stage.TutorialSteps[stepIndex].blocksUIInteraction)
             {
+                if (stage.TutorialSteps[stepIndex].allowedAreas.Count > 0)
+                {
+                    foreach (string id in stage.TutorialSteps[stepIndex].allowedAreas)
+                    {
+                        if (uiElements.TryGetValue(id, out RectTransform rect))
+                        {
+                            UIFilter.allowedAreas.Add(rect);
+                        }
+                    }
+                    
+                }
                 TutorialUIBlockerObj.SetActive(true);
             }
 
@@ -112,7 +155,7 @@ public class TutorialManager : MonoBehaviour
             HandleText(stage.TutorialSteps[stepIndex]);
             HandlePortrait(stage.TutorialSteps[stepIndex]);
             StartCoroutine(HandleTypingBlocker(stage.TutorialSteps[stepIndex]));
-            
+            //if (stage.TutorialSteps.Count < stepIndex + 2) { Debug.Log("Next Stage Null"); }
             if (stage.TutorialSteps[stepIndex].highlightElement && stage.TutorialSteps[stepIndex + 1] != null)
             {
                 if (stage.TutorialSteps[stepIndex + 1].highlightElement)
@@ -138,9 +181,9 @@ public class TutorialManager : MonoBehaviour
             }
 
             HandleUnlocks(stage.TutorialSteps[stepIndex]);
-
-            yield return stage.TutorialSteps[stepIndex].condition.Wait(this);            
-
+            //Debug.Log("Condition Waiting");
+            yield return stage.TutorialSteps[stepIndex].condition.Wait(this);
+            //Debug.Log("Condition Complete");
             if (stage.TutorialSteps[stepIndex].pausesGame)
             {
                 yield return TimeScalingCO = StartCoroutine(ScaleTimeSmoothly(1f, 0.25f));
@@ -148,6 +191,8 @@ public class TutorialManager : MonoBehaviour
 
             TutorialPortraitObj.SetActive(false);
             TutorialUIBlockerObj.SetActive(false);
+            UIFilter.allowedAreas.Clear();
+            //Debug.Log("Removing Overlay Check called");
             StartCoroutine(RemoveHighlighting(stage.TutorialSteps[stepIndex], 0.5f));
 
             if (!restartCurrentStep)
@@ -270,13 +315,13 @@ public class TutorialManager : MonoBehaviour
        // Debug.Log("Displaying");
         if (step.hasBeenReset && step.ResetText != null)
         {
-            typingTextBox.SetText(step.ResetText);
+            typingTextBox.SetText(step.ResetText.GetLocalizedString());
             //textBox.DisplayText(step.ResetText);
             step.hasBeenReset = false;
         }
         else
         {
-            typingTextBox.SetText(step.Text);
+            typingTextBox.SetText(step.Text.GetLocalizedString());
             //textBox.DisplayText(step.Text);
         }
     }
