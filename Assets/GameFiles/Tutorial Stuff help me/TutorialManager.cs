@@ -155,7 +155,7 @@ public class TutorialManager : MonoBehaviour
             HandleText(stage.TutorialSteps[stepIndex]);
             HandlePortrait(stage.TutorialSteps[stepIndex]);
             StartCoroutine(HandleTypingBlocker(stage.TutorialSteps[stepIndex]));
-            
+            //if (stage.TutorialSteps.Count < stepIndex + 2) { Debug.Log("Next Stage Null"); }
             if (stage.TutorialSteps[stepIndex].highlightElement && stage.TutorialSteps[stepIndex + 1] != null)
             {
                 if (stage.TutorialSteps[stepIndex + 1].highlightElement)
@@ -181,9 +181,9 @@ public class TutorialManager : MonoBehaviour
             }
 
             HandleUnlocks(stage.TutorialSteps[stepIndex]);
-
-            yield return stage.TutorialSteps[stepIndex].condition.Wait(this);            
-
+            //Debug.Log("Condition Waiting");
+            yield return stage.TutorialSteps[stepIndex].condition.Wait(this);
+            //Debug.Log("Condition Complete");
             if (stage.TutorialSteps[stepIndex].pausesGame)
             {
                 yield return TimeScalingCO = StartCoroutine(ScaleTimeSmoothly(1f, 0.25f));
@@ -192,6 +192,7 @@ public class TutorialManager : MonoBehaviour
             TutorialPortraitObj.SetActive(false);
             TutorialUIBlockerObj.SetActive(false);
             UIFilter.allowedAreas.Clear();
+            //Debug.Log("Removing Overlay Check called");
             StartCoroutine(RemoveHighlighting(stage.TutorialSteps[stepIndex], 0.5f));
 
             if (!restartCurrentStep)

@@ -262,6 +262,34 @@ public class WaitForAbilityUpgraded : TutorialCondition
 }
 
 [Serializable]
+public class WaitForAbilityDrag : TutorialCondition
+{
+    private bool complete;
+
+    public override IEnumerator Wait(TutorialManager manager)
+    {
+        complete = false;
+        DraggableAbility.OnAbilityDragStart += OnComplete;
+        while (!complete)
+        {
+            if (manager.restartCurrentStep)
+            {
+                DraggableAbility.OnAbilityDragStart -= OnComplete;
+                yield break;
+            }
+
+            yield return null;
+        }
+        DraggableAbility.OnAbilityDragStart -= OnComplete;
+    }
+    private void OnComplete(DraggableAbility wewa)
+    {
+        complete = true;
+    }
+    
+}
+
+[Serializable]
 public class WaitForTutorialComplete : TutorialCondition
 {
     private bool complete;
