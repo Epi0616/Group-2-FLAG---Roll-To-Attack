@@ -32,13 +32,11 @@ public class DicePedestal : MonoBehaviour
     private void OnEnable()
     {
         DiceFaceSelectionUIManager.DiceFaceSelectionOver += HandleDiceSelectionPhaseOver;
-        GameSettings.autoStart += HandleAutoStart;
     }
 
     private void OnDisable()
     {
         DiceFaceSelectionUIManager.DiceFaceSelectionOver -= HandleDiceSelectionPhaseOver;
-        GameSettings.autoStart -= HandleAutoStart;
     }
 
     private void Awake()
