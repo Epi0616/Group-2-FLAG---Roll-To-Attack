@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,8 +36,9 @@ public class PackUpArenaManager : MonoBehaviour
                 //    moveable.movementController.
                 //}
                 entity.statusSystem.currentActiveStatusEffects.Clear();
-                ObjectPoolManager.ReturnObjectToPool(obj);
-            }  
+            }
+
+            ObjectPoolManager.ReturnObjectToPool(obj);
         }
     }
 }

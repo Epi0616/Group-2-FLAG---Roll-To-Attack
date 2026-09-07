@@ -7,7 +7,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private AudioSource soundObject;
 
-    private Dictionary<AudioClip, AudioSource> loopingClips;
+    private Dictionary<GameObject, LoopingClip> loopingObjects;
 
     private void Awake()
     {
@@ -16,7 +16,7 @@ public class AudioManager : MonoBehaviour
             instance = this;
         }
 
-        loopingClips = new Dictionary<AudioClip, AudioSource>();
+        loopingObjects = new Dictionary<GameObject, LoopingClip>();
     }
 
     public void PlaySound(AudioPackage audioPackage, Vector3 position = default)
@@ -46,34 +46,59 @@ public class AudioManager : MonoBehaviour
         ObjectPoolManager.ReturnObjectToPool(audioSource.gameObject, clipLength);
     }
 
-    //public void PlaySingleLoopingClip(AudioPackage audioPackage, Vector3 position = default, float volume = 1f)
-    //{
-    //    if (audioPackage == null) return;
-    //    if (audioClip == null) return;
-    //    if (loopingClips.ContainsKey(audioClip))
-    //    {
-    //        //Debug.Log("contains key"); 
-    //        return;
-    //    } 
+    public void PlaySingleLoopingClip(GameObject owner, AudioPackage audioPackage, Vector3 position = default)
+    {
+        if (loopingObjects.ContainsKey(owner))
+        {
+            if (loopingObjects[owner].loopingClips.ContainsKey(audioPackage))
+            {
+                return;
+            }
+        }
+        else
+        {
+            loopingObjects.Add(owner, new LoopingClip());
+        }
 
-    //    AudioSource audioSource = ObjectPoolManager.SpawnObject(soundObject, position, Quaternion.identity);
+        if (audioPackage == null) return;
+        List<AudioClip> audioClips = audioPackage.audioClips;
 
-    //    loopingClips.Add(audioClip, audioSource);
-    //    audioSource.clip = audioClip;
-    //    audioSource.volume = volume;
-    //    audioSource.loop = true;
-    //    audioSource.Play();
-    //}
+        if (audioClips.Count <= 0) return;
+        int randomIndex = Random.Range(0, audioClips.Count);
 
-    //public void StopSingleLoopingClip(AudioClip audioClip)
-    //{
-    //    if (audioClip == null) return;
-    //    if (!loopingClips.ContainsKey(audioClip)) return;
+        AudioClip chosenClip = audioClips[randomIndex];
+        if (chosenClip == null) return;
 
-    //    AudioSource audioSource = loopingClips[audioClip];
-    //    audioSource.loop = false;
-    //    loopingClips.Remove(audioClip);
+        AudioSource audioSource = ObjectPoolManager.SpawnObject(soundObject, position, Quaternion.identity);
 
-    //    ObjectPoolManager.ReturnObjectToPool(audioSource.gameObject);
-    //}
+        loopingObjects[owner].loopingClips.Add(audioPackage, audioSource);
+        audioSource.clip = chosenClip;
+        audioSource.volume = audioPackage.volume;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+
+    public void StopSingleLoopingClip(GameObject owner, AudioPackage audioPackage)
+    {
+        if (!loopingObjects.ContainsKey(owner)) return;
+        if (audioPackage == null || audioPackage.audioClips.Count <= 0) return;
+
+        if (!loopingObjects[owner].loopingClips.ContainsKey(audioPackage)) return;
+
+        AudioSource audioSource = loopingObjects[owner].loopingClips[audioPackage];
+        audioSource.loop = false;
+        loopingObjects[owner].loopingClips.Remove(audioPackage);
+
+        ObjectPoolManager.ReturnObjectToPool(audioSource.gameObject);
+    }
+}
+
+public class LoopingClip
+{
+    public Dictionary<AudioPackage, AudioSource> loopingClips;
+
+    public LoopingClip()
+    {
+        loopingClips = new Dictionary<AudioPackage, AudioSource>();
+    }
 }

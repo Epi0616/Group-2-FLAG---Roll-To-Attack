@@ -1,14 +1,12 @@
-using System.Collections.Generic;
-using NUnit.Framework;
 using System;
 using UnityEngine;
-using System.Collections;
-
 
 [Serializable]
 public class JumpAction : BaseEntityAction
 {
     public static event Action<float> ShakeScreen;
+
+    [SerializeField] private AudioPackage jumpSound;
 
     Rigidbody rb;
     private float jumpHeight = 5f, jumpSpeed = 5f;
@@ -28,7 +26,12 @@ public class JumpAction : BaseEntityAction
     IModifiableActions modifiableActions;
     IIconDisplayer displayer;
 
-    //public JumpAction() { }
+    public JumpAction() { }
+
+    public JumpAction(AudioPackage jumpSound)
+    { 
+        this.jumpSound = jumpSound;
+    }
     public override void StartAction(Entity entity)
     {
         //isComplete = false;
@@ -115,6 +118,8 @@ public class JumpAction : BaseEntityAction
 
         }
         (ownerEntity as IActionable).actionController.availableActions.Add(targetAction);
+
+        AudioManager.instance.PlaySound(jumpSound);
     }
     public override void UpdateAction()
     {
@@ -251,6 +256,6 @@ public class JumpAction : BaseEntityAction
 
     public override BaseEntityAction Clone()
     {
-        return new JumpAction();
+        return new JumpAction(jumpSound);
     }
 }

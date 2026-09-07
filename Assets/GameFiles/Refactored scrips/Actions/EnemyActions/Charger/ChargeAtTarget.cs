@@ -18,6 +18,7 @@ public class ChargeAtTarget : BaseEntityAction
 
 
     private IUsesRigidBody usesRigidBody;
+    private IAnimated animated;
     private INavAgent navAgent;
     private ICrashCollider crashCollider;
     private IRadialProjectile radialProjectile;
@@ -45,6 +46,9 @@ public class ChargeAtTarget : BaseEntityAction
         if (!(ownerEntity is IUsesRigidBody usesRigidBody)) return;
         this.usesRigidBody = usesRigidBody;
 
+        if (!(ownerEntity is IAnimated animated)) return;
+        this.animated = animated;
+
         if (!(ownerEntity is INavAgent navAgent)) return;
         this.navAgent = navAgent;
 
@@ -63,11 +67,15 @@ public class ChargeAtTarget : BaseEntityAction
     {
         Rigidbody rb = usesRigidBody.rb;
 
-        yield return Vibrate(chargeTime, 0.025f);
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Charge, 1, MixerType.main, 0.2f, chargeTime);
+        yield return new WaitForSeconds(chargeTime);
 
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, MixerType.main);
         yield return ChargeTowardsTarget();
         yield return Crash();
 
+        yield return new WaitForSeconds(crashDownTime/2);
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.OnStunned, 1, MixerType.main, 0.2f, crashDownTime);
         yield return new WaitForSeconds(crashDownTime);
 
         actionRoutine = null;
