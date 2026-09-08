@@ -1,8 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
 
 public class AudioSettings : MonoBehaviour, ILoadPlayerPrefs
 {
@@ -12,11 +9,6 @@ public class AudioSettings : MonoBehaviour, ILoadPlayerPrefs
 
     [SerializeField] InteractableMovingSlider master, sfx, music;
 
-    private void OnEnable()
-    {
-        TryLoadPrefs();
-    }
-
     public void Start()
     {
         TryLoadPrefs();
@@ -24,38 +16,20 @@ public class AudioSettings : MonoBehaviour, ILoadPlayerPrefs
 
     public void AdjustMasterVolume()
     {
-        float volume = master.value;
-        float adjustedVolume = Mathf.Log10(volume) * 20;
-        if (volume == 0)
-        {
-            adjustedVolume = -100f;
-        }
-
-        masterMixerGroup.audioMixer.SetFloat("Master Volume", adjustedVolume);
+        float masterDB = ConvertToDecibels(master.value);
+        masterMixerGroup.audioMixer.SetFloat("Master Volume", masterDB);
     }
 
     public void AdjustSFXVolume()
     {
-        float volume = sfx.value;
-        float adjustedVolume = Mathf.Log10(volume) * 20;
-        if (volume == 0)
-        {
-            adjustedVolume = -100f;
-        }
-
-        masterMixerGroup.audioMixer.SetFloat("SoundFX Volume", adjustedVolume);
+        float sfxDB = ConvertToDecibels(sfx.value);
+        masterMixerGroup.audioMixer.SetFloat("SoundFX Volume", sfxDB);
     }
 
     public void AdjustMusicVolume()
     {
-        float volume = music.value;
-        float adjustedVolume = Mathf.Log10(volume) * 20;
-        if (volume == 0)
-        {
-            adjustedVolume = -100f;
-        }
-
-        masterMixerGroup.audioMixer.SetFloat("Music Volume", adjustedVolume);
+        float musicDB = ConvertToDecibels(music.value);
+        masterMixerGroup.audioMixer.SetFloat("Music Volume", musicDB);
     }
 
     public void TryLoadPrefs()
@@ -64,14 +38,22 @@ public class AudioSettings : MonoBehaviour, ILoadPlayerPrefs
         float music = PlayerPrefsManager.instance.GetFloat(PlayerValues.MusicVolume);
         float sfx = PlayerPrefsManager.instance.GetFloat(PlayerValues.SFXVolume);
 
-        float adjustedVolume = Mathf.Log10(master) * 20;
-        masterMixerGroup.audioMixer.SetFloat("Master Volume", adjustedVolume);
+        float masterDB = ConvertToDecibels(master);
+        float musicDB = ConvertToDecibels(music);
+        float sfxDB = ConvertToDecibels(sfx);
 
-        adjustedVolume = Mathf.Log10(music) * 20;
-        masterMixerGroup.audioMixer.SetFloat("Music Volume", adjustedVolume);
+        masterMixerGroup.audioMixer.SetFloat("Master Volume", masterDB);
+        musicMixerGroup.audioMixer.SetFloat("Music Volume", musicDB);
+        masterMixerGroup.audioMixer.SetFloat("SoundFX Volume", sfxDB);
 
-        adjustedVolume = Mathf.Log10(sfx) * 20;
-        masterMixerGroup.audioMixer.SetFloat("SoundFX Volume", adjustedVolume);
+        this.master.value = master;
+        this.music.value = music;
+        this.sfx.value = sfx;
+    }
+
+    private float ConvertToDecibels(float volume)
+    {
+        return volume > 0 ? Mathf.Log10(volume) * 20 : -80f;
     }
 }
 

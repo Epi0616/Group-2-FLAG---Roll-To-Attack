@@ -38,7 +38,6 @@ public class CameraMovement : MonoBehaviour
 
     public void FadeFromArena (float transitionLength, Vector3 dicePosition)
     {
-        Debug.Log("fading from arena");
         transform.localPosition = dicePosition + offset;
         transform.localRotation = arenaPlayRotation;
         arenaPlayPosition = transform.localPosition;

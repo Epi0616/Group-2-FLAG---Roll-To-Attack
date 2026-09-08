@@ -9,9 +9,12 @@ public class PropMover : MonoBehaviour
 
     private MoveableProp selectedProp;
     private MoveableProp highlightedProp;
+
+    private bool transitionStarted = false;
     private void OnEnable()
     {
-        //click.action.Enable();
+        DiceProp.TransitionStart += () => transitionStarted = true;
+        DiceProp.TransitionOver += () => transitionStarted = false;
     }
 
     private void OnDisable()
@@ -27,6 +30,7 @@ public class PropMover : MonoBehaviour
     private void ObjectSelection()
     {
         if (Camera.main == null) return;
+        if (transitionStarted) return;
 
         if (selectedProp == null)
         {
@@ -69,7 +73,10 @@ public class PropMover : MonoBehaviour
         {
             if (selectedProp is IIntroRollable rollable)
             {
-                rollable.RollToPosition(targetDicePoint.position);
+                if (CheckForOverlap(groundLayer, out RaycastHit groundHit))
+                {
+                    rollable.RollToPosition(targetDicePoint.position);
+                }
             }
         
             selectedProp.ObjectDropped();
@@ -77,12 +84,21 @@ public class PropMover : MonoBehaviour
             return;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 250, invisibleColliderLayer))
+        if (CheckForOverlap(invisibleColliderLayer, out RaycastHit diceLayerHit))
         {
-            selectedProp.MoveToPosition(hit.point);
+            selectedProp.MoveToPosition(diceLayerHit.point);
         }
+    }
+
+    private bool CheckForOverlap(LayerMask mask, out RaycastHit hit)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 500, mask))
+        {
+            return true;
+        }
+
+        return false;
     }
 }
