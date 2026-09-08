@@ -9,9 +9,13 @@ public class DiceProp : MoveableProp, IIntroRollable
 
     [SerializeField] private Vector3 startScale, targetScale;
     [SerializeField] private DiceType myDiceType;
+    [SerializeField] GameObject highlightObj;
+    private bool isOutlined;
 
     private bool gameStarted;
     private bool returningFromArena = false;
+
+    private Coroutine expirationCoroutine;
 
     protected override void OnEnable()
     {
@@ -25,6 +29,13 @@ public class DiceProp : MoveableProp, IIntroRollable
         SceneTransitionManager.DiceReturnFromArena -= HandleReturnFromArena;
     }
 
+    protected override void Initialize()
+    {
+        base.Initialize();
+        UpdateOutline(false);
+        canBeMoved = true;
+    }
+
     private void HandleReturnFromArena(float transitionLength, Vector3 position, DiceType diceType)
     {
         if (diceType == myDiceType)
@@ -36,11 +47,13 @@ public class DiceProp : MoveableProp, IIntroRollable
 
     private IEnumerator ReturnFromArena(float transitionLength)
     {
+        canBeMoved = false;
         returningFromArena = true;
         yield return ScaleToFrom(transitionLength, startScale, targetScale);
 
         transform.position = startPosition;
         returningFromArena = false;
+        canBeMoved = true;
     }
 
     public void RollToPosition(Vector3 targetPos)
@@ -70,6 +83,23 @@ public class DiceProp : MoveableProp, IIntroRollable
         }
     }
 
+    public override void ObjectHovered()
+    {
+        UpdateOutline(true);
+    }
+
+    public override void ObjectUnHovered()
+    {
+        UpdateOutline(false);
+    }
+
+    public override void ObjectDropped()
+    {
+        UpdateOutline(false);
+        if(expirationCoroutine != null) { StopCoroutine(expirationCoroutine); }
+        expirationCoroutine = StartCoroutine(ReturnToOriginalPosition(6f));
+    }
+
     protected override IEnumerator ReturnToOriginalPosition(float waitTime)
     {
         while (waitTime > 0)
@@ -95,6 +125,7 @@ public class DiceProp : MoveableProp, IIntroRollable
             if (!gameStarted)
             {
                 gameStarted = true;
+                canBeMoved = false;
                 StartCoroutine(StartGameAfterDiceSettle());
             }
         }
@@ -126,6 +157,18 @@ public class DiceProp : MoveableProp, IIntroRollable
         }
 
         transform.localScale = to;
+    }
+
+    private void UpdateOutline(bool state)
+    {
+        if (state == isOutlined) { return; }
+        isOutlined = state;
+        if (state)
+        {
+            highlightObj.SetActive(true);
+            return;
+        }
+        highlightObj.SetActive(false);
     }
 
     private IEnumerator RotateToFrom(float duration, Quaternion to, Quaternion from)
