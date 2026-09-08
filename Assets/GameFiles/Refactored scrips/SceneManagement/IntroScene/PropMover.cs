@@ -8,7 +8,7 @@ public class PropMover : MonoBehaviour
     [SerializeField] private Transform targetDicePoint;
 
     private MoveableProp selectedProp;
-
+    private MoveableProp highlightedProp;
     private void OnEnable()
     {
         //click.action.Enable();
@@ -44,11 +44,15 @@ public class PropMover : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 500, propLayer))
         {
+            highlightedProp = hit.collider.gameObject.GetComponent<MoveableProp>();
+            if (!highlightedProp.canBeMoved) { return; }
+            highlightedProp.ObjectHovered();
             if (click.action.WasPressedThisFrame())
             {
                 try
                 {
-                    selectedProp = hit.collider.gameObject.GetComponent<MoveableProp>();
+                    selectedProp = highlightedProp;
+                    selectedProp.ObjectSelected();
                 }
                 catch
                 {
@@ -56,6 +60,7 @@ public class PropMover : MonoBehaviour
                 }
             }
         }
+        else if (highlightedProp != null) { highlightedProp.ObjectUnHovered(); highlightedProp = null; }
     }
 
     private void MoveSelectedObject()
