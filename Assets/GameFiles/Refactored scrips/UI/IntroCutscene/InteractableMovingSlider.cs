@@ -64,5 +64,6 @@ public class InteractableMovingSlider : Slider, IBeginDragHandler, IEndDragHandl
         if (!PlayerPrefsManager.instance) return;
 
         value = PlayerPrefsManager.instance.GetFloat(audioType);
+        Set(value);
     }
 }

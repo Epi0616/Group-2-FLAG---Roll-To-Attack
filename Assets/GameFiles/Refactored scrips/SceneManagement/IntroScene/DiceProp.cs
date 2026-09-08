@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 public class DiceProp : MoveableProp, IIntroRollable
 {
     public static event Action<GameObject, DiceType> GameStart;
+    public static event Action TransitionStart, TransitionOver;
 
     [SerializeField] private Vector3 startScale, targetScale;
     [SerializeField] private DiceType myDiceType;
@@ -47,10 +48,12 @@ public class DiceProp : MoveableProp, IIntroRollable
 
     private IEnumerator ReturnFromArena(float transitionLength)
     {
+        TransitionStart?.Invoke();
         canBeMoved = false;
         returningFromArena = true;
         yield return ScaleToFrom(transitionLength, startScale, targetScale);
 
+        TransitionOver?.Invoke();
         transform.position = startPosition;
         returningFromArena = false;
         canBeMoved = true;
@@ -58,6 +61,7 @@ public class DiceProp : MoveableProp, IIntroRollable
 
     public void RollToPosition(Vector3 targetPos)
     {
+        TransitionStart?.Invoke();
         StartCoroutine(RollToTarget(targetPos));
     }
 
@@ -104,6 +108,7 @@ public class DiceProp : MoveableProp, IIntroRollable
     {
         while (waitTime > 0)
         {
+            //rb.AddForce(new Vector3(0, -10, 0), ForceMode.Acceleration);
             waitTime -= Time.deltaTime;
             yield return null;
         }
@@ -128,7 +133,11 @@ public class DiceProp : MoveableProp, IIntroRollable
                 canBeMoved = false;
                 StartCoroutine(StartGameAfterDiceSettle());
             }
+
+            return;
         }
+
+        TransitionOver?.Invoke();
     }
 
     private IEnumerator StartGameAfterDiceSettle()

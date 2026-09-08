@@ -4,6 +4,7 @@ using System;
 public class GameSettings : MonoBehaviour, ILoadPlayerPrefs
 {
     [SerializeField] private GameObject fullScreenCheckMark;
+    [SerializeField] private LanguageSettings languageSettings;
 
     private void OnEnable()
     {
@@ -31,5 +32,7 @@ public class GameSettings : MonoBehaviour, ILoadPlayerPrefs
             fullScreenCheckMark.SetActive(fullScreen);
             Screen.fullScreen = fullScreen;
         }
+
+        languageSettings?.TryLoadPrefs();
     }
 }

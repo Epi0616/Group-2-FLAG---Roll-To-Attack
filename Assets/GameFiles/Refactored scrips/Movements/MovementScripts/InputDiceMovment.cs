@@ -5,11 +5,19 @@ using UnityEngine;
 [Serializable]
 public class InputDiceMovment : InputEntityMovement
 {
+    [SerializeField] private AudioPackage rollingSound;
+
     private Coroutine rotationCorrectionRoutine;
     private float landedFreezeTime = 0.15f;
     private float landedTimer = 0;
 
     public InputDiceMovment() { }
+
+    public InputDiceMovment(AudioPackage rollingSound)
+    { 
+        this.rollingSound = rollingSound;
+    }
+
     public override void FixedUpdateMovement()
     {
         Vector3 direction = usesEntityInput.inputManager.move.action.ReadValue<Vector3>().normalized;
@@ -22,6 +30,7 @@ public class InputDiceMovment : InputEntityMovement
 
         if (!grounded.isGrounded)
         {
+            AudioManager.instance.StopSingleLoopingClip(ownerEntity.gameObject, rollingSound);
             landedTimer = 0;
             if (ownerEntity is IJumpable)
             {
@@ -33,22 +42,24 @@ public class InputDiceMovment : InputEntityMovement
             return;
         }
 
-        RotateBody(targetVelocity);
+        RotateBody(targetVelocity, direction.magnitude);
     }
 
-    private void RotateBody(Vector3 velocity)
+    private void RotateBody(Vector3 velocity, float inputMagnitude)
     {
         landedTimer += Time.fixedDeltaTime;
         if (landedTimer < landedFreezeTime) return;
 
         Transform bodyTransform = ownerEntity.bodySystem.body.transform;
 
-        if (velocity.magnitude <= 0)
+        if (inputMagnitude <= 0)
         {
+            AudioManager.instance.StopSingleLoopingClip(ownerEntity.gameObject, rollingSound);
             HandleCorrectRotation(bodyTransform);
             return;
         }
 
+        AudioManager.instance.PlaySingleLoopingClip(ownerEntity.gameObject, rollingSound);
         InterruptCorrection();
         RotateWithVelocity(bodyTransform, velocity);
     }
@@ -123,6 +134,6 @@ public class InputDiceMovment : InputEntityMovement
 
     public override BaseEntityMovement Clone()
     {
-        return new InputDiceMovment();
+        return new InputDiceMovment(rollingSound);
     }
 }

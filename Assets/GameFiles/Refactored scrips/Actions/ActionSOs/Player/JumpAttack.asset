@@ -21,13 +21,16 @@ MonoBehaviour:
     singleUse: 0
     triggered: 0
     exclusive: 1
+    interruptable: 1
     priority: 0
   references:
     version: 2
     RefIds:
     - rid: 5154424227109797957
       type: {class: JumpAction, ns: , asm: Assembly-CSharp}
-      data: 
+      data:
+        PreventsMovement: 0
+        jumpSound: {fileID: 11400000, guid: 25bbd8b11ed97db4ea24d4e68b541b48, type: 2}
     - rid: 5154424227109797960
       type: {class: AttackCondition, ns: , asm: Assembly-CSharp}
       data:

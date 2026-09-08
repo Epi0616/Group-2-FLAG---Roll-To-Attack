@@ -8,20 +8,22 @@ public class IntroSceneMenuUI : MonoBehaviour
     public static event Action<float> settingsOpened, menuClosed, menuOpened;
     public static event Action<SceneType> arenaTypeSelected;
 
-    [SerializeField] private InputActionReference pauseGame, backButton;
+    [SerializeField] private InputActionReference pauseGame;
 
     private bool menuActive = false;
+    private bool transitionStarted = false;
 
     private void OnEnable()
     {
+        transitionStarted = false;
+        DiceProp.TransitionStart += () => transitionStarted = true;
+        DiceProp.TransitionOver += () => transitionStarted = false;
         pauseGame.action.performed += HandlePauseGame;
-        backButton.action.performed += HandleBackButton;
     }
 
     private void OnDisable()
     {
         pauseGame.action.performed -= HandlePauseGame;
-        backButton.action.performed -= HandleBackButton;
     }
 
     private void HandlePauseGame(InputAction.CallbackContext context)
@@ -29,21 +31,17 @@ public class IntroSceneMenuUI : MonoBehaviour
         TogglePaused();
     }
 
-    private void HandleBackButton(InputAction.CallbackContext context)
-    {
-        //if (!isGamePaused) return;
-        //TogglePaused();
-    }
-
     public void TogglePaused()
     {
+        if (transitionStarted) return;
+
         if (menuActive)
         {
             MoveToRoomOverview();
         }
         else 
         {
-            MoveToSettings();
+            MoveToMenu();
         }
     }
 
