@@ -21,6 +21,7 @@ MonoBehaviour:
     singleUse: 1
     triggered: 0
     exclusive: 1
+    interruptable: 1
     priority: 0
   references:
     version: 2
@@ -28,13 +29,13 @@ MonoBehaviour:
     - rid: 5154424227109797984
       type: {class: FreezeSlamAction, ns: , asm: Assembly-CSharp}
       data:
+        PreventsMovement: 0
         SlamDamage: 30
-        SlamColor: {r: 0.6650944, g: 0.9701473, b: 1, a: 1}
+        SlamColor: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
         ChargeTime: 0
         SlamRange:
           baseValue: 10
         SlamPositionOffset: {x: 0, y: 0, z: 0}
-        DoesActionPreventMovement: 0
         FreezeDuration: 2
         FragileDamageMult: 2
         frozenText:
