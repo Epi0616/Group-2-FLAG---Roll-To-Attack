@@ -7,6 +7,7 @@ public class SlimeCharge : BaseEntityAction
 {
     private IUsesRigidBody usesRigidBody;
     private ISlimeTrail slimeTrail;
+    private IMoveable moveable;
     private Coroutine actionRoutine = null;
 
     public SlimeCharge() { }
@@ -17,6 +18,9 @@ public class SlimeCharge : BaseEntityAction
 
         if (!(ownerEntity is IUsesRigidBody usesRigidBody)) return;
         this.usesRigidBody = usesRigidBody;
+
+        if (!(ownerEntity is IMoveable moveable)) return;
+        this.moveable = moveable;
 
         if (!(ownerEntity is ISlimeTrail slimeTrail)) return;
         this.slimeTrail = slimeTrail;
@@ -55,7 +59,7 @@ public class SlimeCharge : BaseEntityAction
         Vector3 force = (ownerEntity.target.transform.position - ownerEntity.transform.position).normalized;
         force.y = 0;
 
-        force *= 100;
+        force *= 7.5f * moveable.movementSpeed.GetFinalValue();
         usesRigidBody.rb.AddForce(force, ForceMode.VelocityChange);
     }
 

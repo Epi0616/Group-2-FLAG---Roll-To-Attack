@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using Color = UnityEngine.Color;
@@ -16,7 +17,7 @@ public class ChargeAtTarget : BaseEntityAction
     [SerializeField] private float chargeTime = 1f;
     [SerializeField] private float crashDownTime = 2.5f;
 
-
+    private IMoveable moveable;
     private IUsesRigidBody usesRigidBody;
     private IAnimated animated;
     private INavAgent navAgent;
@@ -43,13 +44,16 @@ public class ChargeAtTarget : BaseEntityAction
     {
         base.StartAction(ownerEntity);
 
-        if (!(ownerEntity is IUsesRigidBody usesRigidBody)) return;
+        if (!(ownerEntity is IUsesRigidBody usesRigidBody)) { Debug.Log("owner entity is not of type IUsesRigidBody"); return; }
         this.usesRigidBody = usesRigidBody;
 
-        if (!(ownerEntity is IAnimated animated)) return;
+        if (!(ownerEntity is IAnimated animated)) { Debug.Log("owner entity is not of type IAnimated"); return; }
         this.animated = animated;
 
-        if (!(ownerEntity is INavAgent navAgent)) return;
+        if (!(ownerEntity is IMoveable moveable)) { Debug.Log("owner entity is not of type IMoveable"); return; }
+        this.moveable = moveable;
+
+        if (!(ownerEntity is INavAgent navAgent)) { Debug.Log("owner entity is not of type INavAgent"); return; }
         this.navAgent = navAgent;
 
         if (!(ownerEntity is ICrashCollider crashCollider)) { Debug.Log("owner entity is not of type ICrashCollider"); return; }
@@ -86,14 +90,15 @@ public class ChargeAtTarget : BaseEntityAction
     {
         Vector3 force = (ownerEntity.transform.forward).normalized;
         force.y = 0;
-        force *= 10000;
+        force *= 500;
 
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), ownerEntity.transform.position + (ownerEntity.transform.forward * 3), Quaternion.Euler(90, 0, 0)).
                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new BurstCountEffectOverride(new rangePair(15, 20)) }));
 
         while (!crashCollider.hasCrashed)
         {
-            usesRigidBody.rb.AddForce(force * Time.fixedDeltaTime, ForceMode.Acceleration);
+            Vector3 aplliedForce = force * moveable.movementSpeed.GetFinalValue();
+            usesRigidBody.rb.AddForce(aplliedForce * Time.fixedDeltaTime, ForceMode.Acceleration);
             yield return new WaitForFixedUpdate();
         }
     }
