@@ -1,10 +1,5 @@
-using System;
 using System.Collections;
-using UnityEditor.Build;
-using UnityEditor.Localization.Reporting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class PlayerCamera : MonoBehaviour
 {
