@@ -5455,7 +5455,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -5507,6 +5507,9 @@ MonoBehaviour:
   textBox: {fileID: 418901287}
   charactersPerSecond: 35
   fixedTypingDuration: 1.25
+  animationDuration: 0.15
+  scaleMax: 1.25
+  scaleMin: 0.5
   isSkipping: 0
   finishedTyping: 0
 --- !u!114 &418901289
@@ -7361,7 +7364,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -447, y: 0}
+  m_AnchoredPosition: {x: -447, y: -19.7}
   m_SizeDelta: {x: 210, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &532475304
@@ -14980,7 +14983,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00012207031, y: 6}
+  m_AnchoredPosition: {x: -0.00012207031, y: -16.5}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &948286899
@@ -15023,7 +15026,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6f51c5179feea124c927fccdf7a65483, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 358770776aa99d14bb7fb41a4ecf6784, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -30520,6 +30523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameSettings
   fullScreenCheckMark: {fileID: 655049384}
+  languageSettings: {fileID: 0}
 --- !u!114 &1921591082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30595,11 +30599,6 @@ MonoBehaviour:
   audioSettingsUI: {fileID: 159210156}
   videoSettingsUI: {fileID: 1678335603}
   KeysBindUI: {fileID: 452348622}
-  previousMenuSelection: {fileID: 1995439896}
-  mainSettingsFirstSelected: {fileID: 0}
-  gameSettingsFirstSelected: {fileID: 1431690055}
-  audioSettingsFirstSelected: {fileID: 1389881807}
-  videoSettingsFirstSelected: {fileID: 1265522938}
 --- !u!224 &1951765609
 RectTransform:
   m_ObjectHideFlags: 0

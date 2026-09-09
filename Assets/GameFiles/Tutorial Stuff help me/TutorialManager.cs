@@ -339,7 +339,7 @@ public class TutorialManager : MonoBehaviour
             {
                 dir *= -1;
             }
-            portraitRect.anchoredPosition = new Vector2(dir * boxWidth, 0);
+            portraitRect.anchoredPosition = new Vector2(dir * boxWidth, -19f);
         }
     }
 
