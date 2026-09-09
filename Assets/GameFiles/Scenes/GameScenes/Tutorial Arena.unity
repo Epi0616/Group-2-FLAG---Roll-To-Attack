@@ -7339,6 +7339,7 @@ GameObject:
   - component: {fileID: 532475306}
   - component: {fileID: 532475305}
   - component: {fileID: 532475304}
+  - component: {fileID: 532475307}
   m_Layer: 5
   m_Name: Portrait Holder
   m_TagString: Untagged
@@ -7425,6 +7426,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 532475302}
   m_CullTransparentMesh: 1
+--- !u!114 &532475307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532475302}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13910dc413d8184babb2f552e17b791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBobMovement
+  rect: {fileID: 532475303}
+  positionAmount: 10
+  positionSpeed: 1
+  Xmult: 2
+  Ymult: 2
+  noise: 1
 --- !u!1 &538002098
 GameObject:
   m_ObjectHideFlags: 0
@@ -8083,6 +8102,8 @@ MonoBehaviour:
   UIFilter: {fileID: 946336159}
   TutorialDarkOverlay: {fileID: 789764887}
   TutorialOverlayCutout: {fileID: 707906380}
+  TutorialUIBob: {fileID: 943485044}
+  PortraitBob: {fileID: 532475307}
   typingTextBox: {fileID: 418901288}
   stages:
   - {fileID: 11400000, guid: 5105baecb43711148a77ddf0b427d777, type: 2}
@@ -14685,6 +14706,7 @@ GameObject:
   - component: {fileID: 943485041}
   - component: {fileID: 943485043}
   - component: {fileID: 943485042}
+  - component: {fileID: 943485044}
   m_Layer: 5
   m_Name: Tutorial UI
   m_TagString: Untagged
@@ -14754,6 +14776,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &943485044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943485040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13910dc413d8184babb2f552e17b791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBobMovement
+  rect: {fileID: 943485041}
+  positionAmount: 2.75
+  positionSpeed: 2.5
+  Xmult: 0
+  Ymult: 2
+  noise: 0
 --- !u!1 &944818484
 GameObject:
   m_ObjectHideFlags: 0
