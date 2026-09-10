@@ -17,7 +17,9 @@ public class AbilitySlot : AbilityDropZoneParent
     [SerializeField] bool diceSlot;
     [SerializeField] float baseGlow = 0;
     [SerializeField] Color baseColor, upgradeColor;
+    [SerializeField] private RevealImage UpgradeSigil;
 
+    private Coroutine sigilRoutine;
     private Coroutine glowRoutine;
     private bool isSelected = false;
 
@@ -25,6 +27,7 @@ public class AbilitySlot : AbilityDropZoneParent
     {
         base.Awake();
         objectLimit = 1;
+        UpgradeSigil.transform.SetSiblingIndex(3000);
         SetImageAlpha(SlotGlow, baseColor, baseGlow);
     }
 
@@ -132,6 +135,7 @@ public class AbilitySlot : AbilityDropZoneParent
         if (myAbility.abilityType != selectedAbility.abilityType) return;
         if (myAbility.enhancementLevel != selectedAbility.enhancementLevel) return;
 
+        SetSigil(1, 0.5f);
         GlowTo(1, upgradeColor, 0.2f, false);
         Debug.Log("display thingy");
     }
@@ -139,12 +143,13 @@ public class AbilitySlot : AbilityDropZoneParent
     private void HandleAbilityEndDrag(DraggableAbility ability)
     {
         if (draggableObjects.Count <= 0) return;
+        SetSigil(0, 0.3f);
         if (diceSlot)
         {
             GlowTo(1, baseColor, 0.2f, false);
             return;
         }
-
+        
         GlowTo(baseGlow, baseColor, 0.2f, true);
     }
 
@@ -237,4 +242,30 @@ public class AbilitySlot : AbilityDropZoneParent
 
         SetImageAlpha(SlotGlow, color, to);
     }
+
+    private void SetSigil(float to, float duration)
+    {
+        if (UpgradeSigil == null) return;
+        if (sigilRoutine != null) { StopCoroutine(sigilRoutine);}
+        float from = UpgradeSigil.RevealProgress;
+        sigilRoutine = StartCoroutine(SigilUpdateRoutine(to, from, duration));
+    }
+
+    private IEnumerator SigilUpdateRoutine(float to, float from, float duration)
+    {
+        float timer = 0;
+        float t = 0;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            t = timer / duration;
+
+            float alpha = Mathf.Lerp(from, to, t);
+            //Debug.Log("Before: " + UpgradeSigil.revealProgress);
+            UpgradeSigil.RevealProgress = alpha;
+            //Debug.Log("After: " + UpgradeSigil.revealProgress);
+            yield return null;
+        }
+    }
+
 }
