@@ -18,12 +18,16 @@ public class NewEVacuumMine : NewVacuumMine
     }
     public void InitializeMine(Entity ownerEntity, float range, float chargeTime, Color colour, int enhancementLevel)
     {
+        age = 0;
         base.Initialize();
         detonated = false;
         this.ownerEntity = ownerEntity;
         this.enhancementLevel = enhancementLevel;
         this.range = range + this.enhancementLevel;
+        blackHoleVisual = ObjectPoolManager.SpawnObject(BlackHolePrefab, transform.position, Quaternion.Euler(0, 0, 0)).GetComponent<BlackHole>();
+        blackHoleVisual.Initialize(this.range, chargeTime, this.gameObject);
         fieldColour = colour;
+        fieldColour.a = 0.05f;
         // Potentially scale the duration of the mine
         timer = chargeTime;
         //this.gameObject.layer = 14;        
@@ -44,6 +48,7 @@ public class NewEVacuumMine : NewVacuumMine
 
     public override void OnRecieveEffect(ActiveStatusEffect statusEffect, Color effectColour)
     {
+        if (age < 1) return;
        // Debug.Log("Hit by Effect");
         if (statusEffect.effect.type == StatusType.Knockback)
         {
@@ -58,6 +63,7 @@ public class NewEVacuumMine : NewVacuumMine
 
     public override void OnRecieveEffect(ActiveStatusEffect statusEffect)
     {
+        if (age < 1) return;
         //Debug.Log("Hit by Effect");
         if (statusEffect.effect.type == StatusType.Knockback)
         {
@@ -98,7 +104,10 @@ public class NewEVacuumMine : NewVacuumMine
         {
             impactfield.DestroyMe();
         }
-    
+        if (blackHoleVisual != null)
+        {
+            blackHoleVisual.DestroyMe(0.5f);
+        }
         //Debug.Log("Effects Cleared");
         heldEffects.Clear();
         ObjectPoolManager.ReturnObjectToPool(gameObject);

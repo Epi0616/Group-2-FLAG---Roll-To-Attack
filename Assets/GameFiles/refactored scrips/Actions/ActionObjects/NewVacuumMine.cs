@@ -12,9 +12,13 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
     //public AudioClip[] mineDetonated;
     protected Entity ownerEntity;
     protected float timer = 2f, range = 10;
+    protected float age = 0;
+    protected float baseRange = 10;
     protected bool detonated = false;
     protected Color fieldColour;
     public float pullStrength;
+    protected BlackHole blackHoleVisual;
+    [SerializeField] protected GameObject BlackHolePrefab;
     public bool isBeingDisplaced { get; set; }
     public Stat knockbackWeightMod { get; set; }
     public Stat slammedDamageMod { get; set; }
@@ -34,10 +38,14 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         detonated = false;
         this.ownerEntity = ownerEntity;
         this.range = range;
+        blackHoleVisual = ObjectPoolManager.SpawnObject(BlackHolePrefab, transform.position, Quaternion.Euler(0, 0, 0)).GetComponent<BlackHole>();
+        blackHoleVisual.Initialize(range, chargeTime, this.gameObject);
+        
         timer = chargeTime;
+        age = 0;
         //this.gameObject.layer = 14;
         fieldColour = colour;
-        fieldColour.a = 0.1f;
+        fieldColour.a = 0.05f;
         ShowRange();
         StartCoroutine(CountDown());
     }
@@ -141,6 +149,10 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         {
             impactfield.DestroyMe();
         }       
+        if (blackHoleVisual  != null)
+        {
+            blackHoleVisual.DestroyMe(0.5f);
+        }
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
@@ -161,8 +173,10 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         while (timer > 0 && !detonated)
         {
             timer -= Time.deltaTime;
-            if (timer < 0.055f && !hasPlayedSFX)
+            age += Time.deltaTime;
+            if (timer < 1f && !hasPlayedSFX)
             {
+                blackHoleVisual.StopEmission();
                 //AudioManager.instance.PlayRandomSoundClip(mineDetonated, new Vector3(0, 0, 0), 1f);
                 hasPlayedSFX = true;
             }
