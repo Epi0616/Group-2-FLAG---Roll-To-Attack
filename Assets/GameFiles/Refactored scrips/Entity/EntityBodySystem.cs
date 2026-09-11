@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class EntityBodySystem : MonoBehaviour, IEntitySystem
 {
-    public Entity OwnerEntity { get; set; }
+    public Entity ownerEntity { get; set; }
     public GameObject body;
     public Transform headTransform;
     public Transform baseplateTransform;
@@ -23,7 +23,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
    
     public virtual void InitialiseSystem(Entity entity)
     {
-        OwnerEntity = entity;
+        ownerEntity = entity;
         originalRotation = body.transform.rotation;
         block = new MaterialPropertyBlock();
         if (renderer == null)
@@ -94,7 +94,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
 
     public void ApplyShader(Color colour, float duration, ShaderType type)
     {
-        if (OwnerEntity.healthSystem.isDead) { return; }
+        if (ownerEntity.healthSystem.isDead) { return; }
         ShaderProperty shader = ShaderPropertyHolder.ShaderPropertyDict[type];
         StopShaderCoroutine(type);
         SetShaderColour(colour, shader);
@@ -103,7 +103,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
 
     public void ApplyShaderPowerIncrement(Color colour,float increment, float duration, ShaderType type)
     {
-        if (OwnerEntity.healthSystem.isDead) { return; }
+        if (ownerEntity.healthSystem.isDead) { return; }
         ShaderProperty shader = ShaderPropertyHolder.ShaderPropertyDict[type];
         renderer.GetPropertyBlock(block);
         StopShaderCoroutine(type);

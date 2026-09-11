@@ -14,7 +14,7 @@ public class EnhancedRocketSpawnSlam : BaseSlamAction , IEnhancedAbility
     private float rocketInterval = 0.5f;
 
     public EnhancedRocketSpawnSlam() { }
-    public EnhancedRocketSpawnSlam(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int numRockets, int enhancementLevel) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public EnhancedRocketSpawnSlam(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int numRockets, int enhancementLevel) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     { 
         this.enhancementLevel = enhancementLevel;
         this.numRockets = numRockets;
@@ -70,6 +70,6 @@ public class EnhancedRocketSpawnSlam : BaseSlamAction , IEnhancedAbility
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedRocketSpawnSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, numRockets, enhancementLevel);
+        return new EnhancedRocketSpawnSlam(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, numRockets, enhancementLevel);
     }
 }

@@ -8,7 +8,7 @@ public class EnhancedVacuumSlamAction : BaseSlamAction , IEnhancedAbility
     public int enhancementLevel { get; set; }
     public EnhancedVacuumSlamAction() { }
 
-    public EnhancedVacuumSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int enhancementLevel) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) 
+    public EnhancedVacuumSlamAction(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int enhancementLevel) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) 
     {
         this.enhancementLevel = enhancementLevel;
     }
@@ -40,6 +40,6 @@ public class EnhancedVacuumSlamAction : BaseSlamAction , IEnhancedAbility
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedVacuumSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, enhancementLevel);
+        return new EnhancedVacuumSlamAction(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, enhancementLevel);
     }
 }

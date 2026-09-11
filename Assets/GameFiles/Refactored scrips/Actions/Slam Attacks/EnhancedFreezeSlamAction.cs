@@ -13,7 +13,7 @@ public class EnhancedFreezeSlamAction : BaseSlamAction , IEnhancedAbility
     public int enhancementLevel { get; set; }
     public EnhancedFreezeSlamAction() { }
 
-    public EnhancedFreezeSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float FreezeDuration, bool DoesPrevent, int enhancementLevel) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public EnhancedFreezeSlamAction(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float FreezeDuration, bool DoesPrevent, int enhancementLevel) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
         this.FreezeDuration = FreezeDuration;
         this.enhancementLevel = enhancementLevel;
@@ -29,6 +29,6 @@ public class EnhancedFreezeSlamAction : BaseSlamAction , IEnhancedAbility
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedFreezeSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, FreezeDuration, preventsMovement, enhancementLevel);
+        return new EnhancedFreezeSlamAction(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, FreezeDuration, preventsMovement, enhancementLevel);
     }
 }

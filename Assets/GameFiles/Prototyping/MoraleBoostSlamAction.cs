@@ -10,10 +10,12 @@ public class MoraleBoostSlamAction : BaseSlamAction
     public int healAmount = 15;
 
     public MoraleBoostSlamAction() { }
-    public MoraleBoostSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour,
+    public MoraleBoostSlamAction(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour,
         float buffDuration, float speedBoost, int healAmount, bool DoesPrevent)
-        : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+        : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
+        this.lightImpactNoise = lightImpactNoise;
+        this.heavyImpactNoise = heavyImpactNoise;
         this.buffDuration = buffDuration;
         this.speedBoost = speedBoost;
         this.healAmount = healAmount;
@@ -62,7 +64,7 @@ public class MoraleBoostSlamAction : BaseSlamAction
 
     public override BaseEntityAction Clone()
     {
-        return new MoraleBoostSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, buffDuration, speedBoost, healAmount, preventsMovement);
+        return new MoraleBoostSlamAction(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, buffDuration, speedBoost, healAmount, preventsMovement);
     }
 
 }

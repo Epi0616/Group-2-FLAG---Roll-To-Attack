@@ -11,6 +11,7 @@ public class PauseMenu : MonoBehaviour
     public static event Action GamePaused;
     public static event Action GameUnPaused;
 
+    [SerializeField] private MusicPackage menuMusic;
     [SerializeField] private InputActionReference pauseGame;
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private SettingsUIManager settingsManager;
@@ -84,6 +85,7 @@ public class PauseMenu : MonoBehaviour
         {
             pauseMenuUI.SetActive(true);
             MusicPlayer.instance.DampenMusic();
+            MusicPlayer.instance.PlayMusicWithFade(menuMusic, 2);
             EventSystem.current.firstSelectedGameObject = pauseMenuButtons[0];
             UISelectionManager.instance.TrySetSelectedGameObject(pauseMenuButtons[0]);
             //EventSystem.current.SetSelectedGameObject(pauseMenuButtons[0]);

@@ -10,7 +10,7 @@ public class EnhancedSpikeSpawnSlam : BaseSlamAction , IEnhancedAbility
     public int enhancementLevel {  get; set; }
 
     public EnhancedSpikeSpawnSlam() { }
-    public EnhancedSpikeSpawnSlam(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int enhancementLevel) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public EnhancedSpikeSpawnSlam(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int enhancementLevel) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
         this.enhancementLevel = enhancementLevel;
     }
@@ -57,6 +57,6 @@ public class EnhancedSpikeSpawnSlam : BaseSlamAction , IEnhancedAbility
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedSpikeSpawnSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, enhancementLevel);
+        return new EnhancedSpikeSpawnSlam(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, enhancementLevel);
     }
 }

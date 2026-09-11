@@ -13,7 +13,7 @@ public class SlowingSlam : BaseSlamAction , IUpgradableAbility
     public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
     public SlowingSlam() { }
 
-    public SlowingSlam(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour,float SlowAmount, float SlowDuration, bool DoesPrevent, ModifiableActionDescriptor result) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public SlowingSlam(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour,float SlowAmount, float SlowDuration, bool DoesPrevent, ModifiableActionDescriptor result) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
         this.SlowDuration = SlowDuration;
         SlowMult = SlowAmount;
@@ -29,6 +29,6 @@ public class SlowingSlam : BaseSlamAction , IUpgradableAbility
 
     public override BaseEntityAction Clone()
     {
-        return new SlowingSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, SlowMult, SlowDuration, preventsMovement, upgradeResult);
+        return new SlowingSlam(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, SlowMult, SlowDuration, preventsMovement, upgradeResult);
     }
 }

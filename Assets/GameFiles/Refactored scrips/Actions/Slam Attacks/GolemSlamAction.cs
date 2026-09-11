@@ -6,9 +6,10 @@ using UnityEngine;
 public class GolemSlamAction : BaseSlamAction
 {
     public GolemSlamAction() { }
-    public GolemSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public GolemSlamAction(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
-
+        this.lightImpactNoise = lightImpactNoise;
+        this.heavyImpactNoise = heavyImpactNoise;
     }
 
     public override void SpawnSlamCompleteVFX()
@@ -31,6 +32,6 @@ public class GolemSlamAction : BaseSlamAction
 
     public override BaseEntityAction Clone()
     {
-        return new GolemSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
+        return new GolemSlamAction(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
     }
 }

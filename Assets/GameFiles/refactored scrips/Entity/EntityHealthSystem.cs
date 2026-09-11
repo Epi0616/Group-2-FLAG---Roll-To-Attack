@@ -3,7 +3,7 @@ using System;
 
 public class EntityHealthSystem : MonoBehaviour, IEntitySystem
 {
-    public Entity OwnerEntity { get; set; }
+    public Entity ownerEntity { get; set; }
 
     public Stat maxHealth = new(100);
     public int currentHealth;
@@ -16,7 +16,7 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
 
     public virtual void InitialiseSystem(Entity entity)
     {
-        OwnerEntity = entity;
+        ownerEntity = entity;
         currentHealth = (int)maxHealth.GetFinalValue();
     }
 
@@ -29,6 +29,7 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
     public virtual void OnTakeDamage(int damageAmount, DamageType type)
     {
         currentHealth -= damageAmount;
+
         if (currentHealth <= 0)
         {
             OnDeath();
@@ -40,7 +41,7 @@ public class EntityHealthSystem : MonoBehaviour, IEntitySystem
     }
     public virtual void OnDeath()
     {
-        OwnerEntity.bodySystem.RemoveAllShaders();
+        ownerEntity.bodySystem.RemoveAllShaders();
         //Debug.Log("dead");
     }
 }

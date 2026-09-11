@@ -5,7 +5,7 @@ using System;
 public class EnemyBaseSlam : BaseSlamAction
 {
     public EnemyBaseSlam() { }
-    public EnemyBaseSlam(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public EnemyBaseSlam(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
 
     }
@@ -17,6 +17,6 @@ public class EnemyBaseSlam : BaseSlamAction
 
     public override BaseEntityAction Clone()
     {
-        return new EnemyBaseSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
+        return new EnemyBaseSlam(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
     }
 }

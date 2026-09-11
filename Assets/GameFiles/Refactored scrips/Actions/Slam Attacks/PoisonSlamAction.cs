@@ -11,8 +11,10 @@ public class PoisonSlamAction : BaseSlamAction , IUpgradableAbility
 
     public PoisonSlamAction() { }
 
-    public PoisonSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, ModifiableActionDescriptor result) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public PoisonSlamAction(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, ModifiableActionDescriptor result) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
+        this.lightImpactNoise = lightImpactNoise;
+        this.heavyImpactNoise = heavyImpactNoise;
         upgradeResult = result;
     }
    
@@ -48,6 +50,6 @@ public class PoisonSlamAction : BaseSlamAction , IUpgradableAbility
 
     public override BaseEntityAction Clone()
     {
-        return new PoisonSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, upgradeResult);
+        return new PoisonSlamAction(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, upgradeResult);
     }
 }

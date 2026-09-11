@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class BaseSlamAction : BaseEntityAction, ISlam
 {
+    [SerializeField] protected AudioPackage lightImpactNoise, heavyImpactNoise;
     [SerializeField] protected int SlamDamage;
     [SerializeField] protected Color SlamColor;
     [SerializeField] protected float ChargeTime;
@@ -27,8 +28,10 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     //public GameObject slamImpactField;
 
     public BaseSlamAction() { }
-    public BaseSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent)
+    public BaseSlamAction(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent)
     {
+        this.lightImpactNoise = lightImpactNoise;
+        this.heavyImpactNoise = heavyImpactNoise;
         this.slamDamage = slamDamage;
         this.chargeTime = chargeTime;
         this.slamRange = new Stat(slamRange);
@@ -128,6 +131,11 @@ public class BaseSlamAction : BaseEntityAction, ISlam
             if (slamRange.GetFinalValue() > slamRange.GetBaseValue()) //potential rework if we buff range in some way??
             {
                 ApplyExtraHeavyEffect();
+                AudioManager.instance.PlaySound(heavyImpactNoise);
+            }
+            else 
+            {
+                AudioManager.instance.PlaySound(lightImpactNoise);
             }
             // Debug.Log("SLAMMING");
 
@@ -240,7 +248,7 @@ public class BaseSlamAction : BaseEntityAction, ISlam
 
     public override BaseEntityAction Clone()
     {
-        return new BaseSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
+        return new BaseSlamAction(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement);
     }
 }
 // slamVariablesAccess.defaultSlamColour
