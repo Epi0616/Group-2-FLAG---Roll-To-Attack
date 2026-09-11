@@ -2,6 +2,7 @@ using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TutorialUIFilter UIFilter;
     [SerializeField] private GameObject TutorialDarkOverlay;
     [SerializeField] private RectTransform TutorialOverlayCutout;
+    [SerializeField] private UIBobMovement TutorialUIBob, PortraitBob;
     private TutorialTextBox textBox;
     public TypedLettersTMP typingTextBox;
     private RectTransform boxRect;
@@ -40,6 +42,7 @@ public class TutorialManager : MonoBehaviour
     private bool hasSkippedThisStep;
     public bool inputConsumed;
     public List<ModifiableActionDescriptor> storageActions = new();
+    
 
     public static TutorialManager Instance;
     private Dictionary<string, RectTransform> uiElements = new Dictionary<string, RectTransform>();
@@ -150,7 +153,7 @@ public class TutorialManager : MonoBehaviour
                 }
                 TutorialUIBlockerObj.SetActive(true);
             }
-
+            TutorialUIBob.UpdateStartPos(stage.TutorialSteps[stepIndex].pos);
             boxRect.anchoredPosition = stage.TutorialSteps[stepIndex].pos;
             HandleText(stage.TutorialSteps[stepIndex]);
             HandlePortrait(stage.TutorialSteps[stepIndex]);
@@ -332,14 +335,16 @@ public class TutorialManager : MonoBehaviour
     {
         if (step.usesPortrait)
         {
+            if (portraitRect.localScale.x < 0) { portraitRect.localScale = new Vector3(portraitRect.localScale.x * -1, portraitRect.localScale.y, portraitRect.localScale.z); }
             TutorialPortraitObj.SetActive(true);
             float x = boxRect.anchoredPosition.x;
             float dir = Mathf.Sign(x);
-            if (Mathf.Abs(x) > 800)
+            if (dir > 0)
             {
-                dir *= -1;
+                portraitRect.localScale = new Vector3(portraitRect.localScale.x * -1, portraitRect.localScale.y, portraitRect.localScale.z);
             }
-            portraitRect.anchoredPosition = new Vector2(dir * boxWidth, -19f);
+            PortraitBob.UpdateStartPos(new Vector3(dir * boxWidth, 0, 0));
+            portraitRect.anchoredPosition = new Vector2(dir * boxWidth, 0);
         }
     }
 
