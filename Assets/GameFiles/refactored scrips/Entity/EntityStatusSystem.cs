@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 {
-    public Entity OwnerEntity { get; set; }
+    public Entity ownerEntity { get; set; }
     public List<ActiveStatusEffect> currentActiveStatusEffects = new List<ActiveStatusEffect>();
     private Stat modifiedDamageAmount;
     //public int statusCount;
     public void InitialiseSystem(Entity entity)
     {
-        OwnerEntity = entity;
+        ownerEntity = entity;
         modifiedDamageAmount = new Stat(0);
     }
 
@@ -98,14 +98,14 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             }
         }
         // Add it to the currentActiveStatusEffectsList and call the "effect added" function in the Status
-        newStatus.effect.AddEffect(OwnerEntity);
+        newStatus.effect.AddEffect(ownerEntity);
         if (isFirst)
         {
             newStatus.effect.FirstStackEffect();
         }
         foreach (BaseCondition condition in newStatus.conditions)
         {
-            condition.Initialize(OwnerEntity);
+            condition.Initialize(ownerEntity);
         }
         currentActiveStatusEffects.Add(newStatus);
         // The Effect Display will be handled by the Entity itself not the Status System 
@@ -173,9 +173,9 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
 
     public void RecalculateStats()
     {  
-        if (OwnerEntity == null) { return; }
+        if (ownerEntity == null) { return; }
 
-        foreach (var stat in OwnerEntity.statList)
+        foreach (var stat in ownerEntity.statList)
         {
             stat.ResetModifiers();
         }
@@ -189,7 +189,7 @@ public class EntityStatusSystem : MonoBehaviour , IEntitySystem
             
         }       
 
-        if (OwnerEntity is INavAgent ai && OwnerEntity is IMoveable mo)
+        if (ownerEntity is INavAgent ai && ownerEntity is IMoveable mo)
         {
             ai.agent.speed = mo.movementSpeed.GetFinalValue();
         }

@@ -4,6 +4,7 @@ using UnityEngine.Playables;
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Unity.VisualScripting;
 
 public class MusicPlayer : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class MusicPlayer : MonoBehaviour
     private bool graphActive = false;
     private int dampenRequests = 0;
     private Coroutine dampenRoutine;
+
+    private MusicPackage previousPackage = null;
 
     private void OnEnable()
     {
@@ -62,7 +65,7 @@ public class MusicPlayer : MonoBehaviour
         {
             StopCoroutine(dampenRoutine);
         }
-        dampenRoutine = StartCoroutine(SoundDampening(0.8f, source.spatialBlend, 0.1f));
+        //dampenRoutine = StartCoroutine(SoundDampening(0.8f, source.spatialBlend, 0.1f));
     }
 
     public void UndampenMusic()
@@ -73,7 +76,7 @@ public class MusicPlayer : MonoBehaviour
         {
             StopCoroutine(dampenRoutine);
         }
-        dampenRoutine = StartCoroutine(SoundDampening(0f, source.spatialBlend, 0.1f));
+        //dampenRoutine = StartCoroutine(SoundDampening(0f, source.spatialBlend, 0.1f));
     }
 
     private IEnumerator SoundDampening(float to, float from, float duration)
@@ -119,10 +122,27 @@ public class MusicPlayer : MonoBehaviour
         Playable currentPlayable = mainMixer.mixer.GetInput(0);
         mainMixer.mixer.DisconnectInput(0);
 
+        StartCoroutine(TransitionVolume(audioPackage.volume, crossFadeDuration));
         mainMixer.crossFadeRoutine = StartCoroutine(ConnectPlayableCrossFade(newPlayable, currentPlayable, mainMixer, crossFadeDuration));
 
         mainMixer.currentType = audioPackage.musicType;
-        source.volume = audioPackage.volume;
+    }
+
+    private IEnumerator TransitionVolume(float to, float duration)
+    {
+        float initialVolume = source.volume;
+
+        float timer = 0;
+        float t = 0;
+        while (t < 1)
+        { 
+            timer += Time.unscaledDeltaTime;
+            t = timer / duration;
+            source.volume = Mathf.Lerp(initialVolume, to, t);
+            yield return null;
+        }
+
+        source.volume = to;
     }
 
     private void ConnectPlayable(AudioClipPlayable newPlayable, AudioMixerContainer mixer)
@@ -189,6 +209,11 @@ public class MusicPlayer : MonoBehaviour
     }
 }
 
+public class BaseMusicPiece
+{
+
+}
+
 public class AudioMixerContainer
 {
     public AudioMixerPlayable mixer;
@@ -206,6 +231,7 @@ public enum MusicType
 {
     None,
     Ambient,
+    Menu,
     Wave,
     Boss
 }

@@ -11,7 +11,7 @@ public class RushForAttack : BaseSlamAction
     private Coroutine actionRoutine;
 
     public RushForAttack() : base() { }
-    public RushForAttack(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool preventsMovement) : base(slamDamage, chargeTime,slamRange, slamPositionOffset, slamColour, preventsMovement)
+    public RushForAttack(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool preventsMovement) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime,slamRange, slamPositionOffset, slamColour, preventsMovement)
     { 
         this.slamDamage = slamDamage;
         this.chargeTime = chargeTime;
@@ -202,6 +202,6 @@ public class RushForAttack : BaseSlamAction
     }
     public override BaseEntityAction Clone()
     {
-        return new RushForAttack(slamDamage, chargeTime, slamRange.GetFinalValue(), slamPositionOffset, slamColour, preventsMovement);
+        return new RushForAttack(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetFinalValue(), slamPositionOffset, slamColour, preventsMovement);
     }
 }

@@ -14,7 +14,7 @@ public class WeakenSlamAction : BaseSlamAction, IUpgradableAbility
     public ModifiableActionDescriptor upgradeResult { get => EnhancementUpgradeResult; set => EnhancementUpgradeResult = value; }
     public WeakenSlamAction() { }
 
-    public WeakenSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float WeakenDuration, bool DoesPrevent, ModifiableActionDescriptor result) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public WeakenSlamAction(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float WeakenDuration, bool DoesPrevent, ModifiableActionDescriptor result) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
         this.WeakenDuration = WeakenDuration;
         upgradeResult = result;
@@ -29,7 +29,7 @@ public class WeakenSlamAction : BaseSlamAction, IUpgradableAbility
 
     public override BaseEntityAction Clone()
     {
-        return new WeakenSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, WeakenDuration, preventsMovement, upgradeResult);
+        return new WeakenSlamAction(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, WeakenDuration, preventsMovement, upgradeResult);
     }
 }
 // weakenText.GetLocalizedString()

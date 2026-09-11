@@ -5,7 +5,9 @@ using System.Collections;
 public class EnemyHealthSystem : EntityHealthSystem
 {
     public static event Action EnemyHasDied;
-    
+
+    [SerializeField] private float deathAnimationTime = 0.5f;
+
     public override void OnTakeDamage(int damageAmount, DamageType type)
     {
         currentHealth -= damageAmount;
@@ -22,16 +24,15 @@ public class EnemyHealthSystem : EntityHealthSystem
         base.OnDeath();        
         isDead = true;
         
-        if (OwnerEntity is IActionable temp)
+        if (ownerEntity is IActionable temp)
         {
             temp.actionController.InterruptInterruptableActions();
         }
 
         //OwnerEntity.statusSystem.currentActiveStatusEffects.Clear();
 
-        if (OwnerEntity is IAnimated animated)
+        if (ownerEntity is IAnimated animated)
         {
-            float deathAnimationTime = 2;
             animated.animationManager.PlayAnimationCrossFade(AnimationType.Death, 0, MixerType.main, 0.2f, deathAnimationTime);
             StartCoroutine(DelayedDeath(deathAnimationTime, animated));
         }
@@ -41,7 +42,7 @@ public class EnemyHealthSystem : EntityHealthSystem
         }
     }
 
-    private IEnumerator DelayedDeath(float delayTime, IAnimated animated)
+    protected IEnumerator DelayedDeath(float delayTime, IAnimated animated)
     {
         yield return new WaitForSeconds(delayTime);
 
@@ -51,25 +52,25 @@ public class EnemyHealthSystem : EntityHealthSystem
         EnemyDeath();
     }
 
-    private void EnemyDeath()
+    protected void EnemyDeath()
     {
         
         try
         {
-            if (OwnerEntity is IWaveEnemy enemy)
+            if (ownerEntity is IWaveEnemy enemy)
             {
                 if (enemy.isWaveEnemy)
                 {
                     EnemyHasDied?.Invoke();
                 }
             }
-            OwnerEntity.bodySystem.RemoveAllShaders();
-            ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject, 0);
+            ownerEntity.bodySystem.RemoveAllShaders();
+            ObjectPoolManager.ReturnObjectToPool(ownerEntity.gameObject, 0);
         }
         catch
         {
-            OwnerEntity.bodySystem.RemoveAllShaders();
-            Destroy(OwnerEntity.gameObject);
+            ownerEntity.bodySystem.RemoveAllShaders();
+            Destroy(ownerEntity.gameObject);
         }
 
     }

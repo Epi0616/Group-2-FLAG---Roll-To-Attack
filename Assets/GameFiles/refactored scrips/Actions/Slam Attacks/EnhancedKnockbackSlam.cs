@@ -11,7 +11,7 @@ public class EnhancedKnockbackSlam : BaseSlamAction , IEnhancedAbility
 
     public EnhancedKnockbackSlam() { }
 
-    public EnhancedKnockbackSlam(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float CrumblingMod, bool DoesPrevent, int enhancementLevel) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public EnhancedKnockbackSlam(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float CrumblingMod, bool DoesPrevent, int enhancementLevel) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
         CrumblingDamageMod = CrumblingMod;
         this.enhancementLevel = enhancementLevel;
@@ -72,6 +72,6 @@ public class EnhancedKnockbackSlam : BaseSlamAction , IEnhancedAbility
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedKnockbackSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, CrumblingDamageMod, preventsMovement, enhancementLevel);
+        return new EnhancedKnockbackSlam(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, CrumblingDamageMod, preventsMovement, enhancementLevel);
     }
 }

@@ -1,16 +1,29 @@
 using UnityEngine;
 
-public class SlimeHealthSystem : MonoBehaviour
+public class SlimeHealthSystem : EnemyHealthSystem
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void OnDeath()
     {
-        
-    }
+        if (isDead) { return; }
+        base.OnDeath();
+        isDead = true;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (ownerEntity is IActionable temp)
+        {
+            temp.actionController.InterruptInterruptableActions();
+        }
+
+        //OwnerEntity.statusSystem.currentActiveStatusEffects.Clear();
+
+        if (ownerEntity is IAnimated animated)
+        {
+            float deathAnimationTime = 2f;
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.Death, 0, MixerType.main, 0.2f, deathAnimationTime);
+            StartCoroutine(DelayedDeath(deathAnimationTime, animated));
+        }
+        else
+        {
+            EnemyDeath();
+        }
     }
 }

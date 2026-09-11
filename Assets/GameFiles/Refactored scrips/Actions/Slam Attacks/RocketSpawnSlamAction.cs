@@ -17,7 +17,7 @@ public class RocketSpawnSlamAction : BaseSlamAction , IUpgradableAbility
     private float rocketInterval = 0.5f;
     
     public RocketSpawnSlamAction() { }
-    public RocketSpawnSlamAction(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int numRockets, ModifiableActionDescriptor result) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) 
+    public RocketSpawnSlamAction(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, bool DoesPrevent, int numRockets, ModifiableActionDescriptor result) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent) 
     {
         upgradeResult = result;
         this.numRockets = numRockets;
@@ -72,6 +72,6 @@ public class RocketSpawnSlamAction : BaseSlamAction , IUpgradableAbility
 
     public override BaseEntityAction Clone()
     {
-        return new RocketSpawnSlamAction(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, numRockets, upgradeResult);
+        return new RocketSpawnSlamAction(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, numRockets, upgradeResult);
     }
 }
