@@ -34,6 +34,15 @@ public class AbilityDropZoneParent : MonoBehaviour
         return true;
     }
 
+    public virtual void AddChild(DraggableObject newObject)
+    {
+        if (draggableObjects.Count >= objectLimit) { return; }
+        if (draggableObjects.Contains(newObject)) { FormatChildren(); return; }
+        draggableObjects.Add(newObject);
+        newObject.SetCurrentParent(this);
+        FormatChildren();
+    }
+
     public virtual void RemoveChild(DraggableObject objectToBeRemoved)
     {
         if (!objectToBeRemoved) { return; }

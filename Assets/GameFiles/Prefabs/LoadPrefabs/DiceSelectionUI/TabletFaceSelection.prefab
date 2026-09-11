@@ -4786,19 +4786,77 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
       objectReference: {fileID: 997879153696704712}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1745768834382930965, guid: dfc673ac3f9ff844dad825da422488ae, type: 3}
     m_RemovedGameObjects:
     - {fileID: 913378906063227439, guid: dfc673ac3f9ff844dad825da422488ae, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8349714620655088318, guid: dfc673ac3f9ff844dad825da422488ae, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 2771225704128129043}
   m_SourcePrefab: {fileID: 100100000, guid: dfc673ac3f9ff844dad825da422488ae, type: 3}
+--- !u!114 &229183444244971216 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6257687955276049456, guid: dfc673ac3f9ff844dad825da422488ae, type: 3}
+  m_PrefabInstance: {fileID: 6195263321498129120}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &2745465277959315550 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8349714620655088318, guid: dfc673ac3f9ff844dad825da422488ae, type: 3}
   m_PrefabInstance: {fileID: 6195263321498129120}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2771225704128129043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2745465277959315550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e6e05beb15930408614ac648b2d84c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CentralAbilitySlot
+  displayText: {fileID: 0}
+  myImage: {fileID: 229183444244971216}
+  draggableObjects: []
+  SlotGlow: {fileID: 8536392537676426173}
+  diceSlot: 0
+  baseGlow: 0
+  baseColor: {r: 1, g: 1, b: 1, a: 0}
+  upgradeColor: {r: 1, g: 0, b: 0, a: 0}
+  UpgradeSigil: {fileID: 6840608275610688751}
+--- !u!114 &6840608275610688751 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 799186423813525007, guid: dfc673ac3f9ff844dad825da422488ae, type: 3}
+  m_PrefabInstance: {fileID: 6195263321498129120}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b6e9f80ad60674490ed9c7dc4a60f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RevealImage
 --- !u!224 &6960475553377543101 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3846474894652797277, guid: dfc673ac3f9ff844dad825da422488ae, type: 3}
   m_PrefabInstance: {fileID: 6195263321498129120}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8536392537676426173 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2562166535981939037, guid: dfc673ac3f9ff844dad825da422488ae, type: 3}
+  m_PrefabInstance: {fileID: 6195263321498129120}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image

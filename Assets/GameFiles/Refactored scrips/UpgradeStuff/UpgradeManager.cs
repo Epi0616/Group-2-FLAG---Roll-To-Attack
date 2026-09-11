@@ -77,7 +77,7 @@ public class UpgradeManager : MonoBehaviour
                     //slot2.RemoveChild(DragAB2);
                     Destroy(DragAB2.gameObject);
 
-                    slot1.TryAddChild(tempAB);
+                    slot1.AddChild(tempAB);
                     abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
                     AbilityUpgraded?.Invoke();
@@ -98,7 +98,7 @@ public class UpgradeManager : MonoBehaviour
                         //slot2.RemoveChild(DragAB2);
                         Destroy(DragAB2.gameObject);
 
-                        slot1.TryAddChild(tempAB);
+                        slot1.AddChild(tempAB);
                         abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
                         AbilityUpgraded?.Invoke();
@@ -147,7 +147,7 @@ public class UpgradeManager : MonoBehaviour
                     //tempAB.SetEquippableAbility(new EquippableActionHolder(AB1.upgradeResult, 1)); 
                     tempAB.SetEquippableAbility(AB1.upgradeResult.Create()); //not sure if this is the correct approach to rewriting system?
 
-                    resultSlot.TryAddChild(tempAB);
+                    resultSlot.AddChild(tempAB);
                     tempAB.UpdateObject();
                     abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
@@ -169,7 +169,7 @@ public class UpgradeManager : MonoBehaviour
                         modifiableAction1.UpdateEnhancementLevel(modifiableAction1.enhancementLevel + 1);
                         tempAB.SetEquippableAbility(modifiableAction1);
 
-                        resultSlot.TryAddChild(tempAB);
+                        resultSlot.AddChild(tempAB);
                         tempAB.UpdateObject();
                         abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 

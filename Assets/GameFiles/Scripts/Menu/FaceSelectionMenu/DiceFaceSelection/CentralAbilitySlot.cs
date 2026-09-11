@@ -6,9 +6,25 @@ public class CentralAbilitySlot : AbilitySlot
 
     public override bool TryAddChild(DraggableObject newObject)
     {
-        if (initalized) return false;
-        
-        base.TryAddChild(newObject);
+        if (draggableObjects.Contains(newObject)) { FormatChildren(); return false; }
+
+        if (draggableObjects.Count > 0)
+        {
+            SwapAbilitiesWithUpgrade(newObject);
+            //SwapAbilitiesWithUpgrade(newObject);
+            return true;
+        }
+
+        if (initalized) { return false; }
+
+        draggableObjects.Add(newObject);
+        newObject.SetCurrentParent(this);
+        FormatChildren();
+        if (diceSlot)
+        {
+            GlowTo(1, baseColor, 0.2f, false);
+        }
+
         initalized = true;
         return true;
     }

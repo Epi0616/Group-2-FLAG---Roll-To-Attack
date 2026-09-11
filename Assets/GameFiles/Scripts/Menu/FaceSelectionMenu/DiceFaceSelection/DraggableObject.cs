@@ -62,8 +62,10 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         AbilityDropZoneParent zone = CheckForDropZone();
         if (zone != null)
         {
-            zone.TryAddChild(this);
-            return;
+            if (zone.TryAddChild(this))
+            {
+                return;
+            }
         }
 
         currentParent.TryAddChild(this);
