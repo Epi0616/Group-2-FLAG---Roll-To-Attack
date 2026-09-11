@@ -1,10 +1,6 @@
 using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Localization;
 using UnityEngine.UI;
 
 public class AbilitySlot : AbilityDropZoneParent
@@ -13,15 +9,15 @@ public class AbilitySlot : AbilityDropZoneParent
     public static event Action unselected;
     public static event Action<Vector3> selectedPos;
 
-    [SerializeField] private Image SlotGlow;
-    [SerializeField] bool diceSlot;
-    [SerializeField] float baseGlow = 0;
-    [SerializeField] Color baseColor, upgradeColor;
-    [SerializeField] private RevealImage UpgradeSigil;
+    [SerializeField] protected Image SlotGlow;
+    [SerializeField] protected bool diceSlot;
+    [SerializeField] protected float baseGlow = 0;
+    [SerializeField] protected Color baseColor, upgradeColor;
+    [SerializeField] protected RevealImage UpgradeSigil;
 
-    private Coroutine sigilRoutine;
-    private Coroutine glowRoutine;
-    private bool isSelected = false;
+    protected Coroutine sigilRoutine;
+    protected Coroutine glowRoutine;
+    protected bool isSelected = false;
 
     protected override void Awake()
     {
@@ -49,15 +45,15 @@ public class AbilitySlot : AbilityDropZoneParent
         return draggableObjects[0];
     }
 
-    public override void AddChild(DraggableObject newObject)
+    public override bool TryAddChild(DraggableObject newObject)
     {
-        if (draggableObjects.Contains(newObject)) {FormatChildren(); return; }
+        if (draggableObjects.Contains(newObject)) {FormatChildren(); return false; }
 
         if (draggableObjects.Count > 0)
         {
             SwapAbilitiesWithUpgrade(newObject);
             //SwapAbilitiesWithUpgrade(newObject);
-            return;
+            return true;
         }
 
         draggableObjects.Add(newObject);
@@ -67,9 +63,11 @@ public class AbilitySlot : AbilityDropZoneParent
         {
             GlowTo(1, baseColor, 0.2f, false);
         }
+
+        return true;
     }
 
-    private void SwapAbilitiesWithUpgrade(DraggableObject newObject)
+    protected void SwapAbilitiesWithUpgrade(DraggableObject newObject)
     {
         //Debug.Log("Swapped");
         AbilityDropZoneParent newObjectsParentAtStartOfDrag = newObject.GetParentAtStartOfDrag();
@@ -137,7 +135,6 @@ public class AbilitySlot : AbilityDropZoneParent
 
         SetSigil(1, 0.5f);
         GlowTo(1, upgradeColor, 0.2f, false);
-        Debug.Log("display thingy");
     }
 
     private void HandleAbilityEndDrag(DraggableAbility ability)
@@ -267,5 +264,4 @@ public class AbilitySlot : AbilityDropZoneParent
             yield return null;
         }
     }
-
 }

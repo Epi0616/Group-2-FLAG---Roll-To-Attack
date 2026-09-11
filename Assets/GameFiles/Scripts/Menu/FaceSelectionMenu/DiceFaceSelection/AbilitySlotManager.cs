@@ -21,16 +21,18 @@ public class AbilitySlotManager : MonoBehaviour
     [SerializeField] private Entity player;
 
     private IModifiableActions modifiableActions;
-
+    private AbilityDropZoneParent highlightedDropZone;
     private List<GameObject> draggableObjects = new List<GameObject>();
 
     private void OnEnable()
     {
+        DraggableObject.overAbilitySlot += UpdateHighlightedSlot;
         AbilitySlot.selected += RecieveSelectedSlot;
     }
 
     private void OnDisable()
     {
+        DraggableObject.overAbilitySlot -= UpdateHighlightedSlot;
         AbilitySlot.selected -= RecieveSelectedSlot;
     }
     private void Awake()
@@ -76,7 +78,7 @@ public class AbilitySlotManager : MonoBehaviour
                 {
                     var tempObj = Instantiate(abilityObjectPrefab, transform);
                     tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(indexedModifiableActions[j].modifiableAction);
-                    abilitySlots[i].AddChild(tempObj.GetComponent<DraggableAbility>());
+                    abilitySlots[i].TryAddChild(tempObj.GetComponent<DraggableAbility>());
                     abilitySlots[i].SetCentralAbilitySlot(centralAbilityPoint);
                     draggableObjects.Add(tempObj);
                 }
@@ -92,7 +94,7 @@ public class AbilitySlotManager : MonoBehaviour
         {
             var tempObj = Instantiate(abilityObjectPrefab, transform);
             tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(abilities[i]);
-            abilityStorage[i].AddChild(tempObj.GetComponent<DraggableAbility>());
+            abilityStorage[i].TryAddChild(tempObj.GetComponent<DraggableAbility>());
             draggableObjects.Add(tempObj);
         }
     }
@@ -171,13 +173,30 @@ public class AbilitySlotManager : MonoBehaviour
     {
         var tempObj = Instantiate(abilityObjectPrefab, transform);
         tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(fillAbility.Create());
-        abilitySlots[i].AddChild(tempObj.GetComponent<DraggableAbility>());       
+        abilitySlots[i].TryAddChild(tempObj.GetComponent<DraggableAbility>());       
         draggableObjects.Add(tempObj);
     }
 
     public GameObject GetCentralAbilityPoint()
     {
         return centralAbilityPoint;
+    }
+
+    private void UpdateHighlightedSlot(AbilityDropZoneParent newZone)
+    {
+        if (highlightedDropZone == newZone) return;
+
+        if (highlightedDropZone != null)
+        {
+            highlightedDropZone.OnUnhighlighted();
+            highlightedDropZone = null;
+        }
+
+        if (newZone != null)
+        {
+            highlightedDropZone = newZone;
+            highlightedDropZone.OnHighlighted();
+        }
     }
 
     //controller functions///////
@@ -205,7 +224,7 @@ public class AbilitySlotManager : MonoBehaviour
 
         if (ability == null) return;
         parent.RemoveChild(ability);
-        destination.AddChild(ability);
+        destination.TryAddChild(ability);
     }
 
     private bool StorageFull()
@@ -262,11 +281,11 @@ public class AbilitySlotManager : MonoBehaviour
 
         if (ability2 != null)
         {
-            parent1.AddChild(ability2);
+            parent1.TryAddChild(ability2);
         }
         if (ability1 != null)
         {
-            parent2.AddChild(ability1);
+            parent2.TryAddChild(ability1);
         }
 
         Deselect();

@@ -139,10 +139,10 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         ability.transform.SetParent(canvas.transform);
         ability.SearchForDropZones();
 
-        abilitySlotManager.GetCentralAbilityPoint().GetComponent<AbilitySlot>().AddChild(ability);
+        CentralAbilitySlot centralSlot = abilitySlotManager.GetCentralAbilityPoint().GetComponent<CentralAbilitySlot>();
+        centralSlot.ResetSlot();
+        centralSlot.TryAddChild(ability);
         AbilitySelectionUI.SetActive(false);
-
-
 
         //EventSystem.current.SetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
         EventSystem.current.firstSelectedGameObject = abilitySlotManager.GetCentralAbilityPoint();

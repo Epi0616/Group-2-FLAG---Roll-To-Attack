@@ -82,7 +82,6 @@ public class UpgradeManager : MonoBehaviour
 
                     AbilityUpgraded?.Invoke();
 
-                    Debug.Log("Basic Ability Upgrade to Enhanced");
                     return true;                   
                 }
                 else if (action1 is IEnhancedAbility EAB1 && action2 is IEnhancedAbility EAB2)
@@ -102,7 +101,6 @@ public class UpgradeManager : MonoBehaviour
                         slot1.AddChild(tempAB);
                         abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
-                        Debug.Log("Enhanced Ability Levelled Up to Level: " + modifiableAction1.enhancementLevel);
                         AbilityUpgraded?.Invoke();
 
                         return true;

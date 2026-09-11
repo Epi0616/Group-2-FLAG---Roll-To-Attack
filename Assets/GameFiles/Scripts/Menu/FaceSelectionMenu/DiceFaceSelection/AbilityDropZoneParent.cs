@@ -24,6 +24,16 @@ public class AbilityDropZoneParent : MonoBehaviour
         centralAbilitySlot = obj;
     }
 
+    public virtual bool TryAddChild(DraggableObject newObject)
+    {
+        if (draggableObjects.Count >= objectLimit) { return false; }
+        if (draggableObjects.Contains(newObject)) { FormatChildren(); return false; }
+        draggableObjects.Add(newObject);
+        newObject.SetCurrentParent(this);
+        FormatChildren();
+        return true;
+    }
+
     public virtual void AddChild(DraggableObject newObject)
     {
         if (draggableObjects.Count >= objectLimit) { return; }
@@ -103,4 +113,7 @@ public class AbilityDropZoneParent : MonoBehaviour
 
         rectTransform.rotation = originalRotation;
     }
+
+    public virtual void OnHighlighted() { }
+    public virtual void OnUnhighlighted() { }
 }

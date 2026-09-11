@@ -1,14 +1,22 @@
 using UnityEngine;
+using System;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    public static event Action<AbilityDropZoneParent> overAbilitySlot;
+
     private Canvas canvas;
     public CanvasGroup canvasGroup;
     [SerializeField] private RectTransform rectTransform;
     private AbilityDropZoneParent[] dropZones;
     private AbilityDropZoneParent currentParent, parentAtStartOfDrag;
     private Vector2 anchoredPositionAtStartOfDrag;
+
+    private float dropZoneCheckInterval = 0.1f;
+    private float timer = 0;
+    private Coroutine checkForHighlightRoutine;
 
     protected virtual void Awake()
     {
@@ -18,11 +26,13 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
         OnBeginDrag(eventData);
+        checkForHighlightRoutine = StartCoroutine(CheckForHighlightZone());
 
         parentAtStartOfDrag = currentParent;
         anchoredPositionAtStartOfDrag = rectTransform.anchoredPosition;
         transform.SetParent(canvas.transform); //so the object will be rendered infront of the drop zone while moving around.
     }
+
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
         OnDrag(eventData);
@@ -32,7 +42,6 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform, pointerData.position, canvas.worldCamera, out position);
 
         transform.position = canvas.transform.TransformPoint(position);
-
         //rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
@@ -44,17 +53,52 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         //ResetCurrentParent();
         currentParent.RemoveChild(this);
 
+        if (checkForHighlightRoutine != null)
+        {
+            StopCoroutine(checkForHighlightRoutine);
+        }
+        overAbilitySlot?.Invoke(null);
+
+        AbilityDropZoneParent zone = CheckForDropZone();
+        if (zone != null)
+        {
+            if (zone.TryAddChild(this))
+            {
+                return;
+            }
+        }
+
+        currentParent.TryAddChild(this);
+    }
+
+    private AbilityDropZoneParent CheckForDropZone()
+    {
         SearchForDropZones();
         foreach (var zone in dropZones)
         {
             if (IsOverlapping(rectTransform, zone.GetComponent<RectTransform>()))
             {
-                zone.GetComponent<AbilityDropZoneParent>().AddChild(this);
-                return;
+                return zone.GetComponent<AbilityDropZoneParent>();
             }
         }
 
-        currentParent.AddChild(this);
+        return null;
+    }
+
+    private IEnumerator CheckForHighlightZone()
+    {
+        while (true)
+        {
+            timer += Time.deltaTime;
+            if (timer > dropZoneCheckInterval)
+            {
+                AbilityDropZoneParent zone = CheckForDropZone();
+                overAbilitySlot?.Invoke(zone);
+
+                timer = 0;
+            }
+            yield return null;
+        }
     }
 
     protected virtual void OnBeginDrag(PointerEventData eventData) { }
