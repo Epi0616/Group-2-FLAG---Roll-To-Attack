@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7363566368438386171}
@@ -126,6 +126,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6262959751476179217}
   - {fileID: 3561497380917502765}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -163,8 +164,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.36072972
-      value: 0.35986668
+      time: 0.110729724
+      value: 0.56669956
       inSlope: 3.3908916
       outSlope: 3.3908916
       tangentMode: 0
@@ -172,14 +173,14 @@ MonoBehaviour:
       inWeight: 0.20670253
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.60185474
-      value: 0.7050294
-      inSlope: 1.7707828
-      outSlope: 1.7707828
+      time: 0.4439568
+      value: 0.9159135
+      inSlope: 0.2168109
+      outSlope: 0.2168109
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.22888052
+      outWeight: 0.3610871
     - serializedVersion: 3
       time: 1
       value: 1
@@ -192,8 +193,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  temporaryImpactField: {fileID: 5323335566823744965, guid: 3b0f77e8dcb519342a96aca1670faa8f, type: 3}
+  temporaryImpactField: {fileID: 5323335566823744965, guid: f0380ef0ef435ad43bb1737baa65ae7b, type: 3}
   pullStrength: 25
+  BlackHolePrefab: {fileID: 3432907146314538264, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
   rigidbBody: {fileID: 1465280417555104878}
 --- !u!114 &3251912372446792424
 MonoBehaviour:
@@ -220,6 +222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityBodySystem
   body: {fileID: 8185835345824761824}
+  headTransform: {fileID: 0}
+  baseplateTransform: {fileID: 0}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
   renderer: {fileID: 6133768952902683864}
 --- !u!54 &1465280417555104878
@@ -282,7 +286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18962c2936f7e12469d76d89c5a1b900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealthSystem
-  maxHealth: 0
+  maxHealth:
+    baseValue: 100
   currentHealth: 0
   isDead: 0
 --- !u!114 &1758687080336632509
@@ -299,3 +304,69 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
   targetCamera: {fileID: 0}
   textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
+--- !u!1001 &6797234505987983691
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7363566368438386171}
+    m_Modifications:
+    - target: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432907146314538264, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_Name
+      value: BlackHoleVisual
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432907146314538264, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+--- !u!4 &6262959751476179217 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 629976676259821658, guid: a54ffaab2d4d3a4478ab0e32ef690517, type: 3}
+  m_PrefabInstance: {fileID: 6797234505987983691}
+  m_PrefabAsset: {fileID: 0}
