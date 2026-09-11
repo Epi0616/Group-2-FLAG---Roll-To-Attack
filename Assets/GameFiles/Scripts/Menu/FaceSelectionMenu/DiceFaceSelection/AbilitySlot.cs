@@ -9,15 +9,15 @@ public class AbilitySlot : AbilityDropZoneParent
     public static event Action unselected;
     public static event Action<Vector3> selectedPos;
 
-    [SerializeField] private Image SlotGlow;
-    [SerializeField] bool diceSlot;
-    [SerializeField] float baseGlow = 0;
-    [SerializeField] Color baseColor, upgradeColor;
-    [SerializeField] private RevealImage UpgradeSigil;
+    [SerializeField] protected Image SlotGlow;
+    [SerializeField] protected bool diceSlot;
+    [SerializeField] protected float baseGlow = 0;
+    [SerializeField] protected Color baseColor, upgradeColor;
+    [SerializeField] protected RevealImage UpgradeSigil;
 
-    private Coroutine sigilRoutine;
-    private Coroutine glowRoutine;
-    private bool isSelected = false;
+    protected Coroutine sigilRoutine;
+    protected Coroutine glowRoutine;
+    protected bool isSelected = false;
 
     protected override void Awake()
     {
@@ -67,7 +67,7 @@ public class AbilitySlot : AbilityDropZoneParent
         return true;
     }
 
-    private void SwapAbilitiesWithUpgrade(DraggableObject newObject)
+    protected void SwapAbilitiesWithUpgrade(DraggableObject newObject)
     {
         //Debug.Log("Swapped");
         AbilityDropZoneParent newObjectsParentAtStartOfDrag = newObject.GetParentAtStartOfDrag();
@@ -88,7 +88,7 @@ public class AbilitySlot : AbilityDropZoneParent
             }
             FormatChildren();
 
-            newObjectsParentAtStartOfDrag.TryAddChild(myCurrentObject);
+            newObjectsParentAtStartOfDrag.AddChild(myCurrentObject);
         }
         else
         {
@@ -109,7 +109,7 @@ public class AbilitySlot : AbilityDropZoneParent
 
             if (centralAbilitySlot != null)
             {
-                centralAbilitySlot.GetComponent<AbilitySlot>().TryAddChild(myCurrentObject);
+                centralAbilitySlot.GetComponent<AbilitySlot>().AddChild(myCurrentObject);
             }
             //myCurrentObject.GetComponent<RectTransform>().anchoredPosition = 
         }
