@@ -1,10 +1,6 @@
 using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Localization;
 using UnityEngine.UI;
 
 public class AbilitySlot : AbilityDropZoneParent
@@ -49,15 +45,15 @@ public class AbilitySlot : AbilityDropZoneParent
         return draggableObjects[0];
     }
 
-    public override void AddChild(DraggableObject newObject)
+    public override bool TryAddChild(DraggableObject newObject)
     {
-        if (draggableObjects.Contains(newObject)) {FormatChildren(); return; }
+        if (draggableObjects.Contains(newObject)) {FormatChildren(); return false; }
 
         if (draggableObjects.Count > 0)
         {
             SwapAbilitiesWithUpgrade(newObject);
             //SwapAbilitiesWithUpgrade(newObject);
-            return;
+            return true;
         }
 
         draggableObjects.Add(newObject);
@@ -67,6 +63,8 @@ public class AbilitySlot : AbilityDropZoneParent
         {
             GlowTo(1, baseColor, 0.2f, false);
         }
+
+        return true;
     }
 
     private void SwapAbilitiesWithUpgrade(DraggableObject newObject)
@@ -90,7 +88,7 @@ public class AbilitySlot : AbilityDropZoneParent
             }
             FormatChildren();
 
-            newObjectsParentAtStartOfDrag.AddChild(myCurrentObject);
+            newObjectsParentAtStartOfDrag.TryAddChild(myCurrentObject);
         }
         else
         {
@@ -111,7 +109,7 @@ public class AbilitySlot : AbilityDropZoneParent
 
             if (centralAbilitySlot != null)
             {
-                centralAbilitySlot.GetComponent<AbilitySlot>().AddChild(myCurrentObject);
+                centralAbilitySlot.GetComponent<AbilitySlot>().TryAddChild(myCurrentObject);
             }
             //myCurrentObject.GetComponent<RectTransform>().anchoredPosition = 
         }
@@ -137,7 +135,6 @@ public class AbilitySlot : AbilityDropZoneParent
 
         SetSigil(1, 0.5f);
         GlowTo(1, upgradeColor, 0.2f, false);
-        Debug.Log("display thingy");
     }
 
     private void HandleAbilityEndDrag(DraggableAbility ability)
@@ -267,5 +264,4 @@ public class AbilitySlot : AbilityDropZoneParent
             yield return null;
         }
     }
-
 }

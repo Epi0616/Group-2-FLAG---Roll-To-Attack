@@ -77,12 +77,11 @@ public class UpgradeManager : MonoBehaviour
                     //slot2.RemoveChild(DragAB2);
                     Destroy(DragAB2.gameObject);
 
-                    slot1.AddChild(tempAB);
+                    slot1.TryAddChild(tempAB);
                     abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
                     AbilityUpgraded?.Invoke();
 
-                    Debug.Log("Basic Ability Upgrade to Enhanced");
                     return true;                   
                 }
                 else if (action1 is IEnhancedAbility EAB1 && action2 is IEnhancedAbility EAB2)
@@ -99,10 +98,9 @@ public class UpgradeManager : MonoBehaviour
                         //slot2.RemoveChild(DragAB2);
                         Destroy(DragAB2.gameObject);
 
-                        slot1.AddChild(tempAB);
+                        slot1.TryAddChild(tempAB);
                         abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
-                        Debug.Log("Enhanced Ability Levelled Up to Level: " + modifiableAction1.enhancementLevel);
                         AbilityUpgraded?.Invoke();
 
                         return true;
@@ -149,7 +147,7 @@ public class UpgradeManager : MonoBehaviour
                     //tempAB.SetEquippableAbility(new EquippableActionHolder(AB1.upgradeResult, 1)); 
                     tempAB.SetEquippableAbility(AB1.upgradeResult.Create()); //not sure if this is the correct approach to rewriting system?
 
-                    resultSlot.AddChild(tempAB);
+                    resultSlot.TryAddChild(tempAB);
                     tempAB.UpdateObject();
                     abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
@@ -171,7 +169,7 @@ public class UpgradeManager : MonoBehaviour
                         modifiableAction1.UpdateEnhancementLevel(modifiableAction1.enhancementLevel + 1);
                         tempAB.SetEquippableAbility(modifiableAction1);
 
-                        resultSlot.AddChild(tempAB);
+                        resultSlot.TryAddChild(tempAB);
                         tempAB.UpdateObject();
                         abilitySlotmanager.AddNewObjectsToList(new List<GameObject> { tempObj });
 
