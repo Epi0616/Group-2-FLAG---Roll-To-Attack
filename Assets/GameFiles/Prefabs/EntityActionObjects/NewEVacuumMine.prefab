@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6122524340730032573}
@@ -126,6 +126,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2633343814119472513}
   - {fileID: 2861741358792607880}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -163,6 +164,15 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.32005322
+      value: 0.7461116
+      inSlope: 0.9765827
+      outSlope: 0.9765827
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16124094
+    - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 0
@@ -174,8 +184,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  temporaryImpactField: {fileID: 5323335566823744965, guid: 3b0f77e8dcb519342a96aca1670faa8f, type: 3}
+  temporaryImpactField: {fileID: 5323335566823744965, guid: f0380ef0ef435ad43bb1737baa65ae7b, type: 3}
   pullStrength: 25
+  BlackHolePrefab: {fileID: 4206420452511377512, guid: 9583abb16a654864396707283494515a, type: 3}
   rigidbBody: {fileID: 7777939685542686573}
 --- !u!114 &2332574430432333113
 MonoBehaviour:
@@ -202,6 +213,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityBodySystem
   body: {fileID: 2463290106256055930}
+  headTransform: {fileID: 0}
+  baseplateTransform: {fileID: 0}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
   renderer: {fileID: 3561259397487610080}
 --- !u!54 &7777939685542686573
@@ -264,7 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18962c2936f7e12469d76d89c5a1b900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHealthSystem
-  maxHealth: 0
+  maxHealth:
+    baseValue: 100
   currentHealth: 0
   isDead: 0
 --- !u!114 &2272445712657258082
@@ -281,3 +295,69 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplaySystem
   targetCamera: {fileID: 0}
   textPrefab: {fileID: 9002726323381429119, guid: 0d2b2274364f0ce409abaffe1c7ddf94, type: 3}
+--- !u!1001 &4175315748328435883
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6122524340730032573}
+    m_Modifications:
+    - target: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4206420452511377512, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_Name
+      value: BlackHoleEVisual
+      objectReference: {fileID: 0}
+    - target: {fileID: 4206420452511377512, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+--- !u!4 &2633343814119472513 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2124071412173229354, guid: 024ead98d1da65947823e03c3d84de2f, type: 3}
+  m_PrefabInstance: {fileID: 4175315748328435883}
+  m_PrefabAsset: {fileID: 0}

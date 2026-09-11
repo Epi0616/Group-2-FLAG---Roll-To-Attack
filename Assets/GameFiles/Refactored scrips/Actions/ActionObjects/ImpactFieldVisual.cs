@@ -12,7 +12,8 @@ public class ImpactFieldVisual : MonoBehaviour
     protected Color color;
     protected float chargeTime;
     protected float radius;
-
+    [SerializeField] protected bool usesRing = true;
+    [SerializeField] protected bool usesField = true;
     protected bool flashRed;
     public bool hasBeenDestroyed;
 
@@ -115,19 +116,29 @@ public class ImpactFieldVisual : MonoBehaviour
         DestroyMe();
     }
 
-    protected void SetColor(Color color)
+    protected virtual void SetColor(Color color)
     { 
-        ringMeshRenderer.GetPropertyBlock(block);
+        
         Color darkerColour = new Color(color.r * 0.7f, color.g * 0.7f, color.b * 0.7f, color.a);
         Color lighterColour = new Color(color.r * 1.2f, color.g * 1.2f, color.b * 1.2f, color.a);
-        block.SetColor("_RingColour", lighterColour);
+        
         if (color.a < 0f) { color.a = 0; }
         else if (color.a > 1f) { color.a = 1f; }
-        block.SetFloat("_Opacity", color.a);
-        ringMeshRenderer.SetPropertyBlock(block);
-        meshRenderer.GetPropertyBlock(block);
-        block.SetColor("_BaseColor", darkerColour);
-        meshRenderer.SetPropertyBlock(block);
+        if (usesRing)
+        {
+            ringMeshRenderer.GetPropertyBlock(block);
+            block.SetColor("_RingColour", lighterColour);
+            block.SetFloat("_Opacity", color.a);
+            ringMeshRenderer.SetPropertyBlock(block);
+
+        }
+        if (usesField)
+        {
+            meshRenderer.GetPropertyBlock(block);
+            block.SetColor("_BaseColor", darkerColour);
+            meshRenderer.SetPropertyBlock(block);
+        }
+        
     }
 
     public void DestroyMe()
