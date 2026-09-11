@@ -13,7 +13,7 @@ public class SlimeJump : BaseEntityAction
     private ISlimeTrail slimeTrail;
     private IGrounded grounded;
     private IUsesRigidBody usesRigidBody;
-    private INavAgent navAgent;
+    private IAnimated animated;
     private ISlimeSplit slimeSplit;
 
     public SlimeJump() { }
@@ -22,8 +22,8 @@ public class SlimeJump : BaseEntityAction
     {
         base.StartAction(ownerEntity);
 
-        if (!(ownerEntity is INavAgent navAgent)) return;
-        this.navAgent = navAgent;
+        if (!(ownerEntity is IAnimated animated)) return;
+        this.animated = animated;
 
         if (!(ownerEntity is ISlimeTrail slimeTrail)) return;
         this.slimeTrail = slimeTrail;
@@ -66,8 +66,9 @@ public class SlimeJump : BaseEntityAction
 
         Vector3 force = new Vector3(0, 20, 0);
 
-
-        yield return Squish(0.5f, startSquish, downSquish);
+        //downsquish
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Jump, 1, MixerType.main, 0.2f);
+        yield return new WaitForSeconds(0.5f);
 
         Vector3 currentVelocity = rb.linearVelocity;
         currentVelocity.y = 0;
@@ -75,17 +76,17 @@ public class SlimeJump : BaseEntityAction
 
         rb.AddForce(force, ForceMode.VelocityChange);
 
-        yield return Squish(0.25f, downSquish, upSquish);
+        //upsquish
+        yield return new WaitForSeconds(0.25f);
 
-        //yield return new WaitForSeconds(0.5f);
         while (!grounded.isGrounded)
         {
             yield return null;
         }
 
         HandleImpact();
-        yield return Squish(0.2f, upSquish, downEndSquish);
-        yield return Squish(0.2f, downEndSquish, startSquish);
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, MixerType.main, 0.2f);
+        yield return new WaitForSeconds(0.25f);
     }
 
     private IEnumerator Squish(float duration, Vector3 startSquish, Vector3 targetSquish)

@@ -12,8 +12,10 @@ public class EnhancedWeakenSlam : BaseSlamAction, IEnhancedAbility
     public int enhancementLevel { get; set; }
     public EnhancedWeakenSlam() { }
 
-    public EnhancedWeakenSlam(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float WeakenDuration, bool DoesPrevent, int enhancementLevel) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public EnhancedWeakenSlam(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float WeakenDuration, bool DoesPrevent, int enhancementLevel) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
+        this.lightImpactNoise = lightImpactNoise;
+        this.heavyImpactNoise = heavyImpactNoise;
         this.WeakenDuration = WeakenDuration;
         this.enhancementLevel = enhancementLevel;
     }
@@ -27,6 +29,6 @@ public class EnhancedWeakenSlam : BaseSlamAction, IEnhancedAbility
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedWeakenSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, WeakenDuration, preventsMovement, enhancementLevel);
+        return new EnhancedWeakenSlam(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, WeakenDuration, preventsMovement, enhancementLevel);
     }
 }

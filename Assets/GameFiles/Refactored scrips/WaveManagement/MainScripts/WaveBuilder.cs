@@ -161,7 +161,7 @@ public class WaveBuilder : MonoBehaviour
 
             WaveGroup currentWaveGroup = new WaveGroup(
                 new List<EntityBlock> { affordableEntities[choice] }, 
-                new List<BaseWaveCondition> { new TimedWaveCondition((1 - (float)waveIndex/100))}
+                new List<BaseWaveCondition> { new TimedWaveCondition(Mathf.Clamp((1 - (float)waveIndex / 100), 0.1f, 1))}
                 );
 
             chosenWaveGroups.Add(currentWaveGroup);

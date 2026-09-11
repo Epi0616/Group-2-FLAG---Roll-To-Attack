@@ -22,7 +22,7 @@ public class DummyHealthSystem : EntityHealthSystem
         if (isDead) { return; }
         isDead = true;
 
-        OwnerEntity.statusSystem.currentActiveStatusEffects.Clear();
+        ownerEntity.statusSystem.currentActiveStatusEffects.Clear();
 
         DummyDeath(type);
     }
@@ -43,11 +43,11 @@ public class DummyHealthSystem : EntityHealthSystem
         DummyDeathEvent?.Invoke(type);
         try
         {           
-            ObjectPoolManager.ReturnObjectToPool(OwnerEntity.gameObject, 0);
+            ObjectPoolManager.ReturnObjectToPool(ownerEntity.gameObject, 0);
         }
         catch
         {
-            Destroy(OwnerEntity.gameObject);
+            Destroy(ownerEntity.gameObject);
         }
     }
 }

@@ -343,5 +343,7 @@ public enum AnimationType
     StunnedOver,
     Scream,
     ScreamUpwards,
-    Death
+    Death,
+    OnHit,
+    Jump
 }

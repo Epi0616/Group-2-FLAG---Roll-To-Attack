@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using UnityEngine.Rendering;
 
 public class GateManager : MonoBehaviour
 {
@@ -12,24 +11,31 @@ public class GateManager : MonoBehaviour
 
     private void OnEnable()
     {
-        WaveSpawner.finishedSpawning += GatesUp;
+        WaveSpawner.finishedSpawning += HandleGatesUp;
         WaveManager.WaveCountStart += GatesDown;
     }
 
     private void OnDisable()
     {
-        WaveSpawner.finishedSpawning -= GatesUp;
+        WaveSpawner.finishedSpawning -= HandleGatesUp;
         WaveManager.WaveCountStart -= GatesDown;
     }
 
-    private void GatesUp()
+    private void HandleGatesUp()
     {
         if (moveGatesRoutine != null)
         {
             StopCoroutine(moveGatesRoutine);
         }
+        moveGatesRoutine = StartCoroutine(GatesUp());
+    }
+
+    private IEnumerator GatesUp()
+    {
+        yield return new WaitForSeconds(3.15f);
+
         float currentY = gates[0].transform.position.y;
-        moveGatesRoutine = StartCoroutine(MoveGates(2, currentY, gateUpY));
+        yield return MoveGates(2, currentY, gateUpY);
     }
 
     private void GatesDown(float timer)

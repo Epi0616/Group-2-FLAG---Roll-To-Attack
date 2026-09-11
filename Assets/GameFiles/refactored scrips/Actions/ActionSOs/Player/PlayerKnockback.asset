@@ -21,6 +21,7 @@ MonoBehaviour:
     singleUse: 1
     triggered: 0
     exclusive: 1
+    interruptable: 1
     priority: 0
   references:
     version: 2
@@ -29,6 +30,8 @@ MonoBehaviour:
       type: {class: KnockbackSlamAction, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 0
+        lightImpactNoise: {fileID: 11400000, guid: c83f5c84f78449c48a8f14036dc2eb3e, type: 2}
+        heavyImpactNoise: {fileID: 11400000, guid: efa655ab6c28be946a51a45a97a62a52, type: 2}
         SlamDamage: 30
         SlamColor: {r: 0.627451, g: 0.3215686, b: 0.1764706, a: 1}
         ChargeTime: 0

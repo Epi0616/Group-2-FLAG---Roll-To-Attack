@@ -11,7 +11,7 @@ public class EnhancedSlowSlam : BaseSlamAction, IEnhancedAbility
 
     public EnhancedSlowSlam() { }
 
-    public EnhancedSlowSlam(int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float SlowMult, bool DoesPrevent, int enhancementLevel) : base(slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
+    public EnhancedSlowSlam(AudioPackage lightImpactNoise, AudioPackage heavyImpactNoise, int slamDamage, float chargeTime, float slamRange, Vector3 slamPositionOffset, Color slamColour, float SlowMult, bool DoesPrevent, int enhancementLevel) : base(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange, slamPositionOffset, slamColour, DoesPrevent)
     {
         this.SlowMult = SlowMult;
         this.enhancementLevel = enhancementLevel;
@@ -48,6 +48,6 @@ public class EnhancedSlowSlam : BaseSlamAction, IEnhancedAbility
 
     public override BaseEntityAction Clone()
     {
-        return new EnhancedSlowSlam(slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, SlowMult, preventsMovement, enhancementLevel);
+        return new EnhancedSlowSlam(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, SlowMult, preventsMovement, enhancementLevel);
     }
 }
