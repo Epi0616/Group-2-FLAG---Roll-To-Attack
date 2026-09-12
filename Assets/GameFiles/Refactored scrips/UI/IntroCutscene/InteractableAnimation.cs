@@ -19,16 +19,29 @@ public class InteractableAnimation : MonoBehaviour, IPointerEnterHandler, IPoint
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        animatedObj?.SetActive(true);
+        OnPointerEnter();
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        if (isActive) return;
-        animatedObj?.SetActive(false);
+        OnPointerExit();
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+    {
+        OnPointerDown();
+    }
+
+    protected virtual void OnPointerEnter() 
+    {
+        animatedObj?.SetActive(true);
+    }
+    protected virtual void OnPointerExit() 
+    {
+        if (isActive) return;
+        animatedObj?.SetActive(false);
+    }
+    protected virtual void OnPointerDown() 
     {
         //animatedWritingObj?.SetActive(false);
     }

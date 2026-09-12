@@ -96,7 +96,7 @@ public class OldEnemyDirector : MonoBehaviour
     {
         if (enemiesLeftInCurrentWave <= 0) return;
 
-        RunTimeStatTracker.totalEnemiesKilled += 1;
+        RunTimeStatTracker.instance.runTimeStats.totalEnemiesKilled += 1;
         enemiesLeftInCurrentWave--;
         if (enemiesLeftInCurrentWave == 0)
         {

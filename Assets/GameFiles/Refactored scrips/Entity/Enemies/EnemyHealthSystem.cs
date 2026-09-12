@@ -11,7 +11,7 @@ public class EnemyHealthSystem : EntityHealthSystem
     public override void OnTakeDamage(int damageAmount, DamageType type)
     {
         currentHealth -= damageAmount;
-        RunTimeStatTracker.totalDamageDealt += damageAmount;
+        RunTimeStatTracker.instance.runTimeStats.totalDamageDealt += damageAmount;
         if (currentHealth <= 0)
         {
             OnDeath();

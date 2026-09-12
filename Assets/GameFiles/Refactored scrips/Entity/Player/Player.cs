@@ -161,6 +161,25 @@ public class Player : Entity,
     public AbilityDisplayUI displayUI { get => DisplayUISlot; set => DisplayUISlot = value; }
     public Camera targetCamera { get => PlayerCamera; set => PlayerCamera = value; }
     public bool displayerActive { get; set; }
+
+    private void OnEnable()
+    {
+        SetUpArenaManager.setUpPlayer += SetUpPlayerFromIntro;
+    }
+
+    private void OnDisable()
+    {
+        SetUpArenaManager.setUpPlayer -= SetUpPlayerFromIntro;
+    }
+
+    private void SetUpPlayerFromIntro(int currentHp, int maxHP, List<IndexedModifiableAction> indexedModifiableActions)
+    {
+        healthSystem.currentHealth = currentHp;
+        healthSystem.maxHealth.SetBaseValue(maxHP);
+        
+        actionSelectionSystem.SetIndexedModifiableActions(indexedModifiableActions);
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -199,7 +218,7 @@ public class Player : Entity,
         actionController.Update();
         CheckForGrounded();
 
-        RunTimeStatTracker.totalTimeSurvived += Time.deltaTime;
+        RunTimeStatTracker.instance.runTimeStats.totalTimeSurvived += Time.deltaTime;
     }
 
     protected override void FixedUpdate()

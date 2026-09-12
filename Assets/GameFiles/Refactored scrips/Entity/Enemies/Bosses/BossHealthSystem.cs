@@ -17,7 +17,7 @@ public class BossHealthSystem : EnemyHealthSystem
     {
         currentHealth -= damageAmount;
         boss.HandleUpdateHealth();
-        RunTimeStatTracker.totalDamageDealt += damageAmount;
+        RunTimeStatTracker.instance.runTimeStats.totalDamageDealt += damageAmount;
         if (currentHealth <= 0)
         {
             OnDeath();

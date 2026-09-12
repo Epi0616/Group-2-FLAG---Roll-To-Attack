@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ public class PlayerLoadOut : ScriptableObject
     }
 }
 
+[Serializable]
 public class IndexedModifiableAction
 {
     public int index;

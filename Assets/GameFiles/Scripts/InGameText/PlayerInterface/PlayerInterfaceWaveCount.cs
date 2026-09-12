@@ -31,7 +31,7 @@ public class PlayerInterfaceWaveCount : StaticText
     private void NewWave(int waveNumber)
     {
         waveCount = waveNumber;
-        RunTimeStatTracker.waveNumber = waveCount;
+        RunTimeStatTracker.instance.runTimeStats.waveNumber = waveCount;
         UpdateText(localizedString.GetLocalizedString());
         timer = 0;
         tmpAsset.alpha = 0;
