@@ -18,6 +18,11 @@ public class RunTimeStatTracker : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    private void Update()
+    {
+        runTimeStats.totalTimeSurvived += Time.deltaTime;
+    }
 }
 
 [Serializable]
