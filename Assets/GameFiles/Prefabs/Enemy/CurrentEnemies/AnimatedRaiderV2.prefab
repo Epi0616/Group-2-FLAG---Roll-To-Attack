@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 900468149471356268}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 2.96, z: 0}
+  m_LocalPosition: {x: -0, y: 0.69, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -125,9 +125,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.5
-  m_Height: 7.5
+  m_Height: 5.64
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0.25}
+  m_Center: {x: 0, y: -1.2, z: 0.25}
 --- !u!54 &6232155463110256498
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -358,15 +358,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: ad49ec278677c734698b118dd2dbc1f1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.65
+      value: 0.38
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ad49ec278677c734698b118dd2dbc1f1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.65
+      value: 0.38
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ad49ec278677c734698b118dd2dbc1f1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.65
+      value: 0.38
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ad49ec278677c734698b118dd2dbc1f1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -374,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ad49ec278677c734698b118dd2dbc1f1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.54
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ad49ec278677c734698b118dd2dbc1f1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -408,6 +408,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ad49ec278677c734698b118dd2dbc1f1, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ad49ec278677c734698b118dd2dbc1f1, type: 3}
       propertyPath: m_Name
       value: Raider (4)
@@ -415,7 +419,7 @@ PrefabInstance:
     - target: {fileID: 6022845993036287140, guid: ad49ec278677c734698b118dd2dbc1f1, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 91b482afdd77d0d4f8e5321f9fe183a0, type: 2}
+      objectReference: {fileID: 2100000, guid: ea023a73c36129a4fb93219ef3c60139, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -45,4 +45,5 @@ public class EffectDictEntry
     public ParticleType type;
     public GameObject prefab;
 }
-public enum ParticleType { SimpleBurst01, VerticalBurst01, VerticleBurst02, RockBurst01, RockBurst02, RockBurst03, SmokeBurst01, Impact01, ShardImpact01, ShardImpact02, Sparks01, BlackHole01, BlackHole02 }
+public enum ParticleType { SimpleBurst01, VerticalBurst01, VerticleBurst02, RockBurst01, RockBurst02, RockBurst03, SmokeBurst01, Impact01, ShardImpact01, ShardImpact02, Sparks01, BlackHole01, BlackHole02, FlatBlackHole01,
+                            FlatBlackHole02, FlatBurst01, FlatBurst02 }

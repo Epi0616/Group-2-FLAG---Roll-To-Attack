@@ -140,7 +140,9 @@ public class TutorialDiceSelection : MonoBehaviour, IInitializeable
         ability.transform.SetParent(canvas.transform);
         ability.SearchForDropZones();
 
-        abilitySlotManager.GetCentralAbilityPoint().GetComponent<AbilitySlot>().TryAddChild(ability);
+        CentralAbilitySlot centralSlot = abilitySlotManager.GetCentralAbilityPoint().GetComponent<CentralAbilitySlot>();
+        centralSlot.ResetSlot();
+        centralSlot.TryAddChild(ability);
         AbilitySelectionUI.SetActive(false);
 
 

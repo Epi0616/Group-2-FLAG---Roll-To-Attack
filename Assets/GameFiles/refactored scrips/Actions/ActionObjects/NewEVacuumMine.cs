@@ -87,6 +87,8 @@ public class NewEVacuumMine : NewVacuumMine
                 entity.OnRecieveEffect(new ActiveStatusEffect(new VacuumDisplacementEffect(transform.position, 10f),
                 new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) }, true), fieldColour);
                 entity.OnTakeDamage((int)heldDamage + 20, fieldColour, DamageType.Spell);
+                //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.BlackHole02), entity.transform.position, Quaternion.Euler(90, 0, 0)).
+                //    GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { }));
                 foreach (ActiveStatusEffect effect in heldEffects)
                 {
                     entity.OnRecieveEffect(new ActiveStatusEffect(effect.effect.Clone(), effect.conditions.Select(c => c.Clone()).ToList(), effect.allConditionsRequired));                  
@@ -104,10 +106,10 @@ public class NewEVacuumMine : NewVacuumMine
         {
             impactfield.DestroyMe();
         }
-        if (blackHoleVisual != null)
-        {
-            blackHoleVisual.DestroyMe(0.5f);
-        }
+        //if (blackHoleVisual != null)
+        //{
+        //    blackHoleVisual.DestroyMe(0.5f);
+        //}
         //Debug.Log("Effects Cleared");
         heldEffects.Clear();
         ObjectPoolManager.ReturnObjectToPool(gameObject);

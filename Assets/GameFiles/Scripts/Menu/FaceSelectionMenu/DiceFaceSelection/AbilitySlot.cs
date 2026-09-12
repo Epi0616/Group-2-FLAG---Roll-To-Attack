@@ -115,7 +115,7 @@ public class AbilitySlot : AbilityDropZoneParent
         }
     }
 
-    private void HandleAbilityStartDrag(DraggableAbility ability)
+    protected virtual void HandleAbilityStartDrag(DraggableAbility ability)
     {
         //GlowTo(baseGlow, baseColor, 0.2f, false);
         HandleDragGlow(baseGlow, ability);
@@ -137,7 +137,7 @@ public class AbilitySlot : AbilityDropZoneParent
         GlowTo(1, upgradeColor, 0.2f, false);
     }
 
-    private void HandleAbilityEndDrag(DraggableAbility ability)
+    protected virtual void HandleAbilityEndDrag(DraggableAbility ability)
     {
         if (draggableObjects.Count <= 0) return;
         SetSigil(0, 0.3f);
@@ -240,7 +240,7 @@ public class AbilitySlot : AbilityDropZoneParent
         SetImageAlpha(SlotGlow, color, to);
     }
 
-    private void SetSigil(float to, float duration)
+    protected void SetSigil(float to, float duration)
     {
         if (UpgradeSigil == null) return;
         if (sigilRoutine != null) { StopCoroutine(sigilRoutine);}

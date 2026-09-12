@@ -17,8 +17,9 @@ public class ModifiableAction
     public LocalizedString actionDescription;
     public Sprite sprite;
     public AbilityType abilityType;
+    public Color abilityColour;
 
-    public ModifiableAction(ConditionalActionDescriptor conditionalActionDescriptor, int weighting, int enhancementLevel, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite, AbilityType abilityType)
+    public ModifiableAction(ConditionalActionDescriptor conditionalActionDescriptor, int weighting, int enhancementLevel, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite, AbilityType abilityType, Color abilityColour)
     { 
         this.conditionalActionDescriptor = conditionalActionDescriptor;
         this.conditionalAction = conditionalActionDescriptor.Create();
@@ -28,9 +29,10 @@ public class ModifiableAction
         this.actionDescription = actionDescription;
         this.sprite = sprite;
         this.abilityType = abilityType;
+        this.abilityColour = abilityColour;
         UpdateEnhancementLevel(enhancementLevel);
     }
-    public ModifiableAction(ConditionalAction conditionalAction, int weighting, int enhancementLevel, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite, AbilityType abilityType)
+    public ModifiableAction(ConditionalAction conditionalAction, int weighting, int enhancementLevel, LocalizedString actionName, LocalizedString actionDescription, Sprite sprite, AbilityType abilityType, Color abilityColour)
     {
         this.conditionalAction = conditionalAction;
         this.weighting = weighting;
@@ -39,12 +41,13 @@ public class ModifiableAction
         this.actionDescription = actionDescription;
         this.sprite = sprite;
         this.abilityType = abilityType;
+        this.abilityColour = abilityColour;
         UpdateEnhancementLevel(enhancementLevel);
     }
 
     public ModifiableAction Clone()
     {
-        ModifiableAction newAction = new ModifiableAction(conditionalActionDescriptor.Create(), weighting, enhancementLevel, actionName, actionDescription, sprite, abilityType);
+        ModifiableAction newAction = new ModifiableAction(conditionalActionDescriptor.Create(), weighting, enhancementLevel, actionName, actionDescription, sprite, abilityType, abilityColour);
         newAction.conditionalActionDescriptor = conditionalActionDescriptor;
         return newAction;
     }
