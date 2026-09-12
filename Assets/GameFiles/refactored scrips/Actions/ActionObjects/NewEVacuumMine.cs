@@ -25,7 +25,7 @@ public class NewEVacuumMine : NewVacuumMine
         this.enhancementLevel = enhancementLevel;
         this.range = range + this.enhancementLevel;
         blackHoleVisual = ObjectPoolManager.SpawnObject(BlackHolePrefab, transform.position, Quaternion.Euler(0, 0, 0)).GetComponent<BlackHole>();
-        blackHoleVisual.Initialize(this.range, chargeTime, this.gameObject);
+        blackHoleVisual.Initialize(this.range, chargeTime, this.gameObject, true);
         fieldColour = colour;
         fieldColour.a = 0.05f;
         // Potentially scale the duration of the mine

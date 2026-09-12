@@ -39,7 +39,7 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         this.ownerEntity = ownerEntity;
         this.range = range;
         blackHoleVisual = ObjectPoolManager.SpawnObject(BlackHolePrefab, transform.position, Quaternion.Euler(0, 0, 0)).GetComponent<BlackHole>();
-        blackHoleVisual.Initialize(range, chargeTime, this.gameObject);
+        blackHoleVisual.Initialize(range, chargeTime, this.gameObject, false);
         
         timer = chargeTime;
         age = 0;
