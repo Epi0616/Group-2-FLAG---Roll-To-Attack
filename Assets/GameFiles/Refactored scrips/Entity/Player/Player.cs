@@ -217,8 +217,6 @@ public class Player : Entity,
         movementController.Update();
         actionController.Update();
         CheckForGrounded();
-
-        RunTimeStatTracker.instance.runTimeStats.totalTimeSurvived += Time.deltaTime;
     }
 
     protected override void FixedUpdate()
