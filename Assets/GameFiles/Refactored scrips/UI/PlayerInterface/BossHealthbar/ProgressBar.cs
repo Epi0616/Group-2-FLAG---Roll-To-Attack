@@ -22,7 +22,7 @@ public class ProgressBar : MonoBehaviour
     {
         WaveBuilder.EnemiesGenerated -= HandleEnemiesGenerated;
         DicePedestal.WaveAutoStartPedestal -= StartDrainProgressBarRoutine;
-        DicePedestal.WaveHeavyStartPedestal += StartDrainProgressBarRoutine;
+        DicePedestal.WaveHeavyStartPedestal -= StartDrainProgressBarRoutine;
         EnemyHealthSystem.EnemyHasDied -= EnemyHasDied;
     }
 

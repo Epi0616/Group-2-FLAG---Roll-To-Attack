@@ -108,7 +108,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     private void WaveOver(float delayBetweenWaves)
     {
         this.delayBetweenWaves = delayBetweenWaves;
-        timer = 1f;
+        timer = delayBetweenWaves;
         setupComplete = false;
     }
 

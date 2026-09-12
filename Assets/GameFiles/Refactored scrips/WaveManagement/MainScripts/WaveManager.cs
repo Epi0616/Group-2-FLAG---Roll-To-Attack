@@ -9,11 +9,13 @@ public class WaveManager : MonoBehaviour
     public static event Action<float> WaveCountStart;
     public static event Action<int> DisplayWaveNumber;
 
+    public bool waveCleared { get; set; }
+    public int currentWaveIndex = 1;
+
     [Header("Setup")]
     [SerializeField] private WaveBuilder waveBuilder;
     [SerializeField] private WaveSpawner waveSpawner;
     [SerializeField] private WaveScaling waveScaling;
-    [SerializeField] private int currentWaveIndex = 0;
 
     private int enemiesLeftInWave = 0;
     [SerializeField] private bool spawningWave = false;
@@ -29,6 +31,8 @@ public class WaveManager : MonoBehaviour
         TutorialManager.StartIndexWave += StartIndexedWave;
 
         WaveSpawner.finishedSpawning += HandleFinishedSpawning;
+
+        SetUpArenaManager.SetUpWavePosition += SetUpWaveStateFromIntro;
     }
 
     private void OnDisable()
@@ -37,11 +41,29 @@ public class WaveManager : MonoBehaviour
         FireballRainAction.SpawnWaveRequest -= SpawnWave;
         WaveBuilder.EnemiesGenerated -= HandleEnemiesGenerated;
         EnemyHealthSystem.EnemyHasDied -= HandleEnemyDeath;
-        DicePedestal.WaveAutoStartPedestal += StartNextWave;
+        DicePedestal.WaveAutoStartPedestal -= StartNextWave;
         DicePedestal.WaveHeavyStartPedestal -= StartNextWave;
         TutorialManager.StartIndexWave -= StartIndexedWave;
 
         WaveSpawner.finishedSpawning -= HandleFinishedSpawning;
+
+        SetUpArenaManager.SetUpWavePosition -= SetUpWaveStateFromIntro;
+    }
+
+    private void SetUpWaveStateFromIntro(int waveIndex, bool cleared)
+    {
+        if (cleared)
+        {
+            waveCleared = cleared;
+            currentWaveIndex = waveIndex;
+            waveScaling?.UpdateScaling(currentWaveIndex);
+            WaveOver?.Invoke(0);
+
+            return;
+        }
+
+        currentWaveIndex = waveIndex;
+        waveScaling?.UpdateScaling(currentWaveIndex);
     }
 
     private void HandleFinishedSpawning()
@@ -57,10 +79,12 @@ public class WaveManager : MonoBehaviour
     private void HandleEnemyDeath()
     { 
         enemiesLeftInWave --;
-        RunTimeStatTracker.totalEnemiesKilled += 1;
-        if (enemiesLeftInWave <= 0)
+        RunTimeStatTracker.instance.runTimeStats.totalEnemiesKilled += 1;
+        if (enemiesLeftInWave <= 0 && !waveCleared)
         {
-            WaveOver?.Invoke(2);
+            waveCleared = true;
+            currentWaveIndex++;
+            WaveOver?.Invoke(1);
         }
     }
 
@@ -69,6 +93,7 @@ public class WaveManager : MonoBehaviour
         if (!spawningWave)
         {
             WaveCountStart?.Invoke(delayBetweenWaves);
+            waveCleared = false;
             spawningWave = true;
         }
         StartCoroutine(SpawnWaveDelay(delayBetweenWaves));
@@ -86,7 +111,7 @@ public class WaveManager : MonoBehaviour
         yield return new WaitForSeconds(delayBetweenWaves);
 
         spawningWave = true;
-        currentWaveIndex++;
+        waveCleared = false;
 
         Wave wave = waveBuilder.GetNextWave(currentWaveIndex);
 

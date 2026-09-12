@@ -23,7 +23,7 @@ public class PlayerJumpState : PlayerBaseState
 
         //massive amount of setup that could probably do with its own function
 
-        RunTimeStatTracker.numberOfAttacks += 1;
+        RunTimeStatTracker.instance.runTimeStats.numberOfAttacks += 1;
 
         jumpHeight = player.jumpHeight.GetFinalValue();
         jumpSpeed = player.jumpSpeed.GetFinalValue();

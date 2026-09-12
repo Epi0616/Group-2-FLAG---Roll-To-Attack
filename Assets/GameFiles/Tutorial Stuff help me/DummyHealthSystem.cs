@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Collections;
-using UnityEngine;
 using System;
 
 public class DummyHealthSystem : EntityHealthSystem
@@ -10,7 +7,7 @@ public class DummyHealthSystem : EntityHealthSystem
     public override void OnTakeDamage(int damageAmount, DamageType type)
     {
         currentHealth -= damageAmount;
-        RunTimeStatTracker.totalDamageDealt += damageAmount;
+        RunTimeStatTracker.instance.runTimeStats.totalDamageDealt += damageAmount;
         if (currentHealth <= 0)
         {
             OnDeath(type);

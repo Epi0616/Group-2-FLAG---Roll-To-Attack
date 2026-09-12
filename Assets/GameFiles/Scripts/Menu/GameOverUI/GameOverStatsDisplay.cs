@@ -24,13 +24,13 @@ public class GameOverStatsDisplay : MonoBehaviour
 
     public void UpdateStatsDisplay(string newText)
     { 
-        int minutes = Mathf.FloorToInt(RunTimeStatTracker.totalTimeSurvived / 60f);
-        int seconds = Mathf.FloorToInt(RunTimeStatTracker.totalTimeSurvived % 60f);
+        int minutes = Mathf.FloorToInt(RunTimeStatTracker.instance.runTimeStats.totalTimeSurvived / 60f);
+        int seconds = Mathf.FloorToInt(RunTimeStatTracker.instance.runTimeStats.totalTimeSurvived % 60f);
 
-        waveCountText.text = waveCountLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.waveNumber;
-        numberOfAttacksText.text = numberOfAttacksLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.numberOfAttacks;
+        waveCountText.text = waveCountLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.instance.runTimeStats.waveNumber;
+        numberOfAttacksText.text = numberOfAttacksLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.instance.runTimeStats.numberOfAttacks;
         timeSurvivedText.text = timeSurvivedLocalizedString.GetLocalizedString() + ": " + minutes + "m " + seconds + "s";
-        totalDamageDealtText.text = totalDamageDealtLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.totalDamageDealt;
-        totalKillsText.text = totalKillsLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.totalEnemiesKilled;
+        totalDamageDealtText.text = totalDamageDealtLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.instance.runTimeStats.totalDamageDealt;
+        totalKillsText.text = totalKillsLocalizedString.GetLocalizedString() + ": " + RunTimeStatTracker.instance.runTimeStats.totalEnemiesKilled;
     }
 }

@@ -7,6 +7,7 @@ public class IntroSceneMenuUI : MonoBehaviour
 {
     public static event Action<float> settingsOpened, menuClosed, menuOpened;
     public static event Action<SceneType> arenaTypeSelected;
+    public static event Action newGame, loadGame;
 
     [SerializeField] private InputActionReference pauseGame;
 
@@ -48,6 +49,14 @@ public class IntroSceneMenuUI : MonoBehaviour
     public void StartGame(float transitionLength = 0.5f)
     {
         arenaTypeSelected?.Invoke(SceneType.SandArena);
+        newGame?.Invoke();
+        MoveToRoomOverview(transitionLength);
+    }
+
+    public void ContinueGame(float transitionLength = 0.5f)
+    {
+        arenaTypeSelected?.Invoke(SceneType.SandArena);
+        loadGame?.Invoke();
         MoveToRoomOverview(transitionLength);
     }
 

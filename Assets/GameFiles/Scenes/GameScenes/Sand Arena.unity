@@ -167,6 +167,17 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &8802361 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+  m_PrefabInstance: {fileID: 1414483120}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414483121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e16c9b3e3d218f4a9c36801d0e90c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveManager
 --- !u!1 &39736289
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,6 +399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 165164847}
   - component: {fileID: 165164848}
+  - component: {fileID: 165164849}
   m_Layer: 0
   m_Name: PackUpManager
   m_TagString: Untagged
@@ -422,6 +434,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21e7278ac80e8784f877beff7776f3fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PackUpArenaManager
+--- !u!114 &165164849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165164846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa66ea396db1cf45856e8b7bf72f4a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArenaSaveOnExit
+  waveManager: {fileID: 8802361}
 --- !u!1 &166090985
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,6 +543,50 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: -13.15, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &229220258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 229220260}
+  - component: {fileID: 229220259}
+  m_Layer: 0
+  m_Name: SetUpManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &229220259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229220258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b4446d2904045b43aa2630254be7add, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SetUpArenaManager
+--- !u!4 &229220260
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229220258}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 70.05001, y: -56.73912, z: 46.80366}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &249892297
 GameObject:
   m_ObjectHideFlags: 0
@@ -1888,6 +1957,50 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 200, z: 205}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &892886670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 892886672}
+  - component: {fileID: 892886671}
+  m_Layer: 0
+  m_Name: RunTimeStatsTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &892886671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892886670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c0239510fc97294e985788590ff3436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RunTimeStatTracker
+--- !u!4 &892886672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892886670}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.66888, y: -0, z: 25.0797}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &898916146
 GameObject:
   m_ObjectHideFlags: 0
@@ -3283,6 +3396,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: waveCleared
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: waveScaling
       value: 
       objectReference: {fileID: 1905825388}
@@ -3292,7 +3409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: currentWaveIndex
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1305526101545167703, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: delayBetweenWaves
@@ -6207,7 +6324,7 @@ NavMeshObstacle:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 165164847}
+  - {fileID: 892886672}
   - {fileID: 1414483120}
   - {fileID: 1640895912}
   - {fileID: 348180390}
@@ -6225,3 +6342,5 @@ SceneRoots:
   - {fileID: 705817833}
   - {fileID: 412838000}
   - {fileID: 406746090}
+  - {fileID: 165164847}
+  - {fileID: 229220260}

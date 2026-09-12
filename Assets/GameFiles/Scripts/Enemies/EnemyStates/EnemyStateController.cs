@@ -194,7 +194,7 @@ public abstract class EnemyStateController : MonoBehaviour
         int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
         currentHealth -= finalDamage;
 
-        RunTimeStatTracker.totalDamageDealt += finalDamage;
+        RunTimeStatTracker.instance.runTimeStats.totalDamageDealt += finalDamage;
 
         //AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds);
         ShowDamage(finalDamage);
@@ -210,7 +210,7 @@ public abstract class EnemyStateController : MonoBehaviour
         int finalDamage = Mathf.FloorToInt(amount * damageTakenModifierStat.GetFinalValue());
         currentHealth -= finalDamage;
 
-        RunTimeStatTracker.totalDamageDealt += finalDamage;
+        RunTimeStatTracker.instance.runTimeStats.totalDamageDealt += finalDamage;
 
         //AudioManager.instance.PlayRandomSoundClip(EnemyHurtSounds, default, 0.4f);
 

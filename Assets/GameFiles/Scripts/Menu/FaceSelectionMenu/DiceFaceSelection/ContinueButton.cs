@@ -17,6 +17,4 @@ public class ContinueButton : MonoBehaviour, ISelectHandler
     {
         Hide?.Invoke();
     }
-
-    
 }
