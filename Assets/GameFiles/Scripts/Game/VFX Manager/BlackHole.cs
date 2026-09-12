@@ -12,7 +12,7 @@ public class BlackHole : MonoBehaviour
     private bool isDestroyed;
     private bool enhanced;
     private GameObject parentObj;
-
+    private float range;
     public void AdjustRangePercentage(float percentage)
     {
         for (int i = 0; i < particleSystems.Count - 1; i++)
@@ -30,6 +30,7 @@ public class BlackHole : MonoBehaviour
         isDestroyed = false;
         AdjustRange(range);
         BlackHoleObj.transform.localScale = initialScale * (range / 10);
+        this.range = range;
     }
 
     private void Update()
@@ -168,11 +169,19 @@ public class BlackHole : MonoBehaviour
         {
             ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.BlackHole02), transform.position, Quaternion.Euler(90, 0, 0)).
                     GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { }));
+            ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.FlatBlackHole02), transform.position, Quaternion.Euler(90, 0, 0)).
+                    GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ShapeRadiusEffectOverride(range) }));
+            ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.FlatBurst02), transform.position, Quaternion.Euler(90, 0, 0)).
+                    GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ShapeRadiusEffectOverride(range) }));
         }
         else
         {
             ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.BlackHole01), transform.position, Quaternion.Euler(90, 0, 0)).
                     GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { }));
+            ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.FlatBlackHole01), transform.position, Quaternion.Euler(90, 0, 0)).
+                    GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ShapeRadiusEffectOverride(range) }));
+            ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.FlatBurst01), transform.position, Quaternion.Euler(90, 0, 0)).
+                    GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ShapeRadiusEffectOverride(range) }));
         }
             
         ObjectPoolManager.ReturnObjectToPool(gameObject);

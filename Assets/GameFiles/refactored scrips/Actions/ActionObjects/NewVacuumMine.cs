@@ -92,6 +92,8 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
                 entity.OnRecieveEffect(new ActiveStatusEffect(new VacuumDisplacementEffect(transform.position, 10f),
                 new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) }, true), fieldColour);
                 entity.OnTakeDamage(20, fieldColour, DamageType.Spell);
+                //ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.BlackHole01), entity.transform.position, Quaternion.Euler(90, 0, 0)).
+                //    GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { }));
             }
         }
 
@@ -149,10 +151,7 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         {
             impactfield.DestroyMe();
         }       
-        if (blackHoleVisual  != null)
-        {
-            blackHoleVisual.DestroyMe(0.5f);
-        }
+        
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
@@ -174,8 +173,12 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
         {
             timer -= Time.deltaTime;
             age += Time.deltaTime;
-            if (timer < 1f && !hasPlayedSFX)
+            if (timer < 0.5f && !hasPlayedSFX)
             {
+                if (blackHoleVisual != null)
+                {
+                    blackHoleVisual.DestroyMe(0.5f);
+                }
                 blackHoleVisual.StopEmission();
                 //AudioManager.instance.PlayRandomSoundClip(mineDetonated, new Vector3(0, 0, 0), 1f);
                 hasPlayedSFX = true;

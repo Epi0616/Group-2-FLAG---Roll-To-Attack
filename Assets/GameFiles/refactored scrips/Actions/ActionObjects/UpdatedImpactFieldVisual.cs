@@ -8,6 +8,7 @@ public class UpdatedImpactFieldVisual : ImpactFieldVisual
     [SerializeField] GameObject fieldObj;
     [SerializeField] private bool ScaleField = true;
     [SerializeField] private bool ScaleRing = false;
+    [SerializeField] private bool invertGrowDirection = false;
     [SerializeField] GameObject fullRingObj;
     [SerializeField] private bool UsesTwoRings = false;
     [SerializeField] protected MeshRenderer secondRingRenderer;
@@ -104,8 +105,19 @@ public class UpdatedImpactFieldVisual : ImpactFieldVisual
         //Debug.Log("Fade in started");
         float timeElapsed = 0f;
         float a = 0f;
-        Vector3 startScale = Vector3.zero;
-        Vector3 endScale = ringObj.transform.localScale;
+        Vector3 startScale;
+        Vector3 endScale;
+        if (invertGrowDirection)
+        {
+            startScale = ringObj.transform.localScale;
+            endScale = ringObj.transform.localScale * 0.05f;
+        }
+        else
+        {
+            startScale = Vector3.zero;
+            endScale = ringObj.transform.localScale;
+        }
+        
 
         while (timeElapsed < chargeTime)
         {
