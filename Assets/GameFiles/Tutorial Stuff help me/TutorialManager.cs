@@ -77,7 +77,7 @@ public class TutorialManager : MonoBehaviour
     {
         // Remove to start Tutorial from another Event
         
-        Debug.Log(skipInput.action.enabled);
+        //Debug.Log(skipInput.action.enabled);
     }
 
     public void OnEnable()

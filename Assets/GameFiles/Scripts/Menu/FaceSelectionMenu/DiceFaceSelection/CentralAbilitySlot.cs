@@ -83,7 +83,7 @@ public class CentralAbilitySlot : AbilitySlot
         {
             if (ability == draggableObjects[0])
             {
-                Debug.Log("Held Ability Removed");
+                //Debug.Log("Held Ability Removed");
                 AdjustNewSigil(0, 0.75f);
                 //UpdateColour();
             }
