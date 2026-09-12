@@ -179,6 +179,8 @@ public class ObjectPoolManager : MonoBehaviour
     {
         if (cloneToPrefabMap.TryGetValue(obj, out GameObject prefab))
         {
+            if (!obj.activeSelf) return;
+
             GameObject parentObject = SetParentObject(poolType);
 
             if (obj.transform.parent != parentObject.transform)

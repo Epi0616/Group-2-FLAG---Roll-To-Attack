@@ -204,6 +204,8 @@ public class MusicPlayer : MonoBehaviour
 
     private bool CheckForCanBePlayed(AudioMixerContainer mixer, MusicPackage musicPackage)
     {
+        if (musicPackage == null) return false;
+        if (musicPackage.audioClips.Count <= 0) return false;
         if (musicPackage.musicType == mixer.currentType) return false;
         return true;
     }

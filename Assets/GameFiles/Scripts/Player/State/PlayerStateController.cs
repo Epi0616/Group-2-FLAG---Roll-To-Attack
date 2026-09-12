@@ -103,7 +103,7 @@ public class PlayerStateController : MonoBehaviour
     {
         CheckForAttack();
         currentState.UpdateState();
-        RunTimeStatTracker.totalTimeSurvived += Time.deltaTime;
+        RunTimeStatTracker.instance.runTimeStats.totalTimeSurvived += Time.deltaTime;
     }
 
     private void FixedUpdate()

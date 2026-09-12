@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using Random = System.Random;
+using System;
 
 public class AbilitySelectionManager : MonoBehaviour
 {
@@ -16,9 +18,29 @@ public class AbilitySelectionManager : MonoBehaviour
     private List<GameObject> draggableObjects = new List<GameObject>();
     private HashSet<int> selectedIndex = new HashSet<int>();
 
+    private Random randomSequence;
+
     private void Awake()
     {
         abilityLevelChance = new Stat(AbilityLevelBaseChance);
+
+        TrySetRandomSequenceFromSeed();
+    }
+
+    private void TrySetRandomSequenceFromSeed()
+    {
+        bool eligable = true;
+
+        if (GameManager.instance == null) { eligable = false; }
+        if (GameManager.instance.gameSaveData == null) { eligable = false; }
+
+        if (eligable)
+        {
+            randomSequence = new Random(GameManager.instance.gameSaveData.seed);
+            return;
+        }
+
+        randomSequence = new Random((int)DateTime.Now.Ticks);
     }
 
     public void SetUpAbilityPannels()
@@ -57,7 +79,7 @@ public class AbilitySelectionManager : MonoBehaviour
         int random = 0;
         while (!foundNewIndex)
         {
-            random = Random.Range(0, abilityPool.Count);
+            random = randomSequence.Next(0, abilityPool.Count);
             if (!selectedIndex.Contains(random))
             {
                 selectedIndex.Add(random);
@@ -76,7 +98,7 @@ public class AbilitySelectionManager : MonoBehaviour
         float maximumLevelChance = abilityLevelChance.GetFinalValue();
         float minimumLevelChance = maximumLevelChance - (maximumLevelChance / 2);
 
-        int iterations = Mathf.CeilToInt(Random.Range(minimumLevelChance, maximumLevelChance)) - 1;
+        int iterations = Mathf.CeilToInt((float)randomSequence.NextDouble() * (maximumLevelChance - minimumLevelChance) + minimumLevelChance) - 1;
 
         if (iterations <= 0) return ability;
         ModifiableAction upgradedAbility = upgradableAbility.upgradeResult.Create();

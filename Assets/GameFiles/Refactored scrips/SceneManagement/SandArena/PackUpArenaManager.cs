@@ -6,16 +6,21 @@ public class PackUpArenaManager : MonoBehaviour
 {
     private void OnEnable()
     {
-        PauseMenu.PackUpScene += ReturnActiveEntitiesToPool;
-        GameOverMenu.PackUpScene += ReturnActiveEntitiesToPool;
+        PauseMenu.PackUpScene += PackUp;
+        GameOverMenu.PackUpScene += PackUp;
     }
     private void OnDisable()
     {
-        PauseMenu.PackUpScene -= ReturnActiveEntitiesToPool;
-        GameOverMenu.PackUpScene -= ReturnActiveEntitiesToPool;
+        PauseMenu.PackUpScene -= PackUp;
+        GameOverMenu.PackUpScene -= PackUp;
     }
 
-    public void ReturnActiveEntitiesToPool()
+    private void PackUp()
+    {
+        ReturnActiveEntitiesToPool();
+    }
+
+    private void ReturnActiveEntitiesToPool()
     {
         List<GameObject> activeEntities = ObjectPoolManager.activeObjects.ToList();
 
@@ -31,11 +36,9 @@ public class PackUpArenaManager : MonoBehaviour
                 {
                     actionable.actionController.InterruptAllActive();
                 }
-                //if (entity is IMoveable moveable)
-                //{ 
-                //    moveable.movementController.
-                //}
+
                 entity.statusSystem.currentActiveStatusEffects.Clear();
+                entity.StopAllCoroutines();
             }
 
             ObjectPoolManager.ReturnObjectToPool(obj);
