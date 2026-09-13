@@ -226,6 +226,14 @@ public class Player : Entity,
         actionController.FixedUpdate();
     }
 
+    public override void OnTakeDamage(int amount, Color color, DamageType damageType)
+    {
+        int finalDamage = statusSystem.ModifyDamage(amount, damageType);
+        float size = Mathf.Clamp(10 + (finalDamage * 1.1f), 48f, 240f);
+        //Debug.Log("DAMAGE TAKEN: " + amount);
+        healthSystem.OnTakeDamage(finalDamage, damageType);
+    }
+
     //IGrounded Interface Methods
     public void CheckForGrounded()
     {

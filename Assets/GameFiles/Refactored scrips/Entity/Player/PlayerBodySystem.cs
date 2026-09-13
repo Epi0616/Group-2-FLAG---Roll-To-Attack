@@ -10,14 +10,14 @@ public class PlayerBodySystem : EntityBodySystem
 
     private void OnEnable()
     {
-        PlayerHealthSystem.ShowIFrames += DisplayIFrames;
+        PlayerHealthSystem.DamageConfirmed += DisplayIFrames;
         chargeCompleteEffect.Stop();
         chargingEffect.Stop();
     }
 
     private void OnDisable()
     {
-        PlayerHealthSystem.ShowIFrames -= DisplayIFrames;
+        PlayerHealthSystem.DamageConfirmed -= DisplayIFrames;
     }
 
     public override void InitialiseSystem(Entity entity)
