@@ -30,9 +30,8 @@ public class AbilitySelectionManager : MonoBehaviour
     private void TrySetRandomSequenceFromSeed()
     {
         bool eligable = true;
-
         if (GameManager.instance == null) { eligable = false; }
-        if (GameManager.instance.gameSaveData == null) { eligable = false; }
+        else if (GameManager.instance.gameSaveData == null) { eligable = false; }
 
         if (eligable)
         {

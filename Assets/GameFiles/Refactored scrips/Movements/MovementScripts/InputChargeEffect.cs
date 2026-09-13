@@ -4,14 +4,21 @@ using UnityEngine;
 [Serializable]
 public class InputChargeEffect : BaseEntityMovement
 {
+    [SerializeField] private AudioPackage chargeSound;
+
     private IUsesEntityInput usesEntityInput;
     private PlayerBodySystem playerBodySystem;
     private bool chargeComplete;
     public InputChargeEffect() { }
+    public InputChargeEffect(AudioPackage chargeSound)
+    { 
+        this.chargeSound = chargeSound;
+    }
     public override void StartMovement(Entity ownerEntity)
     {
         chargeComplete = false;
         base.StartMovement(ownerEntity);
+        AudioManager.instance.PlaySingleLoopingClip(ownerEntity.gameObject, chargeSound);
         playerBodySystem = ownerEntity.bodySystem as PlayerBodySystem;        
         usesEntityInput = ownerEntity as IUsesEntityInput;
         //Debug.Log($"hold time {usesEntityInput.inputManager.holdTime}");
@@ -29,17 +36,14 @@ public class InputChargeEffect : BaseEntityMovement
     {
         ownerEntity.bodySystem.body.transform.rotation = ownerEntity.bodySystem.originalRotation;
         playerBodySystem.ResetChargingEffects();
+        AudioManager.instance.StopSingleLoopingClip(ownerEntity.gameObject, chargeSound);
     }
     public override void EndMovement()
     {
         ownerEntity.bodySystem.body.transform.rotation = ownerEntity.bodySystem.originalRotation;
         playerBodySystem.ResetChargingEffects();
+        AudioManager.instance.StopSingleLoopingClip(ownerEntity.gameObject, chargeSound);
     }
-    public override BaseEntityMovement Clone()
-    {
-        return new InputChargeEffect();
-    }
-
     private void ChargeParticles(float holdTime)
     {
         if (holdTime < 1)
@@ -53,5 +57,10 @@ public class InputChargeEffect : BaseEntityMovement
             playerBodySystem.DisplayChargeCompleteEffect();
             chargeComplete = true;
         }
+    }
+
+    public override BaseEntityMovement Clone()
+    {
+        return new InputChargeEffect(chargeSound);
     }
 }
