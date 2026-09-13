@@ -9,7 +9,7 @@ public class WeakenStatus : StatusEffect
         type = StatusType.Weak;
         this.weakMultiplier = weakMultiplier;
         this.effectText = effectText;
-        this.effectColour = Color.darkMagenta;
+        this.effectColour = Color.violetRed;
         isStackable = true;
     }
     /*
