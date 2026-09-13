@@ -6,12 +6,14 @@ using Random = UnityEngine.Random;
 public class DiceProp : MoveableProp, IIntroRollable
 {
     public static event Action<GameObject, DiceType> GameStart;
-    public static event Action TransitionStart, TransitionOver;
+    public static event Action TransitionStart, TransitionOver, TutorialDicePickedUp, TutorialDiceDropped;
 
     [SerializeField] private Vector3 startScale, targetScale;
     [SerializeField] private DiceType myDiceType;
     [SerializeField] GameObject highlightObj;
+    [SerializeField] GameObject tutorialParticles;
     private bool isOutlined;
+    private bool enteringTutorial;
 
     private bool gameStarted;
     private bool returningFromArena = false;
@@ -23,11 +25,15 @@ public class DiceProp : MoveableProp, IIntroRollable
         base.OnEnable();
 
         SceneTransitionManager.DiceReturnFromArena += HandleReturnFromArena;
+        IntroSceneMenuUI.arenaTypeSelected += SceneChosen;
+        IntroSceneMenuUI.menuOpened += ReturnToMenu;
     }
 
     protected void OnDisable()
     {
         SceneTransitionManager.DiceReturnFromArena -= HandleReturnFromArena;
+        IntroSceneMenuUI.arenaTypeSelected -= SceneChosen;
+        IntroSceneMenuUI.menuOpened -= ReturnToMenu;
     }
 
     protected override void Initialize()
@@ -45,7 +51,6 @@ public class DiceProp : MoveableProp, IIntroRollable
             StartCoroutine(ReturnFromArena(transitionLength));
         }
     }
-
     private IEnumerator ReturnFromArena(float transitionLength)
     {
         TransitionStart?.Invoke();
@@ -86,6 +91,10 @@ public class DiceProp : MoveableProp, IIntroRollable
             yield return null;
         }
     }
+    public override void ObjectSelected()
+    {
+        if (enteringTutorial) { TutorialDicePickedUp?.Invoke(); tutorialParticles.SetActive(false); }
+    }
 
     public override void ObjectHovered()
     {
@@ -100,7 +109,8 @@ public class DiceProp : MoveableProp, IIntroRollable
     public override void ObjectDropped()
     {
         UpdateOutline(false);
-        if(expirationCoroutine != null) { StopCoroutine(expirationCoroutine); }
+        if (enteringTutorial) { TutorialDiceDropped?.Invoke(); }
+        if (expirationCoroutine != null) { StopCoroutine(expirationCoroutine); }
         expirationCoroutine = StartCoroutine(ReturnToOriginalPosition(6f));
     }
 
@@ -120,6 +130,8 @@ public class DiceProp : MoveableProp, IIntroRollable
             transform.position = startPosition;
         }
     }
+
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -196,5 +208,22 @@ public class DiceProp : MoveableProp, IIntroRollable
 
         transform.localRotation = to;
         rb.isKinematic = false;
+    }
+
+    private void SceneChosen(SceneType sceneType)
+    {
+        if (sceneType == SceneType.TutorialArena)
+        {
+            enteringTutorial = true;
+            tutorialParticles.SetActive(true);
+            return;
+        }
+        tutorialParticles.SetActive(false);
+    }
+
+    private void ReturnToMenu(float idk)
+    {
+        enteringTutorial = false;
+        tutorialParticles.SetActive(false);
     }
 }
