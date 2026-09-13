@@ -2,13 +2,15 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+
 public class PlayerHealthSystem : EntityHealthSystem
 {
     public static event Action<int, int> UpdateHealthBar;
-    public static event Action<float> ShowIFrames;
+    public static event Action<float> DamageConfirmed;
     public static event Action GameOver;
 
     private float iFrameTimer = 0;
+    private Color damageColor = Color.red;
 
     private void OnEnable()
     {
@@ -25,6 +27,7 @@ public class PlayerHealthSystem : EntityHealthSystem
         if (iFrameTimer > 0) return;
 
         currentHealth -= damageAmount;
+        ownerEntity.textDisplaySystem.DisplayText(damageAmount.ToString(), damageColor, (int)55);
         UpdateHealthBar?.Invoke(currentHealth, (int)maxHealth.GetFinalValue());
         IFrames();
 
@@ -52,7 +55,7 @@ public class PlayerHealthSystem : EntityHealthSystem
         float iTime = 1;
 
         StartCoroutine(IFrameCounter(iTime));
-        ShowIFrames?.Invoke(iTime);
+        DamageConfirmed?.Invoke(iTime);
     }
 
     private IEnumerator IFrameCounter(float iTime)

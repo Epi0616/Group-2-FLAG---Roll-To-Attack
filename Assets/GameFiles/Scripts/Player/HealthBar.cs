@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,8 +7,9 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public TextMeshProUGUI text;
-    public Image healthBar;
-    float timer;
+    public Image healthBar, healthBarRed;
+
+    private Coroutine redHealthBarCatchUp;
 
     private void OnEnable()
     {
@@ -21,23 +23,53 @@ public class HealthBar : MonoBehaviour
 
     private void Awake()
     {
-        text.alpha = 0f;
+        AdjustTextAlpha(1, 0, 1);
     }
 
     private void UpdatePlayerHealth(int currentHealth, int maxHealth)
     {
         text.text = currentHealth.ToString() + " / " + maxHealth.ToString();
-        //healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(1000 * ((float)currentHealth / maxHealth), healthBar.GetComponent<RectTransform>().sizeDelta.y);
         healthBar.fillAmount = (float)currentHealth / (float)maxHealth;
+
+        if (redHealthBarCatchUp != null)
+        { 
+            StopCoroutine(redHealthBarCatchUp);
+        }
+        redHealthBarCatchUp = StartCoroutine(AdjustRedHealthBarFillAmount(healthBar.fillAmount, healthBarRed.fillAmount, 0.65f));
     }
 
-    private void Update()
+    private IEnumerator AdjustRedHealthBarFillAmount(float to, float from, float duration)
     {
-        timer += Time.deltaTime;
-        if (timer < 1)
+        float timer = 0;
+        float t = 0;
+
+        while (t < 1)
         {
-            text.alpha += timer * 1f;
+            timer += Time.deltaTime;
+            t = timer / duration;
+
+            healthBarRed.fillAmount = Mathf.Lerp(from, to, t);
+            yield return null;
         }
+
+        healthBarRed.fillAmount = to;
+    }
+
+    private IEnumerator AdjustTextAlpha(float to, float from, float duration)
+    {
+        float timer = 0;
+        float t = 0;
+
+        while (t < 1)
+        {
+            timer += Time.deltaTime;
+            t = timer / duration;
+
+            text.alpha = Mathf.Lerp(from, to, t);
+            yield return null;  
+        }
+
+        text.alpha = to;
     }
 }
 
