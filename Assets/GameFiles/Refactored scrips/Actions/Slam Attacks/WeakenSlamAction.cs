@@ -6,7 +6,7 @@ using System.Collections.Generic;
 [Serializable]
 public class WeakenSlamAction : BaseSlamAction, IUpgradableAbility
 {
-    public float WeakenDuration = 1f;
+    public float WeakenDuration = 2.5f;
     public float WeakenDamageMult = 2f;
     public LocalizedString weakenText;
 
