@@ -76,9 +76,9 @@ public class TutorialDiceSelection : MonoBehaviour, IInitializeable
         WaveManager.WaveOver += WaveOver;
         WaveScaling.setScaling += SetAbilityScaling;
         TutorialManager.DisplayDiceUI += WaveOver;
-        AbilityPanel.AbilitySelected += AbilitySelected;
+        AbilityPanel.AbilitySelected += HandleAbilitySelected;
         HealthOption.HealthChosen += HealthChosen;
-        ContinueButton.Continue += Continue;
+        ContinueButton.Continue += HandleContinue;
     }
 
     private void OnDisable()
@@ -86,13 +86,20 @@ public class TutorialDiceSelection : MonoBehaviour, IInitializeable
         WaveManager.WaveOver -= WaveOver;
         WaveScaling.setScaling -= SetAbilityScaling;
         TutorialManager.DisplayDiceUI -= WaveOver;
-        AbilityPanel.AbilitySelected -= AbilitySelected;
+        AbilityPanel.AbilitySelected -= HandleAbilitySelected;
         HealthOption.HealthChosen -= HealthChosen;
-        ContinueButton.Continue -= Continue;
+        ContinueButton.Continue -= HandleContinue;
     }
 
-    public void Continue()
+    public void HandleContinue()
     {
+        StartCoroutine(Continue());
+    }
+
+    public IEnumerator Continue()
+    {
+        yield return new WaitForSeconds(0.25f);
+
         //Debug.Log("continue pressed");
         //if (!CheckForFullDiceSlots()) return;
         //Time.timeScale = 1;
@@ -102,6 +109,7 @@ public class TutorialDiceSelection : MonoBehaviour, IInitializeable
         AbilitySelectionUI.SetActive(false);
         //UpgradeConfirmationUI.SetActive(false);
 
+        MusicPlayer.instance.UndampenMusic();
         DiceFaceSelectionOver?.Invoke(delayBetweenWaves);
     }
 
@@ -119,10 +127,10 @@ public class TutorialDiceSelection : MonoBehaviour, IInitializeable
 
     private void Setup()
     {
-        DiceFaceSelectionStart?.Invoke();
         AbilitySelectionUI.SetActive(true);
-
-        Debug.Log("Setup");
+        AbilitySelectionUI.GetComponent<AbilitySelectionManager>().Initialize();
+        DiceFaceSelectionStart?.Invoke();
+        MusicPlayer.instance.DampenMusic();
 
         //DiceFaceSelectionUI.GetComponent<CanvasGroup>().alpha = 0;
         abilitySelectionManager.SetUpAbilityPannels();
@@ -130,22 +138,28 @@ public class TutorialDiceSelection : MonoBehaviour, IInitializeable
         setupComplete = true;
     }
 
-    private void AbilitySelected(AbilityPanel abilityPanel)
+    private void HandleAbilitySelected(AbilityPanel abilityPanel)
     {
+        StartCoroutine(AbilitySelected(abilityPanel));
+    }
+
+    private IEnumerator AbilitySelected(AbilityPanel abilityPanel)
+    {
+        yield return new WaitForSeconds(0.25f);
+
         DiceFaceSelectionUI.SetActive(true);
         //UpgradeUI.SetActive(true);
         abilitySlotManager.Unpack();
 
         DraggableAbility ability = abilityPanel.GetAbility();
-        ability.transform.SetParent(canvas.transform);
+        ability.transform.SetParent(abilitySlotManager.transform);
+        ability.GetComponent<RectTransform>().rotation = Quaternion.identity;
         ability.SearchForDropZones();
 
         CentralAbilitySlot centralSlot = abilitySlotManager.GetCentralAbilityPoint().GetComponent<CentralAbilitySlot>();
         centralSlot.ResetSlot();
         centralSlot.TryAddChild(ability);
         AbilitySelectionUI.SetActive(false);
-
-
 
         //EventSystem.current.SetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
         EventSystem.current.firstSelectedGameObject = abilitySlotManager.GetCentralAbilityPoint();

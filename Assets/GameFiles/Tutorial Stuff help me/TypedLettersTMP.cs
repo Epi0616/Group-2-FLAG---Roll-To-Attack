@@ -37,6 +37,13 @@ public class TypedLettersTMP : MonoBehaviour
         typingCoroutine = StartCoroutine(Typing());
     }
 
+    public void SetTextOverride(string text)
+    {
+        textBox.text = text;
+        textBox.maxVisibleCharacters = text.Length;
+        currentVisibleCharacters = text.Length;
+    }
+
     public IEnumerator Typing()
     {
         TMP_TextInfo textInfo = textBox.textInfo;
