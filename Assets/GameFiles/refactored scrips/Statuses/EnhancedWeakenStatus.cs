@@ -14,7 +14,7 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
         applierEntity = EntityThatApplied;
         this.enhancementLevel = enhancementLevel;
         isStackable = false;
-        
+        weakMultiplier += enhancementLevel / 2;
     }
     /*
     protected override void ApplyStatModifier()
@@ -51,12 +51,12 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
                 if ( hitEntity == entityRef) { continue; }
                 if ( hitEntity == null ) { continue; }
                 //Debug.Log("Weaken Burst");
-                hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(1.2f, effectText),
+                hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(2f, effectText),
                 new List<BaseCondition> { new TimeCondition(true, 5f) }, true));
             }
             
         }
-        int appliedDamage = (int)(damage.GetFinalValue() * (weakMultiplier - 1));
+        int appliedDamage = (int)(damage.GetFinalValue() * (weakMultiplier - 1f));
         if (appliedDamage < 1)
         {
             appliedDamage = 1;

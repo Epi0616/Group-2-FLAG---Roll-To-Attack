@@ -30,7 +30,7 @@ public class WeakenStatus : StatusEffect
         }
 
         // Debug.Log("New Weaken OnTakeDamage");
-        int appliedDamage = (int)(damage.GetFinalValue() * (weakMultiplier - 1));
+        int appliedDamage = (int)(damage.GetFinalValue() * (weakMultiplier - 1f));
         if (appliedDamage < 1)
         {
             appliedDamage = 1;

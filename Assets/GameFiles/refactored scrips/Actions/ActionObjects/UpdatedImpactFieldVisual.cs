@@ -143,7 +143,7 @@ public class UpdatedImpactFieldVisual : ImpactFieldVisual
         if (flashRed)
         {
             Color hitColor = Color.red;
-            hitColor.a = 0.5f;
+            hitColor.a = 0.2f;
             SetColor(hitColor);
         }
 
@@ -206,7 +206,7 @@ public class UpdatedImpactFieldVisual : ImpactFieldVisual
         if (flashRed)
         {
             Color hitColor = Color.red;
-            hitColor.a = 0.5f;
+            hitColor.a = 0.2f;
             SetColor(hitColor);
         }
 

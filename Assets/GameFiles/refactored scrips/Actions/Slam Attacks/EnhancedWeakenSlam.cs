@@ -6,7 +6,7 @@ using System;
 [Serializable]
 public class EnhancedWeakenSlam : BaseSlamAction, IEnhancedAbility
 {
-    public float WeakenDuration = 1f;
+    public float WeakenDuration = 4f;
     public float WeakenDamageMult = 2f;
     public LocalizedString weakenText;
     public int enhancementLevel { get; set; }

@@ -87,7 +87,7 @@ public class ImpactFieldVisual : MonoBehaviour
         if (flashRed)
         {
             Color hitColor = Color.red;
-            hitColor.a = 0.5f;
+            hitColor.a = 0.2f;
             SetColor(hitColor);
         }
 
