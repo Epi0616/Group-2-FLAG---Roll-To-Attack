@@ -44,6 +44,14 @@ public class Entity : MonoBehaviour, IEntity, IResetable
         //Debug.Log("DAMAGE TAKEN: " + amount);
         healthSystem.OnTakeDamage(finalDamage, damageType);
     }
+
+    public virtual void OnTakeDamage(int amount, DamageType damageType)
+    {
+        int finalDamage = statusSystem.ModifyDamage(amount, damageType);
+        float size = Mathf.Clamp(10 + (finalDamage * 1.1f), 48f, 240f);
+        //Debug.Log("DAMAGE TAKEN: " + amount);
+        healthSystem.OnTakeDamage(finalDamage, damageType);
+    }
     public virtual void OnRecieveHeal(int amount, Color color)
     {
         float size = Mathf.Clamp(10 + (amount * 1.1f), 48f, 240f);
