@@ -20,7 +20,7 @@ public class PlayerInterfaceEnemiesRemaining : MonoBehaviour
     private void OnDisable()
     {
         WaveBuilder.EnemiesGenerated -= HandleEnemiesGenerated;
-        DicePedestal.WaveAutoStartPedestal += StartDrainProgressBarRoutine;
+        DicePedestal.WaveAutoStartPedestal -= StartDrainProgressBarRoutine;
         DicePedestal.WaveHeavyStartPedestal -= StartDrainProgressBarRoutine;
         EnemyHealthSystem.EnemyHasDied -= EnemyHasDied;
     }

@@ -52,7 +52,7 @@ public class PlayerHealthSystem : EntityHealthSystem
 
     private void IFrames()
     {
-        float iTime = 1;
+        float iTime = 0.5f;
 
         StartCoroutine(IFrameCounter(iTime));
         DamageConfirmed?.Invoke(iTime);

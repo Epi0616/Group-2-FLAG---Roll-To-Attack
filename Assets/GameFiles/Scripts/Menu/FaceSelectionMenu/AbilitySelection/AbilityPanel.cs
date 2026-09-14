@@ -8,10 +8,11 @@ using UnityEngine.UI;
 
 public class AbilityPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
+    public static event Action<AbilityPanel> AbilitySelected;
+
     public TextMeshProUGUI Name, Description;
     public GameObject AbilityHolder;
     private DraggableAbility ability;
-    public static event Action<AbilityPanel> AbilitySelected;
 
     private Coroutine sizeShiftRoutine;
     Vector2 scaleOrigin = Vector2.one;

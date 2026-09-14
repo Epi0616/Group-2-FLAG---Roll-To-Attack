@@ -9,7 +9,7 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     private Canvas canvas;
     public CanvasGroup canvasGroup;
-    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] protected RectTransform rectTransform;
     private AbilityDropZoneParent[] dropZones;
     private AbilityDropZoneParent currentParent, parentAtStartOfDrag;
     private Vector2 anchoredPositionAtStartOfDrag;
@@ -17,6 +17,7 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     private float dropZoneCheckInterval = 0.1f;
     private float timer = 0;
     private Coroutine checkForHighlightRoutine;
+
 
     protected virtual void Awake()
     {
@@ -64,10 +65,12 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         {
             if (zone.TryAddChild(this))
             {
+                transform.SetParent(currentParent.transform);
                 return;
             }
         }
 
+        transform.SetParent(currentParent.transform);
         currentParent.TryAddChild(this);
     }
 
