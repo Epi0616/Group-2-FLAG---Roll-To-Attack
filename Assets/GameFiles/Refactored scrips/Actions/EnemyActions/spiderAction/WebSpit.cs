@@ -27,6 +27,7 @@ public class WebSpit : BaseEntityAction
 
     private IEnumerator Action()
     {
+        ownerEntity.bodySystem.HandleFixedVibrateTime(1);
         yield return Vibrate(1, 0.02f);
         SpawnWeb();
 
