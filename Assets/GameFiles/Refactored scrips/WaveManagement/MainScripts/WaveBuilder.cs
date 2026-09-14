@@ -17,7 +17,7 @@ public class WaveBuilder : MonoBehaviour
     [Header("wave spice ;)")]
     [SerializeField] private int regularWaveWeight = 100;
     [SerializeField] private int smartWaveWeight = 50;
-    [SerializeField] private int hoardWaveWeight = 10;
+    [SerializeField] private int hordeWaveWeight = 10;
 
     [SerializeField] private List<WavePoolObj> smartWavePoolObjs = new();
     [SerializeField] private List<WavePoolObj> hordeWavePoolObjs = new();
@@ -117,7 +117,7 @@ public class WaveBuilder : MonoBehaviour
 
     public Wave GenerateWave(int waveIndex, int budget)
     {
-        int weightTotal = regularWaveWeight + smartWaveWeight + hoardWaveWeight;
+        int weightTotal = regularWaveWeight + smartWaveWeight + hordeWaveWeight;
         int weightTally = 0;
         int random = Random.Range(0, weightTotal);
 
