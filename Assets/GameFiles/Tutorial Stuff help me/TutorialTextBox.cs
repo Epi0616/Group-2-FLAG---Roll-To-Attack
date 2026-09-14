@@ -6,6 +6,8 @@ public class TutorialTextBox : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI tmp;
 
+
+
     public void DisplayText(string text)
     {
         tmp.text = text;
