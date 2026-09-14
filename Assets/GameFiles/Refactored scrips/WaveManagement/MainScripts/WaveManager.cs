@@ -29,6 +29,7 @@ public class WaveManager : MonoBehaviour
         DicePedestal.WaveAutoStartPedestal += StartNextWave;
         DicePedestal.WaveHeavyStartPedestal += StartNextWave;
         TutorialManager.StartIndexWave += StartIndexedWave;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver += HandleDiceSelectionOver;
 
         WaveSpawner.finishedSpawning += HandleFinishedSpawning;
 
@@ -44,6 +45,7 @@ public class WaveManager : MonoBehaviour
         DicePedestal.WaveAutoStartPedestal -= StartNextWave;
         DicePedestal.WaveHeavyStartPedestal -= StartNextWave;
         TutorialManager.StartIndexWave -= StartIndexedWave;
+        DiceFaceSelectionUIManager.DiceFaceSelectionOver -= HandleDiceSelectionOver;
 
         WaveSpawner.finishedSpawning -= HandleFinishedSpawning;
 
@@ -66,6 +68,11 @@ public class WaveManager : MonoBehaviour
         waveScaling?.UpdateScaling(currentWaveIndex);
     }
 
+    private void HandleDiceSelectionOver(float timer)
+    {
+        waveCleared = false;
+    }
+
     private void HandleFinishedSpawning()
     { 
         spawningWave = false;
@@ -85,6 +92,7 @@ public class WaveManager : MonoBehaviour
             waveCleared = true;
             currentWaveIndex++;
             WaveOver?.Invoke(1);
+            waveSpawner.ClearSpawnedEnemies();
         }
     }
 
@@ -93,7 +101,6 @@ public class WaveManager : MonoBehaviour
         if (!spawningWave)
         {
             WaveCountStart?.Invoke(delayBetweenWaves);
-            waveCleared = false;
             spawningWave = true;
         }
         StartCoroutine(SpawnWaveDelay(delayBetweenWaves));

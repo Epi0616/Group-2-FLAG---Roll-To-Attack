@@ -59,7 +59,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         while (timer > 0)
         { 
             timer -= Time.deltaTime;
-            Vibrate();
+            Vibrate(0.02f * Time.timeScale);
             yield return null;
         }
 

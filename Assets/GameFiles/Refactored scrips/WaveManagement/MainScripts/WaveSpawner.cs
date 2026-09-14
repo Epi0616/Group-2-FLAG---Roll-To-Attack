@@ -25,6 +25,7 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 
     private HashSet<Coroutine> activeRoutines = new HashSet<Coroutine>();
+    private List<Entity> spawnedEnemies = new();
 
     private void OnEnable()
     {
@@ -169,7 +170,6 @@ public class WaveSpawner : MonoBehaviour
         if (spawnPosFinal == null) { Debug.LogError("SpawnPos is null"); }
 
         GameObject spawnedEntity = ObjectPoolManager.SpawnObject(obj, spawnPosFinal, Quaternion.identity);
-
         EnemySetup(spawnedEntity, spawnModifier, isWaveEnemy);
     }
 
@@ -195,7 +195,9 @@ public class WaveSpawner : MonoBehaviour
         spawnedEntityReference.healthSystem.maxHealth.SetMultiplier(enemyHealthScale.GetFinalValue());
         spawnedEntityReference.textDisplaySystem.targetCamera = cameraRef;
 
-        spawnedEntityReference.Reset();        
+        spawnedEntityReference.Reset();
+
+        spawnedEnemies.Add(spawnedEntityReference);
     }
 
     private Vector3 PickSpawnAreaCircular()
@@ -247,5 +249,29 @@ public class WaveSpawner : MonoBehaviour
     private void SetScaling(int iterations)
     {
         enemyHealthScale.SetMultiplier(MathF.Pow(healthScaleIncrement, iterations));
+    }
+
+    public void ClearSpawnedEnemies()
+    {
+        if (activeRoutines.Count > 0)
+        {
+            foreach (Coroutine activeRoutine in activeRoutines)
+            {
+                StopCoroutine(activeRoutine);
+            }
+            activeRoutines.Clear();
+
+            finishedSpawning?.Invoke();
+        }
+
+        foreach (Entity enemy in spawnedEnemies)
+        {
+            if (enemy == null) continue;
+            if (!enemy.gameObject.activeSelf) continue;
+            if (enemy.healthSystem.isDead) continue;
+            enemy.OnTakeDamage(int.MaxValue, DamageType.Normal);
+        }
+
+        spawnedEnemies.Clear();
     }
 }

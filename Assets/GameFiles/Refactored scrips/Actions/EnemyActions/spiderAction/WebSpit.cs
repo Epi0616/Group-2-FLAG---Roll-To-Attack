@@ -28,7 +28,7 @@ public class WebSpit : BaseEntityAction
     private IEnumerator Action()
     {
         ownerEntity.bodySystem.HandleFixedVibrateTime(1);
-        yield return Vibrate(1, 0.02f);
+        yield return new WaitForSeconds(1);
         SpawnWeb();
 
         actionRoutine = null;
@@ -43,16 +43,6 @@ public class WebSpit : BaseEntityAction
         GameObject projectile = radialProjectile.radialObj;
         RadialProjectile web = ObjectPoolManager.SpawnObject(projectile, spawnPosition, projectileRotation).GetComponent<RadialProjectile>();
         web.Initialize(ownerEntity, 35, 15);
-    }
-
-    private IEnumerator Vibrate(float duration, float intensity)
-    {
-        while (duration > 0)
-        {
-            duration -= Time.deltaTime;
-            ownerEntity.bodySystem.Vibrate(intensity);
-            yield return null;
-        }
     }
 
     public override void InterruptAction()

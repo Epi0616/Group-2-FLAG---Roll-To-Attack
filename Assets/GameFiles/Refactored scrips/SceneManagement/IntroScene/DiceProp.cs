@@ -12,17 +12,22 @@ public class DiceProp : MoveableProp, IIntroRollable
     [SerializeField] private DiceType myDiceType;
     [SerializeField] GameObject highlightObj;
     [SerializeField] GameObject tutorialParticles;
+    [SerializeField] Renderer myRenderer;
+
     private bool isOutlined;
     private bool enteringTutorial;
 
     private bool gameStarted;
     private bool returningFromArena = false;
+    private bool eligableForGameStart = false;
+    private bool falling = false;
 
     private Coroutine expirationCoroutine;
 
     protected override void OnEnable()
     {
         base.OnEnable();
+        eligableForGameStart = false;
 
         SceneTransitionManager.DiceReturnFromArena += HandleReturnFromArena;
         IntroSceneMenuUI.arenaTypeSelected += SceneChosen;
@@ -66,6 +71,7 @@ public class DiceProp : MoveableProp, IIntroRollable
 
     public void RollToPosition(Vector3 targetPos)
     {
+        eligableForGameStart = true;
         TransitionStart?.Invoke();
         StartCoroutine(RollToTarget(targetPos));
     }
@@ -75,12 +81,7 @@ public class DiceProp : MoveableProp, IIntroRollable
         float distance = (transform.position - targetPos).magnitude;
 
         Vector3 direction = targetPos - transform.position;
-        float x = Random.Range(-10, 10);
-        float y = Random.Range(-10, 10);
-        float z = Random.Range(-10, 10);
-        Vector3 angularVel = new Vector3(x, y, z);
 
-        rb.angularVelocity = angularVel;
         rb.linearVelocity = direction;
         while (distance >= 10)
         {
@@ -111,27 +112,44 @@ public class DiceProp : MoveableProp, IIntroRollable
         UpdateOutline(false);
         if (enteringTutorial) { TutorialDiceDropped?.Invoke(); }
         if (expirationCoroutine != null) { StopCoroutine(expirationCoroutine); }
-        expirationCoroutine = StartCoroutine(ReturnToOriginalPosition(6f));
+        expirationCoroutine = StartCoroutine(ReturnToOriginalPosition(4f));
     }
 
     protected override IEnumerator ReturnToOriginalPosition(float waitTime)
     {
+        float x = Random.Range(-10, 10);
+        float y = Random.Range(-10, 10);
+        float z = Random.Range(-10, 10);
+        Vector3 angularVel = new Vector3(x, y, z);
+
+        rb.angularVelocity = angularVel;
+
         while (waitTime > 0)
         {
-            //rb.AddForce(new Vector3(0, -10, 0), ForceMode.Acceleration);
+            if (!eligableForGameStart)
+            {
+                float downForce = -9.81f * Time.deltaTime * 1000;
+                rb.AddForce(new Vector3(0, downForce, 0), ForceMode.Acceleration);
+            }
+
+            if (!myRenderer.isVisible)
+            {
+                yield return new WaitForSeconds(0.5f);
+                break;
+            }
+
             waitTime -= Time.deltaTime;
             yield return null;
         }
 
         if (!gameStarted)
         {
+            eligableForGameStart = false;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             transform.position = startPosition;
         }
     }
-
-    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -139,7 +157,7 @@ public class DiceProp : MoveableProp, IIntroRollable
 
         if (collision.collider.CompareTag("Ground"))
         {
-            if (!gameStarted)
+            if (!gameStarted && eligableForGameStart)
             {
                 gameStarted = true;
                 canBeMoved = false;
@@ -161,7 +179,9 @@ public class DiceProp : MoveableProp, IIntroRollable
 
         //StartCoroutine(RotateToFrom(5, Quaternion.Euler(0, 0, 0), transform.localRotation));
         GameStart?.Invoke(gameObject, myDiceType);
-        yield return ScaleToFrom(SceneTransitionManager.transitionLength, targetScale, startScale);
+        StartCoroutine(ScaleToFrom(SceneTransitionManager.transitionLength, targetScale, startScale));
+        yield return new WaitForSeconds(SceneTransitionManager.transitionLength / 2.25f);
+        HandleCorrectRotation(transform, 0.3f);
     }
 
     private IEnumerator ScaleToFrom(float duration, Vector3 to, Vector3 from)
@@ -192,24 +212,6 @@ public class DiceProp : MoveableProp, IIntroRollable
         highlightObj.SetActive(false);
     }
 
-    private IEnumerator RotateToFrom(float duration, Quaternion to, Quaternion from)
-    {
-        float timer = duration;
-        float t = 0;
-        rb.isKinematic = true;
-        while (t < 1)
-        {
-            timer -= Time.deltaTime;
-            t = (duration - timer) / duration;
-
-            transform.localRotation = Quaternion.Lerp(from, to, t);
-            yield return null;
-        }
-
-        transform.localRotation = to;
-        rb.isKinematic = false;
-    }
-
     private void SceneChosen(SceneType sceneType)
     {
         if (sceneType == SceneType.TutorialArena)
@@ -225,5 +227,43 @@ public class DiceProp : MoveableProp, IIntroRollable
     {
         enteringTutorial = false;
         tutorialParticles.SetActive(false);
+    }
+
+    private void HandleCorrectRotation(Transform transform, float duration)
+    {
+        Vector3 currentRotation = transform.eulerAngles;
+
+        float correctedX = currentRotation.x + FloatToTheNearest90(currentRotation.x);
+        float correctedY = currentRotation.y + FloatToTheNearest90(currentRotation.y);
+        float correctedZ = currentRotation.z + FloatToTheNearest90(currentRotation.z);
+
+        Vector3 correctedRotation = new Vector3(correctedX, correctedY, correctedZ);
+        StartCoroutine(CorrectRotation(transform, correctedRotation, duration));
+    }
+
+    private IEnumerator CorrectRotation(Transform transform, Vector3 targetRotationEuler, float duration)
+    {
+        float timer = 0;
+        float t = 0;
+
+        Quaternion currentRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.Euler(targetRotationEuler);
+
+        while (t < 1)
+        {
+            timer += Time.fixedDeltaTime;
+            t = timer / duration;
+
+            transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, t);
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    private float FloatToTheNearest90(float value)
+    {
+        float remainder = value % 90f;
+        float difference = (90f - remainder);
+
+        return remainder > 45f ? difference : -remainder;
     }
 }
