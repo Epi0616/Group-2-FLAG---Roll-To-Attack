@@ -34,6 +34,8 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         abilitySlotManager = DiceFaceSelectionUI.GetComponentInChildren<AbilitySlotManager>();
         abilitySelectionManager = AbilitySelectionUI.GetComponent<AbilitySelectionManager>();
 
+        abilitySelectionManager.Initialize();
+
         DiceFaceSelectionUI.SetActive(false);
         AbilitySelectionUI.SetActive(visibleForTesting);
 
@@ -75,9 +77,9 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         WaveManager.WaveOver += WaveOver;
         WaveScaling.setScaling += SetAbilityScaling;
         TutorialManager.DisplayDiceUI += WaveOver;
-        AbilityPanel.AbilitySelected += AbilitySelected;
-        HealthOption.HealthChosen += HealthChosen;
-        ContinueButton.Continue += Continue;
+        AbilityPanel.AbilitySelected += HandleAbilitySelected;
+        HealthOption.HealthChosen += HandleHealthChosen;
+        ContinueButton.Continue += HandleContinue;
     }
 
     private void OnDisable()
@@ -85,13 +87,20 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         WaveManager.WaveOver -= WaveOver;
         WaveScaling.setScaling -= SetAbilityScaling;
         TutorialManager.DisplayDiceUI -= WaveOver;
-        AbilityPanel.AbilitySelected -= AbilitySelected;
-        HealthOption.HealthChosen -= HealthChosen;
-        ContinueButton.Continue -= Continue;
+        AbilityPanel.AbilitySelected -= HandleAbilitySelected;
+        HealthOption.HealthChosen -= HandleHealthChosen;
+        ContinueButton.Continue -= HandleContinue;
     }
 
-    public void Continue()
+    public void HandleContinue()
     {
+        StartCoroutine(Continue());
+    }
+
+    public IEnumerator Continue()
+    {
+        yield return new WaitForSeconds(0.25f);
+
         //Debug.Log("continue pressed");
         //if (!CheckForFullDiceSlots()) return;
         //Time.timeScale = 1;
@@ -119,24 +128,32 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
 
     private void Setup()
     {
+        AbilitySelectionUI.SetActive(true);
         DiceFaceSelectionStart?.Invoke();
         MusicPlayer.instance.DampenMusic();
-        AbilitySelectionUI.SetActive(true);
-
+        
         //DiceFaceSelectionUI.GetComponent<CanvasGroup>().alpha = 0;
         abilitySelectionManager.SetUpAbilityPannels();
         //Time.timeScale = 0;
         setupComplete = true;
     }
 
-    private void AbilitySelected(AbilityPanel abilityPanel)
+    private void HandleAbilitySelected(AbilityPanel abilityPanel)
     {
+        StartCoroutine(AbilitySelected(abilityPanel));
+    }
+
+    private IEnumerator AbilitySelected(AbilityPanel abilityPanel)
+    {
+        yield return new WaitForSeconds(0.25f);
+
         DiceFaceSelectionUI.SetActive(true);
         //UpgradeUI.SetActive(true);
         abilitySlotManager.Unpack();
 
         DraggableAbility ability = abilityPanel.GetAbility();
-        ability.transform.SetParent(canvas.transform);
+        ability.transform.SetParent(abilitySlotManager.transform);
+        ability.GetComponent<RectTransform>().rotation = Quaternion.identity;
         ability.SearchForDropZones();
 
         CentralAbilitySlot centralSlot = abilitySlotManager.GetCentralAbilityPoint().GetComponent<CentralAbilitySlot>();
@@ -149,8 +166,15 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         UISelectionManager.instance.TrySetSelectedGameObject(abilitySlotManager.GetCentralAbilityPoint());
     }
 
-    private void HealthChosen(int healAmount)
+    private void HandleHealthChosen(int healAmount)
     {
+        StartCoroutine(HealthChosen());
+    }
+
+    private IEnumerator HealthChosen()
+    {
+        yield return new WaitForSeconds(0.25f);
+
         DiceFaceSelectionUI.SetActive(true);
         //UpgradeUI.SetActive(true);
         abilitySlotManager.Unpack();

@@ -20,11 +20,11 @@ public class WaveBuilder : MonoBehaviour
     [SerializeField] private int hoardWaveWeight = 10;
 
     [SerializeField] private List<WavePoolObj> smartWavePoolObjs = new();
-    [SerializeField] private List<WavePoolObj> hoardWavePoolObjs = new();
+    [SerializeField] private List<WavePoolObj> hordeWavePoolObjs = new();
 
     private List<EntityBlock> entityBlockPool = new();
     private List<WavePool> smartWavePools = new();
-    private List<WavePool> hoardWavePools = new();
+    private List<WavePool> hordeWavePools = new();
 
     private List<EntityBlock> affordableEntities = new();
 
@@ -32,7 +32,7 @@ public class WaveBuilder : MonoBehaviour
     {
         entityBlockPool = entityBlocks.Select(c => c.Create()).ToList();
         smartWavePools = smartWavePoolObjs.Select(c => c.Create()).ToList();
-        hoardWavePools = hoardWavePoolObjs.Select(c => c.Create()).ToList();
+        hordeWavePools = hordeWavePoolObjs.Select(c => c.Create()).ToList();
     }
 
     public Wave GetNextWave(int waveIndex)
@@ -133,7 +133,7 @@ public class WaveBuilder : MonoBehaviour
             return GenerateWaveFromPool(smartWavePools, waveIndex, budget);
         }
 
-        return GenerateWaveFromPool(hoardWavePools, waveIndex, budget);
+        return GenerateWaveFromPool(hordeWavePools, waveIndex, budget);
     }
 
     public Wave GenerateWaveFromBlocks(int waveIndex, int budget)

@@ -6,7 +6,7 @@ public class WaveScaling : MonoBehaviour
     public static event Action<int> setScaling;
 
     [SerializeField] private int scalingIncreaseWaveInterval = 10;
-    [SerializeField] private int scalingIncreaseWaveRestriction = 10;
+    [SerializeField] private int scalingIncreaseWaveRestriction = 11;
 
     public void UpdateScaling(int waveNumber)
     {

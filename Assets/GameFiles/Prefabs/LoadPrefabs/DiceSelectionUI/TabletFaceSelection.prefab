@@ -358,6 +358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2760644491269588551}
   - component: {fileID: 6802143919656848703}
+  - component: {fileID: 5053205190609732562}
   m_Layer: 5
   m_Name: AbilityBin
   m_TagString: Untagged
@@ -381,10 +382,10 @@ RectTransform:
   - {fileID: 6434937272080934811}
   m_Father: {fileID: 1637550174774522605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -835, y: -500}
-  m_SizeDelta: {x: 630, y: 245}
+  m_SizeDelta: {x: -1930, y: -1195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6802143919656848703
 CanvasRenderer:
@@ -394,6 +395,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1689017866218072055}
   m_CullTransparentMesh: 1
+--- !u!114 &5053205190609732562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689017866218072055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c42815ba88aa1498b89745c6ca6d4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LerpPositionTabletPhase
+  rectTransform: {fileID: 2760644491269588551}
+  from: {x: -2000, y: -500}
+  to: {x: -835, y: -500}
 --- !u!1 &2276375322368834852
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,7 +674,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShardFloatVisual
   rect: {fileID: 4948177112382190653}
   positionAmount: 7.5
-  positionSpeed: 0.5
+  xPositionSpeed: 0.5
+  yPositionSpeed: 0.5
   rotationAmount: {x: 5, y: 5, z: 5}
   rotationSpeed: 0.25
 --- !u!1 &2650091634103297955
@@ -670,6 +687,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 287223878117232040}
+  - component: {fileID: 3513668310776474570}
   m_Layer: 5
   m_Name: DiceSelection
   m_TagString: Untagged
@@ -697,6 +715,21 @@ RectTransform:
   m_AnchoredPosition: {x: 373, y: 0}
   m_SizeDelta: {x: -599.57324, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3513668310776474570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2650091634103297955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c42815ba88aa1498b89745c6ca6d4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LerpPositionTabletPhase
+  rectTransform: {fileID: 287223878117232040}
+  from: {x: 2500, y: 0}
+  to: {x: 373, y: 0}
 --- !u!1 &2658900658082838932
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,6 +743,7 @@ GameObject:
   - component: {fileID: 3815006493158829056}
   - component: {fileID: 997879153696704712}
   - component: {fileID: 9077744060691205374}
+  - component: {fileID: 8662159577936884637}
   m_Layer: 5
   m_Name: ContinueButton
   m_TagString: Untagged
@@ -733,9 +767,9 @@ RectTransform:
   m_Father: {fileID: 1637550174774522605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 57.51172}
-  m_SizeDelta: {x: 0, y: 115.0234}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -662}
+  m_SizeDelta: {x: 0, y: -1324.9766}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1285379774338508733
 CanvasRenderer:
@@ -843,6 +877,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae18361f4be2e3240b4387364a320e86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::faceSelection
+--- !u!114 &8662159577936884637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2658900658082838932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c42815ba88aa1498b89745c6ca6d4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LerpPositionTabletPhase
+  rectTransform: {fileID: 3667243510942865732}
+  from: {x: 0, y: -800}
+  to: {x: 0, y: -662}
 --- !u!1 &2733673614369627962
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,7 +1286,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3716663085434176042}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 8.0385065, y: 8.0385065, z: 0.80385065}
   m_ConstrainProportionsScale: 0
@@ -1732,7 +1781,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShardFloatVisual
   rect: {fileID: 5950647337587534481}
   positionAmount: 7.5
-  positionSpeed: 0.5
+  xPositionSpeed: 0.5
+  yPositionSpeed: 0.5
   rotationAmount: {x: 5, y: 5, z: 5}
   rotationSpeed: 0.25
 --- !u!1 &5004694887776635703
@@ -1745,7 +1795,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1637550174774522605}
   - component: {fileID: 4613629186178106586}
+  - component: {fileID: 405325525961734726}
   - component: {fileID: 5170354972597049104}
+  - component: {fileID: 3653429019683205331}
   m_Layer: 5
   m_Name: TabletFaceSelection
   m_TagString: Untagged
@@ -1784,6 +1836,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5004694887776635703}
   m_CullTransparentMesh: 1
+--- !u!114 &405325525961734726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5004694887776635703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!225 &5170354972597049104
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1796,6 +1878,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3653429019683205331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5004694887776635703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f88570749c9a60349a7228a87ce16eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LerpAlphaTabletPhase
+  image: {fileID: 405325525961734726}
+  to: {r: 0, g: 0, b: 0, a: 0.5882353}
+  from: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &5126155696190356279
 GameObject:
   m_ObjectHideFlags: 0
@@ -3575,7 +3672,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShardFloatVisual
   rect: {fileID: 3863658864133091063}
   positionAmount: 7.5
-  positionSpeed: 0.5
+  xPositionSpeed: 0.5
+  yPositionSpeed: 0.5
   rotationAmount: {x: 5, y: 5, z: 5}
   rotationSpeed: 0.25
 --- !u!1 &7042807870242127640
@@ -3743,7 +3841,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShardFloatVisual
   rect: {fileID: 2616084040006731715}
   positionAmount: 7.5
-  positionSpeed: 0.5
+  xPositionSpeed: 0.5
+  yPositionSpeed: 0.5
   rotationAmount: {x: 5, y: 5, z: 5}
   rotationSpeed: 0.25
 --- !u!1 &7281150437412325815
@@ -4595,6 +4694,7 @@ GameObject:
   - component: {fileID: 7599527266543678291}
   - component: {fileID: 103439032221149041}
   - component: {fileID: 3302792630894784292}
+  - component: {fileID: 9126312842042562664}
   m_Layer: 5
   m_Name: AbilityDescription
   m_TagString: Untagged
@@ -4621,10 +4721,10 @@ RectTransform:
   - {fileID: 5323747477965619010}
   m_Father: {fileID: 1637550174774522605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -868, y: 115}
-  m_SizeDelta: {x: -1159.1128, y: -32.812744}
+  m_SizeDelta: {x: 1400.8872, y: 1407.1873}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &103439032221149041
 CanvasRenderer:
@@ -4670,6 +4770,21 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &9126312842042562664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9129360619467437224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c42815ba88aa1498b89745c6ca6d4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LerpPositionTabletPhase
+  rectTransform: {fileID: 7599527266543678291}
+  from: {x: -868, y: 1500}
+  to: {x: -868, y: 115}
 --- !u!1 &9180265530952895228
 GameObject:
   m_ObjectHideFlags: 0

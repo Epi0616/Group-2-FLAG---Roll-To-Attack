@@ -9,8 +9,8 @@ public class AbilitySelectionManager : MonoBehaviour
     public List<AbilityPanel> abilityPanels = new();
     public List<ModifiableActionDescriptor> abilityPool;
 
-    [SerializeField] private float AbilityLevelScaleFactor = 1.5f;
-    [SerializeField] private float AbilityLevelBaseChance = 0.7f;
+    [SerializeField] private float abilityLevelScaleFactor = 1.5f;
+    [SerializeField] private float abilityLevelBaseChance = 0.7f;
     public Stat abilityLevelChance { get; set; }
 
     [SerializeField] private GameObject abilityObjectPrefab;
@@ -20,9 +20,9 @@ public class AbilitySelectionManager : MonoBehaviour
 
     private Random randomSequence;
 
-    private void Awake()
+    public void Initialize()
     {
-        abilityLevelChance = new Stat(AbilityLevelBaseChance);
+        abilityLevelChance = new Stat(abilityLevelBaseChance);
 
         TrySetRandomSequenceFromSeed();
     }
@@ -60,8 +60,6 @@ public class AbilitySelectionManager : MonoBehaviour
             draggableObjects.Add(ability.gameObject);
         }
 
-        EventSystem.current.firstSelectedGameObject = abilityPanels[0].gameObject;
-        UISelectionManager.instance.TrySetSelectedGameObject(abilityPanels[0].gameObject);
     }
 
     public GameObject SpawnRandomNewAbility()
@@ -97,7 +95,12 @@ public class AbilitySelectionManager : MonoBehaviour
         float maximumLevelChance = abilityLevelChance.GetFinalValue();
         float minimumLevelChance = maximumLevelChance - (maximumLevelChance / 2);
 
+        Debug.Log($"minimum level chance {minimumLevelChance}");
+        Debug.Log($"maximum level chance {maximumLevelChance}");
+
         int iterations = Mathf.CeilToInt((float)randomSequence.NextDouble() * (maximumLevelChance - minimumLevelChance) + minimumLevelChance) - 1;
+
+        Debug.Log($"iterations {iterations}");
 
         if (iterations <= 0) return ability;
         ModifiableAction upgradedAbility = upgradableAbility.upgradeResult.Create();
@@ -112,7 +115,9 @@ public class AbilitySelectionManager : MonoBehaviour
     }
 
     public void SetAbilityLevelChance(int iterations)
-    { 
-        abilityLevelChance.SetMultiplier(Mathf.Pow(AbilityLevelScaleFactor, iterations));
+    {
+        Debug.Log("set ability level reached");
+        Debug.Log($"aility level chance : {abilityLevelChance.GetFinalValue()}");
+        abilityLevelChance.SetMultiplier(abilityLevelScaleFactor * iterations);
     }
 }

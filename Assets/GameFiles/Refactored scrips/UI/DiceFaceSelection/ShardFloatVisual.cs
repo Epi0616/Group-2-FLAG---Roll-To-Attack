@@ -4,7 +4,8 @@ public class ShardFloatVisual : MonoBehaviour
 {
     [SerializeField] private RectTransform rect;
     [SerializeField] float positionAmount = 0.05f;
-    [SerializeField] float positionSpeed = 0.5f;
+    [SerializeField] float xPositionSpeed = 0.5f;
+    [SerializeField] float yPositionSpeed = 0.5f;
     [SerializeField] Vector3 rotationAmount = new Vector3(2, 2, 2);
     [SerializeField] float rotationSpeed = 0.8f;
 
@@ -29,8 +30,8 @@ public class ShardFloatVisual : MonoBehaviour
     {
         float time = Time.time;
 
-        float x = (Mathf.PerlinNoise(seed, time * positionSpeed) - 0.5f) * 2;
-        float y = (Mathf.PerlinNoise(seed + 1, time * positionSpeed) - 0.5f) * 2;
+        float x = (Mathf.PerlinNoise(seed, time * xPositionSpeed) - 0.5f) * 2;
+        float y = (Mathf.PerlinNoise(seed + 1, time * yPositionSpeed) - 0.5f) * 2;
 
         Vector3 offset = new Vector3(x, y, 0) * positionAmount;
         rect.anchoredPosition = startPosition + offset;
