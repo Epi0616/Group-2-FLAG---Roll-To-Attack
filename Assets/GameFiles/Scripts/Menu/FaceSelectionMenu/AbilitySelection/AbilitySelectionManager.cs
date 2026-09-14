@@ -118,6 +118,6 @@ public class AbilitySelectionManager : MonoBehaviour
     {
         Debug.Log("set ability level reached");
         Debug.Log($"aility level chance : {abilityLevelChance.GetFinalValue()}");
-        abilityLevelChance.SetMultiplier(abilityLevelScaleFactor * iterations);
+        abilityLevelChance.SetMultiplier(MathF.Pow(abilityLevelScaleFactor, iterations));
     }
 }

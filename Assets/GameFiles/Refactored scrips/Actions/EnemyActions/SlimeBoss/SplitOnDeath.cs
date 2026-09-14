@@ -55,6 +55,7 @@ public class SplitOnDeath : BaseEntityAction
             childSlimeSplit.scale = slimeSplit.scale * 0.75f;
             childSlimeSplit.iterationsLeft = slimeSplit.iterationsLeft - 1;
             child.gameObject.transform.localScale = Vector3.one * childSlimeSplit.scale; //potentially replace Vector3.one with the original starting scale
+            child.healthSystem.maxHealth.SetBaseValue(ownerEntity.healthSystem.maxHealth.GetFinalValue() * 0.75f);
 
             IMoveable moveable = child as IMoveable;
             if (moveable != null)

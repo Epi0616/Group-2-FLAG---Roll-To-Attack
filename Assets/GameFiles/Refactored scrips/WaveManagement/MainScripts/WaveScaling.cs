@@ -13,7 +13,7 @@ public class WaveScaling : MonoBehaviour
         int wavesPastRestriction = waveNumber - scalingIncreaseWaveRestriction;
         if (wavesPastRestriction < 0) return;
         
-        int iterations = (wavesPastRestriction / scalingIncreaseWaveRestriction);
+        int iterations = (wavesPastRestriction / scalingIncreaseWaveInterval);
 
         setScaling?.Invoke(iterations);
     }
