@@ -36,11 +36,11 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
             pulseProcced = true;
             //Debug.Log("Procced");
             Collider[] hitColliders = new Collider[100];
-            int numHit = Physics.OverlapSphereNonAlloc(entityRef.transform.position, 10 + (enhancementLevel * 2), hitColliders, applierEntity.hostileMask);
+            int numHit = Physics.OverlapSphereNonAlloc(entityRef.transform.position, 10 + (enhancementLevel * 3), hitColliders, applierEntity.hostileMask);
             if (applierEntity is ISlamActionRequirements temp)
             {
                 ImpactFieldVisual field = (ObjectPoolManager.SpawnObject(temp.slamImpactField, entityRef.transform.position, Quaternion.identity)).GetComponent<ImpactFieldVisual>();
-                field.PassInValuesColorRadiusChargeTimeFlash(effectColour, 10 + (enhancementLevel * 2), 0, false);
+                field.PassInValuesColorRadiusChargeTimeFlash(effectColour, 10 + (enhancementLevel * 3), 0, false);
             }
             for (int i = 0; i < numHit; i++)
             {
@@ -51,14 +51,15 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
                 if ( hitEntity == entityRef) { continue; }
                 if ( hitEntity == null ) { continue; }
                 //Debug.Log("Weaken Burst");
-                hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(2f, effectText),
+                hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(1.5f + (enhancementLevel / 5), effectText),
                 new List<BaseCondition> { new TimeCondition(true, 5f) }, true));
             }
             
         }
-        int appliedDamage = (int)(damage.GetFinalValue() * (weakMultiplier - 1f));
+        int appliedDamage = Mathf.CeilToInt(damage.GetFinalValue() * (weakMultiplier - 1f));
         if (appliedDamage < 1)
         {
+            Debug.Log("Applied Damage < 1");
             appliedDamage = 1;
         }
         entityRef.OnTakeDamage(appliedDamage, effectColour, DamageType.Weaken);

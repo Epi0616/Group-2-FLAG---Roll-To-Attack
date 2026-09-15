@@ -35,7 +35,7 @@ public class DummyHealthSystem : EntityHealthSystem
     //    DummyDeath();
     //}
 
-    private void DummyDeath(DamageType type)
+    protected void DummyDeath(DamageType type)
     {
         DummyDeathEvent?.Invoke(type);
         try

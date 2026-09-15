@@ -8,39 +8,39 @@ public class EffectSettings
     private List<EffectOverride> effectOverrides = new List<EffectOverride>();
     private List<ILateEffectOverride> lateEffectOverrides = new List<ILateEffectOverride>();
 
-    public Color? overrideColour;
-    public rangePair? overrideScale;
-    public rangePair? overrideLifetime;
-    public rangePair? overrideSpeed;
-    public rangePair? overrideGravity;
-    public Vector3? overrideInitialVelocity;
-    public float? overrideVelocitySpeedMult;
-    public Material? overrideMaterial;
-    public float? overrideVelocityDampening;
-    public float? overrideShapeArc;
-    public float? overrideShapeRadius;
-    public rangePair? overrideBurstCount;
-    public rangePair? overrideColourHues;
+    //public Color? overrideColour;
+    //public rangePair? overrideScale;
+    //public rangePair? overrideLifetime;
+    //public rangePair? overrideSpeed;
+    //public rangePair? overrideGravity;
+    //public Vector3? overrideInitialVelocity;
+    //public float? overrideVelocitySpeedMult;
+    //public Material? overrideMaterial;
+    //public float? overrideVelocityDampening;
+    //public float? overrideShapeArc;
+    //public float? overrideShapeRadius;
+    //public rangePair? overrideBurstCount;
+    //public rangePair? overrideColourHues;
 
 
-    public EffectSettings(Color? overrideColour = null, rangePair? overrideScale = null, rangePair? overrideLifetime = null, rangePair? overrideSpeed = null,
-        rangePair? overrideGravity = null, Vector3? overrideInitialVelocity = null, float? overrideVelocitySpeedMult = null, Material? overrideMaterial = null,
-        float? overrideVelocityDampening = null, float? overrideShapeArc = null, float? overrideShapeRadius = null, rangePair? overrideBurstCount = null, rangePair? overrideColourHues = null)
-    {
-        this.overrideColour = overrideColour;
-        this.overrideScale = overrideScale;
-        this.overrideLifetime = overrideLifetime;
-        this.overrideSpeed = overrideSpeed;
-        this.overrideGravity = overrideGravity;
-        this.overrideInitialVelocity = overrideInitialVelocity;
-        this.overrideVelocitySpeedMult = overrideVelocitySpeedMult;
-        this.overrideMaterial = overrideMaterial;
-        this.overrideVelocityDampening = overrideVelocityDampening;
-        this.overrideShapeArc = overrideShapeArc;
-        this.overrideShapeRadius = overrideShapeRadius;
-        this.overrideBurstCount = overrideBurstCount;
-        this.overrideColourHues = overrideColourHues;
-    }
+    //public EffectSettings(Color? overrideColour = null, rangePair? overrideScale = null, rangePair? overrideLifetime = null, rangePair? overrideSpeed = null,
+    //    rangePair? overrideGravity = null, Vector3? overrideInitialVelocity = null, float? overrideVelocitySpeedMult = null, Material? overrideMaterial = null,
+    //    float? overrideVelocityDampening = null, float? overrideShapeArc = null, float? overrideShapeRadius = null, rangePair? overrideBurstCount = null, rangePair? overrideColourHues = null)
+    //{
+    //    this.overrideColour = overrideColour;
+    //    this.overrideScale = overrideScale;
+    //    this.overrideLifetime = overrideLifetime;
+    //    this.overrideSpeed = overrideSpeed;
+    //    this.overrideGravity = overrideGravity;
+    //    this.overrideInitialVelocity = overrideInitialVelocity;
+    //    this.overrideVelocitySpeedMult = overrideVelocitySpeedMult;
+    //    this.overrideMaterial = overrideMaterial;
+    //    this.overrideVelocityDampening = overrideVelocityDampening;
+    //    this.overrideShapeArc = overrideShapeArc;
+    //    this.overrideShapeRadius = overrideShapeRadius;
+    //    this.overrideBurstCount = overrideBurstCount;
+    //    this.overrideColourHues = overrideColourHues;
+    //}
 
     public EffectSettings(List<EffectOverride> overrides)
     {

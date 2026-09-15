@@ -30,9 +30,10 @@ public class WeakenStatus : StatusEffect
         }
 
         // Debug.Log("New Weaken OnTakeDamage");
-        int appliedDamage = (int)(damage.GetFinalValue() * (weakMultiplier - 1f));
+        int appliedDamage = Mathf.CeilToInt(damage.GetFinalValue() * (weakMultiplier - 1f));
         if (appliedDamage < 1)
         {
+            Debug.Log("Applied Damage < 1");
             appliedDamage = 1;
         }
         entityRef.OnTakeDamage(appliedDamage, effectColour, DamageType.Weaken);

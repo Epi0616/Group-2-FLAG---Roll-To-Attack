@@ -232,6 +232,7 @@ public class TutorialManager : MonoBehaviour
 
         if (step.condition is DummyDeathCondition temp)
         {
+            Debug.Log(temp.waveIndex);
             StartIndexWave?.Invoke(temp.waveIndex);
         }
 

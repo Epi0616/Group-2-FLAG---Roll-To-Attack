@@ -2,13 +2,15 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using UnityEngine.Localization;
-
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.Tables;
 [Serializable]
 public class EnhancedFreezeSlamAction : BaseSlamAction , IEnhancedAbility
 {
     public float FreezeDuration = 5f;
     public float FragileDamageMult = 2f;
     public LocalizedString frozenText;
+    public LocalizedString shatterdText;
     //[SerializeField] private int EnhancementLevel;
     public int enhancementLevel { get; set; }
     public EnhancedFreezeSlamAction() { }
@@ -21,7 +23,16 @@ public class EnhancedFreezeSlamAction : BaseSlamAction , IEnhancedAbility
 
     public override void ApplyCustomEffectPerEntity(Entity hitEntity)
     {
-        base.ApplyCustomEffectPerEntity(hitEntity);
+        if (hitEntity != null && hitEntity.CompareTag("Entity"))
+        {
+            if (hitEntity.healthSystem.currentHealth - slamDamage <= 0)
+            {
+                Debug.Log("Extra Shatter visual procced");
+                hitEntity.textDisplaySystem.DisplayHigherText(shatterdText.GetLocalizedString(), Color.deepSkyBlue * 10, 64);
+            }
+        }
+        
+        hitEntity.OnTakeDamage(slamDamage, slamColour, DamageType.Normal);
 
         hitEntity.OnRecieveEffect(new ActiveStatusEffect(new EnhancedFreezeStatus(FragileDamageMult, "Frozen", slamColour, enhancementLevel),
                 new List<BaseCondition> { new TimeCondition(true, FreezeDuration) }, true));

@@ -52,9 +52,9 @@ public class DragonBossEnemy : BaseBossEnemy,
         if (isInvulnerable) return;
 
         int finalDamage = statusSystem.ModifyDamage(amount, damageType);
-        float size = Mathf.Clamp(10 + (finalDamage * 1.1f), 48f, 240f);
+        int size = Mathf.CeilToInt(Mathf.Clamp(10 + (finalDamage * 1.65f), 48f, 240f));
 
-        textDisplaySystem.DisplayText(finalDamage.ToString(), color, (int)size);
+        textDisplaySystem.DisplayText(finalDamage.ToString(), color, size);
         healthSystem.OnTakeDamage(finalDamage, damageType);
     }
 

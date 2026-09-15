@@ -13,8 +13,8 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
 {
     public int enhancementLevel { get; set; }
     private bool hasProcced = false;
-    private int damageTaken = 0;
-    private int shatterThreshold = 50;
+    //private int damageTaken = 0;
+    //private int shatterThreshold = 50;
     private string shatteredText;
     private bool canBeShattered = true;
     public EnhancedFreezeStatus(float fragileMult, string effectText, Color colour, int enhancementLevel) : base(fragileMult, effectText, colour)
@@ -23,7 +23,7 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
         this.effectColour = Color.deepSkyBlue;
         this.isStackable = true;
         hasProcced = false;
-        damageTaken = 0;
+        //damageTaken = 0;
         if (entityRef is BaseBossEnemy)
         {
             canBeShattered = false;

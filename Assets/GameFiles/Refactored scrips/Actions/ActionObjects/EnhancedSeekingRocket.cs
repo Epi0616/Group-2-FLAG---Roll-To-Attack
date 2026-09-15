@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnhancedSeekingRocket : SeekingRocket
@@ -11,6 +13,8 @@ public class EnhancedSeekingRocket : SeekingRocket
     private float CurrentAoE;
     private bool isBouncing = false;
     private HashSet<Entity> alreadyHitEntities;
+    protected float hitCount;
+    protected float expectedHits;
 
     protected override void Start()
     {
@@ -35,6 +39,8 @@ public class EnhancedSeekingRocket : SeekingRocket
         alreadyHitEntities = new HashSet<Entity>();
         alreadyHitEntities.Clear();
         isBouncing = false;
+        expectedHits = enhancementLevel + 1;
+        hitCount = 0;
     }
 
     protected override void FlyUp()
@@ -157,10 +163,14 @@ public class EnhancedSeekingRocket : SeekingRocket
             if (IFrameTimer < 0.2f) {  return; }
             // Debug.Log("Target Hit");
             //DamageTarget(target.GetComponent<Entity>());
-            Collider[] colliders = Physics.OverlapSphere(transform.position, CurrentAoE, ownerEntity.hostileMask);
+            Collider[] collidersArray = Physics.OverlapSphere(transform.position, CurrentAoE, ownerEntity.hostileMask);
+            List<Collider> colliders = collidersArray.ToList();
+            if (!colliders.Contains(other)) { colliders.Add(other); }
             //Debug.Log(colliders.Length);
+            
             foreach (var collider in colliders)
             {
+                
                 if (!collider.gameObject) { continue; }
                 if (collider.gameObject == ownerEntity) { continue; }
                 if (collider.gameObject.CompareTag("EntitySpawnable")) { continue; }
@@ -190,15 +200,20 @@ public class EnhancedSeekingRocket : SeekingRocket
 
     protected override void DamageTarget(Entity entity)
     {
-        Vector3 groundedPosition = new(transform.position.x, entity.transform.position.y, transform.position.z); // needs adjusting if enemies can ever reach an elevated position.
-
+        Vector3 groundedPosition = new(transform.position.x, entity.transform.position.y, transform.position.z); ;
+        //if (entity.bodySystem.baseplateTransform != null)
+        //{
+        //    groundedPosition = new(transform.position.x, entity.bodySystem.baseplateTransform.transform.position.y, transform.position.z);
+        //}
+        // needs adjusting if enemies can ever reach an elevated position.
+        entity.OnTakeDamage(9 + enhancementLevel, Color.lightGray, DamageType.Explosive);
         //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
         ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(CurrentAoE, 1f, 0.5f, 1f);
+        hitCount++;
 
 
 
 
-        entity.OnTakeDamage(9 + enhancementLevel, Color.lightGray, DamageType.Explosive);
         //AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
         alreadyHitEntities.Add(entity);
         isBouncing = true;
@@ -218,4 +233,5 @@ public class EnhancedSeekingRocket : SeekingRocket
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.ShardImpact02), Pos, Quaternion.Euler(90, 0, 0)).
                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new ColourEffectOverride(Color.black / hueMult) }));
     }
+
 }

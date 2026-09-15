@@ -45,7 +45,7 @@ public class PlayerStateController : MonoBehaviour
     [Header("Attack feel")]
     public Stat baseRadiusSize;
     private float holdTime = 0;
-    private bool chargeComplete = false;
+    //private bool chargeComplete = false;
 
     [Header("Player SoundFX")]
     public AudioClip[] playerLightAttackSounds;
