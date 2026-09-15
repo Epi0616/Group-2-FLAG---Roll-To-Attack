@@ -9,7 +9,7 @@ public class NewEVacuumMine : NewVacuumMine
     private List<ActiveStatusEffect> heldEffects;
     private float heldDamage;
 
-    private bool isSetup = false;
+    //private bool isSetup = false;
 
     protected override void Start()
     {
@@ -23,7 +23,7 @@ public class NewEVacuumMine : NewVacuumMine
         detonated = false;
         this.ownerEntity = ownerEntity;
         this.enhancementLevel = enhancementLevel;
-        this.range = range + this.enhancementLevel;
+        this.range = range + this.enhancementLevel * 2;
         blackHoleVisual = ObjectPoolManager.SpawnObject(BlackHolePrefab, transform.position, Quaternion.Euler(0, 0, 0)).GetComponent<BlackHole>();
         blackHoleVisual.Initialize(this.range, chargeTime, this.gameObject, true);
         fieldColour = colour;

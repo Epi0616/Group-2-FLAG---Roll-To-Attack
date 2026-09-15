@@ -114,7 +114,7 @@ public class PoisonField : MonoBehaviour
     protected IEnumerator FadeAway()
     {
         float timer = 0;
-        float a = 1;
+        //float a = 1;
         // Add fade for Ring mat got from the ring renderer
         while (timer < 0.5f)
         {

@@ -6099,7 +6099,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TypedLettersTMP
   textBox: {fileID: 418901287}
-  charactersPerSecond: 35
   fixedTypingDuration: 1.25
   animationDuration: 0.15
   scaleMax: 1.25
@@ -6299,11 +6298,6 @@ PrefabInstance:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8742620708276035831, guid: d63c07f4afb68ea4d944354a4165dfce, type: 3}
   m_PrefabInstance: {fileID: 431090488}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &431761537 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3557841906107032068, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
-  m_PrefabInstance: {fileID: 1100507586}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &433113337
 GameObject:
@@ -8703,8 +8697,8 @@ MonoBehaviour:
   typingTextBox: {fileID: 418901288}
   stages:
   - {fileID: 11400000, guid: 5105baecb43711148a77ddf0b427d777, type: 2}
-  - {fileID: 11400000, guid: 90dba9bdceeb9bd4daadf6bc487f0594, type: 2}
   - {fileID: 11400000, guid: e8b02f4521dd23d4597f5b5c97707376, type: 2}
+  - {fileID: 11400000, guid: 90dba9bdceeb9bd4daadf6bc487f0594, type: 2}
   restartCurrentStep: 0
   restartCurrentStage: 0
   player: {fileID: 774853018}
@@ -19223,6 +19217,14 @@ PrefabInstance:
       value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: hordeWaveWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: smartWaveWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: budgetIncreasePerWave
       value: 0
       objectReference: {fileID: 0}
@@ -19247,6 +19249,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 738fff7bbe8f09540bcfe39c0c86e5ef, type: 2}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: smartWavePoolObjs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: numberedWaves.Array.data[0].waveObj
       value: 
       objectReference: {fileID: 11400000, guid: dc2293ed14e849849babad4f3a0492d5, type: 2}
@@ -19261,6 +19267,14 @@ PrefabInstance:
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: numberedWaves.Array.data[1].interval
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: numberedWaves.Array.data[0].recurring
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+      propertyPath: numberedWaves.Array.data[1].recurring
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6834115501121386099, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       propertyPath: numberedWaves.Array.data[0].waveNumber
@@ -19304,30 +19318,24 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4543221052276050374, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1510717056}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3557841906107032068, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1100507588}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
 --- !u!4 &1100507587 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4543221052276050374, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
   m_PrefabInstance: {fileID: 1100507586}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1100507588
+--- !u!114 &1100507588 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 8536305516428900790, guid: 51c751e02d37ae841866c69b0da64515, type: 3}
+  m_PrefabInstance: {fileID: 1100507586}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 431761537}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 970d830b8b5b17841a2a0123d289bcbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveScaling
-  scalingIncreaseWaveInterval: 10
-  scalingIncreaseWaveRestriction: 10
 --- !u!1 &1102080870
 GameObject:
   m_ObjectHideFlags: 0

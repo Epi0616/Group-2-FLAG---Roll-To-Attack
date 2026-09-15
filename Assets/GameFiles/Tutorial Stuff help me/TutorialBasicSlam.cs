@@ -53,6 +53,7 @@ public class TutorialBasicSlam : BaseSlamAction
             
             if (slamRange.GetFinalValue() > slamRange.GetBaseValue()) //potential rework if we buff range in some way??
             {
+
                 ApplyHeavyEffectPerEntity(hitEntity);
             }
             else
