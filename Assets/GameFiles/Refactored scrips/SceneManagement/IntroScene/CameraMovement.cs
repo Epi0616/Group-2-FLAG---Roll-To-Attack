@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] private Vector3 roomOverviewPosition, arenaPlayPosition, mainMenuPosition, settingsPosition;
-    [SerializeField] private Quaternion roomOverviewRotation, arenaPlayRotation, menuRotation;
+    [SerializeField] private Vector3 roomOverviewPosition, arenaPlayPosition, mainMenuPosition, settingsPosition, arenaHighOverviewPosition;
+    [SerializeField] private Quaternion roomOverviewRotation, arenaPlayRotation, menuRotation, arenaHighOverviewRotation;
     [SerializeField] private float roomFov, menuFov;
 
     [SerializeField] private Vector3 offset;
@@ -14,20 +14,20 @@ public class CameraMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        DiceProp.GameStart += MoveIntoArena;
-        SceneTransitionManager.FadeFromArena += FadeFromArena;
-        IntroSceneMenuUI.menuOpened += MoveToMainMenu;
-        IntroSceneMenuUI.settingsOpened += MoveToSettings;
-        IntroSceneMenuUI.menuClosed += MoveToRoomOverview;
+        DiceProp.GameStart += HandleMoveIntoArena;
+        SceneTransitionManager.FadeFromArena += HandleFadeFromArena;
+        IntroSceneMenuUI.menuOpened += HandleMoveToMainMenu;
+        IntroSceneMenuUI.settingsOpened += HandleMoveToSettings;
+        IntroSceneMenuUI.menuClosed += HandleMoveToRoomOverview;
     }
 
     private void OnDisable()
     {
-        DiceProp.GameStart -= MoveIntoArena;
-        SceneTransitionManager.FadeFromArena -= FadeFromArena;
-        IntroSceneMenuUI.menuOpened -= MoveToMainMenu;
-        IntroSceneMenuUI.settingsOpened -= MoveToSettings;
-        IntroSceneMenuUI.menuClosed -= MoveToRoomOverview;
+        DiceProp.GameStart -= HandleMoveIntoArena;
+        SceneTransitionManager.FadeFromArena -= HandleFadeFromArena;
+        IntroSceneMenuUI.menuOpened -= HandleMoveToMainMenu;
+        IntroSceneMenuUI.settingsOpened -= HandleMoveToSettings;
+        IntroSceneMenuUI.menuClosed -= HandleMoveToRoomOverview;
     }
     private void Start()
     {
@@ -36,19 +36,30 @@ public class CameraMovement : MonoBehaviour
         transform.localRotation = menuRotation;
     }
 
-    public void FadeFromArena (float transitionLength, Vector3 dicePosition)
+    public void HandleFadeFromArena (float transitionLength, Vector3 dicePosition)
     {
         transform.localPosition = dicePosition + offset;
         transform.localRotation = arenaPlayRotation;
         arenaPlayPosition = transform.localPosition;
 
-        StartCoroutine(FovToFrom(transitionLength, roomFov, cam.fieldOfView));
-        StartCoroutine(PositionToFrom(transitionLength, roomOverviewPosition, transform.position));
-        StartCoroutine(RotationToFrom(transitionLength, roomOverviewRotation, transform.rotation));
-        breathingRoutine = StartCoroutine(StartBreathingRoutine(transitionLength));
+        StartCoroutine(FadeFromArena(transitionLength));
     }
 
-    private void MoveToRoomOverview(float transitionLength)
+    private IEnumerator FadeFromArena(float transitionLength)
+    {        
+        StartCoroutine(EaseOutPositionToFrom(transitionLength, arenaHighOverviewPosition, transform.position));
+        StartCoroutine(EaseOutRotationToFrom(transitionLength, arenaHighOverviewRotation, transform.rotation));
+
+
+        yield return new WaitForSeconds(transitionLength * 1.25f);
+        StartCoroutine(EaseOutPositionToFrom(transitionLength * 1.5f, mainMenuPosition, transform.position));
+        StartCoroutine(EaseOutRotationToFrom(transitionLength * 1.5f, menuRotation, transform.rotation));
+        StartCoroutine(FovToFrom(transitionLength * 1.5f, menuFov, cam.fieldOfView));
+        //yield return MoveToMainMenu(transitionLength * 2);
+        //breathingRoutine = StartCoroutine(StartBreathingRoutine(transitionLength));
+    }
+
+    private void HandleMoveToRoomOverview(float transitionLength)
     {
         StartCoroutine(FovToFrom(transitionLength, roomFov, cam.fieldOfView));
         StartCoroutine(EaseOutPositionToFrom(transitionLength, roomOverviewPosition, transform.position));
@@ -56,7 +67,7 @@ public class CameraMovement : MonoBehaviour
         breathingRoutine = StartCoroutine(StartBreathingRoutine(transitionLength));
     }
 
-    private void MoveIntoArena(GameObject dice, DiceType diceType)
+    private void HandleMoveIntoArena(GameObject dice, DiceType diceType)
     {
         arenaPlayPosition = dice.transform.position + offset;
 
@@ -66,15 +77,20 @@ public class CameraMovement : MonoBehaviour
         EndBreathingRoutine();
     }
 
-    private void MoveToMainMenu(float transitionLength)
+    private void HandleMoveToMainMenu(float transitionLength)
     {
-        StartCoroutine(FovToFrom(transitionLength, menuFov, cam.fieldOfView));
-        StartCoroutine(EaseOutPositionToFrom(transitionLength, mainMenuPosition, transform.position));
-        StartCoroutine(EaseOutRotationToFrom(transitionLength, menuRotation, transform.rotation));
+        StartCoroutine(MoveToMainMenu(transitionLength));
         EndBreathingRoutine();
     }
 
-    private void MoveToSettings(float transitionLength)
+    private IEnumerator MoveToMainMenu(float transitionLength)
+    {
+        StartCoroutine(FovToFrom(transitionLength, menuFov, cam.fieldOfView));
+        StartCoroutine(EaseOutPositionToFrom(transitionLength, mainMenuPosition, transform.position));
+        yield return EaseOutRotationToFrom(transitionLength, menuRotation, transform.rotation);
+    }
+
+    private void HandleMoveToSettings(float transitionLength)
     {
         StartCoroutine(FovToFrom(transitionLength, menuFov, cam.fieldOfView));
         StartCoroutine(EaseOutPositionToFrom(transitionLength, settingsPosition, transform.position));

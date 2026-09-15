@@ -26,7 +26,7 @@ public class SceneLoadManager : MonoBehaviour
             yield return null;
         }
         stopwatch.Stop();
-        Debug.Log("ms elapsed on load frame: " + stopwatch.ElapsedMilliseconds);
+        //Debug.Log("ms elapsed on load frame: " + stopwatch.ElapsedMilliseconds);
     }
 
     public IEnumerator TimeSlicedSceneActivation(SceneType sceneType)
@@ -53,7 +53,7 @@ public class SceneLoadManager : MonoBehaviour
             yield return null;
         }
         stopwatch.Stop();
-        Debug.Log("ms elapsed on activation timeslice: " + stopwatch.ElapsedMilliseconds);
+        //Debug.Log("ms elapsed on activation timeslice: " + stopwatch.ElapsedMilliseconds);
     }
 
     public IEnumerator UnloadSceneAsync(SceneType sceneType)

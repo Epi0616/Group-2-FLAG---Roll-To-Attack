@@ -11,6 +11,7 @@ public class RandomInRangeNoDelayWeighted : BaseEntityMovement
     [SerializeField] protected float chancePercentForTargettedMovement;
 
     protected INavAgent navAgent;
+    protected IAnimated animated;
     private Vector3 destination;
 
     public RandomInRangeNoDelayWeighted() { }
@@ -28,7 +29,10 @@ public class RandomInRangeNoDelayWeighted : BaseEntityMovement
 
         if (!(ownerEntity is INavAgent navAgent)) { Debug.Log("owner entity is not of type INavAgent"); return; }
         this.navAgent = navAgent;
+        if (ownerEntity is not IAnimated animated) { Debug.Log("owner entity is not of type IAnimated"); return; }
+        this.animated = animated;
 
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main, 0.2f, 1.5f);
         PickDestination();
     }
 
