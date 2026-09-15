@@ -16,14 +16,61 @@ public class SlimeBoss : BaseBossEnemy,
 
     [Header("ISlimeSplit")]
     [SerializeField] private GameObject ChildObj;
+    [SerializeField] private float BaseMoveSpeed;
+    [SerializeField] private int BaseMaxHealth;
+    [SerializeField] private int BaseIterationsLeft;
+    [SerializeField] private float BaseScale;
+
     [SerializeField] private int ChildrenSpawned;
     [SerializeField] private int IterationsLeft;
     [SerializeField] private float Scale;
 
     public GameObject childObj { get => ChildObj; set => ChildObj = value; }
+
+    public float baseMoveSpeed { get => BaseMoveSpeed; set => BaseMoveSpeed = value; }
+    public int baseMaxHealth { get => BaseMaxHealth; set => BaseMaxHealth = value; }
+    public int baseIterationsLeft { get => BaseIterationsLeft; set => BaseIterationsLeft = value; }
+    public float baseScale { get => BaseScale; set => BaseScale = value; }
+
     public int childrenSpawned { get => ChildrenSpawned; set => ChildrenSpawned = value; }
     public int iterationsLeft { get => IterationsLeft; set => IterationsLeft = value; }
     public float scale { get => Scale; set => Scale = value; }
+
+    public override void Reset()
+    {
+        base.Reset();
+
+        healthSystem.maxHealth.SetBaseValue(baseMaxHealth);
+        iterationsLeft = BaseIterationsLeft;
+        scale = BaseScale;
+
+        healthSystem.ResetSystem();
+        transform.localScale = new Vector3(scale, scale, scale);
+
+        IMoveable moveable = this as IMoveable;
+        if (moveable != null)
+        {
+            moveable.movementSpeed.SetBaseValue(baseMoveSpeed / scale);
+        }
+    }
+
+    void ISlimeSplit.SplitReset(int maxHealth, int iterationsLeft, float scale)
+    {
+        base.Reset();
+
+        healthSystem.maxHealth.SetBaseValue(maxHealth);
+        this.iterationsLeft = iterationsLeft;
+        this.scale = scale;
+
+        healthSystem.ResetSystem();
+        transform.localScale = new Vector3(scale, scale, scale);
+
+        IMoveable moveable = this as IMoveable;
+        if (moveable != null)
+        {
+            moveable.movementSpeed.SetBaseValue(baseMoveSpeed / scale);
+        }
+    }
 
     public override void EnableAIAgent()
     {

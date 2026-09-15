@@ -25,18 +25,16 @@ public class CentralAbilitySlot : AbilitySlot
             //UpdateColour();
         }
 
+        if (initalized)
+        {
+            return false;
+        }
 
         if (draggableObjects.Count > 0)
         {
             SwapAbilitiesWithUpgrade(newObject);
-            //SwapAbilitiesWithUpgrade(newObject);
-           // UpdateColour();
             return true;
-        }
-
-        if (initalized) 
-        {         
-            return false;
+            //SwapAbilitiesWithUpgrade(newObject);
         }
         
         draggableObjects.Add(newObject);

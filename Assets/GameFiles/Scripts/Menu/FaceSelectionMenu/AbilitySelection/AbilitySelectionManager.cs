@@ -95,12 +95,8 @@ public class AbilitySelectionManager : MonoBehaviour
         float maximumLevelChance = abilityLevelChance.GetFinalValue();
         float minimumLevelChance = maximumLevelChance - (maximumLevelChance / 2);
 
-        Debug.Log($"minimum level chance {minimumLevelChance}");
-        Debug.Log($"maximum level chance {maximumLevelChance}");
-
         int iterations = Mathf.CeilToInt((float)randomSequence.NextDouble() * (maximumLevelChance - minimumLevelChance) + minimumLevelChance) - 1;
 
-        Debug.Log($"iterations {iterations}");
 
         if (iterations <= 0) return ability;
         ModifiableAction upgradedAbility = upgradableAbility.upgradeResult.Create();

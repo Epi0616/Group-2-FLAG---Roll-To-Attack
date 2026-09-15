@@ -50,18 +50,16 @@ public class SplitOnDeath : BaseEntityAction
             Entity child = ObjectPoolManager.SpawnObject(slimeSplit.childObj, ownerEntity.transform.position, Quaternion.identity).GetComponent<Entity>();
             if (!(child is ISlimeSplit childSlimeSplit)) return;
 
-            child.Reset();
+            //child.Reset();
 
-            childSlimeSplit.scale = slimeSplit.scale * 0.75f;
-            childSlimeSplit.iterationsLeft = slimeSplit.iterationsLeft - 1;
-            child.gameObject.transform.localScale = Vector3.one * childSlimeSplit.scale; //potentially replace Vector3.one with the original starting scale
-            child.healthSystem.maxHealth.SetBaseValue(ownerEntity.healthSystem.maxHealth.GetFinalValue() * 0.75f);
+            float scale = slimeSplit.scale * 0.75f;
+            int iterationsLeft = slimeSplit.iterationsLeft - 1;
+            int maxHealth = (int)(ownerEntity.healthSystem.maxHealth.GetFinalValue() * scale);
 
-            IMoveable moveable = child as IMoveable;
-            if (moveable != null)
-            {
-                moveable.movementSpeed.SetBaseValue(moveable.movementSpeed.GetBaseValue() / childSlimeSplit.scale);
-            }
+            childSlimeSplit.SplitReset(maxHealth, iterationsLeft, scale);
+
+            //child.gameObject.transform.localScale = Vector3.one * childSlimeSplit.scale; //potentially replace Vector3.one with the original starting scale
+            //child.healthSystem.maxHealth.SetBaseValue(ownerEntity.healthSystem.maxHealth.GetFinalValue() * 0.75f);
         }
     }
 
