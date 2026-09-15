@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -92,7 +94,7 @@ public class WaveManager : MonoBehaviour
             waveCleared = true;
             currentWaveIndex++;
             WaveOver?.Invoke(1);
-            waveSpawner.ClearSpawnedEnemies();
+            waveSpawner.ClearSpawn();
         }
     }
 
