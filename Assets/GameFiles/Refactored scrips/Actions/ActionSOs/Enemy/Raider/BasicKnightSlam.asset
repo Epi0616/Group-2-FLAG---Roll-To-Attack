@@ -23,7 +23,7 @@ MonoBehaviour:
     singleUse: 0
     triggered: 0
     exclusive: 1
-    interruptOnDeath: 1
+    interruptable: 1
     priority: 0
   references:
     version: 2
@@ -46,9 +46,11 @@ MonoBehaviour:
       type: {class: EnemyBaseSlam, ns: , asm: Assembly-CSharp}
       data:
         PreventsMovement: 1
+        lightImpactNoise: {fileID: 0}
+        heavyImpactNoise: {fileID: 0}
         SlamDamage: 5
         SlamColor: {r: 0.97484255, g: 1, b: 0.08018869, a: 1}
         ChargeTime: 0.5
         SlamRange:
           baseValue: 2
-        SlamPositionOffset: {x: 0, y: 0, z: 4}
+        SlamPositionOffset: {x: 0, y: -4, z: 4}
