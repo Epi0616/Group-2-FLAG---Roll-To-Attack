@@ -23,8 +23,12 @@ public class AbilitySlot : AbilityDropZoneParent
     {
         base.Awake();
         objectLimit = 1;
-        UpgradeSigil.transform.SetSiblingIndex(3000);
         SetImageAlpha(SlotGlow, baseColor, baseGlow);
+
+        if (UpgradeSigil != null)
+        {
+            UpgradeSigil.transform.SetSiblingIndex(3000);
+        }
     }
 
     protected void OnEnable()
@@ -52,8 +56,8 @@ public class AbilitySlot : AbilityDropZoneParent
         if (draggableObjects.Count > 0)
         {
             SwapAbilitiesWithUpgrade(newObject);
-            //SwapAbilitiesWithUpgrade(newObject);
             return true;
+            //SwapAbilitiesWithUpgrade(newObject);
         }
 
         draggableObjects.Add(newObject);
@@ -65,6 +69,19 @@ public class AbilitySlot : AbilityDropZoneParent
         }
 
         return true;
+    }
+
+    public override void AddChild(DraggableObject newObject)
+    {
+        if (draggableObjects.Count >= objectLimit) { return; }
+        if (draggableObjects.Contains(newObject)) { FormatChildren(); return; }
+        draggableObjects.Add(newObject);
+        newObject.SetCurrentParent(this);
+        FormatChildren();
+        if (diceSlot)
+        {
+            GlowTo(1, baseColor, 0.2f, false);
+        }
     }
 
     protected void SwapAbilitiesWithUpgrade(DraggableObject newObject)
@@ -89,6 +106,7 @@ public class AbilitySlot : AbilityDropZoneParent
             FormatChildren();
 
             newObjectsParentAtStartOfDrag.AddChild(myCurrentObject);
+            return;
         }
         else
         {
@@ -112,6 +130,7 @@ public class AbilitySlot : AbilityDropZoneParent
                 centralAbilitySlot.GetComponent<AbilitySlot>().AddChild(myCurrentObject);
             }
             //myCurrentObject.GetComponent<RectTransform>().anchoredPosition = 
+            return;
         }
     }
 

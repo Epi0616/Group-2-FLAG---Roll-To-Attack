@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -251,7 +252,13 @@ public class WaveSpawner : MonoBehaviour
         enemyHealthScale.SetMultiplier(MathF.Pow(healthScaleIncrement, iterations));
     }
 
-    public void ClearSpawnedEnemies()
+    public void ClearSpawn()
+    {
+        ClearSpawnedEnemies();
+        ClearEntitySpawnables();
+    }
+
+    private void ClearSpawnedEnemies()
     {
         if (activeRoutines.Count > 0)
         {
@@ -273,5 +280,21 @@ public class WaveSpawner : MonoBehaviour
         }
 
         spawnedEnemies.Clear();
+    }
+
+    private void ClearEntitySpawnables()
+    {
+        List<GameObject> activeEntities = ObjectPoolManager.activeObjects.ToList();
+
+        foreach (GameObject entity in activeEntities)
+        {
+            if (entity == null) return;
+            if (!entity.activeSelf) return;
+
+            if (entity.CompareTag("EntitySpawnable"))
+            {
+                ObjectPoolManager.ReturnObjectToPool(entity);
+            }
+        }
     }
 }

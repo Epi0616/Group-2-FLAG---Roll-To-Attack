@@ -71,7 +71,7 @@ public class DraggableObject : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         }
 
         transform.SetParent(currentParent.transform);
-        currentParent.TryAddChild(this);
+        currentParent.AddChild(this);
     }
 
     private AbilityDropZoneParent CheckForDropZone()

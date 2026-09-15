@@ -24,10 +24,10 @@ public class FallFromTheSky : BaseEntityAction
     public override void StartAction(Entity ownerEntity)
     {
         base.StartAction(ownerEntity);
-        ownerEntity.bodySystem.SetVisibility(false);        
+        ownerEntity.bodySystem.SetVisibility(false);
 
-        //ActiveStatusEffect shieldEffect = new(new ShieldedStatus(shieldStacks), new List<BaseCondition>() { new AlwaysTrueCondition(true) }, false);
-        //ownerEntity.statusSystem.OnRecieveEffect(shieldEffect);
+        ActiveStatusEffect shieldEffect = new(new ShieldedStatus(shieldStacks), new List<BaseCondition>() { new AlwaysTrueCondition(true) }, false);
+        ownerEntity.statusSystem.OnRecieveEffect(shieldEffect);
 
         if (ownerEntity is IAnimated animated)
         {

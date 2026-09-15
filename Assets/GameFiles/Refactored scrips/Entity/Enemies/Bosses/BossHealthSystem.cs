@@ -1,5 +1,6 @@
-using UnityEngine;
 using System;
+using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class BossHealthSystem : EnemyHealthSystem
 {
@@ -9,6 +10,16 @@ public class BossHealthSystem : EnemyHealthSystem
         base.InitialiseSystem(entity);
         if (!(entity is IBoss boss)) { Debug.Log("entity is not of type IBoss"); return; }
         this.boss = (BaseBossEnemy)entity;
+
+        boss.HandleEnable();
+        boss.HandleSetMilestones();
+    }
+
+    public override void ResetSystem()
+    {
+        base.ResetSystem();
+
+        if (boss == null) return;
         boss.HandleEnable();
         boss.HandleSetMilestones();
     }
