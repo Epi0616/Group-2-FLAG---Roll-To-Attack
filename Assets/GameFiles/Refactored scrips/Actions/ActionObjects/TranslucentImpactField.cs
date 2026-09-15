@@ -8,7 +8,7 @@ public class TranslucentImpactField : ImpactFieldVisual
     {
         hasBeenDestroyed = false;
         this.color = color;
-        this.color.a = 1f;
+        this.color.a = 0.8f;
         this.radius = radius;
         this.chargeTime = chargeTime;
         flashRed = flash;
@@ -31,7 +31,7 @@ public class TranslucentImpactField : ImpactFieldVisual
         while (color.a > 0f)
         {
             //Debug.Log("Decaying");
-            color.a += Time.deltaTime * -2f;
+            color.a += Time.deltaTime * -1.75f;
             SetColor(color);
             yield return null;
         }

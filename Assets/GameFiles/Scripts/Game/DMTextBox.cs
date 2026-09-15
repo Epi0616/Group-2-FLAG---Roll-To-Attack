@@ -29,12 +29,12 @@ public class DMTextBox : MonoBehaviour
         }
         Instance = this;
         //isVisible = false;
-        //foreach (Image image in PortraitImages)
-        //{
-        //    image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
-        //}
-        //TextBG.color = new Color(TextBG.color.r, TextBG.color.g, TextBG.color.b, 0);
-        //tmp.color = new Color(tmp.color.r, tmp.color.g, tmp.color.b, 0);
+        foreach (Image image in PortraitImages)
+        {
+            image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
+        }
+        TextBG.color = new Color(TextBG.color.r, TextBG.color.g, TextBG.color.b, 0);
+        tmp.color = new Color(tmp.color.r, tmp.color.g, tmp.color.b, 0);
         TypedLetters.SetTextOverride("");
     }
     
@@ -106,13 +106,13 @@ public class DMTextBox : MonoBehaviour
 
     private IEnumerator DisplayNewText(string text, float duration)
     {
-        //if (RevealRoutine != null) { StopCoroutine(RevealRoutine); }
-        //if (BoxRevealRoutine != null) { StopCoroutine(BoxRevealRoutine); }
-        //yield return RevealRoutine = StartCoroutine(AdjustOpacityRoutine(0.8f, currentPortraitAlpha, 0.75f));
-        
+        if (RevealRoutine != null) { StopCoroutine(RevealRoutine); }
+        if (BoxRevealRoutine != null) { StopCoroutine(BoxRevealRoutine); }
+       
         TypedLetters.SetText(text);
-        yield return ScaleRoutine = StartCoroutine(AdjustScaleRoutine(Vector3.one, PopUpObj.transform.localScale, 0.7f));
-        //BoxRevealRoutine = StartCoroutine(AdjustBoxOpacityRoutine(1, currentBoxAlpha, 0.75f));
+        //yield return ScaleRoutine = StartCoroutine(AdjustScaleRoutine(Vector3.one, PopUpObj.transform.localScale, 0.7f));
+        RevealRoutine = StartCoroutine(AdjustOpacityRoutine(0.8f, currentPortraitAlpha, 0.75f));
+        BoxRevealRoutine = StartCoroutine(AdjustBoxOpacityRoutine(1, currentBoxAlpha, 0.75f));
         yield return new WaitForSecondsRealtime(duration + 0.5f);
         StartCoroutine(RemoveText());
     }
@@ -126,10 +126,10 @@ public class DMTextBox : MonoBehaviour
     {
         if (RevealRoutine != null) { StopCoroutine(RevealRoutine); }
         if (BoxRevealRoutine != null) { StopCoroutine(BoxRevealRoutine); }
-        if (ScaleRoutine != null) { StopCoroutine(ScaleRoutine); }
-        //BoxRevealRoutine = StartCoroutine(AdjustBoxOpacityRoutine(0, currentBoxAlpha, 0.5f));
-        //yield return RevealRoutine = StartCoroutine(AdjustOpacityRoutine(0, currentPortraitAlpha, 0.5f));
-        yield return ScaleRoutine = StartCoroutine(AdjustScaleRoutine(Vector3.zero, PopUpObj.transform.localScale, 0.75f));
+        //if (ScaleRoutine != null) { StopCoroutine(ScaleRoutine); }
+        BoxRevealRoutine = StartCoroutine(AdjustBoxOpacityRoutine(0, currentBoxAlpha, 0.5f));
+        yield return RevealRoutine = StartCoroutine(AdjustOpacityRoutine(0, currentPortraitAlpha, 0.5f));
+        // yield return ScaleRoutine = StartCoroutine(AdjustScaleRoutine(Vector3.zero, PopUpObj.transform.localScale, 0.75f));
         TypedLetters.SetTextOverride("");
     }
 

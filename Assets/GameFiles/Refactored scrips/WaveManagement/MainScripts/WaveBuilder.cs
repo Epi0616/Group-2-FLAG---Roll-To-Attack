@@ -122,14 +122,17 @@ public class WaveBuilder : MonoBehaviour
         int random = Random.Range(0, weightTotal);
 
         weightTally += regularWaveWeight;
+
         if (random < weightTally)
         {
+            //DMTextBox.Instance.DisplayText("Normal Wave Incoming", 7.5f);
             return GenerateWaveFromBlocks(waveIndex, budget);
         }
 
         weightTally += smartWaveWeight;
         if (random < weightTally)
         {
+            //DMTextBox.Instance.DisplayText("Smart Wave Incoming", 7.5f);
             return GenerateWaveFromPool(smartWavePools, waveIndex, budget);
         }
 
@@ -227,6 +230,8 @@ public class WaveBuilder : MonoBehaviour
 
         int random = Random.Range(0, eligablePools.Count);
         selectedPool = eligablePools[random];
+        if (selectedPool.SpawnAnnouncement != null && DMTextBox.Instance != null) { DMTextBox.Instance.DisplayText(selectedPool.SpawnAnnouncement.GetLocalizedString(), 5); }
+        
         return true;
     }
 
