@@ -7,8 +7,11 @@ using Scene = UnityEngine.SceneManagement.Scene;
 
 public class SceneTransitionManager : MonoBehaviour
 {
+    public static SceneTransitionManager instance;
+
     public static event Action<float, Vector3> FadeFromArena;
     public static event Action<float, Vector3, DiceType> DiceReturnFromArena;
+    public static event Action TransitionComplete;
     public static float transitionLength = 2.5f;
 
     [SerializeField] private SceneLoadManager sceneLoadManager;
@@ -32,6 +35,14 @@ public class SceneTransitionManager : MonoBehaviour
         PauseMenu.ReturnToIntro -= HandleIntroStart;
         GameOverMenu.ReturnToIntro -= HandleIntroStart;
         TutorialManager.TutorialOver -= HandleIntroStart;
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+        { 
+            instance = this;
+        }
     }
 
     void Start()
@@ -68,6 +79,7 @@ public class SceneTransitionManager : MonoBehaviour
         yield return sceneLoadManager.UnloadSceneAsync(selectedArena);
 
         selectedArena = SceneType.SandArena;
+        TransitionComplete?.Invoke();
     }
 
     private void SetUpIntroScene(float transitionLength)
@@ -106,6 +118,7 @@ public class SceneTransitionManager : MonoBehaviour
         yield return StartCoroutine(sceneLoadManager.TimeSlicedSceneActivation(selectedArena));
 
         yield return sceneLoadManager.UnloadSceneAsync(SceneType.IntroScene);
+        TransitionComplete?.Invoke();
     }
 
     private void SetUpArena(Vector3 dicePosition, SceneType arenaType)

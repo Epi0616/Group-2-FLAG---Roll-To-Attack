@@ -19,9 +19,12 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject previousUiSelection;
     public static bool isGamePaused = false;
     private bool isGameOver = false;
+    private bool transitioning = false;
 
     private void OnEnable()
     {
+        transitioning = true;
+        SceneTransitionManager.TransitionComplete += HandleTransitionComplete;
         PlayerHealthSystem.GameOver += GameOver;
         SettingsUIManager.settingsClosed += SetPauseButtonsVisibility;
         pauseGame.action.performed += HandlePauseGame;
@@ -29,17 +32,26 @@ public class PauseMenu : MonoBehaviour
 
     private void OnDisable()
     {
+        SceneTransitionManager.TransitionComplete -= HandleTransitionComplete;
         PlayerHealthSystem.GameOver -= GameOver;
         SettingsUIManager.settingsClosed -= SetPauseButtonsVisibility;
         pauseGame.action.performed -= HandlePauseGame;
     }
     private void HandlePauseGame(InputAction.CallbackContext context)
     {
+        if (SceneTransitionManager.instance != null && transitioning) return;
+
         if (EventSystem.current.currentSelectedGameObject != null)
         {
             previousUiSelection = EventSystem.current.currentSelectedGameObject;
         }
+
         TogglePaused();
+    }
+
+    private void HandleTransitionComplete()
+    {
+        transitioning = false;
     }
 
     public void GameOver()
@@ -62,19 +74,9 @@ public class PauseMenu : MonoBehaviour
     {
         TogglePaused();
 
-        //if (TransitionManager.instance == null)
-        //{
-        //    SceneManager.LoadScene("Menu");
-        //}
-        //else
-        //{
-        //    TransitionManager.LoadScene("Menu", 0.5f, 1f);
-        //}
-
-        //ObjectPoolManager.DestroyObjectsOfType(ObjectPoolManager.PoolType.ArenaObjects);
-
         PackUpScene?.Invoke();
-        ReturnToIntro?.Invoke();           
+        ReturnToIntro?.Invoke();
+        transitioning = true;
     }
 
     public void TogglePaused()

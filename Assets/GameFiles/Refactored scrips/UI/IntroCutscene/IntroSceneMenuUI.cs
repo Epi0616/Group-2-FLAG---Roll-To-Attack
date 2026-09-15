@@ -36,14 +36,8 @@ public class IntroSceneMenuUI : MonoBehaviour
     {
         if (transitionStarted) return;
 
-        if (menuActive)
-        {
-            MoveToRoomOverview();
-        }
-        else 
-        {
-            MoveToMenu();
-        }
+        if (menuActive) return;
+        MoveToMenu();
     }
 
     public void StartGame(float transitionLength = 0.5f)
