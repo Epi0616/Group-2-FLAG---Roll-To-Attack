@@ -86,7 +86,7 @@ public class SceneTransitionManager : MonoBehaviour
     {
         Vector3 dicePosition = Vector3.zero;
 
-        Scene scene = SceneManager.GetSceneByName(selectedArena.HumanName());
+        Scene scene = SceneManager.GetSceneByName(selectedArena.ToString());
         if (scene.IsValid())
         {
             GameObject[] rootObjects = scene.GetRootGameObjects();
@@ -123,7 +123,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void SetUpArena(Vector3 dicePosition, SceneType arenaType)
     {
-        GameObject[] rootObjects =  SceneManager.GetSceneByName(arenaType.HumanName()).GetRootGameObjects();
+        GameObject[] rootObjects =  SceneManager.GetSceneByName(arenaType.ToString()).GetRootGameObjects();
         foreach (GameObject rootObject in rootObjects)
         {
             if (rootObject.CompareTag("Player"))

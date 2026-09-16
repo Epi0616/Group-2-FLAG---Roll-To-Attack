@@ -51,6 +51,7 @@ public class PauseMenu : MonoBehaviour
 
     private void HandleTransitionComplete()
     {
+        Debug.Log("transition complete");
         transitioning = false;
     }
 

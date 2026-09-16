@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Sprites;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -30,11 +31,15 @@ public class WaveSpawner : MonoBehaviour
 
     private void OnEnable()
     {
+        PauseMenu.PackUpScene += PackUp;
+        GameOverMenu.PackUpScene += PackUp;
         WaveScaling.setScaling += SetScaling;
     }
 
     private void OnDisable()
     {
+        PauseMenu.PackUpScene += PackUp;
+        GameOverMenu.PackUpScene -= PackUp;
         WaveScaling.setScaling -= SetScaling;
     }
 
@@ -95,17 +100,17 @@ public class WaveSpawner : MonoBehaviour
             List<EntityBlock> currentEntityBlocks = currentGroup.entityBlocks;
             for (int j = 0; j < currentEntityBlocks.Count; j++)
             {
-                StartCoroutine(ActivateEntityBlock(currentEntityBlocks[j], isWaveEnemy));
+                yield return ActivateEntityBlock(currentEntityBlocks[j], isWaveEnemy);
 
-                float currentSpawnTime = currentEntityBlocks[j].spawnDelay * currentEntityBlocks[j].count;
-                if (currentSpawnTime > longestSpawnTime)
-                {
-                    longestSpawnTime = currentSpawnTime;
-                }
+                //float currentSpawnTime = currentEntityBlocks[j].spawnDelay * currentEntityBlocks[j].count;
+                //if (currentSpawnTime > longestSpawnTime)
+                //{
+                //    longestSpawnTime = currentSpawnTime;
+                //}
             }
         }
 
-        yield return new WaitForSeconds(longestSpawnTime);
+        //yield return new WaitForSeconds(longestSpawnTime);
     }
 
     private bool CheckForConditionsMet(List<BaseWaveCondition> currentConditions)
@@ -254,11 +259,35 @@ public class WaveSpawner : MonoBehaviour
 
     public void ClearSpawn()
     {
+        StopSpawning();
         ClearSpawnedEnemies();
         ClearEntitySpawnables();
     }
 
     private void ClearSpawnedEnemies()
+    {
+        foreach (Entity enemy in spawnedEnemies)
+        {
+            if (enemy == null) continue;
+            if (!enemy.gameObject.activeSelf) continue;
+            if (enemy.healthSystem.isDead) continue;
+
+            enemy.healthSystem.isDead = true;
+            if (enemy is IActionable actionable)
+            {
+                actionable.actionController.InterruptAllActive();
+            }
+
+            enemy.statusSystem.currentActiveStatusEffects.Clear();
+            enemy.StopAllCoroutines();
+
+            ObjectPoolManager.ReturnObjectToPool(enemy.gameObject);
+        }
+
+        spawnedEnemies.Clear();
+    }
+
+    private void StopSpawning()
     {
         if (activeRoutines.Count > 0)
         {
@@ -270,16 +299,6 @@ public class WaveSpawner : MonoBehaviour
 
             finishedSpawning?.Invoke();
         }
-
-        foreach (Entity enemy in spawnedEnemies)
-        {
-            if (enemy == null) continue;
-            if (!enemy.gameObject.activeSelf) continue;
-            if (enemy.healthSystem.isDead) continue;
-            enemy.OnTakeDamage(int.MaxValue, DamageType.Normal);
-        }
-
-        spawnedEnemies.Clear();
     }
 
     private void ClearEntitySpawnables()
@@ -295,6 +314,38 @@ public class WaveSpawner : MonoBehaviour
             {
                 ObjectPoolManager.ReturnObjectToPool(entity);
             }
+        }
+    }
+
+    private void PackUp()
+    { 
+        StopSpawning();
+        ClearSpawnedEnemies();
+        ReturnAllActiveEntitiesToPool();
+    }
+
+    private void ReturnAllActiveEntitiesToPool()
+    {
+        List<GameObject> activeEntities = ObjectPoolManager.activeObjects.ToList();
+
+        for (int i = activeEntities.Count - 1; i >= 0; i--)
+        {
+            GameObject obj = activeEntities[i];
+            if (obj == null) continue;
+            //if (!obj.activeSelf) continue;
+            if (obj.TryGetComponent<Entity>(out Entity entity))
+            {
+                entity.healthSystem.isDead = true;
+                if (entity is IActionable actionable)
+                {
+                    actionable.actionController.InterruptAllActive();
+                }
+
+                entity.statusSystem.currentActiveStatusEffects.Clear();
+                entity.StopAllCoroutines();
+            }
+
+            ObjectPoolManager.ReturnObjectToPool(obj);
         }
     }
 }
