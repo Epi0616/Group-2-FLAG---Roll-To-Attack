@@ -42,7 +42,7 @@ public class FloatingDamageText : MonoBehaviour
 
     private IEnumerator DestroyRoutine()
     {
-        while (transform.localScale.x > 0.1f) { yield return null; }
+        while (transform.localScale.x > 0.3f) { yield return null; }
         ObjectPoolManager.ReturnObjectToPool(gameObject, lifeTime);
         yield return null;
     }
