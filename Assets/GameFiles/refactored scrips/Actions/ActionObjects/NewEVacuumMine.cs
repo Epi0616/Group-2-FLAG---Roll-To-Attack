@@ -9,6 +9,8 @@ public class NewEVacuumMine : NewVacuumMine
     private List<ActiveStatusEffect> heldEffects;
     private float heldDamage;
     private float chargeTime;
+    private float extraDuration;
+    private float maxExtraDuration = 10;
 
     //private bool isSetup = false;
 
@@ -35,6 +37,7 @@ public class NewEVacuumMine : NewVacuumMine
         this.chargeTime = chargeTime;
         //this.gameObject.layer = 14;        
         heldDamage = 0;
+        extraDuration = 0;
         healthSystem.isDead = false;
         ShowRange();
         StartCoroutine(CountDown());
@@ -43,10 +46,11 @@ public class NewEVacuumMine : NewVacuumMine
     public override void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
         //if (age < 1) return;
-        if (!collapseStarted)
+        if (!collapseStarted && extraDuration < maxExtraDuration)
         {
             impactfield.AddExtraDuration(1);
             timer = Mathf.Clamp(1 + timer, 0, chargeTime);
+            extraDuration++;
         }
         
         float storeAmount = (amount / 2) / Mathf.Clamp((1 / enhancementLevel), 1, 999);
