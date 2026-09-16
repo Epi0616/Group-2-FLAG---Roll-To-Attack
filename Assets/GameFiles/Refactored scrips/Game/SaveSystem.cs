@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -16,7 +17,15 @@ public class SaveSystem : MonoBehaviour
         }
 
         path = Path.Combine(Application.persistentDataPath, "saveData.json");
-        Debug.Log(path);
+        CheckForValidSaveFile();
+    }
+
+    private void CheckForValidSaveFile()
+    {
+        if (!File.Exists(path))
+        {
+            CreateNewSave();
+        }
     }
 
     public void SaveGameData(GameSaveData saveData)
@@ -26,13 +35,28 @@ public class SaveSystem : MonoBehaviour
     }
 
     public GameSaveData LoadSaveGameData()
-    { 
+    {
+        if (!File.Exists(path))
+        {
+            return CreateNewSave();
+        }
+
         string json = File.ReadAllText(path);
         GameSaveData saveData = JsonUtility.FromJson<GameSaveData>(json);
         return saveData;
     }
+
+    private GameSaveData CreateNewSave()
+    {
+        int seed = (int)DateTime.Now.Ticks;
+        GameSaveData newSave = new GameSaveData(100, 100, 1, false, new List<IndexedModifiableAction>(), new RunTimeStats(), seed);
+        SaveGameData(newSave);
+
+        return newSave;
+    }
 }
 
+[Serializable]
 public class GameSaveData
 {
     public int currentHp, maxHp;
