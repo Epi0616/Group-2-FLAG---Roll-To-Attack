@@ -14,6 +14,10 @@ public class SetUpArenaManager : MonoBehaviour
         setUpPlayer?.Invoke(currentSaveData.currentHp, currentSaveData.maxHp, currentSaveData.playerAbilities);
         SetUpWavePosition?.Invoke(currentSaveData.waveNumber, currentSaveData.waveCleared);
 
+        Debug.Log(RunTimeStatTracker.instance);
+        Debug.Log(RunTimeStatTracker.instance.runTimeStats);
+        Debug.Log(RunTimeStatTracker.instance.runTimeStats.totalTimeSurvived);
+
         RunTimeStatTracker.instance.runTimeStats = currentSaveData.runTimeStats;
     }
 }

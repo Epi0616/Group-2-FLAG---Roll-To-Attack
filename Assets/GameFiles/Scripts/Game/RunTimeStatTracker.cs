@@ -9,13 +9,14 @@ public class RunTimeStatTracker : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null) 
-        { 
+        if (instance == null)
+        {
             instance = this;
             runTimeStats = new RunTimeStats();
+            Debug.Log($"runtime stat tracker set up, stats: {runTimeStats}");
             return;
         }
-
+        
         Destroy(gameObject);
     }
 
@@ -28,11 +29,11 @@ public class RunTimeStatTracker : MonoBehaviour
 [Serializable]
 public class RunTimeStats
 {
-    public int totalDamageDealt { get; set; }
-    public float totalTimeSurvived { get; set; }
-    public int waveNumber { get; set; }
-    public int numberOfAttacks { get; set; }
-    public int totalEnemiesKilled { get; set; }
+    public int totalDamageDealt;
+    public float totalTimeSurvived;
+    public int waveNumber;
+    public int numberOfAttacks;
+    public int totalEnemiesKilled;
 
     public RunTimeStats()
     {

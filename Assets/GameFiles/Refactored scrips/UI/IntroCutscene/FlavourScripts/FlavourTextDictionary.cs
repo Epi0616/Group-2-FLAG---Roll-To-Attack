@@ -32,7 +32,7 @@ public class FlavourTextDictionary : MonoBehaviour
             FlavourTextCollection collection = collectionType.collection;
 
             string filePathExtension = collection.fileName;
-            string filePath = Application.dataPath + baseExtension + filePathExtension + ".txt";
+            string filePath = Path.Combine(Application.streamingAssetsPath, "TextFiles", filePathExtension + ".txt");
             collection.text = File.ReadAllLines(filePath).ToList();
         }
     }

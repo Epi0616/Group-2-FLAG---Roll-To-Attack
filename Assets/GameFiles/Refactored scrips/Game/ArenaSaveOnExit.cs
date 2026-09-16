@@ -4,7 +4,7 @@ using UnityEngine;
 public class ArenaSaveOnExit : MonoBehaviour
 {
     [SerializeField] private WaveManager waveManager;
-    private Player player;
+    [SerializeField] private Player player;
 
     private void OnEnable()
     {
@@ -16,11 +16,6 @@ public class ArenaSaveOnExit : MonoBehaviour
         PauseMenu.PackUpScene -= SaveGame;
     }
 
-    private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-    }
-
     private void SaveGame()
     {
         SaveGameData();
@@ -28,6 +23,8 @@ public class ArenaSaveOnExit : MonoBehaviour
 
     private void SaveGameData()
     {
+        if (player == null) return;
+
         int currentHp = player.healthSystem.currentHealth;
         int maxHp = (int)player.healthSystem.maxHealth.GetFinalValue();
         int waveNumber = waveManager.currentWaveIndex;

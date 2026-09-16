@@ -1,9 +1,11 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PackUpArenaManager : MonoBehaviour
 {
+    public static event Action StopSpawning;
     private void OnEnable()
     {
         PauseMenu.PackUpScene += PackUp;
@@ -17,7 +19,8 @@ public class PackUpArenaManager : MonoBehaviour
 
     private void PackUp()
     {
-        ReturnActiveEntitiesToPool();
+        //StopSpawning?.Invoke();
+        //ReturnActiveEntitiesToPool();
     }
 
     private void ReturnActiveEntitiesToPool()

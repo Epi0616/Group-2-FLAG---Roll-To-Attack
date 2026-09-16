@@ -11,7 +11,7 @@ public class SceneLoadManager : MonoBehaviour
     public IEnumerator LoadSceneAsync(SceneType sceneType)
     {
         Stopwatch stopwatch = Stopwatch.StartNew();
-        AsyncOperation sceneLoad = SceneManager.LoadSceneAsync(sceneType.HumanName(), LoadSceneMode.Additive);
+        AsyncOperation sceneLoad = SceneManager.LoadSceneAsync(sceneType.ToString(), LoadSceneMode.Additive);
 
         sceneLoad.allowSceneActivation = false;
 
@@ -31,13 +31,15 @@ public class SceneLoadManager : MonoBehaviour
 
     public IEnumerator TimeSlicedSceneActivation(SceneType sceneType)
     {
-        GameObject[] rootObjects = SceneManager.GetSceneByName(sceneType.HumanName()).GetRootGameObjects();
+        GameObject[] rootObjects = SceneManager.GetSceneByName(sceneType.ToString()).GetRootGameObjects();
 
         Stopwatch stopwatch = Stopwatch.StartNew();
         stopwatch.Start();
 
         foreach (GameObject rootObject in rootObjects)
         {
+            if (rootObject == null) continue;
+
             if (rootObject.GetComponent<Camera>())
             {
                 Camera camera = rootObject.GetComponent<Camera>();
@@ -58,18 +60,18 @@ public class SceneLoadManager : MonoBehaviour
 
     public IEnumerator UnloadSceneAsync(SceneType sceneType)
     {
-        Scene selectedScene = SceneManager.GetSceneByName(sceneType.HumanName());
+        Scene selectedScene = SceneManager.GetSceneByName(sceneType.ToString());
         if (selectedScene.isLoaded)
         {
             yield return TimeSlicedSceneDeactivation(sceneType);
-            yield return SceneManager.UnloadSceneAsync(sceneType.HumanName(), UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
+            yield return SceneManager.UnloadSceneAsync(sceneType.ToString(), UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
         }
         yield return null;
     }
 
     public IEnumerator TimeSlicedSceneDeactivation(SceneType sceneType) //since ive commented out yield return null in the main loop, its not really time sliced anymore. Im just assuming the deactivation cost is drammatically lower than activation
     {
-        GameObject[] rootObjects = SceneManager.GetSceneByName(sceneType.HumanName()).GetRootGameObjects();
+        GameObject[] rootObjects = SceneManager.GetSceneByName(sceneType.ToString()).GetRootGameObjects();
 
         foreach (GameObject rootObject in rootObjects)
         {
