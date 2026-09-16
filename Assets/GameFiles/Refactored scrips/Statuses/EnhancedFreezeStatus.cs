@@ -16,22 +16,13 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     //private int damageTaken = 0;
     //private int shatterThreshold = 50;
     private string shatteredText;
-    private bool canBeShattered = false;
+    private bool canBeShattered = true;
     public EnhancedFreezeStatus(float fragileMult, string effectText, Color colour, int enhancementLevel) : base(fragileMult, effectText, colour)
     {
         this.enhancementLevel = enhancementLevel;
         this.effectColour = Color.deepSkyBlue;
         this.isStackable = true;
-        
-        //damageTaken = 0;
-        if (entityRef is BaseBossEnemy)
-        {
-            canBeShattered = false;
-        }
-        else
-        {
-            canBeShattered = true;
-        }
+
         hasProcced = false;
         shatteredText = LocalizationSettings.StringDatabase.GetLocalizedString("Damage Text Lables", "damageText.shattered");
     }
@@ -72,6 +63,15 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
         //}
 
 
+    }
+    protected override void OnApplication()
+    {
+        base.OnApplication();
+        if (entityRef is IBoss)
+        {
+            Debug.Log("Entity is IBoss");
+            canBeShattered = false;
+        }
     }
 
     protected override void OnRemoval()

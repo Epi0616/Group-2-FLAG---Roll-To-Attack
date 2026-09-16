@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &713280957238613982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3016067630764434702}
+  m_Layer: 0
+  m_Name: HeadPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3016067630764434702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713280957238613982}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 1.0520002, y: 2.972, z: 0}
+  m_LocalScale: {x: 0.19999996, y: 0.2, z: 0.19999996}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5604881529182020227}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3649137812672768618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6360365523249520666}
+  m_Layer: 0
+  m_Name: BasePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6360365523249520666
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3649137812672768618}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: -5.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3782555712502465263}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3996262433651315983
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,6 +210,7 @@ Transform:
   m_Children:
   - {fileID: 9163284785097314619}
   - {fileID: 6273326625166937886}
+  - {fileID: 6360365523249520666}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &8911969237787904498
@@ -374,8 +437,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBodySystem
   body: {fileID: 8386078929542695809}
-  headTransform: {fileID: 0}
-  baseplateTransform: {fileID: 0}
+  headTransform: {fileID: 3016067630764434702}
+  baseplateTransform: {fileID: 6360365523249520666}
   originalRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
   renderer: {fileID: 31854196036152471}
 --- !u!114 &1041424116168178060
@@ -503,6 +566,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2751084901059389616}
+    - targetCorrespondingSourceObject: {fileID: 3848525464603726931, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3016067630764434702}
     - targetCorrespondingSourceObject: {fileID: 6504283247249883518, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9147723052699911993}
@@ -770,6 +836,11 @@ Transform:
 --- !u!4 &5598097251702694061 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5399727711635728771, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
+  m_PrefabInstance: {fileID: 8692017147088139984}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5604881529182020227 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3848525464603726931, guid: ea654d0b1e5422f47be10c6796c06357, type: 3}
   m_PrefabInstance: {fileID: 8692017147088139984}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5697900571010045291 stripped
