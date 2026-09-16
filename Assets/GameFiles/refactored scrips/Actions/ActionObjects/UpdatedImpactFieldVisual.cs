@@ -25,6 +25,7 @@ public class UpdatedImpactFieldVisual : ImpactFieldVisual
         this.color = color;
         this.radius = radius;
         this.chargeTime = chargeTime;
+        startingTime = chargeTime;
         flashRed = flash;
 
         if (fadeRoutine != null)
@@ -103,7 +104,7 @@ public class UpdatedImpactFieldVisual : ImpactFieldVisual
     protected IEnumerator RingFadeIn()
     {
         //Debug.Log("Fade in started");
-        float timeElapsed = 0f;
+        timeElapsed = 0f;
         float a = 0f;
         Vector3 startScale;
         Vector3 endScale;

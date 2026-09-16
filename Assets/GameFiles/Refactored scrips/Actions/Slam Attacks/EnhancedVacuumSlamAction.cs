@@ -1,5 +1,6 @@
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class EnhancedVacuumSlamAction : BaseSlamAction , IEnhancedAbility
@@ -37,7 +38,15 @@ public class EnhancedVacuumSlamAction : BaseSlamAction , IEnhancedAbility
         GameObject vacuumMine = ObjectPoolManager.SpawnObject(vacuumAccess.enhancedMineObj, slamOrigin, Quaternion.identity);
         vacuumMine.GetComponent<NewEVacuumMine>().InitializeMine(ownerEntity, slamRange.GetFinalValue(), vacuumAccess.mineChargeTime * 1.5f, slamColour, enhancementLevel);
     }
-
+    protected override void ApplyHeavyEffectPerEntity(Entity hitEntity)
+    {
+        float percentage = slamRange.GetFinalValue() / slamRange.GetBaseValue();
+        hitEntity.OnRecieveEffect(
+            new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 1.75f * percentage),
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+            true),
+            Color.red);
+    }
     public override BaseEntityAction Clone()
     {
         return new EnhancedVacuumSlamAction(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, preventsMovement, enhancementLevel);

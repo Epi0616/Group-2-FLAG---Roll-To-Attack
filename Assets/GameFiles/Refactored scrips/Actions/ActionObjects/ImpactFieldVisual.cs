@@ -11,11 +11,14 @@ public class ImpactFieldVisual : MonoBehaviour
 
     protected Color color;
     protected float chargeTime;
+    protected float startingTime;
     protected float radius;
     [SerializeField] protected bool usesRing = true;
     [SerializeField] protected bool usesField = true;
     protected bool flashRed;
     public bool hasBeenDestroyed;
+    protected float timeElapsed;
+    protected float timeElapsed2;
 
     protected virtual void Awake()
     {
@@ -29,6 +32,7 @@ public class ImpactFieldVisual : MonoBehaviour
         this.color = color;
         this.radius = radius;
         this.chargeTime = chargeTime;
+        startingTime = chargeTime;
         flashRed = flash;
 
         if (fadeRoutine != null)
@@ -45,6 +49,14 @@ public class ImpactFieldVisual : MonoBehaviour
         fadeRoutine = StartCoroutine(ImpactFadeIn());
     }
 
+    public virtual void AddExtraDuration(float duration)
+    {
+        Debug.Log("Adding Duration: " + duration);
+        Debug.Log("Before: " + timeElapsed);
+        timeElapsed = Mathf.Clamp(timeElapsed - duration, 0, startingTime);
+        Debug.Log("After: " + timeElapsed);
+    }
+
     protected virtual void AdjustRadiusSize()
     {
         transform.localScale = new Vector3(1.0f, 0.1f, 1.0f);
@@ -57,7 +69,7 @@ public class ImpactFieldVisual : MonoBehaviour
     protected virtual IEnumerator ImpactFadeIn()
     {
         //Debug.Log("Fade in started");
-        float timeElapsed = 0f;
+        timeElapsed = 0f;
         float a = 0f;
         Vector3 startScale = Vector3.zero;
         Vector3 endScale = transform.localScale;

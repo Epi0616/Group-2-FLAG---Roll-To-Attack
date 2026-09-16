@@ -11,6 +11,7 @@ public class TranslucentImpactField : ImpactFieldVisual
         this.color.a = 0.8f;
         this.radius = radius;
         this.chargeTime = chargeTime;
+        startingTime = chargeTime;
         flashRed = flash;
 
         if (fadeRoutine != null)

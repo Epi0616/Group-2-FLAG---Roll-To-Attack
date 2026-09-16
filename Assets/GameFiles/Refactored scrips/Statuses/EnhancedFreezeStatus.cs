@@ -16,31 +16,36 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     //private int damageTaken = 0;
     //private int shatterThreshold = 50;
     private string shatteredText;
-    private bool canBeShattered = true;
+    private bool canBeShattered = false;
     public EnhancedFreezeStatus(float fragileMult, string effectText, Color colour, int enhancementLevel) : base(fragileMult, effectText, colour)
     {
         this.enhancementLevel = enhancementLevel;
         this.effectColour = Color.deepSkyBlue;
         this.isStackable = true;
-        hasProcced = false;
+        
         //damageTaken = 0;
         if (entityRef is BaseBossEnemy)
         {
             canBeShattered = false;
         }
+        else
+        {
+            canBeShattered = true;
+        }
+        hasProcced = false;
         shatteredText = LocalizationSettings.StringDatabase.GetLocalizedString("Damage Text Lables", "damageText.shattered");
     }
     protected override void ApplyOnDamageEffects(ref Stat damage, DamageType type)
     {
         if (type == DamageType.Shattered || hasProcced) { toBeRemoved = true; return; }
 
-        if ((entityRef.healthSystem.currentHealth - damage.GetFinalValue()) < ((int)entityRef.healthSystem.maxHealth.GetFinalValue() * (0.3f + (enhancementLevel / 10))))
+        if ((entityRef.healthSystem.currentHealth - damage.GetFinalValue()) < ((int)entityRef.healthSystem.maxHealth.GetFinalValue() * (0.3f + (enhancementLevel / 10f))))
         {
             if (canBeShattered && !hasProcced)
             {
                 hasProcced = true;
-                Vector3 newPos = entityRef.transform.position;
-                newPos.y += 5;
+                Vector3 newPos = entityRef.bodySystem.headTransform.transform.position;
+                
                 ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), newPos, Quaternion.Euler(90, 0, 0)).
                 GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
                     new BurstCountEffectOverride(new rangePair(3, 5)),

@@ -1,5 +1,6 @@
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class VacuumMineSlamAction : BaseSlamAction , IUpgradableAbility
@@ -37,6 +38,16 @@ public class VacuumMineSlamAction : BaseSlamAction , IUpgradableAbility
     {
         GameObject vacuumMine = ObjectPoolManager.SpawnObject(vacuumAccess.mineObj, slamOrigin, Quaternion.identity);
         vacuumMine.GetComponent<NewVacuumMine>().InitializeMine(ownerEntity, slamRange.GetFinalValue(), vacuumAccess.mineChargeTime, slamColour);
+    }
+
+    protected override void ApplyHeavyEffectPerEntity(Entity hitEntity)
+    {
+        float percentage = slamRange.GetFinalValue() / slamRange.GetBaseValue();
+        hitEntity.OnRecieveEffect(
+            new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 1.75f * percentage),
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+            true),
+            Color.red);
     }
 
     public override BaseEntityAction Clone()

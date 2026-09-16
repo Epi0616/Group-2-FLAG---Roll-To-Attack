@@ -51,7 +51,7 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
                 if ( hitEntity == entityRef) { continue; }
                 if ( hitEntity == null ) { continue; }
                 //Debug.Log("Weaken Burst");
-                hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(1.5f + (enhancementLevel / 5), effectText),
+                hitEntity.OnRecieveEffect(new ActiveStatusEffect(new WeakenStatus(1.5f + (enhancementLevel / 2), effectText),
                 new List<BaseCondition> { new TimeCondition(true, 5f) }, true));
             }
             

@@ -8,6 +8,7 @@ public class NewEVacuumMine : NewVacuumMine
     private int enhancementLevel = 1;
     private List<ActiveStatusEffect> heldEffects;
     private float heldDamage;
+    private float chargeTime;
 
     //private bool isSetup = false;
 
@@ -21,6 +22,7 @@ public class NewEVacuumMine : NewVacuumMine
         age = 0;
         base.Initialize();
         detonated = false;
+        collapseStarted = false;
         this.ownerEntity = ownerEntity;
         this.enhancementLevel = enhancementLevel;
         this.range = range + this.enhancementLevel * 2;
@@ -30,6 +32,7 @@ public class NewEVacuumMine : NewVacuumMine
         fieldColour.a = 0.05f;
         // Potentially scale the duration of the mine
         timer = chargeTime;
+        this.chargeTime = chargeTime;
         //this.gameObject.layer = 14;        
         heldDamage = 0;
         healthSystem.isDead = false;
@@ -39,11 +42,19 @@ public class NewEVacuumMine : NewVacuumMine
 
     public override void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
+        //if (age < 1) return;
+        if (!collapseStarted)
+        {
+            impactfield.AddExtraDuration(1);
+            timer = Mathf.Clamp(1 + timer, 0, chargeTime);
+        }
+        
         float storeAmount = (amount / 2) / Mathf.Clamp((1 / enhancementLevel), 1, 999);
         if (storeAmount <= 0) { storeAmount = 1; }
         heldDamage += storeAmount;
         float size = Mathf.Clamp(10 + (storeAmount * 1.1f), 48f, 240f);
         textDisplaySystem.DisplayText(storeAmount.ToString(), fieldColour, (int)size);
+        
     }
 
     public override void OnRecieveEffect(ActiveStatusEffect statusEffect, Color effectColour)
@@ -112,6 +123,7 @@ public class NewEVacuumMine : NewVacuumMine
         //}
         //Debug.Log("Effects Cleared");
         heldEffects.Clear();
+        age = 0;
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

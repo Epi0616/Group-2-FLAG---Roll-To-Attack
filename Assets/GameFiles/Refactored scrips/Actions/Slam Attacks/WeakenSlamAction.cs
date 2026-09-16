@@ -27,6 +27,16 @@ public class WeakenSlamAction : BaseSlamAction, IUpgradableAbility
                 new List<BaseCondition> { new TimeCondition(true, WeakenDuration) }, true));
     }
 
+    protected override void ApplyHeavyEffectPerEntity(Entity hitEntity)
+    {
+        float percentage = slamRange.GetFinalValue() / slamRange.GetBaseValue();
+        hitEntity.OnRecieveEffect(
+            new ActiveStatusEffect(new KnockbackEffect(ownerEntity.transform.position, 1f * percentage),
+            new List<BaseCondition> { new GroundedCondition(), new TimeCondition(true, 0.75f) },
+            true),
+            Color.red);
+    }
+
     public override BaseEntityAction Clone()
     {
         return new WeakenSlamAction(lightImpactNoise, heavyImpactNoise, slamDamage, chargeTime, slamRange.GetBaseValue(), slamPositionOffset, slamColour, WeakenDuration, preventsMovement, upgradeResult);

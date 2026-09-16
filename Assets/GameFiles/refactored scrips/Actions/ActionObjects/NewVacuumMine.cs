@@ -25,6 +25,7 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
 
     public Rigidbody rigidbBody;
     public Rigidbody rb { get => rigidbBody; set => rigidbBody = value; }
+    protected bool collapseStarted;
 
     protected override void Start()
     {
@@ -36,6 +37,7 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
     public void InitializeMine(Entity ownerEntity, float range, float chargeTime, Color colour)
     {
         detonated = false;
+        collapseStarted = false;
         this.ownerEntity = ownerEntity;
         this.range = range;
         blackHoleVisual = ObjectPoolManager.SpawnObject(BlackHolePrefab, transform.position, Quaternion.Euler(0, 0, 0)).GetComponent<BlackHole>();
@@ -178,10 +180,12 @@ public class NewVacuumMine : Entity , IKnockbackable, IUsesRigidBody
                 if (blackHoleVisual != null)
                 {
                     blackHoleVisual.DestroyMe(0.5f);
+                    collapseStarted = true;
                 }
-                blackHoleVisual.StopEmission();
+                //blackHoleVisual.StopEmission();
                 //AudioManager.instance.PlayRandomSoundClip(mineDetonated, new Vector3(0, 0, 0), 1f);
                 hasPlayedSFX = true;
+                collapseStarted = true;
             }
 
             yield return null;

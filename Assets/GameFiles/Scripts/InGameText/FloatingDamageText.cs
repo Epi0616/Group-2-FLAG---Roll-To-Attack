@@ -37,10 +37,12 @@ public class FloatingDamageText : MonoBehaviour
         transform.rotation = targetCamera.transform.rotation;
         transform.position += Vector3.up * Time.deltaTime * 3f;
         transform.localScale *= 0.999f;
+        
     }
 
     private IEnumerator DestroyRoutine()
     {
+        while (transform.localScale.x > 0.1f) { yield return null; }
         ObjectPoolManager.ReturnObjectToPool(gameObject, lifeTime);
         yield return null;
     }

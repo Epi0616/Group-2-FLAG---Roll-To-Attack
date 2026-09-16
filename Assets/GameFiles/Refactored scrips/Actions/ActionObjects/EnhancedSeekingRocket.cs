@@ -206,7 +206,7 @@ public class EnhancedSeekingRocket : SeekingRocket
         //    groundedPosition = new(transform.position.x, entity.bodySystem.baseplateTransform.transform.position.y, transform.position.z);
         //}
         // needs adjusting if enemies can ever reach an elevated position.
-        entity.OnTakeDamage(9 + enhancementLevel, Color.lightGray, DamageType.Explosive);
+        entity.OnTakeDamage(10 + (enhancementLevel * 5), Color.lightGray, DamageType.Explosive);
         //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
         ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(CurrentAoE, 1f, 0.5f, 1f);
         hitCount++;
