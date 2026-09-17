@@ -1281,6 +1281,67 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 5, z: 21.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &243815957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 243815959}
+  - component: {fileID: 243815958}
+  m_Layer: 0
+  m_Name: AbilityLookUpTable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &243815958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243815957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e90595c314aaa1c4cb88d6b2f2ff8b9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityLookUpTable
+  abilityObjTypePairs:
+  - type: 1
+    abilityObj: {fileID: 11400000, guid: 906edb96b4333f549bf25bd5715f4799, type: 2}
+  - type: 2
+    abilityObj: {fileID: 11400000, guid: 1767bf0014bdffd4fb9d5197fc3308b5, type: 2}
+  - type: 3
+    abilityObj: {fileID: 11400000, guid: 6adfe746f74e6524eb1ae508bd71a40b, type: 2}
+  - type: 4
+    abilityObj: {fileID: 11400000, guid: 5ab76c7681e129c4fb7e76df91c9b92a, type: 2}
+  - type: 5
+    abilityObj: {fileID: 11400000, guid: 7411c24d55c9d1b409f5345eec693684, type: 2}
+  - type: 6
+    abilityObj: {fileID: 11400000, guid: 77ffb5da352512545b322ecaa069744a, type: 2}
+  - type: 7
+    abilityObj: {fileID: 11400000, guid: 4626ae10d0001ba4f8d6e1066e7667ac, type: 2}
+  - type: 8
+    abilityObj: {fileID: 11400000, guid: 221b13df5cb0392419f0e4f4ba39c4c2, type: 2}
+--- !u!4 &243815959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243815957}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.3503, y: 0, z: -203.82983}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &250418939
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,6 +1673,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0239510fc97294e985788590ff3436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunTimeStatTracker
+  runTimeStats:
+    totalDamageDealt: 0
+    totalTimeSurvived: 0
+    waveNumber: 0
+    numberOfAttacks: 0
+    totalEnemiesKilled: 0
 --- !u!4 &298410653
 Transform:
   m_ObjectHideFlags: 0
@@ -16173,7 +16240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3994452088990171394, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: visibleForTesting
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3994452088990171394, guid: dd5faf42442ff9e429ad66266e26eaf7, type: 3}
       propertyPath: AbilitySelectionPrefab
@@ -16802,6 +16869,7 @@ SceneRoots:
   - {fileID: 1673683088}
   - {fileID: 1383465985}
   - {fileID: 949880575}
+  - {fileID: 243815959}
   - {fileID: 1912225069}
   - {fileID: 612453873528901309}
   - {fileID: 1502047340}
