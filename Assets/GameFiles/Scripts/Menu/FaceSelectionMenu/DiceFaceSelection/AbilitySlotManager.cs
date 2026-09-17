@@ -46,7 +46,7 @@ public class AbilitySlotManager : MonoBehaviour
 
     public void Unpack()
     {
-        if (!storageSetUp)
+        if (!storageSetUp && abilityStorageLayout != null)
         {
             LayoutRebuilder.ForceRebuildLayoutImmediate(abilityStorageLayout.GetComponent<RectTransform>());
             storageSetUp = true;
