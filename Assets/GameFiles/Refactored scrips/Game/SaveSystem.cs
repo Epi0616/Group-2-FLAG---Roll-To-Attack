@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
@@ -49,7 +50,7 @@ public class SaveSystem : MonoBehaviour
     private GameSaveData CreateNewSave()
     {
         int seed = (int)DateTime.Now.Ticks;
-        GameSaveData newSave = new GameSaveData(100, 100, 1, false, new List<IndexedModifiableAction>(), new RunTimeStats(), seed);
+        GameSaveData newSave = new GameSaveData(100, 100, 1, false, new List<AbilityData>(), new List<AbilityData>(), new RunTimeStats(), seed);
         SaveGameData(newSave);
 
         return newSave;
@@ -63,19 +64,36 @@ public class GameSaveData
     public int waveNumber;
     public bool waveCleared;
 
-    public List<IndexedModifiableAction> playerAbilities;
+    public List<AbilityData> playerAbilityData;
+    public List<AbilityData> playerStorageData;
     public RunTimeStats runTimeStats;
 
     public int seed;
 
-    public GameSaveData(int currentHp, int maxHp, int waveNumber, bool waveCleared, List<IndexedModifiableAction> playerAbilities, RunTimeStats runTimeStats, int seed)
+    public GameSaveData(int currentHp, int maxHp, int waveNumber, bool waveCleared, List<AbilityData> playerAbilityData, List<AbilityData> playerStorageData, RunTimeStats runTimeStats, int seed)
     {
         this.currentHp = currentHp;
         this.maxHp = maxHp;
         this.waveNumber = waveNumber;
         this.waveCleared = waveCleared;
-        this.playerAbilities = playerAbilities;
+        this.playerAbilityData = playerAbilityData;
+        this.playerStorageData = playerStorageData;
         this.runTimeStats = runTimeStats;
         this.seed = seed;
+    }
+}
+
+[Serializable]
+public class AbilityData
+{
+    public int index;
+    public int level;
+    public AbilityType type;
+
+    public AbilityData(int index, int level, AbilityType type)
+    { 
+        this.index = index;
+        this.level = level;
+        this.type = type;
     }
 }

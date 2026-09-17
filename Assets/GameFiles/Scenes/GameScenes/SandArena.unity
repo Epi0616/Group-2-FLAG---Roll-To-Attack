@@ -2012,6 +2012,67 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &1349779338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1349779340}
+  - component: {fileID: 1349779339}
+  m_Layer: 0
+  m_Name: AbilityLookUpTable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1349779339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349779338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e90595c314aaa1c4cb88d6b2f2ff8b9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityLookUpTable
+  abilityObjTypePairs:
+  - type: 1
+    abilityObj: {fileID: 11400000, guid: 906edb96b4333f549bf25bd5715f4799, type: 2}
+  - type: 2
+    abilityObj: {fileID: 11400000, guid: 1767bf0014bdffd4fb9d5197fc3308b5, type: 2}
+  - type: 3
+    abilityObj: {fileID: 11400000, guid: 6adfe746f74e6524eb1ae508bd71a40b, type: 2}
+  - type: 4
+    abilityObj: {fileID: 11400000, guid: 5ab76c7681e129c4fb7e76df91c9b92a, type: 2}
+  - type: 5
+    abilityObj: {fileID: 11400000, guid: 7411c24d55c9d1b409f5345eec693684, type: 2}
+  - type: 6
+    abilityObj: {fileID: 11400000, guid: 77ffb5da352512545b322ecaa069744a, type: 2}
+  - type: 7
+    abilityObj: {fileID: 11400000, guid: 4626ae10d0001ba4f8d6e1066e7667ac, type: 2}
+  - type: 8
+    abilityObj: {fileID: 11400000, guid: 221b13df5cb0392419f0e4f4ba39c4c2, type: 2}
+--- !u!4 &1349779340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349779338}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.3503, y: 0, z: -203.82983}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1350689184
 GameObject:
   m_ObjectHideFlags: 0
@@ -4704,6 +4765,8 @@ NavMeshObstacle:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1349779340}
+  - {fileID: 229220260}
   - {fileID: 1414483120}
   - {fileID: 1640895912}
   - {fileID: 2103052290}
@@ -4722,4 +4785,3 @@ SceneRoots:
   - {fileID: 412838000}
   - {fileID: 406746090}
   - {fileID: 165164847}
-  - {fileID: 229220260}

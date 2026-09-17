@@ -35,6 +35,7 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
         abilitySelectionManager = AbilitySelectionUI.GetComponent<AbilitySelectionManager>();
 
         abilitySelectionManager.Initialize();
+        abilitySlotManager.CreateStorageSlots();
 
         DiceFaceSelectionUI.SetActive(false);
         AbilitySelectionUI.SetActive(visibleForTesting);

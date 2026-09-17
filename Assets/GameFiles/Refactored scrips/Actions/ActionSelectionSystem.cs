@@ -16,19 +16,21 @@ public class ActionSelectionSystem
 
     public void SetIndexedModifiableActions(List<IndexedModifiableAction> newIndexedActions)
     {
-        modifiableActions.playerLoadOut.WriteAbilities(newIndexedActions);
+        modifiableActions.playerLoadOut.abilities = newIndexedActions;
 
         modifiableActions.indexedModifiableActions = newIndexedActions;
         UpdateAbilityDisplay();
     }
-    public void SetModifiableActionStorage(List<ModifiableAction> newActions)
+    public void SetIndexedModifiableActionStorage(List<IndexedModifiableAction> newActions)
     {
-        modifiableActions.modifiableActionStorage = newActions;
+        modifiableActions.playerLoadOut.storage = newActions;
+
+        modifiableActions.indexedModifiableActionStorage = newActions;
     }
 
     public void UpdateAbilityDisplay()
     {
-        List<IndexedModifiableAction> indexedModifiableActions = modifiableActions.playerLoadOut.ReadAbilities();
+        List<IndexedModifiableAction> indexedModifiableActions = modifiableActions.playerLoadOut.abilities;
 
         for (int i = 0; i < modifiableActions.displaySlots.Length; i++)
         {

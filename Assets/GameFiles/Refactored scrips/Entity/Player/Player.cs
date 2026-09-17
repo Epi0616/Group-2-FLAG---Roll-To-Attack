@@ -57,15 +57,15 @@ public class Player : Entity,
     [Header("IModifiableActions")]
     [SerializeField] private ModifiableActionDescriptor BaseAction;
     [SerializeField] private int MaxActions = 6;
-    [SerializeField] private List<ModifiableActionDescriptor> ModifiableActionDescriptors = new List<ModifiableActionDescriptor>();
+    [SerializeField] private List<ModifiableActionDescriptor> ModifiableActionDescriptors = new ();
     [SerializeField] private PlayerLoadOut PlayerLoadOut;
     [SerializeField] private SpriteRenderer[] DiceFaceDisplaySlots;
-    private List<IndexedModifiableAction> IndexedModifiableActions = new List<IndexedModifiableAction>();
-    private List<ModifiableAction> ModifiableActionStorage = new List<ModifiableAction>();
+    private List<IndexedModifiableAction> IndexedModifiableActions = new ();
+    private List<IndexedModifiableAction> IndexedModifiableActionStorage = new ();
     public ModifiableAction baseAction { get; set; }
     public int maxActions { get => MaxActions; set => MaxActions = value; }
     public List<IndexedModifiableAction> indexedModifiableActions { get => IndexedModifiableActions; set => IndexedModifiableActions = value; }
-    public List<ModifiableAction> modifiableActionStorage { get => ModifiableActionStorage; set => ModifiableActionStorage = value; }
+    public List<IndexedModifiableAction> indexedModifiableActionStorage { get => IndexedModifiableActionStorage; set => IndexedModifiableActionStorage = value; }
     public ActionSelectionSystem actionSelectionSystem { get; set; }
     public PlayerLoadOut playerLoadOut { get => PlayerLoadOut; set => PlayerLoadOut = value; }
     public SpriteRenderer[] displaySlots { get => DiceFaceDisplaySlots; set => DiceFaceDisplaySlots = value; }
@@ -172,12 +172,13 @@ public class Player : Entity,
         SetUpArenaManager.setUpPlayer -= SetUpPlayerFromIntro;
     }
 
-    private void SetUpPlayerFromIntro(int currentHp, int maxHP, List<IndexedModifiableAction> indexedModifiableActions)
+    private void SetUpPlayerFromIntro(int currentHp, int maxHP, List<IndexedModifiableAction> indexedModifiableActions, List<IndexedModifiableAction> indexedModifiableActionStorage)
     {
         healthSystem.currentHealth = currentHp;
         healthSystem.maxHealth.SetBaseValue(maxHP);
         
         actionSelectionSystem.SetIndexedModifiableActions(indexedModifiableActions);
+        actionSelectionSystem.SetIndexedModifiableActionStorage(indexedModifiableActionStorage);
     }
 
     protected override void Start()

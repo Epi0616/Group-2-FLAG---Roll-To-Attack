@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         int seed = (int)DateTime.Now.Ticks;
-        gameSaveData = new GameSaveData(100, 100, 1, false, new List<IndexedModifiableAction>(), new RunTimeStats(), seed);
+        gameSaveData = new GameSaveData(100, 100, 1, false, new List<AbilityData>(), new List<AbilityData>(), new RunTimeStats(), seed);
     }
 
     public void LoadGame()

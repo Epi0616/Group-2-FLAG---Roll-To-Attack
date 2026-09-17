@@ -6,17 +6,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerLoadOut", menuName = "Scriptable Objects/PlayerLoadOut")]
 public class PlayerLoadOut : ScriptableObject
 {
-    private List<IndexedModifiableAction> abilities = new();
+    private List<IndexedModifiableAction> Abilities = new();
+    private List<IndexedModifiableAction> Storgae = new();
 
-    public void WriteAbilities(List<IndexedModifiableAction> newAbilities)
-    {
-        abilities = newAbilities;
-    }
-
-    public List<IndexedModifiableAction> ReadAbilities()
-    {
-        return abilities;
-    }
+    public List<IndexedModifiableAction> abilities { get => Abilities; set => Abilities = value; }
+    public List<IndexedModifiableAction> storage { get => Storgae; set => Storgae = value; }
 }
 
 [Serializable]
