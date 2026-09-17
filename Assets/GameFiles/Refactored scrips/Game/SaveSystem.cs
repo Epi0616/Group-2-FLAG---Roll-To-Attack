@@ -50,7 +50,7 @@ public class SaveSystem : MonoBehaviour
     private GameSaveData CreateNewSave()
     {
         int seed = (int)DateTime.Now.Ticks;
-        GameSaveData newSave = new GameSaveData(100, 100, 1, false, new List<AbilityData>(), new RunTimeStats(), seed);
+        GameSaveData newSave = new GameSaveData(100, 100, 1, false, new List<AbilityData>(), new List<AbilityData>(), new RunTimeStats(), seed);
         SaveGameData(newSave);
 
         return newSave;
@@ -65,17 +65,19 @@ public class GameSaveData
     public bool waveCleared;
 
     public List<AbilityData> playerAbilityData;
+    public List<AbilityData> playerStorageData;
     public RunTimeStats runTimeStats;
 
     public int seed;
 
-    public GameSaveData(int currentHp, int maxHp, int waveNumber, bool waveCleared, List<AbilityData> playerAbilityData, RunTimeStats runTimeStats, int seed)
+    public GameSaveData(int currentHp, int maxHp, int waveNumber, bool waveCleared, List<AbilityData> playerAbilityData, List<AbilityData> playerStorageData, RunTimeStats runTimeStats, int seed)
     {
         this.currentHp = currentHp;
         this.maxHp = maxHp;
         this.waveNumber = waveNumber;
         this.waveCleared = waveCleared;
         this.playerAbilityData = playerAbilityData;
+        this.playerStorageData = playerStorageData;
         this.runTimeStats = runTimeStats;
         this.seed = seed;
     }

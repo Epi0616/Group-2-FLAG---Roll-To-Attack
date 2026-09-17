@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class AbilitySlotManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class AbilitySlotManager : MonoBehaviour
     [SerializeField] private GameObject abilityObjectPrefab;
     [SerializeField] private ModifiableActionDescriptor fillAbility;
 
-    [SerializeField] private GameObject AbilityStorageLayoutObj;
+    [SerializeField] private GridLayoutGroup abilityStorageLayout;
     [SerializeField] private GameObject abilitySlotPrefab;
     [SerializeField] private int storageSlotCount = 0;
 
@@ -23,6 +24,7 @@ public class AbilitySlotManager : MonoBehaviour
     private IModifiableActions modifiableActions;
     private AbilityDropZoneParent highlightedDropZone;
     private List<GameObject> draggableObjects = new List<GameObject>();
+    private bool storageSetUp = false;
 
     private void OnEnable()
     {
@@ -39,15 +41,17 @@ public class AbilitySlotManager : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         modifiableActions = player as IModifiableActions;
-    }
-
-    private void Start()
-    {
-        CreateStorageSlots();
+        storageSetUp = false;
     }
 
     public void Unpack()
     {
+        if (!storageSetUp)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(abilityStorageLayout.GetComponent<RectTransform>());
+            storageSetUp = true;
+        }
+
         SetUpCurrentDiceFaces();
         SetUpCurrentStorage();
     }
@@ -57,14 +61,17 @@ public class AbilitySlotManager : MonoBehaviour
         DestroyDraggableObjects();
     }
 
-    private void CreateStorageSlots()
+    public void CreateStorageSlots()
     {
         for (int i = 0; i < storageSlotCount; i++)
         {
-            GameObject currentSlotObj = Instantiate(abilitySlotPrefab, AbilityStorageLayoutObj.transform);
+            GameObject currentSlotObj = Instantiate(abilitySlotPrefab, abilityStorageLayout.gameObject.transform);
             AbilitySlot currentSlot = currentSlotObj.GetComponent<AbilitySlot>();
             abilityStorage.Add(currentSlot);
         }
+        //abilityStorageLayout.gameObject.SetActive(true);
+        //LayoutRebuilder.MarkLayoutForRebuild(abilityStorageLayout.GetComponent<RectTransform>());
+        //abilityStorageLayout.gameObject.SetActive(false);
     }
 
     private void SetUpCurrentDiceFaces()
@@ -88,14 +95,21 @@ public class AbilitySlotManager : MonoBehaviour
 
     private void SetUpCurrentStorage()
     {
-        List<ModifiableAction> abilities = modifiableActions.modifiableActionStorage;
+        List<IndexedModifiableAction> indexedModifiableActions = modifiableActions.indexedModifiableActionStorage;
 
-        for (int i = 0; i < abilities.Count; i++)
+        for (int i = 0; i < abilityStorage.Count; i++)
         {
-            var tempObj = Instantiate(abilityObjectPrefab, transform);
-            tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(abilities[i]);
-            abilityStorage[i].TryAddChild(tempObj.GetComponent<DraggableAbility>());
-            draggableObjects.Add(tempObj);
+            for (int j = 0; j < indexedModifiableActions.Count; j++)
+            {
+                if (indexedModifiableActions[j].index == i)
+                {
+                    var tempObj = Instantiate(abilityObjectPrefab, transform);
+                    tempObj.GetComponent<DraggableAbility>().SetEquippableAbility(indexedModifiableActions[j].modifiableAction);
+                    abilityStorage[i].TryAddChild(tempObj.GetComponent<DraggableAbility>());
+                    abilityStorage[i].SetCentralAbilitySlot(centralAbilityPoint);
+                    draggableObjects.Add(tempObj);
+                }
+            }
         }
     }
 
@@ -118,7 +132,7 @@ public class AbilitySlotManager : MonoBehaviour
         modifiableActions.actionSelectionSystem.SetIndexedModifiableActions(currentAbilities);
        // modifiableActions.UnpackModifiableActions();
 
-        List<ModifiableAction> currentAbilityStorage = new List<ModifiableAction>();
+        List<IndexedModifiableAction> currentAbilityStorage = new List<IndexedModifiableAction>();
         for (int i = 0; i < abilityStorage.Count; i++)
         {
             var draggableObject = abilityStorage[i].GetChild();
@@ -126,10 +140,11 @@ public class AbilitySlotManager : MonoBehaviour
 
             if (draggableObject is DraggableAbility ability)
             {
-                currentAbilityStorage.Add(ability.GetAbility());
+                IndexedModifiableAction indexedModifiableAction = new IndexedModifiableAction(i, ability.GetAbility());
+                currentAbilityStorage.Add(indexedModifiableAction);
             }
         }
-        modifiableActions.actionSelectionSystem.SetModifiableActionStorage(currentAbilityStorage);
+        modifiableActions.actionSelectionSystem.SetIndexedModifiableActionStorage(currentAbilityStorage);
     }
 
     private void DestroyDraggableObjects()

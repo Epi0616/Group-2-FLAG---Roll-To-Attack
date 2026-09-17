@@ -29,11 +29,12 @@ public class ArenaSaveOnExit : MonoBehaviour
         int maxHp = (int)player.healthSystem.maxHealth.GetFinalValue();
         int waveNumber = waveManager.currentWaveIndex;
         bool waveCleared = waveManager.waveCleared;
-        List<AbilityData> playerAbilities = ConvertActionsToAbilityData(player.playerLoadOut.ReadAbilities());
+        List<AbilityData> playerAbilities = ConvertActionsToAbilityData(player.playerLoadOut.abilities);
+        List<AbilityData> playerInventory = ConvertActionsToAbilityData(player.playerLoadOut.storage);
         RunTimeStats runTimeStats = RunTimeStatTracker.instance.runTimeStats;
         int seed = GameManager.instance.gameSaveData.seed;
 
-        GameSaveData currentSaveData = new GameSaveData(currentHp, maxHp, waveNumber, waveCleared, playerAbilities, runTimeStats, seed);
+        GameSaveData currentSaveData = new GameSaveData(currentHp, maxHp, waveNumber, waveCleared, playerAbilities, playerInventory, runTimeStats, seed);
         SaveSystem.instance.SaveGameData(currentSaveData);
         GameManager.instance.gameSaveData = currentSaveData;
     }
@@ -44,8 +45,13 @@ public class ArenaSaveOnExit : MonoBehaviour
         foreach (var indexedAction in indexedModifiableActions)
         { 
             int index = indexedAction.index;
-            int level = indexedAction.modifiableAction.enhancementLevel;
+            int level = 0;
             AbilityType type = indexedAction.modifiableAction.abilityType;
+
+            if (indexedAction.modifiableAction.conditionalAction.action is IEnhancedAbility temp)
+            {
+                level = temp.enhancementLevel;
+            }
 
             returnList.Add(new AbilityData(index, level, type));
         }
