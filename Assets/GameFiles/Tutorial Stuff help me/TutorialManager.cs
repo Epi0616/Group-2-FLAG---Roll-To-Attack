@@ -105,7 +105,7 @@ public class TutorialManager : MonoBehaviour
 
         foreach (ModifiableActionDescriptor mod in storageActions)
         {
-            player.modifiableActionStorage.Add(mod.Create());
+            player.indexedModifiableActionStorage.Add(new IndexedModifiableAction(0, mod.Create()));
         }
 
 

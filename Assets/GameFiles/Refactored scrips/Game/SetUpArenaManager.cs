@@ -1,11 +1,10 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using NUnit.Framework.Constraints;
 
 public class SetUpArenaManager : MonoBehaviour
 {
-    public static event Action<int, int, List<IndexedModifiableAction>> setUpPlayer;
+    public static event Action<int, int, List<IndexedModifiableAction>, List<IndexedModifiableAction>> setUpPlayer;
     public static event Action<int, bool> SetUpWavePosition;
 
     private void OnEnable()
@@ -23,7 +22,8 @@ public class SetUpArenaManager : MonoBehaviour
         GameSaveData currentSaveData = GameManager.instance.gameSaveData;
 
         List<IndexedModifiableAction> playerAbilities = ConvertAbilityDataToIndexedActions(currentSaveData.playerAbilityData);
-        setUpPlayer?.Invoke(currentSaveData.currentHp, currentSaveData.maxHp, playerAbilities);
+        List<IndexedModifiableAction> playerStorage = ConvertAbilityDataToIndexedActions(currentSaveData.playerStorageData);
+        setUpPlayer?.Invoke(currentSaveData.currentHp, currentSaveData.maxHp, playerAbilities, playerStorage);
         SetUpWavePosition?.Invoke(currentSaveData.waveNumber, currentSaveData.waveCleared);
 
         RunTimeStatTracker.instance.runTimeStats = currentSaveData.runTimeStats;
@@ -53,6 +53,6 @@ public class SetUpArenaManager : MonoBehaviour
         ModifiableAction upgradedAbility = upgradableAbility.upgradeResult.Create();
         upgradedAbility.UpdateEnhancementLevel(level);
 
-        return modifiableAction;
+        return upgradedAbility;
     }
 }
