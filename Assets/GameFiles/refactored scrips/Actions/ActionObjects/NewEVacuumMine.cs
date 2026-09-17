@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -48,9 +47,15 @@ public class NewEVacuumMine : NewVacuumMine
         //if (age < 1) return;
         if (!collapseStarted && extraDuration < maxExtraDuration)
         {
-            impactfield.AddExtraDuration(1);
+            float currentTime = timer;
             timer = Mathf.Clamp(1 + timer, 0, chargeTime);
-            extraDuration++;
+            float add = timer - currentTime;
+            impactfield.AddExtraDuration(add);
+            extraDuration += add;
+
+            //timer = Mathf.Clamp(1 + timer, 0, chargeTime);
+            //impactfield.AddExtraDuration(1);
+            //extraDuration++;
         }
         
         float storeAmount = (amount / 2) / Mathf.Clamp((1 / enhancementLevel), 1, 999);

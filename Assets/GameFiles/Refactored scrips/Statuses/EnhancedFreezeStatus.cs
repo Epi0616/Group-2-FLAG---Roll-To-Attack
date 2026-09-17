@@ -35,7 +35,12 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
             if (canBeShattered && !hasProcced)
             {
                 hasProcced = true;
-                Vector3 newPos = entityRef.bodySystem.headTransform.transform.position;
+                Vector3 newPos = entityRef.transform.position;
+                if (entityRef.bodySystem.headTransform != null)
+                {
+                    newPos = entityRef.bodySystem.headTransform.transform.position;
+                }
+
                 
                 ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.RockBurst01), newPos, Quaternion.Euler(90, 0, 0)).
                 GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> {
@@ -67,11 +72,15 @@ public class EnhancedFreezeStatus : FreezeStatus , IEnhancedStatusEffect
     protected override void OnApplication()
     {
         base.OnApplication();
-        if (entityRef is IBoss)
+        if (entityRef != null)
         {
-            Debug.Log("Entity is IBoss");
-            canBeShattered = false;
+            if (entityRef is IBoss || entityRef is NewEVacuumMine)
+            {
+                //Debug.Log("Entity is IBoss");
+                canBeShattered = false;
+            }
         }
+        
     }
 
     protected override void OnRemoval()

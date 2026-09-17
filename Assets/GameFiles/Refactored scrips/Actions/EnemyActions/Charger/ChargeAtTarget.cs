@@ -64,6 +64,9 @@ public class ChargeAtTarget : BaseEntityAction
 
         navAgent.DisableAIAgent();
         crashCollider.hasCrashed = false;
+
+        ownerEntity.bodySystem.ApplyShader(Color.red, chargeTime + 0.2f, ShaderType.Charging);
+
         actionRoutine = ownerEntity.StartCoroutine(Action());
     }
 
@@ -95,6 +98,8 @@ public class ChargeAtTarget : BaseEntityAction
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), ownerEntity.transform.position + (ownerEntity.transform.forward * 3), Quaternion.Euler(90, 0, 0)).
                GetComponent<ParticleEffectInstance>().PlayParticleEffect(new EffectSettings(new List<EffectOverride> { new BurstCountEffectOverride(new rangePair(15, 20)) }));
 
+        
+
         while (!crashCollider.hasCrashed)
         {
             Vector3 aplliedForce = force * moveable.movementSpeed.GetFinalValue();
@@ -116,6 +121,7 @@ public class ChargeAtTarget : BaseEntityAction
     private IEnumerator Crash()
     {
         yield return new WaitForSeconds(0.05f);
+        ownerEntity.bodySystem.RemoveShader(0.2f, ShaderType.Charging);
         Vector3 normal = (ownerEntity.transform.position - crashCollider.crashPosition).normalized;
         Quaternion rot = Quaternion.LookRotation(normal);
         ObjectPoolManager.SpawnObject(ParticleEffectDatabase.Instance.ReturnParticlePrefab(ParticleType.SmokeBurst01), crashCollider.crashPosition, Quaternion.Euler(90, 0, 0)).
