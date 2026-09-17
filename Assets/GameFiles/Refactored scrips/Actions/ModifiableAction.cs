@@ -62,6 +62,7 @@ public class ModifiableAction
     }
 }
 
+[Serializable]
 public enum AbilityType
 {
     Basic,

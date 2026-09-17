@@ -97,7 +97,6 @@ public class AbilitySelectionManager : MonoBehaviour
 
         int iterations = Mathf.CeilToInt((float)randomSequence.NextDouble() * (maximumLevelChance - minimumLevelChance) + minimumLevelChance) - 1;
 
-
         if (iterations <= 0) return ability;
         ModifiableAction upgradedAbility = upgradableAbility.upgradeResult.Create();
         upgradedAbility.UpdateEnhancementLevel(iterations);

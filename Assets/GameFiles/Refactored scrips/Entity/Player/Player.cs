@@ -178,6 +178,14 @@ public class Player : Entity,
         healthSystem.maxHealth.SetBaseValue(maxHP);
         
         actionSelectionSystem.SetIndexedModifiableActions(indexedModifiableActions);
+
+        foreach (var indexedMofifiableAction in indexedModifiableActions)
+        {
+            ModifiableAction action = indexedMofifiableAction.modifiableAction;
+            Debug.Log($"sprite {action.sprite}");
+            Debug.Log($"color {action.abilityColour}");
+            Debug.Log($"action {action.conditionalAction}");
+        }
     }
 
     protected override void Start()
