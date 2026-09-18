@@ -23,7 +23,7 @@ public class EntityInputManager : MonoBehaviour
     }
 
     public void Initialise(Entity entity)
-    { 
+    {
         ownerEntity = entity;
         grounded = entity as IGrounded;
     }

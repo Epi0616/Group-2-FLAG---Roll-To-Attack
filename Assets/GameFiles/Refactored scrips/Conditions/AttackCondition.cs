@@ -13,6 +13,7 @@ public class AttackCondition : BaseCondition
     public AttackCondition() { }
     public override void Initialize(Entity entity)
     {
+        Debug.Log("initialize attack condition");
         ownerEntity = entity;
         usesEntityInput = entity as IUsesEntityInput;
         jumpable = entity as IJumpable;
@@ -23,12 +24,15 @@ public class AttackCondition : BaseCondition
         if (usesEntityInput == null) return;
 
         float holdTime = usesEntityInput.inputManager.holdTime;
+        Debug.Log($"hold time {holdTime}");
         if (usesEntityInput.inputManager.attack.action.WasPressedThisFrame())
         { 
             conditionMet = true;
+            Debug.Log("attack pressed");
         }
         else if (usesEntityInput.inputManager.attack.action.WasReleasedThisFrame() && holdTime >= 0.2f)
         {
+            Debug.Log("attack released");
             conditionMet = true;
             jumpable.jumpHeight.AddMultiplierFlat(holdTime * 1.5f);
             jumpable.impactSpeed.AddMultiplierFlat(holdTime * 2);

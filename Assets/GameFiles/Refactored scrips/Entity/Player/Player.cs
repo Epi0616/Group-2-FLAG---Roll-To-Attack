@@ -30,8 +30,9 @@ public class Player : Entity,
     [SerializeField] private GameObject GroundCheckCastPoint;
     [SerializeField] private LayerMask GroundLayer;
     [SerializeField] private float GroundCheckDistance;
+    [SerializeField] private bool IsGrounded;
     public GameObject groundCheckCastPoint { get => GroundCheckCastPoint; set => GroundCheckCastPoint = value; }
-    public bool isGrounded { get; set; }
+    public bool isGrounded { get => IsGrounded; set => IsGrounded = value; }
     public LayerMask groundLayer { get => GroundLayer; set => GroundLayer = value; }
     public float groundCheckDistance { get => GroundCheckDistance; set => GroundCheckDistance = value; }
 
