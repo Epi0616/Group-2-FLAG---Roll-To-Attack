@@ -77,7 +77,6 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     {
         WaveManager.WaveOver += WaveOver;
         WaveScaling.setScaling += SetAbilityScaling;
-        TutorialManager.DisplayDiceUI += WaveOver;
         AbilityPanel.AbilitySelected += HandleAbilitySelected;
         HealthOption.HealthChosen += HandleHealthChosen;
         ContinueButton.Continue += HandleContinue;
@@ -87,7 +86,6 @@ public class DiceFaceSelectionUIManager : MonoBehaviour, IInitializeable
     {
         WaveManager.WaveOver -= WaveOver;
         WaveScaling.setScaling -= SetAbilityScaling;
-        TutorialManager.DisplayDiceUI -= WaveOver;
         AbilityPanel.AbilitySelected -= HandleAbilitySelected;
         HealthOption.HealthChosen -= HandleHealthChosen;
         ContinueButton.Continue -= HandleContinue;

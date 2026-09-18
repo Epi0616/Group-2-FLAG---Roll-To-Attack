@@ -8,6 +8,7 @@ public class IntroSceneMenuUI : MonoBehaviour
     public static event Action<float> settingsOpened, menuClosed, menuOpened;
     public static event Action<SceneType> arenaTypeSelected;
     public static event Action newGame, loadGame;
+    public static event Action rollCredits;
 
     [SerializeField] private InputActionReference pauseGame;
 
@@ -58,6 +59,11 @@ public class IntroSceneMenuUI : MonoBehaviour
     {
         arenaTypeSelected?.Invoke(SceneType.TutorialArena);
         MoveToRoomOverview(transitionLength);
+    }
+
+    public void RollCredits()
+    { 
+        rollCredits.Invoke();
     }
 
     private void MoveToRoomOverview(float transitionLength = 0.5f)

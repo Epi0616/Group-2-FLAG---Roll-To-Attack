@@ -15,7 +15,7 @@ public class PoisonField : MonoBehaviour
     protected float radius = 0;
     protected Entity ownerEntity;
     protected int poisonTickDMG;
-    //public AudioClip[] poisonTickSound;
+    public AudioPackage poisonTickSound;
 
     private MaterialPropertyBlock block;
     [SerializeField] private MeshRenderer[] VFXRenderers;
@@ -165,7 +165,7 @@ public class PoisonField : MonoBehaviour
 
                 //if (collider.gameObject.CompareTag("EntitySpawnable")) { continue; } 
 
-                //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
+                AudioManager.instance.PlaySound(poisonTickSound);
                 //Debug.Log("dealing damage");      
             }
 

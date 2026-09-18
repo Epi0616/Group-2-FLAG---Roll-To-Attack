@@ -27,7 +27,7 @@ public class Credits : MonoBehaviour
         creditsSpeedUpController.action.Enable();
         exitCreditsController.action.performed += HandleExitCredits;
         exitCreditsKeyboard.action.performed += HandleExitCredits;
-        MainMenu.rollCredits += StartCredits;
+        IntroSceneMenuUI.rollCredits += StartCredits;
     }
 
     private void OnDisable()
@@ -35,7 +35,7 @@ public class Credits : MonoBehaviour
         creditsSpeedUpController.action.Disable();
         exitCreditsController.action.performed -= HandleExitCredits;
         exitCreditsKeyboard.action.performed -= HandleExitCredits;
-        MainMenu.rollCredits -= StartCredits;
+        IntroSceneMenuUI.rollCredits -= StartCredits;
     }
 
     private void Awake()
@@ -54,7 +54,7 @@ public class Credits : MonoBehaviour
 
         HandleScrollFast();
         creditScrollRect.content.position += Vector3.up * Time.deltaTime * 75 * scrollFast;
-        if (creditScrollRect.content.anchoredPosition.y >= 1900) // needs to be updated depending on size of content
+        if (creditScrollRect.content.anchoredPosition.y >= 2400) // needs to be updated depending on size of content
         {
             if (fade != null) return;
             fade = StartCoroutine(FadeOut(2));
