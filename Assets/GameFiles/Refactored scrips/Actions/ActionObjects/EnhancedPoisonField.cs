@@ -20,13 +20,13 @@ public class EnhancedPoisonField : PoisonField
                 if (collider.gameObject.CompareTag("EntitySpawnable")) { continue; }
                 if (collider.TryGetComponent<Entity>(out Entity entity))
                 {
-                    //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
+                    AudioManager.instance.PlaySound(poisonTickSound);
                     entity.OnTakeDamage(poisonTickDMG, slamColour, DamageType.Poison);
 
                     // hitEntity.OnRecieveEffect(new ActiveStatusEffect(new PoisonedStatus(1 * enhancementLevel, "Poisoned"),
                     // new List<BaseCondition> { new TimeCondition(false, 3) }, true));
 
-                    entity.OnRecieveEffect(new ActiveStatusEffect(new PoisonedStatus(1 * enhancementLevel, "Poisoned"),
+                    entity.OnRecieveEffect(new ActiveStatusEffect(new PoisonedStatus(1 * enhancementLevel, "Poisoned", poisonTickSound),
                     new List<BaseCondition> { new TimeCondition(true, 3) }, true));
                 }
             }
@@ -41,6 +41,7 @@ public class EnhancedPoisonField : PoisonField
                 if (collider.gameObject.CompareTag("EntitySpawnable")) { continue; }
                 if (collider.TryGetComponent<Entity>(out Entity entity))
                 {
+                    AudioManager.instance.PlaySound(poisonTickSound);
                     //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
                     entity.OnTakeDamage(poisonTickDMG, slamColour, DamageType.Poison);
                     entity.statusSystem.ResetStatusByType(StatusType.Poison);

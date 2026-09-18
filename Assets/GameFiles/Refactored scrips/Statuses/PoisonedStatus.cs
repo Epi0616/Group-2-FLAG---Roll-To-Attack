@@ -3,16 +3,18 @@ using UnityEngine;
 
 public class PoisonedStatus : StatusEffect
 {
+    private AudioPackage poisonTickSound;
     private int tickDamage;
     private float tickTimer = 0;
     private float damageInterval = 0.5f;
 
-    public PoisonedStatus(int tickDamage, string effectText)
+    public PoisonedStatus(int tickDamage, string effectText, AudioPackage poisonTickSound)
     {
         type = StatusType.Poison;
         this.tickDamage = tickDamage;
         this.effectText = effectText;
         this.effectColour = Color.darkGreen;
+        this.poisonTickSound = poisonTickSound;
         isStackable = true;
     }  
     
@@ -33,6 +35,7 @@ public class PoisonedStatus : StatusEffect
         if ( tickTimer > damageInterval)
         {
             entityRef.OnTakeDamage(tickDamage, Color.darkGreen, DamageType.Poison);
+            AudioManager.instance.PlaySound(poisonTickSound);
             tickTimer = 0;
         }
     }
@@ -49,6 +52,6 @@ public class PoisonedStatus : StatusEffect
 
     public override StatusEffect Clone()
     {
-        return new PoisonedStatus(tickDamage, effectText);
+        return new PoisonedStatus(tickDamage, effectText, poisonTickSound);
     }
 }

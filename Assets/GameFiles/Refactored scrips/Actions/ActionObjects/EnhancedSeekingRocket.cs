@@ -214,7 +214,7 @@ public class EnhancedSeekingRocket : SeekingRocket
 
 
 
-        //AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
+        AudioManager.instance.PlaySound(rocketDamageSound);
         alreadyHitEntities.Add(entity);
         isBouncing = true;
     }
