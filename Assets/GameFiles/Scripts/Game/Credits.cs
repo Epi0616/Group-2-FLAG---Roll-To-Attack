@@ -24,7 +24,6 @@ public class Credits : MonoBehaviour
 
     private void OnEnable()
     {
-        creditsSpeedUpController.action.Enable();
         exitCreditsController.action.performed += HandleExitCredits;
         exitCreditsKeyboard.action.performed += HandleExitCredits;
         IntroSceneMenuUI.rollCredits += StartCredits;
@@ -32,7 +31,6 @@ public class Credits : MonoBehaviour
 
     private void OnDisable()
     {
-        creditsSpeedUpController.action.Disable();
         exitCreditsController.action.performed -= HandleExitCredits;
         exitCreditsKeyboard.action.performed -= HandleExitCredits;
         IntroSceneMenuUI.rollCredits -= StartCredits;
