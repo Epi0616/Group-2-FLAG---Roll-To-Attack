@@ -40,7 +40,9 @@ public class EnhancedWeakenStatus : WeakenStatus, IEnhancedStatusEffect
             if (applierEntity is ISlamActionRequirements temp)
             {
                 ImpactFieldVisual field = (ObjectPoolManager.SpawnObject(temp.slamImpactField, entityRef.transform.position, Quaternion.identity)).GetComponent<ImpactFieldVisual>();
-                field.PassInValuesColorRadiusChargeTimeFlash(effectColour, 10 + (enhancementLevel * 3), 0, false);
+                Color fieldColour = effectColour;
+                fieldColour.a = 0.1f;
+                field.PassInValuesColorRadiusChargeTimeFlash(fieldColour, 10 + (enhancementLevel * 3), 0, false);
             }
             for (int i = 0; i < numHit; i++)
             {

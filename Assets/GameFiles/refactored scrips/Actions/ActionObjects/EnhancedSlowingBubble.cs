@@ -142,7 +142,7 @@ public class EnhancedSlowingBubble : MonoBehaviour
         ownerEntity = entity;
         this.slowMult = slowMult;
         color = colour;
-        this.radius = radius;
+        this.radius = radius + enhancementLevel;
         slamColour = colour;
         this.lifeSpan = lifespan + enhancementLevel;
         this.enhancementLevel = enhancementLevel;

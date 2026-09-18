@@ -39,7 +39,7 @@ public class Entity : MonoBehaviour, IEntity, IResetable
     public virtual void OnTakeDamage(int amount, Color color, DamageType damageType)
     {
         int finalDamage = statusSystem.ModifyDamage(amount, damageType);
-        int size = Mathf.CeilToInt(Mathf.Clamp(10 + (finalDamage * 1.65f), 48f, 240f));
+        int size = Mathf.CeilToInt(Mathf.Clamp(10 + (finalDamage * 0.3f), 48f, 240f));
         textDisplaySystem.DisplayText(finalDamage.ToString(), color, size);
         //Debug.Log("DAMAGE TAKEN: " + amount);
         healthSystem.OnTakeDamage(finalDamage, damageType);
@@ -48,7 +48,7 @@ public class Entity : MonoBehaviour, IEntity, IResetable
     public virtual void OnTakeDamage(int amount, DamageType damageType)
     {
         int finalDamage = statusSystem.ModifyDamage(amount, damageType);
-        float size = Mathf.Clamp(10 + (finalDamage * 1.1f), 48f, 240f);
+        float size = Mathf.Clamp(10 + (finalDamage * 0.3f), 48f, 240f);
         //Debug.Log("DAMAGE TAKEN: " + amount);
         healthSystem.OnTakeDamage(finalDamage, damageType);
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnhancedSeekingRocket : SeekingRocket
@@ -15,11 +16,16 @@ public class EnhancedSeekingRocket : SeekingRocket
     private HashSet<Entity> alreadyHitEntities;
     protected float hitCount;
     protected float expectedHits;
+    protected Vector3 offset;
+    [SerializeField] Color colour;
 
     protected override void Start()
     {
         alreadyHitEntities = new HashSet<Entity>();
         transform.rotation = Quaternion.LookRotation(Vector3.up);
+        offset.x = Random.Range(-7f, 7f);
+        //offset.y = Random.Range(-2f, 2f);
+        offset.z = Random.Range(-7f, 7f);
     }
 
     public void Initialize(Entity ownerEntity, GameObject target, float startHeight, int rocketDamage, int enhancementLevel)
@@ -41,20 +47,23 @@ public class EnhancedSeekingRocket : SeekingRocket
         isBouncing = false;
         expectedHits = enhancementLevel + 1;
         hitCount = 0;
+        
     }
 
     protected override void FlyUp()
     {
+        
         Vector3 targetPosition = new Vector3(target.transform.position.x, startHeight + 30, target.transform.position.z);
+        targetPosition += offset;
         Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
         transform.rotation = targetRotation;
         if (isBouncing)
         {
-            transform.position = Vector3.Lerp(transform.position, targetPosition, 1f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp((1f * Time.deltaTime * enhancementLevel), 1f * Time.deltaTime, (1f * Time.deltaTime * 7)));
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, targetPosition, 2f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp((1f * Time.deltaTime * enhancementLevel), 1f * Time.deltaTime, (1f * Time.deltaTime * 7)));
         }
 
         //transform.position += transform.forward * 65f * Time.deltaTime;
@@ -150,6 +159,33 @@ public class EnhancedSeekingRocket : SeekingRocket
         target = newTarget.gameObject;
     }
 
+    protected virtual void SelectNewTargetAlt()
+    {
+        Collider[] hitColliders = new Collider[40];
+        int numHit = Physics.OverlapSphereNonAlloc(transform.position, 100f, hitColliders, ownerEntity.hostileMask);
+        List<Entity> possibleTargets = new List<Entity>();
+
+        foreach (Collider collider in hitColliders) 
+        {
+                if (collider == null) { continue; }
+                if (collider.gameObject.CompareTag("StaticEntity") || collider.gameObject.CompareTag("PhysicsEntity")) { continue; }
+
+                Entity newEntity = collider.GetComponent<Entity>();
+
+                if (newEntity == null) { continue; }
+                if (newEntity.healthSystem.isDead) { continue; }
+                possibleTargets.Add(newEntity);
+        }
+        if (possibleTargets.Count <= 0)
+        {
+                DestroyMe();
+                return;
+        }
+        int selection = Random.Range(0, possibleTargets.Count);
+        target = possibleTargets[selection].gameObject;
+
+    }
+
 
     protected override void OnTriggerEnter(Collider other)
     {
@@ -191,6 +227,9 @@ public class EnhancedSeekingRocket : SeekingRocket
                 //Debug.Log("Bouncing Up");
                 transform.rotation = Quaternion.LookRotation(Vector3.up);
                 SelectNewTarget();
+                offset.x = Random.Range(-7f, 7f);
+                //offset.y = Random.Range(-3f, 3f);
+                offset.z = Random.Range(-7f, 7f);
                 searchingForTarget = false;
                 numBouncesLeft--;
             }
@@ -201,14 +240,18 @@ public class EnhancedSeekingRocket : SeekingRocket
     protected override void DamageTarget(Entity entity)
     {
         Vector3 groundedPosition = new(transform.position.x, entity.transform.position.y, transform.position.z); ;
-        //if (entity.bodySystem.baseplateTransform != null)
-        //{
-        //    groundedPosition = new(transform.position.x, entity.bodySystem.baseplateTransform.transform.position.y, transform.position.z);
-        //}
+        if (entity.bodySystem.baseplateTransform != null)
+        {
+            groundedPosition = new(transform.position.x, entity.bodySystem.baseplateTransform.transform.position.y, transform.position.z);
+        }
         // needs adjusting if enemies can ever reach an elevated position.
         entity.OnTakeDamage(10 + (enhancementLevel * 5), Color.lightGray, DamageType.Explosive);
         //Instantiate(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(1f, 1f, 0.5f, 1f);
-        ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(CurrentAoE, 1f, 0.5f, 1f);
+        //ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity).GetComponent<TemporaryImpactField>().adjustObject(CurrentAoE, 0.1f, 0.5f, 1f);
+        ImpactFieldVisual field = (ObjectPoolManager.SpawnObject(impactFieldPrefab, groundedPosition, Quaternion.identity)).GetComponent<ImpactFieldVisual>();
+        Color fieldColour = colour;
+        fieldColour.a = 0.1f;
+        field.PassInValuesColorRadiusChargeTimeFlash(fieldColour, CurrentAoE, 0, false);
         hitCount++;
 
 
