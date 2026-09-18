@@ -4,7 +4,7 @@ using UnityEngine;
 public class SeekingRocket : MonoBehaviour 
 {
     [SerializeField] protected GameObject impactFieldPrefab;
-    //[SerializeField] AudioClip[] rocketOnHitSounds;
+    [SerializeField] protected AudioPackage rocketDamageSound;
     protected GameObject target;
     protected bool searchingForTarget = false;
     protected bool flyingTowardsTarget = false;
@@ -176,7 +176,6 @@ public class SeekingRocket : MonoBehaviour
             // Debug.Log("Target Hit");
             if (other.TryGetComponent<Entity>(out Entity entity))
             {
-                //AudioManager.instance.PlayRandomSoundClip(poisonTickSound, new Vector3(0, 0, 0), 0.6f);
                 DamageTarget(entity);
                 SpawnHitVFX(hitPos, entity);
 
@@ -192,7 +191,7 @@ public class SeekingRocket : MonoBehaviour
 
 
         entity.OnTakeDamage(rocketDamage, Color.orange, DamageType.Explosive);
-        //AudioManager.instance.PlayRandomSoundClip(rocketOnHitSounds, transform.position, 0.6f);
+        AudioManager.instance.PlaySound(rocketDamageSound);
         DestroyMe();
     }
 
