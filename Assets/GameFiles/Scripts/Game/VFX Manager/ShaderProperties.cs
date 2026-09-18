@@ -14,7 +14,7 @@ public class ShaderProperty
     }
 }
 
-public enum ShaderType { Frozen, Weakened, Poisoned, Slow}
+public enum ShaderType { Frozen, Weakened, Poisoned, Slow, Charging}
 
 public static class ShaderPropertyHolder
 {
@@ -23,6 +23,7 @@ public static class ShaderPropertyHolder
         [ShaderType.Frozen] = new(colourRef: "_IceColour", powerRef: "_IcePower"),
         [ShaderType.Weakened] = new(colourRef: "_CrackColour", powerRef: "_CrackPower"),
         [ShaderType.Poisoned] = new(colourRef: "_PoisonColour", powerRef: "_PoisonPower"),
-        [ShaderType.Slow] = new(powerRef: "_SlowPower")
+        [ShaderType.Slow] = new(powerRef: "_SlowPower"),
+        [ShaderType.Charging] = new (powerRef: "_AuraPower")
     };
 }

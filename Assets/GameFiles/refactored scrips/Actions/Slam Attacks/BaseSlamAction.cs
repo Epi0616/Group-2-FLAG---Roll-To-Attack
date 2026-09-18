@@ -193,19 +193,29 @@ public class BaseSlamAction : BaseEntityAction, ISlam
     public virtual void ProcessHits(Collider[] colliders, RaycastHit hit)
     {
 
-        foreach (var collider in colliders)
+        foreach (Collider collider in colliders)
         {
-            if (attackInterrupted) { break; }
-            if (collider == null) continue;
-            if (collider.gameObject == ownerEntity.gameObject) { continue; }
-            if (collider.gameObject.CompareTag("StaticEntity")) { continue; }
-            if (!collider.TryGetComponent<Entity>(out Entity entity)) { continue; }
-            if (entity == null) { continue; }
-            ApplyCustomEffectPerEntity(entity);
-            if (slamRange.GetFinalValue() > slamRange.GetBaseValue()) //potential rework if we buff range in some way??
+            try
             {
-                ApplyHeavyEffectPerEntity(entity);
+                if (attackInterrupted) { break; }
+                if (collider == null) continue;
+                if (collider.gameObject == ownerEntity.gameObject) { continue; }
+                if (collider.gameObject.CompareTag("StaticEntity")) { continue; }
+                if (!collider.TryGetComponent<Entity>(out Entity entity)) { continue; }
+                if (entity == null) { continue; }
+                ApplyCustomEffectPerEntity(entity);
+                if (slamRange.GetFinalValue() > slamRange.GetBaseValue()) //potential rework if we buff range in some way??
+                {
+                    ApplyHeavyEffectPerEntity(entity);
+                }
             }
+            catch (MissingReferenceException e)
+            {
+                Debug.LogError("Caught Missing Reference Exception in ProcessHits");
+                Debug.LogError(e.Message);
+                continue;
+            }
+            
 
             //Debug.Log("Processing Loop End");
         }

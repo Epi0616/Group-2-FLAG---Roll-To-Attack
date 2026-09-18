@@ -51,10 +51,10 @@ public class ImpactFieldVisual : MonoBehaviour
 
     public virtual void AddExtraDuration(float duration)
     {
-        Debug.Log("Adding Duration: " + duration);
-        Debug.Log("Before: " + timeElapsed);
+        //Debug.Log("Adding Duration: " + duration);
+        //Debug.Log("Before: " + timeElapsed);
         timeElapsed = Mathf.Clamp(timeElapsed - duration, 0, startingTime);
-        Debug.Log("After: " + timeElapsed);
+        //Debug.Log("After: " + timeElapsed);
     }
 
     protected virtual void AdjustRadiusSize()

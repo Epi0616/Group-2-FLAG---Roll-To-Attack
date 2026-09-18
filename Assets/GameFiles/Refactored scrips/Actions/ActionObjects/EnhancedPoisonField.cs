@@ -26,7 +26,7 @@ public class EnhancedPoisonField : PoisonField
                     // hitEntity.OnRecieveEffect(new ActiveStatusEffect(new PoisonedStatus(1 * enhancementLevel, "Poisoned"),
                     // new List<BaseCondition> { new TimeCondition(false, 3) }, true));
 
-                    entity.OnRecieveEffect(new ActiveStatusEffect(new PoisonedStatus(1 * enhancementLevel, "Poisoned", poisonTickSound),
+                    entity.OnRecieveEffect(new ActiveStatusEffect(new PoisonedStatus(enhancementLevel, "Poisoned", poisonTickSound),
                     new List<BaseCondition> { new TimeCondition(true, 3) }, true));
                 }
             }
@@ -60,7 +60,7 @@ public class EnhancedPoisonField : PoisonField
         //Debug.Log("Enhanced Radius is: " + this.radius);
         damageTickTimer = 0;
         currentTickCount = 0;
-        poisonTickDMG = tickDamage;
+        poisonTickDMG = tickDamage + enhancementLevel;
 
         this.enhancementLevel = enhancementLevel;
         //Debug.Log("PoisonField Spawned with Level of: " + this.enhancementLevel);
@@ -83,9 +83,9 @@ public class EnhancedPoisonField : PoisonField
         //{
         //    p.size = new Vector3(radius * 2, radius * 2, p.size.z);
         //}
-        VFXProjectors[0].size = new Vector3(radius * 2, radius * 2, VFXProjectors[0].size.z);
-        VFXProjectors[1].size = new Vector3((radius * 2) + 5, (radius * 2) + 5, VFXProjectors[1].size.z);
-        VFXProjectors[2].size = new Vector3(radius * 2, radius * 2, VFXProjectors[2].size.z);
+        VFXProjectors[0].size = new Vector3(this.radius * 2, this.radius * 2, VFXProjectors[0].size.z);
+        VFXProjectors[1].size = new Vector3((this.radius * 2) + 5, (this.radius * 2) + 5, VFXProjectors[1].size.z);
+        VFXProjectors[2].size = new Vector3(this.radius * 2, this.radius * 2, VFXProjectors[2].size.z);
 
         Vector3 position = transform.position;
         position.y -= 0.5f;

@@ -20,6 +20,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
     public Coroutine WeakenCracksCoroutine;
     public Coroutine PoisonedCoroutine;
     public Coroutine SlowCoroutine;
+    public Coroutine SharkAuraCoroutine;
    
     public virtual void InitialiseSystem(Entity entity)
     {
@@ -168,6 +169,7 @@ public class EntityBodySystem : MonoBehaviour, IEntitySystem
         OverrideShaderWithValue(0, ShaderType.Weakened);
         OverrideShaderWithValue(0, ShaderType.Poisoned);
         OverrideShaderWithValue(0, ShaderType.Slow);
+        OverrideShaderWithValue(0, ShaderType.Charging);
     }
 
     public virtual void SetVisibility(bool visible)
