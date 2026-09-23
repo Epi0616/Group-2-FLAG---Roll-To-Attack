@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class OrbitalIntervalMovement : BaseEntityMovement
 {
+    [SerializeField] private float animationWindow = 0f;
+
     [SerializeField] protected rangePair radiusBounds = new rangePair(20,35);
     [SerializeField] protected rangePair angleBounds = new rangePair (30,50);
     [SerializeField] protected rangePair intervalBounds = new rangePair(1, 2);
@@ -19,7 +21,7 @@ public class OrbitalIntervalMovement : BaseEntityMovement
 
     public OrbitalIntervalMovement() { }
 
-    public OrbitalIntervalMovement(float radiusMin, float radiusMax, float angleMin, float angleMax, float intervalMin, float intervalMax, float reverseChancePercentage)
+    public OrbitalIntervalMovement(float animationWindow, float radiusMin, float radiusMax, float angleMin, float angleMax, float intervalMin, float intervalMax, float reverseChancePercentage)
     { 
         radiusBounds.min = radiusMin;
         radiusBounds.max = radiusMax;
@@ -69,9 +71,20 @@ public class OrbitalIntervalMovement : BaseEntityMovement
 
         if (NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, 5, -1))
         {
-            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main);
+            CheckForAnimation(reverse);
             navAgent.agent.SetDestination(desiredPosition);
         }
+    }
+
+    private void CheckForAnimation(float reverse)
+    {
+        if (reverse >= 0)
+        {
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.WaddleRight, 2, MixerType.main, 0.2f, animationWindow);
+            return;
+        }
+
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.WaddleLeft, 2, MixerType.main, 0.2f, animationWindow);
     }
 
     protected virtual void CheckForReverseMovement()
@@ -99,6 +112,6 @@ public class OrbitalIntervalMovement : BaseEntityMovement
 
     public override BaseEntityMovement Clone()
     {
-        return new OrbitalIntervalMovement(radiusBounds.min, radiusBounds.max, angleBounds.min, angleBounds.max, intervalBounds.min, intervalBounds.max, reverseChancePercentage);
+        return new OrbitalIntervalMovement(animationWindow, radiusBounds.min, radiusBounds.max, angleBounds.min, angleBounds.max, intervalBounds.min, intervalBounds.max, reverseChancePercentage);
     }
 }
