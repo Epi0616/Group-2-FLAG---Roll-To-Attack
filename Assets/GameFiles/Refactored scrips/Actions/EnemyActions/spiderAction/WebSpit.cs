@@ -6,6 +6,7 @@ using UnityEngine;
 public class WebSpit : BaseEntityAction
 {
     private IRadialProjectile radialProjectile;
+    private IAnimated animated;
     private Coroutine actionRoutine;
 
     public WebSpit() { }
@@ -22,12 +23,15 @@ public class WebSpit : BaseEntityAction
         if (!(ownerEntity is IRadialProjectile radialProjectile)) { Debug.LogError("ownerEntity is not of type IRadialProjectile"); return; }
         this.radialProjectile = radialProjectile;
 
+        if (ownerEntity is not IAnimated animated) { Debug.LogError("ownerEntity is not of type IAnimated"); return; }
+        this.animated = animated;
+
         actionRoutine = ownerEntity.StartCoroutine(Action());
     }
 
     private IEnumerator Action()
     {
-        ownerEntity.bodySystem.HandleFixedVibrateTime(1);
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.Attack, 1, MixerType.main, 0.2f, 1.1f);
         yield return new WaitForSeconds(1);
         SpawnWeb();
 

@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class OrbitalDestinationMovement : BaseEntityMovement
 {
+    [SerializeField] private float animationWindow = 0f;
+
     [SerializeField] protected rangePair radiusBounds = new rangePair(20,35);
     [SerializeField] protected rangePair angleBounds = new rangePair (30,50);
     [SerializeField] protected rangePair delayBounds = new rangePair (0, 0.5f);
@@ -19,7 +21,7 @@ public class OrbitalDestinationMovement : BaseEntityMovement
 
     public OrbitalDestinationMovement() { }
 
-    public OrbitalDestinationMovement(float radiusMin, float radiusMax, float angleMin, float angleMax, float delayMin, float delayMax, float reverseChancePercentage)
+    public OrbitalDestinationMovement(float animationWindow, float radiusMin, float radiusMax, float angleMin, float angleMax, float delayMin, float delayMax, float reverseChancePercentage)
     { 
         radiusBounds.min = radiusMin;
         radiusBounds.max = radiusMax;
@@ -72,9 +74,20 @@ public class OrbitalDestinationMovement : BaseEntityMovement
         Vector3 desiredPosition = ownerEntity.target.transform.position + (rotatedVector * radius);
         if (NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, 10, -1))
         {
-            animated.animationManager.PlayAnimationCrossFade(AnimationType.Waddle, 2, MixerType.main);
+            CheckForAnimation(reverse);
             navAgent.agent.SetDestination(desiredPosition);
         }
+    }
+
+    private void CheckForAnimation(float reverse)
+    {
+        if (reverse >= 0)
+        {
+            animated.animationManager.PlayAnimationCrossFade(AnimationType.WaddleRight, 2, MixerType.main);
+            return;
+        }
+
+        animated.animationManager.PlayAnimationCrossFade(AnimationType.WaddleLeft, 2, MixerType.main);
     }
 
     private void CheckForReverseMovement()
@@ -102,6 +115,6 @@ public class OrbitalDestinationMovement : BaseEntityMovement
 
     public override BaseEntityMovement Clone()
     {
-        return new OrbitalDestinationMovement(radiusBounds.min, radiusBounds.max, angleBounds.min, angleBounds.max, delayBounds.min, delayBounds.max, reverseChancePercentage);
+        return new OrbitalDestinationMovement(animationWindow, radiusBounds.min, radiusBounds.max, angleBounds.min, angleBounds.max, delayBounds.min, delayBounds.max, reverseChancePercentage);
     }
 }

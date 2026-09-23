@@ -345,5 +345,7 @@ public enum AnimationType
     ScreamUpwards,
     Death,
     OnHit,
-    Jump
+    Jump,
+    WaddleLeft,
+    WaddleRight
 }
