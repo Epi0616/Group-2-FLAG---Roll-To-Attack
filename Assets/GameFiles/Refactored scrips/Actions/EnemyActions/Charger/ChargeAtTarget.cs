@@ -199,6 +199,7 @@ public class ChargeAtTarget : BaseEntityAction
     public override void EndAction()
     {
         navAgent.EnableAIAgent();
+        ownerEntity.bodySystem.RemoveShader(0.2f, ShaderType.Charging);
         isComplete = true;
     }
 
